@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-MoneyM2 is a Kotlin Multiplatform (KMP) project targeting Android, iOS, Web (JS), and WebAssembly. All shared UI is built with Compose Multiplatform. The project is currently at the starter/template stage — there is no data layer, navigation, or DI framework yet.
+MoneyM is a Kotlin Multiplatform (KMP) project targeting Android, iOS, Web (JS), and WebAssembly. All shared UI is built with Compose Multiplatform. The project is currently at the starter/template stage — there is no data layer, navigation, or DI framework yet.
 
 ## Build Commands
 
