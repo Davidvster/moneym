@@ -37,6 +37,9 @@ import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.feature.settings.presentation.SettingsEffect
 import com.dv.moneym.feature.settings.presentation.SettingsIntent
 import com.dv.moneym.feature.settings.presentation.SettingsViewModel
+import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 private val commonCurrencies = listOf(
@@ -77,8 +80,24 @@ private fun SettingsContent(
     val biometricAvailable = state.biometricAvailable
     val backgroundLockSeconds = state.backgroundLockSeconds
     val sp = MoneyMTheme.spacing
+
+    val lockOptions = listOf(
+        0   to stringResource(Res.string.settings_lock_always),
+        30  to stringResource(Res.string.settings_lock_30s),
+        60  to stringResource(Res.string.settings_lock_1m),
+        300 to stringResource(Res.string.settings_lock_5m),
+    )
+
+    val languages = listOf(
+        "" to stringResource(Res.string.settings_lang_system),
+        "en" to stringResource(Res.string.settings_lang_en),
+        "de" to stringResource(Res.string.settings_lang_de),
+        "es" to stringResource(Res.string.settings_lang_es),
+        "it" to stringResource(Res.string.settings_lang_it),
+    )
+
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Settings") }) },
+        topBar = { TopAppBar(title = { Text(stringResource(Res.string.settings_title)) }) },
     ) { padding ->
         Column(
             modifier = Modifier
@@ -89,13 +108,13 @@ private fun SettingsContent(
         ) {
             Spacer(Modifier.height(sp.md))
             Text(
-                "Security",
+                stringResource(Res.string.settings_security),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary,
             )
             Spacer(Modifier.height(sp.sm))
             SettingsRow(
-                label = "Enable PIN lock",
+                label = stringResource(Res.string.settings_pin_enable),
                 checked = pinEnabled,
                 onCheckedChange = { onIntent(SettingsIntent.PinToggled(it)) },
             )
@@ -104,19 +123,21 @@ private fun SettingsContent(
                     onClick = { onIntent(SettingsIntent.ChangePinRequested) },
                     modifier = Modifier.padding(start = sp.xs),
                 ) {
-                    Text("Change PIN")
+                    Text(stringResource(Res.string.settings_pin_change))
                 }
                 if (biometricAvailable) {
                     SettingsRow(
-                        label = "Use biometric unlock",
+                        label = stringResource(Res.string.settings_biometric_enable),
                         checked = biometricEnabled,
                         onCheckedChange = { onIntent(SettingsIntent.BiometricToggled(it)) },
                     )
                 }
-                val lockOptions = listOf(0 to "Always", 30 to "30 seconds", 60 to "1 minute", 300 to "5 minutes")
                 Spacer(Modifier.height(sp.sm))
-                Text("Lock after", style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    stringResource(Res.string.settings_lock_after),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
                 Spacer(Modifier.height(sp.xs))
                 Row {
                     lockOptions.forEach { (seconds, label) ->
@@ -136,39 +157,32 @@ private fun SettingsContent(
             Spacer(Modifier.height(sp.md))
             HorizontalDivider()
             Spacer(Modifier.height(sp.md))
-            Text("Currency", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
+            Text(
+                stringResource(Res.string.settings_currency_section),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+            )
             Spacer(Modifier.height(sp.sm))
             Row(
                 modifier = Modifier.fillMaxWidth().padding(vertical = sp.xs),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("Default currency", style = MaterialTheme.typography.bodyLarge)
-                    Text(state.defaultCurrency, style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(Res.string.settings_default_currency), style = MaterialTheme.typography.bodyLarge)
+                    Text(
+                        state.defaultCurrency,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
                 TextButton(onClick = { onIntent(SettingsIntent.CurrencyChangeRequested) }) {
-                    Text("Change")
+                    Text(stringResource(Res.string.settings_change))
                 }
             }
-            Spacer(Modifier.height(sp.md))
-            HorizontalDivider()
-            Spacer(Modifier.height(sp.md))
-            Text(
-                "Data",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary,
-            )
-            TextButton(
-                onClick = onNavigateToCategories,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text("Manage Categories", modifier = Modifier.fillMaxWidth())
-            }
-
             if (state.showCurrencyPicker) {
                 CurrencyPickerDialog(
                     current = state.defaultCurrency,
+                    cancelLabel = stringResource(Res.string.settings_cancel),
                     onSelected = { onIntent(SettingsIntent.CurrencySelected(it)) },
                     onDismiss = { onIntent(SettingsIntent.CurrencyPickerDismissed) },
                 )
@@ -176,17 +190,71 @@ private fun SettingsContent(
             Spacer(Modifier.height(sp.md))
             HorizontalDivider()
             Spacer(Modifier.height(sp.md))
-            Text("Backup", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
+            Text(
+                stringResource(Res.string.settings_language_section),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+            )
+            Spacer(Modifier.height(sp.sm))
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(vertical = sp.xs),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(stringResource(Res.string.settings_language_label), style = MaterialTheme.typography.bodyLarge)
+                    val currentLangName = languages.firstOrNull { it.first == state.selectedLanguage }?.second
+                        ?: stringResource(Res.string.settings_lang_system)
+                    Text(
+                        currentLangName,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                TextButton(onClick = { onIntent(SettingsIntent.LanguageChangeRequested) }) {
+                    Text(stringResource(Res.string.settings_change))
+                }
+            }
+            if (state.showLanguagePicker) {
+                LanguagePickerDialog(
+                    current = state.selectedLanguage,
+                    languages = languages,
+                    title = stringResource(Res.string.settings_language_dialog_title),
+                    cancelLabel = stringResource(Res.string.settings_cancel),
+                    onSelected = { onIntent(SettingsIntent.LanguageSelected(it)) },
+                    onDismiss = { onIntent(SettingsIntent.LanguagePickerDismissed) },
+                )
+            }
+            Spacer(Modifier.height(sp.md))
+            HorizontalDivider()
+            Spacer(Modifier.height(sp.md))
+            Text(
+                stringResource(Res.string.settings_data),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+            )
+            TextButton(
+                onClick = onNavigateToCategories,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(stringResource(Res.string.settings_categories), modifier = Modifier.fillMaxWidth())
+            }
+            Spacer(Modifier.height(sp.md))
+            HorizontalDivider()
+            Spacer(Modifier.height(sp.md))
+            Text(
+                stringResource(Res.string.settings_backup),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+            )
             Spacer(Modifier.height(sp.sm))
             Row {
                 TextButton(onClick = { onIntent(SettingsIntent.ExportJsonRequested) }, enabled = !state.isExporting) {
-                    Text("Export JSON")
+                    Text(stringResource(Res.string.settings_export_json))
                 }
                 TextButton(onClick = { onIntent(SettingsIntent.ExportCsvRequested) }, enabled = !state.isExporting) {
-                    Text("Export CSV")
+                    Text(stringResource(Res.string.settings_export_csv))
                 }
             }
-            // Exported content display
             @Suppress("DEPRECATION")
             val clipboard = LocalClipboardManager.current
             val exported = state.exportedJson
@@ -196,26 +264,29 @@ private fun SettingsContent(
                     value = exported.take(500) + if (exported.length > 500) "…" else "",
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text("Exported content (${exported.length} chars)") },
+                    label = { Text(stringResource(Res.string.settings_exported_content, exported.length)) },
                     modifier = Modifier.fillMaxWidth().heightIn(max = 120.dp),
                 )
                 Row {
                     TextButton(onClick = { clipboard.setText(AnnotatedString(exported)) }) {
-                        Text("Copy to clipboard")
+                        Text(stringResource(Res.string.settings_copy))
                     }
                     TextButton(onClick = { onIntent(SettingsIntent.ClearExport) }) {
-                        Text("Clear")
+                        Text(stringResource(Res.string.settings_clear))
                     }
                 }
             }
             Spacer(Modifier.height(sp.md))
-            Text("Import from JSON", style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                stringResource(Res.string.settings_import_json),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
             Spacer(Modifier.height(sp.xs))
             OutlinedTextField(
                 value = state.importJson,
                 onValueChange = { onIntent(SettingsIntent.ImportJsonChanged(it)) },
-                label = { Text("Paste JSON here") },
+                label = { Text(stringResource(Res.string.settings_paste_hint)) },
                 modifier = Modifier.fillMaxWidth().heightIn(min = 80.dp),
                 isError = state.importError != null,
                 supportingText = if (state.importError != null) ({ Text(state.importError) }) else null,
@@ -224,15 +295,15 @@ private fun SettingsContent(
             if (state.importJson.isNotBlank()) {
                 Row {
                     TextButton(onClick = { onIntent(SettingsIntent.PreviewImportRequested) }) {
-                        Text("Preview")
+                        Text(stringResource(Res.string.settings_preview))
                     }
                     if (preview != null) {
                         TextButton(onClick = { onIntent(SettingsIntent.ApplyImportRequested) }, enabled = !state.isImporting) {
-                            Text("Import")
+                            Text(stringResource(Res.string.settings_import))
                         }
                     }
                     TextButton(onClick = { onIntent(SettingsIntent.ClearImport) }) {
-                        Text("Clear")
+                        Text(stringResource(Res.string.settings_clear))
                     }
                 }
                 if (preview != null) {
@@ -244,8 +315,11 @@ private fun SettingsContent(
                     )
                 }
                 if (state.showImportSuccess) {
-                    Text("Import complete!", style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primary)
+                    Text(
+                        stringResource(Res.string.settings_import_success),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
                 }
             }
             Spacer(Modifier.height(sp.xxl))
@@ -274,12 +348,13 @@ private fun SettingsRow(
 @Composable
 private fun CurrencyPickerDialog(
     current: String,
+    cancelLabel: String,
     onSelected: (String) -> Unit,
     onDismiss: () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Default currency") },
+        title = { Text(stringResource(Res.string.settings_default_currency)) },
         text = {
             LazyColumn(modifier = Modifier.heightIn(max = 300.dp)) {
                 items(commonCurrencies) { (code, name) ->
@@ -302,7 +377,42 @@ private fun CurrencyPickerDialog(
         },
         confirmButton = {},
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(cancelLabel) }
+        },
+    )
+}
+
+@Composable
+private fun LanguagePickerDialog(
+    current: String,
+    languages: List<Pair<String, String>>,
+    title: String,
+    cancelLabel: String,
+    onSelected: (String) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(title) },
+        text = {
+            LazyColumn(modifier = Modifier.heightIn(max = 300.dp)) {
+                items(languages) { (tag, name) ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .selectable(selected = tag == current, onClick = { onSelected(tag) })
+                            .padding(vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        RadioButton(selected = tag == current, onClick = { onSelected(tag) })
+                        Text(name, style = MaterialTheme.typography.bodyLarge)
+                    }
+                }
+            }
+        },
+        confirmButton = {},
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text(cancelLabel) }
         },
     )
 }

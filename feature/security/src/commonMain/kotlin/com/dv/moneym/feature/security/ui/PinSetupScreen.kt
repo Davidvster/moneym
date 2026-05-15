@@ -20,12 +20,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dv.moneym.core.designsystem.MoneyMIcons
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.feature.security.presentation.PinSetupEffect
 import com.dv.moneym.feature.security.presentation.PinSetupIntent
 import com.dv.moneym.feature.security.presentation.PinSetupStep
 import com.dv.moneym.feature.security.presentation.PinSetupViewModel
+import moneym.feature.security.generated.resources.Res
+import moneym.feature.security.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -33,7 +37,7 @@ fun PinSetupScreen(
     onDone: () -> Unit,
     viewModel: PinSetupViewModel = koinViewModel(),
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
         viewModel.reset()
         viewModel.effects.collect { if (it == PinSetupEffect.Done) onDone() }
@@ -63,7 +67,7 @@ private fun PinSetupContent(
                 title = {},
                 navigationIcon = {
                     IconButton(onClick = onDismiss) {
-                        Icon(MoneyMIcons.Clear, contentDescription = "Cancel")
+                        Icon(MoneyMIcons.Clear, contentDescription = stringResource(Res.string.security_cancel))
                     }
                 },
             )
@@ -78,12 +82,12 @@ private fun PinSetupContent(
             verticalArrangement = Arrangement.Center,
         ) {
             Text(
-                text = if (step == PinSetupStep.ENTER_FIRST) "Set a PIN" else "Confirm PIN",
+                text = stringResource(if (step == PinSetupStep.ENTER_FIRST) Res.string.security_pin_setup_title else Res.string.security_pin_confirm_title),
                 style = MaterialTheme.typography.headlineMedium,
             )
             Spacer(Modifier.height(sp.md))
             Text(
-                text = if (step == PinSetupStep.ENTER_FIRST) "Enter a 4-digit PIN" else "Enter PIN again",
+                text = stringResource(if (step == PinSetupStep.ENTER_FIRST) Res.string.security_pin_subtitle_first else Res.string.security_pin_subtitle_confirm),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

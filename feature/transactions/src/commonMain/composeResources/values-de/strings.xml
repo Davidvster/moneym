@@ -8,4 +8,17 @@
     <string name="transactions_empty">Keine Transaktionen diesen Monat</string>
     <string name="transactions_previous_month">Vorheriger Monat</string>
     <string name="transactions_next_month">Nächster Monat</string>
+    <string name="transactions_loading">Laden…</string>
+    <string name="transactions_month_jan">Jan</string>
+    <string name="transactions_month_feb">Feb</string>
+    <string name="transactions_month_mar">Mär</string>
+    <string name="transactions_month_apr">Apr</string>
+    <string name="transactions_month_may">Mai</string>
+    <string name="transactions_month_jun">Jun</string>
+    <string name="transactions_month_jul">Jul</string>
+    <string name="transactions_month_aug">Aug</string>
+    <string name="transactions_month_sep">Sep</string>
+    <string name="transactions_month_oct">Okt</string>
+    <string name="transactions_month_nov">Nov</string>
+    <string name="transactions_month_dec">Dez</string>
 </resources>

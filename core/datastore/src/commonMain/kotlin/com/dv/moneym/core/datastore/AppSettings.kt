@@ -26,4 +26,5 @@ object PrefKeys {
     const val BACKGROUND_LOCK_SECONDS = "pref.background_lock_seconds"
     const val LAST_EXPORT_AT = "pref.last_export_at"
     const val ONBOARDING_COMPLETED = "pref.onboarding_completed"
+    const val LANGUAGE = "pref.language"
 }

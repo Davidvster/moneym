@@ -3,6 +3,7 @@ package com.dv.moneym.feature.settings.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.DispatcherProvider
+import com.dv.moneym.core.common.LocaleController
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.core.security.BiometricAuthenticator
@@ -27,6 +28,7 @@ class SettingsViewModel(
     private val exporter: BackupExporter,
     private val importer: BackupImporter,
     private val dispatchers: DispatcherProvider,
+    private val localeController: LocaleController,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SettingsUiState())
@@ -43,6 +45,7 @@ class SettingsViewModel(
                 biometricAvailable = biometricAuth.isAvailable,
                 backgroundLockSeconds = settings.getInt(SecurityPrefs.BACKGROUND_LOCK_SECONDS, SecurityPrefs.DEFAULT_LOCK_SECONDS),
                 defaultCurrency = settings.getString(PrefKeys.DEFAULT_CURRENCY) ?: "EUR",
+                selectedLanguage = localeController.getCurrentLanguageTag(),
             )
         }
     }
@@ -78,6 +81,15 @@ class SettingsViewModel(
             }
             SettingsIntent.CurrencyPickerDismissed ->
                 _state.update { it.copy(showCurrencyPicker = false) }
+
+            SettingsIntent.LanguageChangeRequested ->
+                _state.update { it.copy(showLanguagePicker = true) }
+            is SettingsIntent.LanguageSelected -> {
+                localeController.applyLocale(intent.tag)
+                _state.update { it.copy(selectedLanguage = intent.tag, showLanguagePicker = false) }
+            }
+            SettingsIntent.LanguagePickerDismissed ->
+                _state.update { it.copy(showLanguagePicker = false) }
 
             SettingsIntent.ExportJsonRequested -> {
                 _state.update { it.copy(isExporting = true) }

@@ -40,6 +40,9 @@ import com.dv.moneym.feature.transactions.presentation.TransactionListIntent
 import com.dv.moneym.feature.transactions.presentation.TransactionListUiState
 import com.dv.moneym.feature.transactions.presentation.TransactionListViewModel
 import com.dv.moneym.feature.transactions.presentation.TransactionUiModel
+import moneym.feature.transactions.generated.resources.Res
+import moneym.feature.transactions.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -65,27 +68,28 @@ private fun TransactionListContent(
     onAddTransaction: () -> Unit,
     onEditTransaction: (TransactionId) -> Unit,
 ) {
+    val monthLabel = monthLabel(state.currentMonth.year, state.currentMonth.monthNumber)
     Scaffold(
         topBar = {
             TopAppBar(title = {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     IconButton(onClick = { onIntent(TransactionListIntent.PreviousMonth) }) {
-                        Icon(MoneyMIcons.ChevronLeft, contentDescription = "Previous month")
+                        Icon(MoneyMIcons.ChevronLeft, contentDescription = stringResource(Res.string.transactions_previous_month))
                     }
                     Text(
-                        text = monthLabel(state.currentMonth.year, state.currentMonth.monthNumber),
+                        text = monthLabel,
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.weight(1f),
                     )
                     IconButton(onClick = { onIntent(TransactionListIntent.NextMonth) }) {
-                        Icon(MoneyMIcons.ChevronRight, contentDescription = "Next month")
+                        Icon(MoneyMIcons.ChevronRight, contentDescription = stringResource(Res.string.transactions_next_month))
                     }
                 }
             })
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddTransaction) {
-                Icon(MoneyMIcons.Add, contentDescription = "Add transaction")
+                Icon(MoneyMIcons.Add, contentDescription = stringResource(Res.string.transactions_add))
             }
         },
     ) { paddingValues ->
@@ -97,11 +101,14 @@ private fun TransactionListContent(
             )
             when {
                 state.isLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("Loading…")
+                    Text(stringResource(Res.string.transactions_loading))
                 }
                 state.isEmpty -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("No transactions this month", style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(
+                        stringResource(Res.string.transactions_empty),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
                 else -> TransactionDayList(
                     dayGroups = state.dayGroups,
@@ -110,6 +117,25 @@ private fun TransactionListContent(
             }
         }
     }
+}
+
+@Composable
+private fun monthLabel(year: Int, month: Int): String {
+    val names = listOf(
+        stringResource(Res.string.transactions_month_jan),
+        stringResource(Res.string.transactions_month_feb),
+        stringResource(Res.string.transactions_month_mar),
+        stringResource(Res.string.transactions_month_apr),
+        stringResource(Res.string.transactions_month_may),
+        stringResource(Res.string.transactions_month_jun),
+        stringResource(Res.string.transactions_month_jul),
+        stringResource(Res.string.transactions_month_aug),
+        stringResource(Res.string.transactions_month_sep),
+        stringResource(Res.string.transactions_month_oct),
+        stringResource(Res.string.transactions_month_nov),
+        stringResource(Res.string.transactions_month_dec),
+    )
+    return "${names[month - 1]} $year"
 }
 
 @Composable
@@ -126,19 +152,19 @@ private fun FilterRow(
         FilterChip(
             selected = activeFilter == TransactionFilter.None,
             onClick = { onFilterChanged(TransactionFilter.None) },
-            label = { Text("All") },
+            label = { Text(stringResource(Res.string.transactions_filter_all)) },
             modifier = Modifier.padding(end = sp.sm),
         )
         FilterChip(
             selected = activeFilter is TransactionFilter.ByType && activeFilter.type == TransactionType.EXPENSE,
             onClick = { onFilterChanged(TransactionFilter.ByType(TransactionType.EXPENSE)) },
-            label = { Text("Expenses") },
+            label = { Text(stringResource(Res.string.transactions_filter_expenses)) },
             modifier = Modifier.padding(end = sp.sm),
         )
         FilterChip(
             selected = activeFilter is TransactionFilter.ByType && activeFilter.type == TransactionType.INCOME,
             onClick = { onFilterChanged(TransactionFilter.ByType(TransactionType.INCOME)) },
-            label = { Text("Income") },
+            label = { Text(stringResource(Res.string.transactions_filter_income)) },
         )
         if (summary.isNotEmpty()) {
             Spacer(Modifier.weight(1f))
@@ -203,7 +229,6 @@ private fun TransactionRowItem(
             modifier = Modifier.padding(horizontal = sp.lg, vertical = sp.md),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            // Category colour dot
             Box(
                 modifier = Modifier
                     .padding(end = sp.md)
@@ -231,6 +256,3 @@ private fun TransactionRowItem(
         }
     }
 }
-
-private val monthNames = listOf("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
-private fun monthLabel(year: Int, month: Int) = "${monthNames[month - 1]} $year"

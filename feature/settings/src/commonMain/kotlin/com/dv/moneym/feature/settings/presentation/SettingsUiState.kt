@@ -10,6 +10,9 @@ data class SettingsUiState(
     // currency
     val defaultCurrency: String = "EUR",
     val showCurrencyPicker: Boolean = false,
+    // language
+    val selectedLanguage: String = "",
+    val showLanguagePicker: Boolean = false,
     // backup
     val exportedJson: String? = null,
     val importJson: String = "",
@@ -29,6 +32,10 @@ sealed interface SettingsIntent {
     data object CurrencyChangeRequested : SettingsIntent
     data class CurrencySelected(val code: String) : SettingsIntent
     data object CurrencyPickerDismissed : SettingsIntent
+    // language
+    data object LanguageChangeRequested : SettingsIntent
+    data class LanguageSelected(val tag: String) : SettingsIntent
+    data object LanguagePickerDismissed : SettingsIntent
     // backup
     data object ExportJsonRequested : SettingsIntent
     data object ExportCsvRequested : SettingsIntent

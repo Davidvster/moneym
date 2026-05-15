@@ -48,18 +48,32 @@ import com.dv.moneym.feature.overview.presentation.OverviewViewModel
 import com.dv.moneym.feature.overview.ui.charts.DonutChart
 import com.dv.moneym.feature.overview.ui.charts.DonutSlice
 import com.dv.moneym.feature.overview.ui.charts.PeriodBarChart
+import moneym.feature.overview.generated.resources.Res
+import moneym.feature.overview.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-
-private val monthNames = listOf(
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-)
 
 @Composable
 fun OverviewScreen(viewModel: OverviewViewModel = koinViewModel()) {
     val state by viewModel.state.collectAsState()
     OverviewContent(state = state, onIntent = viewModel::onIntent)
 }
+
+@Composable
+private fun monthNames(): List<String> = listOf(
+    stringResource(Res.string.overview_month_jan),
+    stringResource(Res.string.overview_month_feb),
+    stringResource(Res.string.overview_month_mar),
+    stringResource(Res.string.overview_month_apr),
+    stringResource(Res.string.overview_month_may),
+    stringResource(Res.string.overview_month_jun),
+    stringResource(Res.string.overview_month_jul),
+    stringResource(Res.string.overview_month_aug),
+    stringResource(Res.string.overview_month_sep),
+    stringResource(Res.string.overview_month_oct),
+    stringResource(Res.string.overview_month_nov),
+    stringResource(Res.string.overview_month_dec),
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,8 +82,9 @@ private fun OverviewContent(
     onIntent: (OverviewIntent) -> Unit,
 ) {
     val sp = MoneyMTheme.spacing
+    val months = monthNames()
     val periodLabel = when (val p = state.period) {
-        is OverviewPeriod.Month -> "${monthNames[p.yearMonth.monthNumber - 1]} ${p.yearMonth.year}"
+        is OverviewPeriod.Month -> "${months[p.yearMonth.monthNumber - 1]} ${p.yearMonth.year}"
         is OverviewPeriod.Year -> p.year.toString()
     }
     val isYearMode = state.period is OverviewPeriod.Year
@@ -79,7 +94,7 @@ private fun OverviewContent(
             TopAppBar(title = {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     IconButton(onClick = { onIntent(OverviewIntent.PreviousPeriod) }) {
-                        Icon(MoneyMIcons.ChevronLeft, contentDescription = "Previous")
+                        Icon(MoneyMIcons.ChevronLeft, contentDescription = stringResource(Res.string.overview_previous))
                     }
                     Text(
                         text = periodLabel,
@@ -87,12 +102,13 @@ private fun OverviewContent(
                         modifier = Modifier.weight(1f),
                     )
                     IconButton(onClick = { onIntent(OverviewIntent.NextPeriod) }) {
-                        Icon(MoneyMIcons.ChevronRight, contentDescription = "Next")
+                        Icon(MoneyMIcons.ChevronRight, contentDescription = stringResource(Res.string.overview_next))
                     }
                     IconButton(onClick = { onIntent(OverviewIntent.TogglePeriod) }) {
                         Icon(
                             if (isYearMode) MoneyMIcons.CalendarMonth else MoneyMIcons.CalendarYear,
-                            contentDescription = if (isYearMode) "Switch to month view" else "Switch to year view",
+                            contentDescription = if (isYearMode) stringResource(Res.string.overview_switch_to_month)
+                                                 else stringResource(Res.string.overview_switch_to_year),
                         )
                     }
                 }
@@ -101,14 +117,14 @@ private fun OverviewContent(
     ) { padding ->
         if (state.isLoading) {
             Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
-                Text("Loading…")
+                Text(stringResource(Res.string.overview_loading))
             }
             return@Scaffold
         }
         if (state.isEmpty) {
             Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
                 Text(
-                    "No transactions this period",
+                    stringResource(Res.string.overview_empty),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -121,15 +137,18 @@ private fun OverviewContent(
             contentPadding = PaddingValues(horizontal = sp.lg, vertical = sp.md),
             verticalArrangement = Arrangement.spacedBy(sp.lg),
         ) {
-            // Summary cards
             item {
-                SummaryRow(income = state.totalIncome, expense = state.totalExpense)
+                SummaryRow(
+                    income = state.totalIncome,
+                    expense = state.totalExpense,
+                    incomeLabel = stringResource(Res.string.overview_income),
+                    expenseLabel = stringResource(Res.string.overview_expenses),
+                )
             }
 
-            // Donut chart + category filter
             if (state.categoryBreakdown.isNotEmpty()) {
                 item {
-                    SectionTitle("Spending by category")
+                    SectionTitle(stringResource(Res.string.overview_by_category))
                     Spacer(Modifier.height(sp.sm))
 
                     val selectedSlice = state.selectedSliceIndex
@@ -161,7 +180,7 @@ private fun OverviewContent(
                             }
                             if (state.categoryBreakdown.size > 5) {
                                 Text(
-                                    "+ ${state.categoryBreakdown.size - 5} more",
+                                    stringResource(Res.string.overview_more, state.categoryBreakdown.size - 5),
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
@@ -170,7 +189,6 @@ private fun OverviewContent(
                     }
                 }
 
-                // Category filter chips
                 if (state.availableCategories.isNotEmpty()) {
                     item {
                         LazyRow(
@@ -181,7 +199,7 @@ private fun OverviewContent(
                                 FilterChip(
                                     selected = state.selectedCategoryId == null,
                                     onClick = { onIntent(OverviewIntent.CategoryFilterSelected(null)) },
-                                    label = { Text("All") },
+                                    label = { Text(stringResource(Res.string.overview_all)) },
                                 )
                             }
                             items(state.availableCategories, key = { it.id.value }) { cat ->
@@ -196,10 +214,10 @@ private fun OverviewContent(
                 }
             }
 
-            // Period bar chart
             if (state.chartBars.any { it.expenseMinorUnits > 0 || it.incomeMinorUnits > 0 }) {
                 item {
-                    val chartTitle = if (isYearMode) "Monthly breakdown" else "Daily breakdown"
+                    val chartTitle = if (isYearMode) stringResource(Res.string.overview_monthly_breakdown)
+                                     else stringResource(Res.string.overview_daily_breakdown)
                     SectionTitle(chartTitle)
                     Spacer(Modifier.height(sp.sm))
                     PeriodBarChart(
@@ -207,7 +225,6 @@ private fun OverviewContent(
                         modifier = Modifier.fillMaxWidth().height(100.dp),
                     )
                     Spacer(Modifier.height(sp.xs))
-                    // Show labels only for year view (12 labels fit); month view has too many days
                     if (isYearMode) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -227,9 +244,8 @@ private fun OverviewContent(
                 }
             }
 
-            // Category breakdown list
             if (state.categoryBreakdown.isNotEmpty()) {
-                item { SectionTitle("All categories") }
+                item { SectionTitle(stringResource(Res.string.overview_all_categories)) }
                 itemsIndexed(state.categoryBreakdown, key = { _, item -> item.name }) { index, item ->
                     CategoryBreakdownRow(
                         item = item,
@@ -245,14 +261,19 @@ private fun OverviewContent(
 }
 
 @Composable
-private fun SummaryRow(income: List<MoneyTotal>, expense: List<MoneyTotal>) {
+private fun SummaryRow(
+    income: List<MoneyTotal>,
+    expense: List<MoneyTotal>,
+    incomeLabel: String,
+    expenseLabel: String,
+) {
     val sp = MoneyMTheme.spacing
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(sp.md),
     ) {
-        SummaryCard(label = "Income", totals = income, modifier = Modifier.weight(1f), isPositive = true)
-        SummaryCard(label = "Expenses", totals = expense, modifier = Modifier.weight(1f), isPositive = false)
+        SummaryCard(label = incomeLabel, totals = income, modifier = Modifier.weight(1f), isPositive = true)
+        SummaryCard(label = expenseLabel, totals = expense, modifier = Modifier.weight(1f), isPositive = false)
     }
 }
 

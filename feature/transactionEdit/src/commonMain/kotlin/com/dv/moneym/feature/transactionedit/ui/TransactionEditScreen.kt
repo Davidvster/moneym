@@ -42,6 +42,9 @@ import com.dv.moneym.feature.transactionedit.presentation.TransactionEditEffect
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditIntent
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditUiState
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditViewModel
+import moneym.feature.transactionedit.generated.resources.Res
+import moneym.feature.transactionedit.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -84,16 +87,16 @@ private fun TransactionEditContent(
     if (state.showDeleteConfirm) {
         AlertDialog(
             onDismissRequest = { onIntent(TransactionEditIntent.DeleteCancelled) },
-            title = { Text("Delete transaction?") },
-            text = { Text("This cannot be undone.") },
+            title = { Text(stringResource(Res.string.edit_delete_confirm_title)) },
+            text = { Text(stringResource(Res.string.edit_delete_confirm_body)) },
             confirmButton = {
                 TextButton(onClick = { onIntent(TransactionEditIntent.DeleteConfirmed) }) {
-                    Text("Delete", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(Res.string.edit_delete_confirm_ok), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { onIntent(TransactionEditIntent.DeleteCancelled) }) {
-                    Text("Cancel")
+                    Text(stringResource(Res.string.edit_delete_confirm_cancel))
                 }
             },
         )
@@ -102,16 +105,16 @@ private fun TransactionEditContent(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (state.isEditMode) "Edit Transaction" else "Add Transaction") },
+                title = { Text(stringResource(if (state.isEditMode) Res.string.edit_title_edit else Res.string.edit_title_add)) },
                 navigationIcon = {
                     IconButton(onClick = onDismiss) {
-                        Icon(MoneyMIcons.Clear, contentDescription = "Close")
+                        Icon(MoneyMIcons.Clear, contentDescription = stringResource(Res.string.edit_close))
                     }
                 },
                 actions = {
                     if (state.isEditMode) {
                         IconButton(onClick = { onIntent(TransactionEditIntent.DeleteRequested) }) {
-                            Icon(MoneyMIcons.Delete, contentDescription = "Delete",
+                            Icon(MoneyMIcons.Delete, contentDescription = stringResource(Res.string.edit_delete),
                                 tint = MaterialTheme.colorScheme.error)
                         }
                     }
@@ -119,7 +122,7 @@ private fun TransactionEditContent(
                         onClick = { onIntent(TransactionEditIntent.SaveRequested) },
                         enabled = !state.isSaving,
                     ) {
-                        Icon(MoneyMIcons.Check, contentDescription = "Save")
+                        Icon(MoneyMIcons.Check, contentDescription = stringResource(Res.string.edit_save))
                     }
                 },
             )
@@ -132,33 +135,30 @@ private fun TransactionEditContent(
                 .padding(horizontal = sp.lg),
         ) {
             Spacer(Modifier.height(sp.md))
-            // Type selector
             Row(horizontalArrangement = Arrangement.spacedBy(sp.sm)) {
                 FilterChip(
                     selected = state.type == TransactionType.EXPENSE,
                     onClick = { onIntent(TransactionEditIntent.TypeChanged(TransactionType.EXPENSE)) },
-                    label = { Text("Expense") },
+                    label = { Text(stringResource(Res.string.edit_type_expense)) },
                 )
                 FilterChip(
                     selected = state.type == TransactionType.INCOME,
                     onClick = { onIntent(TransactionEditIntent.TypeChanged(TransactionType.INCOME)) },
-                    label = { Text("Income") },
+                    label = { Text(stringResource(Res.string.edit_type_income)) },
                 )
             }
             Spacer(Modifier.height(sp.md))
-            // Amount
             OutlinedTextField(
                 value = state.amountText,
                 onValueChange = { onIntent(TransactionEditIntent.AmountChanged(it)) },
-                label = { Text("Amount") },
+                label = { Text(stringResource(Res.string.edit_amount_label)) },
                 isError = state.amountError,
-                supportingText = if (state.amountError) ({ Text("Enter a valid amount") }) else null,
+                supportingText = if (state.amountError) ({ Text(stringResource(Res.string.edit_amount_error)) }) else null,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(Modifier.height(sp.md))
-            // Date
             val dateText = state.date?.toString() ?: ""
             OutlinedTextField(
                 value = dateText,
@@ -166,27 +166,31 @@ private fun TransactionEditContent(
                     runCatching { kotlinx.datetime.LocalDate.parse(text) }.getOrNull()
                         ?.let { onIntent(TransactionEditIntent.DateChanged(it)) }
                 },
-                label = { Text("Date (yyyy-MM-dd)") },
+                label = { Text(stringResource(Res.string.edit_date_label)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(Modifier.height(sp.md))
-            // Note
             OutlinedTextField(
                 value = state.note,
                 onValueChange = { onIntent(TransactionEditIntent.NoteChanged(it)) },
-                label = { Text("Note (optional)") },
+                label = { Text(stringResource(Res.string.edit_note_label)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(Modifier.height(sp.md))
-            // Category picker
             if (state.categoryError) {
-                Text("Select a category", color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.labelMedium)
+                Text(
+                    stringResource(Res.string.edit_category_error),
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.labelMedium,
+                )
             } else {
-                Text("Category", style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    stringResource(Res.string.edit_category_label),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
             Spacer(Modifier.height(sp.xs))
             CategoryGrid(
@@ -231,7 +235,7 @@ private fun CategoryGrid(
                                     .padding(0.dp)
                             )
                     ) {
-                        // Category colour dot
+                        // category colour dot
                     }
                 },
             )

@@ -14,4 +14,6 @@
     <string name="categories_hide_archived">Archivierte ausblenden</string>
     <string name="categories_archived_badge">Archiviert</string>
     <string name="categories_empty">Keine Kategorien</string>
+    <string name="categories_back">Zurück</string>
+    <string name="categories_show_archived_count">Archivierte anzeigen (%1$d)</string>
 </resources>

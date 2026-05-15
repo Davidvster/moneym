@@ -14,4 +14,6 @@
     <string name="categories_hide_archived">Ocultar archivadas</string>
     <string name="categories_archived_badge">Archivada</string>
     <string name="categories_empty">Sin categorías todavía</string>
+    <string name="categories_back">Atrás</string>
+    <string name="categories_show_archived_count">Mostrar archivadas (%1$d)</string>
 </resources>

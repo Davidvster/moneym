@@ -34,6 +34,9 @@ import com.dv.moneym.feature.onboarding.presentation.OnboardingIntent
 import com.dv.moneym.feature.onboarding.presentation.OnboardingStep
 import com.dv.moneym.feature.onboarding.presentation.OnboardingViewModel
 import com.dv.moneym.feature.onboarding.presentation.commonCurrencies
+import moneym.feature.onboarding.generated.resources.Res
+import moneym.feature.onboarding.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -75,11 +78,11 @@ private fun CurrencyStep(
 ) {
     val sp = MoneyMTheme.spacing
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Welcome to MoneyM") }) },
+        topBar = { TopAppBar(title = { Text(stringResource(Res.string.onboarding_welcome)) }) },
     ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding)) {
             Text(
-                "Choose your default currency",
+                stringResource(Res.string.onboarding_currency_title),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(horizontal = sp.lg, vertical = sp.sm),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -109,7 +112,7 @@ private fun CurrencyStep(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(sp.lg),
-            ) { Text("Continue") }
+            ) { Text(stringResource(Res.string.onboarding_continue)) }
         }
     }
 }
@@ -124,7 +127,7 @@ private fun SecurityStep(
 ) {
     val sp = MoneyMTheme.spacing
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Secure your app") }) },
+        topBar = { TopAppBar(title = { Text(stringResource(Res.string.onboarding_security_title)) }) },
     ) { padding ->
         Column(
             modifier = Modifier
@@ -135,7 +138,7 @@ private fun SecurityStep(
         ) {
             Spacer(Modifier.height(sp.xl))
             Text(
-                "Protect your financial data with a PIN.",
+                stringResource(Res.string.onboarding_security_subtitle),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -144,19 +147,24 @@ private fun SecurityStep(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text("PIN lock", style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
+                Text(stringResource(Res.string.onboarding_pin_label), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
                 Switch(checked = pinEnabled, onCheckedChange = { if (it && !pinEnabled) onSetupPin() })
             }
             if (pinEnabled) {
-                Text("PIN is set ✓", style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary)
+                Text(
+                    stringResource(Res.string.onboarding_pin_set),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                )
             }
             Spacer(Modifier.weight(1f))
             Button(onClick = onFinish, modifier = Modifier.fillMaxWidth()) {
-                Text(if (pinEnabled) "Done" else "Skip for now")
+                Text(stringResource(if (pinEnabled) Res.string.onboarding_done else Res.string.onboarding_skip))
             }
             if (!pinEnabled) {
-                TextButton(onClick = onSkip, modifier = Modifier.fillMaxWidth()) { Text("Skip") }
+                TextButton(onClick = onSkip, modifier = Modifier.fillMaxWidth()) {
+                    Text(stringResource(Res.string.onboarding_skip_short))
+                }
             }
         }
     }

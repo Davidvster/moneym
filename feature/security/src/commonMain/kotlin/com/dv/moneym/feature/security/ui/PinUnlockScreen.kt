@@ -20,6 +20,9 @@ import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.feature.security.presentation.PinUnlockEffect
 import com.dv.moneym.feature.security.presentation.PinUnlockIntent
 import com.dv.moneym.feature.security.presentation.PinUnlockViewModel
+import moneym.feature.security.generated.resources.Res
+import moneym.feature.security.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -40,10 +43,10 @@ fun PinUnlockScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Text("MoneyM", style = MaterialTheme.typography.headlineLarge)
+        Text(stringResource(Res.string.security_app_name), style = MaterialTheme.typography.headlineLarge)
         Spacer(Modifier.height(sp.sm))
         Text(
-            "Enter PIN",
+            stringResource(Res.string.security_pin_enter_title),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -56,7 +59,7 @@ fun PinUnlockScreen(
                 Spacer(Modifier.height(sp.sm))
                 val seconds = (state.backoffRemainingMs / 1000) + 1
                 Text(
-                    "Try again in ${seconds}s",
+                    stringResource(Res.string.security_backoff_retry, seconds),
                     color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.bodyMedium,
                 )
@@ -74,7 +77,7 @@ fun PinUnlockScreen(
         if (state.biometricAvailable) {
             Spacer(Modifier.height(sp.xl))
             TextButton(onClick = { viewModel.onIntent(PinUnlockIntent.BiometricRequested) }) {
-                Text("Use biometric")
+                Text(stringResource(Res.string.security_biometric_use))
             }
         }
     }

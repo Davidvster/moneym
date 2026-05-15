@@ -35,6 +35,9 @@ import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.feature.categories.presentation.CategoryListEffect
 import com.dv.moneym.feature.categories.presentation.CategoryListIntent
 import com.dv.moneym.feature.categories.presentation.CategoryListViewModel
+import moneym.feature.categories.generated.resources.Res
+import moneym.feature.categories.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -77,17 +80,17 @@ private fun CategoryListContent(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Categories") },
+                title = { Text(stringResource(Res.string.categories_title)) },
                 navigationIcon = {
                     androidx.compose.material3.IconButton(onClick = onBack) {
-                        Icon(MoneyMIcons.ArrowBack, contentDescription = "Back")
+                        Icon(MoneyMIcons.ArrowBack, contentDescription = stringResource(Res.string.categories_back))
                     }
                 },
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onAdd) {
-                Icon(MoneyMIcons.Add, contentDescription = "Add category")
+                Icon(MoneyMIcons.Add, contentDescription = stringResource(Res.string.categories_add))
             }
         },
     ) { padding ->
@@ -96,9 +99,11 @@ private fun CategoryListContent(
             contentPadding = androidx.compose.foundation.layout.PaddingValues(bottom = 88.dp),
         ) {
             if (active.isEmpty() && archived.isEmpty()) {
-                item { Box(Modifier.fillMaxWidth().padding(sp.xxl), contentAlignment = Alignment.Center) {
-                    Text("No categories yet", color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }}
+                item {
+                    Box(Modifier.fillMaxWidth().padding(sp.xxl), contentAlignment = Alignment.Center) {
+                        Text(stringResource(Res.string.categories_empty), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
             }
             items(active, key = { it.id.value }) { cat ->
                 CategoryRow(cat, onEdit = { onEdit(cat.id) }, onArchive = {
@@ -111,7 +116,10 @@ private fun CategoryListContent(
                         onClick = { onIntent(CategoryListIntent.ToggleShowArchived) },
                         modifier = Modifier.padding(horizontal = sp.lg),
                     ) {
-                        Text(if (showArchived) "Hide archived" else "Show archived (${archived.size})")
+                        Text(
+                            if (showArchived) stringResource(Res.string.categories_hide_archived)
+                            else stringResource(Res.string.categories_show_archived_count, archived.size)
+                        )
                     }
                 }
                 if (showArchived) {
@@ -149,14 +157,17 @@ private fun CategoryRow(
             Column(modifier = Modifier.weight(1f)) {
                 Text(category.name, style = MaterialTheme.typography.bodyLarge)
                 if (category.archived) {
-                    Text("Archived", style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(
+                        stringResource(Res.string.categories_archived_badge),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
             }
             if (onUnarchive != null) {
-                TextButton(onClick = onUnarchive) { Text("Restore") }
+                TextButton(onClick = onUnarchive) { Text(stringResource(Res.string.categories_restore)) }
             } else if (onArchive != null && !category.isUserCreated.not()) {
-                TextButton(onClick = onArchive) { Text("Archive") }
+                TextButton(onClick = onArchive) { Text(stringResource(Res.string.categories_archive)) }
             }
         }
     }

@@ -9,4 +9,5 @@
     <string name="onboarding_pin_set">PIN impostato ✓</string>
     <string name="onboarding_done">Fatto</string>
     <string name="onboarding_skip">Salta per ora</string>
+    <string name="onboarding_skip_short">Salta</string>
 </resources>

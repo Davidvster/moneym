@@ -10,4 +10,7 @@
     <string name="security_pin_locked">Zu viele Versuche</string>
     <string name="security_biometric_use">Biometrie verwenden</string>
     <string name="security_biometric_reason">MoneyM entsperren</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Abbrechen</string>
+    <string name="security_backoff_retry">Erneut versuchen in %1$ds</string>
 </resources>

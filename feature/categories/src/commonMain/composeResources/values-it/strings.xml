@@ -14,4 +14,6 @@
     <string name="categories_hide_archived">Nascondi archiviate</string>
     <string name="categories_archived_badge">Archiviata</string>
     <string name="categories_empty">Nessuna categoria</string>
+    <string name="categories_back">Indietro</string>
+    <string name="categories_show_archived_count">Mostra archiviate (%1$d)</string>
 </resources>
