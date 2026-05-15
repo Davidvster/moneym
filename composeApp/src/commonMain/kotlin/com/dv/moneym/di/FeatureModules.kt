@@ -1,5 +1,6 @@
 package com.dv.moneym.di
 
+import com.dv.moneym.AppInitializer
 import com.dv.moneym.AppLockController
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.TransactionId
@@ -26,6 +27,7 @@ val coreSecurityModule = module {
     single { PinHasher() }
     single { PinManager(get(), get(), get()) }
     single { AppLockController(get()) }
+    single { AppInitializer(get(), get(), get()) }
 }
 
 val featureTransactionsModule = module {

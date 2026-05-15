@@ -39,8 +39,24 @@ import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.feature.categories.presentation.CategoryEditEffect
 import com.dv.moneym.feature.categories.presentation.CategoryEditIntent
 import com.dv.moneym.feature.categories.presentation.CategoryEditViewModel
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.EntryProviderScope
+import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+
+@Serializable data class CategoryEditKey(
+    val id: Long? = null,
+    val sessionKey: String = kotlin.random.Random.nextLong().toString(),
+) : NavKey
+
+fun EntryProviderScope<NavKey>.categoryEditEntry(onDismiss: () -> Unit, metadata: Map<String, Any> = emptyMap()) = entry<CategoryEditKey>(metadata = metadata) { key ->
+    CategoryEditScreen(
+        categoryId = key.id?.let { com.dv.moneym.core.model.CategoryId(it) },
+        sessionKey = key.sessionKey,
+        onDismiss = onDismiss,
+    )
+}
 
 @Composable
 fun CategoryEditScreen(

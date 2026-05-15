@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -31,6 +32,7 @@ kotlin {
             implementation(projects.core.ui)
             implementation(projects.core.model)
             implementation(projects.core.common)
+            implementation(libs.androidx.navigation3.runtime)
             implementation(projects.core.navigation)
             implementation(projects.data.transactions)
             implementation(projects.data.categories)

@@ -37,7 +37,25 @@ import com.dv.moneym.feature.onboarding.presentation.commonCurrencies
 import moneym.feature.onboarding.generated.resources.Res
 import moneym.feature.onboarding.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.EntryProviderScope
+import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable data object OnboardingKey : NavKey
+@Serializable data object OnboardingPinSetupKey : NavKey
+
+fun EntryProviderScope<NavKey>.onboardingEntry(
+    viewModel: com.dv.moneym.feature.onboarding.presentation.OnboardingViewModel,
+    onNavigateToPinSetup: () -> Unit,
+    onComplete: () -> Unit,
+) = entry<OnboardingKey> {
+    OnboardingScreen(
+        viewModel = viewModel,
+        onNavigateToPinSetup = onNavigateToPinSetup,
+        onComplete = onComplete,
+    )
+}
 
 @Composable
 fun OnboardingScreen(

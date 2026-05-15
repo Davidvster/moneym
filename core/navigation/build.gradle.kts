@@ -20,6 +20,7 @@ kotlin {
             implementation(libs.compose.runtime)
             // navigation-compose added in Phase 3 once correct KMP version is confirmed
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.androidx.navigation3.runtime)
             implementation(projects.core.model)
         }
         commonTest.dependencies {

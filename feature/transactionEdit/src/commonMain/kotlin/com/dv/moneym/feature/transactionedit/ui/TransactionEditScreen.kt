@@ -46,7 +46,26 @@ import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
 import org.koin.core.parameter.parametersOf
+
+@Serializable data class TransactionEditKey(
+    val id: Long? = null,
+    val sessionKey: String = kotlin.random.Random.nextLong().toString(),
+) : NavKey
+
+fun EntryProviderScope<NavKey>.transactionEditEntry(
+    onDismiss: () -> Unit,
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<TransactionEditKey>(metadata = metadata) { key ->
+    TransactionEditScreen(
+        transactionId = key.id?.let { com.dv.moneym.core.model.TransactionId(it) },
+        sessionKey = key.sessionKey,
+        onDismiss = onDismiss,
+    )
+}
 
 @Composable
 fun TransactionEditScreen(

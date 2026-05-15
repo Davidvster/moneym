@@ -43,7 +43,22 @@ import com.dv.moneym.feature.transactions.presentation.TransactionUiModel
 import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable data object TransactionsKey : NavKey
+
+fun EntryProviderScope<NavKey>.transactionsEntry(
+    onAddTransaction: () -> Unit,
+    onEditTransaction: (com.dv.moneym.core.model.TransactionId) -> Unit,
+) = entry<TransactionsKey> {
+    TransactionListScreen(
+        onAddTransaction = onAddTransaction,
+        onEditTransaction = onEditTransaction,
+    )
+}
 
 @Composable
 fun TransactionListScreen(

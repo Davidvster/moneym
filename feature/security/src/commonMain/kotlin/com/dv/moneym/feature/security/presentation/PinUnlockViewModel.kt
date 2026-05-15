@@ -66,6 +66,7 @@ class PinUnlockViewModel(
             val correct = withContext(dispatchers.io) { pinManager.verifyPin(pin) }
             if (correct) {
                 pinManager.resetAttempts()
+                _state.update { it.copy(isVerifying = false, pin = "") }
                 _effects.send(PinUnlockEffect.Unlocked)
             } else {
                 pinManager.recordFailedAttempt()

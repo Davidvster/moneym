@@ -51,7 +51,16 @@ import com.dv.moneym.feature.overview.ui.charts.PeriodBarChart
 import moneym.feature.overview.generated.resources.Res
 import moneym.feature.overview.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable data object OverviewKey : NavKey
+
+fun EntryProviderScope<NavKey>.overviewEntry() = entry<OverviewKey> {
+    OverviewScreen()
+}
 
 @Composable
 fun OverviewScreen(viewModel: OverviewViewModel = koinViewModel()) {

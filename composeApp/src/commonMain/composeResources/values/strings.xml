@@ -1,0 +1,5 @@
+<resources>
+    <string name="nav_tab_transactions">Transactions</string>
+    <string name="nav_tab_overview">Overview</string>
+    <string name="nav_tab_settings">Settings</string>
+</resources>

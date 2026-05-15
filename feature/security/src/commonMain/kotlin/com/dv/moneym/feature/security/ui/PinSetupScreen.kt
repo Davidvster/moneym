@@ -30,7 +30,16 @@ import com.dv.moneym.feature.security.presentation.PinSetupViewModel
 import moneym.feature.security.generated.resources.Res
 import moneym.feature.security.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.EntryProviderScope
+import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable data object PinSetupKey : NavKey
+
+fun EntryProviderScope<NavKey>.pinSetupEntry(onDone: () -> Unit, metadata: Map<String, Any> = emptyMap()) = entry<PinSetupKey>(metadata = metadata) {
+    PinSetupScreen(onDone = onDone)
+}
 
 @Composable
 fun PinSetupScreen(

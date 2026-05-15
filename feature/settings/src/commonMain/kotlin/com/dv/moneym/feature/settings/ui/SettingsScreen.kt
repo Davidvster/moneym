@@ -40,7 +40,22 @@ import com.dv.moneym.feature.settings.presentation.SettingsViewModel
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable data object SettingsKey : NavKey
+
+fun EntryProviderScope<NavKey>.settingsEntry(
+    onNavigateToPinSetup: () -> Unit,
+    onNavigateToCategories: () -> Unit,
+) = entry<SettingsKey> {
+    SettingsScreen(
+        onNavigateToPinSetup = onNavigateToPinSetup,
+        onNavigateToCategories = onNavigateToCategories,
+    )
+}
 
 private val commonCurrencies = listOf(
     "EUR" to "Euro", "USD" to "US Dollar", "GBP" to "British Pound",

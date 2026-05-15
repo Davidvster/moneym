@@ -38,7 +38,23 @@ import com.dv.moneym.feature.categories.presentation.CategoryListViewModel
 import moneym.feature.categories.generated.resources.Res
 import moneym.feature.categories.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.EntryProviderScope
+import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable data object CategoriesKey : NavKey
+
+fun EntryProviderScope<NavKey>.categoriesEntry(
+    onEditCategory: (com.dv.moneym.core.model.CategoryId?) -> Unit,
+    onBack: () -> Unit,
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<CategoriesKey>(metadata = metadata) {
+    CategoryListScreen(
+        onEditCategory = onEditCategory,
+        onBack = onBack,
+    )
+}
 
 @Composable
 fun CategoryListScreen(
