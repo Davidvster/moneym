@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.datastore.AppSettings
+import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.core.security.BiometricAuthenticator
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.core.security.SecurityPrefs
@@ -41,6 +42,7 @@ class SettingsViewModel(
                 biometricEnabled = settings.getBoolean(SecurityPrefs.BIOMETRIC_ENABLED),
                 biometricAvailable = biometricAuth.isAvailable,
                 backgroundLockSeconds = settings.getInt(SecurityPrefs.BACKGROUND_LOCK_SECONDS, SecurityPrefs.DEFAULT_LOCK_SECONDS),
+                defaultCurrency = settings.getString(PrefKeys.DEFAULT_CURRENCY) ?: "EUR",
             )
         }
     }
@@ -67,6 +69,15 @@ class SettingsViewModel(
             }
             SettingsIntent.ChangePinRequested ->
                 viewModelScope.launch { _effects.send(SettingsEffect.NavigateToPinSetup) }
+
+            SettingsIntent.CurrencyChangeRequested ->
+                _state.update { it.copy(showCurrencyPicker = true) }
+            is SettingsIntent.CurrencySelected -> {
+                settings.putString(PrefKeys.DEFAULT_CURRENCY, intent.code)
+                _state.update { it.copy(defaultCurrency = intent.code, showCurrencyPicker = false) }
+            }
+            SettingsIntent.CurrencyPickerDismissed ->
+                _state.update { it.copy(showCurrencyPicker = false) }
 
             SettingsIntent.ExportJsonRequested -> {
                 _state.update { it.copy(isExporting = true) }

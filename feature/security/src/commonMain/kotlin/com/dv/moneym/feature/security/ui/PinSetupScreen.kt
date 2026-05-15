@@ -34,7 +34,8 @@ fun PinSetupScreen(
     viewModel: PinSetupViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-    LaunchedEffect(viewModel) {
+    LaunchedEffect(Unit) {
+        viewModel.reset()
         viewModel.effects.collect { if (it == PinSetupEffect.Done) onDone() }
     }
     PinSetupContent(

@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -91,6 +92,7 @@ private fun TransactionListContent(
         Column(modifier = Modifier.padding(paddingValues)) {
             FilterRow(
                 activeFilter = state.activeFilter,
+                summary = state.monthlySummary,
                 onFilterChanged = { onIntent(TransactionListIntent.FilterChanged(it)) },
             )
             when {
@@ -113,10 +115,14 @@ private fun TransactionListContent(
 @Composable
 private fun FilterRow(
     activeFilter: TransactionFilter,
+    summary: String,
     onFilterChanged: (TransactionFilter) -> Unit,
 ) {
     val sp = MoneyMTheme.spacing
-    Row(modifier = Modifier.padding(horizontal = sp.lg, vertical = sp.xs)) {
+    Row(
+        modifier = Modifier.padding(horizontal = sp.lg, vertical = sp.xs),
+        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+    ) {
         FilterChip(
             selected = activeFilter == TransactionFilter.None,
             onClick = { onFilterChanged(TransactionFilter.None) },
@@ -134,7 +140,18 @@ private fun FilterRow(
             onClick = { onFilterChanged(TransactionFilter.ByType(TransactionType.INCOME)) },
             label = { Text("Income") },
         )
+        if (summary.isNotEmpty()) {
+            Spacer(Modifier.weight(1f))
+            Text(
+                text = summary,
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold,
+                color = if (summary.startsWith("+")) MaterialTheme.colorScheme.primary
+                        else MaterialTheme.colorScheme.error,
+            )
+        }
     }
+    HorizontalDivider()
 }
 
 @Composable

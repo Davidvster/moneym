@@ -77,4 +77,9 @@ class PinSetupViewModel(
             _effects.send(PinSetupEffect.Done)
         }
     }
+
+    fun reset() {
+        _state.value = PinSetupUiState()
+        while (_effects.tryReceive().isSuccess) {}
+    }
 }

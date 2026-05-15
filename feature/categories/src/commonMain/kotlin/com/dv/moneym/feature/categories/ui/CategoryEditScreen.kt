@@ -45,8 +45,12 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun CategoryEditScreen(
     categoryId: CategoryId?,
+    sessionKey: String = "",
     onDismiss: () -> Unit,
-    viewModel: CategoryEditViewModel = koinViewModel(parameters = { parametersOf(categoryId) }),
+    viewModel: CategoryEditViewModel = koinViewModel(
+        key = sessionKey.ifEmpty { categoryId?.value?.toString() ?: "new" },
+        parameters = { parametersOf(categoryId) },
+    ),
 ) {
     val state by viewModel.state.collectAsState()
     LaunchedEffect(viewModel) {

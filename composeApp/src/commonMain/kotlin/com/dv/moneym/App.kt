@@ -1,5 +1,12 @@
 package com.dv.moneym
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -51,12 +58,12 @@ private val logger = AppLogger.tag("App")
 sealed interface AppScreen {
     data object Onboarding : AppScreen
     data object Transactions : AppScreen
-    data class TransactionEdit(val id: TransactionId?) : AppScreen
+    data class TransactionEdit(val id: TransactionId?, val sessionKey: String = kotlin.random.Random.nextLong().toString()) : AppScreen
     data object Overview : AppScreen
     data object Settings : AppScreen
     data class PinSetup(val returnTo: AppScreen = Settings) : AppScreen
     data object Categories : AppScreen
-    data class CategoryEdit(val id: CategoryId?) : AppScreen
+    data class CategoryEdit(val id: CategoryId?, val sessionKey: String = kotlin.random.Random.nextLong().toString()) : AppScreen
 }
 
 @Composable
@@ -94,7 +101,12 @@ private fun AppContent() {
     }
 
     val isLocked by lockController.isLocked.collectAsState()
-    val onboardingDone by appSettings.observeBoolean(PrefKeys.ONBOARDING_COMPLETED).collectAsState(false)
+    val onboardingDone by appSettings.observeBoolean(PrefKeys.ONBOARDING_COMPLETED)
+        .collectAsState(initial = appSettings.getBoolean(PrefKeys.ONBOARDING_COMPLETED))
+
+    LaunchedEffect(onboardingDone) {
+        if (onboardingDone) lockController.init()
+    }
 
     MoneyMTheme {
         when {
@@ -111,7 +123,6 @@ private fun AppContent() {
                     )
                     is AppScreen.PinSetup -> PinSetupScreen(
                         onDone = {
-                            lockController.init()
                             onboardingVm.onReturnFromPinSetup()
                             screen = s.returnTo
                         },
@@ -124,63 +135,93 @@ private fun AppContent() {
     }
 }
 
+private fun AppScreen.isModal() = this is AppScreen.TransactionEdit ||
+        this is AppScreen.CategoryEdit ||
+        this is AppScreen.PinSetup ||
+        this == AppScreen.Categories
+
 @Composable
 private fun MainNav(lockController: AppLockController) {
     var screen: AppScreen by remember { mutableStateOf(AppScreen.Transactions) }
 
-    when (val s = screen) {
-        is AppScreen.TransactionEdit -> TransactionEditScreen(
-            transactionId = s.id,
-            onDismiss = { screen = AppScreen.Transactions },
-        )
-        is AppScreen.PinSetup -> PinSetupScreen(
-            onDone = { lockController.init(); screen = s.returnTo },
-        )
-        is AppScreen.CategoryEdit -> CategoryEditScreen(
-            categoryId = s.id,
-            onDismiss = { screen = AppScreen.Categories },
-        )
-        AppScreen.Categories -> CategoryListScreen(
-            onEditCategory = { id -> screen = AppScreen.CategoryEdit(id) },
-            onBack = { screen = AppScreen.Settings },
-        )
-        else -> {
-            Scaffold(
-                bottomBar = {
-                    NavigationBar {
-                        NavigationBarItem(
-                            selected = screen is AppScreen.Transactions,
-                            onClick = { screen = AppScreen.Transactions },
-                            icon = { Icon(MoneyMIcons.List, contentDescription = "Transactions") },
-                            label = { Text("Transactions") },
-                        )
-                        NavigationBarItem(
-                            selected = screen is AppScreen.Overview,
-                            onClick = { screen = AppScreen.Overview },
-                            icon = { Icon(MoneyMIcons.Home, contentDescription = "Overview") },
-                            label = { Text("Overview") },
-                        )
-                        NavigationBarItem(
-                            selected = screen is AppScreen.Settings || screen == AppScreen.Categories,
-                            onClick = { screen = AppScreen.Settings },
-                            icon = { Icon(MoneyMIcons.Settings, contentDescription = "Settings") },
-                            label = { Text("Settings") },
-                        )
-                    }
-                },
-            ) { padding ->
-                Box(modifier = Modifier.padding(padding)) {
-                    when (screen) {
-                        AppScreen.Transactions -> TransactionListScreen(
-                            onAddTransaction = { screen = AppScreen.TransactionEdit(null) },
-                            onEditTransaction = { id -> screen = AppScreen.TransactionEdit(id) },
-                        )
-                        AppScreen.Overview -> OverviewScreen()
-                        AppScreen.Settings -> SettingsScreen(
-                            onNavigateToPinSetup = { screen = AppScreen.PinSetup(AppScreen.Settings) },
-                            onNavigateToCategories = { screen = AppScreen.Categories },
-                        )
-                        else -> Unit
+    AnimatedContent(
+        targetState = screen,
+        transitionSpec = {
+            when {
+                targetState.isModal() ->
+                    slideInVertically(tween(300)) { it } + fadeIn(tween(300)) togetherWith
+                            fadeOut(tween(150))
+                initialState.isModal() ->
+                    fadeIn(tween(220)) togetherWith
+                            slideOutVertically(tween(300)) { it } + fadeOut(tween(200))
+                else ->
+                    fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+            }
+        },
+        label = "MainNav",
+    ) { s ->
+        when (s) {
+            is AppScreen.TransactionEdit -> TransactionEditScreen(
+                transactionId = s.id,
+                sessionKey = s.sessionKey,
+                onDismiss = { screen = AppScreen.Transactions },
+            )
+            is AppScreen.PinSetup -> PinSetupScreen(
+                onDone = { lockController.init(); screen = s.returnTo },
+            )
+            is AppScreen.CategoryEdit -> CategoryEditScreen(
+                categoryId = s.id,
+                sessionKey = s.sessionKey,
+                onDismiss = { screen = AppScreen.Categories },
+            )
+            AppScreen.Categories -> CategoryListScreen(
+                onEditCategory = { id -> screen = AppScreen.CategoryEdit(id) },
+                onBack = { screen = AppScreen.Settings },
+            )
+            else -> {
+                Scaffold(
+                    bottomBar = {
+                        NavigationBar {
+                            NavigationBarItem(
+                                selected = screen is AppScreen.Transactions,
+                                onClick = { screen = AppScreen.Transactions },
+                                icon = { Icon(MoneyMIcons.List, contentDescription = "Transactions") },
+                                label = { Text("Transactions") },
+                            )
+                            NavigationBarItem(
+                                selected = screen is AppScreen.Overview,
+                                onClick = { screen = AppScreen.Overview },
+                                icon = { Icon(MoneyMIcons.Home, contentDescription = "Overview") },
+                                label = { Text("Overview") },
+                            )
+                            NavigationBarItem(
+                                selected = screen is AppScreen.Settings || screen == AppScreen.Categories,
+                                onClick = { screen = AppScreen.Settings },
+                                icon = { Icon(MoneyMIcons.Settings, contentDescription = "Settings") },
+                                label = { Text("Settings") },
+                            )
+                        }
+                    },
+                ) { padding ->
+                    AnimatedContent(
+                        targetState = screen,
+                        transitionSpec = { fadeIn(tween(220)) togetherWith fadeOut(tween(220)) },
+                        label = "TabContent",
+                    ) { tabScreen ->
+                        Box(modifier = Modifier.padding(padding)) {
+                            when (tabScreen) {
+                                AppScreen.Transactions -> TransactionListScreen(
+                                    onAddTransaction = { screen = AppScreen.TransactionEdit(null) },
+                                    onEditTransaction = { id -> screen = AppScreen.TransactionEdit(id) },
+                                )
+                                AppScreen.Overview -> OverviewScreen()
+                                AppScreen.Settings -> SettingsScreen(
+                                    onNavigateToPinSetup = { screen = AppScreen.PinSetup(AppScreen.Settings) },
+                                    onNavigateToCategories = { screen = AppScreen.Categories },
+                                )
+                                else -> Unit
+                            }
+                        }
                     }
                 }
             }

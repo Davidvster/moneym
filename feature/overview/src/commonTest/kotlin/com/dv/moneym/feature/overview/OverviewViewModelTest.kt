@@ -12,6 +12,8 @@ import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.FixedClock
 import com.dv.moneym.core.testing.runTestWithDispatchers
+import com.dv.moneym.feature.overview.presentation.OverviewIntent
+import com.dv.moneym.feature.overview.presentation.OverviewPeriod
 import com.dv.moneym.feature.overview.presentation.OverviewViewModel
 import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
@@ -20,6 +22,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertIs
 import kotlin.test.assertTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -80,12 +83,26 @@ class OverviewViewModelTest {
     }
 
     @Test
-    fun trendContainsSixMonths() = runTestWithDispatchers(testDispatcher) {
+    fun monthViewHasDailyBars() = runTestWithDispatchers(testDispatcher) {
         val vm = OverviewViewModel(txnRepo, catRepo, clock)
         vm.state.test {
             var state = awaitItem()
             while (state.isLoading) state = awaitItem()
-            assertEquals(6, state.trendMonths.size)
+            assertIs<OverviewPeriod.Month>(state.period)
+            assertEquals(31, state.chartBars.size) // May 2026 has 31 days
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun yearViewHasMonthlyBars() = runTestWithDispatchers(testDispatcher) {
+        val vm = OverviewViewModel(txnRepo, catRepo, clock)
+        vm.onIntent(OverviewIntent.TogglePeriod)
+        vm.state.test {
+            var state = awaitItem()
+            while (state.isLoading) state = awaitItem()
+            assertIs<OverviewPeriod.Year>(state.period)
+            assertEquals(12, state.chartBars.size)
             cancelAndIgnoreRemainingEvents()
         }
     }

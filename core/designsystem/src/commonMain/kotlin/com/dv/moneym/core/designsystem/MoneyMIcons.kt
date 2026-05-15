@@ -8,15 +8,19 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Today
 
 object MoneyMIcons {
     val Add = Icons.Filled.Add
     val ArrowBack = Icons.AutoMirrored.Filled.ArrowBack
+    val CalendarMonth = Icons.Filled.Today
+    val CalendarYear = Icons.Filled.DateRange
     val Check = Icons.Filled.Check
     val Clear = Icons.Filled.Clear
     val Delete = Icons.Filled.Delete

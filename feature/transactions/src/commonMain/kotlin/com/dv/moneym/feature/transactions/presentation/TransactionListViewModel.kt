@@ -6,7 +6,9 @@ import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Transaction
+import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.TransactionFilter
+import kotlin.math.abs
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.model.format
@@ -60,6 +62,7 @@ class TransactionListViewModel(
                 activeFilter = filter,
                 availableCategories = categories,
                 isEmpty = dayGroups.isEmpty(),
+                monthlySummary = buildSummary(transactions, filter),
             )
         }
     }.stateIn(
@@ -88,6 +91,29 @@ private fun Transaction.toUiModel(category: Category?) = TransactionUiModel(
     note = note,
     occurredOn = occurredOn,
 )
+
+private fun buildSummary(transactions: List<Transaction>, filter: TransactionFilter): String {
+    if (transactions.isEmpty()) return ""
+    val currency = transactions.first().amount.currency
+    return when (filter) {
+        TransactionFilter.None -> {
+            val income = transactions.filter { it.type == TransactionType.INCOME }.sumOf { it.amount.minorUnits }
+            val expense = transactions.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount.minorUnits }
+            val net = income - expense
+            val prefix = if (net >= 0) "+" else "−"
+            "$prefix${Money(abs(net), currency).format()}"
+        }
+        is TransactionFilter.ByType -> {
+            val total = transactions.sumOf { it.amount.minorUnits }
+            val prefix = if (filter.type == TransactionType.INCOME) "+" else "−"
+            "$prefix${Money(total, currency).format()}"
+        }
+        is TransactionFilter.ByCategory, is TransactionFilter.ByCategoryAndType -> {
+            val expense = transactions.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount.minorUnits }
+            if (expense > 0) "−${Money(expense, currency).format()}" else ""
+        }
+    }
+}
 
 private fun LocalDate.toDisplayLabel(): String {
     val day = dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }

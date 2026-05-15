@@ -48,8 +48,12 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun TransactionEditScreen(
     transactionId: TransactionId?,
+    sessionKey: String = "",
     onDismiss: () -> Unit,
-    viewModel: TransactionEditViewModel = koinViewModel(parameters = { parametersOf(transactionId) }),
+    viewModel: TransactionEditViewModel = koinViewModel(
+        key = sessionKey.ifEmpty { transactionId?.value?.toString() ?: "new" },
+        parameters = { parametersOf(transactionId) },
+    ),
 ) {
     val state by viewModel.state.collectAsState()
 

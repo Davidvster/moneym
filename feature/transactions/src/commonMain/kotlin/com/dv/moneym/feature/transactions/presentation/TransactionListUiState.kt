@@ -14,6 +14,7 @@ data class TransactionListUiState(
     val activeFilter: TransactionFilter = TransactionFilter.None,
     val availableCategories: List<Category> = emptyList(),
     val isEmpty: Boolean = false,
+    val monthlySummary: String = "",
 )
 
 data class DayGroup(
