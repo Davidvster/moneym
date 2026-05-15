@@ -29,3 +29,30 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+
+// Core
+include(":core:model")
+include(":core:common")
+include(":core:designsystem")
+include(":core:ui")
+include(":core:database")
+include(":core:datastore")
+include(":core:security")
+include(":core:navigation")
+include(":core:testing")
+
+// Data
+include(":data:transactions")
+include(":data:categories")
+include(":data:accounts")
+include(":data:settings")
+include(":data:backup")
+
+// Features
+include(":feature:transactions")
+include(":feature:transactionEdit")
+include(":feature:overview")
+include(":feature:categories")
+include(":feature:settings")
+include(":feature:security")
+include(":feature:onboarding")

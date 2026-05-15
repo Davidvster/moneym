@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Categories</string>
+    <string name="categories_add">Add category</string>
+    <string name="categories_edit_title">Edit Category</string>
+    <string name="categories_new_title">New Category</string>
+    <string name="categories_name_label">Name</string>
+    <string name="categories_name_error">Name is required</string>
+    <string name="categories_icon_label">Icon</string>
+    <string name="categories_color_label">Color</string>
+    <string name="categories_archive">Archive</string>
+    <string name="categories_restore">Restore</string>
+    <string name="categories_show_archived">Show archived</string>
+    <string name="categories_hide_archived">Hide archived</string>
+    <string name="categories_archived_badge">Archived</string>
+    <string name="categories_empty">No categories yet</string>
+</resources>

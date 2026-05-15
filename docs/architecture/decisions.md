@@ -118,6 +118,14 @@ Format: short title → context → choice → consequences.
 **Decision**: Ship without crash reporting. Use Kermit for in-app logs only. Revisit if we have meaningful user feedback we can't act on.
 **Consequences**: Bugs that crash in production go unreported until a user tells us. Mitigated by: comprehensive tests, ANR/strict-mode in dev, and the fact that Kermit's `LogWriter` extension point lets us add a reporter later without changing log call sites.
 
+## ADR-015 — Project name is "MoneyM"; align directory to match
+
+**Date**: 2026-05-11
+**Status**: Decided
+**Context**: Directory was `MoneyM2`, Gradle `rootProject.name` was `MoneyM`. User confirmed the project name (and user-facing display name) is **MoneyM**, and authorized renaming the directory to match.
+**Decision**: Keep `rootProject.name = "MoneyM"`. The project directory `MoneyM2` is renamed to `MoneyM` outside the agent session. Android `applicationId` / namespace stays `com.dv.moneym`.
+**Consequences**: Internal naming converges on "MoneyM". After the directory rename, all paths use `…/Developer/MoneyM/`. Until that happens, agent tool calls reference `…/Developer/MoneyM2/` — coordinate the rename across sessions to avoid path breakage.
+
 ---
 
 ## Open questions (no ADR yet)

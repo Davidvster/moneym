@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Transazioni</string>
+    <string name="transactions_add">Aggiungi transazione</string>
+    <string name="transactions_filter_all">Tutte</string>
+    <string name="transactions_filter_expenses">Spese</string>
+    <string name="transactions_filter_income">Entrate</string>
+    <string name="transactions_empty">Nessuna transazione questo mese</string>
+    <string name="transactions_previous_month">Mese precedente</string>
+    <string name="transactions_next_month">Mese successivo</string>
+</resources>

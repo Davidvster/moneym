@@ -1,0 +1,37 @@
+CREATE TABLE IF NOT EXISTS Category (
+    id           INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name         TEXT    NOT NULL,
+    icon_key     TEXT    NOT NULL,
+    color_hex    TEXT    NOT NULL,
+    is_user_created INTEGER NOT NULL DEFAULT 0,
+    archived     INTEGER NOT NULL DEFAULT 0,
+    created_at   INTEGER NOT NULL,
+    updated_at   INTEGER NOT NULL
+);
+
+selectAll:
+SELECT * FROM Category ORDER BY name ASC;
+
+selectActive:
+SELECT * FROM Category WHERE archived = 0 ORDER BY name ASC;
+
+selectById:
+SELECT * FROM Category WHERE id = ?;
+
+countAll:
+SELECT COUNT(*) FROM Category;
+
+insert:
+INSERT INTO Category (name, icon_key, color_hex, is_user_created, archived, created_at, updated_at)
+VALUES (?, ?, ?, ?, 0, ?, ?);
+
+updateById:
+UPDATE Category
+SET name = ?, icon_key = ?, color_hex = ?, archived = ?, updated_at = ?
+WHERE id = ?;
+
+deleteById:
+DELETE FROM Category WHERE id = ?;
+
+lastInsertId:
+SELECT last_insert_rowid();

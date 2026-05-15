@@ -1,25 +1,26 @@
 package com.dv.moneym
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.appcompat.app.AppCompatActivity
+import com.dv.moneym.core.security.BiometricAuthenticatorImpl
+import com.dv.moneym.di.androidPlatformModule
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-
+        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        BiometricAuthenticatorImpl.activityRef = this
         setContent {
-            App()
+            App(platformModules = listOf(androidPlatformModule(applicationContext)))
         }
     }
-}
 
-@Preview
-@Composable
-fun AppAndroidPreview() {
-    App()
+    override fun onDestroy() {
+        super.onDestroy()
+        BiometricAuthenticatorImpl.activityRef = null
+    }
 }

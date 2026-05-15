@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Welcome to MoneyM</string>
+    <string name="onboarding_currency_title">Choose your default currency</string>
+    <string name="onboarding_continue">Continue</string>
+    <string name="onboarding_security_title">Secure your app</string>
+    <string name="onboarding_security_subtitle">Protect your financial data with a PIN.</string>
+    <string name="onboarding_pin_label">PIN lock</string>
+    <string name="onboarding_pin_set">PIN is set ✓</string>
+    <string name="onboarding_done">Done</string>
+    <string name="onboarding_skip">Skip for now</string>
+</resources>

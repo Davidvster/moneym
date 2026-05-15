@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Resumen</string>
+    <string name="overview_income">Ingresos</string>
+    <string name="overview_expenses">Gastos</string>
+    <string name="overview_by_category">Gastos por categoría</string>
+    <string name="overview_trend">Tendencia 6 meses</string>
+    <string name="overview_all_categories">Todas las categorías</string>
+    <string name="overview_empty">Sin transacciones este mes</string>
+    <string name="overview_previous_month">Mes anterior</string>
+    <string name="overview_next_month">Mes siguiente</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Panoramica</string>
+    <string name="overview_income">Entrate</string>
+    <string name="overview_expenses">Spese</string>
+    <string name="overview_by_category">Spese per categoria</string>
+    <string name="overview_trend">Tendenza 6 mesi</string>
+    <string name="overview_all_categories">Tutte le categorie</string>
+    <string name="overview_empty">Nessuna transazione questo mese</string>
+    <string name="overview_previous_month">Mese precedente</string>
+    <string name="overview_next_month">Mese successivo</string>
+</resources>

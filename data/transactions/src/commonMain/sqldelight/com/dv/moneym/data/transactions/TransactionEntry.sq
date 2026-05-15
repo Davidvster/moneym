@@ -1,0 +1,61 @@
+-- 'transaction' is a SQLite reserved word; using TransactionEntry instead.
+CREATE TABLE IF NOT EXISTS TransactionEntry (
+    id              INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    type            TEXT    NOT NULL,
+    amount_minor    INTEGER NOT NULL,
+    currency        TEXT    NOT NULL,
+    occurred_on     TEXT    NOT NULL,   -- yyyy-MM-dd
+    note            TEXT,
+    category_id     INTEGER NOT NULL,
+    account_id      INTEGER NOT NULL,
+    recurrence_rule TEXT,               -- reserved for Phase 2+; always NULL in v1
+    created_at      INTEGER NOT NULL,   -- epoch millis
+    updated_at      INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_te_date     ON TransactionEntry(occurred_on);
+CREATE INDEX IF NOT EXISTS idx_te_category ON TransactionEntry(category_id);
+CREATE INDEX IF NOT EXISTS idx_te_account  ON TransactionEntry(account_id);
+
+selectAll:
+SELECT * FROM TransactionEntry ORDER BY occurred_on DESC, created_at DESC;
+
+selectByMonth:
+SELECT * FROM TransactionEntry
+WHERE occurred_on LIKE :yearMonth || '-%'
+ORDER BY occurred_on DESC, created_at DESC;
+
+selectById:
+SELECT * FROM TransactionEntry WHERE id = ?;
+
+selectByCategory:
+SELECT * FROM TransactionEntry
+WHERE category_id = :categoryId
+ORDER BY occurred_on DESC, created_at DESC;
+
+selectByType:
+SELECT * FROM TransactionEntry
+WHERE type = :type
+ORDER BY occurred_on DESC, created_at DESC;
+
+selectByCategoryAndType:
+SELECT * FROM TransactionEntry
+WHERE category_id = :categoryId AND type = :type
+ORDER BY occurred_on DESC, created_at DESC;
+
+insert:
+INSERT INTO TransactionEntry
+    (type, amount_minor, currency, occurred_on, note, category_id, account_id, recurrence_rule, created_at, updated_at)
+VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?, ?);
+
+updateById:
+UPDATE TransactionEntry
+SET type = ?, amount_minor = ?, currency = ?, occurred_on = ?, note = ?,
+    category_id = ?, account_id = ?, updated_at = ?
+WHERE id = ?;
+
+deleteById:
+DELETE FROM TransactionEntry WHERE id = ?;
+
+lastInsertId:
+SELECT last_insert_rowid();

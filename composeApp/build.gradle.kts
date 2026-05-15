@@ -28,6 +28,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.appcompat)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -38,9 +39,38 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            // DI
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            // Logging
+            implementation(libs.kermit)
+            // Settings (needed for DI wiring of DefaultAppSettings)
+            implementation(libs.multiplatform.settings.no.arg)
+            // Core modules
+            implementation(projects.core.model)
+            implementation(projects.core.designsystem)
+            implementation(projects.core.common)
+            implementation(projects.core.datastore)
+            implementation(projects.core.database)
+            implementation(projects.core.security)
+            // Data modules
+            implementation(projects.data.categories)
+            implementation(projects.data.accounts)
+            implementation(projects.data.transactions)
+            implementation(projects.data.backup)
+            // Feature modules
+            implementation(projects.feature.transactions)
+            implementation(projects.feature.transactionEdit)
+            implementation(projects.feature.security)
+            implementation(projects.feature.settings)
+            implementation(projects.feature.categories)
+            implementation(projects.feature.onboarding)
+            implementation(projects.feature.overview)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(projects.core.testing)
         }
     }
 }

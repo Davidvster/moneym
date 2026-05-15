@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">PIN festlegen</string>
+    <string name="security_pin_confirm_title">PIN bestätigen</string>
+    <string name="security_pin_enter_title">PIN eingeben</string>
+    <string name="security_pin_subtitle_first">4-stelligen PIN eingeben</string>
+    <string name="security_pin_subtitle_confirm">PIN erneut eingeben</string>
+    <string name="security_pin_mismatch">PINs stimmen nicht überein</string>
+    <string name="security_pin_incorrect">Falscher PIN</string>
+    <string name="security_pin_locked">Zu viele Versuche</string>
+    <string name="security_biometric_use">Biometrie verwenden</string>
+    <string name="security_biometric_reason">MoneyM entsperren</string>
+</resources>

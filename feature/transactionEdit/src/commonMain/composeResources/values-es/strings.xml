@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="edit_title_add">Añadir Transacción</string>
+    <string name="edit_title_edit">Editar Transacción</string>
+    <string name="edit_type_expense">Gasto</string>
+    <string name="edit_type_income">Ingreso</string>
+    <string name="edit_amount_label">Importe</string>
+    <string name="edit_amount_error">Introduce un importe válido</string>
+    <string name="edit_date_label">Fecha (aaaa-MM-dd)</string>
+    <string name="edit_note_label">Nota (opcional)</string>
+    <string name="edit_category_label">Categoría</string>
+    <string name="edit_category_error">Selecciona una categoría</string>
+    <string name="edit_save">Guardar</string>
+    <string name="edit_delete">Eliminar</string>
+    <string name="edit_close">Cerrar</string>
+    <string name="edit_delete_confirm_title">¿Eliminar transacción?</string>
+    <string name="edit_delete_confirm_body">Esta acción no se puede deshacer.</string>
+    <string name="edit_delete_confirm_ok">Eliminar</string>
+    <string name="edit_delete_confirm_cancel">Cancelar</string>
+</resources>

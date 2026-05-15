@@ -24,7 +24,7 @@ material3 = "1.10.0-alpha05"
 
 # Kotlinx
 kotlinxCoroutines = "1.10.1"
-kotlinxDatetime = "0.6.2"
+kotlinxDatetime = "0.7.0"
 kotlinxSerialization = "1.8.0"
 
 # DI
@@ -36,6 +36,9 @@ multiplatformSettings = "1.2.0"
 
 # Charts
 composeCharts = "0.1.4"
+
+# Icons
+composeIconsCore = "1.7.3"
 
 # Logging
 kermit = "2.0.5"
@@ -99,6 +102,10 @@ multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings
 
 # Charts
 compose-charts = { module = "io.github.ehsannarmani:compose-charts", version.ref = "composeCharts" }
+
+# Icons
+compose-material-icons-core = { module = "org.jetbrains.compose.material:material-icons-core", version.ref = "composeIconsCore" }
+compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "composeIconsCore" }
 
 # Logging
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }

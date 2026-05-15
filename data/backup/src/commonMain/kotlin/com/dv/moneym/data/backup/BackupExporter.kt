@@ -1,0 +1,61 @@
+package com.dv.moneym.data.backup
+
+import com.dv.moneym.core.datastore.AppSettings
+import com.dv.moneym.core.datastore.PrefKeys
+import com.dv.moneym.core.security.SecurityPrefs
+import com.dv.moneym.data.accounts.AccountRepository
+import com.dv.moneym.data.categories.CategoryRepository
+import com.dv.moneym.data.transactions.TransactionRepository
+import kotlin.time.Clock
+import kotlinx.coroutines.flow.first
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+
+class BackupExporter(
+    private val categoryRepository: CategoryRepository,
+    private val accountRepository: AccountRepository,
+    private val transactionRepository: TransactionRepository,
+    private val appSettings: AppSettings,
+) {
+    private val json = Json { prettyPrint = false; encodeDefaults = true }
+
+    suspend fun exportToJson(): String {
+        val categories = categoryRepository.observeAll().first()
+        val accounts = accountRepository.observeAll().first()
+        val transactions = transactionRepository.observeAll().first()
+        val currency = appSettings.getString(PrefKeys.DEFAULT_CURRENCY) ?: "EUR"
+        val lockSeconds = appSettings.getInt(SecurityPrefs.BACKGROUND_LOCK_SECONDS, SecurityPrefs.DEFAULT_LOCK_SECONDS)
+
+        val backup = BackupDto(
+            moneym = BackupMetaDto(
+                exportedAt = Clock.System.now().toString(),
+                defaultCurrency = currency,
+            ),
+            categories = categories.map { it.toDto() },
+            accounts = accounts.map { it.toDto() },
+            transactions = transactions.map { it.toDto() },
+            settings = BackupSettingsDto(
+                backgroundLockSeconds = lockSeconds,
+                defaultCurrency = currency,
+            ),
+        )
+        return json.encodeToString(backup)
+    }
+
+    suspend fun exportToCsv(): String {
+        val transactions = transactionRepository.observeAll().first()
+        val categories = categoryRepository.observeAll().first().associateBy { it.id }
+        val accounts = accountRepository.observeAll().first().associateBy { it.id }
+
+        val sb = StringBuilder()
+        sb.appendLine("date,type,amount,currency,category,account,note")
+        transactions.forEach { txn ->
+            val catName = (categories[txn.categoryId]?.name ?: "").replace(",", ";").replace("\"", "\"\"")
+            val accName = (accounts[txn.accountId]?.name ?: "").replace(",", ";").replace("\"", "\"\"")
+            val note = (txn.note ?: "").replace("\"", "\"\"")
+            val amount = "${txn.amount.minorUnits / 100}.${(txn.amount.minorUnits % 100).toString().padStart(2, '0')}"
+            sb.appendLine("${txn.occurredOn},${txn.type.name},$amount,${txn.amount.currency.value},\"$catName\",\"$accName\",\"$note\"")
+        }
+        return sb.toString()
+    }
+}
