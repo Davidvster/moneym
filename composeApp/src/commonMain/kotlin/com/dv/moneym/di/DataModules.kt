@@ -27,7 +27,7 @@ val dataAccountsModule = module {
         AccountsDatabase(get<SqlDriverFactory>().create(AccountsDatabase.Schema, "moneym_accounts.db"))
     }
     single<AccountRepository> { createAccountRepository(get(), get()) }
-    single { SeedAccountsUseCase(get()) }
+    single { SeedAccountsUseCase(get(), get()) }
 }
 
 val dataTransactionsModule = module {

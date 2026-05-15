@@ -11,6 +11,7 @@ kotlin {
     androidTarget {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
+            freeCompilerArgs.add("-Xexpect-actual-classes")
         }
     }
     
@@ -18,6 +19,11 @@ kotlin {
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
+        iosTarget.compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions { freeCompilerArgs.add("-Xexpect-actual-classes") }
+            }
+        }
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
@@ -93,6 +99,14 @@ android {
     }
     buildTypes {
         getByName("release") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
+        }
+        getByName("debug") {
             isMinifyEnabled = false
         }
     }

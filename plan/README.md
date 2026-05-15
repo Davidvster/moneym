@@ -21,7 +21,7 @@ Architecture, conventions, and rationale live in [`/docs/architecture/`](../docs
 | Phase 5 — Categories + onboarding | [phase-5-categories-onboarding.md](phase-5-categories-onboarding.md) | ✅ Done |
 | Phase 6 — Overview / analytics | [phase-6-overview.md](phase-6-overview.md) | ✅ Done |
 | Phase 7 — Import / export | [phase-7-import-export.md](phase-7-import-export.md) | ✅ Done |
-| Phase 8 — Polish + release prep | [phase-8-polish.md](phase-8-polish.md) | 📝 Sketch |
+| Phase 8 — Polish + release prep | [phase-8-polish.md](phase-8-polish.md) | ✅ Done (code deliverables) |
 
 Legend: ✅ done · 🔄 in progress · ⏳ ready (waiting on user) · 📝 sketched (will expand when started)
 

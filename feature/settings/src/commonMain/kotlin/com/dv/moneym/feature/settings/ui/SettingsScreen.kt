@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -120,7 +120,7 @@ private fun SettingsContent(
                 }
             }
             Spacer(Modifier.height(sp.md))
-            Divider()
+            HorizontalDivider()
             Spacer(Modifier.height(sp.md))
             Text(
                 "Data",
@@ -134,7 +134,7 @@ private fun SettingsContent(
                 Text("Manage Categories", modifier = Modifier.fillMaxWidth())
             }
             Spacer(Modifier.height(sp.md))
-            Divider()
+            HorizontalDivider()
             Spacer(Modifier.height(sp.md))
             Text("Backup", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
             Spacer(Modifier.height(sp.sm))
@@ -147,6 +147,7 @@ private fun SettingsContent(
                 }
             }
             // Exported content display
+            @Suppress("DEPRECATION")
             val clipboard = LocalClipboardManager.current
             val exported = state.exportedJson
             if (exported != null) {
