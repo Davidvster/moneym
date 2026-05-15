@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MoneyM — Redesign</title>
+<link rel="stylesheet" href="tokens.css" />
+<style>
+  html, body, #root { height: 100%; margin: 0; padding: 0; background: #f0eee9; }
+  body { font-family: 'Geist', -apple-system, system-ui, sans-serif; }
+
+  /* Phone shell — neutral container, not OS-specific */
+  .phone {
+    width: 390px; height: 100%;
+    border-radius: 44px;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 20px 60px rgba(0,0,0,0.06);
+    isolation: isolate;
+  }
+  .phone.dark {
+    background: #0A0A0A;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 60px rgba(0,0,0,0.2);
+  }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="ui-primitives.jsx"></script>
+<script type="text/babel" src="foundations.jsx"></script>
+<script type="text/babel" src="components.jsx"></script>
+<script type="text/babel" src="screens.jsx"></script>
+
+<script type="text/babel">
+const {
+  DesignCanvas, DCSection, DCArtboard,
+  PrinciplesCard, TypeCard, NeutralsCard, CategoriesCard, SpacingCard,
+  ButtonsCard, TogglesCard, SegmentedChipsCard, FieldsCard,
+  CategoryIconsCard, ListRowsCard, MoneyCard,
+  NavCard, KeypadCard, ChartsCard,
+  PinScreen, TransactionsScreen, AddTxScreen,
+  OverviewMonthScreen, OverviewYearScreen, SettingsScreen,
+  CategoryPickerScreen,
+  CurrencyPickerScreen, LanguagePickerScreen,
+  ManageCategoriesScreen, NewCategorySheet,
+  TxListDisplayScreen,
+} = window;
+
+// Phone shell wrapper for screens
+function Phone({ dark, children }) {
+  return (
+    <div className={`phone ${dark ? 'dark' : ''}`}>
+      {children}
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <DesignCanvas>
+      {/* ─── Intro ────────────────────────────────────────────── */}
+      <DCSection id="intro" title="MoneyM" subtitle="A redesign — neutral, minimal, platform-agnostic. Category color reserved for category identity. Green accent only for the affirm action and income.">
+        <DCArtboard id="principles" label="Aesthetic principles" width={720} height={520}>
+          <PrinciplesCard />
+        </DCArtboard>
+      </DCSection>
+
+      {/* ─── Foundations ──────────────────────────────────────── */}
+      <DCSection id="foundations" title="Foundations" subtitle="Type, color, spacing — the design system core.">
+        <DCArtboard id="type"       label="Typography"          width={720} height={680}><TypeCard /></DCArtboard>
+        <DCArtboard id="neutrals"   label="Neutrals · light + dark" width={720} height={560}><NeutralsCard /></DCArtboard>
+        <DCArtboard id="cats"       label="Category palette"    width={560} height={680}><CategoriesCard /></DCArtboard>
+        <DCArtboard id="spacing"    label="Spacing · radius · accent" width={560} height={680}><SpacingCard /></DCArtboard>
+      </DCSection>
+
+      {/* ─── Components ───────────────────────────────────────── */}
+      <DCSection id="components" title="Components" subtitle="Each component shown in both light and dark. Includes disabled states.">
+        <DCArtboard id="buttons"  label="Buttons · all variants + disabled" width={720} height={580}><ButtonsCard /></DCArtboard>
+        <DCArtboard id="toggles"  label="Toggles + disabled"   width={720} height={520}><TogglesCard /></DCArtboard>
+        <DCArtboard id="segs"     label="Segmented · Chips"    width={720} height={500}><SegmentedChipsCard /></DCArtboard>
+        <DCArtboard id="fields"   label="Fields"               width={720} height={360}><FieldsCard /></DCArtboard>
+        <DCArtboard id="caticons" label="CategoryIcon variants" width={720} height={520}><CategoryIconsCard /></DCArtboard>
+        <DCArtboard id="rows"     label="List rows"            width={720} height={560}><ListRowsCard /></DCArtboard>
+        <DCArtboard id="money"    label="Money display"        width={720} height={520}><MoneyCard /></DCArtboard>
+        <DCArtboard id="nav"      label="Status & tab bar"     width={720} height={400}><NavCard /></DCArtboard>
+        <DCArtboard id="keypad"   label="Numeric keypad"       width={720} height={420}><KeypadCard /></DCArtboard>
+        <DCArtboard id="charts"   label="Donut · Sparklines"   width={720} height={560}><ChartsCard /></DCArtboard>
+      </DCSection>
+
+      {/* ─── Screens — Light ─────────────────────────────────── */}
+      <DCSection id="light" title="Screens — Light" subtitle="All flows. Tap any artboard to focus.">
+        <DCArtboard id="l-pin"      label="01 · Lock screen"      width={390} height={844}><Phone><PinScreen /></Phone></DCArtboard>
+        <DCArtboard id="l-tx"       label="02 · Transactions"     width={390} height={980}><Phone><TransactionsScreen /></Phone></DCArtboard>
+        <DCArtboard id="l-add"      label="03 · New transaction"  width={390} height={900}><Phone><AddTxScreen /></Phone></DCArtboard>
+        <DCArtboard id="l-edit"     label="04 · Edit transaction" width={390} height={900}><Phone><AddTxScreen editing /></Phone></DCArtboard>
+        <DCArtboard id="l-month"    label="05 · Overview · Month" width={390} height={1880}><Phone><OverviewMonthScreen /></Phone></DCArtboard>
+        <DCArtboard id="l-year"     label="06 · Overview · Year"  width={390} height={1900}><Phone><OverviewYearScreen /></Phone></DCArtboard>
+        <DCArtboard id="l-settings" label="07 · Settings"         width={390} height={1180}><Phone><SettingsScreen /></Phone></DCArtboard>
+        <DCArtboard id="l-picker"   label="08 · Category picker"  width={390} height={900}><Phone><CategoryPickerScreen /></Phone></DCArtboard>
+        <DCArtboard id="l-currency" label="09 · Currency picker"  width={390} height={1280}><Phone><CurrencyPickerScreen /></Phone></DCArtboard>
+        <DCArtboard id="l-lang"     label="10 · Language picker"  width={390} height={1380}><Phone><LanguagePickerScreen /></Phone></DCArtboard>
+        <DCArtboard id="l-cats"     label="11 · Manage categories" width={390} height={1020}><Phone><ManageCategoriesScreen /></Phone></DCArtboard>
+        <DCArtboard id="l-newcat"   label="12 · New category"     width={390} height={1020}><Phone><NewCategorySheet /></Phone></DCArtboard>
+        <DCArtboard id="l-display"  label="13 · List display"     width={390} height={1240}><Phone><TxListDisplayScreen /></Phone></DCArtboard>
+      </DCSection>
+
+      {/* ─── Screens — Dark ──────────────────────────────────── */}
+      <DCSection id="dark" title="Screens — Dark" subtitle="Same flows, dark theme. Identical hierarchy via mirrored neutral ramps.">
+        <DCArtboard id="d-pin"      label="01 · Lock screen"      width={390} height={844}><Phone dark><PinScreen dark /></Phone></DCArtboard>
+        <DCArtboard id="d-tx"       label="02 · Transactions"     width={390} height={980}><Phone dark><TransactionsScreen dark /></Phone></DCArtboard>
+        <DCArtboard id="d-add"      label="03 · New transaction"  width={390} height={900}><Phone dark><AddTxScreen dark /></Phone></DCArtboard>
+        <DCArtboard id="d-edit"     label="04 · Edit transaction" width={390} height={900}><Phone dark><AddTxScreen dark editing /></Phone></DCArtboard>
+        <DCArtboard id="d-month"    label="05 · Overview · Month" width={390} height={1880}><Phone dark><OverviewMonthScreen dark /></Phone></DCArtboard>
+        <DCArtboard id="d-year"     label="06 · Overview · Year"  width={390} height={1900}><Phone dark><OverviewYearScreen dark /></Phone></DCArtboard>
+        <DCArtboard id="d-settings" label="07 · Settings"         width={390} height={1180}><Phone dark><SettingsScreen dark /></Phone></DCArtboard>
+        <DCArtboard id="d-picker"   label="08 · Category picker"  width={390} height={900}><Phone dark><CategoryPickerScreen dark /></Phone></DCArtboard>
+        <DCArtboard id="d-currency" label="09 · Currency picker"  width={390} height={1280}><Phone dark><CurrencyPickerScreen dark /></Phone></DCArtboard>
+        <DCArtboard id="d-lang"     label="10 · Language picker"  width={390} height={1380}><Phone dark><LanguagePickerScreen dark /></Phone></DCArtboard>
+        <DCArtboard id="d-cats"     label="11 · Manage categories" width={390} height={1020}><Phone dark><ManageCategoriesScreen dark /></Phone></DCArtboard>
+        <DCArtboard id="d-newcat"   label="12 · New category"     width={390} height={1020}><Phone dark><NewCategorySheet dark /></Phone></DCArtboard>
+        <DCArtboard id="d-display"  label="13 · List display"     width={390} height={1240}><Phone dark><TxListDisplayScreen dark /></Phone></DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+// Mount once all babel scripts have parsed. Babel runs scripts in order with
+// micro-tasks, so wait one tick to ensure window.* is populated.
+setTimeout(() => {
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+}, 50);
+</script>
+</body>
+</html>

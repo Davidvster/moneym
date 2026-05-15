@@ -3,60 +3,92 @@ package com.dv.moneym.core.designsystem
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-// Light palette
-private val Light_Background = Color(0xFFFAFAFA)
-private val Light_Surface = Color(0xFFFFFFFF)
-private val Light_SurfaceVariant = Color(0xFFF2F2F2)
-private val Light_OnBackground = Color(0xFF0A0A0A)
-private val Light_OnSurface = Color(0xFF0A0A0A)
-private val Light_OnSurfaceVariant = Color(0xFF5C5C5C)
-private val Light_Outline = Color(0xFFD6D6D6)
-private val Light_OutlineVariant = Color(0xFFEAEAEA)
-private val Light_Primary = Color(0xFF0A0A0A)
-private val Light_OnPrimary = Color(0xFFFFFFFF)
-private val Light_Error = Color(0xFF7A1F1F)
+// ─── Semantic token layer ────────────────────────────────────
 
-// Dark palette
-private val Dark_Background = Color(0xFF0B0B0B)
-private val Dark_Surface = Color(0xFF141414)
-private val Dark_SurfaceVariant = Color(0xFF1E1E1E)
-private val Dark_OnBackground = Color(0xFFF2F2F2)
-private val Dark_OnSurface = Color(0xFFF2F2F2)
-private val Dark_OnSurfaceVariant = Color(0xFF9C9C9C)
-private val Dark_Outline = Color(0xFF2E2E2E)
-private val Dark_OutlineVariant = Color(0xFF1E1E1E)
-private val Dark_Primary = Color(0xFFF2F2F2)
-private val Dark_OnPrimary = Color(0xFF0A0A0A)
-private val Dark_Error = Color(0xFFC46A6A)
+@Immutable
+data class MoneyMColors(
+    val bg: Color,
+    val surface: Color,
+    val surface2: Color,
+    val border: Color,
+    val borderStrong: Color,
+    val divider: Color,
+    val text: Color,
+    val text2: Color,
+    val text3: Color,
+    val accent: Color = Color(0xFF16A34A),
+    val danger: Color = Color(0xFFDC2626),
+    // Category palette — same in both modes
+    val catHealth: Color        = Color(0xFFC2566B),
+    val catEntertainment: Color = Color(0xFF8B6FB0),
+    val catSalary: Color        = Color(0xFF4A8E5C),
+    val catTransport: Color     = Color(0xFF4F8694),
+    val catUtilities: Color     = Color(0xFFB89148),
+    val catGroceries: Color     = Color(0xFF7A9572),
+    val catEatingOut: Color     = Color(0xFFC97A4F),
+    val catRent: Color          = Color(0xFF5A7BA8),
+    val catShopping: Color      = Color(0xFFB07089),
+    val catOther: Color         = Color(0xFF8A8A8A),
+)
+
+val MoneyMLight = MoneyMColors(
+    bg           = Color(0xFFFFFFFF),
+    surface      = Color(0xFFFAFAFA),
+    surface2     = Color(0xFFF4F4F4),
+    border       = Color(0xFFECECEC),
+    borderStrong = Color(0xFFD4D4D4),
+    divider      = Color(0xFFF0F0F0),
+    text         = Color(0xFF0A0A0A),
+    text2        = Color(0xFF6B6B6B),
+    text3        = Color(0xFFA3A3A3),
+)
+
+val MoneyMDark = MoneyMColors(
+    bg           = Color(0xFF0A0A0A),
+    surface      = Color(0xFF141414),
+    surface2     = Color(0xFF1C1C1C),
+    border       = Color(0xFF232323),
+    borderStrong = Color(0xFF353535),
+    divider      = Color(0xFF1E1E1E),
+    text         = Color(0xFFFAFAFA),
+    text2        = Color(0xFFA3A3A3),
+    text3        = Color(0xFF6B6B6B),
+)
+
+val LocalMoneyMColors = staticCompositionLocalOf<MoneyMColors> { MoneyMLight }
+
+// ─── M3 shim — kept during screen migration, removed in Phase 8 ─
 
 fun lightMoneyMColorScheme(): ColorScheme = lightColorScheme(
-    background = Light_Background,
-    surface = Light_Surface,
-    surfaceVariant = Light_SurfaceVariant,
-    onBackground = Light_OnBackground,
-    onSurface = Light_OnSurface,
-    onSurfaceVariant = Light_OnSurfaceVariant,
-    outline = Light_Outline,
-    outlineVariant = Light_OutlineVariant,
-    primary = Light_Primary,
-    onPrimary = Light_OnPrimary,
-    error = Light_Error,
-    onError = Color(0xFFFFFFFF),
+    background = MoneyMLight.bg,
+    surface = MoneyMLight.surface,
+    surfaceVariant = MoneyMLight.surface2,
+    onBackground = MoneyMLight.text,
+    onSurface = MoneyMLight.text,
+    onSurfaceVariant = MoneyMLight.text2,
+    outline = MoneyMLight.border,
+    outlineVariant = MoneyMLight.divider,
+    primary = MoneyMLight.text,
+    onPrimary = MoneyMLight.bg,
+    error = MoneyMLight.danger,
+    onError = MoneyMLight.bg,
 )
 
 fun darkMoneyMColorScheme(): ColorScheme = darkColorScheme(
-    background = Dark_Background,
-    surface = Dark_Surface,
-    surfaceVariant = Dark_SurfaceVariant,
-    onBackground = Dark_OnBackground,
-    onSurface = Dark_OnSurface,
-    onSurfaceVariant = Dark_OnSurfaceVariant,
-    outline = Dark_Outline,
-    outlineVariant = Dark_OutlineVariant,
-    primary = Dark_Primary,
-    onPrimary = Dark_OnPrimary,
-    error = Dark_Error,
-    onError = Color(0xFF141414),
+    background = MoneyMDark.bg,
+    surface = MoneyMDark.surface,
+    surfaceVariant = MoneyMDark.surface2,
+    onBackground = MoneyMDark.text,
+    onSurface = MoneyMDark.text,
+    onSurfaceVariant = MoneyMDark.text2,
+    outline = MoneyMDark.border,
+    outlineVariant = MoneyMDark.divider,
+    primary = MoneyMDark.text,
+    onPrimary = MoneyMDark.bg,
+    error = MoneyMDark.danger,
+    onError = MoneyMDark.bg,
 )

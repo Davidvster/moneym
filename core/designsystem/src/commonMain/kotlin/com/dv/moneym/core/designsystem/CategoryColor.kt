@@ -2,10 +2,23 @@ package com.dv.moneym.core.designsystem
 
 import androidx.compose.ui.graphics.Color
 
+// Design palette — same in light and dark mode
 val defaultCategoryColors = listOf(
-    Color(0xFF7E9C8C), Color(0xFFC97B57), Color(0xFF5F6F8A), Color(0xFF3B7080),
-    Color(0xFFB89A4B), Color(0xFF9B5C7D), Color(0xFF7C5C9B), Color(0xFF6D6D6D),
-    Color(0xFF4A7A56), Color(0xFFB0623B), Color(0xFF4D6E92), Color(0xFF8A8A8A),
+    Color(0xFFC2566B), // Health
+    Color(0xFF8B6FB0), // Entertainment
+    Color(0xFF4A8E5C), // Salary
+    Color(0xFF4F8694), // Transport
+    Color(0xFFB89148), // Utilities
+    Color(0xFF7A9572), // Groceries
+    Color(0xFFC97A4F), // Eating out
+    Color(0xFF5A7BA8), // Rent
+    Color(0xFFB07089), // Shopping
+    Color(0xFF8A8A8A), // Other
+    Color(0xFFD14C7A),
+    Color(0xFF6B5BC4),
+    Color(0xFF3F9E70),
+    Color(0xFF3A82A5),
+    Color(0xFFD88B33),
 )
 
 private val fallbackColor = Color(0xFF8A8A8A)
