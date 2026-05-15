@@ -48,13 +48,14 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.dv.moneym.core.navigation.ModalKey
 import kotlinx.serialization.Serializable
 import org.koin.core.parameter.parametersOf
 
 @Serializable data class TransactionEditKey(
     val id: Long? = null,
     val sessionKey: String = kotlin.random.Random.nextLong().toString(),
-) : NavKey
+) : ModalKey
 
 fun EntryProviderScope<NavKey>.transactionEditEntry(
     onDismiss: () -> Unit,

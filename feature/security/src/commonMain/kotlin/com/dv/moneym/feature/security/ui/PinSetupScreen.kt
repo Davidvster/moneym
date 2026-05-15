@@ -32,10 +32,11 @@ import moneym.feature.security.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.EntryProviderScope
+import com.dv.moneym.core.navigation.ModalKey
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 
-@Serializable data object PinSetupKey : NavKey
+@Serializable data object PinSetupKey : ModalKey
 
 fun EntryProviderScope<NavKey>.pinSetupEntry(onDone: () -> Unit, metadata: Map<String, Any> = emptyMap()) = entry<PinSetupKey>(metadata = metadata) {
     PinSetupScreen(onDone = onDone)

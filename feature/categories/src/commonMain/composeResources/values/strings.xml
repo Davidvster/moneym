@@ -16,4 +16,6 @@
     <string name="categories_empty">No categories yet</string>
     <string name="categories_back">Back</string>
     <string name="categories_show_archived_count">Show archived (%1$d)</string>
+    <string name="categories_cancel">Cancel</string>
+    <string name="categories_save">Save</string>
 </resources>

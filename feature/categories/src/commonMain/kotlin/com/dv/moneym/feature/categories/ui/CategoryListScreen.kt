@@ -40,10 +40,11 @@ import moneym.feature.categories.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.EntryProviderScope
+import com.dv.moneym.core.navigation.ModalKey
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 
-@Serializable data object CategoriesKey : NavKey
+@Serializable data object CategoriesKey : ModalKey
 
 fun EntryProviderScope<NavKey>.categoriesEntry(
     onEditCategory: (com.dv.moneym.core.model.CategoryId?) -> Unit,

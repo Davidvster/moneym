@@ -39,8 +39,19 @@ import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.feature.categories.presentation.CategoryEditEffect
 import com.dv.moneym.feature.categories.presentation.CategoryEditIntent
 import com.dv.moneym.feature.categories.presentation.CategoryEditViewModel
+import moneym.feature.categories.generated.resources.Res
+import moneym.feature.categories.generated.resources.categories_cancel
+import moneym.feature.categories.generated.resources.categories_color_label
+import moneym.feature.categories.generated.resources.categories_edit_title
+import moneym.feature.categories.generated.resources.categories_icon_label
+import moneym.feature.categories.generated.resources.categories_name_error
+import moneym.feature.categories.generated.resources.categories_name_label
+import moneym.feature.categories.generated.resources.categories_new_title
+import moneym.feature.categories.generated.resources.categories_save
+import org.jetbrains.compose.resources.stringResource
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.EntryProviderScope
+import com.dv.moneym.core.navigation.ModalKey
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -48,7 +59,7 @@ import org.koin.core.parameter.parametersOf
 @Serializable data class CategoryEditKey(
     val id: Long? = null,
     val sessionKey: String = kotlin.random.Random.nextLong().toString(),
-) : NavKey
+) : ModalKey
 
 fun EntryProviderScope<NavKey>.categoryEditEntry(onDismiss: () -> Unit, metadata: Map<String, Any> = emptyMap()) = entry<CategoryEditKey>(metadata = metadata) { key ->
     CategoryEditScreen(
@@ -73,7 +84,7 @@ fun CategoryEditScreen(
         viewModel.effects.collect { if (it == CategoryEditEffect.Saved) onDismiss() }
     }
     CategoryEditContent(
-        title = if (state.isEditMode) "Edit Category" else "New Category",
+        title = if (state.isEditMode) stringResource(Res.string.categories_edit_title) else stringResource(Res.string.categories_new_title),
         name = state.name,
         nameError = state.nameError,
         selectedIconKey = state.selectedIconKey,
@@ -101,12 +112,12 @@ private fun CategoryEditContent(
                 title = { Text(title) },
                 navigationIcon = {
                     IconButton(onClick = onDismiss) {
-                        Icon(MoneyMIcons.Clear, contentDescription = "Cancel")
+                        Icon(MoneyMIcons.Clear, contentDescription = stringResource(Res.string.categories_cancel))
                     }
                 },
                 actions = {
                     IconButton(onClick = { onIntent(CategoryEditIntent.SaveRequested) }) {
-                        Icon(MoneyMIcons.Check, contentDescription = "Save")
+                        Icon(MoneyMIcons.Check, contentDescription = stringResource(Res.string.categories_save))
                     }
                 },
             )
@@ -122,13 +133,13 @@ private fun CategoryEditContent(
             OutlinedTextField(
                 value = name,
                 onValueChange = { onIntent(CategoryEditIntent.NameChanged(it)) },
-                label = { Text("Name") },
+                label = { Text(stringResource(Res.string.categories_name_label)) },
                 isError = nameError,
-                supportingText = if (nameError) ({ Text("Name is required") }) else null,
+                supportingText = if (nameError) ({ Text(stringResource(Res.string.categories_name_error)) }) else null,
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
-            Text("Icon", style = MaterialTheme.typography.labelMedium,
+            Text(stringResource(Res.string.categories_icon_label), style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(48.dp),
@@ -156,7 +167,7 @@ private fun CategoryEditContent(
                     }
                 }
             }
-            Text("Color", style = MaterialTheme.typography.labelMedium,
+            Text(stringResource(Res.string.categories_color_label), style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(40.dp),

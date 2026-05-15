@@ -16,4 +16,6 @@
     <string name="categories_empty">Nessuna categoria</string>
     <string name="categories_back">Indietro</string>
     <string name="categories_show_archived_count">Mostra archiviate (%1$d)</string>
+    <string name="categories_cancel">Annulla</string>
+    <string name="categories_save">Salva</string>
 </resources>
