@@ -18,4 +18,19 @@
     <string name="categories_show_archived_count">Mostra archiviate (%1$d)</string>
     <string name="categories_cancel">Annulla</string>
     <string name="categories_save">Salva</string>
+    <string name="categories_new_button">Nuova</string>
+    <string name="categories_tab_expense">Spesa</string>
+    <string name="categories_tab_income">Entrata</string>
+    <string name="categories_hint">Tieni premuto per riordinare</string>
+    <string name="categories_new_expense">Nuova categoria di spesa</string>
+    <string name="categories_new_income">Nuova categoria di entrata</string>
+    <string name="categories_name_placeholder">es. Spesa alimentare</string>
+    <string name="categories_edit_sheet_title">Modifica categoria</string>
+    <string name="categories_new_sheet_title">Nuova categoria</string>
+    <string name="categories_delete">Elimina categoria</string>
+    <string name="categories_save_changes">Salva modifiche</string>
+    <string name="categories_create">Crea categoria</string>
+    <string name="categories_delete_confirm_title">Eliminare "%1$s"?</string>
+    <string name="categories_delete_confirm_body">Questo rimuoverà la categoria. Le transazioni che la usano potrebbero essere interessate.</string>
+    <string name="categories_delete_button">Elimina</string>
 </resources>

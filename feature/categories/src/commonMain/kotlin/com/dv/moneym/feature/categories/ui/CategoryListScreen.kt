@@ -73,6 +73,13 @@ import com.dv.moneym.feature.categories.presentation.CategoryListIntent
 import com.dv.moneym.feature.categories.presentation.CategoryListViewModel
 import com.dv.moneym.feature.categories.presentation.CategoryTab
 import kotlinx.serialization.Serializable
+import moneym.feature.categories.generated.resources.Res
+import moneym.feature.categories.generated.resources.categories_cancel
+import moneym.feature.categories.generated.resources.categories_color_label
+import moneym.feature.categories.generated.resources.categories_icon_label
+import moneym.feature.categories.generated.resources.categories_name_label
+import moneym.feature.categories.generated.resources.categories_title
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
@@ -146,7 +153,7 @@ private fun ManageCategoriesScreen(
             .background(colors.bg),
     ) {
         ScreenHeader(
-            title = "Categories",
+            title = stringResource(Res.string.categories_title),
             onBack = onBack,
             trailingContent = {
                 MmButton(
@@ -211,13 +218,21 @@ private fun ManageCategoriesScreen(
                                 onDrag = { change, dragAmount ->
                                     change.consume()
                                     dragOffsetY += dragAmount.y
-                                    val itemHeight = 56f
-                                    val targetIndex = (index + (dragOffsetY / itemHeight).toInt())
-                                        .coerceIn(0, categories.size - 1)
-                                    if (targetIndex != draggingIndex) {
-                                        onReorder(draggingIndex, targetIndex)
-                                        draggingIndex = targetIndex
-                                        dragOffsetY = 0f
+                                    // Use actual item height from layout info, fallback to 64dp
+                                    val itemHeight = listState.layoutInfo.visibleItemsInfo
+                                        .firstOrNull { it.index == draggingIndex }
+                                        ?.size?.toFloat() ?: 64f
+                                    val stepsFloat = dragOffsetY / itemHeight
+                                    val steps = stepsFloat.toInt()
+                                    if (steps != 0) {
+                                        val targetIndex = (draggingIndex + steps)
+                                            .coerceIn(0, categories.size - 1)
+                                        if (targetIndex != draggingIndex) {
+                                            onReorder(draggingIndex, targetIndex)
+                                            draggingIndex = targetIndex
+                                            // Subtract the amount we moved, keeping remaining offset
+                                            dragOffsetY -= steps * itemHeight
+                                        }
                                     }
                                 },
                                 onDragEnd = { draggingIndex = -1; dragOffsetY = 0f },
@@ -428,14 +443,14 @@ private fun NewCategorySheet(
             MmField(
                 value = name,
                 onValueChange = { name = it },
-                label = "Name",
+                label = stringResource(Res.string.categories_name_label),
                 placeholder = "e.g. Groceries",
                 modifier = Modifier.fillMaxWidth(),
             )
 
             Spacer(modifier = Modifier.height(24.dp))
             Text(
-                text = "Color",
+                text = stringResource(Res.string.categories_color_label),
                 style = MM.type.caption.copy(color = colors.text2),
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -454,7 +469,7 @@ private fun NewCategorySheet(
 
             Spacer(modifier = Modifier.height(24.dp))
             Text(
-                text = "Icon",
+                text = stringResource(Res.string.categories_icon_label),
                 style = MM.type.caption.copy(color = colors.text2),
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -591,7 +606,7 @@ private fun DeleteConfirmSheet(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 MmButton(
-                    text = "Cancel",
+                    text = stringResource(Res.string.categories_cancel),
                     onClick = onCancel,
                     variant = MmButtonVariant.Secondary,
                     modifier = Modifier.weight(1f),

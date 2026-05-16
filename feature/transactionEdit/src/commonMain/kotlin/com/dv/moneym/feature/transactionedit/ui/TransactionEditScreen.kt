@@ -16,17 +16,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -37,6 +40,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -69,8 +73,12 @@ import com.dv.moneym.feature.transactionedit.presentation.TransactionEditEffect
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditIntent
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditUiState
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditViewModel
+import kotlinx.coroutines.delay
+import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.minus
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
@@ -135,6 +143,20 @@ private fun TransactionEditContent(
 
     val focusRequester = remember { FocusRequester() }
 
+    // Auto-focus the amount field for new transactions
+    LaunchedEffect(state.isEditMode) {
+        if (!state.isEditMode) {
+            delay(150)
+            runCatching { focusRequester.requestFocus() }
+        }
+    }
+
+    // Compute today and yesterday dates
+    val todayDate = remember {
+        kotlin.time.Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+    }
+    val yesterdayDate = remember { todayDate.minus(DatePeriod(days = 1)) }
+
     // Derive currency code from selected account
     val currencyCode = remember(state.selectedAccountId, state.availableAccounts) {
         state.availableAccounts
@@ -148,35 +170,23 @@ private fun TransactionEditContent(
     val formattedAmount = if (amountValue == 0.0) {
         "0.00"
     } else {
-        // Format to 2 decimal places
         val major = amountValue.toLong()
         val fractional = ((amountValue - major.toDouble()) * 100).toLong().coerceAtLeast(0L)
         "$major.${fractional.toString().padStart(2, '0')}"
     }
 
-    // Delete confirm dialog
+    // Delete confirmation bottom sheet
     if (showDeleteDialog) {
-        AlertDialog(
-            onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Delete transaction") },
-            text = { Text("This can't be undone.") },
-            confirmButton = {
-                TextButton(onClick = {
-                    onIntent(TransactionEditIntent.DeleteConfirmed)
-                    showDeleteDialog = false
-                }) {
-                    Text("Delete", color = colors.danger)
-                }
+        TransactionDeleteSheet(
+            onConfirm = {
+                onIntent(TransactionEditIntent.DeleteConfirmed)
+                showDeleteDialog = false
             },
-            dismissButton = {
-                TextButton(onClick = { showDeleteDialog = false }) {
-                    Text("Cancel")
-                }
-            },
+            onCancel = { showDeleteDialog = false },
         )
     }
 
-    // Date picker dialog
+    // Date picker dialog with Today/Yesterday quick buttons
     if (showDatePicker) {
         val initialMillis = state.date
             ?.atStartOfDayIn(TimeZone.UTC)
@@ -187,16 +197,35 @@ private fun TransactionEditContent(
         DatePickerDialog(
             onDismissRequest = { showDatePicker = false },
             confirmButton = {
-                TextButton(onClick = {
-                    datePickerState.selectedDateMillis?.let { millis ->
-                        // Convert millis back to LocalDate
-                        val instant = kotlin.time.Instant.fromEpochMilliseconds(millis)
-                        val localDate = instant.toLocalDateTime(TimeZone.UTC).date
-                        onIntent(TransactionEditIntent.DateChanged(localDate))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                ) {
+                    // Yesterday quick button
+                    TextButton(onClick = {
+                        onIntent(TransactionEditIntent.DateChanged(yesterdayDate))
+                        showDatePicker = false
+                    }) {
+                        Text("Yesterday", color = colors.text2)
                     }
-                    showDatePicker = false
-                }) {
-                    Text("OK")
+                    // Today quick button
+                    TextButton(onClick = {
+                        onIntent(TransactionEditIntent.DateChanged(todayDate))
+                        showDatePicker = false
+                    }) {
+                        Text("Today", color = colors.accent)
+                    }
+                    // OK button
+                    TextButton(onClick = {
+                        datePickerState.selectedDateMillis?.let { millis ->
+                            val instant = kotlin.time.Instant.fromEpochMilliseconds(millis)
+                            val localDate = instant.toLocalDateTime(TimeZone.UTC).date
+                            onIntent(TransactionEditIntent.DateChanged(localDate))
+                        }
+                        showDatePicker = false
+                    }) {
+                        Text("OK", color = colors.accent)
+                    }
                 }
             },
         ) {
@@ -318,8 +347,8 @@ private fun TransactionEditContent(
                 )
             }
 
-            // Date field
-            val dateText = state.date?.toString() ?: ""
+            // Date field — shows friendly date label; tapping opens date picker
+            val dateText = state.date?.toFriendlyString(todayDate, yesterdayDate) ?: ""
             MmField(
                 value = dateText,
                 onValueChange = {},
@@ -398,6 +427,92 @@ private fun TransactionEditContent(
         }
     }
 }
+
+// ─── Date formatting ─────────────────────────────────────────────────────────
+
+private fun LocalDate.toFriendlyString(today: LocalDate, yesterday: LocalDate): String = when (this) {
+    today -> "Today"
+    yesterday -> "Yesterday"
+    else -> {
+        val dayName = dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }.take(3)
+        val monthName = month.name.lowercase().replaceFirstChar { it.uppercase() }.take(3)
+        val yearSuffix = if (year != today.year) " $year" else ""
+        "$dayName, $monthName $dayOfMonth$yearSuffix"
+    }
+}
+
+// ─── Delete sheet ─────────────────────────────────────────────────────────────
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TransactionDeleteSheet(
+    onConfirm: () -> Unit,
+    onCancel: () -> Unit,
+) {
+    val colors = MM.colors
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    ModalBottomSheet(
+        onDismissRequest = onCancel,
+        sheetState = sheetState,
+        shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
+        containerColor = colors.bg,
+        dragHandle = null,
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 20.dp, vertical = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            // Grab handle
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(width = 36.dp, height = 4.dp)
+                        .clip(RoundedCornerShape(50))
+                        .background(colors.borderStrong),
+                )
+            }
+            Text(
+                text = "Delete transaction?",
+                style = MM.type.title3,
+                color = colors.text,
+                textAlign = TextAlign.Center,
+            )
+            Text(
+                text = "This cannot be undone.",
+                style = MM.type.caption,
+                color = colors.text2,
+                textAlign = TextAlign.Center,
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                MmButton(
+                    text = "Cancel",
+                    onClick = onCancel,
+                    variant = MmButtonVariant.Secondary,
+                    modifier = Modifier.weight(1f),
+                )
+                MmButton(
+                    text = "Delete",
+                    onClick = onConfirm,
+                    variant = MmButtonVariant.Danger,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
+}
+
+// ─── Category chip ────────────────────────────────────────────────────────────
 
 @Composable
 private fun CategoryChip(

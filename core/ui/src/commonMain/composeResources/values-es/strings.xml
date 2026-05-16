@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Transacciones</string>
+    <string name="tab_overview">Resumen</string>
+    <string name="tab_settings">Ajustes</string>
+</resources>

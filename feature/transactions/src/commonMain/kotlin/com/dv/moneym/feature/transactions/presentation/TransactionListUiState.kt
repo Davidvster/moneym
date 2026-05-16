@@ -19,6 +19,7 @@ data class TransactionListUiState(
     val netAmount: Long = 0L,
     val netCurrency: String = "EUR",
     val txDisplayPrefs: TxDisplayPrefs = TxDisplayPrefs(),
+    val searchQuery: String = "",
 )
 
 data class DayGroup(

@@ -6,6 +6,7 @@ import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.security.BiometricAuthenticator
 import com.dv.moneym.core.security.BiometricResult
+import com.dv.moneym.core.security.BiometryType
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.core.security.SecurityPrefs
 import kotlinx.coroutines.channels.Channel
@@ -35,11 +36,13 @@ class PinUnlockViewModel(
 
     init {
         val biometricEnabled = settings.getBoolean(SecurityPrefs.BIOMETRIC_ENABLED)
+        val biometricAvailable = biometricEnabled && biometricAuth.isAvailable
         _state.update {
             it.copy(
                 failedAttempts = pinManager.failedAttempts(),
                 backoffRemainingMs = pinManager.backoffRemainingMs(),
-                biometricAvailable = biometricEnabled && biometricAuth.isAvailable,
+                biometricAvailable = biometricAvailable,
+                biometryType = if (biometricAvailable) biometricAuth.biometryType else BiometryType.None,
             )
         }
         startBackoffTimer()

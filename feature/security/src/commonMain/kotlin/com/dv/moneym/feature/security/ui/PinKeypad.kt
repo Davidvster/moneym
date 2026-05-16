@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.security.BiometryType
 import com.dv.moneym.core.ui.MmIcons
 
 // Each keypad cell: 80x72dp, 16dp radius, surface bg, 1dp border
@@ -103,21 +104,24 @@ fun PinKeypad(
     onKey: (Char) -> Unit,
     onDelete: () -> Unit,
     onBiometric: (() -> Unit)? = null,
+    biometryType: BiometryType = BiometryType.Fingerprint,
     modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
     val type = MM.type
-
-    // Row 1: 1 2 3
-    // Row 2: 4 5 6
-    // Row 3: 7 8 9
-    // Row 4: [biometric/empty] [0] [backspace]
 
     val digitStyle = type.title2.copy(
         fontSize = 28.sp,
         fontWeight = FontWeight.Normal,
         color = colors.text,
     )
+
+    // Select biometric icon based on type
+    val biometricIcon = when (biometryType) {
+        BiometryType.FaceId -> MmIcons.faceId
+        BiometryType.Fingerprint -> MmIcons.fingerprint
+        BiometryType.None -> MmIcons.fingerprint
+    }
 
     Column(
         modifier = modifier,
@@ -140,7 +144,7 @@ fun PinKeypad(
             // Biometric or spacer
             if (onBiometric != null) {
                 TransparentKeyCell(onClick = onBiometric) {
-                    val painter = rememberVectorPainter(MmIcons.faceId)
+                    val painter = rememberVectorPainter(biometricIcon)
                     Image(
                         painter = painter,
                         contentDescription = "Use biometric",

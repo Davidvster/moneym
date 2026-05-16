@@ -13,9 +13,15 @@ actual class BiometricAuthenticatorImpl actual constructor() : BiometricAuthenti
         get() {
             val activity = activityRef ?: return false
             val mgr = BiometricManager.from(activity)
-            return mgr.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) ==
-                BiometricManager.BIOMETRIC_SUCCESS
+            val allowedAuth = BiometricManager.Authenticators.BIOMETRIC_STRONG or
+                BiometricManager.Authenticators.BIOMETRIC_WEAK
+            return mgr.canAuthenticate(allowedAuth) == BiometricManager.BIOMETRIC_SUCCESS
         }
+
+    // Android does not easily distinguish Face vs Fingerprint without API 30+;
+    // return Fingerprint as a safe default for all Android biometrics.
+    override val biometryType: BiometryType
+        get() = if (isAvailable) BiometryType.Fingerprint else BiometryType.None
 
     override suspend fun authenticate(reason: String): BiometricResult {
         val activity = activityRef ?: return BiometricResult.Error("No activity")
@@ -40,6 +46,10 @@ actual class BiometricAuthenticatorImpl actual constructor() : BiometricAuthenti
             val info = BiometricPrompt.PromptInfo.Builder()
                 .setTitle("MoneyM")
                 .setSubtitle(reason)
+                .setAllowedAuthenticators(
+                    BiometricManager.Authenticators.BIOMETRIC_STRONG or
+                        BiometricManager.Authenticators.BIOMETRIC_WEAK
+                )
                 .setNegativeButtonText("Use PIN")
                 .build()
             prompt.authenticate(info)

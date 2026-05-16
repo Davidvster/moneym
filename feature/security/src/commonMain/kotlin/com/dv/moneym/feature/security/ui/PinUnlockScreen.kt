@@ -168,6 +168,7 @@ private fun PinUnlockContent(
             } else {
                 null
             },
+            biometryType = state.biometryType,
         )
     }
 }

@@ -1,6 +1,8 @@
 package com.dv.moneym.feature.transactions.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,15 +16,24 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -35,9 +46,11 @@ import com.dv.moneym.core.designsystem.iconForKey
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
+import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
+import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmMoney
@@ -101,6 +114,12 @@ private fun TransactionListContent(
     val type = MM.type
     val monthLabel = monthLabel(state.currentMonth.year, state.currentMonth.monthNumber)
 
+    // Search toggle — local UI state
+    var isSearchActive by remember { mutableStateOf(false) }
+
+    // Month picker dialog toggle
+    var showMonthPicker by remember { mutableStateOf(false) }
+
     // Convert filter to segmented index: 0=All, 1=Expenses, 2=Income
     val selectedFilterIndex = when (val f = state.activeFilter) {
         is TransactionFilter.None -> 0
@@ -111,6 +130,19 @@ private fun TransactionListContent(
     // Net amount as Double (from minor units, divide by 100)
     val netDouble = state.netAmount / 100.0
 
+    // Month picker dialog
+    if (showMonthPicker) {
+        MonthPickerDialog(
+            currentYear = state.currentMonth.year,
+            currentMonth = state.currentMonth.monthNumber,
+            onDismiss = { showMonthPicker = false },
+            onConfirm = { year, month ->
+                onIntent(TransactionListIntent.MonthSelected(YearMonth(year, month)))
+                showMonthPicker = false
+            },
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -120,21 +152,51 @@ private fun TransactionListContent(
         Column(
             modifier = Modifier.statusBarsPadding().padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 12.dp),
         ) {
-            // Title row
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = "Transactions",
-                    style = type.title1,
-                    color = colors.text,
-                    modifier = Modifier.weight(1f),
-                )
-                MmIconButton(
-                    icon = MmIcons.search,
-                    onClick = { /* TODO search */ },
-                    contentDescription = "Search",
-                )
+            // Title row — or search bar when active
+            if (isSearchActive) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(bottom = 4.dp),
+                ) {
+                    MmField(
+                        value = state.searchQuery,
+                        onValueChange = { onIntent(TransactionListIntent.SearchQueryChanged(it)) },
+                        placeholder = "Search transactions…",
+                        prefix = {
+                            Icon(
+                                imageVector = MmIcons.search,
+                                contentDescription = null,
+                                tint = colors.text3,
+                                modifier = Modifier.size(18.dp),
+                            )
+                        },
+                        modifier = Modifier.weight(1f),
+                    )
+                    MmIconButton(
+                        icon = MmIcons.close,
+                        onClick = {
+                            isSearchActive = false
+                            onIntent(TransactionListIntent.SearchQueryChanged(""))
+                        },
+                        contentDescription = "Close search",
+                    )
+                }
+            } else {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = stringResource(Res.string.transactions_title),
+                        style = type.title1,
+                        color = colors.text,
+                        modifier = Modifier.weight(1f),
+                    )
+                    MmIconButton(
+                        icon = MmIcons.search,
+                        onClick = { isSearchActive = true },
+                        contentDescription = "Search",
+                    )
+                }
             }
 
             // Month navigation row
@@ -148,13 +210,25 @@ private fun TransactionListContent(
                     size = 32.dp,
                     contentDescription = stringResource(Res.string.transactions_previous_month),
                 )
-                Text(
-                    text = monthLabel,
-                    style = type.body,
-                    color = colors.text,
-                    modifier = Modifier.widthIn(min = 96.dp),
-                    textAlign = TextAlign.Center,
-                )
+                // Tapping the month label opens the month picker popup
+                Box(
+                    modifier = Modifier
+                        .widthIn(min = 96.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .clickable(
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() },
+                        ) { showMonthPicker = true }
+                        .padding(horizontal = 4.dp, vertical = 2.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = monthLabel,
+                        style = type.body,
+                        color = colors.text,
+                        textAlign = TextAlign.Center,
+                    )
+                }
                 MmIconButton(
                     icon = MmIcons.chevronRight,
                     onClick = { onIntent(TransactionListIntent.NextMonth) },
@@ -289,7 +363,7 @@ private fun TransactionListContent(
                     .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 16.dp),
             ) {
                 MmButton(
-                    text = "New transaction",
+                    text = stringResource(Res.string.transactions_add),
                     onClick = onAddTransaction,
                     variant = MmButtonVariant.Primary,
                     size = MmButtonSize.Lg,
@@ -304,6 +378,119 @@ private fun TransactionListContent(
         }
     }
 }
+
+// ─── Month Picker Dialog ──────────────────────────────────────────────────────
+
+@Composable
+private fun MonthPickerDialog(
+    currentYear: Int,
+    currentMonth: Int,
+    onDismiss: () -> Unit,
+    onConfirm: (year: Int, month: Int) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+
+    var selectedYear by remember { mutableIntStateOf(currentYear) }
+    var selectedMonth by remember { mutableIntStateOf(currentMonth) }
+
+    val monthNames = listOf(
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+    )
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = "Select Month",
+                style = type.title3,
+                color = colors.text,
+            )
+        },
+        text = {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                // Year selection row
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    MmIconButton(
+                        icon = MmIcons.chevronLeft,
+                        onClick = { selectedYear-- },
+                        size = 32.dp,
+                        contentDescription = "Previous year",
+                    )
+                    Text(
+                        text = selectedYear.toString(),
+                        style = type.body,
+                        color = colors.text,
+                        modifier = Modifier.widthIn(min = 64.dp),
+                        textAlign = TextAlign.Center,
+                    )
+                    MmIconButton(
+                        icon = MmIcons.chevronRight,
+                        onClick = { selectedYear++ },
+                        size = 32.dp,
+                        contentDescription = "Next year",
+                    )
+                }
+
+                // Month grid — 4 rows × 3 columns
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    for (row in 0..3) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly,
+                        ) {
+                            for (col in 0..2) {
+                                val m = row * 3 + col + 1
+                                val isSelected = m == selectedMonth
+                                Box(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(
+                                            if (isSelected) colors.accent else Color.Transparent,
+                                        )
+                                        .clickable(
+                                            indication = null,
+                                            interactionSource = remember { MutableInteractionSource() },
+                                        ) { selectedMonth = m }
+                                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    Text(
+                                        text = monthNames[m - 1],
+                                        style = type.body,
+                                        color = if (isSelected) colors.bg else colors.text,
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = { onConfirm(selectedYear, selectedMonth) }) {
+                Text("OK", color = colors.accent)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel", color = colors.text2)
+            }
+        },
+        containerColor = colors.surface,
+        titleContentColor = colors.text,
+    )
+}
+
+// ─── Month label helper ────────────────────────────────────────────────────────
 
 @Composable
 private fun monthLabel(year: Int, month: Int): String {

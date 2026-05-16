@@ -32,6 +32,11 @@ import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import androidx.compose.ui.tooling.preview.Preview
+import moneym.core.ui.generated.resources.Res
+import moneym.core.ui.generated.resources.tab_overview
+import moneym.core.ui.generated.resources.tab_settings
+import moneym.core.ui.generated.resources.tab_transactions
+import org.jetbrains.compose.resources.stringResource
 
 enum class TabRoute { Transactions, Overview, Settings }
 
@@ -45,9 +50,9 @@ fun MmTabBar(
     val dividerColor = colors.border
 
     val tabs = listOf(
-        Triple(TabRoute.Transactions, MmIcons.list, "Transactions"),
-        Triple(TabRoute.Overview, MmIcons.chart, "Overview"),
-        Triple(TabRoute.Settings, MmIcons.settings, "Settings"),
+        Triple(TabRoute.Transactions, MmIcons.list, stringResource(Res.string.tab_transactions)),
+        Triple(TabRoute.Overview, MmIcons.chart, stringResource(Res.string.tab_overview)),
+        Triple(TabRoute.Settings, MmIcons.settings, stringResource(Res.string.tab_settings)),
     )
 
     Column(

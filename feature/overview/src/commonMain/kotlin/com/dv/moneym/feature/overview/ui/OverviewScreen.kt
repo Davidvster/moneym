@@ -237,57 +237,65 @@ private fun OverviewContent(
             ) { period ->
                 val inMonthMode = period is OverviewPeriod.Month
                 Column(modifier = Modifier.fillMaxWidth()) {
-                    // Income + Expenses cards
-                    Row(
+
+                    // ── Income + Expenses — stacked two-row card ──────────────
+                    // Two-row layout prevents amount overflow on wide values
+                    MmCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        padded = true,
+                        shape = MM.radius.md,
                     ) {
-                        MmCard(modifier = Modifier.weight(1f), padded = true, shape = MM.radius.md) {
-                            Column {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
-                                ) {
-                                    Icon(
-                                        imageVector = MmIcons.arrowDown,
-                                        contentDescription = null,
-                                        tint = colors.accent,
-                                        modifier = Modifier.size(12.dp),
-                                    )
-                                    SectionLabel(stringResource(Res.string.overview_label_income))
-                                }
-                                Spacer(Modifier.height(6.dp))
-                                MmMoney(
-                                    value = state.income,
-                                    size = 20.sp,
-                                    weight = FontWeight.SemiBold,
-                                    color = colors.accent,
-                                )
-                            }
+                        // Income row
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        ) {
+                            Icon(
+                                imageVector = MmIcons.arrowDown,
+                                contentDescription = null,
+                                tint = colors.accent,
+                                modifier = Modifier.size(12.dp),
+                            )
+                            SectionLabel(
+                                text = stringResource(Res.string.overview_label_income),
+                                modifier = Modifier.weight(1f),
+                            )
+                            MmMoney(
+                                value = state.income,
+                                size = 17.sp,
+                                weight = FontWeight.SemiBold,
+                                color = colors.accent,
+                                currency = currencyCode,
+                            )
                         }
-                        MmCard(modifier = Modifier.weight(1f), padded = true, shape = MM.radius.md) {
-                            Column {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
-                                ) {
-                                    Icon(
-                                        imageVector = MmIcons.arrowUp,
-                                        contentDescription = null,
-                                        tint = colors.text,
-                                        modifier = Modifier.size(12.dp),
-                                    )
-                                    SectionLabel(stringResource(Res.string.overview_label_expenses))
-                                }
-                                Spacer(Modifier.height(6.dp))
-                                MmMoney(
-                                    value = state.expenses,
-                                    size = 20.sp,
-                                    weight = FontWeight.SemiBold,
-                                )
-                            }
+                        Spacer(Modifier.height(10.dp))
+                        HorizontalDivider(color = colors.divider, thickness = 1.dp)
+                        Spacer(Modifier.height(10.dp))
+                        // Expenses row
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        ) {
+                            Icon(
+                                imageVector = MmIcons.arrowUp,
+                                contentDescription = null,
+                                tint = colors.text,
+                                modifier = Modifier.size(12.dp),
+                            )
+                            SectionLabel(
+                                text = stringResource(Res.string.overview_label_expenses),
+                                modifier = Modifier.weight(1f),
+                            )
+                            MmMoney(
+                                value = state.expenses,
+                                size = 17.sp,
+                                weight = FontWeight.SemiBold,
+                                currency = currencyCode,
+                            )
                         }
                     }
 

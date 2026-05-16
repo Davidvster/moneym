@@ -18,4 +18,19 @@
     <string name="categories_show_archived_count">Archivierte anzeigen (%1$d)</string>
     <string name="categories_cancel">Abbrechen</string>
     <string name="categories_save">Speichern</string>
+    <string name="categories_new_button">Neu</string>
+    <string name="categories_tab_expense">Ausgabe</string>
+    <string name="categories_tab_income">Einnahme</string>
+    <string name="categories_hint">Gedrückt halten zum Sortieren</string>
+    <string name="categories_new_expense">Neue Ausgabenkategorie</string>
+    <string name="categories_new_income">Neue Einnahmekategorie</string>
+    <string name="categories_name_placeholder">z.B. Lebensmittel</string>
+    <string name="categories_edit_sheet_title">Kategorie bearbeiten</string>
+    <string name="categories_new_sheet_title">Neue Kategorie</string>
+    <string name="categories_delete">Kategorie löschen</string>
+    <string name="categories_save_changes">Änderungen speichern</string>
+    <string name="categories_create">Kategorie erstellen</string>
+    <string name="categories_delete_confirm_title">"%1$s" löschen?</string>
+    <string name="categories_delete_confirm_body">Die Kategorie wird entfernt. Betroffene Transaktionen können beeinflusst werden.</string>
+    <string name="categories_delete_button">Löschen</string>
 </resources>

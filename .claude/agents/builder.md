@@ -15,7 +15,7 @@ tools:
   - Glob
   - Grep
   - LS
-permissionMode: bypassPermissions
+permissionMode: acceptEdits
 maxTurns: 60
 color: cyan
 ---

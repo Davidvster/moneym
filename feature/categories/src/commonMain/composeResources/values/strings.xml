@@ -18,4 +18,19 @@
     <string name="categories_show_archived_count">Show archived (%1$d)</string>
     <string name="categories_cancel">Cancel</string>
     <string name="categories_save">Save</string>
+    <string name="categories_new_button">New</string>
+    <string name="categories_tab_expense">Expense</string>
+    <string name="categories_tab_income">Income</string>
+    <string name="categories_hint">long-press to reorder</string>
+    <string name="categories_new_expense">New expense category</string>
+    <string name="categories_new_income">New income category</string>
+    <string name="categories_name_placeholder">e.g. Groceries</string>
+    <string name="categories_edit_sheet_title">Edit category</string>
+    <string name="categories_new_sheet_title">New category</string>
+    <string name="categories_delete">Delete category</string>
+    <string name="categories_save_changes">Save changes</string>
+    <string name="categories_create">Create category</string>
+    <string name="categories_delete_confirm_title">Delete "%1$s"?</string>
+    <string name="categories_delete_confirm_body">This will remove the category. Transactions using it may be affected.</string>
+    <string name="categories_delete_button">Delete</string>
 </resources>

@@ -35,15 +35,17 @@ class TransactionListViewModel(
     private val today = clock.today()
     private val _currentMonth = MutableStateFlow(YearMonth(today.year, today.monthNumber))
     private val _filter = MutableStateFlow<TransactionFilter>(TransactionFilter.None)
+    private val _searchQuery = MutableStateFlow("")
 
     val state = combine(
         _currentMonth,
         _filter,
+        _searchQuery,
         categoryRepository.observeAll(),
         appSettingsRepository.observeTxDisplayPrefs(),
-    ) { month, filter, cats, prefs ->
-        Quad(month, filter, cats, prefs)
-    }.flatMapLatest { (month, filter, categories, prefs) ->
+    ) { month, filter, query, cats, prefs ->
+        Quint(month, filter, query, cats, prefs)
+    }.flatMapLatest { (month, filter, searchQuery, categories, prefs) ->
         val catMap = categories.associateBy { it.id }
         val txnFlow = if (filter == TransactionFilter.None) {
             transactionRepository.observeByMonth(month.year, month.monthNumber)
@@ -64,6 +66,21 @@ class TransactionListViewModel(
                 }
                 .sortedByDescending { it.date }
 
+            // Apply search filter
+            val filteredGroups = if (searchQuery.isBlank()) {
+                dayGroups
+            } else {
+                val q = searchQuery.trim().lowercase()
+                dayGroups.mapNotNull { group ->
+                    val matchingTxns = group.transactions.filter { tx ->
+                        tx.categoryName.lowercase().contains(q) ||
+                            (tx.note?.lowercase()?.contains(q) == true)
+                    }
+                    if (matchingTxns.isEmpty()) null
+                    else group.copy(transactions = matchingTxns)
+                }
+            }
+
             // Net amount: income positive, expenses negative (in minor units)
             val netMinor = transactions.sumOf { tx ->
                 if (tx.type == TransactionType.INCOME) tx.amount.minorUnits
@@ -74,19 +91,22 @@ class TransactionListViewModel(
             TransactionListUiState(
                 isLoading = false,
                 currentMonth = month,
-                dayGroups = dayGroups,
+                dayGroups = filteredGroups,
                 activeFilter = filter,
                 availableCategories = categories,
-                isEmpty = dayGroups.isEmpty(),
+                isEmpty = filteredGroups.isEmpty(),
                 monthlySummary = buildSummary(transactions, filter),
                 netAmount = netMinor,
                 netCurrency = netCurrency,
                 txDisplayPrefs = prefs,
+                searchQuery = searchQuery,
             )
         }
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
+        // Use Eagerly so the flow stays active while the edit modal is shown —
+        // this ensures DB deletions/additions are never missed.
+        started = SharingStarted.Eagerly,
         initialValue = TransactionListUiState(),
     )
 
@@ -95,16 +115,19 @@ class TransactionListViewModel(
             TransactionListIntent.PreviousMonth -> _currentMonth.update { it.previous() }
             TransactionListIntent.NextMonth -> _currentMonth.update { it.next() }
             is TransactionListIntent.FilterChanged -> _filter.update { intent.filter }
+            is TransactionListIntent.SearchQueryChanged -> _searchQuery.update { intent.query }
+            is TransactionListIntent.MonthSelected -> _currentMonth.update { intent.yearMonth }
         }
     }
 }
 
-private data class Quad<A, B, C, D>(val a: A, val b: B, val c: C, val d: D)
+private data class Quint<A, B, C, D, E>(val a: A, val b: B, val c: C, val d: D, val e: E)
 
-private operator fun <A, B, C, D> Quad<A, B, C, D>.component1() = a
-private operator fun <A, B, C, D> Quad<A, B, C, D>.component2() = b
-private operator fun <A, B, C, D> Quad<A, B, C, D>.component3() = c
-private operator fun <A, B, C, D> Quad<A, B, C, D>.component4() = d
+private operator fun <A, B, C, D, E> Quint<A, B, C, D, E>.component1() = a
+private operator fun <A, B, C, D, E> Quint<A, B, C, D, E>.component2() = b
+private operator fun <A, B, C, D, E> Quint<A, B, C, D, E>.component3() = c
+private operator fun <A, B, C, D, E> Quint<A, B, C, D, E>.component4() = d
+private operator fun <A, B, C, D, E> Quint<A, B, C, D, E>.component5() = e
 
 private fun Transaction.toUiModel(category: Category?) = TransactionUiModel(
     id = id,
