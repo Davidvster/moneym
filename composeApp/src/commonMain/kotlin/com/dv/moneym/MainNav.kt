@@ -1,9 +1,8 @@
 package com.dv.moneym
 
+import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -61,8 +60,10 @@ internal fun MainNav(lockController: AppLockController) {
         onBack = { tabBackStack.removeLast() },
         transitionSpec = {
             when {
-                targetState.key is ModalKey ->
-                    slideInVertically(spring(dampingRatio = 0.85f, stiffness = Spring.StiffnessMediumLow)) { it } togetherWith ExitTransition.None
+                initialState.key is ModalKey -> ContentTransform(
+                    slideInVertically(animationSpec = tween(350)),
+                    slideOutVertically(animationSpec = tween(350)),
+                )
                 else -> {
                     val fromKey = initialState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
                     val toKey = targetState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
@@ -76,8 +77,27 @@ internal fun MainNav(lockController: AppLockController) {
         },
         popTransitionSpec = {
             when {
-                initialState.key is ModalKey ->
-                    EnterTransition.None togetherWith slideOutVertically(tween(300)) { it }
+                initialState.key is ModalKey -> ContentTransform(
+                    slideInVertically(animationSpec = tween(350)),
+                    slideOutVertically(animationSpec = tween(350)),
+                )
+                else -> {
+                    val fromKey = initialState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+                    val toKey = targetState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+                    val dir = tabSlideDirection(fromKey, toKey)
+                    if (dir != 0)
+                        slideInHorizontally(tween(300)) { -it * dir } togetherWith slideOutHorizontally(tween(300)) { it * dir }
+                    else
+                        fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+                }
+            }
+        },
+        predictivePopTransitionSpec = {
+            when {
+                initialState.key is ModalKey -> ContentTransform(
+                    slideInVertically(animationSpec = tween(350)),
+                    slideOutVertically(animationSpec = tween(350)),
+                )
                 else -> {
                     val fromKey = initialState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
                     val toKey = targetState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))

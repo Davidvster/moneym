@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.MoneyM" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.MoneyM" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Splash screen colours (API 31+) -->
         <item name="android:windowSplashScreenBackground">#0A0A0A</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
