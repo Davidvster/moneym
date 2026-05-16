@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="edit_title_add">Transaktion hinzufügen</string>
+    <string name="edit_title_add">Neue Transaktion</string>
     <string name="edit_title_edit">Transaktion bearbeiten</string>
     <string name="edit_type_expense">Ausgabe</string>
     <string name="edit_type_income">Einnahme</string>
     <string name="edit_amount_label">Betrag</string>
     <string name="edit_amount_error">Gültigen Betrag eingeben</string>
-    <string name="edit_date_label">Datum (jjjj-MM-tt)</string>
+    <string name="edit_date_label">Datum</string>
+    <string name="edit_date_today">Heute</string>
+    <string name="edit_date_yesterday">Gestern</string>
+    <string name="edit_date_ok">OK</string>
     <string name="edit_note_label">Notiz (optional)</string>
+    <string name="edit_note_placeholder">Notiz hinzufügen…</string>
     <string name="edit_category_label">Kategorie</string>
     <string name="edit_category_error">Kategorie auswählen</string>
     <string name="edit_save">Speichern</string>
+    <string name="edit_save_changes">Änderungen speichern</string>
+    <string name="edit_add_transaction">Transaktion hinzufügen</string>
     <string name="edit_delete">Löschen</string>
     <string name="edit_close">Schließen</string>
     <string name="edit_delete_confirm_title">Transaktion löschen?</string>

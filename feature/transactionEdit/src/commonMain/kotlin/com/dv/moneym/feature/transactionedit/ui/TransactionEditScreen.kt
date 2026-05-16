@@ -73,6 +73,26 @@ import com.dv.moneym.feature.transactionedit.presentation.TransactionEditEffect
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditIntent
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditUiState
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditViewModel
+import moneym.feature.transactionedit.generated.resources.Res
+import moneym.feature.transactionedit.generated.resources.edit_add_transaction
+import moneym.feature.transactionedit.generated.resources.edit_amount_label
+import moneym.feature.transactionedit.generated.resources.edit_category_label
+import moneym.feature.transactionedit.generated.resources.edit_date_label
+import moneym.feature.transactionedit.generated.resources.edit_date_ok
+import moneym.feature.transactionedit.generated.resources.edit_date_today
+import moneym.feature.transactionedit.generated.resources.edit_date_yesterday
+import moneym.feature.transactionedit.generated.resources.edit_delete_confirm_body
+import moneym.feature.transactionedit.generated.resources.edit_delete_confirm_cancel
+import moneym.feature.transactionedit.generated.resources.edit_delete_confirm_ok
+import moneym.feature.transactionedit.generated.resources.edit_delete_confirm_title
+import moneym.feature.transactionedit.generated.resources.edit_note_label
+import moneym.feature.transactionedit.generated.resources.edit_note_placeholder
+import moneym.feature.transactionedit.generated.resources.edit_save_changes
+import moneym.feature.transactionedit.generated.resources.edit_title_add
+import moneym.feature.transactionedit.generated.resources.edit_title_edit
+import moneym.feature.transactionedit.generated.resources.edit_type_expense
+import moneym.feature.transactionedit.generated.resources.edit_type_income
+import org.jetbrains.compose.resources.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
@@ -206,14 +226,14 @@ private fun TransactionEditContent(
                         onIntent(TransactionEditIntent.DateChanged(yesterdayDate))
                         showDatePicker = false
                     }) {
-                        Text("Yesterday", color = colors.text2)
+                        Text(stringResource(Res.string.edit_date_yesterday), color = colors.text2)
                     }
                     // Today quick button
                     TextButton(onClick = {
                         onIntent(TransactionEditIntent.DateChanged(todayDate))
                         showDatePicker = false
                     }) {
-                        Text("Today", color = colors.accent)
+                        Text(stringResource(Res.string.edit_date_today), color = colors.accent)
                     }
                     // OK button
                     TextButton(onClick = {
@@ -224,7 +244,7 @@ private fun TransactionEditContent(
                         }
                         showDatePicker = false
                     }) {
-                        Text("OK", color = colors.accent)
+                        Text(stringResource(Res.string.edit_date_ok), color = colors.accent)
                     }
                 }
             },
@@ -252,7 +272,7 @@ private fun TransactionEditContent(
                 onClick = onDismiss,
             )
             Text(
-                text = if (state.isEditMode) "Edit transaction" else "New transaction",
+                text = if (state.isEditMode) stringResource(Res.string.edit_title_edit) else stringResource(Res.string.edit_title_add),
                 style = type.title3,
                 color = colors.text,
                 modifier = Modifier.weight(1f),
@@ -279,7 +299,7 @@ private fun TransactionEditContent(
         ) {
             // Expense / Income segmented
             MmSegmented(
-                options = listOf("Expense", "Income"),
+                options = listOf(stringResource(Res.string.edit_type_expense), stringResource(Res.string.edit_type_income)),
                 selectedIndex = if (state.type == TransactionType.EXPENSE) 0 else 1,
                 onOptionSelected = { index ->
                     onIntent(
@@ -301,7 +321,7 @@ private fun TransactionEditContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = "AMOUNT",
+                    text = stringResource(Res.string.edit_amount_label).uppercase(),
                     style = type.micro,
                     color = colors.text3,
                 )
@@ -348,11 +368,13 @@ private fun TransactionEditContent(
             }
 
             // Date field — shows friendly date label; tapping opens date picker
-            val dateText = state.date?.toFriendlyString(todayDate, yesterdayDate) ?: ""
+            val todayLabel = stringResource(Res.string.edit_date_today)
+            val yesterdayLabel = stringResource(Res.string.edit_date_yesterday)
+            val dateText = state.date?.toFriendlyString(todayDate, yesterdayDate, todayLabel, yesterdayLabel) ?: ""
             MmField(
                 value = dateText,
                 onValueChange = {},
-                label = "Date",
+                label = stringResource(Res.string.edit_date_label),
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -370,8 +392,8 @@ private fun TransactionEditContent(
             MmField(
                 value = state.note,
                 onValueChange = { onIntent(TransactionEditIntent.NoteChanged(it)) },
-                label = "Note (optional)",
-                placeholder = "Add a note...",
+                label = stringResource(Res.string.edit_note_label),
+                placeholder = stringResource(Res.string.edit_note_placeholder),
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -379,7 +401,7 @@ private fun TransactionEditContent(
 
             // Category picker
             Text(
-                text = "CATEGORY",
+                text = stringResource(Res.string.edit_category_label).uppercase(),
                 style = type.micro,
                 color = colors.text3,
             )
@@ -416,7 +438,7 @@ private fun TransactionEditContent(
                 .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 16.dp),
         ) {
             MmButton(
-                text = if (state.isEditMode) "Save changes" else "Add transaction",
+                text = if (state.isEditMode) stringResource(Res.string.edit_save_changes) else stringResource(Res.string.edit_add_transaction),
                 onClick = { onIntent(TransactionEditIntent.SaveRequested) },
                 variant = MmButtonVariant.Accent,
                 size = MmButtonSize.Lg,
@@ -430,9 +452,9 @@ private fun TransactionEditContent(
 
 // ─── Date formatting ─────────────────────────────────────────────────────────
 
-private fun LocalDate.toFriendlyString(today: LocalDate, yesterday: LocalDate): String = when (this) {
-    today -> "Today"
-    yesterday -> "Yesterday"
+private fun LocalDate.toFriendlyString(today: LocalDate, yesterday: LocalDate, todayLabel: String, yesterdayLabel: String): String = when (this) {
+    today -> todayLabel
+    yesterday -> yesterdayLabel
     else -> {
         val dayName = dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }.take(3)
         val monthName = month.name.lowercase().replaceFirstChar { it.uppercase() }.take(3)
@@ -479,13 +501,13 @@ private fun TransactionDeleteSheet(
                 )
             }
             Text(
-                text = "Delete transaction?",
+                text = stringResource(Res.string.edit_delete_confirm_title),
                 style = MM.type.title3,
                 color = colors.text,
                 textAlign = TextAlign.Center,
             )
             Text(
-                text = "This cannot be undone.",
+                text = stringResource(Res.string.edit_delete_confirm_body),
                 style = MM.type.caption,
                 color = colors.text2,
                 textAlign = TextAlign.Center,
@@ -495,13 +517,13 @@ private fun TransactionDeleteSheet(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 MmButton(
-                    text = "Cancel",
+                    text = stringResource(Res.string.edit_delete_confirm_cancel),
                     onClick = onCancel,
                     variant = MmButtonVariant.Secondary,
                     modifier = Modifier.weight(1f),
                 )
                 MmButton(
-                    text = "Delete",
+                    text = stringResource(Res.string.edit_delete_confirm_ok),
                     onClick = onConfirm,
                     variant = MmButtonVariant.Danger,
                     modifier = Modifier.weight(1f),

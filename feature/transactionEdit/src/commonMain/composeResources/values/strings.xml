@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="edit_title_add">Add Transaction</string>
-    <string name="edit_title_edit">Edit Transaction</string>
+    <string name="edit_title_add">New transaction</string>
+    <string name="edit_title_edit">Edit transaction</string>
     <string name="edit_type_expense">Expense</string>
     <string name="edit_type_income">Income</string>
     <string name="edit_amount_label">Amount</string>
     <string name="edit_amount_error">Enter a valid amount</string>
-    <string name="edit_date_label">Date (yyyy-MM-dd)</string>
+    <string name="edit_date_label">Date</string>
+    <string name="edit_date_today">Today</string>
+    <string name="edit_date_yesterday">Yesterday</string>
+    <string name="edit_date_ok">OK</string>
     <string name="edit_note_label">Note (optional)</string>
+    <string name="edit_note_placeholder">Add a note…</string>
     <string name="edit_category_label">Category</string>
     <string name="edit_category_error">Select a category</string>
     <string name="edit_save">Save</string>
+    <string name="edit_save_changes">Save changes</string>
+    <string name="edit_add_transaction">Add transaction</string>
     <string name="edit_delete">Delete</string>
     <string name="edit_close">Close</string>
     <string name="edit_delete_confirm_title">Delete transaction?</string>
