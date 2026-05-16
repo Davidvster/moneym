@@ -3,11 +3,13 @@ package com.dv.moneym.feature.transactions.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
+import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.TransactionFilter
+import com.dv.moneym.core.model.TxDisplayPrefs
 import kotlin.math.abs
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
@@ -26,6 +28,7 @@ import kotlinx.datetime.LocalDate
 class TransactionListViewModel(
     private val transactionRepository: TransactionRepository,
     private val categoryRepository: CategoryRepository,
+    private val appSettingsRepository: AppSettingsRepository,
     clock: AppClock,
 ) : ViewModel() {
 
@@ -33,9 +36,14 @@ class TransactionListViewModel(
     private val _currentMonth = MutableStateFlow(YearMonth(today.year, today.monthNumber))
     private val _filter = MutableStateFlow<TransactionFilter>(TransactionFilter.None)
 
-    val state = combine(_currentMonth, _filter, categoryRepository.observeAll()) { month, filter, cats ->
-        Triple(month, filter, cats)
-    }.flatMapLatest { (month, filter, categories) ->
+    val state = combine(
+        _currentMonth,
+        _filter,
+        categoryRepository.observeAll(),
+        appSettingsRepository.observeTxDisplayPrefs(),
+    ) { month, filter, cats, prefs ->
+        Quad(month, filter, cats, prefs)
+    }.flatMapLatest { (month, filter, categories, prefs) ->
         val catMap = categories.associateBy { it.id }
         val txnFlow = if (filter == TransactionFilter.None) {
             transactionRepository.observeByMonth(month.year, month.monthNumber)
@@ -55,6 +63,14 @@ class TransactionListViewModel(
                     )
                 }
                 .sortedByDescending { it.date }
+
+            // Net amount: income positive, expenses negative (in minor units)
+            val netMinor = transactions.sumOf { tx ->
+                if (tx.type == TransactionType.INCOME) tx.amount.minorUnits
+                else -tx.amount.minorUnits
+            }
+            val netCurrency = transactions.firstOrNull()?.amount?.currency?.value ?: "EUR"
+
             TransactionListUiState(
                 isLoading = false,
                 currentMonth = month,
@@ -63,6 +79,9 @@ class TransactionListViewModel(
                 availableCategories = categories,
                 isEmpty = dayGroups.isEmpty(),
                 monthlySummary = buildSummary(transactions, filter),
+                netAmount = netMinor,
+                netCurrency = netCurrency,
+                txDisplayPrefs = prefs,
             )
         }
     }.stateIn(
@@ -80,10 +99,19 @@ class TransactionListViewModel(
     }
 }
 
+private data class Quad<A, B, C, D>(val a: A, val b: B, val c: C, val d: D)
+
+private operator fun <A, B, C, D> Quad<A, B, C, D>.component1() = a
+private operator fun <A, B, C, D> Quad<A, B, C, D>.component2() = b
+private operator fun <A, B, C, D> Quad<A, B, C, D>.component3() = c
+private operator fun <A, B, C, D> Quad<A, B, C, D>.component4() = d
+
 private fun Transaction.toUiModel(category: Category?) = TransactionUiModel(
     id = id,
     type = type,
     amountFormatted = amount.format(),
+    amountMinorUnits = amount.minorUnits,
+    currency = amount.currency.value,
     isExpense = type == TransactionType.EXPENSE,
     categoryName = category?.name ?: "—",
     categoryColorHex = category?.colorHex ?: "#8A8A8A",

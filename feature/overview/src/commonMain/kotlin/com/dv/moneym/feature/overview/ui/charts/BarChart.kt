@@ -6,11 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
+import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.feature.overview.presentation.BarEntry
-
-private val incomeColor = Color(0xFF4A7A56)
-private val expenseColor = Color(0xFFB0623B)
 
 @Composable
 fun PeriodBarChart(
@@ -20,6 +17,9 @@ fun PeriodBarChart(
     if (bars.isEmpty()) return
     val maxVal = bars.maxOf { maxOf(it.incomeMinorUnits, it.expenseMinorUnits) }
         .coerceAtLeast(1L).toFloat()
+
+    val incomeColor = MM.colors.catSalary
+    val expenseColor = MM.colors.catEatingOut
 
     Canvas(modifier = modifier.fillMaxWidth()) {
         if (size.width <= 0f || size.height <= 0f) return@Canvas

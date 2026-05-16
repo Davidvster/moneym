@@ -1,5 +1,9 @@
 package com.dv.moneym.feature.settings.presentation
 
+import com.dv.moneym.core.model.Density
+import com.dv.moneym.core.model.IndicatorStyle
+import com.dv.moneym.core.model.ThemeMode
+import com.dv.moneym.core.model.TxDisplayPrefs
 import com.dv.moneym.data.backup.ImportPreview
 
 data class SettingsUiState(
@@ -7,12 +11,13 @@ data class SettingsUiState(
     val biometricEnabled: Boolean = false,
     val biometricAvailable: Boolean = false,
     val backgroundLockSeconds: Int = 30,
+    // appearance
+    val themeMode: ThemeMode = ThemeMode.Auto,
+    val txDisplayPrefs: TxDisplayPrefs = TxDisplayPrefs(),
     // currency
     val defaultCurrency: String = "EUR",
-    val showCurrencyPicker: Boolean = false,
     // language
-    val selectedLanguage: String = "",
-    val showLanguagePicker: Boolean = false,
+    val language: String = "",
     // backup
     val exportedJson: String? = null,
     val importJson: String = "",
@@ -28,14 +33,8 @@ sealed interface SettingsIntent {
     data class BiometricToggled(val enable: Boolean) : SettingsIntent
     data class LockTimeoutChanged(val seconds: Int) : SettingsIntent
     data object ChangePinRequested : SettingsIntent
-    // currency
-    data object CurrencyChangeRequested : SettingsIntent
-    data class CurrencySelected(val code: String) : SettingsIntent
-    data object CurrencyPickerDismissed : SettingsIntent
-    // language
-    data object LanguageChangeRequested : SettingsIntent
-    data class LanguageSelected(val tag: String) : SettingsIntent
-    data object LanguagePickerDismissed : SettingsIntent
+    // appearance
+    data class ThemeModeChanged(val mode: ThemeMode) : SettingsIntent
     // backup
     data object ExportJsonRequested : SettingsIntent
     data object ExportCsvRequested : SettingsIntent

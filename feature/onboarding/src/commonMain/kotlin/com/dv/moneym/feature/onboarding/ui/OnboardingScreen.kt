@@ -11,16 +11,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,7 +23,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.dv.moneym.core.designsystem.MoneyMTheme
+import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.ui.MmButton
+import com.dv.moneym.core.ui.MmButtonSize
+import com.dv.moneym.core.ui.MmButtonVariant
+import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.feature.onboarding.presentation.OnboardingEffect
 import com.dv.moneym.feature.onboarding.presentation.OnboardingIntent
 import com.dv.moneym.feature.onboarding.presentation.OnboardingStep
@@ -94,16 +93,17 @@ private fun CurrencyStep(
     onSelect: (String) -> Unit,
     onContinue: () -> Unit,
 ) {
-    val sp = MoneyMTheme.spacing
+    val sp = MM.space
+    val colors = MM.colors
+    val type = MM.type
     Scaffold(
         topBar = { TopAppBar(title = { Text(stringResource(Res.string.onboarding_welcome)) }) },
     ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding)) {
             Text(
                 stringResource(Res.string.onboarding_currency_title),
-                style = MaterialTheme.typography.bodyLarge,
+                style = type.body.copy(color = colors.text2),
                 modifier = Modifier.padding(horizontal = sp.lg, vertical = sp.sm),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             LazyColumn(modifier = Modifier.weight(1f)) {
                 items(commonCurrencies, key = { it.first }) { (code, name) ->
@@ -117,20 +117,21 @@ private fun CurrencyStep(
                     ) {
                         RadioButton(selected = code == selected, onClick = { onSelect(code) })
                         Column {
-                            Text(code, style = MaterialTheme.typography.bodyLarge)
-                            Text(name, style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(code, style = type.body, color = colors.text)
+                            Text(name, style = type.caption, color = colors.text2)
                         }
                     }
                     HorizontalDivider(modifier = Modifier.padding(horizontal = sp.lg))
                 }
             }
-            Button(
+            MmButton(
+                text = stringResource(Res.string.onboarding_continue),
                 onClick = onContinue,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(sp.lg),
-            ) { Text(stringResource(Res.string.onboarding_continue)) }
+                variant = MmButtonVariant.Primary,
+                size = MmButtonSize.Lg,
+                fullWidth = true,
+                modifier = Modifier.padding(sp.lg),
+            )
         }
     }
 }
@@ -143,7 +144,9 @@ private fun SecurityStep(
     onSkip: () -> Unit,
     onFinish: () -> Unit,
 ) {
-    val sp = MoneyMTheme.spacing
+    val sp = MM.space
+    val colors = MM.colors
+    val type = MM.type
     Scaffold(
         topBar = { TopAppBar(title = { Text(stringResource(Res.string.onboarding_security_title)) }) },
     ) { padding ->
@@ -157,32 +160,46 @@ private fun SecurityStep(
             Spacer(Modifier.height(sp.xl))
             Text(
                 stringResource(Res.string.onboarding_security_subtitle),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = type.body.copy(color = colors.text2),
             )
             Spacer(Modifier.height(sp.md))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(stringResource(Res.string.onboarding_pin_label), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
-                Switch(checked = pinEnabled, onCheckedChange = { if (it && !pinEnabled) onSetupPin() })
+                Text(
+                    stringResource(Res.string.onboarding_pin_label),
+                    style = type.body,
+                    color = colors.text,
+                    modifier = Modifier.weight(1f),
+                )
+                MmToggle(
+                    checked = pinEnabled,
+                    onCheckedChange = { if (it && !pinEnabled) onSetupPin() },
+                )
             }
             if (pinEnabled) {
                 Text(
                     stringResource(Res.string.onboarding_pin_set),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary,
+                    style = type.caption.copy(color = colors.accent),
                 )
             }
             Spacer(Modifier.weight(1f))
-            Button(onClick = onFinish, modifier = Modifier.fillMaxWidth()) {
-                Text(stringResource(if (pinEnabled) Res.string.onboarding_done else Res.string.onboarding_skip))
-            }
+            MmButton(
+                text = stringResource(if (pinEnabled) Res.string.onboarding_done else Res.string.onboarding_skip),
+                onClick = onFinish,
+                variant = MmButtonVariant.Primary,
+                size = MmButtonSize.Lg,
+                fullWidth = true,
+            )
             if (!pinEnabled) {
-                TextButton(onClick = onSkip, modifier = Modifier.fillMaxWidth()) {
-                    Text(stringResource(Res.string.onboarding_skip_short))
-                }
+                MmButton(
+                    text = stringResource(Res.string.onboarding_skip_short),
+                    onClick = onSkip,
+                    variant = MmButtonVariant.Ghost,
+                    size = MmButtonSize.Lg,
+                    fullWidth = true,
+                )
             }
         }
     }

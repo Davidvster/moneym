@@ -63,7 +63,18 @@ val dataBackupModule = module {
 }
 
 val featureSettingsModule = module {
-    viewModelOf(::SettingsViewModel)
+    viewModel {
+        SettingsViewModel(
+            settings = get(),
+            appSettingsRepository = get(),
+            pinManager = get(),
+            biometricAuth = get(),
+            exporter = get(),
+            importer = get(),
+            dispatchers = get(),
+            localeController = get(),
+        )
+    }
 }
 
 val featureCategoriesModule = module {

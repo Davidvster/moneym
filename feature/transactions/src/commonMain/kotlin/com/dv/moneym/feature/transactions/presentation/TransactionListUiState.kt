@@ -4,6 +4,7 @@ import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
+import com.dv.moneym.core.model.TxDisplayPrefs
 import com.dv.moneym.core.model.YearMonth
 import kotlinx.datetime.LocalDate
 
@@ -15,6 +16,9 @@ data class TransactionListUiState(
     val availableCategories: List<Category> = emptyList(),
     val isEmpty: Boolean = false,
     val monthlySummary: String = "",
+    val netAmount: Long = 0L,
+    val netCurrency: String = "EUR",
+    val txDisplayPrefs: TxDisplayPrefs = TxDisplayPrefs(),
 )
 
 data class DayGroup(
@@ -27,6 +31,8 @@ data class TransactionUiModel(
     val id: TransactionId,
     val type: TransactionType,
     val amountFormatted: String,
+    val amountMinorUnits: Long = 0L,
+    val currency: String = "EUR",
     val isExpense: Boolean,
     val categoryName: String,
     val categoryColorHex: String,

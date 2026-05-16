@@ -9,6 +9,7 @@ import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
+import com.dv.moneym.core.testing.FakeAppSettingsRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.FixedClock
@@ -63,6 +64,7 @@ class TransactionListViewModelTest {
         val vm = TransactionListViewModel(
             transactionRepository = FakeTransactionRepository(),
             categoryRepository = FakeCategoryRepository(),
+            appSettingsRepository = FakeAppSettingsRepository(),
             clock = clock,
         )
         assertTrue(vm.state.value.isLoading)
@@ -72,7 +74,7 @@ class TransactionListViewModelTest {
     fun transactionsForCurrentMonthAppearInState() = runTestWithDispatchers {
         val txnRepo = FakeTransactionRepository()
         val catRepo = FakeCategoryRepository()
-        val vm = TransactionListViewModel(txnRepo, catRepo, clock)
+        val vm = TransactionListViewModel(txnRepo, catRepo, FakeAppSettingsRepository(), clock)
 
         val id = txnRepo.upsert(makeTxn(today))
 
@@ -88,7 +90,7 @@ class TransactionListViewModelTest {
     fun filterByTypeRemovesNonMatchingTransactions() = runTestWithDispatchers {
         val txnRepo = FakeTransactionRepository()
         val catRepo = FakeCategoryRepository()
-        val vm = TransactionListViewModel(txnRepo, catRepo, clock)
+        val vm = TransactionListViewModel(txnRepo, catRepo, FakeAppSettingsRepository(), clock)
 
         txnRepo.upsert(makeTxn())
         txnRepo.upsert(makeTxn().copy(type = TransactionType.INCOME))
@@ -109,7 +111,7 @@ class TransactionListViewModelTest {
 
     @Test
     fun previousMonthNavigationDecreasesMonth() = runTestWithDispatchers {
-        val vm = TransactionListViewModel(FakeTransactionRepository(), FakeCategoryRepository(), clock)
+        val vm = TransactionListViewModel(FakeTransactionRepository(), FakeCategoryRepository(), FakeAppSettingsRepository(), clock)
         vm.state.test {
             var state = awaitItem()
             while (state.isLoading) state = awaitItem()

@@ -1,75 +1,74 @@
 package com.dv.moneym.feature.settings.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.dv.moneym.core.designsystem.MoneyMTheme
-import com.dv.moneym.feature.settings.presentation.SettingsEffect
-import com.dv.moneym.feature.settings.presentation.SettingsIntent
-import com.dv.moneym.feature.settings.presentation.SettingsViewModel
-import moneym.feature.settings.generated.resources.Res
-import moneym.feature.settings.generated.resources.*
-import org.jetbrains.compose.resources.stringResource
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.ThemeMode
+import com.dv.moneym.core.ui.MmCard
+import com.dv.moneym.core.ui.MmIcons
+import com.dv.moneym.core.ui.MmRow
+import com.dv.moneym.core.ui.MmSegmented
+import com.dv.moneym.core.ui.MmSegmentedSize
+import com.dv.moneym.core.ui.MmTabBar
+import com.dv.moneym.core.ui.MmToggle
+import com.dv.moneym.core.ui.SectionLabel
+import com.dv.moneym.core.ui.TabRoute
+import com.dv.moneym.feature.settings.presentation.SettingsEffect
+import com.dv.moneym.feature.settings.presentation.SettingsIntent
+import com.dv.moneym.feature.settings.presentation.SettingsUiState
+import com.dv.moneym.feature.settings.presentation.SettingsViewModel
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable data object SettingsKey : NavKey
+@Serializable data object TxListDisplayKey : NavKey
+@Serializable data object CurrencyPickerKey : NavKey
+@Serializable data object LanguagePickerKey : NavKey
 
 fun EntryProviderScope<NavKey>.settingsEntry(
     onNavigateToPinSetup: () -> Unit,
     onNavigateToCategories: () -> Unit,
+    onNavigateToTxDisplay: () -> Unit,
+    onNavigateToCurrency: () -> Unit,
+    onNavigateToLanguage: () -> Unit,
+    onTabSelected: (TabRoute) -> Unit,
 ) = entry<SettingsKey> {
     SettingsScreen(
         onNavigateToPinSetup = onNavigateToPinSetup,
         onNavigateToCategories = onNavigateToCategories,
+        onNavigateToTxDisplay = onNavigateToTxDisplay,
+        onNavigateToCurrency = onNavigateToCurrency,
+        onNavigateToLanguage = onNavigateToLanguage,
+        onTabSelected = onTabSelected,
     )
 }
-
-private val commonCurrencies = listOf(
-    "EUR" to "Euro", "USD" to "US Dollar", "GBP" to "British Pound",
-    "CHF" to "Swiss Franc", "JPY" to "Japanese Yen", "CAD" to "Canadian Dollar",
-    "AUD" to "Australian Dollar", "SEK" to "Swedish Krona", "NOK" to "Norwegian Krone",
-    "DKK" to "Danish Krone", "PLN" to "Polish Złoty", "CZK" to "Czech Koruna",
-    "BRL" to "Brazilian Real", "MXN" to "Mexican Peso", "CNY" to "Chinese Yuan",
-    "INR" to "Indian Rupee",
-)
 
 @Composable
 fun SettingsScreen(
     onNavigateToPinSetup: () -> Unit,
     onNavigateToCategories: () -> Unit = {},
+    onNavigateToTxDisplay: () -> Unit = {},
+    onNavigateToCurrency: () -> Unit = {},
+    onNavigateToLanguage: () -> Unit = {},
+    onTabSelected: (TabRoute) -> Unit = {},
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
@@ -80,354 +79,328 @@ fun SettingsScreen(
             }
         }
     }
-    SettingsContent(state = state, onIntent = viewModel::onIntent, onNavigateToCategories = onNavigateToCategories)
+    SettingsContent(
+        state = state,
+        onIntent = viewModel::onIntent,
+        onNavigateToCategories = onNavigateToCategories,
+        onNavigateToTxDisplay = onNavigateToTxDisplay,
+        onNavigateToCurrency = onNavigateToCurrency,
+        onNavigateToLanguage = onNavigateToLanguage,
+        onTabSelected = onTabSelected,
+    )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsContent(
-    state: com.dv.moneym.feature.settings.presentation.SettingsUiState,
+    state: SettingsUiState,
     onIntent: (SettingsIntent) -> Unit,
-    onNavigateToCategories: () -> Unit = {},
+    onNavigateToCategories: () -> Unit,
+    onNavigateToTxDisplay: () -> Unit,
+    onNavigateToCurrency: () -> Unit,
+    onNavigateToLanguage: () -> Unit,
+    onTabSelected: (TabRoute) -> Unit,
 ) {
-    val pinEnabled = state.pinEnabled
-    val biometricEnabled = state.biometricEnabled
-    val biometricAvailable = state.biometricAvailable
-    val backgroundLockSeconds = state.backgroundLockSeconds
-    val sp = MoneyMTheme.spacing
+    val colors = MM.colors
+    val type = MM.type
 
-    val lockOptions = listOf(
-        0   to stringResource(Res.string.settings_lock_always),
-        30  to stringResource(Res.string.settings_lock_30s),
-        60  to stringResource(Res.string.settings_lock_1m),
-        300 to stringResource(Res.string.settings_lock_5m),
-    )
-
-    val languages = listOf(
-        "" to stringResource(Res.string.settings_lang_system),
-        "en" to stringResource(Res.string.settings_lang_en),
-        "de" to stringResource(Res.string.settings_lang_de),
-        "es" to stringResource(Res.string.settings_lang_es),
-        "it" to stringResource(Res.string.settings_lang_it),
-    )
-
-    Scaffold(
-        topBar = { TopAppBar(title = { Text(stringResource(Res.string.settings_title)) }) },
-    ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(horizontal = sp.lg)
-                .verticalScroll(rememberScrollState()),
-        ) {
-            Spacer(Modifier.height(sp.md))
-            Text(
-                stringResource(Res.string.settings_security),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary,
-            )
-            Spacer(Modifier.height(sp.sm))
-            SettingsRow(
-                label = stringResource(Res.string.settings_pin_enable),
-                checked = pinEnabled,
-                onCheckedChange = { onIntent(SettingsIntent.PinToggled(it)) },
-            )
-            if (pinEnabled) {
-                TextButton(
-                    onClick = { onIntent(SettingsIntent.ChangePinRequested) },
-                    modifier = Modifier.padding(start = sp.xs),
-                ) {
-                    Text(stringResource(Res.string.settings_pin_change))
-                }
-                if (biometricAvailable) {
-                    SettingsRow(
-                        label = stringResource(Res.string.settings_biometric_enable),
-                        checked = biometricEnabled,
-                        onCheckedChange = { onIntent(SettingsIntent.BiometricToggled(it)) },
-                    )
-                }
-                Spacer(Modifier.height(sp.sm))
-                Text(
-                    stringResource(Res.string.settings_lock_after),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Spacer(Modifier.height(sp.xs))
-                Row {
-                    lockOptions.forEach { (seconds, label) ->
-                        val selected = backgroundLockSeconds == seconds
-                        TextButton(
-                            onClick = { onIntent(SettingsIntent.LockTimeoutChanged(seconds)) },
-                        ) {
-                            Text(
-                                label,
-                                color = if (selected) MaterialTheme.colorScheme.primary
-                                        else MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
-                        }
-                    }
-                }
-            }
-            Spacer(Modifier.height(sp.md))
-            HorizontalDivider()
-            Spacer(Modifier.height(sp.md))
-            Text(
-                stringResource(Res.string.settings_currency_section),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary,
-            )
-            Spacer(Modifier.height(sp.sm))
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(vertical = sp.xs),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(stringResource(Res.string.settings_default_currency), style = MaterialTheme.typography.bodyLarge)
-                    Text(
-                        state.defaultCurrency,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-                TextButton(onClick = { onIntent(SettingsIntent.CurrencyChangeRequested) }) {
-                    Text(stringResource(Res.string.settings_change))
-                }
-            }
-            if (state.showCurrencyPicker) {
-                CurrencyPickerDialog(
-                    current = state.defaultCurrency,
-                    cancelLabel = stringResource(Res.string.settings_cancel),
-                    onSelected = { onIntent(SettingsIntent.CurrencySelected(it)) },
-                    onDismiss = { onIntent(SettingsIntent.CurrencyPickerDismissed) },
-                )
-            }
-            Spacer(Modifier.height(sp.md))
-            HorizontalDivider()
-            Spacer(Modifier.height(sp.md))
-            Text(
-                stringResource(Res.string.settings_language_section),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary,
-            )
-            Spacer(Modifier.height(sp.sm))
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(vertical = sp.xs),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(stringResource(Res.string.settings_language_label), style = MaterialTheme.typography.bodyLarge)
-                    val currentLangName = languages.firstOrNull { it.first == state.selectedLanguage }?.second
-                        ?: stringResource(Res.string.settings_lang_system)
-                    Text(
-                        currentLangName,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-                TextButton(onClick = { onIntent(SettingsIntent.LanguageChangeRequested) }) {
-                    Text(stringResource(Res.string.settings_change))
-                }
-            }
-            if (state.showLanguagePicker) {
-                LanguagePickerDialog(
-                    current = state.selectedLanguage,
-                    languages = languages,
-                    title = stringResource(Res.string.settings_language_dialog_title),
-                    cancelLabel = stringResource(Res.string.settings_cancel),
-                    onSelected = { onIntent(SettingsIntent.LanguageSelected(it)) },
-                    onDismiss = { onIntent(SettingsIntent.LanguagePickerDismissed) },
-                )
-            }
-            Spacer(Modifier.height(sp.md))
-            HorizontalDivider()
-            Spacer(Modifier.height(sp.md))
-            Text(
-                stringResource(Res.string.settings_data),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary,
-            )
-            TextButton(
-                onClick = onNavigateToCategories,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(stringResource(Res.string.settings_categories), modifier = Modifier.fillMaxWidth())
-            }
-            Spacer(Modifier.height(sp.md))
-            HorizontalDivider()
-            Spacer(Modifier.height(sp.md))
-            Text(
-                stringResource(Res.string.settings_backup),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary,
-            )
-            Spacer(Modifier.height(sp.sm))
-            Row {
-                TextButton(onClick = { onIntent(SettingsIntent.ExportJsonRequested) }, enabled = !state.isExporting) {
-                    Text(stringResource(Res.string.settings_export_json))
-                }
-                TextButton(onClick = { onIntent(SettingsIntent.ExportCsvRequested) }, enabled = !state.isExporting) {
-                    Text(stringResource(Res.string.settings_export_csv))
-                }
-            }
-            @Suppress("DEPRECATION")
-            val clipboard = LocalClipboardManager.current
-            val exported = state.exportedJson
-            if (exported != null) {
-                Spacer(Modifier.height(sp.sm))
-                OutlinedTextField(
-                    value = exported.take(500) + if (exported.length > 500) "…" else "",
-                    onValueChange = {},
-                    readOnly = true,
-                    label = { Text(stringResource(Res.string.settings_exported_content, exported.length)) },
-                    modifier = Modifier.fillMaxWidth().heightIn(max = 120.dp),
-                )
-                Row {
-                    TextButton(onClick = { clipboard.setText(AnnotatedString(exported)) }) {
-                        Text(stringResource(Res.string.settings_copy))
-                    }
-                    TextButton(onClick = { onIntent(SettingsIntent.ClearExport) }) {
-                        Text(stringResource(Res.string.settings_clear))
-                    }
-                }
-            }
-            Spacer(Modifier.height(sp.md))
-            Text(
-                stringResource(Res.string.settings_import_json),
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            Spacer(Modifier.height(sp.xs))
-            OutlinedTextField(
-                value = state.importJson,
-                onValueChange = { onIntent(SettingsIntent.ImportJsonChanged(it)) },
-                label = { Text(stringResource(Res.string.settings_paste_hint)) },
-                modifier = Modifier.fillMaxWidth().heightIn(min = 80.dp),
-                isError = state.importError != null,
-                supportingText = if (state.importError != null) ({ Text(state.importError) }) else null,
-            )
-            val preview = state.importPreview
-            if (state.importJson.isNotBlank()) {
-                Row {
-                    TextButton(onClick = { onIntent(SettingsIntent.PreviewImportRequested) }) {
-                        Text(stringResource(Res.string.settings_preview))
-                    }
-                    if (preview != null) {
-                        TextButton(onClick = { onIntent(SettingsIntent.ApplyImportRequested) }, enabled = !state.isImporting) {
-                            Text(stringResource(Res.string.settings_import))
-                        }
-                    }
-                    TextButton(onClick = { onIntent(SettingsIntent.ClearImport) }) {
-                        Text(stringResource(Res.string.settings_clear))
-                    }
-                }
-                if (preview != null) {
-                    Text(
-                        "New: ${preview.transactions.new} txns, ${preview.categories.new} cats, ${preview.accounts.new} accs\n" +
-                        "Duplicates: ${preview.transactions.duplicate} txns, ${preview.categories.duplicate} cats",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-                if (state.showImportSuccess) {
-                    Text(
-                        stringResource(Res.string.settings_import_success),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                }
-            }
-            Spacer(Modifier.height(sp.xxl))
-        }
+    val isDark = state.themeMode == ThemeMode.Dark
+    val themeIndex = when (state.themeMode) {
+        ThemeMode.Light -> 0
+        ThemeMode.Dark -> 1
+        ThemeMode.Auto -> 2
     }
-}
+    val themeModes = listOf(ThemeMode.Light, ThemeMode.Dark, ThemeMode.Auto)
 
-@Composable
-private fun SettingsRow(
-    label: String,
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-) {
-    val sp = MoneyMTheme.spacing
-    Row(
+    val prefs = state.txDisplayPrefs
+    val txDisplaySummary = "${prefs.indicatorStyle.name} · ${if (prefs.showNote) "with note" else "no note"}"
+
+    val lockAfterLabel = when (state.backgroundLockSeconds) {
+        0 -> "Immediately"
+        30 -> "30 seconds"
+        60 -> "1 minute"
+        300 -> "5 minutes"
+        else -> "${state.backgroundLockSeconds}s"
+    }
+
+    val currencySubtitle = state.defaultCurrency
+
+    val languageSubtitle = when (state.language) {
+        "en" -> "English"
+        "de" -> "Deutsch"
+        "es" -> "Español"
+        "it" -> "Italiano"
+        "fr" -> "Français"
+        "pt" -> "Português"
+        else -> "System default"
+    }
+
+    Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = sp.xs),
-        verticalAlignment = Alignment.CenterVertically,
+            .fillMaxSize()
+            .background(colors.bg)
+            .verticalScroll(rememberScrollState()),
     ) {
-        Text(label, modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
-        Switch(checked = checked, onCheckedChange = onCheckedChange)
+        Text(
+            text = "Settings",
+            style = type.title1,
+            color = colors.text,
+            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 16.dp),
+        )
+
+        // APPEARANCE
+        SectionLabel("APPEARANCE", Modifier.padding(horizontal = 20.dp, vertical = 4.dp))
+        MmCard(Modifier.padding(horizontal = 16.dp)) {
+            // Theme row
+            MmRow {
+                Icon(
+                    imageVector = if (isDark) MmIcons.moon else MmIcons.sun,
+                    contentDescription = null,
+                    tint = colors.text,
+                    modifier = Modifier.size(18.dp),
+                )
+                Text("Theme", style = type.body, color = colors.text, modifier = Modifier.weight(1f))
+                MmSegmented(
+                    options = listOf("Light", "Dark", "Auto"),
+                    selectedIndex = themeIndex,
+                    onOptionSelected = { onIntent(SettingsIntent.ThemeModeChanged(themeModes[it])) },
+                    size = MmSegmentedSize.Sm,
+                )
+            }
+            // Transaction list row
+            MmRow(onClick = onNavigateToTxDisplay, divider = false) {
+                Icon(
+                    imageVector = MmIcons.sliders,
+                    contentDescription = null,
+                    tint = colors.text,
+                    modifier = Modifier.size(18.dp),
+                )
+                Column(Modifier.weight(1f)) {
+                    Text("Transaction list", style = type.body, color = colors.text)
+                    Text(txDisplaySummary, style = type.caption.copy(color = colors.text2))
+                }
+                Icon(
+                    imageVector = MmIcons.chevronRight,
+                    contentDescription = null,
+                    tint = colors.text3,
+                    modifier = Modifier.size(16.dp),
+                )
+            }
+        }
+
+        // SECURITY
+        SectionLabel(
+            "SECURITY",
+            Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
+        )
+        MmCard(Modifier.padding(horizontal = 16.dp)) {
+            // Enable PIN lock
+            MmRow {
+                Icon(
+                    imageVector = MmIcons.lock,
+                    contentDescription = null,
+                    tint = colors.text,
+                    modifier = Modifier.size(18.dp),
+                )
+                Text(
+                    "Enable PIN lock",
+                    style = type.body,
+                    color = colors.text,
+                    modifier = Modifier.weight(1f),
+                )
+                MmToggle(
+                    checked = state.pinEnabled,
+                    onCheckedChange = { onIntent(SettingsIntent.PinToggled(it)) },
+                )
+            }
+            // Biometrics
+            MmRow(
+                modifier = Modifier.alpha(if (state.pinEnabled) 1f else 0.45f),
+            ) {
+                Icon(
+                    imageVector = MmIcons.fingerprint,
+                    contentDescription = null,
+                    tint = colors.text,
+                    modifier = Modifier.size(18.dp),
+                )
+                Column(Modifier.weight(1f)) {
+                    Text("Unlock with biometrics", style = type.body, color = colors.text)
+                    Text("Face ID / Fingerprint", style = type.caption.copy(color = colors.text2))
+                }
+                MmToggle(
+                    checked = state.biometricEnabled,
+                    onCheckedChange = { onIntent(SettingsIntent.BiometricToggled(it)) },
+                    enabled = state.pinEnabled,
+                )
+            }
+            // Change PIN
+            MmRow(onClick = { onIntent(SettingsIntent.ChangePinRequested) }) {
+                Text(
+                    "Change PIN",
+                    style = type.body,
+                    color = colors.text,
+                    modifier = Modifier.weight(1f),
+                )
+                Icon(
+                    imageVector = MmIcons.chevronRight,
+                    contentDescription = null,
+                    tint = colors.text3,
+                    modifier = Modifier.size(16.dp),
+                )
+            }
+            // Lock after
+            MmRow(onClick = {}, divider = false) {
+                Text(
+                    "Lock after",
+                    style = type.body,
+                    color = colors.text,
+                    modifier = Modifier.weight(1f),
+                )
+                Text(lockAfterLabel, style = type.caption.copy(color = colors.text2))
+                Icon(
+                    imageVector = MmIcons.chevronRight,
+                    contentDescription = null,
+                    tint = colors.text3,
+                    modifier = Modifier.size(16.dp),
+                )
+            }
+        }
+
+        // PREFERENCES
+        SectionLabel(
+            "PREFERENCES",
+            Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
+        )
+        MmCard(Modifier.padding(horizontal = 16.dp)) {
+            MmRow(onClick = onNavigateToCurrency) {
+                Icon(
+                    imageVector = MmIcons.info,
+                    contentDescription = null,
+                    tint = colors.text,
+                    modifier = Modifier.size(18.dp),
+                )
+                Column(Modifier.weight(1f)) {
+                    Text("Default currency", style = type.body, color = colors.text)
+                    Text(currencySubtitle, style = type.caption.copy(color = colors.text2))
+                }
+                Icon(
+                    imageVector = MmIcons.chevronRight,
+                    contentDescription = null,
+                    tint = colors.text3,
+                    modifier = Modifier.size(16.dp),
+                )
+            }
+            MmRow(onClick = onNavigateToLanguage) {
+                Icon(
+                    imageVector = MmIcons.globe,
+                    contentDescription = null,
+                    tint = colors.text,
+                    modifier = Modifier.size(18.dp),
+                )
+                Column(Modifier.weight(1f)) {
+                    Text("Language", style = type.body, color = colors.text)
+                    Text(languageSubtitle, style = type.caption.copy(color = colors.text2))
+                }
+                Icon(
+                    imageVector = MmIcons.chevronRight,
+                    contentDescription = null,
+                    tint = colors.text3,
+                    modifier = Modifier.size(16.dp),
+                )
+            }
+            MmRow(onClick = onNavigateToCategories, divider = false) {
+                Icon(
+                    imageVector = MmIcons.list,
+                    contentDescription = null,
+                    tint = colors.text,
+                    modifier = Modifier.size(18.dp),
+                )
+                Text(
+                    "Manage categories",
+                    style = type.body,
+                    color = colors.text,
+                    modifier = Modifier.weight(1f),
+                )
+                Icon(
+                    imageVector = MmIcons.chevronRight,
+                    contentDescription = null,
+                    tint = colors.text3,
+                    modifier = Modifier.size(16.dp),
+                )
+            }
+        }
+
+        // DATA
+        SectionLabel("DATA", Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp))
+        MmCard(Modifier.padding(horizontal = 16.dp)) {
+            MmRow(onClick = { onIntent(SettingsIntent.ExportJsonRequested) }) {
+                Icon(
+                    imageVector = MmIcons.download,
+                    contentDescription = null,
+                    tint = colors.text,
+                    modifier = Modifier.size(18.dp),
+                )
+                Text(
+                    "Export as JSON",
+                    style = type.body,
+                    color = colors.text,
+                    modifier = Modifier.weight(1f),
+                )
+                Icon(
+                    imageVector = MmIcons.chevronRight,
+                    contentDescription = null,
+                    tint = colors.text3,
+                    modifier = Modifier.size(16.dp),
+                )
+            }
+            MmRow(onClick = { onIntent(SettingsIntent.ExportCsvRequested) }) {
+                Icon(
+                    imageVector = MmIcons.download,
+                    contentDescription = null,
+                    tint = colors.text,
+                    modifier = Modifier.size(18.dp),
+                )
+                Text(
+                    "Export as CSV",
+                    style = type.body,
+                    color = colors.text,
+                    modifier = Modifier.weight(1f),
+                )
+                Icon(
+                    imageVector = MmIcons.chevronRight,
+                    contentDescription = null,
+                    tint = colors.text3,
+                    modifier = Modifier.size(16.dp),
+                )
+            }
+            MmRow(onClick = {}, divider = false) {
+                Icon(
+                    imageVector = MmIcons.folder,
+                    contentDescription = null,
+                    tint = colors.text,
+                    modifier = Modifier.size(18.dp),
+                )
+                Text(
+                    "Import data",
+                    style = type.body,
+                    color = colors.text,
+                    modifier = Modifier.weight(1f),
+                )
+                Icon(
+                    imageVector = MmIcons.chevronRight,
+                    contentDescription = null,
+                    tint = colors.text3,
+                    modifier = Modifier.size(16.dp),
+                )
+            }
+        }
+
+        Text(
+            text = "MoneyM v2.0 · build 2026.05.15",
+            style = type.captionMono.copy(color = colors.text3),
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth().padding(24.dp),
+        )
+
+        MmTabBar(activeTab = TabRoute.Settings, onTabSelected = onTabSelected)
     }
-}
-
-@Composable
-private fun CurrencyPickerDialog(
-    current: String,
-    cancelLabel: String,
-    onSelected: (String) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(stringResource(Res.string.settings_default_currency)) },
-        text = {
-            LazyColumn(modifier = Modifier.heightIn(max = 300.dp)) {
-                items(commonCurrencies) { (code, name) ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .selectable(selected = code == current, onClick = { onSelected(code) })
-                            .padding(vertical = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        RadioButton(selected = code == current, onClick = { onSelected(code) })
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(code, style = MaterialTheme.typography.bodyLarge)
-                            Text(name, style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        }
-                    }
-                }
-            }
-        },
-        confirmButton = {},
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text(cancelLabel) }
-        },
-    )
-}
-
-@Composable
-private fun LanguagePickerDialog(
-    current: String,
-    languages: List<Pair<String, String>>,
-    title: String,
-    cancelLabel: String,
-    onSelected: (String) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(title) },
-        text = {
-            LazyColumn(modifier = Modifier.heightIn(max = 300.dp)) {
-                items(languages) { (tag, name) ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .selectable(selected = tag == current, onClick = { onSelected(tag) })
-                            .padding(vertical = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        RadioButton(selected = tag == current, onClick = { onSelected(tag) })
-                        Text(name, style = MaterialTheme.typography.bodyLarge)
-                    }
-                }
-            }
-        },
-        confirmButton = {},
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text(cancelLabel) }
-        },
-    )
 }

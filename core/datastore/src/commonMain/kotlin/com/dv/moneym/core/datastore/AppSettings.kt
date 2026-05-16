@@ -27,4 +27,8 @@ object PrefKeys {
     const val LAST_EXPORT_AT = "pref.last_export_at"
     const val ONBOARDING_COMPLETED = "pref.onboarding_completed"
     const val LANGUAGE = "pref.language"
+    const val TX_INDICATOR_STYLE = "pref.tx_indicator_style"
+    const val TX_SHOW_CATEGORY = "pref.tx_show_category"
+    const val TX_SHOW_NOTE = "pref.tx_show_note"
+    const val TX_DENSITY = "pref.tx_density"
 }

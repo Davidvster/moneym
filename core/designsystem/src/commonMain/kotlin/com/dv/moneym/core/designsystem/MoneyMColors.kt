@@ -1,8 +1,5 @@
 package com.dv.moneym.core.designsystem
 
-import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
@@ -60,35 +57,3 @@ val MoneyMDark = MoneyMColors(
 )
 
 val LocalMoneyMColors = staticCompositionLocalOf<MoneyMColors> { MoneyMLight }
-
-// ─── M3 shim — kept during screen migration, removed in Phase 8 ─
-
-fun lightMoneyMColorScheme(): ColorScheme = lightColorScheme(
-    background = MoneyMLight.bg,
-    surface = MoneyMLight.surface,
-    surfaceVariant = MoneyMLight.surface2,
-    onBackground = MoneyMLight.text,
-    onSurface = MoneyMLight.text,
-    onSurfaceVariant = MoneyMLight.text2,
-    outline = MoneyMLight.border,
-    outlineVariant = MoneyMLight.divider,
-    primary = MoneyMLight.text,
-    onPrimary = MoneyMLight.bg,
-    error = MoneyMLight.danger,
-    onError = MoneyMLight.bg,
-)
-
-fun darkMoneyMColorScheme(): ColorScheme = darkColorScheme(
-    background = MoneyMDark.bg,
-    surface = MoneyMDark.surface,
-    surfaceVariant = MoneyMDark.surface2,
-    onBackground = MoneyMDark.text,
-    onSurface = MoneyMDark.text,
-    onSurfaceVariant = MoneyMDark.text2,
-    outline = MoneyMDark.border,
-    outlineVariant = MoneyMDark.divider,
-    primary = MoneyMDark.text,
-    onPrimary = MoneyMDark.bg,
-    error = MoneyMDark.danger,
-    onError = MoneyMDark.bg,
-)

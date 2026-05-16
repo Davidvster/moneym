@@ -1,0 +1,312 @@
+package com.dv.moneym.feature.settings.ui
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
+import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.Density
+import com.dv.moneym.core.model.IndicatorStyle
+import com.dv.moneym.core.model.TxDisplayPrefs
+import com.dv.moneym.core.ui.CategoryIconTile
+import com.dv.moneym.core.ui.MmCard
+import com.dv.moneym.core.ui.MmIcons
+import com.dv.moneym.core.ui.MmRow
+import com.dv.moneym.core.ui.MmSegmented
+import com.dv.moneym.core.ui.MmToggle
+import com.dv.moneym.core.ui.ScreenHeader
+import com.dv.moneym.core.ui.SectionLabel
+import com.dv.moneym.core.ui.TxRow
+import com.dv.moneym.feature.settings.presentation.SettingsViewModel
+import org.koin.compose.viewmodel.koinViewModel
+
+fun EntryProviderScope<NavKey>.txListDisplayEntry(
+    onBack: () -> Unit,
+) = entry<TxListDisplayKey> {
+    TxListDisplayScreen(onBack = onBack)
+}
+
+// Sample transaction data for preview
+private data class SampleTx(
+    val categoryName: String,
+    val categoryColor: Color,
+    val note: String?,
+    val isExpense: Boolean,
+    val amount: Double,
+    val currency: String = "EUR",
+)
+
+private val sampleColor = Color(0xFF7A9572) // catGroceries
+private val sampleIncomeColor = Color(0xFF4A8E5C) // catSalary
+private val sampleEatingColor = Color(0xFFC97A4F) // catEatingOut
+
+private val sampleTransactions = listOf(
+    SampleTx("Groceries", sampleColor, "Weekly shop at market", isExpense = true, amount = 48.50),
+    SampleTx("Salary", sampleIncomeColor, "June salary", isExpense = false, amount = 2800.00),
+    SampleTx("Eating out", sampleEatingColor, null, isExpense = true, amount = 22.90),
+)
+
+private fun indicatorDescription(style: IndicatorStyle): String = when (style) {
+    IndicatorStyle.IconTile -> "Colored square with icon"
+    IndicatorStyle.SoftIcon -> "Soft circle with tinted icon"
+    IndicatorStyle.Bar -> "Thin color bar on the left"
+    IndicatorStyle.Dot -> "Small colored dot"
+    IndicatorStyle.Minimal -> "No color indicator"
+}
+
+@Composable
+fun TxListDisplayScreen(
+    onBack: () -> Unit,
+    viewModel: SettingsViewModel = koinViewModel(),
+) {
+    val state by viewModel.state.collectAsState()
+    val currentPrefs = state.txDisplayPrefs
+
+    TxListDisplayContent(
+        currentPrefs = currentPrefs,
+        onPrefsChanged = { viewModel.setTxDisplayPrefs(it) },
+        onBack = onBack,
+    )
+}
+
+@Composable
+private fun TxListDisplayContent(
+    currentPrefs: TxDisplayPrefs,
+    onPrefsChanged: (TxDisplayPrefs) -> Unit,
+    onBack: () -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    val radius = MM.radius
+
+    val dividerColor = colors.divider
+
+    Column(Modifier.fillMaxSize().background(colors.bg)) {
+        ScreenHeader("Transaction list", onBack = onBack)
+
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState()),
+        ) {
+            // Live preview panel
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .background(colors.surface2)
+                    .drawBehind {
+                        val strokeWidth = 1.dp.toPx()
+                        drawLine(
+                            color = dividerColor,
+                            start = Offset(0f, size.height - strokeWidth / 2),
+                            end = Offset(size.width, size.height - strokeWidth / 2),
+                            strokeWidth = strokeWidth,
+                        )
+                    }
+                    .padding(horizontal = 20.dp, vertical = 20.dp),
+            ) {
+                Column {
+                    SectionLabel("PREVIEW", Modifier.padding(bottom = 4.dp))
+                    MmCard {
+                        sampleTransactions.forEachIndexed { i, tx ->
+                            TxRow(
+                                categoryName = tx.categoryName,
+                                categoryColor = tx.categoryColor,
+                                categoryIcon = MmIcons.basket,
+                                note = tx.note,
+                                isExpense = tx.isExpense,
+                                amountValue = tx.amount,
+                                currency = tx.currency,
+                                prefs = currentPrefs,
+                                divider = i < sampleTransactions.size - 1,
+                            )
+                        }
+                    }
+                }
+            }
+
+            // COLOR INDICATOR section
+            SectionLabel(
+                "COLOR INDICATOR",
+                Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
+            )
+            MmCard(Modifier.padding(horizontal = 16.dp)) {
+                val styles = IndicatorStyle.entries
+                styles.forEachIndexed { i, opt ->
+                    val isLast = i == styles.size - 1
+                    val isSelected = currentPrefs.indicatorStyle == opt
+
+                    MmRow(
+                        onClick = { onPrefsChanged(currentPrefs.copy(indicatorStyle = opt)) },
+                        divider = !isLast,
+                    ) {
+                        // Mini preview
+                        Box(Modifier.size(38.dp), contentAlignment = Alignment.Center) {
+                            when (opt) {
+                                IndicatorStyle.IconTile ->
+                                    CategoryIconTile(
+                                        categoryName = "Groceries",
+                                        categoryColor = sampleColor,
+                                        categoryIcon = MmIcons.basket,
+                                        size = 32.dp,
+                                        variant = IndicatorStyle.IconTile,
+                                    )
+                                IndicatorStyle.SoftIcon ->
+                                    CategoryIconTile(
+                                        categoryName = "Groceries",
+                                        categoryColor = sampleColor,
+                                        categoryIcon = MmIcons.basket,
+                                        size = 32.dp,
+                                        variant = IndicatorStyle.SoftIcon,
+                                    )
+                                IndicatorStyle.Bar ->
+                                    CategoryIconTile(
+                                        categoryName = "Groceries",
+                                        categoryColor = sampleColor,
+                                        categoryIcon = MmIcons.basket,
+                                        size = 32.dp,
+                                        variant = IndicatorStyle.Bar,
+                                    )
+                                IndicatorStyle.Dot ->
+                                    CategoryIconTile(
+                                        categoryName = "Groceries",
+                                        categoryColor = sampleColor,
+                                        categoryIcon = MmIcons.basket,
+                                        size = 10.dp,
+                                        variant = IndicatorStyle.Dot,
+                                    )
+                                IndicatorStyle.Minimal ->
+                                    Box(
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .size(width = 24.dp, height = 1.dp)
+                                            .background(colors.border),
+                                    )
+                            }
+                        }
+
+                        Column(Modifier.weight(1f)) {
+                            Text(
+                                text = opt.name.replace(Regex("([A-Z])"), " $1").trim(),
+                                style = type.body,
+                                color = colors.text,
+                            )
+                            Text(
+                                text = indicatorDescription(opt),
+                                style = type.caption.copy(color = colors.text2),
+                            )
+                        }
+
+                        // Custom radio circle — not M3 RadioButton
+                        Box(
+                            modifier = Modifier
+                                .size(22.dp)
+                                .clip(CircleShape)
+                                .border(
+                                    1.5.dp,
+                                    if (isSelected) colors.accent else colors.borderStrong,
+                                    CircleShape,
+                                )
+                                .background(
+                                    if (isSelected) colors.accent else Color.Transparent,
+                                ),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            if (isSelected) {
+                                Icon(
+                                    imageVector = MmIcons.check,
+                                    contentDescription = null,
+                                    tint = Color.White,
+                                    modifier = Modifier.size(12.dp),
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            // SHOW section
+            SectionLabel(
+                "SHOW",
+                Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
+            )
+            MmCard(Modifier.padding(horizontal = 16.dp)) {
+                MmRow {
+                    Text(
+                        "Category name",
+                        style = type.body,
+                        color = colors.text,
+                        modifier = Modifier.weight(1f),
+                    )
+                    MmToggle(
+                        checked = currentPrefs.showCategoryName,
+                        onCheckedChange = { onPrefsChanged(currentPrefs.copy(showCategoryName = it)) },
+                    )
+                }
+                MmRow(divider = false) {
+                    Text(
+                        "Note / description",
+                        style = type.body,
+                        color = colors.text,
+                        modifier = Modifier.weight(1f),
+                    )
+                    MmToggle(
+                        checked = currentPrefs.showNote,
+                        onCheckedChange = { onPrefsChanged(currentPrefs.copy(showNote = it)) },
+                    )
+                }
+            }
+
+            // DENSITY section
+            SectionLabel(
+                "DENSITY",
+                Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
+            )
+            MmCard(Modifier.padding(horizontal = 16.dp)) {
+                MmRow(divider = false) {
+                    Text(
+                        "Row size",
+                        style = type.body,
+                        color = colors.text,
+                        modifier = Modifier.weight(1f),
+                    )
+                    MmSegmented(
+                        options = listOf("Compact", "Comfortable"),
+                        selectedIndex = if (currentPrefs.density == Density.Compact) 0 else 1,
+                        onOptionSelected = {
+                            onPrefsChanged(
+                                currentPrefs.copy(
+                                    density = if (it == 0) Density.Compact else Density.Comfortable,
+                                ),
+                            )
+                        },
+                    )
+                }
+            }
+
+            // Bottom padding
+            Box(Modifier.padding(bottom = 24.dp))
+        }
+    }
+}

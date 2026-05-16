@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.common.LocaleController
 import com.dv.moneym.core.datastore.AppSettings
-import com.dv.moneym.core.datastore.PrefKeys
+import com.dv.moneym.core.datastore.AppSettingsRepository
+import com.dv.moneym.core.model.ThemeMode
+import com.dv.moneym.core.model.TxDisplayPrefs
 import com.dv.moneym.core.security.BiometricAuthenticator
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.core.security.SecurityPrefs
@@ -16,6 +18,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -23,6 +28,7 @@ import kotlinx.coroutines.withContext
 
 class SettingsViewModel(
     private val settings: AppSettings,
+    private val appSettingsRepository: AppSettingsRepository,
     private val pinManager: PinManager,
     private val biometricAuth: BiometricAuthenticator,
     private val exporter: BackupExporter,
@@ -38,16 +44,33 @@ class SettingsViewModel(
     val effects = _effects.receiveAsFlow()
 
     init {
+        // Load security prefs from legacy AppSettings (unchanged)
         _state.update {
             it.copy(
                 pinEnabled = settings.getBoolean(SecurityPrefs.PIN_ENABLED),
                 biometricEnabled = settings.getBoolean(SecurityPrefs.BIOMETRIC_ENABLED),
                 biometricAvailable = biometricAuth.isAvailable,
                 backgroundLockSeconds = settings.getInt(SecurityPrefs.BACKGROUND_LOCK_SECONDS, SecurityPrefs.DEFAULT_LOCK_SECONDS),
-                defaultCurrency = settings.getString(PrefKeys.DEFAULT_CURRENCY) ?: "EUR",
-                selectedLanguage = localeController.getCurrentLanguageTag(),
+                language = localeController.getCurrentLanguageTag(),
             )
         }
+
+        // Observe repository-backed prefs
+        combine(
+            appSettingsRepository.observeThemeMode(),
+            appSettingsRepository.observeTxDisplayPrefs(),
+            appSettingsRepository.observeDefaultCurrency(),
+            appSettingsRepository.observeLanguage(),
+        ) { themeMode, txPrefs, currency, language ->
+            _state.update {
+                it.copy(
+                    themeMode = themeMode,
+                    txDisplayPrefs = txPrefs,
+                    defaultCurrency = currency,
+                    language = language,
+                )
+            }
+        }.launchIn(viewModelScope)
     }
 
     fun onIntent(intent: SettingsIntent) {
@@ -73,23 +96,8 @@ class SettingsViewModel(
             SettingsIntent.ChangePinRequested ->
                 viewModelScope.launch { _effects.send(SettingsEffect.NavigateToPinSetup) }
 
-            SettingsIntent.CurrencyChangeRequested ->
-                _state.update { it.copy(showCurrencyPicker = true) }
-            is SettingsIntent.CurrencySelected -> {
-                settings.putString(PrefKeys.DEFAULT_CURRENCY, intent.code)
-                _state.update { it.copy(defaultCurrency = intent.code, showCurrencyPicker = false) }
-            }
-            SettingsIntent.CurrencyPickerDismissed ->
-                _state.update { it.copy(showCurrencyPicker = false) }
-
-            SettingsIntent.LanguageChangeRequested ->
-                _state.update { it.copy(showLanguagePicker = true) }
-            is SettingsIntent.LanguageSelected -> {
-                localeController.applyLocale(intent.tag)
-                _state.update { it.copy(selectedLanguage = intent.tag, showLanguagePicker = false) }
-            }
-            SettingsIntent.LanguagePickerDismissed ->
-                _state.update { it.copy(showLanguagePicker = false) }
+            is SettingsIntent.ThemeModeChanged ->
+                viewModelScope.launch { appSettingsRepository.setThemeMode(intent.mode) }
 
             SettingsIntent.ExportJsonRequested -> {
                 _state.update { it.copy(isExporting = true) }
@@ -124,12 +132,31 @@ class SettingsViewModel(
                 _state.update { it.copy(isImporting = true) }
                 viewModelScope.launch {
                     withContext(dispatchers.io) { importer.applyFromJson(json, ImportMode.MERGE) }
-                    _state.update { it.copy(isImporting = false, showImportSuccess = true, importJson = "", importPreview = null) }
+                    _state.update {
+                        it.copy(isImporting = false, showImportSuccess = true, importJson = "", importPreview = null)
+                    }
                 }
             }
             SettingsIntent.ClearExport -> _state.update { it.copy(exportedJson = null) }
-            SettingsIntent.ClearImport -> _state.update { it.copy(importJson = "", importPreview = null, importError = null, showImportSuccess = false) }
+            SettingsIntent.ClearImport -> _state.update {
+                it.copy(importJson = "", importPreview = null, importError = null, showImportSuccess = false)
+            }
         }
+    }
+
+    fun setDefaultCurrency(code: String) {
+        viewModelScope.launch { appSettingsRepository.setDefaultCurrency(code) }
+    }
+
+    fun setLanguage(tag: String) {
+        viewModelScope.launch {
+            appSettingsRepository.setLanguage(tag)
+            localeController.applyLocale(tag)
+        }
+    }
+
+    fun setTxDisplayPrefs(prefs: TxDisplayPrefs) {
+        viewModelScope.launch { appSettingsRepository.setTxDisplayPrefs(prefs) }
     }
 
     fun refreshPinState() {

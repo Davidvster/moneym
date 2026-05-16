@@ -1,6 +1,5 @@
 package com.dv.moneym.core.designsystem
 
-import androidx.compose.material3.Typography
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
@@ -82,9 +81,6 @@ fun moneyMType(geist: FontFamily, geistMono: FontFamily) = MoneyMType(
 val LocalMoneyMType = staticCompositionLocalOf<MoneyMType> {
     error("MoneyMType not provided — wrap tree in MoneyMTheme { }")
 }
-
-// M3 shim — kept during migration, removed in Phase 8
-fun moneyMTypography(): Typography = Typography()
 
 val AmountTextStyle = TextStyle(
     fontFeatureSettings = "tnum",

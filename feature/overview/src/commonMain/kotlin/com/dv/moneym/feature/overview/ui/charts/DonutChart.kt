@@ -4,7 +4,6 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,6 +13,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.categoryColor
 import kotlin.math.PI
 import kotlin.math.atan2
@@ -33,7 +33,7 @@ fun DonutChart(
     selectedIndex: Int? = null,
     onSliceTapped: ((Int?) -> Unit)? = null,
 ) {
-    val background = MaterialTheme.colorScheme.surfaceVariant
+    val background = MM.colors.surface2
     val total = slices.sumOf { it.value.toDouble() }.toFloat()
 
     // Build cumulative angle list for hit testing
@@ -99,8 +99,8 @@ fun DonutChart(
         }
         Text(
             text = centerLabel,
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurface,
+            style = MM.type.micro,
+            color = MM.colors.text,
         )
     }
 }
