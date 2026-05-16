@@ -64,7 +64,9 @@ internal fun MainNav(lockController: AppLockController) {
                 targetState.key is ModalKey ->
                     slideInVertically(spring(dampingRatio = 0.85f, stiffness = Spring.StiffnessMediumLow)) { it } togetherWith ExitTransition.None
                 else -> {
-                    val dir = tabSlideDirection(initialState.key, targetState.key)
+                    val fromKey = initialState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+                    val toKey = targetState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+                    val dir = tabSlideDirection(fromKey, toKey)
                     if (dir != 0)
                         slideInHorizontally(tween(300)) { it * dir } togetherWith slideOutHorizontally(tween(300)) { -it * dir }
                     else
@@ -77,7 +79,9 @@ internal fun MainNav(lockController: AppLockController) {
                 initialState.key is ModalKey ->
                     EnterTransition.None togetherWith slideOutVertically(tween(300)) { it }
                 else -> {
-                    val dir = tabSlideDirection(initialState.key, targetState.key)
+                    val fromKey = initialState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+                    val toKey = targetState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+                    val dir = tabSlideDirection(fromKey, toKey)
                     if (dir != 0)
                         slideInHorizontally(tween(300)) { -it * dir } togetherWith slideOutHorizontally(tween(300)) { it * dir }
                     else

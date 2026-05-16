@@ -30,6 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
+import androidx.compose.ui.tooling.preview.Preview
 
 enum class TabRoute { Transactions, Overview, Settings }
 
@@ -127,5 +129,13 @@ private fun TabItem(
             fontWeight = if (isActive) FontWeight.W600 else FontWeight.W500,
             color = animatedColor,
         )
+    }
+}
+
+@Preview
+@Composable
+private fun MmTabBarPreview() {
+    MoneyMTheme {
+        MmTabBar(activeTab = TabRoute.Overview, onTabSelected = {})
     }
 }

@@ -26,7 +26,11 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
+import androidx.compose.ui.tooling.preview.Preview
 
 enum class MmSegmentedSize { Sm, Md }
 
@@ -155,6 +159,23 @@ fun MmSegmented(
                     }
                 }
             }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun MmSegmentedPreview() {
+    MoneyMTheme {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            MmSegmented(listOf("Month", "Year"), selectedIndex = 0, onOptionSelected = {})
+            MmSegmented(
+                listOf("All", "Expenses", "Income"),
+                selectedIndex = 1,
+                onOptionSelected = {},
+                fillWidth = true,
+                modifier = Modifier.fillMaxWidth(),
+            )
         }
     }
 }

@@ -39,6 +39,22 @@ import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.TxRow
 import com.dv.moneym.feature.settings.presentation.SettingsViewModel
+import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.settings_txdisplay_category_name
+import moneym.feature.settings.generated.resources.settings_txdisplay_color_indicator
+import moneym.feature.settings.generated.resources.settings_txdisplay_comfortable
+import moneym.feature.settings.generated.resources.settings_txdisplay_compact
+import moneym.feature.settings.generated.resources.settings_txdisplay_density
+import moneym.feature.settings.generated.resources.settings_txdisplay_note
+import moneym.feature.settings.generated.resources.settings_txdisplay_preview
+import moneym.feature.settings.generated.resources.settings_txdisplay_row_size
+import moneym.feature.settings.generated.resources.settings_txdisplay_show
+import moneym.feature.settings.generated.resources.settings_txdisplay_style_bar
+import moneym.feature.settings.generated.resources.settings_txdisplay_style_dot
+import moneym.feature.settings.generated.resources.settings_txdisplay_style_minimal
+import moneym.feature.settings.generated.resources.settings_txdisplay_style_soft
+import moneym.feature.settings.generated.resources.settings_txdisplay_style_tile
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 fun EntryProviderScope<NavKey>.txListDisplayEntry(
@@ -67,12 +83,13 @@ private val sampleTransactions = listOf(
     SampleTx("Eating out", sampleEatingColor, null, isExpense = true, amount = 22.90),
 )
 
+@Composable
 private fun indicatorDescription(style: IndicatorStyle): String = when (style) {
-    IndicatorStyle.IconTile -> "Colored square with icon"
-    IndicatorStyle.SoftIcon -> "Soft circle with tinted icon"
-    IndicatorStyle.Bar -> "Thin color bar on the left"
-    IndicatorStyle.Dot -> "Small colored dot"
-    IndicatorStyle.Minimal -> "No color indicator"
+    IndicatorStyle.IconTile -> stringResource(Res.string.settings_txdisplay_style_tile)
+    IndicatorStyle.SoftIcon -> stringResource(Res.string.settings_txdisplay_style_soft)
+    IndicatorStyle.Bar -> stringResource(Res.string.settings_txdisplay_style_bar)
+    IndicatorStyle.Dot -> stringResource(Res.string.settings_txdisplay_style_dot)
+    IndicatorStyle.Minimal -> stringResource(Res.string.settings_txdisplay_style_minimal)
 }
 
 @Composable
@@ -127,7 +144,7 @@ private fun TxListDisplayContent(
                     .padding(horizontal = 20.dp, vertical = 20.dp),
             ) {
                 Column {
-                    SectionLabel("PREVIEW", Modifier.padding(bottom = 4.dp))
+                    SectionLabel(stringResource(Res.string.settings_txdisplay_preview), Modifier.padding(bottom = 4.dp))
                     MmCard {
                         sampleTransactions.forEachIndexed { i, tx ->
                             TxRow(
@@ -148,7 +165,7 @@ private fun TxListDisplayContent(
 
             // COLOR INDICATOR section
             SectionLabel(
-                "COLOR INDICATOR",
+                stringResource(Res.string.settings_txdisplay_color_indicator),
                 Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
             )
             MmCard(Modifier.padding(horizontal = 16.dp)) {
@@ -248,13 +265,13 @@ private fun TxListDisplayContent(
 
             // SHOW section
             SectionLabel(
-                "SHOW",
+                stringResource(Res.string.settings_txdisplay_show),
                 Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
             )
             MmCard(Modifier.padding(horizontal = 16.dp)) {
                 MmRow {
                     Text(
-                        "Category name",
+                        stringResource(Res.string.settings_txdisplay_category_name),
                         style = type.body,
                         color = colors.text,
                         modifier = Modifier.weight(1f),
@@ -266,7 +283,7 @@ private fun TxListDisplayContent(
                 }
                 MmRow(divider = false) {
                     Text(
-                        "Note / description",
+                        stringResource(Res.string.settings_txdisplay_note),
                         style = type.body,
                         color = colors.text,
                         modifier = Modifier.weight(1f),
@@ -280,19 +297,22 @@ private fun TxListDisplayContent(
 
             // DENSITY section
             SectionLabel(
-                "DENSITY",
+                stringResource(Res.string.settings_txdisplay_density),
                 Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
             )
             MmCard(Modifier.padding(horizontal = 16.dp)) {
                 MmRow(divider = false) {
                     Text(
-                        "Row size",
+                        stringResource(Res.string.settings_txdisplay_row_size),
                         style = type.body,
                         color = colors.text,
                         modifier = Modifier.weight(1f),
                     )
                     MmSegmented(
-                        options = listOf("Compact", "Comfortable"),
+                        options = listOf(
+                            stringResource(Res.string.settings_txdisplay_compact),
+                            stringResource(Res.string.settings_txdisplay_comfortable),
+                        ),
                         selectedIndex = if (currentPrefs.density == Density.Compact) 0 else 1,
                         onOptionSelected = {
                             onPrefsChanged(

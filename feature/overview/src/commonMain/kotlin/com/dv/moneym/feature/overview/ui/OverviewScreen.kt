@@ -1,5 +1,12 @@
 package com.dv.moneym.feature.overview.ui
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.designsystem.iconForKey
 import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.ui.CategoryIconTile
@@ -64,6 +72,11 @@ import com.dv.moneym.feature.overview.presentation.OverviewUiState
 import com.dv.moneym.feature.overview.presentation.OverviewViewModel
 import kotlinx.serialization.Serializable
 import moneym.feature.overview.generated.resources.Res
+import moneym.feature.overview.generated.resources.overview_cumulative_spend
+import moneym.feature.overview.generated.resources.overview_daily_trend
+import moneym.feature.overview.generated.resources.overview_label_expenses
+import moneym.feature.overview.generated.resources.overview_label_income
+import moneym.feature.overview.generated.resources.overview_label_total
 import moneym.feature.overview.generated.resources.overview_month_apr
 import moneym.feature.overview.generated.resources.overview_month_aug
 import moneym.feature.overview.generated.resources.overview_month_dec
@@ -76,7 +89,16 @@ import moneym.feature.overview.generated.resources.overview_month_may
 import moneym.feature.overview.generated.resources.overview_month_nov
 import moneym.feature.overview.generated.resources.overview_month_oct
 import moneym.feature.overview.generated.resources.overview_month_sep
+import moneym.feature.overview.generated.resources.overview_monthly_spending
+import moneym.feature.overview.generated.resources.overview_monthly_trend
+import moneym.feature.overview.generated.resources.overview_no_expenses
+import moneym.feature.overview.generated.resources.overview_period_month
+import moneym.feature.overview.generated.resources.overview_period_year
+import moneym.feature.overview.generated.resources.overview_spending_by_category
+import moneym.feature.overview.generated.resources.overview_through_day
+import moneym.feature.overview.generated.resources.overview_title
 import org.jetbrains.compose.resources.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
@@ -160,13 +182,13 @@ private fun OverviewContent(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = "Overview",
+                        text = stringResource(Res.string.overview_title),
                         style = type.title1,
                         color = colors.text,
                         modifier = Modifier.weight(1f),
                     )
                     MmSegmented(
-                        options = listOf("Month", "Year"),
+                        options = listOf(stringResource(Res.string.overview_period_month), stringResource(Res.string.overview_period_year)),
                         selectedIndex = if (isMonthMode) 0 else 1,
                         onOptionSelected = { idx ->
                             if (idx == 0 && !isMonthMode) onIntent(OverviewIntent.TogglePeriod)
@@ -199,230 +221,226 @@ private fun OverviewContent(
             }
         }
 
-        // ── Summary cards — Income + Expenses ─────────────────────
+        // ── Period-animated body ──────────────────────────────────
         item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                // Income card
-                MmCard(modifier = Modifier.weight(1f), padded = true, shape = MM.radius.md) {
-                    Column {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(6.dp),
-                        ) {
-                            Icon(
-                                imageVector = MmIcons.arrowDown,
-                                contentDescription = null,
-                                tint = colors.accent,
-                                modifier = Modifier.size(12.dp),
-                            )
-                            SectionLabel("INCOME")
+            val periodOffset = state.periodOffset
+            AnimatedContent(
+                targetState = state.period,
+                transitionSpec = {
+                    if (periodOffset != 0)
+                        slideInHorizontally(tween(280)) { it * periodOffset } togetherWith
+                            slideOutHorizontally(tween(280)) { -it * periodOffset }
+                    else
+                        fadeIn(tween(180)) togetherWith fadeOut(tween(180))
+                },
+                label = "overview_period",
+            ) { period ->
+                val inMonthMode = period is OverviewPeriod.Month
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    // Income + Expenses cards
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    ) {
+                        MmCard(modifier = Modifier.weight(1f), padded = true, shape = MM.radius.md) {
+                            Column {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                ) {
+                                    Icon(
+                                        imageVector = MmIcons.arrowDown,
+                                        contentDescription = null,
+                                        tint = colors.accent,
+                                        modifier = Modifier.size(12.dp),
+                                    )
+                                    SectionLabel(stringResource(Res.string.overview_label_income))
+                                }
+                                Spacer(Modifier.height(6.dp))
+                                MmMoney(
+                                    value = state.income,
+                                    size = 20.sp,
+                                    weight = FontWeight.SemiBold,
+                                    color = colors.accent,
+                                )
+                            }
                         }
-                        Spacer(Modifier.height(6.dp))
-                        MmMoney(
-                            value = state.income,
-                            size = 20.sp,
-                            weight = FontWeight.SemiBold,
-                            color = colors.accent,
-                        )
-                    }
-                }
-                // Expenses card
-                MmCard(modifier = Modifier.weight(1f), padded = true, shape = MM.radius.md) {
-                    Column {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(6.dp),
-                        ) {
-                            Icon(
-                                imageVector = MmIcons.arrowUp,
-                                contentDescription = null,
-                                tint = colors.text,
-                                modifier = Modifier.size(12.dp),
-                            )
-                            SectionLabel("EXPENSES")
-                        }
-                        Spacer(Modifier.height(6.dp))
-                        MmMoney(
-                            value = state.expenses,
-                            size = 20.sp,
-                            weight = FontWeight.SemiBold,
-                        )
-                    }
-                }
-            }
-        }
-
-        // ── Spending by category ──────────────────────────────────
-        item {
-            SpendingByCategoryCard(
-                categories = state.categoryBreakdown,
-                total = state.expenses,
-                currencyCode = currencyCode,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-            )
-        }
-
-        if (isMonthMode) {
-            // ── Cumulative spend card ─────────────────────────────
-            item {
-                MmCard(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                    padded = true,
-                    shape = MM.radius.md,
-                ) {
-                    Column {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                text = "Cumulative spend",
-                                style = type.title3,
-                                color = colors.text,
-                                modifier = Modifier.weight(1f),
-                            )
-                            Text(
-                                text = currencyCode,
-                                style = type.captionMono.copy(color = colors.text3),
-                            )
-                        }
-                        Spacer(Modifier.height(8.dp))
-                        val todayTotal = state.cumulativeTotals.getOrElse(state.todayIndex) { 0.0 }
-                        Row(
-                            verticalAlignment = Alignment.Bottom,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        ) {
-                            MmMoney(value = todayTotal, size = 22.sp, weight = FontWeight.SemiBold)
-                            Text(
-                                text = "through day ${state.todayIndex + 1}",
-                                style = type.caption.copy(color = colors.text2),
-                            )
-                        }
-                        Spacer(Modifier.height(16.dp))
-                        if (state.cumulativeTotals.isNotEmpty()) {
-                            CumulativeChart(
-                                values = state.cumulativeTotals,
-                                todayIndex = state.todayIndex,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(120.dp),
-                            )
-                        }
-                        Spacer(Modifier.height(4.dp))
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                        ) {
-                            listOf("1", "8", "15", "22", "31").forEach { label ->
-                                Text(
-                                    text = label,
-                                    style = type.captionMono.copy(
-                                        fontSize = 10.sp,
-                                        color = colors.text3,
-                                    ),
+                        MmCard(modifier = Modifier.weight(1f), padded = true, shape = MM.radius.md) {
+                            Column {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                ) {
+                                    Icon(
+                                        imageVector = MmIcons.arrowUp,
+                                        contentDescription = null,
+                                        tint = colors.text,
+                                        modifier = Modifier.size(12.dp),
+                                    )
+                                    SectionLabel(stringResource(Res.string.overview_label_expenses))
+                                }
+                                Spacer(Modifier.height(6.dp))
+                                MmMoney(
+                                    value = state.expenses,
+                                    size = 20.sp,
+                                    weight = FontWeight.SemiBold,
                                 )
                             }
                         }
                     }
-                }
-            }
 
-            // ── Daily trend by category ───────────────────────────
-            item {
-                CategoryTrendsCard(
-                    trends = state.categoryDailyTrend,
-                    highlightIndex = state.todayIndex,
-                    xLabels = listOf("1", "8", "15", "22", "31"),
-                    title = "Daily trend by category",
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                )
-            }
+                    // Spending by category
+                    SpendingByCategoryCard(
+                        categories = state.categoryBreakdown,
+                        total = state.expenses,
+                        currencyCode = currencyCode,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                    )
 
-        } else {
-            // ── Monthly spending bar chart ────────────────────────
-            item {
-                MmCard(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                    padded = true,
-                    shape = MM.radius.md,
-                ) {
-                    Column {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
+                    if (inMonthMode) {
+                        // Cumulative spend
+                        MmCard(
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                            padded = true,
+                            shape = MM.radius.md,
                         ) {
-                            Text(
-                                text = "Monthly spending",
-                                style = type.title3,
-                                color = colors.text,
-                                modifier = Modifier.weight(1f),
-                            )
-                            Text(
-                                text = currencyCode,
-                                style = type.captionMono.copy(color = colors.text3),
-                            )
-                        }
-                        Spacer(Modifier.height(16.dp))
-
-                        val maxVal = state.monthlyTotals.maxOrNull()?.takeIf { it > 0 } ?: 1.0
-                        val monthNames2 = listOf(
-                            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-                        )
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(140.dp),
-                            verticalAlignment = Alignment.Bottom,
-                            horizontalArrangement = Arrangement.SpaceEvenly,
-                        ) {
-                            state.monthlyTotals.forEachIndexed { i, value ->
-                                val isCurrent = i == state.currentMonthIndex
-                                val barFraction = (value / maxVal).toFloat().coerceIn(0f, 1f)
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier.fillMaxHeight(),
+                            Column {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
                                 ) {
-                                    Spacer(Modifier.weight(1f))
-                                    Box(
-                                        modifier = Modifier
-                                            .width(20.dp)
-                                            .fillMaxHeight(barFraction.coerceAtLeast(0.015f))
-                                            .clip(RoundedCornerShape(2.dp))
-                                            .background(
-                                                if (isCurrent) colors.text else colors.borderStrong,
-                                            )
-                                            .alpha(if (value == 0.0) 0.4f else 1f),
-                                    )
-                                    Spacer(Modifier.height(4.dp))
                                     Text(
-                                        text = monthNames2[i],
-                                        style = type.captionMono.copy(
-                                            fontSize = 10.sp,
-                                            color = if (isCurrent) colors.text else colors.text3,
-                                        ),
+                                        text = stringResource(Res.string.overview_cumulative_spend),
+                                        style = type.title3,
+                                        color = colors.text,
+                                        modifier = Modifier.weight(1f),
                                     )
+                                    Text(
+                                        text = currencyCode,
+                                        style = type.captionMono.copy(color = colors.text3),
+                                    )
+                                }
+                                Spacer(Modifier.height(8.dp))
+                                val todayTotal = state.cumulativeTotals.getOrElse(state.todayIndex) { 0.0 }
+                                Row(
+                                    verticalAlignment = Alignment.Bottom,
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                ) {
+                                    MmMoney(value = todayTotal, size = 22.sp, weight = FontWeight.SemiBold)
+                                    Text(
+                                        text = stringResource(Res.string.overview_through_day, state.todayIndex + 1),
+                                        style = type.caption.copy(color = colors.text2),
+                                    )
+                                }
+                                Spacer(Modifier.height(16.dp))
+                                if (state.cumulativeTotals.isNotEmpty()) {
+                                    CumulativeChart(
+                                        values = state.cumulativeTotals,
+                                        todayIndex = state.todayIndex,
+                                        modifier = Modifier.fillMaxWidth().height(120.dp),
+                                    )
+                                }
+                                Spacer(Modifier.height(4.dp))
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                ) {
+                                    listOf("1", "8", "15", "22", "31").forEach { label ->
+                                        Text(
+                                            text = label,
+                                            style = type.captionMono.copy(fontSize = 10.sp, color = colors.text3),
+                                        )
+                                    }
                                 }
                             }
                         }
-                    }
-                }
-            }
 
-            // ── Monthly trend by category ─────────────────────────
-            item {
-                CategoryTrendsCard(
-                    trends = state.categoryMonthlyTrend,
-                    highlightIndex = state.currentMonthIndex,
-                    xLabels = listOf("Jan", "Apr", "Jul", "Oct", "Dec"),
-                    title = "Monthly trend by category",
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                )
+                        // Daily trend by category
+                        CategoryTrendsCard(
+                            trends = state.categoryDailyTrend,
+                            highlightIndex = state.todayIndex,
+                            xLabels = listOf("1", "8", "15", "22", "31"),
+                            title = stringResource(Res.string.overview_daily_trend),
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                        )
+                    } else {
+                        // Monthly spending bar chart
+                        MmCard(
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                            padded = true,
+                            shape = MM.radius.md,
+                        ) {
+                            Column {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    Text(
+                                        text = stringResource(Res.string.overview_monthly_spending),
+                                        style = type.title3,
+                                        color = colors.text,
+                                        modifier = Modifier.weight(1f),
+                                    )
+                                    Text(
+                                        text = currencyCode,
+                                        style = type.captionMono.copy(color = colors.text3),
+                                    )
+                                }
+                                Spacer(Modifier.height(16.dp))
+                                val maxVal = state.monthlyTotals.maxOrNull()?.takeIf { it > 0 } ?: 1.0
+                                val monthNames2 = listOf(
+                                    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+                                )
+                                Row(
+                                    modifier = Modifier.fillMaxWidth().height(140.dp),
+                                    verticalAlignment = Alignment.Bottom,
+                                    horizontalArrangement = Arrangement.SpaceEvenly,
+                                ) {
+                                    state.monthlyTotals.forEachIndexed { i, value ->
+                                        val isCurrent = i == state.currentMonthIndex
+                                        val barFraction = (value / maxVal).toFloat().coerceIn(0f, 1f)
+                                        Column(
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            modifier = Modifier.fillMaxHeight(),
+                                        ) {
+                                            Spacer(Modifier.weight(1f))
+                                            Box(
+                                                modifier = Modifier
+                                                    .width(20.dp)
+                                                    .fillMaxHeight(barFraction.coerceAtLeast(0.015f))
+                                                    .clip(RoundedCornerShape(2.dp))
+                                                    .background(if (isCurrent) colors.text else colors.borderStrong)
+                                                    .alpha(if (value == 0.0) 0.4f else 1f),
+                                            )
+                                            Spacer(Modifier.height(4.dp))
+                                            Text(
+                                                text = monthNames2[i],
+                                                style = type.captionMono.copy(
+                                                    fontSize = 10.sp,
+                                                    color = if (isCurrent) colors.text else colors.text3,
+                                                ),
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // Monthly trend by category
+                        CategoryTrendsCard(
+                            trends = state.categoryMonthlyTrend,
+                            highlightIndex = state.currentMonthIndex,
+                            xLabels = listOf("Jan", "Apr", "Jul", "Oct", "Dec"),
+                            title = stringResource(Res.string.overview_monthly_trend),
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                        )
+                    }
+
+                    Spacer(Modifier.height(16.dp))
+                }
             }
         }
 
@@ -448,7 +466,7 @@ private fun SpendingByCategoryCard(
 
     var showPercent by remember { mutableStateOf(true) }
 
-    MmCard(modifier = modifier, padded = true, shape = MM.radius.md) {
+    MmCard(modifier = modifier, padded = true, shape = MM.radius.lg) {
         Column {
             // Title row + toggle
             Row(
@@ -456,7 +474,7 @@ private fun SpendingByCategoryCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "Spending by category",
+                    text = stringResource(Res.string.overview_spending_by_category),
                     style = type.title3,
                     color = colors.text,
                     modifier = Modifier.weight(1f),
@@ -473,7 +491,7 @@ private fun SpendingByCategoryCard(
 
             if (categories.isEmpty()) {
                 Text(
-                    text = "No expenses this period",
+                    text = stringResource(Res.string.overview_no_expenses),
                     style = type.caption,
                     color = colors.text3,
                 )
@@ -506,7 +524,7 @@ private fun SpendingByCategoryCard(
                             modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            SectionLabel("TOTAL")
+                            SectionLabel(stringResource(Res.string.overview_label_total))
                             Spacer(Modifier.width(6.dp))
                             Box(
                                 modifier = Modifier
@@ -661,4 +679,16 @@ private fun formatAmount(value: Double): String {
         }
     }
     return "$intFormatted.${decPart.toString().padStart(2, '0')}"
+}
+
+@Preview
+@Composable
+private fun OverviewScreenPreview() {
+    MoneyMTheme {
+        OverviewContent(
+            state = OverviewUiState(isLoading = false, isEmpty = true),
+            onIntent = {},
+            onTabSelected = {},
+        )
+    }
 }

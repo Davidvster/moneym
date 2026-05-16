@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,6 +30,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
+import androidx.compose.ui.tooling.preview.Preview
 
 enum class MmButtonVariant { Primary, Secondary, Ghost, Outline, Accent, Danger }
 enum class MmButtonSize { Sm, Md, Lg }
@@ -151,6 +154,19 @@ fun MmButton(
                 style = type.body,
                 color = fgColor,
             )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun MmButtonPreview() {
+    MoneyMTheme {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            MmButton("Primary", onClick = {}, variant = MmButtonVariant.Primary)
+            MmButton("Secondary", onClick = {}, variant = MmButtonVariant.Secondary)
+            MmButton("Accent", onClick = {}, variant = MmButtonVariant.Accent)
+            MmButton("Danger", onClick = {}, variant = MmButtonVariant.Danger)
         }
     }
 }

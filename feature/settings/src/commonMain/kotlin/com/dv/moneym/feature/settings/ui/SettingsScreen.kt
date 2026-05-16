@@ -42,6 +42,33 @@ import com.dv.moneym.feature.settings.presentation.SettingsIntent
 import com.dv.moneym.feature.settings.presentation.SettingsUiState
 import com.dv.moneym.feature.settings.presentation.SettingsViewModel
 import kotlinx.serialization.Serializable
+import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.settings_biometrics
+import moneym.feature.settings.generated.resources.settings_biometrics_subtitle
+import moneym.feature.settings.generated.resources.settings_categories
+import moneym.feature.settings.generated.resources.settings_change_pin
+import moneym.feature.settings.generated.resources.settings_currency
+import moneym.feature.settings.generated.resources.settings_export_as_csv
+import moneym.feature.settings.generated.resources.settings_export_as_json
+import moneym.feature.settings.generated.resources.settings_import_data
+import moneym.feature.settings.generated.resources.settings_language
+import moneym.feature.settings.generated.resources.settings_lock_1m
+import moneym.feature.settings.generated.resources.settings_lock_30s
+import moneym.feature.settings.generated.resources.settings_lock_5m
+import moneym.feature.settings.generated.resources.settings_lock_after
+import moneym.feature.settings.generated.resources.settings_lock_immediately
+import moneym.feature.settings.generated.resources.settings_pin_lock
+import moneym.feature.settings.generated.resources.settings_section_appearance
+import moneym.feature.settings.generated.resources.settings_section_data
+import moneym.feature.settings.generated.resources.settings_section_preferences
+import moneym.feature.settings.generated.resources.settings_section_security
+import moneym.feature.settings.generated.resources.settings_theme
+import moneym.feature.settings.generated.resources.settings_theme_auto
+import moneym.feature.settings.generated.resources.settings_theme_dark
+import moneym.feature.settings.generated.resources.settings_theme_light
+import moneym.feature.settings.generated.resources.settings_title
+import moneym.feature.settings.generated.resources.settings_tx_list
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable data object SettingsKey : NavKey
@@ -134,10 +161,10 @@ private fun SettingsContent(
     val txDisplaySummary = "${prefs.indicatorStyle.name} · ${if (prefs.showNote) "with note" else "no note"}"
 
     val lockAfterLabel = when (state.backgroundLockSeconds) {
-        0 -> "Immediately"
-        30 -> "30 seconds"
-        60 -> "1 minute"
-        300 -> "5 minutes"
+        0 -> stringResource(Res.string.settings_lock_immediately)
+        30 -> stringResource(Res.string.settings_lock_30s)
+        60 -> stringResource(Res.string.settings_lock_1m)
+        300 -> stringResource(Res.string.settings_lock_5m)
         else -> "${state.backgroundLockSeconds}s"
     }
 
@@ -162,7 +189,7 @@ private fun SettingsContent(
 
         item(key = SettingsItem.TITLE.name) {
             Text(
-                text = "Settings",
+                text = stringResource(Res.string.settings_title),
                 style = type.title1,
                 color = colors.text,
                 modifier = Modifier.statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 16.dp),
@@ -171,7 +198,7 @@ private fun SettingsContent(
 
         // APPEARANCE
         item(key = SettingsItem.APPEARANCE_LABEL.name) {
-            SectionLabel("APPEARANCE", Modifier.padding(horizontal = 20.dp, vertical = 4.dp))
+            SectionLabel(stringResource(Res.string.settings_section_appearance), Modifier.padding(horizontal = 20.dp, vertical = 4.dp))
         }
         item(key = SettingsItem.APPEARANCE_CARD.name) {
             MmCard(Modifier.padding(horizontal = 16.dp)) {
@@ -183,9 +210,9 @@ private fun SettingsContent(
                         tint = colors.text,
                         modifier = Modifier.size(18.dp),
                     )
-                    Text("Theme", style = type.body, color = colors.text, modifier = Modifier.weight(1f))
+                    Text(stringResource(Res.string.settings_theme), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
                     MmSegmented(
-                        options = listOf("Light", "Dark", "Auto"),
+                        options = listOf(stringResource(Res.string.settings_theme_light), stringResource(Res.string.settings_theme_dark), stringResource(Res.string.settings_theme_auto)),
                         selectedIndex = themeIndex,
                         onOptionSelected = { onIntent(SettingsIntent.ThemeModeChanged(themeModes[it])) },
                         size = MmSegmentedSize.Sm,
@@ -200,7 +227,7 @@ private fun SettingsContent(
                         modifier = Modifier.size(18.dp),
                     )
                     Column(Modifier.weight(1f)) {
-                        Text("Transaction list", style = type.body, color = colors.text)
+                        Text(stringResource(Res.string.settings_tx_list), style = type.body, color = colors.text)
                         Text(txDisplaySummary, style = type.caption.copy(color = colors.text2))
                     }
                     Icon(
@@ -216,7 +243,7 @@ private fun SettingsContent(
         // SECURITY
         item(key = SettingsItem.SECURITY_LABEL.name) {
             SectionLabel(
-                "SECURITY",
+                stringResource(Res.string.settings_section_security),
                 Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
             )
         }
@@ -241,9 +268,9 @@ private fun SettingsContent(
                                 else onIntent(SettingsIntent.PinToggled(true))
                             },
                     ) {
-                        Text("Pin Lock", style = type.body, color = colors.text)
+                        Text(stringResource(Res.string.settings_pin_lock), style = type.body, color = colors.text)
                         if (state.pinEnabled) {
-                            Text("Change pin", style = type.caption.copy(color = colors.text2))
+                            Text(stringResource(Res.string.settings_change_pin), style = type.caption.copy(color = colors.text2))
                         }
                     }
                     MmToggle(
@@ -263,8 +290,8 @@ private fun SettingsContent(
                             modifier = Modifier.size(18.dp),
                         )
                         Column(Modifier.weight(1f)) {
-                            Text("Unlock with biometrics", style = type.body, color = colors.text)
-                            Text("Face ID / Fingerprint", style = type.caption.copy(color = colors.text2))
+                            Text(stringResource(Res.string.settings_biometrics), style = type.body, color = colors.text)
+                            Text(stringResource(Res.string.settings_biometrics_subtitle), style = type.caption.copy(color = colors.text2))
                         }
                         MmToggle(
                             checked = state.biometricEnabled,
@@ -276,7 +303,7 @@ private fun SettingsContent(
                 // Lock after
                 MmRow(onClick = {}, divider = false) {
                     Text(
-                        "Lock after",
+                        stringResource(Res.string.settings_lock_after),
                         style = type.body,
                         color = colors.text,
                         modifier = Modifier.weight(1f),
@@ -295,7 +322,7 @@ private fun SettingsContent(
         // PREFERENCES
         item(key = SettingsItem.PREFERENCES_LABEL.name) {
             SectionLabel(
-                "PREFERENCES",
+                stringResource(Res.string.settings_section_preferences),
                 Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
             )
         }
@@ -309,7 +336,7 @@ private fun SettingsContent(
                         modifier = Modifier.size(18.dp),
                     )
                     Column(Modifier.weight(1f)) {
-                        Text("Default currency", style = type.body, color = colors.text)
+                        Text(stringResource(Res.string.settings_currency), style = type.body, color = colors.text)
                         Text(currencySubtitle, style = type.caption.copy(color = colors.text2))
                     }
                     Icon(
@@ -327,7 +354,7 @@ private fun SettingsContent(
                         modifier = Modifier.size(18.dp),
                     )
                     Column(Modifier.weight(1f)) {
-                        Text("Language", style = type.body, color = colors.text)
+                        Text(stringResource(Res.string.settings_language), style = type.body, color = colors.text)
                         Text(languageSubtitle, style = type.caption.copy(color = colors.text2))
                     }
                     Icon(
@@ -345,7 +372,7 @@ private fun SettingsContent(
                         modifier = Modifier.size(18.dp),
                     )
                     Text(
-                        "Manage categories",
+                        stringResource(Res.string.settings_categories),
                         style = type.body,
                         color = colors.text,
                         modifier = Modifier.weight(1f),
@@ -362,7 +389,7 @@ private fun SettingsContent(
 
         // DATA
         item(key = SettingsItem.DATA_LABEL.name) {
-            SectionLabel("DATA", Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp))
+            SectionLabel(stringResource(Res.string.settings_section_data), Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp))
         }
         item(key = SettingsItem.DATA_CARD.name) {
             MmCard(Modifier.padding(horizontal = 16.dp)) {
@@ -374,7 +401,7 @@ private fun SettingsContent(
                         modifier = Modifier.size(18.dp),
                     )
                     Text(
-                        "Export as JSON",
+                        stringResource(Res.string.settings_export_as_json),
                         style = type.body,
                         color = colors.text,
                         modifier = Modifier.weight(1f),
@@ -394,7 +421,7 @@ private fun SettingsContent(
                         modifier = Modifier.size(18.dp),
                     )
                     Text(
-                        "Export as CSV",
+                        stringResource(Res.string.settings_export_as_csv),
                         style = type.body,
                         color = colors.text,
                         modifier = Modifier.weight(1f),
@@ -414,7 +441,7 @@ private fun SettingsContent(
                         modifier = Modifier.size(18.dp),
                     )
                     Text(
-                        "Import data",
+                        stringResource(Res.string.settings_import_data),
                         style = type.body,
                         color = colors.text,
                         modifier = Modifier.weight(1f),
@@ -441,4 +468,20 @@ private fun SettingsContent(
         } // end LazyColumn
         MmTabBar(activeTab = TabRoute.Settings, onTabSelected = onTabSelected)
     } // end outer Column
+}
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun SettingsScreenPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        SettingsContent(
+            state = SettingsUiState(),
+            onIntent = {},
+            onNavigateToCategories = {},
+            onNavigateToTxDisplay = {},
+            onNavigateToCurrency = {},
+            onNavigateToLanguage = {},
+            onTabSelected = {},
+        )
+    }
 }

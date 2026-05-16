@@ -30,4 +30,16 @@
     <string name="overview_month_oct">Oct</string>
     <string name="overview_month_nov">Nov</string>
     <string name="overview_month_dec">Dic</string>
+    <string name="overview_period_month">Mes</string>
+    <string name="overview_period_year">Año</string>
+    <string name="overview_label_income">INGRESOS</string>
+    <string name="overview_label_expenses">GASTOS</string>
+    <string name="overview_spending_by_category">Gastos por categoría</string>
+    <string name="overview_no_expenses">Sin gastos este período</string>
+    <string name="overview_label_total">TOTAL</string>
+    <string name="overview_cumulative_spend">Gasto acumulado</string>
+    <string name="overview_through_day">hasta el día %1$d</string>
+    <string name="overview_daily_trend">Tendencia diaria por categoría</string>
+    <string name="overview_monthly_spending">Gasto mensual</string>
+    <string name="overview_monthly_trend">Tendencia mensual por categoría</string>
 </resources>

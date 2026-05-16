@@ -31,6 +31,11 @@ import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.feature.settings.presentation.SettingsViewModel
+import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.settings_language_all_languages
+import moneym.feature.settings.generated.resources.settings_language_restart_note
+import moneym.feature.settings.generated.resources.settings_language_use_device
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 fun EntryProviderScope<NavKey>.languagePickerEntry(
@@ -96,7 +101,7 @@ private fun LanguagePickerContent(
         ScreenHeader("Language", onBack = onBack)
 
         Text(
-            text = "Changing the language will restart the app on the next launch.",
+            text = stringResource(Res.string.settings_language_restart_note),
             style = type.caption.copy(color = colors.text2),
             modifier = Modifier.padding(20.dp),
         )
@@ -116,7 +121,7 @@ private fun LanguagePickerContent(
                         modifier = Modifier.size(18.dp),
                     )
                     Text(
-                        "Use device language",
+                        stringResource(Res.string.settings_language_use_device),
                         style = type.body,
                         color = colors.text,
                         modifier = Modifier.weight(1f),
@@ -130,7 +135,7 @@ private fun LanguagePickerContent(
         }
 
         SectionLabel(
-            "ALL LANGUAGES",
+            stringResource(Res.string.settings_language_all_languages),
             Modifier.padding(horizontal = 20.dp, vertical = 4.dp),
         )
 

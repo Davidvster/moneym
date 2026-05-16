@@ -55,6 +55,7 @@ import kotlinx.serialization.Serializable
 import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable data object TransactionsKey : NavKey
@@ -321,4 +322,18 @@ private fun monthLabel(year: Int, month: Int): String {
         stringResource(Res.string.transactions_month_dec),
     )
     return "${names[month - 1]} $year"
+}
+
+@Preview
+@Composable
+private fun TransactionListScreenPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        TransactionListContent(
+            state = TransactionListUiState(isLoading = false, isEmpty = true),
+            onIntent = {},
+            onAddTransaction = {},
+            onEditTransaction = {},
+            onTabSelected = {},
+        )
+    }
 }
