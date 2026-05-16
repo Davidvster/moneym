@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -116,7 +117,7 @@ private fun TransactionListContent(
     ) {
         // Header
         Column(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 12.dp),
+            modifier = Modifier.statusBarsPadding().padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 12.dp),
         ) {
             // Title row
             Row(
@@ -192,7 +193,7 @@ private fun TransactionListContent(
                     }
                     onIntent(TransactionListIntent.FilterChanged(filter))
                 },
-                modifier = Modifier.fillMaxWidth(),
+                fillWidth = true,
             )
         }
 

@@ -50,6 +50,9 @@ data class OverviewUiState(
     // Period / mode — period encodes both month and year info
     val period: OverviewPeriod = OverviewPeriod.Month(YearMonth(2026, 1)),
 
+    // Slide direction: +1 = forward in time, -1 = backward, 0 = no animation
+    val periodOffset: Int = 0,
+
     // ── Legacy list-based totals (kept for existing tests) ──────
     val totalIncome: List<MoneyTotal> = emptyList(),
     val totalExpense: List<MoneyTotal> = emptyList(),

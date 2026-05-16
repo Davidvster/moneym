@@ -1,13 +1,20 @@
 package com.dv.moneym
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.dv.moneym.core.navigation.ModalKey
@@ -33,6 +40,18 @@ import com.dv.moneym.feature.transactionedit.ui.transactionEditEntry
 import com.dv.moneym.feature.transactions.ui.TransactionsKey
 import com.dv.moneym.feature.transactions.ui.transactionsEntry
 
+private val TAB_ORDER: List<NavKey> = listOf(TransactionsKey, OverviewKey, SettingsKey)
+
+private fun tabSlideDirection(from: NavKey, to: NavKey): Int {
+    val fi = TAB_ORDER.indexOfFirst { it::class == from::class }
+    val ti = TAB_ORDER.indexOfFirst { it::class == to::class }
+    return when {
+        fi < 0 || ti < 0 -> 0
+        ti > fi -> 1
+        else -> -1
+    }
+}
+
 @Composable
 internal fun MainNav(lockController: AppLockController) {
     val tabBackStack = remember { TabBackStack(TransactionsKey) }
@@ -41,16 +60,30 @@ internal fun MainNav(lockController: AppLockController) {
         backStack = tabBackStack.backStack,
         onBack = { tabBackStack.removeLast() },
         transitionSpec = {
-            if (targetState.key is ModalKey)
-                (slideInVertically(tween(300)) { it } + fadeIn(tween(300))) togetherWith fadeOut(tween(150))
-            else
-                fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+            when {
+                targetState.key is ModalKey ->
+                    slideInVertically(spring(dampingRatio = 0.85f, stiffness = Spring.StiffnessMediumLow)) { it } togetherWith ExitTransition.None
+                else -> {
+                    val dir = tabSlideDirection(initialState.key, targetState.key)
+                    if (dir != 0)
+                        slideInHorizontally(tween(300)) { it * dir } togetherWith slideOutHorizontally(tween(300)) { -it * dir }
+                    else
+                        fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+                }
+            }
         },
         popTransitionSpec = {
-            if (initialState.key is ModalKey)
-                fadeIn(tween(220)) togetherWith (slideOutVertically(tween(300)) { it } + fadeOut(tween(200)))
-            else
-                fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+            when {
+                initialState.key is ModalKey ->
+                    EnterTransition.None togetherWith slideOutVertically(tween(300)) { it }
+                else -> {
+                    val dir = tabSlideDirection(initialState.key, targetState.key)
+                    if (dir != 0)
+                        slideInHorizontally(tween(300)) { -it * dir } togetherWith slideOutHorizontally(tween(300)) { it * dir }
+                    else
+                        fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+                }
+            }
         },
         entryProvider = entryProvider {
             transactionsEntry(

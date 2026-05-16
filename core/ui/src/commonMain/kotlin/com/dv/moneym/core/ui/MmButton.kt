@@ -104,7 +104,7 @@ fun MmButton(
     }
 
     var pressed by remember { mutableStateOf(false) }
-    val shape = radius.md
+    val shape = radius.xl
 
     val sizeModifier = if (fullWidth) Modifier.fillMaxWidth() else Modifier
 

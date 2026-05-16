@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,9 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -115,12 +114,11 @@ private fun TabItem(
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Box(modifier = Modifier.size(22.dp), contentAlignment = Alignment.Center) {
-            val painter = rememberVectorPainter(icon)
-            androidx.compose.foundation.Image(
-                painter = painter,
+            Icon(
+                imageVector = icon,
                 contentDescription = label,
+                tint = animatedColor,
                 modifier = Modifier.size(animatedIconSize.dp),
-                colorFilter = ColorFilter.tint(animatedColor),
             )
         }
         Text(

@@ -30,6 +30,7 @@ class OverviewViewModel(
     private val _period = MutableStateFlow<OverviewPeriod>(
         OverviewPeriod.Month(YearMonth(today.year, today.monthNumber))
     )
+    private val _periodOffset = MutableStateFlow(0)
     private val _selectedCategoryId = MutableStateFlow<CategoryId?>(null)
     private val _selectedSliceIndex = MutableStateFlow<Int?>(null)
 
@@ -229,16 +230,26 @@ class OverviewViewModel(
         )
     }
         .combine(_selectedSliceIndex) { s, slice -> s.copy(selectedSliceIndex = slice) }
+        .combine(_periodOffset) { s, offset -> s.copy(periodOffset = offset) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), OverviewUiState())
 
     fun onIntent(intent: OverviewIntent) {
         when (intent) {
-            OverviewIntent.PreviousPeriod -> _period.update { it.previous() }
-            OverviewIntent.NextPeriod -> _period.update { it.next() }
-            OverviewIntent.TogglePeriod -> _period.update { p ->
-                when (p) {
-                    is OverviewPeriod.Month -> OverviewPeriod.Year(p.yearMonth.year)
-                    is OverviewPeriod.Year -> OverviewPeriod.Month(YearMonth(p.year, today.monthNumber))
+            OverviewIntent.PreviousPeriod -> {
+                _periodOffset.value = -1
+                _period.update { it.previous() }
+            }
+            OverviewIntent.NextPeriod -> {
+                _periodOffset.value = 1
+                _period.update { it.next() }
+            }
+            OverviewIntent.TogglePeriod -> {
+                _periodOffset.value = 0
+                _period.update { p ->
+                    when (p) {
+                        is OverviewPeriod.Month -> OverviewPeriod.Year(p.yearMonth.year)
+                        is OverviewPeriod.Year -> OverviewPeriod.Month(YearMonth(p.year, today.monthNumber))
+                    }
                 }
             }
             is OverviewIntent.CategoryFilterSelected -> {

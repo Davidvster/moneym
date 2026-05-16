@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
@@ -142,17 +143,20 @@ private fun OverviewContent(
         ?: state.totalExpense.firstOrNull()?.currency?.value
         ?: "EUR"
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(colors.bg),
+    ) {
+    LazyColumn(
+        modifier = Modifier.weight(1f),
         contentPadding = PaddingValues(bottom = 16.dp),
     ) {
 
         // ── Header ────────────────────────────────────────────────
         item {
             Column(
-                Modifier.padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 16.dp),
+                Modifier.statusBarsPadding().padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 16.dp),
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
@@ -204,7 +208,7 @@ private fun OverviewContent(
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 // Income card
-                MmCard(modifier = Modifier.weight(1f), padded = true) {
+                MmCard(modifier = Modifier.weight(1f), padded = true, shape = MM.radius.md) {
                     Column {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -228,7 +232,7 @@ private fun OverviewContent(
                     }
                 }
                 // Expenses card
-                MmCard(modifier = Modifier.weight(1f), padded = true) {
+                MmCard(modifier = Modifier.weight(1f), padded = true, shape = MM.radius.md) {
                     Column {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -269,6 +273,7 @@ private fun OverviewContent(
                 MmCard(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                     padded = true,
+                    shape = MM.radius.md,
                 ) {
                     Column {
                         Row(
@@ -344,6 +349,7 @@ private fun OverviewContent(
                 MmCard(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                     padded = true,
+                    shape = MM.radius.md,
                 ) {
                     Column {
                         Row(
@@ -420,14 +426,12 @@ private fun OverviewContent(
             }
         }
 
-        // ── Tab bar ───────────────────────────────────────────────
-        item {
-            MmTabBar(
-                activeTab = TabRoute.Overview,
-                onTabSelected = onTabSelected,
-            )
-        }
     }
+    MmTabBar(
+        activeTab = TabRoute.Overview,
+        onTabSelected = onTabSelected,
+    )
+    } // end outer Column
 }
 
 // ─── SpendingByCategoryCard ────────────────────────────────────────────────────
@@ -444,7 +448,7 @@ private fun SpendingByCategoryCard(
 
     var showPercent by remember { mutableStateOf(true) }
 
-    MmCard(modifier = modifier, padded = true) {
+    MmCard(modifier = modifier, padded = true, shape = MM.radius.md) {
         Column {
             // Title row + toggle
             Row(
@@ -575,7 +579,7 @@ private fun CategoryTrendsCard(
 
     if (trends.isEmpty()) return
 
-    MmCard(modifier = modifier, padded = false) {
+    MmCard(modifier = modifier, padded = false, shape = MM.radius.sm) {
         Column {
             // Header
             Text(

@@ -1,10 +1,14 @@
 package com.dv.moneym.core.ui
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,8 +29,9 @@ fun ScreenHeader(
     val type = MM.type
     val dividerColor = colors.divider
 
+    Column(modifier = modifier.fillMaxWidth().windowInsetsPadding(WindowInsets.statusBars)) {
     Box(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .height(56.dp)
             .drawBehind {
@@ -73,4 +78,5 @@ fun ScreenHeader(
             }
         }
     }
+    } // end Column
 }

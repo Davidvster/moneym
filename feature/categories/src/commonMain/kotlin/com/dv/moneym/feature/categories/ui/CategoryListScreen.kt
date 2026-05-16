@@ -171,7 +171,7 @@ private fun ManageCategoriesScreen(
                 options = listOf("Expense", "Income"),
                 selectedIndex = if (activeTab == CategoryTab.Expense) 0 else 1,
                 onOptionSelected = { onSetTab(if (it == 0) CategoryTab.Expense else CategoryTab.Income) },
-                modifier = Modifier.fillMaxWidth(),
+                fillWidth = true,
             )
         }
 
