@@ -77,6 +77,10 @@ class SettingsViewModel(
         when (intent) {
             is SettingsIntent.PinToggled -> {
                 if (intent.enable) {
+                    // Optimistically show the toggle as ON immediately.
+                    // The actual pin state is confirmed when the user completes setup
+                    // and refreshPinState() is called on return.
+                    _state.update { it.copy(pinEnabled = true) }
                     viewModelScope.launch { _effects.send(SettingsEffect.NavigateToPinSetup) }
                 } else {
                     viewModelScope.launch {
@@ -165,6 +169,11 @@ class SettingsViewModel(
     }
 
     fun refreshPinState() {
-        _state.update { it.copy(pinEnabled = settings.getBoolean(SecurityPrefs.PIN_ENABLED)) }
+        _state.update {
+            it.copy(
+                pinEnabled = settings.getBoolean(SecurityPrefs.PIN_ENABLED),
+                biometricEnabled = settings.getBoolean(SecurityPrefs.BIOMETRIC_ENABLED),
+            )
+        }
     }
 }

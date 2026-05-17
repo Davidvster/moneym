@@ -56,6 +56,7 @@ val featureTransactionEditModule = module {
             deleteTransaction = get(),
             categoryRepository = get(),
             accountRepository = get(),
+            transactionRepository = get(),
             dispatchers = get(),
             clock = get(),
         )

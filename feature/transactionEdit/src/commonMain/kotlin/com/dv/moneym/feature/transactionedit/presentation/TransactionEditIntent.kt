@@ -12,6 +12,7 @@ sealed interface TransactionEditIntent {
     data class CategorySelected(val id: CategoryId) : TransactionEditIntent
     data class AccountSelected(val id: AccountId) : TransactionEditIntent
     data class NoteChanged(val note: String) : TransactionEditIntent
+    data class NoteSelected(val note: String) : TransactionEditIntent
     data object SaveRequested : TransactionEditIntent
     data object DeleteRequested : TransactionEditIntent
     data object DeleteConfirmed : TransactionEditIntent

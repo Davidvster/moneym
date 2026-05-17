@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -213,7 +215,8 @@ private fun TransactionEditContent(
         )
     }
 
-    Column(modifier = Modifier.fillMaxSize().background(colors.bg)) {
+    // imePadding() ensures the Save button is always visible above the keyboard
+    Column(modifier = Modifier.fillMaxSize().background(colors.bg).imePadding()) {
         TransactionEditModalHeader(
             isEditMode = state.isEditMode,
             onDismiss = onDismiss,
@@ -271,7 +274,7 @@ private fun TransactionEditScrollBody(
         modifier = modifier
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 20.dp, vertical = 8.dp)
-            .padding(bottom = 100.dp),
+            .padding(bottom = 16.dp),
     ) {
         TypeToggleBar(
             isExpense = state.type == TransactionType.EXPENSE,
@@ -306,6 +309,14 @@ private fun TransactionEditScrollBody(
             placeholder = stringResource(Res.string.edit_note_placeholder),
             modifier = Modifier.fillMaxWidth(),
         )
+        // Inline note suggestions — shown when the field has text and matches exist
+        if (state.noteSuggestions.isNotEmpty()) {
+            NoteSuggestionsRow(
+                suggestions = state.noteSuggestions,
+                onSelected = { onIntent(TransactionEditIntent.NoteSelected(it)) },
+                modifier = Modifier.padding(top = 6.dp),
+            )
+        }
         Spacer(Modifier.height(24.dp))
         CategoryPicker(
             categories = state.availableCategories,
@@ -313,6 +324,38 @@ private fun TransactionEditScrollBody(
             categoryError = state.categoryError,
             onCategorySelected = { onIntent(TransactionEditIntent.CategorySelected(it)) },
         )
+    }
+}
+
+// ─── Note suggestions row ─────────────────────────────────────────────────────
+
+@Composable
+private fun NoteSuggestionsRow(
+    suggestions: List<String>,
+    onSelected: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val type = MM.type
+    val colors = MM.colors
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        suggestions.forEach { suggestion ->
+            MmChip(
+                selected = false,
+                onClick = { onSelected(suggestion) },
+            ) {
+                Text(
+                    text = suggestion,
+                    style = type.caption,
+                    color = colors.text,
+                    maxLines = 1,
+                )
+            }
+        }
     }
 }
 

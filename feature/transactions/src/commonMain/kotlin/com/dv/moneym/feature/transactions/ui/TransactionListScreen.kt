@@ -1,5 +1,12 @@
 package com.dv.moneym.feature.transactions.ui
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -9,11 +16,14 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -21,11 +31,15 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -145,6 +159,7 @@ private fun Modifier.onHorizontalSwipe(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TransactionListContent(
     state: TransactionListUiState,
@@ -158,8 +173,21 @@ private fun TransactionListContent(
     var isSearchActive by remember { mutableStateOf(false) }
     var showMonthPicker by remember { mutableStateOf(false) }
     var showWalletSwitcher by remember { mutableStateOf(false) }
+    var showCategoryFilter by remember { mutableStateOf(false) }
     // Local (non-persisted) category filter: set of selected category IDs
     var selectedCategoryIds by remember { mutableStateOf(emptySet<CategoryId>()) }
+    // Track animation direction: -1 = previous (swipe right), +1 = next (swipe left)
+    var animationDirection by remember { mutableIntStateOf(0) }
+
+    // Wrapped callbacks that set animation direction before dispatching
+    val onPreviousMonth: () -> Unit = {
+        animationDirection = -1
+        onIntent(TransactionListIntent.PreviousMonth)
+    }
+    val onNextMonth: () -> Unit = {
+        animationDirection = 1
+        onIntent(TransactionListIntent.NextMonth)
+    }
 
     if (showMonthPicker) {
         MonthPickerDialog(
@@ -185,6 +213,22 @@ private fun TransactionListContent(
         )
     }
 
+    if (showCategoryFilter) {
+        CategoryFilterSheet(
+            categories = state.availableCategories,
+            selectedCategoryIds = selectedCategoryIds,
+            onToggle = { categoryId ->
+                selectedCategoryIds = if (categoryId in selectedCategoryIds) {
+                    selectedCategoryIds - categoryId
+                } else {
+                    selectedCategoryIds + categoryId
+                }
+            },
+            onClearAll = { selectedCategoryIds = emptySet() },
+            onDismiss = { showCategoryFilter = false },
+        )
+    }
+
     // Apply local category filter on top of the VM-provided dayGroups
     val filteredDayGroups = remember(state.dayGroups, selectedCategoryIds) {
         if (selectedCategoryIds.isEmpty()) {
@@ -192,7 +236,6 @@ private fun TransactionListContent(
         } else {
             state.dayGroups.mapNotNull { group ->
                 val matchingTxns = group.transactions.filter { tx ->
-                    // Match by category name since we don't have CategoryId directly in TransactionUiModel
                     state.availableCategories.any { cat ->
                         cat.id in selectedCategoryIds && cat.name == tx.categoryName
                     }
@@ -211,30 +254,45 @@ private fun TransactionListContent(
         TransactionListHeader(
             state = state,
             isSearchActive = isSearchActive,
-            selectedCategoryIds = selectedCategoryIds,
+            hasActiveFilter = selectedCategoryIds.isNotEmpty(),
             onSearchActiveChange = { isSearchActive = it },
             onShowMonthPicker = { showMonthPicker = true },
             onShowWalletSwitcher = { showWalletSwitcher = true },
-            onCategoryFilterToggle = { categoryId ->
-                selectedCategoryIds = if (categoryId in selectedCategoryIds) {
-                    selectedCategoryIds - categoryId
-                } else {
-                    selectedCategoryIds + categoryId
+            onShowCategoryFilter = { showCategoryFilter = true },
+            onIntent = onIntent,
+            onPreviousMonth = onPreviousMonth,
+            onNextMonth = onNextMonth,
+        )
+
+        // Animated content for month slide transitions (Phase 5)
+        AnimatedContent(
+            targetState = state.currentMonth,
+            transitionSpec = {
+                when {
+                    animationDirection > 0 ->
+                        (slideInHorizontally(tween(280)) { it } + fadeIn(tween(280))) togetherWith
+                            (slideOutHorizontally(tween(280)) { -it } + fadeOut(tween(280)))
+                    animationDirection < 0 ->
+                        (slideInHorizontally(tween(280)) { -it } + fadeIn(tween(280))) togetherWith
+                            (slideOutHorizontally(tween(280)) { it } + fadeOut(tween(280)))
+                    else ->
+                        fadeIn(tween(180)) togetherWith fadeOut(tween(180))
                 }
             },
-            onClearCategoryFilter = { selectedCategoryIds = emptySet() },
-            onIntent = onIntent,
-        )
-        TransactionListBody(
-            dayGroups = filteredDayGroups,
-            txDisplayPrefs = state.txDisplayPrefs,
-            isLoading = state.isLoading,
-            isEmpty = filteredDayGroups.isEmpty() && !state.isLoading,
-            onEditTransaction = onEditTransaction,
-            onPreviousMonth = { onIntent(TransactionListIntent.PreviousMonth) },
-            onNextMonth = { onIntent(TransactionListIntent.NextMonth) },
+            label = "month_slide",
             modifier = Modifier.weight(1f),
-        )
+        ) { _ ->
+            TransactionListBody(
+                dayGroups = filteredDayGroups,
+                txDisplayPrefs = state.txDisplayPrefs,
+                isLoading = state.isLoading,
+                isEmpty = filteredDayGroups.isEmpty() && !state.isLoading,
+                onEditTransaction = onEditTransaction,
+                onPreviousMonth = onPreviousMonth,
+                onNextMonth = onNextMonth,
+            )
+        }
+
         TransactionListFooter(
             onAddTransaction = onAddTransaction,
             onTabSelected = onTabSelected,
@@ -247,13 +305,14 @@ private fun TransactionListContent(
 private fun TransactionListHeader(
     state: TransactionListUiState,
     isSearchActive: Boolean,
-    selectedCategoryIds: Set<CategoryId>,
+    hasActiveFilter: Boolean,
     onSearchActiveChange: (Boolean) -> Unit,
     onShowMonthPicker: () -> Unit,
     onShowWalletSwitcher: () -> Unit,
-    onCategoryFilterToggle: (CategoryId) -> Unit,
-    onClearCategoryFilter: () -> Unit,
+    onShowCategoryFilter: () -> Unit,
     onIntent: (TransactionListIntent) -> Unit,
+    onPreviousMonth: () -> Unit,
+    onNextMonth: () -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -326,6 +385,25 @@ private fun TransactionListHeader(
                         )
                     }
                 }
+                // Category filter button with active badge
+                if (state.availableCategories.isNotEmpty()) {
+                    Box {
+                        MmIconButton(
+                            icon = MmIcons.sliders,
+                            onClick = onShowCategoryFilter,
+                            contentDescription = stringResource(Res.string.transactions_search_cd),
+                        )
+                        if (hasActiveFilter) {
+                            Box(
+                                modifier = Modifier
+                                    .size(8.dp)
+                                    .clip(CircleShape)
+                                    .background(colors.accent)
+                                    .align(Alignment.TopEnd),
+                            )
+                        }
+                    }
+                }
                 MmIconButton(
                     icon = MmIcons.search,
                     onClick = { onSearchActiveChange(true) },
@@ -337,7 +415,8 @@ private fun TransactionListHeader(
         MonthNavRow(
             state = state,
             onShowMonthPicker = onShowMonthPicker,
-            onIntent = onIntent,
+            onPreviousMonth = onPreviousMonth,
+            onNextMonth = onNextMonth,
         )
 
         // Segmented type filter
@@ -358,78 +437,112 @@ private fun TransactionListHeader(
             },
             fillWidth = true,
         )
-
-        // Category filter chips — shown when categories are available
-        if (state.availableCategories.isNotEmpty()) {
-            CategoryFilterRow(
-                categories = state.availableCategories,
-                selectedCategoryIds = selectedCategoryIds,
-                onToggle = onCategoryFilterToggle,
-                onClearAll = onClearCategoryFilter,
-                modifier = Modifier.padding(top = 8.dp, bottom = 4.dp),
-            )
-        }
     }
 }
 
+// ─── Category Filter Bottom Sheet (Phase 6) ────────────────────────────────────
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-private fun CategoryFilterRow(
+private fun CategoryFilterSheet(
     categories: List<Category>,
     selectedCategoryIds: Set<CategoryId>,
     onToggle: (CategoryId) -> Unit,
     onClearAll: () -> Unit,
-    modifier: Modifier = Modifier,
+    onDismiss: () -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
-    val scrollState = rememberScrollState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .horizontalScroll(scrollState),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-        verticalAlignment = Alignment.CenterVertically,
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
+        containerColor = colors.bg,
+        dragHandle = null,
     ) {
-        // "All" chip to clear selection
-        if (selectedCategoryIds.isNotEmpty()) {
-            MmChip(
-                selected = false,
-                onClick = onClearAll,
+        Column(
+            modifier = Modifier.padding(horizontal = 20.dp, vertical = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            // Grab handle
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center,
             ) {
-                Text(
-                    text = "All",
-                    style = type.caption,
-                    color = colors.text,
+                Box(
+                    modifier = Modifier
+                        .size(width = 36.dp, height = 4.dp)
+                        .clip(RoundedCornerShape(50))
+                        .background(colors.borderStrong),
                 )
             }
-        }
 
-        // Per-category chips
-        categories.forEach { cat ->
-            val isSelected = cat.id in selectedCategoryIds
-            val catColor = categoryColor(cat.colorHex)
-            val catIcon = iconForKey(cat.iconKey)
-            MmChip(
-                selected = isSelected,
-                onClick = { onToggle(cat.id) },
-                leadingContent = {
-                    CategoryIconTile(
-                        categoryName = cat.name,
-                        categoryColor = catColor,
-                        categoryIcon = catIcon,
-                        size = 16.dp,
-                        variant = IndicatorStyle.IconTile,
-                    )
-                },
+            // Title row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = cat.name,
-                    style = type.caption,
-                    color = if (isSelected) colors.bg else colors.text,
-                    maxLines = 1,
+                    text = stringResource(Res.string.transactions_filter_all),
+                    style = type.title3,
+                    color = colors.text,
+                    modifier = Modifier.weight(1f),
                 )
+                if (selectedCategoryIds.isNotEmpty()) {
+                    TextButton(onClick = onClearAll) {
+                        Text(
+                            text = stringResource(Res.string.transactions_cancel),
+                            color = colors.text2,
+                            style = type.caption,
+                        )
+                    }
+                }
             }
+
+            // Category chips — multi-select
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                categories.forEach { cat ->
+                    val isSelected = cat.id in selectedCategoryIds
+                    val catColor = categoryColor(cat.colorHex)
+                    val catIcon = iconForKey(cat.iconKey)
+                    MmChip(
+                        selected = isSelected,
+                        onClick = { onToggle(cat.id) },
+                        leadingContent = {
+                            CategoryIconTile(
+                                categoryName = cat.name,
+                                categoryColor = catColor,
+                                categoryIcon = catIcon,
+                                size = 20.dp,
+                                variant = IndicatorStyle.IconTile,
+                            )
+                        },
+                    ) {
+                        Text(
+                            text = cat.name,
+                            style = type.caption,
+                            color = if (isSelected) colors.bg else colors.text,
+                            maxLines = 1,
+                        )
+                    }
+                }
+            }
+
+            // Done button
+            com.dv.moneym.core.ui.MmButton(
+                text = stringResource(Res.string.transactions_ok),
+                onClick = onDismiss,
+                variant = MmButtonVariant.Primary,
+                size = MmButtonSize.Lg,
+                fullWidth = true,
+            )
+
+            Spacer(Modifier.height(8.dp))
         }
     }
 }
@@ -438,7 +551,8 @@ private fun CategoryFilterRow(
 private fun MonthNavRow(
     state: TransactionListUiState,
     onShowMonthPicker: () -> Unit,
-    onIntent: (TransactionListIntent) -> Unit,
+    onPreviousMonth: () -> Unit,
+    onNextMonth: () -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -451,7 +565,7 @@ private fun MonthNavRow(
     ) {
         MmIconButton(
             icon = MmIcons.chevronLeft,
-            onClick = { onIntent(TransactionListIntent.PreviousMonth) },
+            onClick = onPreviousMonth,
             size = 32.dp,
             contentDescription = stringResource(Res.string.transactions_previous_month),
         )
@@ -475,7 +589,7 @@ private fun MonthNavRow(
         }
         MmIconButton(
             icon = MmIcons.chevronRight,
-            onClick = { onIntent(TransactionListIntent.NextMonth) },
+            onClick = onNextMonth,
             size = 32.dp,
             contentDescription = stringResource(Res.string.transactions_next_month),
         )

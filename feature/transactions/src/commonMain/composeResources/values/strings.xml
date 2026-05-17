@@ -5,6 +5,9 @@
     <string name="transactions_filter_all">All</string>
     <string name="transactions_filter_expenses">Expenses</string>
     <string name="transactions_filter_income">Income</string>
+    <string name="transactions_filter_categories">Filter by category</string>
+    <string name="transactions_filter_clear">Clear</string>
+    <string name="transactions_filter_done">Done</string>
     <string name="transactions_empty">No transactions this month</string>
     <string name="transactions_previous_month">Previous month</string>
     <string name="transactions_next_month">Next month</string>

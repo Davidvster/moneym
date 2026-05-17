@@ -32,10 +32,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DatePickerDefaults
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DateRangePicker
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -83,6 +88,10 @@ import com.dv.moneym.feature.overview.presentation.OverviewIntent
 import com.dv.moneym.feature.overview.presentation.OverviewPeriod
 import com.dv.moneym.feature.overview.presentation.OverviewUiState
 import com.dv.moneym.feature.overview.presentation.OverviewViewModel
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
 import moneym.feature.overview.generated.resources.Res
 import moneym.feature.overview.generated.resources.overview_avg_day
@@ -121,8 +130,6 @@ import moneym.feature.overview.generated.resources.overview_through_day
 import moneym.feature.overview.generated.resources.overview_title
 import moneym.feature.overview.generated.resources.overview_tx_count_plural
 import moneym.feature.overview.generated.resources.overview_tx_count_singular
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import moneym.feature.overview.generated.resources.overview_date_range_from
@@ -287,10 +294,6 @@ private fun OverviewContent(
         }
 
         if (showDateRangePicker) {
-            val todayNow = remember {
-                kotlin.time.Clock.System.now()
-                    .toLocalDateTime(TimeZone.currentSystemDefault()).date
-            }
             val initStart = when (val p = state.period) {
                 is OverviewPeriod.DateRange -> Triple(p.startYear, p.startMonth, p.startDay)
                 is OverviewPeriod.Month -> Triple(p.yearMonth.year, p.yearMonth.monthNumber, 1)
@@ -1417,7 +1420,9 @@ private fun OverviewYearPickerDialog(
 }
 
 // ─── DateRangePickerDialog ────────────────────────────────────────────────────
+// Uses Material3 DateRangePicker (calendar UI) instead of spinners.
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DateRangePickerDialog(
     initStartYear: Int,
@@ -1430,70 +1435,63 @@ private fun DateRangePickerDialog(
     onConfirm: (startYear: Int, startMonth: Int, startDay: Int, endYear: Int, endMonth: Int, endDay: Int) -> Unit,
 ) {
     val colors = MM.colors
-    val type = MM.type
-    val space = MM.space
 
-    var startYear by remember { mutableIntStateOf(initStartYear) }
-    var startMonth by remember { mutableIntStateOf(initStartMonth) }
-    var startDay by remember { mutableIntStateOf(initStartDay) }
-    var endYear by remember { mutableIntStateOf(initEndYear) }
-    var endMonth by remember { mutableIntStateOf(initEndMonth) }
-    var endDay by remember { mutableIntStateOf(initEndDay) }
+    // Convert year/month/day to epoch millis (UTC midnight) for initial state
+    val initStartMillis = remember(initStartYear, initStartMonth, initStartDay) {
+        LocalDate(initStartYear, initStartMonth, initStartDay)
+            .atStartOfDayIn(kotlinx.datetime.TimeZone.UTC)
+            .toEpochMilliseconds()
+    }
+    val initEndMillis = remember(initEndYear, initEndMonth, initEndDay) {
+        LocalDate(initEndYear, initEndMonth, initEndDay)
+            .atStartOfDayIn(kotlinx.datetime.TimeZone.UTC)
+            .toEpochMilliseconds()
+    }
 
-    val monthNames = localizedMonthNames().map { it.take(3) }
+    val dateRangeState = rememberDateRangePickerState(
+        initialSelectedStartDateMillis = initStartMillis,
+        initialSelectedEndDateMillis = initEndMillis,
+    )
 
-    AlertDialog(
+    val themedColors = DatePickerDefaults.colors(
+        containerColor = colors.bg,
+        titleContentColor = colors.text,
+        headlineContentColor = colors.text,
+        weekdayContentColor = colors.text2,
+        subheadContentColor = colors.text2,
+        yearContentColor = colors.text,
+        currentYearContentColor = colors.accent,
+        selectedYearContentColor = colors.bg,
+        selectedYearContainerColor = colors.accent,
+        selectedDayContentColor = colors.bg,
+        selectedDayContainerColor = colors.accent,
+        dayInSelectionRangeContentColor = colors.text,
+        dayInSelectionRangeContainerColor = colors.accent.copy(alpha = 0.15f),
+        todayContentColor = colors.accent,
+        todayDateBorderColor = colors.accent,
+        dayContentColor = colors.text,
+        navigationContentColor = colors.text,
+    )
+
+    DatePickerDialog(
         onDismissRequest = onDismiss,
-        title = {
-            Text(
-                text = stringResource(Res.string.overview_date_range_title),
-                style = type.title3,
-                color = colors.text,
-            )
-        },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(space.padding_1_5x)) {
-                // Start date
-                Text(
-                    text = stringResource(Res.string.overview_date_range_from),
-                    style = type.caption.copy(color = colors.text2),
-                )
-                DateSelector(
-                    year = startYear,
-                    month = startMonth,
-                    day = startDay,
-                    monthNames = monthNames,
-                    onYearChange = { startYear = it },
-                    onMonthChange = { m ->
-                        startMonth = m
-                        val maxDay = daysInMonthUi(startYear, m)
-                        if (startDay > maxDay) startDay = maxDay
-                    },
-                    onDayChange = { startDay = it },
-                )
-                HorizontalDivider(color = colors.divider)
-                // End date
-                Text(
-                    text = stringResource(Res.string.overview_date_range_to),
-                    style = type.caption.copy(color = colors.text2),
-                )
-                DateSelector(
-                    year = endYear,
-                    month = endMonth,
-                    day = endDay,
-                    monthNames = monthNames,
-                    onYearChange = { endYear = it },
-                    onMonthChange = { m ->
-                        endMonth = m
-                        val maxDay = daysInMonthUi(endYear, m)
-                        if (endDay > maxDay) endDay = maxDay
-                    },
-                    onDayChange = { endDay = it },
-                )
-            }
-        },
         confirmButton = {
-            TextButton(onClick = { onConfirm(startYear, startMonth, startDay, endYear, endMonth, endDay) }) {
+            TextButton(onClick = {
+                val startMs = dateRangeState.selectedStartDateMillis
+                val endMs = dateRangeState.selectedEndDateMillis
+                if (startMs != null && endMs != null) {
+                    val start = kotlin.time.Instant.fromEpochMilliseconds(startMs)
+                        .toLocalDateTime(kotlinx.datetime.TimeZone.UTC).date
+                    val end = kotlin.time.Instant.fromEpochMilliseconds(endMs)
+                        .toLocalDateTime(kotlinx.datetime.TimeZone.UTC).date
+                    onConfirm(
+                        start.year, start.monthNumber, start.dayOfMonth,
+                        end.year, end.monthNumber, end.dayOfMonth,
+                    )
+                } else {
+                    onDismiss()
+                }
+            }) {
                 Text(stringResource(Res.string.overview_ok), color = colors.accent)
             }
         },
@@ -1502,85 +1500,48 @@ private fun DateRangePickerDialog(
                 Text(stringResource(Res.string.overview_cancel), color = colors.text2)
             }
         },
-        containerColor = colors.surface,
-        titleContentColor = colors.text,
-    )
-}
-
-@Composable
-private fun DateSelector(
-    year: Int,
-    month: Int,
-    day: Int,
-    monthNames: List<String>,
-    onYearChange: (Int) -> Unit,
-    onMonthChange: (Int) -> Unit,
-    onDayChange: (Int) -> Unit,
-) {
-    val colors = MM.colors
-    val type = MM.type
-    val space = MM.space
-    val maxDays = daysInMonthUi(year, month)
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(space.padding_0_5x),
-        modifier = Modifier.fillMaxWidth(),
+        colors = themedColors,
     ) {
-        // Day spinner
-        SpinnerValue(
-            value = day.toString().padStart(2, '0'),
-            onDecrement = { onDayChange(if (day <= 1) maxDays else day - 1) },
-            onIncrement = { onDayChange(if (day >= maxDays) 1 else day + 1) },
-            modifier = Modifier.weight(1f),
-        )
-        // Month spinner
-        SpinnerValue(
-            value = monthNames.getOrElse(month - 1) { "" },
-            onDecrement = { onMonthChange(if (month <= 1) 12 else month - 1) },
-            onIncrement = { onMonthChange(if (month >= 12) 1 else month + 1) },
-            modifier = Modifier.weight(1.5f),
-        )
-        // Year spinner
-        SpinnerValue(
-            value = year.toString(),
-            onDecrement = { onYearChange(year - 1) },
-            onIncrement = { onYearChange(year + 1) },
-            modifier = Modifier.weight(1.5f),
-        )
-    }
-}
-
-@Composable
-private fun SpinnerValue(
-    value: String,
-    onDecrement: () -> Unit,
-    onIncrement: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val colors = MM.colors
-    val type = MM.type
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        MmIconButton(
-            icon = MmIcons.chevronRight,
-            onClick = onIncrement,
-            size = 28.dp,
-            modifier = Modifier.alpha(0.7f),
-        )
-        Text(
-            text = value,
-            style = type.body,
-            color = colors.text,
-            textAlign = TextAlign.Center,
-        )
-        MmIconButton(
-            icon = MmIcons.chevronLeft,
-            onClick = onDecrement,
-            size = 28.dp,
-            modifier = Modifier.alpha(0.7f),
+        DateRangePicker(
+            state = dateRangeState,
+            colors = themedColors,
+            title = {
+                Text(
+                    text = stringResource(Res.string.overview_date_range_title),
+                    style = MM.type.title3,
+                    color = colors.text,
+                    modifier = Modifier.padding(start = 24.dp, end = 12.dp, top = 16.dp),
+                )
+            },
+            headline = {
+                val start = dateRangeState.selectedStartDateMillis?.let {
+                    kotlin.time.Instant.fromEpochMilliseconds(it)
+                        .toLocalDateTime(kotlinx.datetime.TimeZone.UTC).date
+                }
+                val end = dateRangeState.selectedEndDateMillis?.let {
+                    kotlin.time.Instant.fromEpochMilliseconds(it)
+                        .toLocalDateTime(kotlinx.datetime.TimeZone.UTC).date
+                }
+                val fromLabel = stringResource(Res.string.overview_date_range_from)
+                val toLabel = stringResource(Res.string.overview_date_range_to)
+                Row(
+                    modifier = Modifier.padding(start = 24.dp, end = 12.dp, bottom = 12.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    Text(
+                        text = if (start != null) "${start.dayOfMonth}.${start.monthNumber}.${start.year}" else fromLabel,
+                        style = MM.type.body,
+                        color = if (start != null) colors.text else colors.text3,
+                    )
+                    Text(" – ", style = MM.type.body, color = colors.text2)
+                    Text(
+                        text = if (end != null) "${end.dayOfMonth}.${end.monthNumber}.${end.year}" else toLabel,
+                        style = MM.type.body,
+                        color = if (end != null) colors.text else colors.text3,
+                    )
+                }
+            },
+            showModeToggle = false,
         )
     }
 }

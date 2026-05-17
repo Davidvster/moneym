@@ -43,7 +43,9 @@ import com.dv.moneym.feature.transactionedit.ui.TransactionEditKey
 import com.dv.moneym.feature.transactionedit.ui.transactionEditEntry
 import com.dv.moneym.feature.transactions.ui.TransactionsKey
 import com.dv.moneym.feature.transactions.ui.transactionsEntry
+import com.dv.moneym.feature.settings.presentation.SettingsViewModel
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 private val TAB_ORDER: List<NavKey> = listOf(TransactionsKey, OverviewKey, SettingsKey)
 
@@ -61,6 +63,8 @@ private fun tabSlideDirection(from: NavKey, to: NavKey): Int {
 internal fun MainNav(lockController: AppLockController) {
     val tabBackStack = remember { TabBackStack(TransactionsKey) }
     val filePlatform = koinInject<FilePlatform>()
+    // Shared SettingsViewModel so we can call refreshPinState after pin setup
+    val settingsViewModel: SettingsViewModel = koinViewModel()
 
     NavDisplay(
         backStack = tabBackStack.backStack,
@@ -139,6 +143,7 @@ internal fun MainNav(lockController: AppLockController) {
                 },
             )
             settingsEntry(
+                viewModel = settingsViewModel,
                 // From settings, we push PinSetupKey(isChangePinFlow = true) for change PIN
                 onNavigateToPinSetup = { tabBackStack.push(PinSetupKey(isChangePinFlow = true)) },
                 onNavigateToCategories = { tabBackStack.push(CategoriesKey) },
@@ -164,6 +169,8 @@ internal fun MainNav(lockController: AppLockController) {
             // Setup flow (isChangePinFlow = false by default)
             pinSetupEntry(onDone = {
                 lockController.init()
+                // Refresh pin state in settings so toggles reflect actual storage truth
+                settingsViewModel.refreshPinState()
                 tabBackStack.removeLast()
             })
             categoriesEntry(

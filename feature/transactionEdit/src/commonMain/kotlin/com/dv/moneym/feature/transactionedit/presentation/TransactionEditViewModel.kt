@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -35,6 +36,7 @@ class TransactionEditViewModel(
     private val deleteTransaction: DeleteTransactionUseCase,
     private val categoryRepository: CategoryRepository,
     private val accountRepository: AccountRepository,
+    private val transactionRepository: TransactionRepository,
     private val dispatchers: DispatcherProvider,
     private val clock: AppClock,
 ) : ViewModel() {
@@ -103,11 +105,46 @@ class TransactionEditViewModel(
             is TransactionEditIntent.DateChanged -> _state.update { it.copy(date = intent.date) }
             is TransactionEditIntent.CategorySelected -> _state.update { it.copy(selectedCategoryId = intent.id, categoryError = false) }
             is TransactionEditIntent.AccountSelected -> _state.update { it.copy(selectedAccountId = intent.id) }
-            is TransactionEditIntent.NoteChanged -> _state.update { it.copy(note = intent.note) }
+            is TransactionEditIntent.NoteChanged -> {
+                _state.update { it.copy(note = intent.note) }
+                updateNoteSuggestions(intent.note)
+            }
+            is TransactionEditIntent.NoteSelected -> {
+                _state.update { it.copy(note = intent.note, noteSuggestions = emptyList()) }
+            }
             TransactionEditIntent.SaveRequested -> save()
             TransactionEditIntent.DeleteRequested -> _state.update { it.copy(showDeleteConfirm = true) }
             TransactionEditIntent.DeleteConfirmed -> delete()
             TransactionEditIntent.DeleteCancelled -> _state.update { it.copy(showDeleteConfirm = false) }
+        }
+    }
+
+    private fun updateNoteSuggestions(query: String) {
+        viewModelScope.launch {
+            if (query.isBlank()) {
+                _state.update { it.copy(noteSuggestions = emptyList()) }
+                return@launch
+            }
+            val allTxns = withContext(dispatchers.io) {
+                transactionRepository.observeAll().first()
+            }
+            val noteCounts = allTxns
+                .mapNotNull { it.note }
+                .filter { it.isNotBlank() }
+                .groupingBy { it }
+                .eachCount()
+
+            val q = query.lowercase()
+            val prefixMatches = noteCounts.entries
+                .filter { it.key.lowercase().startsWith(q) && it.key != query }
+                .sortedByDescending { it.value }
+                .map { it.key }
+            val containsMatches = noteCounts.entries
+                .filter { it.key.lowercase().contains(q) && !it.key.lowercase().startsWith(q) && it.key != query }
+                .sortedByDescending { it.value }
+                .map { it.key }
+
+            _state.update { it.copy(noteSuggestions = (prefixMatches + containsMatches).take(5)) }
         }
     }
 

@@ -115,6 +115,7 @@ fun EntryProviderScope<NavKey>.settingsEntry(
     onTabSelected: (TabRoute) -> Unit,
     onExportReady: (suspend (String, String, String) -> Unit)? = null,
     onImportRequested: (suspend () -> String?)? = null,
+    viewModel: SettingsViewModel? = null,
 ) = entry<SettingsKey> {
     SettingsScreen(
         onNavigateToPinSetup = onNavigateToPinSetup,
@@ -127,6 +128,7 @@ fun EntryProviderScope<NavKey>.settingsEntry(
         onTabSelected = onTabSelected,
         onExportReady = onExportReady,
         onImportRequested = onImportRequested,
+        viewModel = viewModel ?: koinViewModel(),
     )
 }
 

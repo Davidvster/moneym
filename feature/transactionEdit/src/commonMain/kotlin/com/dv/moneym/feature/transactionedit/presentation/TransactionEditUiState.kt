@@ -18,6 +18,7 @@ data class TransactionEditUiState(
     val selectedCategoryId: CategoryId? = null,
     val selectedAccountId: AccountId? = null,
     val note: String = "",
+    val noteSuggestions: List<String> = emptyList(),
     val availableCategories: List<Category> = emptyList(),
     val availableAccounts: List<Account> = emptyList(),
     val showDeleteConfirm: Boolean = false,
