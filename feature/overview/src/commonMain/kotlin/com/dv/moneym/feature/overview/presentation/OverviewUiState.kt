@@ -40,6 +40,16 @@ data class CategoryTrend(
     val series: List<Double>,  // 31 values (month mode) or 12 values (year mode)
 )
 
+/**
+ * Per-category average spend: avg per day (month mode) or avg per month (year mode).
+ */
+data class CategoryAvgSpend(
+    val categoryName: String,
+    val categoryColor: Long,
+    val categoryIcon: String,
+    val avgAmount: Double,
+)
+
 // ─── Main UiState ──────────────────────────────────────────────
 
 data class OverviewUiState(
@@ -79,6 +89,9 @@ data class OverviewUiState(
     val avgDailyExpense: Double = 0.0,       // month view: avg expense per day (elapsed days)
     val avgMonthlyExpense: Double = 0.0,     // year view: avg expense per month (elapsed months)
     val avgDailyExpenseYear: Double = 0.0,   // year view: avg expense per day (elapsed days in year)
+
+    // ── Per-category average spend ───────────────────────────────
+    val categoryAvgSpend: List<CategoryAvgSpend> = emptyList(),
 
     // ── Legacy chart bars (kept for existing tests) ──────────────
     val chartBars: List<BarEntry> = emptyList(),

@@ -31,4 +31,7 @@ object PrefKeys {
     const val TX_SHOW_CATEGORY = "pref.tx_show_category"
     const val TX_SHOW_NOTE = "pref.tx_show_note"
     const val TX_DENSITY = "pref.tx_density"
+    // User last-selected settings (persisted across sessions)
+    const val TX_LAST_FILTER = "pref.tx_last_filter"
+    const val OVERVIEW_LAST_TAB = "pref.overview_last_tab"
 }

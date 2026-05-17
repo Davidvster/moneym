@@ -58,6 +58,7 @@ fun TxRow(
 
     val verticalPadding = when (prefs.density) {
         Density.Comfortable -> 14.dp
+        Density.Normal -> 12.dp
         Density.Compact -> 10.dp
     }
 

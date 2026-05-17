@@ -12,11 +12,12 @@ import androidx.compose.ui.unit.dp
 /**
  * A compact cumulative line chart used in category trend rows.
  * Shows running total as a filled area + line.
- * No today marker, no drag interaction.
+ * No today marker, no drag interaction (interaction is handled externally via seekIndex).
  *
  * @param data       Raw daily/monthly values (converted to cumulative internally)
  * @param color      Line and fill color
  * @param upToIndex  How many values to show (inclusive, 0-based). -1 = show all.
+ * @param seekIndex  Optional index to show a seek indicator (vertical line + dot). Set externally.
  */
 @Composable
 fun MiniCumulativeLine(
@@ -24,6 +25,7 @@ fun MiniCumulativeLine(
     color: Color,
     modifier: Modifier = Modifier,
     upToIndex: Int = -1,
+    seekIndex: Int? = null,
 ) {
     Canvas(modifier = modifier) {
         if (data.isEmpty()) return@Canvas
@@ -79,5 +81,24 @@ fun MiniCumulativeLine(
             radius = 3.dp.toPx() / 2f,
             center = Offset(lastX, lastY),
         )
+
+        // Seek indicator: vertical line + dot at seekIndex
+        if (seekIndex != null && seekIndex in cumulative.indices) {
+            val seekVal = cumulative[seekIndex]
+            val seekX = xAt(seekIndex)
+            val seekY = yAt(seekVal)
+
+            drawLine(
+                color = color.copy(alpha = 0.75f),
+                start = Offset(seekX, 0f),
+                end = Offset(seekX, size.height),
+                strokeWidth = 1.dp.toPx(),
+            )
+            drawCircle(
+                color = color,
+                radius = 4.dp.toPx() / 2f,
+                center = Offset(seekX, seekY),
+            )
+        }
     }
 }

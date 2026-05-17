@@ -46,6 +46,7 @@
     <string name="settings_txdisplay_density">DENSITÀ</string>
     <string name="settings_txdisplay_row_size">Dimensione riga</string>
     <string name="settings_txdisplay_compact">Compatto</string>
+    <string name="settings_txdisplay_normal">Normale</string>
     <string name="settings_txdisplay_comfortable">Confortevole</string>
     <string name="settings_txdisplay_style_tile">Quadrato colorato con icona</string>
     <string name="settings_txdisplay_style_soft">Cerchio morbido con icona colorata</string>

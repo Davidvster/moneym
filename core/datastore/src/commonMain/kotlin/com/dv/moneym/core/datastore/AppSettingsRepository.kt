@@ -13,4 +13,9 @@ interface AppSettingsRepository {
     suspend fun setDefaultCurrency(currency: String)
     fun observeLanguage(): Flow<String>
     suspend fun setLanguage(language: String)
+    // User last-selected settings
+    fun observeLastTransactionFilter(): Flow<String>
+    suspend fun setLastTransactionFilter(encoded: String)
+    fun observeLastOverviewPeriod(): Flow<String>
+    suspend fun setLastOverviewPeriod(encoded: String)
 }

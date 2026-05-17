@@ -3,6 +3,7 @@ package com.dv.moneym.feature.overview.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
+import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Money
@@ -16,13 +17,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 class OverviewViewModel(
     private val transactionRepository: TransactionRepository,
     private val categoryRepository: CategoryRepository,
+    private val appSettingsRepository: AppSettingsRepository,
     clock: AppClock,
 ) : ViewModel() {
 
@@ -33,6 +37,17 @@ class OverviewViewModel(
     private val _periodOffset = MutableStateFlow(0)
     private val _selectedCategoryId = MutableStateFlow<CategoryId?>(null)
     private val _selectedSliceIndex = MutableStateFlow<Int?>(null)
+
+    init {
+        // Restore persisted overview period mode on startup
+        viewModelScope.launch {
+            val saved = appSettingsRepository.observeLastOverviewPeriod().first()
+            if (saved == "year") {
+                _period.value = OverviewPeriod.Year(today.year)
+            }
+            // if "month" or anything else, default is already Month (set above)
+        }
+    }
 
     val state: StateFlow<OverviewUiState> = combine(
         _period,
@@ -269,10 +284,12 @@ class OverviewViewModel(
             OverviewIntent.TogglePeriod -> {
                 _periodOffset.value = 0
                 _period.update { p ->
-                    when (p) {
+                    val newPeriod = when (p) {
                         is OverviewPeriod.Month -> OverviewPeriod.Year(p.yearMonth.year)
                         is OverviewPeriod.Year -> OverviewPeriod.Month(YearMonth(p.year, today.monthNumber))
                     }
+                    persistPeriod(newPeriod)
+                    newPeriod
                 }
             }
             is OverviewIntent.CategoryFilterSelected -> {
@@ -285,7 +302,18 @@ class OverviewViewModel(
             is OverviewIntent.PeriodSelected -> {
                 _periodOffset.value = 0
                 _period.value = intent.period
+                persistPeriod(intent.period)
             }
+        }
+    }
+
+    private fun persistPeriod(period: OverviewPeriod) {
+        val encoded = when (period) {
+            is OverviewPeriod.Month -> "month"
+            is OverviewPeriod.Year -> "year"
+        }
+        viewModelScope.launch {
+            appSettingsRepository.setLastOverviewPeriod(encoded)
         }
     }
 

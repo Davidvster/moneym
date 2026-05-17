@@ -33,7 +33,6 @@ import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
-import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
@@ -45,9 +44,9 @@ import moneym.feature.settings.generated.resources.settings_txdisplay_color_indi
 import moneym.feature.settings.generated.resources.settings_txdisplay_comfortable
 import moneym.feature.settings.generated.resources.settings_txdisplay_compact
 import moneym.feature.settings.generated.resources.settings_txdisplay_density
+import moneym.feature.settings.generated.resources.settings_txdisplay_normal
 import moneym.feature.settings.generated.resources.settings_txdisplay_note
 import moneym.feature.settings.generated.resources.settings_txdisplay_preview
-import moneym.feature.settings.generated.resources.settings_txdisplay_row_size
 import moneym.feature.settings.generated.resources.settings_txdisplay_show
 import moneym.feature.settings.generated.resources.settings_txdisplay_style_bar
 import moneym.feature.settings.generated.resources.settings_txdisplay_style_dot
@@ -270,7 +269,7 @@ private fun TxListDisplayContent(
                 Modifier.padding(start = 20.dp, end = 20.dp, top = space.padding_2x, bottom = space.padding_0_5x),
             )
             MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.radius.md) {
-                // Category name row — now clickable (entire row toggles the switch)
+                // Category name row — row click is the single source of truth; toggle is display-only
                 MmRow(onClick = { onPrefsChanged(currentPrefs.copy(showCategoryName = !currentPrefs.showCategoryName)) }) {
                     Text(
                         stringResource(Res.string.settings_txdisplay_category_name),
@@ -280,7 +279,7 @@ private fun TxListDisplayContent(
                     )
                     MmToggle(
                         checked = currentPrefs.showCategoryName,
-                        onCheckedChange = { onPrefsChanged(currentPrefs.copy(showCategoryName = it)) },
+                        onCheckedChange = { /* handled by row click — no-op to prevent double-fire */ },
                     )
                 }
                 MmRow(
@@ -295,38 +294,61 @@ private fun TxListDisplayContent(
                     )
                     MmToggle(
                         checked = currentPrefs.showNote,
-                        onCheckedChange = { onPrefsChanged(currentPrefs.copy(showNote = it)) },
+                        onCheckedChange = { /* handled by row click — no-op to prevent double-fire */ },
                     )
                 }
             }
 
-            // DENSITY section
+            // DENSITY section — 3 radio button rows (Compact / Normal / Comfortable)
             SectionLabel(
                 stringResource(Res.string.settings_txdisplay_density),
                 Modifier.padding(start = 20.dp, end = 20.dp, top = space.padding_2x, bottom = space.padding_0_5x),
             )
             MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.radius.md) {
-                MmRow(divider = false) {
-                    Text(
-                        stringResource(Res.string.settings_txdisplay_row_size),
-                        style = type.body,
-                        color = colors.text,
-                        modifier = Modifier.weight(1f),
-                    )
-                    MmSegmented(
-                        options = listOf(
-                            stringResource(Res.string.settings_txdisplay_compact),
-                            stringResource(Res.string.settings_txdisplay_comfortable),
-                        ),
-                        selectedIndex = if (currentPrefs.density == Density.Compact) 0 else 1,
-                        onOptionSelected = {
-                            onPrefsChanged(
-                                currentPrefs.copy(
-                                    density = if (it == 0) Density.Compact else Density.Comfortable,
+                val densityOptions = listOf(Density.Compact, Density.Normal, Density.Comfortable)
+                val densityLabels = mapOf(
+                    Density.Compact to stringResource(Res.string.settings_txdisplay_compact),
+                    Density.Normal to stringResource(Res.string.settings_txdisplay_normal),
+                    Density.Comfortable to stringResource(Res.string.settings_txdisplay_comfortable),
+                )
+                densityOptions.forEachIndexed { i, opt ->
+                    val isLast = i == densityOptions.size - 1
+                    val isSelected = currentPrefs.density == opt
+                    MmRow(
+                        onClick = { onPrefsChanged(currentPrefs.copy(density = opt)) },
+                        divider = !isLast,
+                    ) {
+                        Text(
+                            text = densityLabels[opt] ?: opt.name,
+                            style = type.body,
+                            color = colors.text,
+                            modifier = Modifier.weight(1f),
+                        )
+                        // Custom radio circle
+                        Box(
+                            modifier = Modifier
+                                .size(22.dp)
+                                .clip(CircleShape)
+                                .border(
+                                    1.5.dp,
+                                    if (isSelected) colors.accent else colors.borderStrong,
+                                    CircleShape,
+                                )
+                                .background(
+                                    if (isSelected) colors.accent else Color.Transparent,
                                 ),
-                            )
-                        },
-                    )
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            if (isSelected) {
+                                Icon(
+                                    imageVector = MmIcons.check,
+                                    contentDescription = null,
+                                    tint = Color.White,
+                                    modifier = Modifier.size(12.dp),
+                                )
+                            }
+                        }
+                    }
                 }
             }
 

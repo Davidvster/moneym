@@ -46,6 +46,7 @@
     <string name="settings_txdisplay_density">DENSITY</string>
     <string name="settings_txdisplay_row_size">Row size</string>
     <string name="settings_txdisplay_compact">Compact</string>
+    <string name="settings_txdisplay_normal">Normal</string>
     <string name="settings_txdisplay_comfortable">Comfortable</string>
     <string name="settings_txdisplay_style_tile">Colored square with icon</string>
     <string name="settings_txdisplay_style_soft">Soft circle with tinted icon</string>

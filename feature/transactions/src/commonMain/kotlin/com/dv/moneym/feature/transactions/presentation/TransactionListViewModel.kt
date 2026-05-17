@@ -20,9 +20,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 class TransactionListViewModel(
@@ -36,6 +39,15 @@ class TransactionListViewModel(
     private val _currentMonth = MutableStateFlow(YearMonth(today.year, today.monthNumber))
     private val _filter = MutableStateFlow<TransactionFilter>(TransactionFilter.None)
     private val _searchQuery = MutableStateFlow("")
+
+    init {
+        // Restore persisted filter on startup
+        appSettingsRepository.observeLastTransactionFilter()
+            .onEach { encoded ->
+                _filter.update { decodeFilter(encoded) }
+            }
+            .launchIn(viewModelScope)
+    }
 
     val state = combine(
         _currentMonth,
@@ -114,7 +126,13 @@ class TransactionListViewModel(
         when (intent) {
             TransactionListIntent.PreviousMonth -> _currentMonth.update { it.previous() }
             TransactionListIntent.NextMonth -> _currentMonth.update { it.next() }
-            is TransactionListIntent.FilterChanged -> _filter.update { intent.filter }
+            is TransactionListIntent.FilterChanged -> {
+                _filter.update { intent.filter }
+                // Persist the selected filter
+                viewModelScope.launch {
+                    appSettingsRepository.setLastTransactionFilter(encodeFilter(intent.filter))
+                }
+            }
             is TransactionListIntent.SearchQueryChanged -> _searchQuery.update { intent.query }
             is TransactionListIntent.MonthSelected -> _currentMonth.update { intent.yearMonth }
         }
@@ -128,6 +146,21 @@ private operator fun <A, B, C, D, E> Quint<A, B, C, D, E>.component2() = b
 private operator fun <A, B, C, D, E> Quint<A, B, C, D, E>.component3() = c
 private operator fun <A, B, C, D, E> Quint<A, B, C, D, E>.component4() = d
 private operator fun <A, B, C, D, E> Quint<A, B, C, D, E>.component5() = e
+
+private fun encodeFilter(filter: TransactionFilter): String = when (filter) {
+    is TransactionFilter.None -> "all"
+    is TransactionFilter.ByType -> when (filter.type) {
+        TransactionType.EXPENSE -> "expense"
+        TransactionType.INCOME -> "income"
+    }
+    else -> "all"
+}
+
+private fun decodeFilter(encoded: String): TransactionFilter = when (encoded) {
+    "expense" -> TransactionFilter.ByType(TransactionType.EXPENSE)
+    "income" -> TransactionFilter.ByType(TransactionType.INCOME)
+    else -> TransactionFilter.None
+}
 
 private fun Transaction.toUiModel(category: Category?) = TransactionUiModel(
     id = id,

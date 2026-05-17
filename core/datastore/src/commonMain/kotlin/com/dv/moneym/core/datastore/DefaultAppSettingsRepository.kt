@@ -84,4 +84,22 @@ class DefaultAppSettingsRepository(
     override suspend fun setLanguage(language: String) {
         appSettings.putString(PrefKeys.LANGUAGE, language)
     }
+
+    override fun observeLastTransactionFilter(): Flow<String> =
+        appSettings
+            .observeString(PrefKeys.TX_LAST_FILTER, "all")
+            .map { it ?: "all" }
+
+    override suspend fun setLastTransactionFilter(encoded: String) {
+        appSettings.putString(PrefKeys.TX_LAST_FILTER, encoded)
+    }
+
+    override fun observeLastOverviewPeriod(): Flow<String> =
+        appSettings
+            .observeString(PrefKeys.OVERVIEW_LAST_TAB, "month")
+            .map { it ?: "month" }
+
+    override suspend fun setLastOverviewPeriod(encoded: String) {
+        appSettings.putString(PrefKeys.OVERVIEW_LAST_TAB, encoded)
+    }
 }

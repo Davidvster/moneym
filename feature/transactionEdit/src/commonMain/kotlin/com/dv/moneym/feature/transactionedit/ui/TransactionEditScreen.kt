@@ -1,6 +1,7 @@
 package com.dv.moneym.feature.transactionedit.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -78,6 +80,7 @@ import com.dv.moneym.feature.transactionedit.presentation.TransactionEditViewMod
 import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.edit_add_transaction
 import moneym.feature.transactionedit.generated.resources.edit_amount_label
+import moneym.feature.transactionedit.generated.resources.edit_category_error
 import moneym.feature.transactionedit.generated.resources.edit_category_label
 import moneym.feature.transactionedit.generated.resources.edit_date_label
 import moneym.feature.transactionedit.generated.resources.edit_date_ok
@@ -243,7 +246,7 @@ private fun TransactionEditScrollBody(
     }
     val todayLabel = stringResource(Res.string.edit_date_today)
     val yesterdayLabel = stringResource(Res.string.edit_date_yesterday)
-    val dateText = state.date?.toFriendlyString(todayDate, yesterdayDate, todayLabel, yesterdayLabel) ?: ""
+    val dateText = state.date?.toFriendlyString(todayDate, yesterdayDate, todayLabel, yesterdayLabel) ?: todayLabel
 
     Column(
         modifier = modifier
@@ -268,15 +271,12 @@ private fun TransactionEditScrollBody(
             focusRequester = focusRequester,
             onAmountChanged = { onIntent(TransactionEditIntent.AmountChanged(it)) },
         )
-        MmField(
-            value = dateText,
-            onValueChange = {},
+        // Date field — clickable display field (not an editable text input)
+        DateDisplayField(
+            dateText = dateText,
             label = stringResource(Res.string.edit_date_label),
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth().clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() },
-            ) { onDatePickerOpen() },
+            onClick = onDatePickerOpen,
+            modifier = Modifier.fillMaxWidth(),
         )
         Spacer(Modifier.height(12.dp))
         MmField(
@@ -290,8 +290,51 @@ private fun TransactionEditScrollBody(
         CategoryPicker(
             categories = state.availableCategories,
             selectedCategoryId = state.selectedCategoryId,
+            categoryError = state.categoryError,
             onCategorySelected = { onIntent(TransactionEditIntent.CategorySelected(it)) },
         )
+    }
+}
+
+// ─── Date display field (clickable, non-editable) ─────────────────────────────
+
+@Composable
+private fun DateDisplayField(
+    dateText: String,
+    label: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    val radius = MM.radius
+
+    Column(modifier = modifier) {
+        Text(
+            text = label.uppercase(),
+            style = type.micro,
+            color = colors.text2,
+        )
+        Spacer(Modifier.height(4.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(radius.md)
+                .background(colors.surface, radius.md)
+                .border(1.dp, colors.border, radius.md)
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() },
+                ) { onClick() }
+                .padding(horizontal = 14.dp, vertical = 14.dp),
+            contentAlignment = Alignment.CenterStart,
+        ) {
+            Text(
+                text = dateText,
+                style = type.body,
+                color = colors.text,
+            )
+        }
     }
 }
 
@@ -412,6 +455,7 @@ private fun AmountDisplay(
 private fun CategoryPicker(
     categories: List<Category>,
     selectedCategoryId: com.dv.moneym.core.model.CategoryId?,
+    categoryError: Boolean,
     onCategorySelected: (com.dv.moneym.core.model.CategoryId) -> Unit,
 ) {
     val colors = MM.colors
@@ -420,7 +464,7 @@ private fun CategoryPicker(
     Text(
         text = stringResource(Res.string.edit_category_label).uppercase(),
         style = type.micro,
-        color = colors.text3,
+        color = if (categoryError) colors.danger else colors.text3,
     )
     Spacer(Modifier.height(12.dp))
 
@@ -435,6 +479,16 @@ private fun CategoryPicker(
                 onClick = { onCategorySelected(cat.id) },
             )
         }
+    }
+
+    // Category error message
+    if (categoryError) {
+        Spacer(Modifier.height(8.dp))
+        Text(
+            text = stringResource(Res.string.edit_category_error),
+            style = type.caption,
+            color = colors.danger,
+        )
     }
 }
 
@@ -492,6 +546,26 @@ private fun TransactionDatePickerDialog(
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = initialMillis,
     )
+
+    // Apply design system colors to the date picker
+    val themedColors = DatePickerDefaults.colors(
+        containerColor = colors.bg,
+        titleContentColor = colors.text,
+        headlineContentColor = colors.text,
+        weekdayContentColor = colors.text2,
+        subheadContentColor = colors.text2,
+        yearContentColor = colors.text,
+        currentYearContentColor = colors.accent,
+        selectedYearContentColor = colors.bg,
+        selectedYearContainerColor = colors.accent,
+        selectedDayContentColor = colors.bg,
+        selectedDayContainerColor = colors.accent,
+        todayContentColor = colors.accent,
+        todayDateBorderColor = colors.accent,
+        dayContentColor = colors.text,
+        navigationContentColor = colors.text,
+    )
+
     DatePickerDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
@@ -526,8 +600,9 @@ private fun TransactionDatePickerDialog(
                 }
             }
         },
+        colors = themedColors,
     ) {
-        DatePicker(state = datePickerState)
+        DatePicker(state = datePickerState, colors = themedColors)
     }
 }
 

@@ -73,6 +73,7 @@ import moneym.feature.transactions.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.math.abs
 
 @Serializable data object TransactionsKey : NavKey
 
@@ -357,13 +358,7 @@ private fun TransactionListBody(
             LazyColumn(modifier = modifier) {
                 state.dayGroups.forEach { group ->
                     stickyHeader(key = "header_${group.date}") {
-                        SectionLabel(
-                            text = group.label,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(colors.bg)
-                                .padding(horizontal = 20.dp, vertical = 6.dp),
-                        )
+                        DayGroupHeader(group = group)
                     }
                     items(
                         items = group.transactions,
@@ -388,6 +383,46 @@ private fun TransactionListBody(
             }
         }
     }
+}
+
+// ─── Day Group Header with daily total ────────────────────────────────────────
+
+@Composable
+private fun DayGroupHeader(group: DayGroup) {
+    val colors = MM.colors
+    val type = MM.type
+
+    // Compute daily net: income - expenses (in minor units)
+    val dailyExpenses = group.transactions.filter { it.isExpense }.sumOf { it.amountMinorUnits }
+    val dailyIncome = group.transactions.filter { !it.isExpense }.sumOf { it.amountMinorUnits }
+    val dailyNet = dailyIncome - dailyExpenses
+    val currency = group.transactions.firstOrNull()?.currency ?: "EUR"
+    val absValue = abs(dailyNet) / 100.0
+    val sign = if (dailyNet >= 0) "+" else "−"
+    val formattedDaily = formatDailyAmount(absValue)
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(colors.bg)
+            .padding(horizontal = 20.dp, vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        SectionLabel(
+            text = group.label,
+            modifier = Modifier.weight(1f),
+        )
+        Text(
+            text = "$sign $currency $formattedDaily",
+            style = type.caption.copy(fontSize = 11.sp, color = colors.text3),
+        )
+    }
+}
+
+private fun formatDailyAmount(value: Double): String {
+    val intPart = value.toLong()
+    val decPart = kotlin.math.round((value - intPart) * 100).toInt()
+    return "$intPart.${decPart.toString().padStart(2, '0')}"
 }
 
 @Composable

@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -45,7 +46,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -592,6 +595,9 @@ private fun CumulativeSpendCard(
 
 // ─── MonthlySpendingBarChart ──────────────────────────────────────────────────
 
+private val CHART_HEIGHT = 120.dp
+private val YAXIS_WIDTH = 44.dp
+
 @Composable
 private fun MonthlySpendingBarChart(
     monthlyTotals: List<Double>,
@@ -602,12 +608,22 @@ private fun MonthlySpendingBarChart(
     val type = MM.type
     val space = MM.space
     val monthNames = localizedMonthNames().map { it.take(3) }
+
+    var selectedBarIndex by remember { mutableStateOf<Int?>(null) }
+
+    val maxVal = monthlyTotals.maxOrNull()?.takeIf { it > 0 } ?: 1.0
+    val avgVal = monthlyTotals.filter { it > 0 }.let { nonZero ->
+        if (nonZero.isNotEmpty()) nonZero.average() else 0.0
+    }
+    val avgFraction = (avgVal / maxVal).toFloat().coerceIn(0f, 1f)
+
     MmCard(
         modifier = Modifier.padding(horizontal = space.padding_2x, vertical = space.padding_0_5x),
         padded = true,
         shape = MM.radius.md,
     ) {
         Column {
+            // Header: title + currency
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -624,37 +640,141 @@ private fun MonthlySpendingBarChart(
                 )
             }
             Spacer(Modifier.height(space.padding_2x))
-            val maxVal = monthlyTotals.maxOrNull()?.takeIf { it > 0 } ?: 1.0
+
+            // Chart area: Y-axis + bars (fixed height so month labels don't overlap)
             Row(
-                modifier = Modifier.fillMaxWidth().height(140.dp),
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.Bottom,
+            ) {
+                // Y-axis labels column
+                Column(
+                    modifier = Modifier
+                        .width(YAXIS_WIDTH)
+                        .height(CHART_HEIGHT),
+                    verticalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text(
+                        text = formatAxisAmount(maxVal),
+                        style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                        textAlign = TextAlign.End,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Text(
+                        text = formatAxisAmount(maxVal / 2),
+                        style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                        textAlign = TextAlign.End,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Text(
+                        text = "0",
+                        style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                        textAlign = TextAlign.End,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+
+                Spacer(Modifier.width(4.dp))
+
+                // Bar chart area (with dotted avg line overlay)
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(CHART_HEIGHT),
+                ) {
+                    // Dashed average line drawn with Canvas
+                    if (avgVal > 0) {
+                        Canvas(modifier = Modifier.fillMaxWidth().height(CHART_HEIGHT)) {
+                            val avgY = size.height * (1f - avgFraction)
+                            drawLine(
+                                color = colors.accent.copy(alpha = 0.45f),
+                                start = Offset(0f, avgY),
+                                end = Offset(size.width, avgY),
+                                strokeWidth = 1.dp.toPx(),
+                                pathEffect = PathEffect.dashPathEffect(floatArrayOf(6f, 4f), 0f),
+                            )
+                        }
+                    }
+
+                    // Bars
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(CHART_HEIGHT),
+                        verticalAlignment = Alignment.Bottom,
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                    ) {
+                        monthlyTotals.forEachIndexed { i, value ->
+                            val isCurrent = i == currentMonthIndex
+                            val isSelected = i == selectedBarIndex
+                            val barFraction = (value / maxVal).toFloat().coerceIn(0f, 1f)
+
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxHeight(),
+                                contentAlignment = Alignment.BottomCenter,
+                            ) {
+                                // Value label above bar when tapped
+                                if (isSelected && value > 0) {
+                                    Text(
+                                        text = formatBarAmount(value),
+                                        style = type.captionMono.copy(fontSize = 8.sp),
+                                        color = colors.text,
+                                        modifier = Modifier
+                                            .align(Alignment.TopCenter)
+                                            .padding(bottom = 2.dp),
+                                        maxLines = 1,
+                                    )
+                                }
+                                // The bar itself
+                                Box(
+                                    modifier = Modifier
+                                        .width(14.dp)
+                                        .fillMaxHeight(barFraction.coerceAtLeast(0.01f))
+                                        .clip(RoundedCornerShape(2.dp))
+                                        .background(
+                                            when {
+                                                isSelected -> colors.accent
+                                                isCurrent -> colors.text
+                                                else -> colors.borderStrong
+                                            },
+                                        )
+                                        .alpha(if (value == 0.0) 0.3f else 1f)
+                                        .clickable(
+                                            indication = null,
+                                            interactionSource = remember { MutableInteractionSource() },
+                                        ) { selectedBarIndex = if (isSelected) null else i },
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Month name labels in their own row — completely separated from bars so no overlap
+            Spacer(Modifier.height(4.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = YAXIS_WIDTH + 4.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
-                monthlyTotals.forEachIndexed { i, value ->
+                monthNames.forEachIndexed { i, name ->
                     val isCurrent = i == currentMonthIndex
-                    val barFraction = (value / maxVal).toFloat().coerceIn(0f, 1f)
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.fillMaxHeight(),
-                    ) {
-                        Spacer(Modifier.weight(1f))
-                        Box(
-                            modifier = Modifier
-                                .width(20.dp)
-                                .fillMaxHeight(barFraction.coerceAtLeast(0.015f))
-                                .clip(RoundedCornerShape(2.dp))
-                                .background(if (isCurrent) colors.text else colors.borderStrong)
-                                .alpha(if (value == 0.0) 0.4f else 1f),
-                        )
-                        Spacer(Modifier.height(space.padding_0_5x))
-                        Text(
-                            text = monthNames[i],
-                            style = type.captionMono.copy(
-                                fontSize = 10.sp,
-                                color = if (isCurrent) colors.text else colors.text3,
-                            ),
-                        )
-                    }
+                    val isSelected = i == selectedBarIndex
+                    Text(
+                        text = name,
+                        style = type.captionMono.copy(
+                            fontSize = 9.sp,
+                            color = when {
+                                isSelected -> colors.accent
+                                isCurrent -> colors.text
+                                else -> colors.text3
+                            },
+                        ),
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center,
+                    )
                 }
             }
         }
@@ -779,7 +899,7 @@ private fun SpendingByCategoryLegend(
                     .fillMaxWidth()
                     .padding(vertical = 3.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(6.dp),  // no matching constant
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Box(
                     modifier = Modifier
@@ -1132,6 +1252,19 @@ private fun formatAmount(value: Double): String {
         }
     }
     return "$intFormatted.${decPart.toString().padStart(2, '0')}"
+}
+
+private fun formatAxisAmount(value: Double): String {
+    return if (value >= 1000) "${(value / 1000).toInt()}k" else value.toInt().toString()
+}
+
+private fun formatBarAmount(value: Double): String {
+    return if (value >= 1000) {
+        val k = (value / 100).toInt() / 10.0
+        "${k}k"
+    } else {
+        value.toInt().toString()
+    }
 }
 
 @Preview
