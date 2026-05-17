@@ -8,18 +8,18 @@ import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.TestDispatcherProvider
 import com.dv.moneym.core.testing.runTestWithDispatchers
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
-import com.dv.moneym.feature.categories.presentation.CategoryListIntent
-import com.dv.moneym.feature.categories.presentation.CategoryListViewModel
-import kotlin.time.Instant
+import com.dv.moneym.feature.categories.list.CategoryListIntent
+import com.dv.moneym.feature.categories.list.CategoryListViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
+import kotlin.time.Instant
 
 class CategoryListViewModelTest {
 

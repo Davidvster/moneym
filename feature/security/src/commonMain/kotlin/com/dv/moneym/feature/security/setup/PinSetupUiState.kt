@@ -1,8 +1,10 @@
 package com.dv.moneym.feature.security.setup
 
 import com.dv.moneym.core.security.BiometryType
+import kotlinx.serialization.Serializable
 
-data class PinSetupUiState(
+@Serializable
+internal data class PinSetupUiState(
     val step: PinSetupStep = PinSetupStep.ENTER_FIRST,
     val firstPin: String = "",
     val secondPin: String = "",
@@ -11,14 +13,14 @@ data class PinSetupUiState(
     val biometryType: BiometryType = BiometryType.None,
 )
 
-enum class PinSetupStep { ENTER_FIRST, CONFIRM }
+internal enum class PinSetupStep { ENTER_FIRST, CONFIRM }
 
-sealed interface PinSetupEffect {
+internal sealed interface PinSetupEffect {
     data object Done : PinSetupEffect
     data object OfferBiometrics : PinSetupEffect
 }
 
-sealed interface PinSetupIntent {
+internal sealed interface PinSetupIntent {
     data class DigitPressed(val digit: Int) : PinSetupIntent
     data object DeletePressed : PinSetupIntent
     data object BiometricOfferAccepted : PinSetupIntent

@@ -1,6 +1,8 @@
 package com.dv.moneym.feature.security.setup
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.datastore.AppSettings
@@ -24,19 +26,22 @@ class PinSetupViewModel(
     private val dispatchers: DispatcherProvider,
     private val biometricAuth: BiometricAuthenticator,
     private val settings: AppSettings,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(
-        PinSetupUiState(
-            biometryType = if (biometricAuth.isAvailable) biometricAuth.biometryType else BiometryType.None,
+    private val _state by savedStateHandle.saved {
+        MutableStateFlow(
+            PinSetupUiState(
+                biometryType = if (biometricAuth.isAvailable) biometricAuth.biometryType else BiometryType.None,
+            )
         )
-    )
-    val state: StateFlow<PinSetupUiState> = _state.asStateFlow()
+    }
+    internal val state: StateFlow<PinSetupUiState> = _state.asStateFlow()
 
     private val _effects = Channel<PinSetupEffect>(Channel.BUFFERED)
-    val effects = _effects.receiveAsFlow()
+    internal val effects = _effects.receiveAsFlow()
 
-    fun onIntent(intent: PinSetupIntent) {
+    internal fun onIntent(intent: PinSetupIntent) {
         when (intent) {
             is PinSetupIntent.DigitPressed -> onDigit(intent.digit)
             PinSetupIntent.DeletePressed -> onDelete()

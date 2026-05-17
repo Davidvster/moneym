@@ -9,20 +9,20 @@ import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.data.backup.BackupExporter
 import com.dv.moneym.data.backup.BackupImporter
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
-import com.dv.moneym.feature.categories.presentation.CategoryEditViewModel
-import com.dv.moneym.feature.categories.presentation.CategoryListViewModel
-import com.dv.moneym.feature.onboarding.presentation.OnboardingCurrencyViewModel
-import com.dv.moneym.feature.onboarding.presentation.OnboardingSecurityViewModel
-import com.dv.moneym.feature.overview.presentation.OverviewViewModel
+import com.dv.moneym.feature.categories.edit.CategoryEditViewModel
+import com.dv.moneym.feature.categories.list.CategoryListViewModel
+import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
+import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
+import com.dv.moneym.feature.overview.OverviewViewModel
 import com.dv.moneym.feature.security.setup.PinSetupViewModel
 import com.dv.moneym.feature.security.unlock.PinUnlockViewModel
-import com.dv.moneym.feature.settings.presentation.SettingsViewModel
-import com.dv.moneym.feature.settings.presentation.WalletManageViewModel
+import com.dv.moneym.feature.settings.settings.SettingsViewModel
+import com.dv.moneym.feature.settings.wallet.WalletManageViewModel
+import com.dv.moneym.feature.transactionedit.TransactionEditViewModel
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
-import com.dv.moneym.feature.transactionedit.presentation.TransactionEditViewModel
-import com.dv.moneym.feature.transactions.presentation.TransactionListViewModel
+import com.dv.moneym.feature.transactions.list.TransactionListViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -42,6 +42,7 @@ val featureTransactionsModule = module {
             accountRepository = get(),
             appSettingsRepository = get(),
             clock = get(),
+            savedStateHandle = get(),
         )
     }
 }
@@ -61,6 +62,7 @@ val featureTransactionEditModule = module {
             transactionRepository = get(),
             dispatchers = get(),
             clock = get(),
+            savedStateHandle = get(),
         )
     }
 }
@@ -72,6 +74,7 @@ val featureSecurityModule = module {
             dispatchers = get(),
             biometricAuth = get(),
             settings = get(),
+            savedStateHandle = get(),
         )
     }
     viewModelOf(::PinUnlockViewModel)
@@ -103,6 +106,7 @@ val featureWalletModule = module {
         WalletManageViewModel(
             accountRepository = get(),
             appSettingsRepository = get(),
+            savedStateHandle = get(),
         )
     }
 }
@@ -116,17 +120,19 @@ val featureCategoriesModule = module {
             repository = get(),
             dispatchers = get(),
             clock = get(),
+            savedStateHandle = get(),
         )
     }
 }
 
 val featureOnboardingModule = module {
-    viewModel { OnboardingCurrencyViewModel(settings = get()) }
+    viewModel { OnboardingCurrencyViewModel(settings = get(), savedStateHandle = get()) }
     viewModel {
         OnboardingSecurityViewModel(
             settings = get(),
             pinManager = get(),
             biometricAuth = get(),
+            savedStateHandle = get(),
         )
     }
 }

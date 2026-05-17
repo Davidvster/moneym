@@ -1,5 +1,8 @@
 package com.dv.moneym.core.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class YearMonth(val year: Int, val monthNumber: Int) {
     fun previous(): YearMonth =
         if (monthNumber == 1) YearMonth(year - 1, 12)

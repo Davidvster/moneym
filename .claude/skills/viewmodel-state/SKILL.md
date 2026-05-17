@@ -12,6 +12,7 @@ Every screen's presentation logic lives in a ViewModel. We use the multiplatform
 UI state is **one immutable data class per screen**, exposed as `StateFlow<UiState>`:
 
 ```kotlin
+@Serializable
 data class TransactionListUiState(
     val isLoading: Boolean = true,
     val days: List<DayGroup> = emptyList(),
@@ -30,13 +31,31 @@ data class TransactionListUiState(
 Inputs to the ViewModel arrive as a sealed `Intent`:
 
 ```kotlin
-sealed interface TransactionListIntent {
+internal sealed interface TransactionListIntent {
     data class FilterChanged(val filter: TransactionFilter) : TransactionListIntent
     data class DeleteRequested(val id: TransactionId) : TransactionListIntent
     object Retry : TransactionListIntent
 }
 
-class TransactionListViewModel(...) : ViewModel() {
+class TransactionListViewModel(
+    ...,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
+
+    private val _state by savedStateHandle.saved {
+        MutableStateFlow(TransactionListUiState())
+    }
+    val state: StateFlow<SettingsUiState> = _state
+        .onStart { init() }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, _state.value)
+
+    private val _effects = Channel<TransactionListEffect>(Channel.BUFFERED)
+    val effects = _effects.receiveAsFlow()
+
+    private suspend fun init() {
+        // initial action
+    }
+    
     fun onIntent(intent: TransactionListIntent) { /* when (intent) ... */ }
 }
 ```

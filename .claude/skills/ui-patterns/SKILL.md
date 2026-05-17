@@ -13,10 +13,9 @@ need to be argued in the PR.
 ```
 feature/<featureName>/
   src/commonMain/kotlin/com/dv/moneym/feature/<featureName>/
-    ui/
+    subfeature-name/
       <Screen>Screen.kt            // top-level composable (stateful wrapper + stateless content)
       components/                  // composables only used in this feature
-    presentation/
       <Screen>ViewModel.kt
       <Screen>UiState.kt
       <Screen>Intent.kt

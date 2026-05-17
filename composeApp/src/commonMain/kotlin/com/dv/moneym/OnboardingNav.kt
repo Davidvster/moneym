@@ -12,12 +12,12 @@ import androidx.compose.runtime.remember
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import com.dv.moneym.feature.onboarding.presentation.OnboardingSecurityViewModel
-import com.dv.moneym.feature.onboarding.ui.OnboardingKey
-import com.dv.moneym.feature.onboarding.ui.OnboardingPinSetupKey
-import com.dv.moneym.feature.onboarding.ui.OnboardingSecurityKey
-import com.dv.moneym.feature.onboarding.ui.onboardingCurrencyEntry
-import com.dv.moneym.feature.onboarding.ui.onboardingSecurityEntry
+import com.dv.moneym.feature.onboarding.currency.OnboardingKey
+import com.dv.moneym.feature.onboarding.currency.onboardingCurrencyEntry
+import com.dv.moneym.feature.onboarding.pin.OnboardingPinSetupKey
+import com.dv.moneym.feature.onboarding.security.OnboardingSecurityKey
+import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
+import com.dv.moneym.feature.onboarding.security.onboardingSecurityEntry
 import com.dv.moneym.feature.security.setup.PinSetupScreen
 import org.koin.compose.viewmodel.koinViewModel
 

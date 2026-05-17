@@ -16,31 +16,30 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.TabRoute
-import com.dv.moneym.feature.categories.ui.CategoriesKey
-import com.dv.moneym.feature.categories.ui.CategoryEditKey
-import com.dv.moneym.feature.categories.ui.categoriesEntry
-import com.dv.moneym.feature.categories.ui.categoryEditEntry
-import com.dv.moneym.feature.overview.ui.OverviewKey
-import com.dv.moneym.feature.overview.ui.overviewEntry
+import com.dv.moneym.feature.categories.edit.categoryEditEntry
+import com.dv.moneym.feature.categories.list.CategoriesKey
+import com.dv.moneym.feature.categories.list.categoriesEntry
+import com.dv.moneym.feature.overview.OverviewKey
+import com.dv.moneym.feature.overview.overviewEntry
 import com.dv.moneym.feature.security.setup.PinSetupKey
 import com.dv.moneym.feature.security.setup.pinSetupEntry
-import com.dv.moneym.feature.settings.presentation.SettingsViewModel
-import com.dv.moneym.feature.settings.ui.CurrencyPickerKey
-import com.dv.moneym.feature.settings.ui.ExportDataKey
-import com.dv.moneym.feature.settings.ui.LanguagePickerKey
-import com.dv.moneym.feature.settings.ui.SettingsKey
-import com.dv.moneym.feature.settings.ui.TxListDisplayKey
-import com.dv.moneym.feature.settings.ui.WalletManageKey
-import com.dv.moneym.feature.settings.ui.currencyPickerEntry
-import com.dv.moneym.feature.settings.ui.exportDataEntry
-import com.dv.moneym.feature.settings.ui.languagePickerEntry
-import com.dv.moneym.feature.settings.ui.settingsEntry
-import com.dv.moneym.feature.settings.ui.txListDisplayEntry
-import com.dv.moneym.feature.settings.ui.walletManageEntry
-import com.dv.moneym.feature.transactionedit.ui.TransactionEditKey
-import com.dv.moneym.feature.transactionedit.ui.transactionEditEntry
-import com.dv.moneym.feature.transactions.ui.TransactionsKey
-import com.dv.moneym.feature.transactions.ui.transactionsEntry
+import com.dv.moneym.feature.settings.settings.CurrencyPickerKey
+import com.dv.moneym.feature.settings.settings.LanguagePickerKey
+import com.dv.moneym.feature.settings.settings.SettingsKey
+import com.dv.moneym.feature.settings.settings.SettingsViewModel
+import com.dv.moneym.feature.settings.settings.TxListDisplayKey
+import com.dv.moneym.feature.settings.settings.currencypicker.currencyPickerEntry
+import com.dv.moneym.feature.settings.settings.export.ExportDataKey
+import com.dv.moneym.feature.settings.settings.export.exportDataEntry
+import com.dv.moneym.feature.settings.settings.locale.languagePickerEntry
+import com.dv.moneym.feature.settings.settings.settingsEntry
+import com.dv.moneym.feature.settings.settings.transactiondisplay.txListDisplayEntry
+import com.dv.moneym.feature.settings.wallet.WalletManageKey
+import com.dv.moneym.feature.settings.wallet.walletManageEntry
+import com.dv.moneym.feature.transactionedit.TransactionEditKey
+import com.dv.moneym.feature.transactionedit.transactionEditEntry
+import com.dv.moneym.feature.transactions.list.TransactionsKey
+import com.dv.moneym.feature.transactions.list.transactionsEntry
 import com.dv.moneym.platform.FilePlatform
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
@@ -187,7 +186,6 @@ internal fun MainNav(lockController: AppLockController) {
                 tabBackStack.removeLast()
             })
             categoriesEntry(
-                onEditCategory = { id -> tabBackStack.push(CategoryEditKey(id?.value)) },
                 onBack = { tabBackStack.removeLast() },
             )
             categoryEditEntry(onDismiss = { tabBackStack.removeLast() })

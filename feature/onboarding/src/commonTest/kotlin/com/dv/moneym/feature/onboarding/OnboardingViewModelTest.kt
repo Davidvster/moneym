@@ -3,9 +3,9 @@ package com.dv.moneym.feature.onboarding
 import app.cash.turbine.test
 import com.dv.moneym.core.testing.FakeAppSettings
 import com.dv.moneym.core.testing.runTestWithDispatchers
-import com.dv.moneym.feature.onboarding.presentation.OnboardingCurrencyEffect
-import com.dv.moneym.feature.onboarding.presentation.OnboardingCurrencyIntent
-import com.dv.moneym.feature.onboarding.presentation.OnboardingCurrencyViewModel
+import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyEffect
+import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyIntent
+import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain

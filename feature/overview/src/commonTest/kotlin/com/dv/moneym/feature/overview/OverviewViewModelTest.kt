@@ -12,10 +12,10 @@ import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.FixedClock
 import com.dv.moneym.core.testing.runTestWithDispatchers
-import com.dv.moneym.feature.overview.presentation.OverviewIntent
-import com.dv.moneym.feature.overview.presentation.OverviewPeriod
-import com.dv.moneym.feature.overview.presentation.OverviewViewModel
-import kotlin.time.Instant
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import kotlinx.datetime.LocalDate
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -24,10 +24,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
+import kotlin.time.Instant
 
 class OverviewViewModelTest {
 
