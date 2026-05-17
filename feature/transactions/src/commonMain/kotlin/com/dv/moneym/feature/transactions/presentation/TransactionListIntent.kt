@@ -1,5 +1,6 @@
 package com.dv.moneym.feature.transactions.presentation
 
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.YearMonth
 
@@ -9,4 +10,5 @@ sealed interface TransactionListIntent {
     data class FilterChanged(val filter: TransactionFilter) : TransactionListIntent
     data class SearchQueryChanged(val query: String) : TransactionListIntent
     data class MonthSelected(val yearMonth: YearMonth) : TransactionListIntent
+    data class AccountSelected(val accountId: AccountId?) : TransactionListIntent
 }

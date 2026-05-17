@@ -11,6 +11,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -49,6 +50,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -64,6 +66,7 @@ import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.CumulativeChart
 import com.dv.moneym.core.ui.DonutChart
 import com.dv.moneym.core.ui.DonutSlice
+import com.dv.moneym.core.ui.MiniBars
 import com.dv.moneym.core.ui.MiniCumulativeLine
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmIconButton
@@ -122,6 +125,10 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import moneym.feature.overview.generated.resources.overview_date_range_from
+import moneym.feature.overview.generated.resources.overview_date_range_title
+import moneym.feature.overview.generated.resources.overview_date_range_to
+import moneym.feature.overview.generated.resources.overview_period_custom
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
@@ -164,6 +171,31 @@ private fun localizedMonthNames(): List<String> = listOf(
     stringResource(Res.string.overview_month_dec),
 )
 
+// ─── Swipe-to-navigate modifier ───────────────────────────────────────────────
+
+private fun Modifier.onHorizontalSwipe(
+    thresholdDp: Float = 60f,
+    onSwipeLeft: () -> Unit,
+    onSwipeRight: () -> Unit,
+): Modifier = this.pointerInput(Unit) {
+    val thresholdPx = thresholdDp * density
+    var totalX = 0f
+    detectHorizontalDragGestures(
+        onDragStart = { totalX = 0f },
+        onDragEnd = {
+            when {
+                totalX > thresholdPx -> onSwipeRight()
+                totalX < -thresholdPx -> onSwipeLeft()
+            }
+            totalX = 0f
+        },
+        onHorizontalDrag = { change, delta ->
+            change.consume()
+            totalX += delta
+        },
+    )
+}
+
 // ─── Root content ─────────────────────────────────────────────────────────────
 
 @Composable
@@ -179,32 +211,41 @@ private fun OverviewContent(
     val periodLabel = when (val p = state.period) {
         is OverviewPeriod.Month -> "${monthNames[p.yearMonth.monthNumber - 1]} ${p.yearMonth.year}"
         is OverviewPeriod.Year -> p.year.toString()
+        is OverviewPeriod.DateRange -> "${formatShortDate(p.startYear, p.startMonth, p.startDay)} – ${formatShortDate(p.endYear, p.endMonth, p.endDay)}"
     }
     val currencyCode = state.totalIncome.firstOrNull()?.currency?.value
         ?: state.totalExpense.firstOrNull()?.currency?.value
         ?: "EUR"
 
     var showPeriodPicker by remember { mutableStateOf(false) }
+    var showDateRangePicker by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(colors.bg),
     ) {
+        // Fixed header — stays pinned at top during scroll
+        OverviewHeader(
+            period = state.period,
+            periodLabel = periodLabel,
+            onTogglePeriod = { onIntent(OverviewIntent.TogglePeriod) },
+            onPreviousPeriod = { onIntent(OverviewIntent.PreviousPeriod) },
+            onNextPeriod = { onIntent(OverviewIntent.NextPeriod) },
+            onShowPeriodPicker = { showPeriodPicker = true },
+            onShowDateRangePicker = { showDateRangePicker = true },
+        )
+
+        // Scrollable body with swipe gesture
         LazyColumn(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                .onHorizontalSwipe(
+                    onSwipeLeft = { onIntent(OverviewIntent.NextPeriod) },
+                    onSwipeRight = { onIntent(OverviewIntent.PreviousPeriod) },
+                ),
             contentPadding = PaddingValues(bottom = space.padding_2x),
         ) {
-            item {
-                OverviewHeader(
-                    isMonthMode = isMonthMode,
-                    periodLabel = periodLabel,
-                    onTogglePeriod = { onIntent(OverviewIntent.TogglePeriod) },
-                    onPreviousPeriod = { onIntent(OverviewIntent.PreviousPeriod) },
-                    onNextPeriod = { onIntent(OverviewIntent.NextPeriod) },
-                    onShowPeriodPicker = { showPeriodPicker = true },
-                )
-            }
             item {
                 OverviewPeriodBody(
                     state = state,
@@ -212,10 +253,12 @@ private fun OverviewContent(
                 )
             }
         }
+
         MmTabBar(
             activeTab = TabRoute.Overview,
             onTabSelected = onTabSelected,
         )
+
         if (showPeriodPicker) {
             if (isMonthMode) {
                 val currentPeriod = state.period as? OverviewPeriod.Month
@@ -230,19 +273,53 @@ private fun OverviewContent(
                         },
                     )
                 }
-            } else {
-                val currentPeriod = state.period as? OverviewPeriod.Year
-                if (currentPeriod != null) {
-                    OverviewYearPickerDialog(
-                        currentYear = currentPeriod.year,
-                        onDismiss = { showPeriodPicker = false },
-                        onConfirm = { year ->
-                            onIntent(OverviewIntent.PeriodSelected(OverviewPeriod.Year(year)))
-                            showPeriodPicker = false
-                        },
-                    )
-                }
+            } else if (state.period is OverviewPeriod.Year) {
+                val currentPeriod = state.period as OverviewPeriod.Year
+                OverviewYearPickerDialog(
+                    currentYear = currentPeriod.year,
+                    onDismiss = { showPeriodPicker = false },
+                    onConfirm = { year ->
+                        onIntent(OverviewIntent.PeriodSelected(OverviewPeriod.Year(year)))
+                        showPeriodPicker = false
+                    },
+                )
             }
+        }
+
+        if (showDateRangePicker) {
+            val todayNow = remember {
+                kotlin.time.Clock.System.now()
+                    .toLocalDateTime(TimeZone.currentSystemDefault()).date
+            }
+            val initStart = when (val p = state.period) {
+                is OverviewPeriod.DateRange -> Triple(p.startYear, p.startMonth, p.startDay)
+                is OverviewPeriod.Month -> Triple(p.yearMonth.year, p.yearMonth.monthNumber, 1)
+                is OverviewPeriod.Year -> Triple(p.year, 1, 1)
+            }
+            val initEnd = when (val p = state.period) {
+                is OverviewPeriod.DateRange -> Triple(p.endYear, p.endMonth, p.endDay)
+                is OverviewPeriod.Month -> Triple(
+                    p.yearMonth.year,
+                    p.yearMonth.monthNumber,
+                    daysInMonthUi(p.yearMonth.year, p.yearMonth.monthNumber),
+                )
+                is OverviewPeriod.Year -> Triple(p.year, 12, 31)
+            }
+            DateRangePickerDialog(
+                initStartYear = initStart.first,
+                initStartMonth = initStart.second,
+                initStartDay = initStart.third,
+                initEndYear = initEnd.first,
+                initEndMonth = initEnd.second,
+                initEndDay = initEnd.third,
+                onDismiss = { showDateRangePicker = false },
+                onConfirm = { sy, sm, sd, ey, em, ed ->
+                    onIntent(
+                        OverviewIntent.DateRangeSelected(sy, sm, sd, ey, em, ed)
+                    )
+                    showDateRangePicker = false
+                },
+            )
         }
     }
 }
@@ -251,17 +328,29 @@ private fun OverviewContent(
 
 @Composable
 private fun OverviewHeader(
-    isMonthMode: Boolean,
+    period: OverviewPeriod,
     periodLabel: String,
     onTogglePeriod: () -> Unit,
     onPreviousPeriod: () -> Unit,
     onNextPeriod: () -> Unit,
     onShowPeriodPicker: () -> Unit,
+    onShowDateRangePicker: () -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
     val space = MM.space
     val radius = MM.radius
+
+    val isMonthMode = period is OverviewPeriod.Month
+    val isYearMode = period is OverviewPeriod.Year
+    val isRangeMode = period is OverviewPeriod.DateRange
+
+    val segmentIndex = when {
+        isMonthMode -> 0
+        isYearMode -> 1
+        else -> 2
+    }
+
     Column(
         Modifier.statusBarsPadding().padding(start = space.padding_2x, end = space.padding_2x, top = space.padding_0_5x, bottom = space.padding_2x),
     ) {
@@ -273,11 +362,18 @@ private fun OverviewHeader(
                 modifier = Modifier.weight(1f),
             )
             MmSegmented(
-                options = listOf(stringResource(Res.string.overview_period_month), stringResource(Res.string.overview_period_year)),
-                selectedIndex = if (isMonthMode) 0 else 1,
+                options = listOf(
+                    stringResource(Res.string.overview_period_month),
+                    stringResource(Res.string.overview_period_year),
+                    stringResource(Res.string.overview_period_custom),
+                ),
+                selectedIndex = segmentIndex,
                 onOptionSelected = { idx ->
-                    if (idx == 0 && !isMonthMode) onTogglePeriod()
-                    else if (idx == 1 && isMonthMode) onTogglePeriod()
+                    when (idx) {
+                        0 -> { if (!isMonthMode) onTogglePeriod() }
+                        1 -> { if (!isYearMode) onTogglePeriod() }
+                        2 -> { onShowDateRangePicker() }
+                    }
                 },
             )
         }
@@ -285,11 +381,15 @@ private fun OverviewHeader(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(top = 14.dp),
         ) {
-            MmIconButton(
-                icon = MmIcons.chevronLeft,
-                size = 32.dp,
-                onClick = onPreviousPeriod,
-            )
+            if (!isRangeMode) {
+                MmIconButton(
+                    icon = MmIcons.chevronLeft,
+                    size = 32.dp,
+                    onClick = onPreviousPeriod,
+                )
+            } else {
+                Spacer(Modifier.width(32.dp))
+            }
             Box(
                 modifier = Modifier
                     .widthIn(min = 96.dp)
@@ -297,7 +397,10 @@ private fun OverviewHeader(
                     .clickable(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() },
-                    ) { onShowPeriodPicker() }
+                    ) {
+                        if (isRangeMode) onShowDateRangePicker()
+                        else onShowPeriodPicker()
+                    }
                     .padding(horizontal = space.padding_0_5x, vertical = space.padding_0_25x),
                 contentAlignment = Alignment.Center,
             ) {
@@ -308,11 +411,15 @@ private fun OverviewHeader(
                     textAlign = TextAlign.Center,
                 )
             }
-            MmIconButton(
-                icon = MmIcons.chevronRight,
-                size = 32.dp,
-                onClick = onNextPeriod,
-            )
+            if (!isRangeMode) {
+                MmIconButton(
+                    icon = MmIcons.chevronRight,
+                    size = 32.dp,
+                    onClick = onNextPeriod,
+                )
+            } else {
+                Spacer(Modifier.width(32.dp))
+            }
         }
     }
 }
@@ -338,6 +445,7 @@ private fun OverviewPeriodBody(
         label = "overview_period",
     ) { period ->
         val inMonthMode = period is OverviewPeriod.Month
+        val inYearMode = period is OverviewPeriod.Year
         val avgDayLabel = stringResource(Res.string.overview_avg_day)
         val avgMonthLabel = stringResource(Res.string.overview_avg_month)
         Column(modifier = Modifier.fillMaxWidth()) {
@@ -373,9 +481,10 @@ private fun OverviewPeriodBody(
                     highlightIndex = state.todayIndex,
                     xLabels = listOf("1", "8", "15", "22", "31"),
                     title = stringResource(Res.string.overview_daily_trend),
+                    showBars = false,
                     modifier = Modifier.padding(horizontal = space.padding_2x, vertical = space.padding_0_5x),
                 )
-            } else {
+            } else if (inYearMode) {
                 MonthlySpendingBarChart(
                     monthlyTotals = state.monthlyTotals,
                     currentMonthIndex = state.currentMonthIndex,
@@ -386,8 +495,21 @@ private fun OverviewPeriodBody(
                     highlightIndex = state.currentMonthIndex,
                     xLabels = listOf("Jan", "Apr", "Jul", "Oct", "Dec"),
                     title = stringResource(Res.string.overview_monthly_trend),
+                    showBars = true,
                     modifier = Modifier.padding(horizontal = space.padding_2x, vertical = space.padding_0_5x),
                 )
+            } else {
+                // DateRange mode — show category breakdown only, no time-series charts
+                if (state.categoryDailyTrend.isNotEmpty()) {
+                    CategoryTrendsCard(
+                        trends = state.categoryDailyTrend,
+                        highlightIndex = -1,
+                        xLabels = emptyList(),
+                        title = stringResource(Res.string.overview_daily_trend),
+                        showBars = true,
+                        modifier = Modifier.padding(horizontal = space.padding_2x, vertical = space.padding_0_5x),
+                    )
+                }
             }
             Spacer(Modifier.height(space.padding_2x))
         }
@@ -571,11 +693,45 @@ private fun CumulativeSpendCard(
             }
             Spacer(Modifier.height(space.padding_2x))
             if (cumulativeTotals.isNotEmpty()) {
-                CumulativeChart(
-                    values = cumulativeTotals,
-                    todayIndex = todayIndex,
-                    modifier = Modifier.fillMaxWidth().height(120.dp),
-                )
+                val maxVal = cumulativeTotals.maxOrNull()?.takeIf { it > 0 } ?: 1.0
+                // Y-axis + chart in a Row
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.Bottom,
+                ) {
+                    // Y-axis labels
+                    Column(
+                        modifier = Modifier
+                            .width(YAXIS_WIDTH)
+                            .height(CHART_HEIGHT),
+                        verticalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        Text(
+                            text = formatAxisAmount(maxVal),
+                            style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                            textAlign = TextAlign.End,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                        Text(
+                            text = formatAxisAmount(maxVal / 2),
+                            style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                            textAlign = TextAlign.End,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                        Text(
+                            text = "0",
+                            style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                            textAlign = TextAlign.End,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                    Spacer(Modifier.width(4.dp))
+                    CumulativeChart(
+                        values = cumulativeTotals,
+                        todayIndex = todayIndex,
+                        modifier = Modifier.weight(1f).height(CHART_HEIGHT),
+                    )
+                }
             }
             Spacer(Modifier.height(space.padding_0_5x))
             Row(
@@ -639,6 +795,30 @@ private fun MonthlySpendingBarChart(
                     style = type.captionMono.copy(color = colors.text3),
                 )
             }
+
+            // Show selected bar amount prominently
+            if (selectedBarIndex != null) {
+                val selVal = monthlyTotals.getOrElse(selectedBarIndex!!) { 0.0 }
+                val selName = monthNames.getOrElse(selectedBarIndex!!) { "" }
+                Spacer(Modifier.height(4.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    Text(
+                        text = selName,
+                        style = type.caption.copy(color = colors.text2),
+                    )
+                    MmMoney(
+                        value = selVal,
+                        size = 15.sp,
+                        weight = FontWeight.SemiBold,
+                        currency = currencyCode,
+                    )
+                }
+            }
+
             Spacer(Modifier.height(space.padding_2x))
 
             // Chart area: Y-axis + bars (fixed height so month labels don't overlap)
@@ -714,18 +894,6 @@ private fun MonthlySpendingBarChart(
                                     .fillMaxHeight(),
                                 contentAlignment = Alignment.BottomCenter,
                             ) {
-                                // Value label above bar when tapped
-                                if (isSelected && value > 0) {
-                                    Text(
-                                        text = formatBarAmount(value),
-                                        style = type.captionMono.copy(fontSize = 8.sp),
-                                        color = colors.text,
-                                        modifier = Modifier
-                                            .align(Alignment.TopCenter)
-                                            .padding(bottom = 2.dp),
-                                        maxLines = 1,
-                                    )
-                                }
                                 // The bar itself
                                 Box(
                                     modifier = Modifier
@@ -935,6 +1103,7 @@ private fun CategoryTrendsCard(
     highlightIndex: Int,
     xLabels: List<String>,
     title: String,
+    showBars: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
@@ -990,14 +1159,25 @@ private fun CategoryTrendsCard(
                         )
                     }
                     Spacer(Modifier.height(space.padding_1x))
-                    MiniCumulativeLine(
-                        data = trend.series,
-                        color = Color(trend.categoryColor),
-                        upToIndex = if (highlightIndex >= 0) highlightIndex else -1,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(32.dp),
-                    )
+                    if (showBars) {
+                        MiniBars(
+                            data = trend.series,
+                            color = Color(trend.categoryColor),
+                            highlightIndex = if (highlightIndex >= 0) highlightIndex else -1,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(32.dp),
+                        )
+                    } else {
+                        MiniCumulativeLine(
+                            data = trend.series,
+                            color = Color(trend.categoryColor),
+                            upToIndex = if (highlightIndex >= 0) highlightIndex else -1,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(32.dp),
+                        )
+                    }
                 }
 
                 if (index < trends.lastIndex) {
@@ -1236,6 +1416,175 @@ private fun OverviewYearPickerDialog(
     )
 }
 
+// ─── DateRangePickerDialog ────────────────────────────────────────────────────
+
+@Composable
+private fun DateRangePickerDialog(
+    initStartYear: Int,
+    initStartMonth: Int,
+    initStartDay: Int,
+    initEndYear: Int,
+    initEndMonth: Int,
+    initEndDay: Int,
+    onDismiss: () -> Unit,
+    onConfirm: (startYear: Int, startMonth: Int, startDay: Int, endYear: Int, endMonth: Int, endDay: Int) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    val space = MM.space
+
+    var startYear by remember { mutableIntStateOf(initStartYear) }
+    var startMonth by remember { mutableIntStateOf(initStartMonth) }
+    var startDay by remember { mutableIntStateOf(initStartDay) }
+    var endYear by remember { mutableIntStateOf(initEndYear) }
+    var endMonth by remember { mutableIntStateOf(initEndMonth) }
+    var endDay by remember { mutableIntStateOf(initEndDay) }
+
+    val monthNames = localizedMonthNames().map { it.take(3) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = stringResource(Res.string.overview_date_range_title),
+                style = type.title3,
+                color = colors.text,
+            )
+        },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(space.padding_1_5x)) {
+                // Start date
+                Text(
+                    text = stringResource(Res.string.overview_date_range_from),
+                    style = type.caption.copy(color = colors.text2),
+                )
+                DateSelector(
+                    year = startYear,
+                    month = startMonth,
+                    day = startDay,
+                    monthNames = monthNames,
+                    onYearChange = { startYear = it },
+                    onMonthChange = { m ->
+                        startMonth = m
+                        val maxDay = daysInMonthUi(startYear, m)
+                        if (startDay > maxDay) startDay = maxDay
+                    },
+                    onDayChange = { startDay = it },
+                )
+                HorizontalDivider(color = colors.divider)
+                // End date
+                Text(
+                    text = stringResource(Res.string.overview_date_range_to),
+                    style = type.caption.copy(color = colors.text2),
+                )
+                DateSelector(
+                    year = endYear,
+                    month = endMonth,
+                    day = endDay,
+                    monthNames = monthNames,
+                    onYearChange = { endYear = it },
+                    onMonthChange = { m ->
+                        endMonth = m
+                        val maxDay = daysInMonthUi(endYear, m)
+                        if (endDay > maxDay) endDay = maxDay
+                    },
+                    onDayChange = { endDay = it },
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = { onConfirm(startYear, startMonth, startDay, endYear, endMonth, endDay) }) {
+                Text(stringResource(Res.string.overview_ok), color = colors.accent)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(Res.string.overview_cancel), color = colors.text2)
+            }
+        },
+        containerColor = colors.surface,
+        titleContentColor = colors.text,
+    )
+}
+
+@Composable
+private fun DateSelector(
+    year: Int,
+    month: Int,
+    day: Int,
+    monthNames: List<String>,
+    onYearChange: (Int) -> Unit,
+    onMonthChange: (Int) -> Unit,
+    onDayChange: (Int) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    val space = MM.space
+    val maxDays = daysInMonthUi(year, month)
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(space.padding_0_5x),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        // Day spinner
+        SpinnerValue(
+            value = day.toString().padStart(2, '0'),
+            onDecrement = { onDayChange(if (day <= 1) maxDays else day - 1) },
+            onIncrement = { onDayChange(if (day >= maxDays) 1 else day + 1) },
+            modifier = Modifier.weight(1f),
+        )
+        // Month spinner
+        SpinnerValue(
+            value = monthNames.getOrElse(month - 1) { "" },
+            onDecrement = { onMonthChange(if (month <= 1) 12 else month - 1) },
+            onIncrement = { onMonthChange(if (month >= 12) 1 else month + 1) },
+            modifier = Modifier.weight(1.5f),
+        )
+        // Year spinner
+        SpinnerValue(
+            value = year.toString(),
+            onDecrement = { onYearChange(year - 1) },
+            onIncrement = { onYearChange(year + 1) },
+            modifier = Modifier.weight(1.5f),
+        )
+    }
+}
+
+@Composable
+private fun SpinnerValue(
+    value: String,
+    onDecrement: () -> Unit,
+    onIncrement: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        MmIconButton(
+            icon = MmIcons.chevronRight,
+            onClick = onIncrement,
+            size = 28.dp,
+            modifier = Modifier.alpha(0.7f),
+        )
+        Text(
+            text = value,
+            style = type.body,
+            color = colors.text,
+            textAlign = TextAlign.Center,
+        )
+        MmIconButton(
+            icon = MmIcons.chevronLeft,
+            onClick = onDecrement,
+            size = 28.dp,
+            modifier = Modifier.alpha(0.7f),
+        )
+    }
+}
+
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
 private fun formatAmount(value: Double): String {
@@ -1265,6 +1614,17 @@ private fun formatBarAmount(value: Double): String {
     } else {
         value.toInt().toString()
     }
+}
+
+private fun formatShortDate(year: Int, month: Int, day: Int): String {
+    return "${day.toString().padStart(2, '0')}.${month.toString().padStart(2, '0')}.${year % 100}"
+}
+
+private fun daysInMonthUi(year: Int, month: Int): Int {
+    val first = kotlinx.datetime.LocalDate(year, month, 1)
+    val next = if (month == 12) kotlinx.datetime.LocalDate(year + 1, 1, 1)
+    else kotlinx.datetime.LocalDate(year, month + 1, 1)
+    return (next.toEpochDays() - first.toEpochDays()).toInt()
 }
 
 @Preview

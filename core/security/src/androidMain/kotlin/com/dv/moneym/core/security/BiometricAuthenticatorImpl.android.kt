@@ -33,9 +33,13 @@ actual class BiometricAuthenticatorImpl actual constructor() : BiometricAuthenti
                 }
                 override fun onAuthenticationError(code: Int, msg: CharSequence) {
                     if (cont.isActive) cont.resume(
-                        if (code == BiometricPrompt.ERROR_USER_CANCELED || code == BiometricPrompt.ERROR_NEGATIVE_BUTTON)
-                            BiometricResult.UserCancelled
-                        else BiometricResult.Error(msg.toString())
+                        when (code) {
+                            BiometricPrompt.ERROR_USER_CANCELED,
+                            BiometricPrompt.ERROR_NEGATIVE_BUTTON -> BiometricResult.UserCancelled
+                            // Permanent lockout indicates the user has changed their biometrics
+                            BiometricPrompt.ERROR_LOCKOUT_PERMANENT -> BiometricResult.KeyInvalidated
+                            else -> BiometricResult.Error(msg.toString())
+                        }
                     )
                 }
                 override fun onAuthenticationFailed() {

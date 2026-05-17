@@ -12,4 +12,6 @@
     <string name="onboarding_skip_short">Skip</string>
     <string name="onboarding_search_currency">Search currency…</string>
     <string name="onboarding_currencies_header">CURRENCIES</string>
+    <string name="onboarding_biometrics_label">Biometrics</string>
+    <string name="onboarding_biometrics_subtitle">Unlock with Face ID or fingerprint</string>
 </resources>

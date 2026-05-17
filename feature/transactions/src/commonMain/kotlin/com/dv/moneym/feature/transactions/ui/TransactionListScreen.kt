@@ -3,10 +3,13 @@ package com.dv.moneym.feature.transactions.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +20,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -35,6 +39,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -44,22 +49,30 @@ import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.categoryColor
 import com.dv.moneym.core.designsystem.iconForKey
+import com.dv.moneym.core.model.Account
+import com.dv.moneym.core.model.AccountId
+import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
+import com.dv.moneym.core.ui.MmChip
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmMoney
+import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.core.ui.TxRow
+import com.dv.moneym.core.ui.wallet
 import com.dv.moneym.feature.transactions.presentation.DayGroup
 import com.dv.moneym.feature.transactions.presentation.TransactionListIntent
 import com.dv.moneym.feature.transactions.presentation.TransactionListUiState
@@ -72,6 +85,7 @@ import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.dv.moneym.core.model.IndicatorStyle
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.abs
 
@@ -106,6 +120,31 @@ fun TransactionListScreen(
     )
 }
 
+// ─── Swipe-to-navigate modifier ───────────────────────────────────────────────
+
+private fun Modifier.onHorizontalSwipe(
+    thresholdDp: Float = 60f,
+    onSwipeLeft: () -> Unit,
+    onSwipeRight: () -> Unit,
+): Modifier = this.pointerInput(Unit) {
+    val thresholdPx = thresholdDp * density
+    var totalX = 0f
+    detectHorizontalDragGestures(
+        onDragStart = { totalX = 0f },
+        onDragEnd = {
+            when {
+                totalX > thresholdPx -> onSwipeRight()
+                totalX < -thresholdPx -> onSwipeLeft()
+            }
+            totalX = 0f
+        },
+        onHorizontalDrag = { change, delta ->
+            change.consume()
+            totalX += delta
+        },
+    )
+}
+
 @Composable
 private fun TransactionListContent(
     state: TransactionListUiState,
@@ -118,6 +157,9 @@ private fun TransactionListContent(
 
     var isSearchActive by remember { mutableStateOf(false) }
     var showMonthPicker by remember { mutableStateOf(false) }
+    var showWalletSwitcher by remember { mutableStateOf(false) }
+    // Local (non-persisted) category filter: set of selected category IDs
+    var selectedCategoryIds by remember { mutableStateOf(emptySet<CategoryId>()) }
 
     if (showMonthPicker) {
         MonthPickerDialog(
@@ -131,6 +173,36 @@ private fun TransactionListContent(
         )
     }
 
+    if (showWalletSwitcher && state.availableAccounts.isNotEmpty()) {
+        WalletSwitcherDialog(
+            accounts = state.availableAccounts,
+            selectedAccountId = state.selectedAccount?.id,
+            onDismiss = { showWalletSwitcher = false },
+            onSelect = { accountId ->
+                onIntent(TransactionListIntent.AccountSelected(accountId))
+                showWalletSwitcher = false
+            },
+        )
+    }
+
+    // Apply local category filter on top of the VM-provided dayGroups
+    val filteredDayGroups = remember(state.dayGroups, selectedCategoryIds) {
+        if (selectedCategoryIds.isEmpty()) {
+            state.dayGroups
+        } else {
+            state.dayGroups.mapNotNull { group ->
+                val matchingTxns = group.transactions.filter { tx ->
+                    // Match by category name since we don't have CategoryId directly in TransactionUiModel
+                    state.availableCategories.any { cat ->
+                        cat.id in selectedCategoryIds && cat.name == tx.categoryName
+                    }
+                }
+                if (matchingTxns.isEmpty()) null
+                else group.copy(transactions = matchingTxns)
+            }
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -139,13 +211,28 @@ private fun TransactionListContent(
         TransactionListHeader(
             state = state,
             isSearchActive = isSearchActive,
+            selectedCategoryIds = selectedCategoryIds,
             onSearchActiveChange = { isSearchActive = it },
             onShowMonthPicker = { showMonthPicker = true },
+            onShowWalletSwitcher = { showWalletSwitcher = true },
+            onCategoryFilterToggle = { categoryId ->
+                selectedCategoryIds = if (categoryId in selectedCategoryIds) {
+                    selectedCategoryIds - categoryId
+                } else {
+                    selectedCategoryIds + categoryId
+                }
+            },
+            onClearCategoryFilter = { selectedCategoryIds = emptySet() },
             onIntent = onIntent,
         )
         TransactionListBody(
-            state = state,
+            dayGroups = filteredDayGroups,
+            txDisplayPrefs = state.txDisplayPrefs,
+            isLoading = state.isLoading,
+            isEmpty = filteredDayGroups.isEmpty() && !state.isLoading,
             onEditTransaction = onEditTransaction,
+            onPreviousMonth = { onIntent(TransactionListIntent.PreviousMonth) },
+            onNextMonth = { onIntent(TransactionListIntent.NextMonth) },
             modifier = Modifier.weight(1f),
         )
         TransactionListFooter(
@@ -160,8 +247,12 @@ private fun TransactionListContent(
 private fun TransactionListHeader(
     state: TransactionListUiState,
     isSearchActive: Boolean,
+    selectedCategoryIds: Set<CategoryId>,
     onSearchActiveChange: (Boolean) -> Unit,
     onShowMonthPicker: () -> Unit,
+    onShowWalletSwitcher: () -> Unit,
+    onCategoryFilterToggle: (CategoryId) -> Unit,
+    onClearCategoryFilter: () -> Unit,
     onIntent: (TransactionListIntent) -> Unit,
 ) {
     val colors = MM.colors
@@ -173,7 +264,7 @@ private fun TransactionListHeader(
     }
 
     Column(
-        modifier = Modifier.statusBarsPadding().padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 12.dp),
+        modifier = Modifier.statusBarsPadding().padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 4.dp),
     ) {
         // Title row — or search bar when active
         if (isSearchActive) {
@@ -212,6 +303,29 @@ private fun TransactionListHeader(
                     color = colors.text,
                     modifier = Modifier.weight(1f),
                 )
+                // Wallet chip — show current wallet name if multiple wallets exist
+                if (state.availableAccounts.size > 1) {
+                    val walletName = state.selectedAccount?.name ?: state.availableAccounts.firstOrNull()?.name ?: ""
+                    MmChip(
+                        selected = false,
+                        onClick = onShowWalletSwitcher,
+                        leadingContent = {
+                            Icon(
+                                imageVector = MmIcons.wallet,
+                                contentDescription = null,
+                                tint = colors.text2,
+                                modifier = Modifier.size(12.dp),
+                            )
+                        },
+                    ) {
+                        Text(
+                            text = walletName,
+                            style = type.caption,
+                            color = colors.text,
+                            maxLines = 1,
+                        )
+                    }
+                }
                 MmIconButton(
                     icon = MmIcons.search,
                     onClick = { onSearchActiveChange(true) },
@@ -226,7 +340,7 @@ private fun TransactionListHeader(
             onIntent = onIntent,
         )
 
-        // Segmented filter
+        // Segmented type filter
         MmSegmented(
             options = listOf(
                 stringResource(Res.string.transactions_filter_all),
@@ -244,6 +358,79 @@ private fun TransactionListHeader(
             },
             fillWidth = true,
         )
+
+        // Category filter chips — shown when categories are available
+        if (state.availableCategories.isNotEmpty()) {
+            CategoryFilterRow(
+                categories = state.availableCategories,
+                selectedCategoryIds = selectedCategoryIds,
+                onToggle = onCategoryFilterToggle,
+                onClearAll = onClearCategoryFilter,
+                modifier = Modifier.padding(top = 8.dp, bottom = 4.dp),
+            )
+        }
+    }
+}
+
+@Composable
+private fun CategoryFilterRow(
+    categories: List<Category>,
+    selectedCategoryIds: Set<CategoryId>,
+    onToggle: (CategoryId) -> Unit,
+    onClearAll: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    val scrollState = rememberScrollState()
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .horizontalScroll(scrollState),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        // "All" chip to clear selection
+        if (selectedCategoryIds.isNotEmpty()) {
+            MmChip(
+                selected = false,
+                onClick = onClearAll,
+            ) {
+                Text(
+                    text = "All",
+                    style = type.caption,
+                    color = colors.text,
+                )
+            }
+        }
+
+        // Per-category chips
+        categories.forEach { cat ->
+            val isSelected = cat.id in selectedCategoryIds
+            val catColor = categoryColor(cat.colorHex)
+            val catIcon = iconForKey(cat.iconKey)
+            MmChip(
+                selected = isSelected,
+                onClick = { onToggle(cat.id) },
+                leadingContent = {
+                    CategoryIconTile(
+                        categoryName = cat.name,
+                        categoryColor = catColor,
+                        categoryIcon = catIcon,
+                        size = 16.dp,
+                        variant = IndicatorStyle.IconTile,
+                    )
+                },
+            ) {
+                Text(
+                    text = cat.name,
+                    style = type.caption,
+                    color = if (isSelected) colors.bg else colors.text,
+                    maxLines = 1,
+                )
+            }
+        }
     }
 }
 
@@ -312,15 +499,20 @@ private fun MonthNavRow(
 
 @Composable
 private fun TransactionListBody(
-    state: TransactionListUiState,
+    dayGroups: List<DayGroup>,
+    txDisplayPrefs: com.dv.moneym.core.model.TxDisplayPrefs,
+    isLoading: Boolean,
+    isEmpty: Boolean,
     onEditTransaction: (TransactionId) -> Unit,
+    onPreviousMonth: () -> Unit,
+    onNextMonth: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
     val type = MM.type
 
     when {
-        state.isLoading -> {
+        isLoading -> {
             Box(
                 modifier = modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center,
@@ -332,9 +524,14 @@ private fun TransactionListBody(
                 )
             }
         }
-        state.isEmpty -> {
+        isEmpty -> {
             Box(
-                modifier = modifier.fillMaxWidth(),
+                modifier = modifier
+                    .fillMaxWidth()
+                    .onHorizontalSwipe(
+                        onSwipeLeft = onNextMonth,
+                        onSwipeRight = onPreviousMonth,
+                    ),
                 contentAlignment = Alignment.Center,
             ) {
                 Column(
@@ -355,8 +552,14 @@ private fun TransactionListBody(
             }
         }
         else -> {
-            LazyColumn(modifier = modifier) {
-                state.dayGroups.forEach { group ->
+            LazyColumn(
+                modifier = modifier
+                    .onHorizontalSwipe(
+                        onSwipeLeft = onNextMonth,
+                        onSwipeRight = onPreviousMonth,
+                    ),
+            ) {
+                dayGroups.forEach { group ->
                     stickyHeader(key = "header_${group.date}") {
                         DayGroupHeader(group = group)
                     }
@@ -374,7 +577,7 @@ private fun TransactionListBody(
                             isExpense = tx.isExpense,
                             amountValue = tx.amountMinorUnits / 100.0,
                             currency = tx.currency,
-                            prefs = state.txDisplayPrefs,
+                            prefs = txDisplayPrefs,
                             onClick = { onEditTransaction(tx.id) },
                             divider = tx != group.transactions.last(),
                         )
@@ -461,6 +664,70 @@ private fun TransactionListFooter(
             onTabSelected = onTabSelected,
         )
     }
+}
+
+// ─── Wallet Switcher Dialog ────────────────────────────────────────────────────
+
+@Composable
+private fun WalletSwitcherDialog(
+    accounts: List<Account>,
+    selectedAccountId: AccountId?,
+    onDismiss: () -> Unit,
+    onSelect: (AccountId?) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    val space = MM.space
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = stringResource(Res.string.transactions_wallet_select),
+                style = type.title3,
+                color = colors.text,
+            )
+        },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(space.padding_0_25x)) {
+                accounts.forEach { account ->
+                    val isSelected = account.id == selectedAccountId
+                    MmRow(
+                        onClick = { onSelect(account.id) },
+                        divider = false,
+                        padding = PaddingValues(
+                            horizontal = space.padding_0_5x,
+                            vertical = space.padding_0_25x,
+                        ),
+                    ) {
+                        Column(Modifier.weight(1f)) {
+                            Text(text = account.name, style = type.body, color = colors.text)
+                            Text(
+                                text = account.currency.value,
+                                style = type.caption.copy(color = colors.text2),
+                            )
+                        }
+                        if (isSelected) {
+                            Icon(
+                                imageVector = MmIcons.check,
+                                contentDescription = null,
+                                tint = colors.accent,
+                                modifier = Modifier.size(18.dp),
+                            )
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {},
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(Res.string.transactions_cancel), color = colors.text2)
+            }
+        },
+        containerColor = colors.surface,
+        titleContentColor = colors.text,
+    )
 }
 
 // ─── Month Picker Dialog ──────────────────────────────────────────────────────

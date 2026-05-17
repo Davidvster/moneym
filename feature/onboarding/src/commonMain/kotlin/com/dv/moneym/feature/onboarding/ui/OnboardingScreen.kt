@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavKey
@@ -46,6 +47,8 @@ import com.dv.moneym.feature.onboarding.presentation.OnboardingStep
 import com.dv.moneym.feature.onboarding.presentation.OnboardingViewModel
 import com.dv.moneym.feature.onboarding.presentation.commonCurrencies
 import moneym.feature.onboarding.generated.resources.Res
+import moneym.feature.onboarding.generated.resources.onboarding_biometrics_label
+import moneym.feature.onboarding.generated.resources.onboarding_biometrics_subtitle
 import moneym.feature.onboarding.generated.resources.onboarding_continue
 import moneym.feature.onboarding.generated.resources.onboarding_currencies_header
 import moneym.feature.onboarding.generated.resources.onboarding_currency_title
@@ -100,9 +103,12 @@ fun OnboardingScreen(
         )
         OnboardingStep.SECURITY -> SecurityStep(
             pinEnabled = state.pinEnabled,
+            biometricAvailable = state.biometricAvailable,
+            biometricEnabled = state.biometricEnabled,
             onSetupPin = { viewModel.onIntent(OnboardingIntent.SetupPinRequested) },
             onSkip = { viewModel.onIntent(OnboardingIntent.SkipSecurity) },
             onFinish = { viewModel.onIntent(OnboardingIntent.Finish) },
+            onBiometricToggle = { viewModel.onIntent(OnboardingIntent.BiometricToggled(it)) },
         )
     }
 }
@@ -272,9 +278,12 @@ private fun OnboardingCurrencyRow(
 @Composable
 private fun SecurityStep(
     pinEnabled: Boolean,
+    biometricAvailable: Boolean,
+    biometricEnabled: Boolean,
     onSetupPin: () -> Unit,
     onSkip: () -> Unit,
     onFinish: () -> Unit,
+    onBiometricToggle: (Boolean) -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -302,9 +311,10 @@ private fun SecurityStep(
             )
         }
 
-        // PIN toggle card
+        // Security card
         MmCard(Modifier.padding(horizontal = 16.dp)) {
-            MmRow(divider = false) {
+            // PIN toggle row
+            MmRow(divider = biometricAvailable && pinEnabled) {
                 Icon(
                     imageVector = MmIcons.lock,
                     contentDescription = null,
@@ -328,6 +338,37 @@ private fun SecurityStep(
                     checked = pinEnabled,
                     onCheckedChange = { if (it && !pinEnabled) onSetupPin() },
                 )
+            }
+
+            // Biometrics toggle row — shown only when hardware is available and PIN is set
+            if (biometricAvailable && pinEnabled) {
+                MmRow(
+                    divider = false,
+                    modifier = Modifier.alpha(if (pinEnabled) 1f else 0.45f),
+                ) {
+                    Icon(
+                        imageVector = MmIcons.fingerprint,
+                        contentDescription = null,
+                        tint = colors.text,
+                        modifier = Modifier.size(18.dp),
+                    )
+                    Column(Modifier.weight(1f)) {
+                        Text(
+                            text = stringResource(Res.string.onboarding_biometrics_label),
+                            style = type.body,
+                            color = colors.text,
+                        )
+                        Text(
+                            text = stringResource(Res.string.onboarding_biometrics_subtitle),
+                            style = type.caption.copy(color = colors.text2),
+                        )
+                    }
+                    MmToggle(
+                        checked = biometricEnabled,
+                        onCheckedChange = { onBiometricToggle(it) },
+                        enabled = pinEnabled,
+                    )
+                }
             }
         }
 

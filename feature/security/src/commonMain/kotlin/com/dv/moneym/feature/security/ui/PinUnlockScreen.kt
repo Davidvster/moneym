@@ -27,7 +27,7 @@ import com.dv.moneym.feature.security.presentation.PinUnlockViewModel
 import kotlinx.coroutines.launch
 import moneym.feature.security.generated.resources.Res
 import moneym.feature.security.generated.resources.security_backoff_retry
-import moneym.feature.security.generated.resources.security_pin_enter_title
+import moneym.feature.security.generated.resources.security_pin_enter_header
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
@@ -83,7 +83,7 @@ private fun PinUnlockContent(
         val seconds = (state.backoffRemainingMs / 1000) + 1
         stringResource(Res.string.security_backoff_retry, seconds)
     } else {
-        stringResource(Res.string.security_pin_enter_title)
+        null
     }
 
     Column(
@@ -105,10 +105,23 @@ private fun PinUnlockContent(
             color = colors.text,
         )
 
+        Spacer(modifier = Modifier.height(4.dp))
+
+        // Prominent "Enter your PIN" title
         Text(
-            text = subtitleText,
-            style = type.caption.copy(color = colors.text2),
+            text = stringResource(Res.string.security_pin_enter_header),
+            style = type.body,
+            color = colors.text,
         )
+
+        // Backoff subtitle (shown only when locked out)
+        if (subtitleText != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = subtitleText,
+                style = type.caption.copy(color = colors.danger),
+            )
+        }
 
         Spacer(modifier = Modifier.height(48.dp))
 

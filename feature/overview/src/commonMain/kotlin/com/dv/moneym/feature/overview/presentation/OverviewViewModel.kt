@@ -37,6 +37,7 @@ class OverviewViewModel(
     private val _periodOffset = MutableStateFlow(0)
     private val _selectedCategoryId = MutableStateFlow<CategoryId?>(null)
     private val _selectedSliceIndex = MutableStateFlow<Int?>(null)
+    private val _selectedAccountId = MutableStateFlow<Long>(-1L)
 
     init {
         // Restore persisted overview period mode on startup
@@ -47,6 +48,13 @@ class OverviewViewModel(
             }
             // if "month" or anything else, default is already Month (set above)
         }
+
+        // Observe selected account (wallet filter)
+        viewModelScope.launch {
+            appSettingsRepository.observeSelectedAccountId().collect { id ->
+                _selectedAccountId.value = id
+            }
+        }
     }
 
     val state: StateFlow<OverviewUiState> = combine(
@@ -54,10 +62,18 @@ class OverviewViewModel(
         _selectedCategoryId,
         transactionRepository.observeAll(),
         categoryRepository.observeAll(),
-    ) { period, selectedCatId, allTransactions, categories ->
+        _selectedAccountId,
+    ) { period, selectedCatId, allTransactions, categories, selectedAccId ->
         val catMap = categories.associateBy { it.id }
 
-        val periodTxns = allTransactions.filter { it.matchesPeriod(period) }
+        // Filter by selected account
+        val accountFilteredTransactions = if (selectedAccId > 0L) {
+            allTransactions.filter { it.accountId.value == selectedAccId }
+        } else {
+            allTransactions
+        }
+
+        val periodTxns = accountFilteredTransactions.filter { it.matchesPeriod(period) }
 
         val filteredTxns = if (selectedCatId != null) {
             periodTxns.filter { it.categoryId == selectedCatId }
@@ -110,8 +126,8 @@ class OverviewViewModel(
             }
             .sortedByDescending { it.expenseMinorUnits }
 
-        // New CategorySpend list
-        val newBreakdown = periodTxns
+        // Preliminary CategorySpend list (without averages — added after period block)
+        val prelimBreakdown = periodTxns
             .filter { it.type == TransactionType.EXPENSE }
             .groupBy { it.categoryId }
             .map { (catId, txns) ->
@@ -145,6 +161,9 @@ class OverviewViewModel(
         val avgDailyExpense: Double
         val avgMonthlyExpense: Double
         val avgDailyExpenseYear: Double
+        // For per-category averages
+        var elapsedDaysForCat = 1
+        var elapsedMonthsForCat = 1
 
         when (period) {
             is OverviewPeriod.Month -> {
@@ -189,8 +208,10 @@ class OverviewViewModel(
                 currentMonthIndex = -1
 
                 // Average stats for month mode
-                val elapsedDays = if (isCurrentMonth) today.dayOfMonth else days
-                avgDailyExpense = if (elapsedDays > 0) expensesDouble / elapsedDays else 0.0
+                val elapsed = if (isCurrentMonth) today.dayOfMonth else days
+                elapsedDaysForCat = elapsed.coerceAtLeast(1)
+                elapsedMonthsForCat = 1
+                avgDailyExpense = if (elapsed > 0) expensesDouble / elapsed else 0.0
                 avgMonthlyExpense = 0.0
                 avgDailyExpenseYear = 0.0
             }
@@ -198,7 +219,7 @@ class OverviewViewModel(
             is OverviewPeriod.Year -> {
                 // Month totals for the selected year
                 monthlyTotals = (1..12).map { m ->
-                    allTransactions
+                    accountFilteredTransactions
                         .filter {
                             it.type == TransactionType.EXPENSE &&
                                 it.occurredOn.year == period.year &&
@@ -211,7 +232,7 @@ class OverviewViewModel(
                 currentMonthIndex = if (period.year == today.year) today.monthNumber - 1 else -1
 
                 categoryMonthlyTrend = buildCategoryMonthlyTrend(
-                    allTransactions = allTransactions,
+                    allTransactions = accountFilteredTransactions,
                     catMap = catMap,
                     year = period.year,
                 )
@@ -233,10 +254,50 @@ class OverviewViewModel(
                     val jan1Next = LocalDate(period.year + 1, 1, 1)
                     (jan1Next.toEpochDays() - jan1.toEpochDays()).toInt()
                 }
+                elapsedMonthsForCat = elapsedMonths.coerceAtLeast(1)
+                elapsedDaysForCat = elapsedDaysInYear.coerceAtLeast(1)
                 avgDailyExpense = 0.0
                 avgMonthlyExpense = if (elapsedMonths > 0) expensesDouble / elapsedMonths else 0.0
                 avgDailyExpenseYear = if (elapsedDaysInYear > 0) expensesDouble / elapsedDaysInYear else 0.0
             }
+
+            is OverviewPeriod.DateRange -> {
+                val startDate = LocalDate(period.startYear, period.startMonth, period.startDay)
+                val endDate = LocalDate(period.endYear, period.endMonth, period.endDay)
+                val rangeDays = ((endDate.toEpochDays() - startDate.toEpochDays()).toInt() + 1).coerceAtLeast(1)
+
+                // Build daily series for the range
+                categoryDailyTrend = buildCategoryRangeTrend(
+                    periodTxns = periodTxns,
+                    catMap = catMap,
+                    startDate = startDate,
+                    endDate = endDate,
+                )
+
+                // Not applicable fields for range mode
+                dailyTotals = emptyList()
+                cumulativeTotals = emptyList()
+                todayIndex = 0
+                monthlyTotals = List(12) { 0.0 }
+                categoryMonthlyTrend = emptyList()
+                currentMonthIndex = -1
+
+                elapsedDaysForCat = rangeDays
+                elapsedMonthsForCat = ((rangeDays + 15) / 30).coerceAtLeast(1)
+
+                avgDailyExpense = if (rangeDays > 0) expensesDouble / rangeDays else 0.0
+                avgMonthlyExpense = 0.0
+                avgDailyExpenseYear = 0.0
+            }
+        }
+
+        // Enrich CategorySpend with per-category averages
+        val isMonthMode = period is OverviewPeriod.Month
+        val newBreakdown = prelimBreakdown.map { cs ->
+            cs.copy(
+                avgPerDay = cs.amount / elapsedDaysForCat,
+                avgPerMonth = if (isMonthMode) 0.0 else cs.amount / elapsedMonthsForCat,
+            )
         }
 
         OverviewUiState(
@@ -262,7 +323,7 @@ class OverviewViewModel(
             avgMonthlyExpense = avgMonthlyExpense,
             avgDailyExpenseYear = avgDailyExpenseYear,
             // Legacy chart bars
-            chartBars = buildChartBars(allTransactions, period),
+            chartBars = buildChartBars(accountFilteredTransactions, period),
             availableCategories = availableCategories,
             selectedCategoryId = selectedCatId,
         )
@@ -287,6 +348,7 @@ class OverviewViewModel(
                     val newPeriod = when (p) {
                         is OverviewPeriod.Month -> OverviewPeriod.Year(p.yearMonth.year)
                         is OverviewPeriod.Year -> OverviewPeriod.Month(YearMonth(p.year, today.monthNumber))
+                        is OverviewPeriod.DateRange -> OverviewPeriod.Month(YearMonth(today.year, today.monthNumber))
                     }
                     persistPeriod(newPeriod)
                     newPeriod
@@ -304,6 +366,19 @@ class OverviewViewModel(
                 _period.value = intent.period
                 persistPeriod(intent.period)
             }
+            is OverviewIntent.DateRangeSelected -> {
+                _periodOffset.value = 0
+                val newPeriod = OverviewPeriod.DateRange(
+                    startYear = intent.startYear,
+                    startMonth = intent.startMonth,
+                    startDay = intent.startDay,
+                    endYear = intent.endYear,
+                    endMonth = intent.endMonth,
+                    endDay = intent.endDay,
+                )
+                _period.value = newPeriod
+                persistPeriod(newPeriod)
+            }
         }
     }
 
@@ -311,6 +386,7 @@ class OverviewViewModel(
         val encoded = when (period) {
             is OverviewPeriod.Month -> "month"
             is OverviewPeriod.Year -> "year"
+            is OverviewPeriod.DateRange -> "range"
         }
         viewModelScope.launch {
             appSettingsRepository.setLastOverviewPeriod(encoded)
@@ -322,11 +398,13 @@ class OverviewViewModel(
     private fun OverviewPeriod.previous(): OverviewPeriod = when (this) {
         is OverviewPeriod.Month -> OverviewPeriod.Month(yearMonth.previous())
         is OverviewPeriod.Year -> OverviewPeriod.Year(year - 1)
+        is OverviewPeriod.DateRange -> this  // no previous/next for date range
     }
 
     private fun OverviewPeriod.next(): OverviewPeriod = when (this) {
         is OverviewPeriod.Month -> OverviewPeriod.Month(yearMonth.next())
         is OverviewPeriod.Year -> OverviewPeriod.Year(year + 1)
+        is OverviewPeriod.DateRange -> this  // no previous/next for date range
     }
 
     private fun Transaction.matchesPeriod(period: OverviewPeriod): Boolean = when (period) {
@@ -334,6 +412,11 @@ class OverviewViewModel(
             occurredOn.year == period.yearMonth.year &&
                     occurredOn.monthNumber == period.yearMonth.monthNumber
         is OverviewPeriod.Year -> occurredOn.year == period.year
+        is OverviewPeriod.DateRange -> {
+            val start = LocalDate(period.startYear, period.startMonth, period.startDay)
+            val end = LocalDate(period.endYear, period.endMonth, period.endDay)
+            occurredOn >= start && occurredOn <= end
+        }
     }
 
     // ── Legacy chart bars (kept for existing tests) ───────────────
@@ -380,6 +463,7 @@ class OverviewViewModel(
                     )
                 }
             }
+            is OverviewPeriod.DateRange -> emptyList()
         }
 
     // ── Category trend builders ───────────────────────────────────
@@ -428,6 +512,51 @@ class OverviewViewModel(
                     txns.filter { it.occurredOn.monthNumber == m }
                         .sumOf { it.amount.minorUnits }
                         .toDouble() / 100.0
+                }
+                CategoryTrend(
+                    categoryName = cat?.name ?: "—",
+                    categoryColor = colorHexToLong(cat?.colorHex ?: "#8A8A8A"),
+                    categoryIcon = cat?.iconKey ?: "dots",
+                    totalAmount = txns.sumOf { it.amount.minorUnits }.toDouble() / 100.0,
+                    txCount = txns.size,
+                    series = series,
+                )
+            }
+            .sortedByDescending { it.totalAmount }
+    }
+
+    private fun buildCategoryRangeTrend(
+        periodTxns: List<Transaction>,
+        catMap: Map<CategoryId, com.dv.moneym.core.model.Category>,
+        startDate: LocalDate,
+        endDate: LocalDate,
+    ): List<CategoryTrend> {
+        val expenseTxns = periodTxns.filter { it.type == TransactionType.EXPENSE }
+        val totalDays = ((endDate.toEpochDays() - startDate.toEpochDays()).toInt() + 1).coerceAtLeast(1)
+        val useDayBuckets = totalDays <= 31
+
+        return expenseTxns
+            .groupBy { it.categoryId }
+            .map { (catId, txns) ->
+                val cat = catMap[catId]
+                val series = if (useDayBuckets) {
+                    (0 until totalDays).map { offset ->
+                        val date = LocalDate.fromEpochDays(startDate.toEpochDays() + offset)
+                        txns.filter { it.occurredOn == date }
+                            .sumOf { it.amount.minorUnits }
+                            .toDouble() / 100.0
+                    }
+                } else {
+                    // Group into months
+                    val startEpochMonth = startDate.year * 12 + (startDate.monthNumber - 1)
+                    val endEpochMonth = endDate.year * 12 + (endDate.monthNumber - 1)
+                    (startEpochMonth..endEpochMonth).map { epochMonth ->
+                        val y = epochMonth / 12
+                        val m = epochMonth % 12 + 1
+                        txns.filter { it.occurredOn.year == y && it.occurredOn.monthNumber == m }
+                            .sumOf { it.amount.minorUnits }
+                            .toDouble() / 100.0
+                    }
                 }
                 CategoryTrend(
                     categoryName = cat?.name ?: "—",

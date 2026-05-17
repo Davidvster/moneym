@@ -32,6 +32,7 @@
     <string name="overview_month_dec">Dec</string>
     <string name="overview_period_month">Month</string>
     <string name="overview_period_year">Year</string>
+    <string name="overview_period_custom">Custom</string>
     <string name="overview_label_income">INCOME</string>
     <string name="overview_label_expenses">EXPENSES</string>
     <string name="overview_spending_by_category">Spending by category</string>
@@ -53,4 +54,9 @@
     <string name="overview_cancel">Cancel</string>
     <string name="overview_tx_count_singular">%1$d transaction</string>
     <string name="overview_tx_count_plural">%1$d transactions</string>
+    <string name="overview_cat_avg_day">avg/day</string>
+    <string name="overview_cat_avg_month">avg/mo</string>
+    <string name="overview_date_range_title">Select Date Range</string>
+    <string name="overview_date_range_from">FROM</string>
+    <string name="overview_date_range_to">TO</string>
 </resources>

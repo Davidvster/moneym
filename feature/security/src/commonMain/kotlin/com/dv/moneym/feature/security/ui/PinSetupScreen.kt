@@ -40,21 +40,31 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import moneym.feature.security.generated.resources.Res
 import moneym.feature.security.generated.resources.security_cancel
-import moneym.feature.security.generated.resources.security_pin_confirm_title
-import moneym.feature.security.generated.resources.security_pin_setup_title
+import moneym.feature.security.generated.resources.security_change_pin_title
+import moneym.feature.security.generated.resources.security_pin_confirm_header
+import moneym.feature.security.generated.resources.security_pin_set_header
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
 
-@Serializable data object PinSetupKey : ModalKey
+/**
+ * NavKey for the PIN setup screen.
+ * @param isChangePinFlow true if opened from Settings to change an existing PIN
+ */
+@Serializable
+data class PinSetupKey(val isChangePinFlow: Boolean = false) : ModalKey
 
-fun EntryProviderScope<NavKey>.pinSetupEntry(onDone: () -> Unit, metadata: Map<String, Any> = emptyMap()) = entry<PinSetupKey>(metadata = metadata) {
-    PinSetupScreen(onDone = onDone)
+fun EntryProviderScope<NavKey>.pinSetupEntry(
+    onDone: () -> Unit,
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<PinSetupKey>(metadata = metadata) { key ->
+    PinSetupScreen(onDone = onDone, isChangePinFlow = key.isChangePinFlow)
 }
 
 @Composable
 fun PinSetupScreen(
     onDone: () -> Unit,
+    isChangePinFlow: Boolean = false,
     viewModel: PinSetupViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -64,6 +74,7 @@ fun PinSetupScreen(
     }
     PinSetupContent(
         state = state,
+        isChangePinFlow = isChangePinFlow,
         onIntent = viewModel::onIntent,
         onDismiss = onDone,
     )
@@ -72,6 +83,7 @@ fun PinSetupScreen(
 @Composable
 private fun PinSetupContent(
     state: PinSetupUiState,
+    isChangePinFlow: Boolean,
     onIntent: (PinSetupIntent) -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -102,10 +114,13 @@ private fun PinSetupContent(
     }
 
     val cancelLabel = stringResource(Res.string.security_cancel)
-    val titleText = if (state.step == PinSetupStep.ENTER_FIRST)
-        stringResource(Res.string.security_pin_setup_title)
-    else
-        stringResource(Res.string.security_pin_confirm_title)
+
+    // Determine screen title based on flow and step
+    val screenTitle = when {
+        isChangePinFlow -> stringResource(Res.string.security_change_pin_title)
+        state.step == PinSetupStep.ENTER_FIRST -> stringResource(Res.string.security_pin_set_header)
+        else -> stringResource(Res.string.security_pin_confirm_header)
+    }
 
     Box(
         modifier = Modifier
@@ -134,7 +149,7 @@ private fun PinSetupContent(
         }
 
         PinSetupBody(
-            titleText = titleText,
+            screenTitle = screenTitle,
             errorText = state.error,
             filledCount = filledCount,
             shakeOffsetPx = shakeOffset.value.roundToInt(),
@@ -146,7 +161,7 @@ private fun PinSetupContent(
 
 @Composable
 private fun PinSetupBody(
-    titleText: String,
+    screenTitle: String,
     errorText: String?,
     filledCount: Int,
     shakeOffsetPx: Int,
@@ -170,9 +185,13 @@ private fun PinSetupBody(
             color = colors.text,
         )
 
+        Spacer(modifier = Modifier.height(4.dp))
+
+        // Prominent screen title
         Text(
-            text = titleText,
-            style = type.caption.copy(color = colors.text2),
+            text = screenTitle,
+            style = type.body,
+            color = colors.text,
         )
 
         if (errorText != null) {

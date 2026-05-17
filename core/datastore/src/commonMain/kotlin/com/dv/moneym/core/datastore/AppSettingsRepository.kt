@@ -18,4 +18,7 @@ interface AppSettingsRepository {
     suspend fun setLastTransactionFilter(encoded: String)
     fun observeLastOverviewPeriod(): Flow<String>
     suspend fun setLastOverviewPeriod(encoded: String)
+    // Selected wallet / account (stored as Long, -1 = not set / use default)
+    fun observeSelectedAccountId(): Flow<Long>
+    suspend fun setSelectedAccountId(id: Long)
 }

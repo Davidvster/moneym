@@ -55,6 +55,8 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
@@ -322,7 +324,12 @@ private fun DraggableCategoryList(
 ) {
     val colors = MM.colors
     val listState = rememberLazyListState()
+
+    // Local shadow list for immediate visual reordering during drag
+    var localCategories by remember(categories) { mutableStateOf(categories) }
+
     var draggingIndex by remember { mutableIntStateOf(-1) }
+    var draggingFromIndex by remember { mutableIntStateOf(-1) }
     var dragOffsetY by remember { mutableFloatStateOf(0f) }
 
     LazyColumn(
@@ -330,7 +337,7 @@ private fun DraggableCategoryList(
         modifier = modifier
             .fillMaxWidth(),
     ) {
-        itemsIndexed(categories, key = { _, cat -> cat.id.value }) { index, cat ->
+        itemsIndexed(localCategories, key = { _, cat -> cat.id.value }) { index, cat ->
             val isDragging = index == draggingIndex
             val elevation by animateDpAsState(
                 targetValue = if (isDragging) 6.dp else 0.dp,
@@ -341,10 +348,11 @@ private fun DraggableCategoryList(
                 modifier = Modifier
                     .shadow(elevation)
                     .background(if (isDragging) colors.surface else colors.bg)
-                    .pointerInput(index) {
+                    .pointerInput(Unit) {
                         detectDragGesturesAfterLongPress(
                             onDragStart = {
                                 draggingIndex = index
+                                draggingFromIndex = index
                                 dragOffsetY = 0f
                             },
                             onDrag = { change, dragAmount ->
@@ -357,20 +365,43 @@ private fun DraggableCategoryList(
                                 val steps = stepsFloat.toInt()
                                 if (steps != 0) {
                                     val targetIndex = (draggingIndex + steps)
-                                        .coerceIn(0, categories.size - 1)
+                                        .coerceIn(0, localCategories.size - 1)
                                     if (targetIndex != draggingIndex) {
-                                        onReorder(draggingIndex, targetIndex)
+                                        // Update local list immediately for smooth UI
+                                        val mutable = localCategories.toMutableList()
+                                        val moved = mutable.removeAt(draggingIndex)
+                                        mutable.add(targetIndex, moved)
+                                        localCategories = mutable
                                         draggingIndex = targetIndex
                                         dragOffsetY -= steps * itemHeight
                                     }
                                 }
                             },
-                            onDragEnd = { draggingIndex = -1; dragOffsetY = 0f },
-                            onDragCancel = { draggingIndex = -1; dragOffsetY = 0f },
+                            onDragEnd = {
+                                // Persist final order to repository
+                                if (draggingFromIndex != -1 && draggingIndex != -1 &&
+                                    draggingFromIndex != draggingIndex) {
+                                    // The localCategories already reflects the final order
+                                    // Call onReorder with the indices in the original list
+                                    // We need to tell the VM the new order by finding where the
+                                    // originally-from item ended up
+                                    onReorder(draggingFromIndex, draggingIndex)
+                                }
+                                draggingIndex = -1
+                                draggingFromIndex = -1
+                                dragOffsetY = 0f
+                            },
+                            onDragCancel = {
+                                // Revert local list to original categories on cancel
+                                localCategories = categories
+                                draggingIndex = -1
+                                draggingFromIndex = -1
+                                dragOffsetY = 0f
+                            },
                         )
                     },
                 onClick = { onCategoryClick(cat) },
-                divider = index != categories.lastIndex,
+                divider = index != localCategories.lastIndex,
             ) {
                 Icon(
                     imageVector = MmIcons.dragHandle,
@@ -424,7 +455,8 @@ private fun NewCategorySheet(
     }
     var showDeleteConfirm by remember { mutableStateOf(false) }
     var showColorPicker by remember { mutableStateOf(false) }
-    var customColor by remember(categoryToEdit?.id) { mutableStateOf<Color?>(null) }
+    // List of custom colors generated via the HSV picker — appends on each new color
+    var customColors by remember(categoryToEdit?.id) { mutableStateOf(listOf<Color>()) }
 
     val palette = listOf(
         Color(0xFFC2566B), Color(0xFF8B6FB0), Color(0xFF4A8E5C), Color(0xFF4F8694), Color(0xFFB89148),
@@ -449,7 +481,7 @@ private fun NewCategorySheet(
             iconOptions = iconOptions,
             selectedColor = selectedColor,
             selectedIconKey = selectedIconKey,
-            customColor = customColor,
+            customColors = customColors,
             isEditMode = isEditMode,
             onNameChange = { name = it },
             onColorSelected = { selectedColor = it },
@@ -465,14 +497,17 @@ private fun NewCategorySheet(
         )
     }
 
-    // Color picker dialog
+    // Color picker dialog — uses Dialog instead of ModalBottomSheet to avoid gesture conflicts
     if (showColorPicker) {
-        HsvColorPickerSheet(
-            initialColor = if (selectedColor !in palette && customColor != null) customColor!! else Color(0xFF4A8E5C),
+        HsvColorPickerDialog(
+            initialColor = selectedColor,
             onDismiss = { showColorPicker = false },
             onColorSelected = { color ->
                 selectedColor = color
-                customColor = color
+                // Append the new color to the custom list (don't replace)
+                if (color !in palette) {
+                    customColors = customColors + color
+                }
                 showColorPicker = false
             },
         )
@@ -575,7 +610,7 @@ private fun NewCategorySheetBody(
     iconOptions: List<String>,
     selectedColor: Color,
     selectedIconKey: String,
-    customColor: Color?,
+    customColors: List<Color>,
     isEditMode: Boolean,
     onNameChange: (String) -> Unit,
     onColorSelected: (Color) -> Unit,
@@ -619,7 +654,7 @@ private fun NewCategorySheetBody(
         ColorPickerSection(
             palette = palette,
             selectedColor = selectedColor,
-            customColor = customColor,
+            customColors = customColors,
             onColorSelected = onColorSelected,
             onCustomColorClick = onCustomColorClick,
             colors = colors,
@@ -708,7 +743,7 @@ private fun CategoryPreviewChip(
 private fun ColorPickerSection(
     palette: List<Color>,
     selectedColor: Color,
-    customColor: Color?,
+    customColors: List<Color>,
     onColorSelected: (Color) -> Unit,
     onCustomColorClick: () -> Unit,
     colors: com.dv.moneym.core.designsystem.MoneyMColors,
@@ -718,6 +753,7 @@ private fun ColorPickerSection(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
+        // Preset palette swatches
         palette.forEach { color ->
             ColorSwatch(
                 color = color,
@@ -725,15 +761,23 @@ private fun ColorPickerSection(
                 onClick = { onColorSelected(color) },
             )
         }
-        // Custom "any color" swatch
+        // Custom colors generated via HSV picker — each appears as its own swatch
+        customColors.forEach { color ->
+            ColorSwatch(
+                color = color,
+                isSelected = selectedColor == color,
+                onClick = { onColorSelected(color) },
+            )
+        }
+        // "+" button to open HSV color picker — always visible
         Box(
             modifier = Modifier
                 .size(36.dp)
                 .clip(RoundedCornerShape(10.dp))
-                .background(if (isCustomSelected && customColor != null) customColor else colors.surface)
+                .background(colors.surface)
                 .border(
                     1.dp,
-                    if (isCustomSelected) colors.accent else colors.borderStrong,
+                    colors.borderStrong,
                     RoundedCornerShape(10.dp),
                 )
                 .clickable(
@@ -742,23 +786,13 @@ private fun ColorPickerSection(
                 ) { onCustomColorClick() },
             contentAlignment = Alignment.Center,
         ) {
-            if (isCustomSelected && customColor != null) {
-                val painter = rememberVectorPainter(MmIcons.check)
-                Image(
-                    painter = painter,
-                    contentDescription = null,
-                    modifier = Modifier.size(16.dp),
-                    colorFilter = ColorFilter.tint(Color.White),
-                )
-            } else {
-                val painter = rememberVectorPainter(MmIcons.plus)
-                Image(
-                    painter = painter,
-                    contentDescription = "Custom color",
-                    modifier = Modifier.size(16.dp),
-                    colorFilter = ColorFilter.tint(colors.text2),
-                )
-            }
+            val painter = rememberVectorPainter(MmIcons.plus)
+            Image(
+                painter = painter,
+                contentDescription = "Custom color",
+                modifier = Modifier.size(16.dp),
+                colorFilter = ColorFilter.tint(colors.text2),
+            )
         }
     }
 }
@@ -808,17 +842,16 @@ private fun IconPickerSection(
     }
 }
 
-// ─── HSV Color Picker Sheet ───────────────────────────────────────────────────
+// ─── HSV Color Picker Dialog ──────────────────────────────────────────────────
+// Using Dialog instead of ModalBottomSheet to avoid gesture conflicts with parent sheet
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HsvColorPickerSheet(
+private fun HsvColorPickerDialog(
     initialColor: Color,
     onDismiss: () -> Unit,
     onColorSelected: (Color) -> Unit,
 ) {
     val colors = MM.colors
-    val type = MM.type
 
     fun colorToHsv(color: Color): Triple<Float, Float, Float> {
         val r = color.red; val g = color.green; val b = color.blue
@@ -865,32 +898,35 @@ private fun HsvColorPickerSheet(
         )
     }
 
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
-    ModalBottomSheet(
+    Dialog(
         onDismissRequest = onDismiss,
-        sheetState = sheetState,
-        shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
-        containerColor = colors.bg,
-        dragHandle = null,
+        properties = DialogProperties(usePlatformDefaultWidth = false),
     ) {
-        HsvColorPickerContent(
-            colors = colors,
-            currentColor = currentColor,
-            hue = hue,
-            saturation = saturation,
-            brightness = brightness,
-            hexText = hexText,
-            hsvToColor = ::hsvToColor,
-            colorToHsv = ::colorToHsv,
-            onHueChange = { hue = it },
-            onSaturationChange = { saturation = it },
-            onBrightnessChange = { brightness = it },
-            onHexTextChange = { hexText = it },
-            onHsvChange = { h, s, v -> hue = h; saturation = s; brightness = v },
-            onDismiss = onDismiss,
-            onColorSelected = onColorSelected,
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .background(colors.bg),
+        ) {
+            HsvColorPickerContent(
+                colors = colors,
+                currentColor = currentColor,
+                hue = hue,
+                saturation = saturation,
+                brightness = brightness,
+                hexText = hexText,
+                hsvToColor = ::hsvToColor,
+                colorToHsv = ::colorToHsv,
+                onHueChange = { hue = it },
+                onSaturationChange = { saturation = it },
+                onBrightnessChange = { brightness = it },
+                onHexTextChange = { hexText = it },
+                onHsvChange = { h, s, v -> hue = h; saturation = s; brightness = v },
+                onDismiss = onDismiss,
+                onColorSelected = onColorSelected,
+            )
+        }
     }
 }
 
@@ -922,16 +958,6 @@ private fun HsvColorPickerContent(
             .padding(horizontal = 20.dp, vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        // Grab handle
-        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            Box(
-                Modifier
-                    .size(width = 36.dp, height = 4.dp)
-                    .clip(RoundedCornerShape(50))
-                    .background(colors.borderStrong),
-            )
-        }
-
         Text(
             stringResource(Res.string.categories_color_picker_title),
             style = type.title3,

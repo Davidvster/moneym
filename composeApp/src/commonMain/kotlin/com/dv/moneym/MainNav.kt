@@ -28,13 +28,17 @@ import com.dv.moneym.feature.overview.ui.overviewEntry
 import com.dv.moneym.feature.security.ui.PinSetupKey
 import com.dv.moneym.feature.security.ui.pinSetupEntry
 import com.dv.moneym.feature.settings.ui.CurrencyPickerKey
+import com.dv.moneym.feature.settings.ui.ExportDataKey
 import com.dv.moneym.feature.settings.ui.LanguagePickerKey
 import com.dv.moneym.feature.settings.ui.SettingsKey
 import com.dv.moneym.feature.settings.ui.TxListDisplayKey
+import com.dv.moneym.feature.settings.ui.WalletManageKey
 import com.dv.moneym.feature.settings.ui.currencyPickerEntry
+import com.dv.moneym.feature.settings.ui.exportDataEntry
 import com.dv.moneym.feature.settings.ui.languagePickerEntry
 import com.dv.moneym.feature.settings.ui.settingsEntry
 import com.dv.moneym.feature.settings.ui.txListDisplayEntry
+import com.dv.moneym.feature.settings.ui.walletManageEntry
 import com.dv.moneym.feature.transactionedit.ui.TransactionEditKey
 import com.dv.moneym.feature.transactionedit.ui.transactionEditEntry
 import com.dv.moneym.feature.transactions.ui.TransactionsKey
@@ -135,11 +139,14 @@ internal fun MainNav(lockController: AppLockController) {
                 },
             )
             settingsEntry(
-                onNavigateToPinSetup = { tabBackStack.push(PinSetupKey) },
+                // From settings, we push PinSetupKey(isChangePinFlow = true) for change PIN
+                onNavigateToPinSetup = { tabBackStack.push(PinSetupKey(isChangePinFlow = true)) },
                 onNavigateToCategories = { tabBackStack.push(CategoriesKey) },
                 onNavigateToTxDisplay = { tabBackStack.push(TxListDisplayKey) },
                 onNavigateToCurrency = { tabBackStack.push(CurrencyPickerKey) },
                 onNavigateToLanguage = { tabBackStack.push(LanguagePickerKey) },
+                onNavigateToExport = { tabBackStack.push(ExportDataKey) },
+                onNavigateToWallets = { tabBackStack.push(WalletManageKey) },
                 onTabSelected = { route ->
                     when (route) {
                         TabRoute.Transactions -> tabBackStack.switchTab(TransactionsKey)
@@ -154,6 +161,7 @@ internal fun MainNav(lockController: AppLockController) {
                     filePlatform.openTextFile()
                 },
             )
+            // Setup flow (isChangePinFlow = false by default)
             pinSetupEntry(onDone = {
                 lockController.init()
                 tabBackStack.removeLast()
@@ -166,6 +174,13 @@ internal fun MainNav(lockController: AppLockController) {
             txListDisplayEntry(onBack = { tabBackStack.removeLast() })
             currencyPickerEntry(onBack = { tabBackStack.removeLast() })
             languagePickerEntry(onBack = { tabBackStack.removeLast() })
+            exportDataEntry(
+                onBack = { tabBackStack.removeLast() },
+                onExportReady = { fileName, content, mimeType ->
+                    filePlatform.saveFile(fileName, content, mimeType)
+                },
+            )
+            walletManageEntry(onBack = { tabBackStack.removeLast() })
         },
     )
 }

@@ -10,6 +10,18 @@ import com.dv.moneym.core.model.YearMonth
 sealed interface OverviewPeriod {
     data class Month(val yearMonth: YearMonth) : OverviewPeriod
     data class Year(val year: Int) : OverviewPeriod
+    /**
+     * Custom date range. Dates are stored as individual Int fields for KMP
+     * serialization simplicity (avoids expect/actual for LocalDate serialization).
+     */
+    data class DateRange(
+        val startYear: Int,
+        val startMonth: Int,
+        val startDay: Int,
+        val endYear: Int,
+        val endMonth: Int,
+        val endDay: Int,
+    ) : OverviewPeriod
 }
 
 enum class OverviewMode { Month, Year }
@@ -26,6 +38,10 @@ data class CategorySpend(
     val categoryIcon: String,  // icon key, resolve via iconForKey()
     val amount: Double,        // major units (e.g. 12.50 EUR)
     val percent: Int,          // 0–100
+    /** Average spend per day for this category in the current period. 0 if not applicable. */
+    val avgPerDay: Double = 0.0,
+    /** Average spend per month for this category in the current period. 0 if not applicable. */
+    val avgPerMonth: Double = 0.0,
 )
 
 /**
@@ -130,4 +146,12 @@ sealed interface OverviewIntent {
     data class CategoryFilterSelected(val id: CategoryId?) : OverviewIntent
     data class SliceTapped(val index: Int?) : OverviewIntent
     data class PeriodSelected(val period: OverviewPeriod) : OverviewIntent
+    data class DateRangeSelected(
+        val startYear: Int,
+        val startMonth: Int,
+        val startDay: Int,
+        val endYear: Int,
+        val endMonth: Int,
+        val endDay: Int,
+    ) : OverviewIntent
 }

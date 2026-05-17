@@ -102,4 +102,13 @@ class DefaultAppSettingsRepository(
     override suspend fun setLastOverviewPeriod(encoded: String) {
         appSettings.putString(PrefKeys.OVERVIEW_LAST_TAB, encoded)
     }
+
+    override fun observeSelectedAccountId(): Flow<Long> =
+        appSettings
+            .observeString(PrefKeys.SELECTED_ACCOUNT_ID, "-1")
+            .map { it?.toLongOrNull() ?: -1L }
+
+    override suspend fun setSelectedAccountId(id: Long) {
+        appSettings.putString(PrefKeys.SELECTED_ACCOUNT_ID, id.toString())
+    }
 }

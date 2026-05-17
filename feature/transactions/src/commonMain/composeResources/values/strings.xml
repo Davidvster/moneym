@@ -31,4 +31,7 @@
     <string name="transactions_now">Now</string>
     <string name="transactions_ok">OK</string>
     <string name="transactions_cancel">Cancel</string>
+    <!-- Wallet switcher -->
+    <string name="transactions_wallet_select">Select Wallet</string>
+    <string name="transactions_wallet_all">All wallets</string>
 </resources>

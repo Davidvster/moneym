@@ -68,6 +68,7 @@
     <string name="settings_section_preferences">PREFERENCES</string>
     <string name="settings_currency">Default currency</string>
     <string name="settings_language">Language</string>
+    <string name="settings_wallets">Wallets</string>
     <string name="settings_section_data">DATA</string>
     <string name="settings_export_as_json">Export as JSON</string>
     <string name="settings_export_as_csv">Export as CSV</string>
@@ -84,4 +85,9 @@
     <string name="settings_lock_30s_label">30 seconds</string>
     <string name="settings_lock_1m_label">1 minute</string>
     <string name="settings_lock_5m_label">5 minutes</string>
+    <!-- Export sub-screen -->
+    <string name="settings_export_data">Export data</string>
+    <string name="settings_export_data_title">Export Data</string>
+    <string name="settings_export_format">FORMAT</string>
+    <string name="settings_export_start">Export</string>
 </resources>

@@ -31,7 +31,15 @@ val coreSecurityModule = module {
 }
 
 val featureTransactionsModule = module {
-    viewModelOf(::TransactionListViewModel)
+    viewModel {
+        TransactionListViewModel(
+            transactionRepository = get(),
+            categoryRepository = get(),
+            accountRepository = get(),
+            appSettingsRepository = get(),
+            clock = get(),
+        )
+    }
 }
 
 val featureTransactionEditModule = module {
@@ -91,7 +99,13 @@ val featureCategoriesModule = module {
 }
 
 val featureOnboardingModule = module {
-    viewModelOf(::OnboardingViewModel)
+    viewModel {
+        OnboardingViewModel(
+            settings = get(),
+            pinManager = get(),
+            biometricAuth = get(),
+        )
+    }
 }
 
 val featureOverviewModule = module {

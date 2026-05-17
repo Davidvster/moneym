@@ -26,8 +26,6 @@ fun CategoryIconTile(
     variant: IndicatorStyle,
     modifier: Modifier = Modifier,
 ) {
-    val radius = MM.radius
-
     when (variant) {
         IndicatorStyle.IconTile -> {
             val cornerFraction = (size.value * 0.30f).coerceAtLeast(6f)

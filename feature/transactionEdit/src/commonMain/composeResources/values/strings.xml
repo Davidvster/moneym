@@ -23,4 +23,5 @@
     <string name="edit_delete_confirm_body">This cannot be undone.</string>
     <string name="edit_delete_confirm_ok">Delete</string>
     <string name="edit_delete_confirm_cancel">Cancel</string>
+    <string name="edit_calculator_title">Calculator</string>
 </resources>

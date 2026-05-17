@@ -46,6 +46,15 @@ class PinUnlockViewModel(
             )
         }
         startBackoffTimer()
+
+        // Auto-trigger biometrics on unlock screen open if available
+        if (biometricAvailable) {
+            viewModelScope.launch {
+                // Small delay to allow the UI to render first
+                delay(300)
+                triggerBiometric()
+            }
+        }
     }
 
     fun onIntent(intent: PinUnlockIntent) {
@@ -91,9 +100,25 @@ class PinUnlockViewModel(
     private fun triggerBiometric() {
         viewModelScope.launch {
             val result = biometricAuth.authenticate("Unlock MoneyM")
-            if (result == BiometricResult.Success) {
-                pinManager.resetAttempts()
-                _effects.send(PinUnlockEffect.Unlocked)
+            when (result) {
+                BiometricResult.Success -> {
+                    pinManager.resetAttempts()
+                    _effects.send(PinUnlockEffect.Unlocked)
+                }
+                BiometricResult.KeyInvalidated -> {
+                    // Biometrics were changed on the device — disable biometrics and fall back to PIN
+                    settings.putBoolean(SecurityPrefs.BIOMETRIC_ENABLED, false)
+                    _state.update {
+                        it.copy(
+                            biometricAvailable = false,
+                            biometryType = BiometryType.None,
+                        )
+                    }
+                }
+                BiometricResult.UserCancelled,
+                is BiometricResult.Error -> {
+                    // Do nothing — user can still use PIN
+                }
             }
         }
     }

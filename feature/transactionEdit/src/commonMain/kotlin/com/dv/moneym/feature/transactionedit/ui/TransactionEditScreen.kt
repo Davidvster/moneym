@@ -3,6 +3,7 @@ package com.dv.moneym.feature.transactionedit.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,6 +29,7 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -49,6 +51,8 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -73,6 +77,7 @@ import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIconButtonVariant
 import com.dv.moneym.core.ui.MmIcons
+import com.dv.moneym.core.ui.calculator
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditEffect
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditIntent
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditUiState
@@ -80,6 +85,7 @@ import com.dv.moneym.feature.transactionedit.presentation.TransactionEditViewMod
 import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.edit_add_transaction
 import moneym.feature.transactionedit.generated.resources.edit_amount_label
+import moneym.feature.transactionedit.generated.resources.edit_calculator_title
 import moneym.feature.transactionedit.generated.resources.edit_category_error
 import moneym.feature.transactionedit.generated.resources.edit_category_label
 import moneym.feature.transactionedit.generated.resources.edit_date_label
@@ -164,6 +170,7 @@ private fun TransactionEditContent(
 
     var showDeleteDialog by rememberSaveable { mutableStateOf(false) }
     var showDatePicker by rememberSaveable { mutableStateOf(false) }
+    var showCalculator by rememberSaveable { mutableStateOf(false) }
 
     val focusRequester = remember { FocusRequester() }
 
@@ -195,6 +202,16 @@ private fun TransactionEditContent(
             onDismiss = { showDatePicker = false },
         )
     }
+    if (showCalculator) {
+        CalculatorBottomSheet(
+            initialAmountText = state.amountText,
+            onDismiss = { showCalculator = false },
+            onAmountSaved = { result ->
+                onIntent(TransactionEditIntent.AmountChanged(result))
+                showCalculator = false
+            },
+        )
+    }
 
     Column(modifier = Modifier.fillMaxSize().background(colors.bg)) {
         TransactionEditModalHeader(
@@ -209,6 +226,7 @@ private fun TransactionEditContent(
             focusRequester = focusRequester,
             onIntent = onIntent,
             onDatePickerOpen = { showDatePicker = true },
+            onCalculatorOpen = { showCalculator = true },
             modifier = Modifier.weight(1f),
         )
         TransactionEditSaveBar(
@@ -230,6 +248,7 @@ private fun TransactionEditScrollBody(
     focusRequester: FocusRequester,
     onIntent: (TransactionEditIntent) -> Unit,
     onDatePickerOpen: () -> Unit,
+    onCalculatorOpen: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     // Derive currency code from selected account
@@ -270,6 +289,7 @@ private fun TransactionEditScrollBody(
             amountText = state.amountText,
             focusRequester = focusRequester,
             onAmountChanged = { onIntent(TransactionEditIntent.AmountChanged(it)) },
+            onCalculatorClick = onCalculatorOpen,
         )
         // Date field — clickable display field (not an editable text input)
         DateDisplayField(
@@ -390,6 +410,7 @@ private fun AmountDisplay(
     amountText: String,
     focusRequester: FocusRequester,
     onAmountChanged: (String) -> Unit,
+    onCalculatorClick: () -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -435,15 +456,25 @@ private fun AmountDisplay(
             }
         }
 
-        // Hidden BasicTextField for numeric input
+        // Hidden BasicTextField for numeric input (cursor brush set to accent)
         BasicTextField(
             value = amountText,
             onValueChange = onAmountChanged,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            cursorBrush = SolidColor(colors.accent),
             modifier = Modifier
                 .size(1.dp)
                 .focusRequester(focusRequester),
             decorationBox = { },
+        )
+
+        Spacer(Modifier.height(8.dp))
+
+        // Calculator button
+        MmIconButton(
+            icon = MmIcons.calculator,
+            onClick = onCalculatorClick,
+            contentDescription = stringResource(Res.string.edit_calculator_title),
         )
     }
 }
@@ -795,5 +826,282 @@ private fun CategoryChip(
             maxLines = 1,
             overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
         )
+    }
+}
+
+// ─── Calculator Bottom Sheet ──────────────────────────────────────────────────
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CalculatorBottomSheet(
+    initialAmountText: String,
+    onDismiss: () -> Unit,
+    onAmountSaved: (String) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    // Calculator state
+    var display by remember {
+        mutableStateOf(
+            if (initialAmountText.isNotBlank() && initialAmountText.toDoubleOrNull() != null &&
+                initialAmountText.toDouble() > 0) {
+                initialAmountText
+            } else {
+                ""
+            }
+        )
+    }
+    var currentValue by remember { mutableStateOf(0.0) }
+    var pendingOp by remember { mutableStateOf<Char?>(null) }
+    var justAppliedOp by remember { mutableStateOf(false) }
+
+    // Initialize from current amount
+    LaunchedEffect(Unit) {
+        val initial = initialAmountText.toDoubleOrNull() ?: 0.0
+        if (initial > 0) {
+            currentValue = initial
+        }
+    }
+
+    fun calcResult(): Double {
+        val inputVal = display.toDoubleOrNull() ?: 0.0
+        return when (pendingOp) {
+            '+' -> currentValue + inputVal
+            '-' -> currentValue - inputVal
+            '*' -> currentValue * inputVal
+            '/' -> if (inputVal != 0.0) currentValue / inputVal else currentValue
+            else -> inputVal
+        }
+    }
+
+    fun formatResult(v: Double): String {
+        val major = v.toLong()
+        val frac = ((v - major) * 100).toLong().coerceAtLeast(0L)
+        return "$major.${frac.toString().padStart(2, '0')}"
+    }
+
+    fun onCalcKey(key: String) {
+        when (key) {
+            "C" -> {
+                display = ""
+                currentValue = 0.0
+                pendingOp = null
+                justAppliedOp = false
+            }
+            "⌫" -> {
+                if (display.isNotEmpty()) display = display.dropLast(1)
+            }
+            "+", "-", "*", "/" -> {
+                val result = calcResult()
+                currentValue = result
+                pendingOp = key[0]
+                display = ""
+                justAppliedOp = true
+            }
+            "=" -> {
+                val result = calcResult()
+                display = formatResult(result)
+                currentValue = result
+                pendingOp = null
+                justAppliedOp = false
+            }
+            "." -> {
+                if (!display.contains('.')) display += "."
+            }
+            else -> {
+                if (justAppliedOp) {
+                    display = key
+                    justAppliedOp = false
+                } else {
+                    if (display.length < 12) display += key
+                }
+            }
+        }
+    }
+
+    val resultPreview = if (pendingOp != null && display.isNotEmpty()) {
+        val result = calcResult()
+        formatResult(result)
+    } else {
+        ""
+    }
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
+        containerColor = colors.bg,
+        dragHandle = null,
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            // Grab handle
+            Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Box(
+                    Modifier
+                        .size(width = 36.dp, height = 4.dp)
+                        .clip(RoundedCornerShape(50))
+                        .background(colors.borderStrong),
+                )
+            }
+
+            // Title
+            Text(
+                text = stringResource(Res.string.edit_calculator_title),
+                style = type.title3,
+                color = colors.text,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            // Display
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(colors.surface)
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                horizontalAlignment = Alignment.End,
+            ) {
+                if (pendingOp != null) {
+                    Text(
+                        text = "${formatResult(currentValue)} $pendingOp${if (display.isNotEmpty()) " $display" else ""}",
+                        style = type.caption.copy(color = colors.text2),
+                    )
+                }
+                Text(
+                    text = display.ifEmpty { "0" },
+                    style = type.display.copy(fontSize = 36.sp, color = colors.text),
+                )
+                if (resultPreview.isNotEmpty()) {
+                    Text(
+                        text = "= $resultPreview",
+                        style = type.caption.copy(color = colors.accent),
+                    )
+                }
+            }
+
+            // Calculator buttons
+            val rows = listOf(
+                listOf("7", "8", "9", "/"),
+                listOf("4", "5", "6", "*"),
+                listOf("1", "2", "3", "-"),
+                listOf("C", "0", ".", "+"),
+            )
+
+            rows.forEach { row ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    row.forEach { key ->
+                        val isOp = key in listOf("/", "*", "-", "+")
+                        val isClear = key == "C"
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(56.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(
+                                    when {
+                                        isClear -> colors.danger.copy(alpha = 0.15f)
+                                        isOp -> colors.accent.copy(alpha = 0.15f)
+                                        else -> colors.surface
+                                    }
+                                )
+                                .border(
+                                    1.dp,
+                                    when {
+                                        isClear -> colors.danger.copy(alpha = 0.3f)
+                                        isOp -> colors.accent.copy(alpha = 0.3f)
+                                        else -> colors.border
+                                    },
+                                    RoundedCornerShape(12.dp),
+                                )
+                                .pointerInput(Unit) {
+                                    detectTapGestures { onCalcKey(key) }
+                                },
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Text(
+                                text = key,
+                                style = type.title3.copy(
+                                    color = when {
+                                        isClear -> colors.danger
+                                        isOp -> colors.accent
+                                        else -> colors.text
+                                    }
+                                ),
+                            )
+                        }
+                    }
+                }
+            }
+
+            // Bottom row: backspace + save
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                // Backspace
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(56.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(colors.surface)
+                        .border(1.dp, colors.border, RoundedCornerShape(12.dp))
+                        .pointerInput(Unit) {
+                            detectTapGestures { onCalcKey("⌫") }
+                        },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text("⌫", style = type.title3.copy(color = colors.text))
+                }
+                // Equals / result preview
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(56.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(colors.accent.copy(alpha = 0.15f))
+                        .border(1.dp, colors.accent.copy(alpha = 0.3f), RoundedCornerShape(12.dp))
+                        .pointerInput(Unit) {
+                            detectTapGestures { onCalcKey("=") }
+                        },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text("=", style = type.title3.copy(color = colors.accent))
+                }
+                // Save / apply
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(56.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(colors.accent)
+                        .pointerInput(Unit) {
+                            detectTapGestures {
+                                val result = calcResult()
+                                val finalDisplay = if (display.isEmpty()) {
+                                    formatResult(currentValue)
+                                } else {
+                                    formatResult(result)
+                                }
+                                onAmountSaved(finalDisplay)
+                            }
+                        },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text("✓", style = type.title3.copy(color = Color.White))
+                }
+            }
+
+            Spacer(Modifier.height(16.dp))
+        }
     }
 }

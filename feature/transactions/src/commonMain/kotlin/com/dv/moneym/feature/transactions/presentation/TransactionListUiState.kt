@@ -1,5 +1,6 @@
 package com.dv.moneym.feature.transactions.presentation
 
+import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
@@ -20,6 +21,9 @@ data class TransactionListUiState(
     val netCurrency: String = "EUR",
     val txDisplayPrefs: TxDisplayPrefs = TxDisplayPrefs(),
     val searchQuery: String = "",
+    // Wallet / account
+    val selectedAccount: Account? = null,
+    val availableAccounts: List<Account> = emptyList(),
 )
 
 data class DayGroup(

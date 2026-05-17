@@ -39,6 +39,8 @@ class TransactionEditViewModel(
     private val clock: AppClock,
 ) : ViewModel() {
 
+    private val isNewTransaction = editingId == null
+
     private val _state = MutableStateFlow(TransactionEditUiState(
         isLoading = editingId != null,
         isEditMode = editingId != null,
@@ -63,6 +65,12 @@ class TransactionEditViewModel(
                             availableCategories = cats,
                             availableAccounts = accs,
                             selectedAccountId = s.selectedAccountId ?: defaultAcc?.id,
+                            // For new transactions, pre-select the first category if none selected yet
+                            selectedCategoryId = if (isNewTransaction && s.selectedCategoryId == null) {
+                                cats.firstOrNull()?.id
+                            } else {
+                                s.selectedCategoryId
+                            },
                         )
                     }
                 }

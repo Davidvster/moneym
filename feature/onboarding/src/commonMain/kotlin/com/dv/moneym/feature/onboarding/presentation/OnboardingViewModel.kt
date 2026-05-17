@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
+import com.dv.moneym.core.security.BiometricAuthenticator
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.core.security.SecurityPrefs
 import kotlinx.coroutines.channels.Channel
@@ -17,9 +18,14 @@ import kotlinx.coroutines.launch
 class OnboardingViewModel(
     private val settings: AppSettings,
     private val pinManager: PinManager,
+    private val biometricAuth: BiometricAuthenticator,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(OnboardingUiState())
+    private val _state = MutableStateFlow(
+        OnboardingUiState(
+            biometricAvailable = biometricAuth.isAvailable,
+        )
+    )
     val state: StateFlow<OnboardingUiState> = _state.asStateFlow()
 
     private val _effects = Channel<OnboardingEffect>(Channel.BUFFERED)
@@ -35,6 +41,10 @@ class OnboardingViewModel(
                 viewModelScope.launch { _effects.send(OnboardingEffect.NavigateToPinSetup) }
             OnboardingIntent.SkipSecurity -> finish()
             OnboardingIntent.Finish -> finish()
+            is OnboardingIntent.BiometricToggled -> {
+                settings.putBoolean(SecurityPrefs.BIOMETRIC_ENABLED, intent.enabled)
+                _state.update { it.copy(biometricEnabled = intent.enabled) }
+            }
         }
     }
 

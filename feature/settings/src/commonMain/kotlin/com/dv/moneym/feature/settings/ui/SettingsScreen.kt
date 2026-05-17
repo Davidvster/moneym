@@ -48,6 +48,7 @@ import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.TabRoute
+import com.dv.moneym.core.ui.wallet
 import com.dv.moneym.feature.settings.presentation.SettingsEffect
 import com.dv.moneym.feature.settings.presentation.SettingsIntent
 import com.dv.moneym.feature.settings.presentation.SettingsUiState
@@ -60,8 +61,7 @@ import moneym.feature.settings.generated.resources.settings_cancel
 import moneym.feature.settings.generated.resources.settings_categories
 import moneym.feature.settings.generated.resources.settings_change_pin
 import moneym.feature.settings.generated.resources.settings_currency
-import moneym.feature.settings.generated.resources.settings_export_as_csv
-import moneym.feature.settings.generated.resources.settings_export_as_json
+import moneym.feature.settings.generated.resources.settings_export_data
 import moneym.feature.settings.generated.resources.settings_import_data
 import moneym.feature.settings.generated.resources.settings_lang_system_default
 import moneym.feature.settings.generated.resources.settings_language
@@ -83,6 +83,7 @@ import moneym.feature.settings.generated.resources.settings_theme_dark
 import moneym.feature.settings.generated.resources.settings_theme_light
 import moneym.feature.settings.generated.resources.settings_title
 import moneym.feature.settings.generated.resources.settings_tx_list
+import moneym.feature.settings.generated.resources.settings_wallets
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -92,7 +93,6 @@ import org.koin.compose.viewmodel.koinViewModel
 @Serializable data object LanguagePickerKey : NavKey
 
 enum class SettingsItem {
-    TITLE,
     APPEARANCE_LABEL,
     APPEARANCE_CARD,
     SECURITY_LABEL,
@@ -110,6 +110,8 @@ fun EntryProviderScope<NavKey>.settingsEntry(
     onNavigateToTxDisplay: () -> Unit,
     onNavigateToCurrency: () -> Unit,
     onNavigateToLanguage: () -> Unit,
+    onNavigateToExport: () -> Unit = {},
+    onNavigateToWallets: () -> Unit = {},
     onTabSelected: (TabRoute) -> Unit,
     onExportReady: (suspend (String, String, String) -> Unit)? = null,
     onImportRequested: (suspend () -> String?)? = null,
@@ -120,6 +122,8 @@ fun EntryProviderScope<NavKey>.settingsEntry(
         onNavigateToTxDisplay = onNavigateToTxDisplay,
         onNavigateToCurrency = onNavigateToCurrency,
         onNavigateToLanguage = onNavigateToLanguage,
+        onNavigateToExport = onNavigateToExport,
+        onNavigateToWallets = onNavigateToWallets,
         onTabSelected = onTabSelected,
         onExportReady = onExportReady,
         onImportRequested = onImportRequested,
@@ -133,6 +137,8 @@ fun SettingsScreen(
     onNavigateToTxDisplay: () -> Unit = {},
     onNavigateToCurrency: () -> Unit = {},
     onNavigateToLanguage: () -> Unit = {},
+    onNavigateToExport: () -> Unit = {},
+    onNavigateToWallets: () -> Unit = {},
     onTabSelected: (TabRoute) -> Unit = {},
     onExportReady: (suspend (String, String, String) -> Unit)? = null,
     onImportRequested: (suspend () -> String?)? = null,
@@ -164,6 +170,8 @@ fun SettingsScreen(
         onNavigateToTxDisplay = onNavigateToTxDisplay,
         onNavigateToCurrency = onNavigateToCurrency,
         onNavigateToLanguage = onNavigateToLanguage,
+        onNavigateToExport = onNavigateToExport,
+        onNavigateToWallets = onNavigateToWallets,
         onTabSelected = onTabSelected,
     )
 }
@@ -176,9 +184,13 @@ private fun SettingsContent(
     onNavigateToTxDisplay: () -> Unit,
     onNavigateToCurrency: () -> Unit,
     onNavigateToLanguage: () -> Unit,
+    onNavigateToExport: () -> Unit,
+    onNavigateToWallets: () -> Unit,
     onTabSelected: (TabRoute) -> Unit,
 ) {
     val colors = MM.colors
+    val type = MM.type
+    val space = MM.space
     val themeIndex = when (state.themeMode) {
         ThemeMode.Light -> 0
         ThemeMode.Dark -> 1
@@ -217,6 +229,16 @@ private fun SettingsContent(
     }
 
     Column(modifier = Modifier.fillMaxSize().background(colors.bg)) {
+        // Fixed title header — stays pinned at top during scroll
+        Text(
+            text = stringResource(Res.string.settings_title),
+            style = type.title1,
+            color = colors.text,
+            modifier = Modifier
+                .statusBarsPadding()
+                .padding(start = 20.dp, end = 20.dp, top = space.padding_0_5x, bottom = space.padding_2x),
+        )
+
         SettingsLazyList(
             modifier = Modifier.weight(1f),
             state = state,
@@ -230,6 +252,8 @@ private fun SettingsContent(
             onNavigateToCategories = onNavigateToCategories,
             onNavigateToCurrency = onNavigateToCurrency,
             onNavigateToLanguage = onNavigateToLanguage,
+            onNavigateToExport = onNavigateToExport,
+            onNavigateToWallets = onNavigateToWallets,
             onShowLockPicker = { showLockPicker = true },
         )
         MmTabBar(activeTab = TabRoute.Settings, onTabSelected = onTabSelected)
@@ -252,20 +276,14 @@ private fun SettingsLazyList(
     onNavigateToCategories: () -> Unit,
     onNavigateToCurrency: () -> Unit,
     onNavigateToLanguage: () -> Unit,
+    onNavigateToExport: () -> Unit,
+    onNavigateToWallets: () -> Unit,
     onShowLockPicker: () -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
     val space = MM.space
     LazyColumn(modifier = modifier) {
-        item(key = SettingsItem.TITLE.name) {
-            Text(
-                text = stringResource(Res.string.settings_title),
-                style = type.title1,
-                color = colors.text,
-                modifier = Modifier.statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = space.padding_0_5x, bottom = space.padding_2x),
-            )
-        }
         item(key = SettingsItem.APPEARANCE_LABEL.name) {
             SectionLabel(stringResource(Res.string.settings_section_appearance), Modifier.padding(horizontal = 20.dp, vertical = space.padding_0_5x))
         }
@@ -308,13 +326,17 @@ private fun SettingsLazyList(
                 onNavigateToCurrency = onNavigateToCurrency,
                 onNavigateToLanguage = onNavigateToLanguage,
                 onNavigateToCategories = onNavigateToCategories,
+                onNavigateToWallets = onNavigateToWallets,
             )
         }
         item(key = SettingsItem.DATA_LABEL.name) {
             SectionLabel(stringResource(Res.string.settings_section_data), Modifier.padding(start = 20.dp, end = 20.dp, top = space.padding_2x, bottom = space.padding_0_5x))
         }
         item(key = SettingsItem.DATA_CARD.name) {
-            DataSection(onIntent = onIntent)
+            DataSection(
+                onIntent = onIntent,
+                onNavigateToExport = onNavigateToExport,
+            )
         }
         item(key = SettingsItem.VERSION.name) {
             Text(
@@ -474,6 +496,7 @@ private fun PreferencesSection(
     onNavigateToCurrency: () -> Unit,
     onNavigateToLanguage: () -> Unit,
     onNavigateToCategories: () -> Unit,
+    onNavigateToWallets: () -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -515,7 +538,7 @@ private fun PreferencesSection(
                 modifier = Modifier.size(16.dp),
             )
         }
-        MmRow(onClick = onNavigateToCategories, divider = false) {
+        MmRow(onClick = onNavigateToCategories) {
             Icon(
                 imageVector = MmIcons.list,
                 contentDescription = null,
@@ -535,28 +558,15 @@ private fun PreferencesSection(
                 modifier = Modifier.size(16.dp),
             )
         }
-    }
-}
-
-// ─── DataSection ──────────────────────────────────────────────────────────────
-
-@Composable
-private fun DataSection(
-    onIntent: (SettingsIntent) -> Unit,
-) {
-    val colors = MM.colors
-    val type = MM.type
-    val space = MM.space
-    MmCard(Modifier.padding(horizontal = space.padding_2x)) {
-        MmRow(onClick = { onIntent(SettingsIntent.ExportJsonRequested) }) {
+        MmRow(onClick = onNavigateToWallets, divider = false) {
             Icon(
-                imageVector = MmIcons.download,
+                imageVector = MmIcons.wallet,
                 contentDescription = null,
                 tint = colors.text,
                 modifier = Modifier.size(18.dp),
             )
             Text(
-                stringResource(Res.string.settings_export_as_json),
+                stringResource(Res.string.settings_wallets),
                 style = type.body,
                 color = colors.text,
                 modifier = Modifier.weight(1f),
@@ -568,7 +578,21 @@ private fun DataSection(
                 modifier = Modifier.size(16.dp),
             )
         }
-        MmRow(onClick = { onIntent(SettingsIntent.ExportCsvRequested) }) {
+    }
+}
+
+// ─── DataSection ──────────────────────────────────────────────────────────────
+
+@Composable
+private fun DataSection(
+    onIntent: (SettingsIntent) -> Unit,
+    onNavigateToExport: () -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    val space = MM.space
+    MmCard(Modifier.padding(horizontal = space.padding_2x)) {
+        MmRow(onClick = onNavigateToExport) {
             Icon(
                 imageVector = MmIcons.download,
                 contentDescription = null,
@@ -576,7 +600,7 @@ private fun DataSection(
                 modifier = Modifier.size(18.dp),
             )
             Text(
-                stringResource(Res.string.settings_export_as_csv),
+                stringResource(Res.string.settings_export_data),
                 style = type.body,
                 color = colors.text,
                 modifier = Modifier.weight(1f),
@@ -706,6 +730,8 @@ private fun SettingsScreenPreview() {
             onNavigateToTxDisplay = {},
             onNavigateToCurrency = {},
             onNavigateToLanguage = {},
+            onNavigateToExport = {},
+            onNavigateToWallets = {},
             onTabSelected = {},
         )
     }

@@ -2,7 +2,7 @@
 <resources>
     <string name="security_pin_setup_title">Set a PIN</string>
     <string name="security_pin_confirm_title">Confirm PIN</string>
-    <string name="security_pin_enter_title">Enter PIN</string>
+    <string name="security_pin_enter_title">Enter your PIN</string>
     <string name="security_pin_subtitle_first">Enter a 4-digit PIN</string>
     <string name="security_pin_subtitle_confirm">Enter PIN again</string>
     <string name="security_pin_mismatch">PINs don\'t match</string>
@@ -13,4 +13,8 @@
     <string name="security_app_name">MoneyM</string>
     <string name="security_cancel">Cancel</string>
     <string name="security_backoff_retry">Try again in %1$ds</string>
+    <string name="security_change_pin_title">Change PIN</string>
+    <string name="security_pin_set_header">Set your PIN</string>
+    <string name="security_pin_confirm_header">Confirm your PIN</string>
+    <string name="security_pin_enter_header">Enter your PIN</string>
 </resources>

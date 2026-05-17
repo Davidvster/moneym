@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.datastore.AppSettingsRepository
+import com.dv.moneym.core.model.Account
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Transaction
@@ -14,6 +16,7 @@ import kotlin.math.abs
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.model.format
+import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,6 +34,7 @@ import kotlinx.datetime.LocalDate
 class TransactionListViewModel(
     private val transactionRepository: TransactionRepository,
     private val categoryRepository: CategoryRepository,
+    private val accountRepository: AccountRepository,
     private val appSettingsRepository: AppSettingsRepository,
     clock: AppClock,
 ) : ViewModel() {
@@ -39,6 +43,7 @@ class TransactionListViewModel(
     private val _currentMonth = MutableStateFlow(YearMonth(today.year, today.monthNumber))
     private val _filter = MutableStateFlow<TransactionFilter>(TransactionFilter.None)
     private val _searchQuery = MutableStateFlow("")
+    private val _selectedAccountId = MutableStateFlow<Long>(-1L)
 
     init {
         // Restore persisted filter on startup
@@ -47,7 +52,21 @@ class TransactionListViewModel(
                 _filter.update { decodeFilter(encoded) }
             }
             .launchIn(viewModelScope)
+
+        // Restore persisted selected account
+        appSettingsRepository.observeSelectedAccountId()
+            .onEach { id -> _selectedAccountId.value = id }
+            .launchIn(viewModelScope)
     }
+
+    // Combine base state: month + filter + query + cats + prefs
+    private data class BaseState(
+        val month: YearMonth,
+        val filter: TransactionFilter,
+        val searchQuery: String,
+        val categories: List<Category>,
+        val prefs: TxDisplayPrefs,
+    )
 
     val state = combine(
         _currentMonth,
@@ -56,18 +75,32 @@ class TransactionListViewModel(
         categoryRepository.observeAll(),
         appSettingsRepository.observeTxDisplayPrefs(),
     ) { month, filter, query, cats, prefs ->
-        Quint(month, filter, query, cats, prefs)
-    }.flatMapLatest { (month, filter, searchQuery, categories, prefs) ->
-        val catMap = categories.associateBy { it.id }
-        val txnFlow = if (filter == TransactionFilter.None) {
-            transactionRepository.observeByMonth(month.year, month.monthNumber)
+        BaseState(month, filter, query, cats, prefs)
+    }.flatMapLatest { base ->
+        val catMap = base.categories.associateBy { it.id }
+        val txnFlow = if (base.filter == TransactionFilter.None) {
+            transactionRepository.observeByMonth(base.month.year, base.month.monthNumber)
         } else {
-            transactionRepository.observeFiltered(filter).map { all ->
-                all.filter { it.occurredOn.year == month.year && it.occurredOn.monthNumber == month.monthNumber }
+            transactionRepository.observeFiltered(base.filter).map { all ->
+                all.filter {
+                    it.occurredOn.year == base.month.year &&
+                        it.occurredOn.monthNumber == base.month.monthNumber
+                }
             }
         }
-        txnFlow.map { transactions ->
-            val dayGroups = transactions
+        combine(
+            txnFlow,
+            _selectedAccountId,
+            accountRepository.observeAll(),
+        ) { transactions, selectedAccId, accounts ->
+            // Filter by selected account (if one is selected and non-negative)
+            val accountFilteredTxns = if (selectedAccId > 0L) {
+                transactions.filter { it.accountId.value == selectedAccId }
+            } else {
+                transactions
+            }
+
+            val dayGroups = accountFilteredTxns
                 .groupBy { it.occurredOn }
                 .map { (date, txns) ->
                     DayGroup(
@@ -79,10 +112,10 @@ class TransactionListViewModel(
                 .sortedByDescending { it.date }
 
             // Apply search filter
-            val filteredGroups = if (searchQuery.isBlank()) {
+            val filteredGroups = if (base.searchQuery.isBlank()) {
                 dayGroups
             } else {
-                val q = searchQuery.trim().lowercase()
+                val q = base.searchQuery.trim().lowercase()
                 dayGroups.mapNotNull { group ->
                     val matchingTxns = group.transactions.filter { tx ->
                         tx.categoryName.lowercase().contains(q) ||
@@ -94,24 +127,33 @@ class TransactionListViewModel(
             }
 
             // Net amount: income positive, expenses negative (in minor units)
-            val netMinor = transactions.sumOf { tx ->
+            val netMinor = accountFilteredTxns.sumOf { tx ->
                 if (tx.type == TransactionType.INCOME) tx.amount.minorUnits
                 else -tx.amount.minorUnits
             }
-            val netCurrency = transactions.firstOrNull()?.amount?.currency?.value ?: "EUR"
+            val netCurrency = accountFilteredTxns.firstOrNull()?.amount?.currency?.value ?: "EUR"
+
+            // Resolve selected account object
+            val selectedAccount = if (selectedAccId > 0L) {
+                accounts.find { it.id.value == selectedAccId }
+            } else {
+                accounts.firstOrNull { it.isDefault } ?: accounts.firstOrNull()
+            }
 
             TransactionListUiState(
                 isLoading = false,
-                currentMonth = month,
+                currentMonth = base.month,
                 dayGroups = filteredGroups,
-                activeFilter = filter,
-                availableCategories = categories,
+                activeFilter = base.filter,
+                availableCategories = base.categories,
                 isEmpty = filteredGroups.isEmpty(),
-                monthlySummary = buildSummary(transactions, filter),
+                monthlySummary = buildSummary(accountFilteredTxns, base.filter),
                 netAmount = netMinor,
                 netCurrency = netCurrency,
-                txDisplayPrefs = prefs,
-                searchQuery = searchQuery,
+                txDisplayPrefs = base.prefs,
+                searchQuery = base.searchQuery,
+                selectedAccount = selectedAccount,
+                availableAccounts = accounts.filter { !it.archived },
             )
         }
     }.stateIn(
@@ -135,17 +177,16 @@ class TransactionListViewModel(
             }
             is TransactionListIntent.SearchQueryChanged -> _searchQuery.update { intent.query }
             is TransactionListIntent.MonthSelected -> _currentMonth.update { intent.yearMonth }
+            is TransactionListIntent.AccountSelected -> {
+                val id = intent.accountId?.value ?: -1L
+                _selectedAccountId.value = id
+                viewModelScope.launch {
+                    appSettingsRepository.setSelectedAccountId(id)
+                }
+            }
         }
     }
 }
-
-private data class Quint<A, B, C, D, E>(val a: A, val b: B, val c: C, val d: D, val e: E)
-
-private operator fun <A, B, C, D, E> Quint<A, B, C, D, E>.component1() = a
-private operator fun <A, B, C, D, E> Quint<A, B, C, D, E>.component2() = b
-private operator fun <A, B, C, D, E> Quint<A, B, C, D, E>.component3() = c
-private operator fun <A, B, C, D, E> Quint<A, B, C, D, E>.component4() = d
-private operator fun <A, B, C, D, E> Quint<A, B, C, D, E>.component5() = e
 
 private fun encodeFilter(filter: TransactionFilter): String = when (filter) {
     is TransactionFilter.None -> "all"

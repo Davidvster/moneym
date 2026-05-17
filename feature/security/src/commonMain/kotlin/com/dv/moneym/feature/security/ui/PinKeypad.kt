@@ -174,19 +174,3 @@ fun PinKeypad(
         }
     }
 }
-
-// Legacy adapter — keeps existing call sites with onDigit: (Int) -> Unit compiling
-@Composable
-fun PinKeypad(
-    onDigit: (Int) -> Unit,
-    onDelete: () -> Unit,
-    enabled: Boolean = true,
-    modifier: Modifier = Modifier,
-) {
-    PinKeypad(
-        onKey = { char -> onDigit(char.digitToInt()) },
-        onDelete = onDelete,
-        onBiometric = null,
-        modifier = modifier,
-    )
-}

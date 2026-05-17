@@ -34,4 +34,6 @@ object PrefKeys {
     // User last-selected settings (persisted across sessions)
     const val TX_LAST_FILTER = "pref.tx_last_filter"
     const val OVERVIEW_LAST_TAB = "pref.overview_last_tab"
+    // Selected wallet / account
+    const val SELECTED_ACCOUNT_ID = "pref.selected_account_id"
 }
