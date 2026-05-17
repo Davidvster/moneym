@@ -17,4 +17,8 @@
     <string name="security_pin_set_header">Set your PIN</string>
     <string name="security_pin_confirm_header">Confirm your PIN</string>
     <string name="security_pin_enter_header">Enter your PIN</string>
+    <string name="security_biometric_offer_title">Enable biometrics?</string>
+    <string name="security_biometric_offer_body">Unlock MoneyM quickly with Face ID or fingerprint.</string>
+    <string name="security_biometric_offer_enable">Enable</string>
+    <string name="security_biometric_offer_skip">Not now</string>
 </resources>

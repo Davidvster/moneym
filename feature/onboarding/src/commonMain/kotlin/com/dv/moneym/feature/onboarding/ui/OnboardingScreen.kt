@@ -21,16 +21,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
@@ -41,11 +39,14 @@ import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.SectionLabel
-import com.dv.moneym.feature.onboarding.presentation.OnboardingEffect
-import com.dv.moneym.feature.onboarding.presentation.OnboardingIntent
-import com.dv.moneym.feature.onboarding.presentation.OnboardingStep
-import com.dv.moneym.feature.onboarding.presentation.OnboardingViewModel
+import com.dv.moneym.feature.onboarding.presentation.OnboardingCurrencyEffect
+import com.dv.moneym.feature.onboarding.presentation.OnboardingCurrencyIntent
+import com.dv.moneym.feature.onboarding.presentation.OnboardingCurrencyViewModel
+import com.dv.moneym.feature.onboarding.presentation.OnboardingSecurityEffect
+import com.dv.moneym.feature.onboarding.presentation.OnboardingSecurityIntent
+import com.dv.moneym.feature.onboarding.presentation.OnboardingSecurityViewModel
 import com.dv.moneym.feature.onboarding.presentation.commonCurrencies
+import kotlinx.serialization.Serializable
 import moneym.feature.onboarding.generated.resources.Res
 import moneym.feature.onboarding.generated.resources.onboarding_biometrics_label
 import moneym.feature.onboarding.generated.resources.onboarding_biometrics_subtitle
@@ -59,74 +60,97 @@ import moneym.feature.onboarding.generated.resources.onboarding_search_currency
 import moneym.feature.onboarding.generated.resources.onboarding_security_subtitle
 import moneym.feature.onboarding.generated.resources.onboarding_security_title
 import moneym.feature.onboarding.generated.resources.onboarding_skip
-import moneym.feature.onboarding.generated.resources.onboarding_skip_short
 import moneym.feature.onboarding.generated.resources.onboarding_welcome
 import org.jetbrains.compose.resources.stringResource
-import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable data object OnboardingKey : NavKey
+@Serializable data object OnboardingSecurityKey : NavKey
 @Serializable data object OnboardingPinSetupKey : NavKey
 
-fun EntryProviderScope<NavKey>.onboardingEntry(
-    viewModel: com.dv.moneym.feature.onboarding.presentation.OnboardingViewModel,
+fun EntryProviderScope<NavKey>.onboardingCurrencyEntry(
+    onNavigateToSecurity: () -> Unit,
+) = entry<OnboardingKey> {
+    OnboardingCurrencyScreen(onNavigateToSecurity = onNavigateToSecurity)
+}
+
+fun EntryProviderScope<NavKey>.onboardingSecurityEntry(
     onNavigateToPinSetup: () -> Unit,
     onComplete: () -> Unit,
-) = entry<OnboardingKey> {
-    OnboardingScreen(
+    viewModel: OnboardingSecurityViewModel,
+) = entry<OnboardingSecurityKey> {
+    OnboardingSecurityScreen(
         viewModel = viewModel,
         onNavigateToPinSetup = onNavigateToPinSetup,
         onComplete = onComplete,
     )
 }
 
+// ─── Currency Screen ─────────────────────────────────────────────────────────
+
 @Composable
-fun OnboardingScreen(
-    onNavigateToPinSetup: () -> Unit,
-    onComplete: () -> Unit,
-    viewModel: OnboardingViewModel = koinViewModel(),
+fun OnboardingCurrencyScreen(
+    onNavigateToSecurity: () -> Unit,
+    viewModel: OnboardingCurrencyViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
     LaunchedEffect(viewModel) {
         viewModel.effects.collect { effect ->
             when (effect) {
-                OnboardingEffect.NavigateToPinSetup -> onNavigateToPinSetup()
-                OnboardingEffect.Complete -> onComplete()
+                OnboardingCurrencyEffect.NavigateToSecurity -> onNavigateToSecurity()
             }
         }
     }
-    when (state.step) {
-        OnboardingStep.CURRENCY -> CurrencyStep(
-            selected = state.selectedCurrency,
-            onSelect = { viewModel.onIntent(OnboardingIntent.CurrencySelected(it)) },
-            onContinue = { viewModel.onIntent(OnboardingIntent.ContinueToSecurity) },
-        )
-        OnboardingStep.SECURITY -> SecurityStep(
-            pinEnabled = state.pinEnabled,
-            biometricAvailable = state.biometricAvailable,
-            biometricEnabled = state.biometricEnabled,
-            onSetupPin = { viewModel.onIntent(OnboardingIntent.SetupPinRequested) },
-            onSkip = { viewModel.onIntent(OnboardingIntent.SkipSecurity) },
-            onFinish = { viewModel.onIntent(OnboardingIntent.Finish) },
-            onBiometricToggle = { viewModel.onIntent(OnboardingIntent.BiometricToggled(it)) },
-        )
-    }
+    CurrencyStep(
+        selected = state.selectedCurrency,
+        searchQuery = state.searchQuery,
+        onSelect = { viewModel.onIntent(OnboardingCurrencyIntent.CurrencySelected(it)) },
+        onSearchQueryChanged = { viewModel.onIntent(OnboardingCurrencyIntent.SearchQueryChanged(it)) },
+        onContinue = { viewModel.onIntent(OnboardingCurrencyIntent.Continue) },
+    )
 }
 
-// ─── Currency Step ────────────────────────────────────────────────────────────
+// ─── Security Screen ─────────────────────────────────────────────────────────
+
+@Composable
+fun OnboardingSecurityScreen(
+    viewModel: OnboardingSecurityViewModel,
+    onNavigateToPinSetup: () -> Unit,
+    onComplete: () -> Unit,
+) {
+    val state by viewModel.state.collectAsState()
+    LaunchedEffect(viewModel) {
+        viewModel.effects.collect { effect ->
+            when (effect) {
+                OnboardingSecurityEffect.NavigateToPinSetup -> onNavigateToPinSetup()
+                OnboardingSecurityEffect.Complete -> onComplete()
+            }
+        }
+    }
+    SecurityStep(
+        pinEnabled = state.pinEnabled,
+        biometricAvailable = state.biometricAvailable,
+        biometricEnabled = state.biometricEnabled,
+        onSetupPin = { viewModel.onIntent(OnboardingSecurityIntent.SetupPinRequested) },
+        onFinish = { viewModel.onIntent(OnboardingSecurityIntent.Finish) },
+        onBiometricToggle = { viewModel.onIntent(OnboardingSecurityIntent.BiometricToggled(it)) },
+    )
+}
+
+// ─── Currency Step UI ────────────────────────────────────────────────────────
 
 private data class CurrencyItem(val code: String, val name: String)
 
 @Composable
 private fun CurrencyStep(
     selected: String,
+    searchQuery: String,
     onSelect: (String) -> Unit,
+    onSearchQueryChanged: (String) -> Unit,
     onContinue: () -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
-
-    var searchQuery by remember { mutableStateOf("") }
 
     val allItems = remember { commonCurrencies.map { (code, name) -> CurrencyItem(code, name) } }
 
@@ -168,7 +192,7 @@ private fun CurrencyStep(
         // Search field
         MmField(
             value = searchQuery,
-            onValueChange = { searchQuery = it },
+            onValueChange = onSearchQueryChanged,
             placeholder = stringResource(Res.string.onboarding_search_currency),
             prefix = {
                 Icon(
@@ -273,7 +297,7 @@ private fun OnboardingCurrencyRow(
     }
 }
 
-// ─── Security Step ────────────────────────────────────────────────────────────
+// ─── Security Step UI ─────────────────────────────────────────────────────────
 
 @Composable
 private fun SecurityStep(
@@ -281,7 +305,6 @@ private fun SecurityStep(
     biometricAvailable: Boolean,
     biometricEnabled: Boolean,
     onSetupPin: () -> Unit,
-    onSkip: () -> Unit,
     onFinish: () -> Unit,
     onBiometricToggle: (Boolean) -> Unit,
 ) {
@@ -386,15 +409,6 @@ private fun SecurityStep(
                 size = MmButtonSize.Lg,
                 fullWidth = true,
             )
-            if (!pinEnabled) {
-                MmButton(
-                    text = stringResource(Res.string.onboarding_skip_short),
-                    onClick = onSkip,
-                    variant = MmButtonVariant.Ghost,
-                    size = MmButtonSize.Lg,
-                    fullWidth = true,
-                )
-            }
         }
     }
 }

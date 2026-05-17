@@ -15,12 +15,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -30,6 +34,10 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.navigation.ModalKey
+import com.dv.moneym.core.security.BiometryType
+import com.dv.moneym.core.ui.MmButton
+import com.dv.moneym.core.ui.MmButtonSize
+import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.feature.security.presentation.PinSetupEffect
 import com.dv.moneym.feature.security.presentation.PinSetupIntent
@@ -39,6 +47,10 @@ import com.dv.moneym.feature.security.presentation.PinSetupViewModel
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import moneym.feature.security.generated.resources.Res
+import moneym.feature.security.generated.resources.security_biometric_offer_body
+import moneym.feature.security.generated.resources.security_biometric_offer_enable
+import moneym.feature.security.generated.resources.security_biometric_offer_skip
+import moneym.feature.security.generated.resources.security_biometric_offer_title
 import moneym.feature.security.generated.resources.security_cancel
 import moneym.feature.security.generated.resources.security_change_pin_title
 import moneym.feature.security.generated.resources.security_pin_confirm_header
@@ -68,15 +80,87 @@ fun PinSetupScreen(
     viewModel: PinSetupViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    var showBiometricOffer by remember { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
         viewModel.reset()
-        viewModel.effects.collect { if (it == PinSetupEffect.Done) onDone() }
+        viewModel.effects.collect { effect ->
+            when (effect) {
+                PinSetupEffect.Done -> onDone()
+                PinSetupEffect.OfferBiometrics -> showBiometricOffer = true
+            }
+        }
     }
+
+    if (showBiometricOffer) {
+        BiometricOfferDialog(
+            biometryType = state.biometryType,
+            onAccept = {
+                showBiometricOffer = false
+                viewModel.onIntent(PinSetupIntent.BiometricOfferAccepted)
+            },
+            onDecline = {
+                showBiometricOffer = false
+                viewModel.onIntent(PinSetupIntent.BiometricOfferDeclined)
+            },
+        )
+    }
+
     PinSetupContent(
         state = state,
         isChangePinFlow = isChangePinFlow,
         onIntent = viewModel::onIntent,
         onDismiss = onDone,
+    )
+}
+
+@Composable
+private fun BiometricOfferDialog(
+    biometryType: BiometryType,
+    onAccept: () -> Unit,
+    onDecline: () -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+
+    val bodyText = when (biometryType) {
+        BiometryType.FaceId -> stringResource(Res.string.security_biometric_offer_body)
+        else -> stringResource(Res.string.security_biometric_offer_body)
+    }
+
+    AlertDialog(
+        onDismissRequest = onDecline,
+        containerColor = colors.surface,
+        shape = RoundedCornerShape(16.dp),
+        title = {
+            Text(
+                text = stringResource(Res.string.security_biometric_offer_title),
+                style = type.title2,
+                color = colors.text,
+            )
+        },
+        text = {
+            Text(
+                text = bodyText,
+                style = type.body.copy(color = colors.text2),
+            )
+        },
+        confirmButton = {
+            MmButton(
+                text = stringResource(Res.string.security_biometric_offer_enable),
+                onClick = onAccept,
+                variant = MmButtonVariant.Primary,
+                size = MmButtonSize.Md,
+            )
+        },
+        dismissButton = {
+            MmButton(
+                text = stringResource(Res.string.security_biometric_offer_skip),
+                onClick = onDecline,
+                variant = MmButtonVariant.Ghost,
+                size = MmButtonSize.Md,
+            )
+        },
     )
 }
 
@@ -190,7 +274,7 @@ private fun PinSetupBody(
         // Prominent screen title
         Text(
             text = screenTitle,
-            style = type.body,
+            style = type.title1,
             color = colors.text,
         )
 

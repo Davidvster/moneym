@@ -10,25 +10,6 @@ data class OnboardingUiState(
 
 enum class OnboardingStep { CURRENCY, SECURITY }
 
-val commonCurrencies = listOf(
-    "EUR" to "Euro",
-    "USD" to "US Dollar",
-    "GBP" to "British Pound",
-    "CHF" to "Swiss Franc",
-    "JPY" to "Japanese Yen",
-    "CAD" to "Canadian Dollar",
-    "AUD" to "Australian Dollar",
-    "SEK" to "Swedish Krona",
-    "NOK" to "Norwegian Krone",
-    "DKK" to "Danish Krone",
-    "PLN" to "Polish Złoty",
-    "CZK" to "Czech Koruna",
-    "BRL" to "Brazilian Real",
-    "MXN" to "Mexican Peso",
-    "CNY" to "Chinese Yuan",
-    "INR" to "Indian Rupee",
-)
-
 sealed interface OnboardingIntent {
     data class CurrencySelected(val code: String) : OnboardingIntent
     data object ContinueToSecurity : OnboardingIntent

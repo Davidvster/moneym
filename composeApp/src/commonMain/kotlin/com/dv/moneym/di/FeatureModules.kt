@@ -9,11 +9,13 @@ import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
 import com.dv.moneym.feature.categories.presentation.CategoryEditViewModel
 import com.dv.moneym.feature.categories.presentation.CategoryListViewModel
-import com.dv.moneym.feature.onboarding.presentation.OnboardingViewModel
+import com.dv.moneym.feature.onboarding.presentation.OnboardingCurrencyViewModel
+import com.dv.moneym.feature.onboarding.presentation.OnboardingSecurityViewModel
 import com.dv.moneym.feature.overview.presentation.OverviewViewModel
 import com.dv.moneym.feature.security.presentation.PinSetupViewModel
 import com.dv.moneym.feature.security.presentation.PinUnlockViewModel
 import com.dv.moneym.feature.settings.presentation.SettingsViewModel
+import com.dv.moneym.feature.settings.presentation.WalletManageViewModel
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
@@ -61,7 +63,14 @@ val featureTransactionEditModule = module {
 }
 
 val featureSecurityModule = module {
-    viewModelOf(::PinSetupViewModel)
+    viewModel {
+        PinSetupViewModel(
+            pinManager = get(),
+            dispatchers = get(),
+            biometricAuth = get(),
+            settings = get(),
+        )
+    }
     viewModelOf(::PinUnlockViewModel)
 }
 
@@ -85,6 +94,15 @@ val featureSettingsModule = module {
     }
 }
 
+val featureWalletModule = module {
+    viewModel {
+        WalletManageViewModel(
+            accountRepository = get(),
+            appSettingsRepository = get(),
+        )
+    }
+}
+
 val featureCategoriesModule = module {
     single { ArchiveCategoryUseCase(get(), get()) }
     viewModelOf(::CategoryListViewModel)
@@ -99,8 +117,9 @@ val featureCategoriesModule = module {
 }
 
 val featureOnboardingModule = module {
+    viewModel { OnboardingCurrencyViewModel(settings = get()) }
     viewModel {
-        OnboardingViewModel(
+        OnboardingSecurityViewModel(
             settings = get(),
             pinManager = get(),
             biometricAuth = get(),

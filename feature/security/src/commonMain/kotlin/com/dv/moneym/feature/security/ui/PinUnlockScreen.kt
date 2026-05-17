@@ -110,7 +110,7 @@ private fun PinUnlockContent(
         // Prominent "Enter your PIN" title
         Text(
             text = stringResource(Res.string.security_pin_enter_header),
-            style = type.body,
+            style = type.title1,
             color = colors.text,
         )
 

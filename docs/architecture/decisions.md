@@ -126,6 +126,21 @@ Format: short title → context → choice → consequences.
 **Decision**: Keep `rootProject.name = "MoneyM"`. The project directory `MoneyM2` is renamed to `MoneyM` outside the agent session. Android `applicationId` / namespace stays `com.dv.moneym`.
 **Consequences**: Internal naming converges on "MoneyM". After the directory rename, all paths use `…/Developer/MoneyM/`. Until that happens, agent tool calls reference `…/Developer/MoneyM2/` — coordinate the rename across sessions to avoid path breakage.
 
+## ADR-016 — Screens must not inject repositories directly
+
+**Date**: 2026-05-17
+**Status**: Decided
+**Context**: `WalletManageScreen` originally called `koinInject<AccountRepository>()` and `koinInject<AppSettingsRepository>()` directly inside the composable, then used `rememberCoroutineScope` to call suspend functions. This couples the UI layer to the data layer, makes the screen untestable in isolation, and scatters business logic across composables.
+**Decision**: All repository access and coroutine work must go through a `ViewModel`. Screens receive a `ViewModel` (via `koinViewModel()`) and communicate through a typed intent sealed interface. The `ViewModel` owns state as a `StateFlow<UiState>`. Screens only call `viewModel.onIntent(...)` — never `repository.someMethod(...)`.
+
+**Rule**: A composable screen function must not:
+- inject a repository with `koinInject()`
+- call `rememberCoroutineScope()` to invoke suspend repository methods
+- hold repository references of any kind
+
+**Example**: `WalletManageScreen` was refactored in this commit. It previously injected `AccountRepository` and `AppSettingsRepository` directly; it now delegates entirely to `WalletManageViewModel`.
+**Consequences**: Every screen is testable by supplying a fake `ViewModel` or a fake `StateFlow`. DI wiring is explicit in `FeatureModules.kt`. Slight increase in boilerplate (new `*UiState` + `*Intent` + `*ViewModel` files per screen), offset by strong architectural consistency.
+
 ---
 
 ## Open questions (no ADR yet)

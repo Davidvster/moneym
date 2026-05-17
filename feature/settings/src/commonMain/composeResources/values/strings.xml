@@ -90,4 +90,14 @@
     <string name="settings_export_data_title">Export Data</string>
     <string name="settings_export_format">FORMAT</string>
     <string name="settings_export_start">Export</string>
+    <!-- Wallet manage sub-screen -->
+    <string name="settings_wallet_manage_title">Wallets</string>
+    <string name="settings_wallet_no_wallets">No wallets found</string>
+    <string name="settings_wallet_section_header">WALLETS</string>
+    <string name="settings_wallet_add_title">Add Wallet</string>
+    <string name="settings_wallet_add_confirm">Add</string>
+    <string name="settings_wallet_add_cancel">Cancel</string>
+    <string name="settings_wallet_name_placeholder">Wallet name</string>
+    <string name="settings_wallet_currency_placeholder">Currency (e.g. EUR)</string>
+    <string name="settings_wallet_type_currency">%1$s · %2$s</string>
 </resources>

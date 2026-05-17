@@ -1,6 +1,8 @@
 package com.dv.moneym.feature.security.presentation
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.datastore.AppSettings
@@ -12,9 +14,11 @@ import com.dv.moneym.core.security.SecurityPrefs
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,15 +30,21 @@ class PinUnlockViewModel(
     private val biometricAuth: BiometricAuthenticator,
     private val settings: AppSettings,
     private val dispatchers: DispatcherProvider,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(PinUnlockUiState())
-    val state: StateFlow<PinUnlockUiState> = _state.asStateFlow()
+    private val _state by savedStateHandle.saved {
+        MutableStateFlow(PinUnlockUiState())
+    }
+
+    internal val state: StateFlow<PinUnlockUiState> = _state
+        .onStart { init() }
+        .stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
     private val _effects = Channel<PinUnlockEffect>(Channel.BUFFERED)
-    val effects = _effects.receiveAsFlow()
+    internal val effects = _effects.receiveAsFlow()
 
-    init {
+    private fun init() {
         val biometricEnabled = settings.getBoolean(SecurityPrefs.BIOMETRIC_ENABLED)
         val biometricAvailable = biometricEnabled && biometricAuth.isAvailable
         _state.update {
@@ -51,13 +61,12 @@ class PinUnlockViewModel(
         if (biometricAvailable) {
             viewModelScope.launch {
                 // Small delay to allow the UI to render first
-                delay(300)
                 triggerBiometric()
             }
         }
     }
 
-    fun onIntent(intent: PinUnlockIntent) {
+    internal fun onIntent(intent: PinUnlockIntent) {
         when (intent) {
             is PinUnlockIntent.DigitPressed -> onDigit(intent.digit)
             PinUnlockIntent.DeletePressed -> _state.update { it.copy(pin = it.pin.dropLast(1)) }
@@ -105,6 +114,7 @@ class PinUnlockViewModel(
                     pinManager.resetAttempts()
                     _effects.send(PinUnlockEffect.Unlocked)
                 }
+
                 BiometricResult.KeyInvalidated -> {
                     // Biometrics were changed on the device — disable biometrics and fall back to PIN
                     settings.putBoolean(SecurityPrefs.BIOMETRIC_ENABLED, false)
@@ -115,6 +125,7 @@ class PinUnlockViewModel(
                         )
                     }
                 }
+
                 BiometricResult.UserCancelled,
                 is BiometricResult.Error -> {
                     // Do nothing — user can still use PIN

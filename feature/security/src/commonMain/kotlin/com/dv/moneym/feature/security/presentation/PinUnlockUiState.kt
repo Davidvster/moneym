@@ -1,8 +1,10 @@
 package com.dv.moneym.feature.security.presentation
 
 import com.dv.moneym.core.security.BiometryType
+import kotlinx.serialization.Serializable
 
-data class PinUnlockUiState(
+@Serializable
+internal data class PinUnlockUiState(
     val pin: String = "",
     val error: String? = null,
     val failedAttempts: Int = 0,
@@ -12,11 +14,11 @@ data class PinUnlockUiState(
     val isVerifying: Boolean = false,
 )
 
-sealed interface PinUnlockEffect {
+internal sealed interface PinUnlockEffect {
     data object Unlocked : PinUnlockEffect
 }
 
-sealed interface PinUnlockIntent {
+internal sealed interface PinUnlockIntent {
     data class DigitPressed(val digit: Int) : PinUnlockIntent
     data object DeletePressed : PinUnlockIntent
     data object BiometricRequested : PinUnlockIntent

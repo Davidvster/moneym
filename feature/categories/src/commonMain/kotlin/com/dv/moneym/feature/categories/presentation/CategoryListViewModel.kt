@@ -137,7 +137,7 @@ class CategoryListViewModel(
         }
     }
 
-    fun navigateToEdit(id: com.dv.moneym.core.model.CategoryId? = null) {
+    fun navigateToEdit(id: CategoryId? = null) {
         viewModelScope.launch { _effects.send(CategoryListEffect.NavigateToEdit(id)) }
     }
 }

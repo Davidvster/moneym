@@ -1,0 +1,217 @@
+package com.dv.moneym.feature.settings.ui
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
+import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.ui.MmCard
+import com.dv.moneym.core.ui.MmField
+import com.dv.moneym.core.ui.MmIconButton
+import com.dv.moneym.core.ui.MmIcons
+import com.dv.moneym.core.ui.MmRow
+import com.dv.moneym.core.ui.ScreenHeader
+import com.dv.moneym.core.ui.SectionLabel
+import com.dv.moneym.feature.settings.presentation.WalletManageIntent
+import com.dv.moneym.feature.settings.presentation.WalletManageViewModel
+import kotlinx.serialization.Serializable
+import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.settings_wallet_add_cancel
+import moneym.feature.settings.generated.resources.settings_wallet_add_confirm
+import moneym.feature.settings.generated.resources.settings_wallet_add_title
+import moneym.feature.settings.generated.resources.settings_wallet_currency_placeholder
+import moneym.feature.settings.generated.resources.settings_wallet_manage_title
+import moneym.feature.settings.generated.resources.settings_wallet_name_placeholder
+import moneym.feature.settings.generated.resources.settings_wallet_no_wallets
+import moneym.feature.settings.generated.resources.settings_wallet_section_header
+import moneym.feature.settings.generated.resources.settings_wallet_type_currency
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
+
+@Serializable
+data object WalletManageKey : NavKey
+
+fun EntryProviderScope<NavKey>.walletManageEntry(
+    onBack: () -> Unit,
+) = entry<WalletManageKey> {
+    WalletManageScreen(onBack = onBack)
+}
+
+@Composable
+fun WalletManageScreen(
+    onBack: () -> Unit,
+    viewModel: WalletManageViewModel = koinViewModel(),
+) {
+    val state by viewModel.state.collectAsState()
+
+    val colors = MM.colors
+    val type = MM.type
+    val space = MM.space
+
+    if (state.showAddDialog) {
+        AddWalletDialog(
+            onDismiss = { viewModel.onIntent(WalletManageIntent.DismissAddDialog) },
+            onConfirm = { name, currency ->
+                viewModel.onIntent(WalletManageIntent.AddWallet(name, currency))
+            },
+        )
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colors.bg),
+    ) {
+        ScreenHeader(
+            title = stringResource(Res.string.settings_wallet_manage_title),
+            onBack = onBack,
+            trailingContent = {
+                MmIconButton(
+                    icon = MmIcons.plus,
+                    onClick = { viewModel.onIntent(WalletManageIntent.ShowAddDialog) },
+                )
+            },
+        )
+
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(
+                horizontal = space.padding_2x,
+                vertical = space.padding_2x,
+            ),
+        ) {
+            val activeAccounts = state.accounts.filter { !it.archived }
+
+            if (activeAccounts.isEmpty()) {
+                item {
+                    Text(
+                        text = stringResource(Res.string.settings_wallet_no_wallets),
+                        style = type.body,
+                        color = colors.text3,
+                        modifier = Modifier.padding(space.padding_2x),
+                    )
+                }
+            } else {
+                item {
+                    SectionLabel(
+                        text = stringResource(Res.string.settings_wallet_section_header),
+                        modifier = Modifier.padding(bottom = space.padding_0_5x),
+                    )
+                }
+                item {
+                    MmCard(padded = false, shape = MM.radius.md) {
+                        Column {
+                            activeAccounts.forEachIndexed { idx, account ->
+                                val isSelected = account.id.value == state.selectedAccountId ||
+                                    (state.selectedAccountId <= 0L && account.isDefault)
+                                MmRow(
+                                    onClick = {
+                                        viewModel.onIntent(WalletManageIntent.SelectAccount(account.id.value))
+                                    },
+                                    divider = idx < activeAccounts.lastIndex,
+                                ) {
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = account.name,
+                                            style = type.body,
+                                            color = colors.text,
+                                        )
+                                        Text(
+                                            text = stringResource(
+                                                Res.string.settings_wallet_type_currency,
+                                                account.type.name.lowercase().replaceFirstChar { it.uppercase() },
+                                                account.currency.value,
+                                            ),
+                                            style = type.caption.copy(color = colors.text2),
+                                        )
+                                    }
+                                    if (isSelected) {
+                                        Icon(
+                                            imageVector = MmIcons.check,
+                                            contentDescription = null,
+                                            tint = colors.accent,
+                                            modifier = Modifier.size(18.dp),
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun AddWalletDialog(
+    onDismiss: () -> Unit,
+    onConfirm: (name: String, currency: String) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    val space = MM.space
+
+    var name by remember { mutableStateOf("") }
+    var currency by remember { mutableStateOf("EUR") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(stringResource(Res.string.settings_wallet_add_title), style = type.title3, color = colors.text)
+        },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(space.padding_1_5x)) {
+                MmField(
+                    value = name,
+                    onValueChange = { name = it },
+                    placeholder = stringResource(Res.string.settings_wallet_name_placeholder),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                MmField(
+                    value = currency,
+                    onValueChange = { currency = it.uppercase().take(3) },
+                    placeholder = stringResource(Res.string.settings_wallet_currency_placeholder),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    if (name.isNotBlank() && currency.isNotBlank()) {
+                        onConfirm(name.trim(), currency.trim())
+                    }
+                },
+            ) {
+                Text(stringResource(Res.string.settings_wallet_add_confirm), color = colors.accent)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(Res.string.settings_wallet_add_cancel), color = colors.text2)
+            }
+        },
+        containerColor = colors.surface,
+        titleContentColor = colors.text,
+    )
+}

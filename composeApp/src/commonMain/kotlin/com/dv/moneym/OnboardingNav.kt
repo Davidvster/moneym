@@ -12,17 +12,19 @@ import androidx.compose.runtime.remember
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import com.dv.moneym.feature.onboarding.presentation.OnboardingViewModel
+import com.dv.moneym.feature.onboarding.presentation.OnboardingSecurityViewModel
 import com.dv.moneym.feature.onboarding.ui.OnboardingKey
 import com.dv.moneym.feature.onboarding.ui.OnboardingPinSetupKey
-import com.dv.moneym.feature.onboarding.ui.onboardingEntry
+import com.dv.moneym.feature.onboarding.ui.OnboardingSecurityKey
+import com.dv.moneym.feature.onboarding.ui.onboardingCurrencyEntry
+import com.dv.moneym.feature.onboarding.ui.onboardingSecurityEntry
 import com.dv.moneym.feature.security.ui.PinSetupScreen
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 internal fun OnboardingNav() {
     val backStack = remember { mutableStateListOf<NavKey>(OnboardingKey) }
-    val onboardingVm = koinViewModel<OnboardingViewModel>()
+    val securityVm = koinViewModel<OnboardingSecurityViewModel>()
 
     NavDisplay(
         backStack = backStack,
@@ -42,15 +44,18 @@ internal fun OnboardingNav() {
             }
         },
         entryProvider = entryProvider {
-            onboardingEntry(
-                viewModel = onboardingVm,
+            onboardingCurrencyEntry(
+                onNavigateToSecurity = { backStack.add(OnboardingSecurityKey) },
+            )
+            onboardingSecurityEntry(
+                viewModel = securityVm,
                 onNavigateToPinSetup = { backStack.add(OnboardingPinSetupKey) },
                 onComplete = { },
             )
             entry<OnboardingPinSetupKey> {
                 PinSetupScreen(
                     onDone = {
-                        onboardingVm.onReturnFromPinSetup()
+                        securityVm.onReturnFromPinSetup()
                         backStack.removeLastOrNull()
                     },
                 )

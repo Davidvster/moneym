@@ -3,7 +3,10 @@ package com.dv.moneym.feature.security.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.DispatcherProvider
+import com.dv.moneym.core.datastore.AppSettings
+import com.dv.moneym.core.security.BiometricAuthenticator
 import com.dv.moneym.core.security.PinManager
+import com.dv.moneym.core.security.SecurityPrefs
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,9 +21,15 @@ private const val PIN_LENGTH = 4
 class PinSetupViewModel(
     private val pinManager: PinManager,
     private val dispatchers: DispatcherProvider,
+    private val biometricAuth: BiometricAuthenticator,
+    private val settings: AppSettings,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(PinSetupUiState())
+    private val _state = MutableStateFlow(
+        PinSetupUiState(
+            biometryType = if (biometricAuth.isAvailable) biometricAuth.biometryType else com.dv.moneym.core.security.BiometryType.None,
+        )
+    )
     val state: StateFlow<PinSetupUiState> = _state.asStateFlow()
 
     private val _effects = Channel<PinSetupEffect>(Channel.BUFFERED)
@@ -30,6 +39,13 @@ class PinSetupViewModel(
         when (intent) {
             is PinSetupIntent.DigitPressed -> onDigit(intent.digit)
             PinSetupIntent.DeletePressed -> onDelete()
+            PinSetupIntent.BiometricOfferAccepted -> {
+                settings.putBoolean(SecurityPrefs.BIOMETRIC_ENABLED, true)
+                viewModelScope.launch { _effects.send(PinSetupEffect.Done) }
+            }
+            PinSetupIntent.BiometricOfferDeclined -> {
+                viewModelScope.launch { _effects.send(PinSetupEffect.Done) }
+            }
         }
     }
 
@@ -74,12 +90,20 @@ class PinSetupViewModel(
         _state.update { it.copy(isSaving = true) }
         viewModelScope.launch {
             withContext(dispatchers.io) { pinManager.setPin(first) }
-            _effects.send(PinSetupEffect.Done)
+            val shouldOfferBiometrics = biometricAuth.isAvailable &&
+                !settings.getBoolean(SecurityPrefs.BIOMETRIC_ENABLED)
+            if (shouldOfferBiometrics) {
+                _effects.send(PinSetupEffect.OfferBiometrics)
+            } else {
+                _effects.send(PinSetupEffect.Done)
+            }
         }
     }
 
     fun reset() {
-        _state.value = PinSetupUiState()
+        _state.value = PinSetupUiState(
+            biometryType = if (biometricAuth.isAvailable) biometricAuth.biometryType else com.dv.moneym.core.security.BiometryType.None,
+        )
         while (_effects.tryReceive().isSuccess) {}
     }
 }
