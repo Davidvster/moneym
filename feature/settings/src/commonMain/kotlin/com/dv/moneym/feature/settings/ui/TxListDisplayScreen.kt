@@ -115,7 +115,6 @@ private fun TxListDisplayContent(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val radius = MM.radius
 
     val dividerColor = colors.divider
 
@@ -168,7 +167,7 @@ private fun TxListDisplayContent(
                 stringResource(Res.string.settings_txdisplay_color_indicator),
                 Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
             )
-            MmCard(Modifier.padding(horizontal = 16.dp)) {
+            MmCard(Modifier.padding(horizontal = 16.dp), shape = MM.radius.md) {
                 val styles = IndicatorStyle.entries
                 styles.forEachIndexed { i, opt ->
                     val isLast = i == styles.size - 1
@@ -268,8 +267,9 @@ private fun TxListDisplayContent(
                 stringResource(Res.string.settings_txdisplay_show),
                 Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
             )
-            MmCard(Modifier.padding(horizontal = 16.dp)) {
-                MmRow {
+            MmCard(Modifier.padding(horizontal = 16.dp), shape = MM.radius.md) {
+                // Category name row — now clickable (entire row toggles the switch)
+                MmRow(onClick = { onPrefsChanged(currentPrefs.copy(showCategoryName = !currentPrefs.showCategoryName)) }) {
                     Text(
                         stringResource(Res.string.settings_txdisplay_category_name),
                         style = type.body,
@@ -281,7 +281,10 @@ private fun TxListDisplayContent(
                         onCheckedChange = { onPrefsChanged(currentPrefs.copy(showCategoryName = it)) },
                     )
                 }
-                MmRow(divider = false) {
+                MmRow(
+                    onClick = { onPrefsChanged(currentPrefs.copy(showNote = !currentPrefs.showNote)) },
+                    divider = false,
+                ) {
                     Text(
                         stringResource(Res.string.settings_txdisplay_note),
                         style = type.body,
@@ -300,7 +303,7 @@ private fun TxListDisplayContent(
                 stringResource(Res.string.settings_txdisplay_density),
                 Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
             )
-            MmCard(Modifier.padding(horizontal = 16.dp)) {
+            MmCard(Modifier.padding(horizontal = 16.dp), shape = MM.radius.md) {
                 MmRow(divider = false) {
                     Text(
                         stringResource(Res.string.settings_txdisplay_row_size),

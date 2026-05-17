@@ -18,6 +18,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.TabRoute
+import com.dv.moneym.platform.FilePlatform
 import com.dv.moneym.feature.categories.ui.CategoriesKey
 import com.dv.moneym.feature.categories.ui.CategoryEditKey
 import com.dv.moneym.feature.categories.ui.categoriesEntry
@@ -38,6 +39,7 @@ import com.dv.moneym.feature.transactionedit.ui.TransactionEditKey
 import com.dv.moneym.feature.transactionedit.ui.transactionEditEntry
 import com.dv.moneym.feature.transactions.ui.TransactionsKey
 import com.dv.moneym.feature.transactions.ui.transactionsEntry
+import org.koin.compose.koinInject
 
 private val TAB_ORDER: List<NavKey> = listOf(TransactionsKey, OverviewKey, SettingsKey)
 
@@ -54,6 +56,7 @@ private fun tabSlideDirection(from: NavKey, to: NavKey): Int {
 @Composable
 internal fun MainNav(lockController: AppLockController) {
     val tabBackStack = remember { TabBackStack(TransactionsKey) }
+    val filePlatform = koinInject<FilePlatform>()
 
     NavDisplay(
         backStack = tabBackStack.backStack,
@@ -143,6 +146,12 @@ internal fun MainNav(lockController: AppLockController) {
                         TabRoute.Overview -> tabBackStack.switchTab(OverviewKey)
                         TabRoute.Settings -> tabBackStack.switchTab(SettingsKey)
                     }
+                },
+                onExportReady = { fileName, content, mimeType ->
+                    filePlatform.saveFile(fileName, content, mimeType)
+                },
+                onImportRequested = {
+                    filePlatform.openTextFile()
                 },
             )
             pinSetupEntry(onDone = {

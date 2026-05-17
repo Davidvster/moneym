@@ -75,6 +75,11 @@ data class OverviewUiState(
     val categoryMonthlyTrend: List<CategoryTrend> = emptyList(),
     val currentMonthIndex: Int = -1,                    // current month - 1, or -1 if not current year
 
+    // ── Average stats ────────────────────────────────────────────
+    val avgDailyExpense: Double = 0.0,       // month view: avg expense per day (elapsed days)
+    val avgMonthlyExpense: Double = 0.0,     // year view: avg expense per month (elapsed months)
+    val avgDailyExpenseYear: Double = 0.0,   // year view: avg expense per day (elapsed days in year)
+
     // ── Legacy chart bars (kept for existing tests) ──────────────
     val chartBars: List<BarEntry> = emptyList(),
 
@@ -111,4 +116,5 @@ sealed interface OverviewIntent {
     data object TogglePeriod : OverviewIntent
     data class CategoryFilterSelected(val id: CategoryId?) : OverviewIntent
     data class SliceTapped(val index: Int?) : OverviewIntent
+    data class PeriodSelected(val period: OverviewPeriod) : OverviewIntent
 }

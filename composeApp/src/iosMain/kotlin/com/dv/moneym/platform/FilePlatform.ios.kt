@@ -1,0 +1,37 @@
+package com.dv.moneym.platform
+
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import platform.Foundation.NSDocumentDirectory
+import platform.Foundation.NSSearchPathForDirectoriesInDomains
+import platform.Foundation.NSString
+import platform.Foundation.NSUTF8StringEncoding
+import platform.Foundation.NSUserDomainMask
+import platform.Foundation.create
+import platform.Foundation.writeToFile
+
+actual class FilePlatform {
+    actual suspend fun saveFile(suggestedName: String, content: String, mimeType: String): Boolean {
+        return withContext(Dispatchers.Main) {
+            try {
+                val dirs = NSSearchPathForDirectoriesInDomains(
+                    NSDocumentDirectory, NSUserDomainMask, true
+                )
+                val documentsDir = dirs.firstOrNull() as? String ?: return@withContext false
+                val filePath = "$documentsDir/$suggestedName"
+                val nsString = NSString.create(string = content)
+                nsString.writeToFile(
+                    path = filePath,
+                    atomically = true,
+                    encoding = NSUTF8StringEncoding,
+                    error = null,
+                )
+                true
+            } catch (e: Exception) {
+                false
+            }
+        }
+    }
+
+    actual suspend fun openTextFile(): String? = null
+}

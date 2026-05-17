@@ -1,9 +1,13 @@
 package com.dv.moneym.feature.settings.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,16 +16,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.EntryProviderScope
@@ -96,6 +107,8 @@ fun EntryProviderScope<NavKey>.settingsEntry(
     onNavigateToCurrency: () -> Unit,
     onNavigateToLanguage: () -> Unit,
     onTabSelected: (TabRoute) -> Unit,
+    onExportReady: (suspend (String, String, String) -> Unit)? = null,
+    onImportRequested: (suspend () -> String?)? = null,
 ) = entry<SettingsKey> {
     SettingsScreen(
         onNavigateToPinSetup = onNavigateToPinSetup,
@@ -104,6 +117,8 @@ fun EntryProviderScope<NavKey>.settingsEntry(
         onNavigateToCurrency = onNavigateToCurrency,
         onNavigateToLanguage = onNavigateToLanguage,
         onTabSelected = onTabSelected,
+        onExportReady = onExportReady,
+        onImportRequested = onImportRequested,
     )
 }
 
@@ -115,13 +130,26 @@ fun SettingsScreen(
     onNavigateToCurrency: () -> Unit = {},
     onNavigateToLanguage: () -> Unit = {},
     onTabSelected: (TabRoute) -> Unit = {},
+    onExportReady: (suspend (String, String, String) -> Unit)? = null,
+    onImportRequested: (suspend () -> String?)? = null,
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
+
     LaunchedEffect(viewModel) {
         viewModel.effects.collect { effect ->
             when (effect) {
                 SettingsEffect.NavigateToPinSetup -> onNavigateToPinSetup()
+                is SettingsEffect.ExportReady -> {
+                    onExportReady?.invoke(effect.fileName, effect.content, effect.mimeType)
+                }
+                SettingsEffect.ImportRequested -> {
+                    val content = onImportRequested?.invoke()
+                    if (content != null) {
+                        viewModel.onIntent(SettingsIntent.ImportJsonChanged(content))
+                        viewModel.onIntent(SettingsIntent.ApplyImportRequested)
+                    }
+                }
             }
         }
     }
@@ -178,6 +206,20 @@ private fun SettingsContent(
         "fr" -> "Français"
         "pt" -> "Português"
         else -> "System default"
+    }
+
+    // Lock picker state
+    var showLockPicker by remember { mutableStateOf(false) }
+
+    if (showLockPicker) {
+        LockTimeoutPickerDialog(
+            currentSeconds = state.backgroundLockSeconds,
+            onDismiss = { showLockPicker = false },
+            onConfirm = { seconds ->
+                onIntent(SettingsIntent.LockTimeoutChanged(seconds))
+                showLockPicker = false
+            },
+        )
     }
 
     Column(
@@ -300,8 +342,8 @@ private fun SettingsContent(
                         )
                     }
                 }
-                // Lock after
-                MmRow(onClick = {}, divider = false) {
+                // Lock after — now clickable
+                MmRow(onClick = { showLockPicker = true }, divider = false) {
                     Text(
                         stringResource(Res.string.settings_lock_after),
                         style = type.body,
@@ -433,7 +475,8 @@ private fun SettingsContent(
                         modifier = Modifier.size(16.dp),
                     )
                 }
-                MmRow(onClick = {}, divider = false) {
+                // Import — now wired up
+                MmRow(onClick = { onIntent(SettingsIntent.ImportRequested) }, divider = false) {
                     Icon(
                         imageVector = MmIcons.folder,
                         contentDescription = null,
@@ -468,6 +511,89 @@ private fun SettingsContent(
         } // end LazyColumn
         MmTabBar(activeTab = TabRoute.Settings, onTabSelected = onTabSelected)
     } // end outer Column
+}
+
+// ─── Lock Timeout Picker Dialog ───────────────────────────────────────────────
+
+@Composable
+private fun LockTimeoutPickerDialog(
+    currentSeconds: Int,
+    onDismiss: () -> Unit,
+    onConfirm: (Int) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+
+    val options = listOf(
+        0 to "Immediately",
+        30 to "30 seconds",
+        60 to "1 minute",
+        300 to "5 minutes",
+    )
+    var selectedSeconds by remember { mutableStateOf(currentSeconds) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = "Lock after",
+                style = type.title3,
+                color = colors.text,
+            )
+        },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                options.forEach { (seconds, label) ->
+                    val isSelected = seconds == selectedSeconds
+                    MmRow(
+                        onClick = { selectedSeconds = seconds },
+                        divider = false,
+                        padding = PaddingValues(horizontal = 4.dp, vertical = 2.dp),
+                    ) {
+                        Text(
+                            text = label,
+                            style = type.body,
+                            color = colors.text,
+                            modifier = Modifier.weight(1f),
+                        )
+                        Box(
+                            modifier = Modifier
+                                .size(22.dp)
+                                .clip(CircleShape)
+                                .border(
+                                    1.5.dp,
+                                    if (isSelected) colors.accent else colors.borderStrong,
+                                    CircleShape,
+                                )
+                                .background(if (isSelected) colors.accent else Color.Transparent),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            if (isSelected) {
+                                Icon(
+                                    imageVector = MmIcons.check,
+                                    contentDescription = null,
+                                    tint = Color.White,
+                                    modifier = Modifier.size(12.dp),
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = { onConfirm(selectedSeconds) }) {
+                Text("OK", color = colors.accent)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel", color = colors.text2)
+            }
+        },
+        containerColor = colors.surface,
+        titleContentColor = colors.text,
+    )
 }
 
 @androidx.compose.ui.tooling.preview.Preview

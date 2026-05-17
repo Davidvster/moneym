@@ -38,6 +38,7 @@ sealed interface SettingsIntent {
     // backup
     data object ExportJsonRequested : SettingsIntent
     data object ExportCsvRequested : SettingsIntent
+    data object ImportRequested : SettingsIntent
     data class ImportJsonChanged(val json: String) : SettingsIntent
     data object PreviewImportRequested : SettingsIntent
     data object ApplyImportRequested : SettingsIntent
@@ -47,4 +48,6 @@ sealed interface SettingsIntent {
 
 sealed interface SettingsEffect {
     data object NavigateToPinSetup : SettingsEffect
+    data class ExportReady(val content: String, val fileName: String, val mimeType: String) : SettingsEffect
+    data object ImportRequested : SettingsEffect
 }

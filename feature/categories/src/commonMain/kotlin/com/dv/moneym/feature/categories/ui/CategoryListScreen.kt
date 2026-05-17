@@ -5,10 +5,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -23,6 +25,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -43,6 +46,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -347,6 +351,8 @@ private fun NewCategorySheet(
         )
     }
     var showDeleteConfirm by remember { mutableStateOf(false) }
+    var showColorPicker by remember { mutableStateOf(false) }
+    var customColor by remember(categoryToEdit?.id) { mutableStateOf<Color?>(null) }
 
     val palette = listOf(
         Color(0xFFC2566B), Color(0xFF8B6FB0), Color(0xFF4A8E5C), Color(0xFF4F8694), Color(0xFFB89148),
@@ -465,6 +471,42 @@ private fun NewCategorySheet(
                         onClick = { selectedColor = color },
                     )
                 }
+                // Custom "any color" swatch
+                val isCustomSelected = selectedColor !in palette
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(if (isCustomSelected && customColor != null) customColor!! else colors.surface)
+                        .border(
+                            1.dp,
+                            if (isCustomSelected) colors.accent else colors.borderStrong,
+                            RoundedCornerShape(10.dp),
+                        )
+                        .clickable(
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() },
+                        ) { showColorPicker = true },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    if (isCustomSelected && customColor != null) {
+                        val painter = rememberVectorPainter(MmIcons.check)
+                        Image(
+                            painter = painter,
+                            contentDescription = null,
+                            modifier = Modifier.size(16.dp),
+                            colorFilter = ColorFilter.tint(Color.White),
+                        )
+                    } else {
+                        val painter = rememberVectorPainter(MmIcons.plus)
+                        Image(
+                            painter = painter,
+                            contentDescription = "Custom color",
+                            modifier = Modifier.size(16.dp),
+                            colorFilter = ColorFilter.tint(colors.text2),
+                        )
+                    }
+                }
             }
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -541,6 +583,19 @@ private fun NewCategorySheet(
         }
     }
 
+    // Color picker dialog
+    if (showColorPicker) {
+        HsvColorPickerSheet(
+            initialColor = if (selectedColor !in palette && customColor != null) customColor!! else Color(0xFF4A8E5C),
+            onDismiss = { showColorPicker = false },
+            onColorSelected = { color ->
+                selectedColor = color
+                customColor = color
+                showColorPicker = false
+            },
+        )
+    }
+
     val catBeingDeleted = categoryToEdit
     if (showDeleteConfirm && catBeingDeleted != null) {
         DeleteConfirmSheet(
@@ -553,6 +608,259 @@ private fun NewCategorySheet(
         )
     }
 }
+
+// ─── HSV Color Picker Sheet ───────────────────────────────────────────────────
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun HsvColorPickerSheet(
+    initialColor: Color,
+    onDismiss: () -> Unit,
+    onColorSelected: (Color) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+
+    fun colorToHsv(color: Color): Triple<Float, Float, Float> {
+        val r = color.red; val g = color.green; val b = color.blue
+        val max = maxOf(r, g, b); val min = minOf(r, g, b)
+        val delta = max - min
+        val h = when {
+            delta == 0f -> 0f
+            max == r -> (60f * (((g - b) / delta) % 6f)).let { if (it < 0f) it + 360f else it }
+            max == g -> 60f * ((b - r) / delta + 2f)
+            else -> 60f * ((r - g) / delta + 4f)
+        }
+        val s = if (max == 0f) 0f else delta / max
+        return Triple(h, s, max)
+    }
+
+    fun hsvToColor(h: Float, s: Float, v: Float): Color {
+        val c = v * s
+        val x = c * (1f - kotlin.math.abs((h / 60f) % 2f - 1f))
+        val m = v - c
+        val (r1, g1, b1) = when {
+            h < 60f -> Triple(c, x, 0f)
+            h < 120f -> Triple(x, c, 0f)
+            h < 180f -> Triple(0f, c, x)
+            h < 240f -> Triple(0f, x, c)
+            h < 300f -> Triple(x, 0f, c)
+            else -> Triple(c, 0f, x)
+        }
+        return Color(r1 + m, g1 + m, b1 + m)
+    }
+
+    val (ih, is_, iv) = remember(initialColor) { colorToHsv(initialColor) }
+    var hue by remember { mutableStateOf(ih) }
+    var saturation by remember { mutableStateOf(is_) }
+    var brightness by remember { mutableStateOf(iv) }
+
+    val currentColor = hsvToColor(hue, saturation, brightness)
+
+    var hexText by remember(hue, saturation, brightness) {
+        val r = (currentColor.red * 255).toInt()
+        val g = (currentColor.green * 255).toInt()
+        val b = (currentColor.blue * 255).toInt()
+        mutableStateOf(
+            "#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}".uppercase()
+        )
+    }
+
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
+        containerColor = colors.bg,
+        dragHandle = null,
+    ) {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 20.dp, vertical = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            // Grab handle
+            Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Box(
+                    Modifier
+                        .size(width = 36.dp, height = 4.dp)
+                        .clip(RoundedCornerShape(50))
+                        .background(colors.borderStrong),
+                )
+            }
+
+            Text(
+                "Pick color",
+                style = type.title3,
+                color = colors.text,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            // Color preview strip
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(currentColor),
+            )
+
+            // Hue slider
+            Text("Hue", style = type.caption.copy(color = colors.text2))
+            BoxWithConstraints(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(32.dp)
+                    .clip(RoundedCornerShape(16.dp)),
+            ) {
+                val widthPx = constraints.maxWidth.toFloat()
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            Brush.horizontalGradient(
+                                (0..6).map { i -> hsvToColor(i * 60f, 1f, 1f) }
+                            )
+                        )
+                        .pointerInput(Unit) {
+                            detectDragGestures { change, _ ->
+                                change.consume()
+                                hue = ((change.position.x / widthPx) * 360f).coerceIn(0f, 360f)
+                            }
+                        }
+                        .clickable(indication = null, interactionSource = remember { MutableInteractionSource() }) {},
+                ) {
+                    val thumbXDp = ((hue / 360f) * widthPx).toInt()
+                    Box(
+                        modifier = Modifier
+                            .padding(start = (thumbXDp - 12).coerceAtLeast(0).dp)
+                            .size(24.dp)
+                            .clip(CircleShape)
+                            .background(Color.White)
+                            .border(2.dp, colors.borderStrong, CircleShape),
+                    )
+                }
+            }
+
+            // Saturation slider
+            Text("Saturation", style = type.caption.copy(color = colors.text2))
+            BoxWithConstraints(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(32.dp)
+                    .clip(RoundedCornerShape(16.dp)),
+            ) {
+                val widthPx = constraints.maxWidth.toFloat()
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            Brush.horizontalGradient(
+                                listOf(hsvToColor(hue, 0f, brightness.coerceAtLeast(0.3f)), hsvToColor(hue, 1f, brightness.coerceAtLeast(0.3f)))
+                            )
+                        )
+                        .pointerInput(saturation) {
+                            detectDragGestures { change, _ ->
+                                change.consume()
+                                saturation = (change.position.x / widthPx).coerceIn(0f, 1f)
+                            }
+                        },
+                ) {
+                    val thumbXDp = (saturation * widthPx).toInt()
+                    Box(
+                        modifier = Modifier
+                            .padding(start = (thumbXDp - 12).coerceAtLeast(0).dp)
+                            .size(24.dp)
+                            .clip(CircleShape)
+                            .background(Color.White)
+                            .border(2.dp, colors.borderStrong, CircleShape),
+                    )
+                }
+            }
+
+            // Brightness slider
+            Text("Brightness", style = type.caption.copy(color = colors.text2))
+            BoxWithConstraints(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(32.dp)
+                    .clip(RoundedCornerShape(16.dp)),
+            ) {
+                val widthPx = constraints.maxWidth.toFloat()
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            Brush.horizontalGradient(
+                                listOf(Color.Black, hsvToColor(hue, saturation.coerceAtLeast(0.3f), 1f))
+                            )
+                        )
+                        .pointerInput(brightness) {
+                            detectDragGestures { change, _ ->
+                                change.consume()
+                                brightness = (change.position.x / widthPx).coerceIn(0f, 1f)
+                            }
+                        },
+                ) {
+                    val thumbXDp = (brightness * widthPx).toInt()
+                    Box(
+                        modifier = Modifier
+                            .padding(start = (thumbXDp - 12).coerceAtLeast(0).dp)
+                            .size(24.dp)
+                            .clip(CircleShape)
+                            .background(Color.White)
+                            .border(2.dp, colors.borderStrong, CircleShape),
+                    )
+                }
+            }
+
+            // Hex input
+            MmField(
+                value = hexText,
+                onValueChange = { input ->
+                    hexText = input
+                    val clean = input.trimStart('#')
+                    if (clean.length == 6) {
+                        try {
+                            val r = clean.substring(0, 2).toInt(16) / 255f
+                            val g = clean.substring(2, 4).toInt(16) / 255f
+                            val b = clean.substring(4, 6).toInt(16) / 255f
+                            val (h, s, v) = colorToHsv(Color(r, g, b))
+                            hue = h; saturation = s; brightness = v
+                        } catch (_: Exception) {}
+                    }
+                },
+                label = "Hex color",
+                placeholder = "#4A8E5C",
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                MmButton(
+                    text = "Cancel",
+                    onClick = onDismiss,
+                    variant = MmButtonVariant.Secondary,
+                    modifier = Modifier.weight(1f),
+                )
+                MmButton(
+                    text = "Select color",
+                    onClick = { onColorSelected(currentColor) },
+                    variant = MmButtonVariant.Accent,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+            Spacer(Modifier.height(8.dp))
+        }
+    }
+}
+
+// ─── Delete Confirm Sheet ─────────────────────────────────────────────────────
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -623,6 +931,8 @@ private fun DeleteConfirmSheet(
     }
 }
 
+// ─── Color Swatch ─────────────────────────────────────────────────────────────
+
 @Composable
 private fun ColorSwatch(
     color: Color,
@@ -669,6 +979,8 @@ private fun ColorSwatch(
         }
     }
 }
+
+// ─── Icon resolution ──────────────────────────────────────────────────────────
 
 internal fun resolveIconVector(key: String): ImageVector = when (key) {
     "heart" -> MmIcons.heart

@@ -103,15 +103,20 @@ class SettingsViewModel(
                 _state.update { it.copy(isExporting = true) }
                 viewModelScope.launch {
                     val json = withContext(dispatchers.io) { exporter.exportToJson() }
-                    _state.update { it.copy(isExporting = false, exportedJson = json) }
+                    _state.update { it.copy(isExporting = false) }
+                    _effects.send(SettingsEffect.ExportReady(json, "moneym_backup.json", "application/json"))
                 }
             }
             SettingsIntent.ExportCsvRequested -> {
                 _state.update { it.copy(isExporting = true) }
                 viewModelScope.launch {
                     val csv = withContext(dispatchers.io) { exporter.exportToCsv() }
-                    _state.update { it.copy(isExporting = false, exportedJson = csv) }
+                    _state.update { it.copy(isExporting = false) }
+                    _effects.send(SettingsEffect.ExportReady(csv, "moneym_export.csv", "text/csv"))
                 }
+            }
+            SettingsIntent.ImportRequested -> {
+                viewModelScope.launch { _effects.send(SettingsEffect.ImportRequested) }
             }
             is SettingsIntent.ImportJsonChanged ->
                 _state.update { it.copy(importJson = intent.json, importPreview = null, importError = null) }

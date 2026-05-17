@@ -120,11 +120,6 @@ class OverviewViewModel(
         }
 
         // ── Mode-specific data ────────────────────────────────────
-        val mode = when (period) {
-            is OverviewPeriod.Month -> OverviewMode.Month
-            is OverviewPeriod.Year -> OverviewMode.Year
-        }
-
         val dailyTotals: List<Double>
         val cumulativeTotals: List<Double>
         val todayIndex: Int
@@ -132,6 +127,9 @@ class OverviewViewModel(
         val monthlyTotals: List<Double>
         val categoryMonthlyTrend: List<CategoryTrend>
         val currentMonthIndex: Int
+        val avgDailyExpense: Double
+        val avgMonthlyExpense: Double
+        val avgDailyExpenseYear: Double
 
         when (period) {
             is OverviewPeriod.Month -> {
@@ -174,6 +172,12 @@ class OverviewViewModel(
                 monthlyTotals = List(12) { 0.0 }
                 categoryMonthlyTrend = emptyList()
                 currentMonthIndex = -1
+
+                // Average stats for month mode
+                val elapsedDays = if (isCurrentMonth) today.dayOfMonth else days
+                avgDailyExpense = if (elapsedDays > 0) expensesDouble / elapsedDays else 0.0
+                avgMonthlyExpense = 0.0
+                avgDailyExpenseYear = 0.0
             }
 
             is OverviewPeriod.Year -> {
@@ -202,6 +206,21 @@ class OverviewViewModel(
                 cumulativeTotals = emptyList()
                 todayIndex = 0
                 categoryDailyTrend = emptyList()
+
+                // Average stats for year mode
+                val isCurrentYear = period.year == today.year
+                val elapsedMonths = if (isCurrentYear) today.monthNumber else 12
+                val elapsedDaysInYear = if (isCurrentYear) {
+                    val jan1 = LocalDate(period.year, 1, 1)
+                    (today.toEpochDays() - jan1.toEpochDays()).toInt() + 1
+                } else {
+                    val jan1 = LocalDate(period.year, 1, 1)
+                    val jan1Next = LocalDate(period.year + 1, 1, 1)
+                    (jan1Next.toEpochDays() - jan1.toEpochDays()).toInt()
+                }
+                avgDailyExpense = 0.0
+                avgMonthlyExpense = if (elapsedMonths > 0) expensesDouble / elapsedMonths else 0.0
+                avgDailyExpenseYear = if (elapsedDaysInYear > 0) expensesDouble / elapsedDaysInYear else 0.0
             }
         }
 
@@ -223,6 +242,10 @@ class OverviewViewModel(
             monthlyTotals = monthlyTotals,
             categoryMonthlyTrend = categoryMonthlyTrend,
             currentMonthIndex = currentMonthIndex,
+            // Average stats
+            avgDailyExpense = avgDailyExpense,
+            avgMonthlyExpense = avgMonthlyExpense,
+            avgDailyExpenseYear = avgDailyExpenseYear,
             // Legacy chart bars
             chartBars = buildChartBars(allTransactions, period),
             availableCategories = availableCategories,
@@ -258,6 +281,10 @@ class OverviewViewModel(
             }
             is OverviewIntent.SliceTapped -> {
                 _selectedSliceIndex.update { if (it == intent.index) null else intent.index }
+            }
+            is OverviewIntent.PeriodSelected -> {
+                _periodOffset.value = 0
+                _period.value = intent.period
             }
         }
     }

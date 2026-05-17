@@ -1,110 +1,239 @@
-# Phase 10: New Transaction Date Picker
+# Phase 10 — Overview month/year selector: clickable header + "Now" option
 
-## Problem
-The date field in the new transaction form is clickable and opens a Material3 `DatePickerDialog`. The user wants:
-1. The `DatePickerDialog` to include "Today" and "Yesterday" quick-select buttons for convenience
-2. The date field to show a human-readable date (not the raw `LocalDate.toString()` like `2026-05-16`)
+## Goal
+Make the Overview period selector match the Transactions screen:
+1. The period label (e.g. "May 2026" or "2026") should be clickable and open a month/year picker dialog.
+2. For month mode: show a MonthPicker dialog with a "Now" option like in transactions.
+3. For year mode: show a simpler year picker dialog.
+4. Keep the existing chevron left/right navigation working.
 
-## Files to modify
-- `feature/transactionEdit/src/commonMain/kotlin/com/dv/moneym/feature/transactionedit/ui/TransactionEditScreen.kt` — enhance the `DatePickerDialog` with quick-select buttons; improve date display format
+## Files to Change
+1. `feature/overview/src/commonMain/kotlin/com/dv/moneym/feature/overview/presentation/OverviewUiState.kt` — add new intent
+2. `feature/overview/src/commonMain/kotlin/com/dv/moneym/feature/overview/presentation/OverviewViewModel.kt` — handle new intent
+3. `feature/overview/src/commonMain/kotlin/com/dv/moneym/feature/overview/ui/OverviewScreen.kt` — clickable label + dialogs
 
-## Implementation steps
+## Implementation Steps
 
-### Improve date display
-The current code: `val dateText = state.date?.toString() ?: ""`
-`LocalDate.toString()` returns ISO format `yyyy-MM-dd`. Replace with a friendlier format:
-- Today → "Today"
-- Yesterday → "Yesterday"
-- Other dates → "Mon, May 16" style (day-of-week abbreviation + month abbreviation + day)
-
-Add a helper function:
+### Step 1: Add PeriodSelected intent to OverviewUiState.kt
+In `OverviewUiState.kt`, inside `sealed interface OverviewIntent`, add:
 ```kotlin
-private fun LocalDate.toFriendlyString(today: LocalDate): String {
-    val yesterday = LocalDate(today.year, today.monthNumber, today.dayOfMonth - 1)
-    // Handle month rollover for yesterday
-    return when (this) {
-        today -> "Today"
-        // yesterday calculation properly:
-        else -> {
-            val dayName = dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }.take(3)
-            val monthName = month.name.lowercase().replaceFirstChar { it.uppercase() }.take(3)
-            "$dayName, $monthName $dayOfMonth"
+data class PeriodSelected(val period: OverviewPeriod) : OverviewIntent
+```
+
+### Step 2: Handle PeriodSelected in OverviewViewModel.kt
+In `OverviewViewModel.kt`, inside `fun onIntent(intent: OverviewIntent)` when block, add:
+```kotlin
+is OverviewIntent.PeriodSelected -> {
+    _periodOffset.value = 0
+    _period.value = intent.period
+}
+```
+
+### Step 3: Add local dialog state in OverviewContent composable
+In `OverviewScreen.kt`, inside `OverviewContent`, after `val isMonthMode = ...`, add:
+```kotlin
+var showPeriodPicker by remember { mutableStateOf(false) }
+```
+
+### Step 4: Make the period label clickable
+In the header item block, replace the plain `Text(text = periodLabel, ...)` with a clickable Box:
+```kotlin
+Box(
+    modifier = Modifier
+        .widthIn(min = 96.dp)
+        .clip(RoundedCornerShape(8.dp))
+        .clickable(
+            indication = null,
+            interactionSource = remember { MutableInteractionSource() },
+        ) { showPeriodPicker = true }
+        .padding(horizontal = 4.dp, vertical = 2.dp),
+    contentAlignment = Alignment.Center,
+) {
+    Text(
+        text = periodLabel,
+        style = type.body,
+        color = colors.text,
+        textAlign = TextAlign.Center,
+    )
+}
+```
+
+### Step 5: Show period picker dialog in OverviewContent Column
+Place the dialog display logic inside `OverviewContent`, at the end of the Column body (after `MmTabBar`):
+```kotlin
+if (showPeriodPicker) {
+    if (isMonthMode) {
+        val currentPeriod = state.period as? OverviewPeriod.Month
+        if (currentPeriod != null) {
+            OverviewMonthPickerDialog(
+                currentYear = currentPeriod.yearMonth.year,
+                currentMonth = currentPeriod.yearMonth.monthNumber,
+                onDismiss = { showPeriodPicker = false },
+                onConfirm = { year, month ->
+                    onIntent(OverviewIntent.PeriodSelected(OverviewPeriod.Month(YearMonth(year, month))))
+                    showPeriodPicker = false
+                },
+            )
+        }
+    } else {
+        val currentPeriod = state.period as? OverviewPeriod.Year
+        if (currentPeriod != null) {
+            OverviewYearPickerDialog(
+                currentYear = currentPeriod.year,
+                onDismiss = { showPeriodPicker = false },
+                onConfirm = { year ->
+                    onIntent(OverviewIntent.PeriodSelected(OverviewPeriod.Year(year)))
+                    showPeriodPicker = false
+                },
+            )
         }
     }
 }
 ```
 
-For yesterday: use `kotlinx.datetime.LocalDate` arithmetic. The library supports `minus(DatePeriod)`:
+### Step 6: Add OverviewMonthPickerDialog private composable
+Add at the bottom of OverviewScreen.kt:
 ```kotlin
-val yesterday = today.minus(DatePeriod(days = 1))
-```
-
-Then display:
-- `this == today` → "Today"
-- `this == yesterday` → "Yesterday"  
-- else → `"$dayName, $monthName $dayOfMonth $year"` (include year if different from today's year)
-
-### Add quick-select buttons to DatePickerDialog
-The existing `DatePickerDialog`:
-```kotlin
-DatePickerDialog(
-    onDismissRequest = { showDatePicker = false },
-    confirmButton = { TextButton(onClick = { ... }) { Text("OK") } },
+@Composable
+private fun OverviewMonthPickerDialog(
+    currentYear: Int,
+    currentMonth: Int,
+    onDismiss: () -> Unit,
+    onConfirm: (year: Int, month: Int) -> Unit,
 ) {
-    DatePicker(state = datePickerState)
-}
-```
+    val colors = MM.colors
+    val type = MM.type
+    var selectedYear by remember { mutableIntStateOf(currentYear) }
+    var selectedMonth by remember { mutableIntStateOf(currentMonth) }
+    val todayDate = remember {
+        kotlinx.datetime.Clock.System.now()
+            .toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault()).date
+    }
+    val nowYear = todayDate.year
+    val nowMonth = todayDate.monthNumber
+    val monthNames = listOf("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
 
-Add a `dismissButton` slot with Today/Yesterday chips:
-```kotlin
-DatePickerDialog(
-    onDismissRequest = { showDatePicker = false },
-    confirmButton = {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-            // Today chip
-            TextButton(onClick = {
-                onIntent(TransactionEditIntent.DateChanged(todayDate))
-                showDatePicker = false
-            }) { Text("Today", color = colors.accent) }
-            // Yesterday chip
-            TextButton(onClick = {
-                onIntent(TransactionEditIntent.DateChanged(yesterdayDate))
-                showDatePicker = false
-            }) { Text("Yesterday", color = colors.accent) }
-            // OK button
-            TextButton(onClick = {
-                datePickerState.selectedDateMillis?.let { millis ->
-                    val instant = kotlin.time.Instant.fromEpochMilliseconds(millis)
-                    val localDate = instant.toLocalDateTime(TimeZone.UTC).date
-                    onIntent(TransactionEditIntent.DateChanged(localDate))
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Select Month", style = type.title3, color = colors.text) },
+        text = {
+            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+                    MmIconButton(icon = MmIcons.chevronLeft, onClick = { selectedYear-- }, size = 32.dp, contentDescription = "Prev year")
+                    Text(
+                        text = selectedYear.toString(),
+                        style = type.body,
+                        color = if (selectedYear == nowYear) colors.accent else colors.text,
+                        modifier = Modifier.widthIn(min = 64.dp),
+                        textAlign = TextAlign.Center,
+                    )
+                    MmIconButton(icon = MmIcons.chevronRight, onClick = { selectedYear++ }, size = 32.dp, contentDescription = "Next year")
                 }
-                showDatePicker = false
-            }) { Text("OK", color = colors.accent) }
-        }
-    },
-) {
-    DatePicker(state = datePickerState)
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    for (row in 0..3) {
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                            for (col in 0..2) {
+                                val m = row * 3 + col + 1
+                                val isSelected = m == selectedMonth
+                                val isNow = m == nowMonth && selectedYear == nowYear
+                                Box(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(if (isSelected) colors.accent else Color.Transparent)
+                                        .then(if (isNow && !isSelected) Modifier.border(1.dp, colors.accent.copy(alpha = 0.5f), RoundedCornerShape(8.dp)) else Modifier)
+                                        .clickable(indication = null, interactionSource = remember { MutableInteractionSource() }) { selectedMonth = m }
+                                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    Text(
+                                        text = monthNames[m - 1],
+                                        style = type.body,
+                                        color = when { isSelected -> colors.bg; isNow -> colors.accent; else -> colors.text },
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
+                TextButton(onClick = { onConfirm(nowYear, nowMonth) }) { Text("Now", color = colors.text2) }
+                TextButton(onClick = { onConfirm(selectedYear, selectedMonth) }) { Text("OK", color = colors.accent) }
+            }
+        },
+        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel", color = colors.text2) } },
+        containerColor = colors.surface,
+        titleContentColor = colors.text,
+    )
 }
 ```
 
-Need to compute `todayDate` and `yesterdayDate` in the composable. Add:
+### Step 7: Add OverviewYearPickerDialog private composable
 ```kotlin
-val todayDate = remember { Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date }
-val yesterdayDate = remember { todayDate.minus(DatePeriod(days = 1)) }
+@Composable
+private fun OverviewYearPickerDialog(
+    currentYear: Int,
+    onDismiss: () -> Unit,
+    onConfirm: (year: Int) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    var selectedYear by remember { mutableIntStateOf(currentYear) }
+    val nowYear = remember {
+        kotlinx.datetime.Clock.System.now()
+            .toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault()).date.year
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Select Year", style = type.title3, color = colors.text) },
+        text = {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+                MmIconButton(icon = MmIcons.chevronLeft, onClick = { selectedYear-- }, size = 32.dp, contentDescription = "Prev year")
+                Text(
+                    text = selectedYear.toString(),
+                    style = type.body,
+                    color = if (selectedYear == nowYear) colors.accent else colors.text,
+                    modifier = Modifier.widthIn(min = 80.dp),
+                    textAlign = TextAlign.Center,
+                )
+                MmIconButton(icon = MmIcons.chevronRight, onClick = { selectedYear++ }, size = 32.dp, contentDescription = "Next year")
+            }
+        },
+        confirmButton = {
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
+                TextButton(onClick = { onConfirm(nowYear) }) { Text("Now", color = colors.text2) }
+                TextButton(onClick = { onConfirm(selectedYear) }) { Text("OK", color = colors.accent) }
+            }
+        },
+        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel", color = colors.text2) } },
+        containerColor = colors.surface,
+        titleContentColor = colors.text,
+    )
+}
 ```
 
-Import `kotlinx.datetime.Clock`, `TimeZone`, `toLocalDateTime`, `DatePeriod`.
+### Step 8: Add necessary imports to OverviewScreen.kt
+- `androidx.compose.foundation.clickable`
+- `androidx.compose.foundation.interaction.MutableInteractionSource`
+- `androidx.compose.foundation.layout.Arrangement`
+- `androidx.compose.foundation.shape.RoundedCornerShape`
+- `androidx.compose.foundation.border`
+- `androidx.compose.material3.AlertDialog`
+- `androidx.compose.material3.TextButton`
+- `androidx.compose.runtime.mutableIntStateOf`
+- `androidx.compose.runtime.mutableStateOf`
+- `androidx.compose.ui.draw.clip`
+- `com.dv.moneym.core.model.YearMonth`
 
-### Localize button text
-Use string resources for "Today", "Yesterday", "OK", "Cancel" if not already available in the `transactionEdit` module strings. Add:
-- `edit_date_today`
-- `edit_date_yesterday`
-to `feature/transactionEdit/src/commonMain/composeResources/values/strings.xml` and locales.
-
-## Acceptance criteria
-- [ ] Date field shows "Today" when the date is today
-- [ ] Date field shows "Yesterday" when the date is yesterday
-- [ ] Date field shows a human-readable format for other dates (e.g., "Mon, May 14")
-- [ ] Opening the date picker shows "Today" and "Yesterday" quick-select buttons
-- [ ] Tapping "Today" or "Yesterday" selects that date and closes the picker
-- [ ] The standard calendar still works for selecting any other date
+## Acceptance Criteria
+1. Tapping period label in Overview opens a picker dialog
+2. Month mode: dialog shows month grid + year chevrons + "Now" button + "OK" + "Cancel"
+3. Year mode: dialog shows year with chevrons + "Now" button + "OK" + "Cancel"
+4. "Now" button jumps to current month/year or year
+5. "OK" applies the selection via `OverviewIntent.PeriodSelected`
+6. Current month highlighted with accent border in month picker when browsing current year
+7. Chevron left/right on header still work
+8. Build compiles: `./gradlew :composeApp:assembleDebug`

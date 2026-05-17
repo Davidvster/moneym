@@ -1,6 +1,7 @@
 package com.dv.moneym.feature.transactions.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -64,6 +65,8 @@ import com.dv.moneym.feature.transactions.presentation.TransactionListIntent
 import com.dv.moneym.feature.transactions.presentation.TransactionListUiState
 import com.dv.moneym.feature.transactions.presentation.TransactionListViewModel
 import com.dv.moneym.feature.transactions.presentation.TransactionUiModel
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
 import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.*
@@ -394,6 +397,13 @@ private fun MonthPickerDialog(
     var selectedYear by remember { mutableIntStateOf(currentYear) }
     var selectedMonth by remember { mutableIntStateOf(currentMonth) }
 
+    // Current date for "Now" functionality
+    val todayDate = remember {
+        kotlin.time.Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+    }
+    val nowYear = todayDate.year
+    val nowMonth = todayDate.monthNumber
+
     val monthNames = listOf(
         "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
@@ -428,7 +438,7 @@ private fun MonthPickerDialog(
                     Text(
                         text = selectedYear.toString(),
                         style = type.body,
-                        color = colors.text,
+                        color = if (selectedYear == nowYear) colors.accent else colors.text,
                         modifier = Modifier.widthIn(min = 64.dp),
                         textAlign = TextAlign.Center,
                     )
@@ -450,11 +460,17 @@ private fun MonthPickerDialog(
                             for (col in 0..2) {
                                 val m = row * 3 + col + 1
                                 val isSelected = m == selectedMonth
+                                val isNow = m == nowMonth && selectedYear == nowYear
                                 Box(
                                     modifier = Modifier
                                         .clip(RoundedCornerShape(8.dp))
                                         .background(
                                             if (isSelected) colors.accent else Color.Transparent,
+                                        )
+                                        .then(
+                                            if (isNow && !isSelected) {
+                                                Modifier.border(1.dp, colors.accent.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                                            } else Modifier
                                         )
                                         .clickable(
                                             indication = null,
@@ -466,7 +482,11 @@ private fun MonthPickerDialog(
                                     Text(
                                         text = monthNames[m - 1],
                                         style = type.body,
-                                        color = if (isSelected) colors.bg else colors.text,
+                                        color = when {
+                                            isSelected -> colors.bg
+                                            isNow -> colors.accent
+                                            else -> colors.text
+                                        },
                                     )
                                 }
                             }
@@ -476,8 +496,17 @@ private fun MonthPickerDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = { onConfirm(selectedYear, selectedMonth) }) {
-                Text("OK", color = colors.accent)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                // "Now" button — jumps to current month
+                TextButton(onClick = { onConfirm(nowYear, nowMonth) }) {
+                    Text("Now", color = colors.text2)
+                }
+                TextButton(onClick = { onConfirm(selectedYear, selectedMonth) }) {
+                    Text("OK", color = colors.accent)
+                }
             }
         },
         dismissButton = {

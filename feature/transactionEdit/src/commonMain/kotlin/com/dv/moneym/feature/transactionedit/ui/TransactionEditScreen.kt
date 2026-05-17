@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -45,6 +46,8 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -68,7 +71,6 @@ import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIconButtonVariant
 import com.dv.moneym.core.ui.MmIcons
-import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditEffect
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditIntent
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditUiState
@@ -297,18 +299,14 @@ private fun TransactionEditContent(
                 .padding(horizontal = 20.dp, vertical = 8.dp)
                 .padding(bottom = 100.dp),
         ) {
-            // Expense / Income segmented
-            MmSegmented(
-                options = listOf(stringResource(Res.string.edit_type_expense), stringResource(Res.string.edit_type_income)),
-                selectedIndex = if (state.type == TransactionType.EXPENSE) 0 else 1,
-                onOptionSelected = { index ->
-                    onIntent(
-                        TransactionEditIntent.TypeChanged(
-                            if (index == 0) TransactionType.EXPENSE else TransactionType.INCOME,
-                        ),
-                    )
-                },
-                fillWidth = true,
+            // Expense / Income type toggle bar — colored
+            TypeToggleBar(
+                isExpense = state.type == TransactionType.EXPENSE,
+                expenseLabel = stringResource(Res.string.edit_type_expense),
+                incomeLabel = stringResource(Res.string.edit_type_income),
+                onExpenseSelected = { onIntent(TransactionEditIntent.TypeChanged(TransactionType.EXPENSE)) },
+                onIncomeSelected = { onIntent(TransactionEditIntent.TypeChanged(TransactionType.INCOME)) },
+                modifier = Modifier.fillMaxWidth(),
             )
 
             Spacer(Modifier.height(24.dp))
@@ -445,6 +443,77 @@ private fun TransactionEditContent(
                 leadingIcon = MmIcons.check,
                 fullWidth = true,
                 enabled = !state.isSaving,
+            )
+        }
+    }
+}
+
+// ─── Type Toggle Bar ──────────────────────────────────────────────────────────
+
+@Composable
+private fun TypeToggleBar(
+    isExpense: Boolean,
+    expenseLabel: String,
+    incomeLabel: String,
+    onExpenseSelected: () -> Unit,
+    onIncomeSelected: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    val radius = MM.radius
+
+    val expenseActiveColor = colors.danger
+    val incomeActiveColor = colors.accent
+    val inactiveBg = colors.surface2
+    val inactiveFg = colors.text2
+
+    Row(
+        modifier = modifier
+            .height(44.dp)
+            .clip(radius.xl)
+            .background(inactiveBg),
+    ) {
+        // Expense tab
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
+                .clip(radius.xl)
+                .background(if (isExpense) expenseActiveColor else Color.Transparent)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                ) { onExpenseSelected() },
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = expenseLabel,
+                style = type.caption.copy(
+                    fontWeight = if (isExpense) FontWeight.SemiBold else FontWeight.Medium,
+                    color = if (isExpense) Color.White else inactiveFg,
+                ),
+            )
+        }
+        // Income tab
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
+                .clip(radius.xl)
+                .background(if (!isExpense) incomeActiveColor else Color.Transparent)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                ) { onIncomeSelected() },
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = incomeLabel,
+                style = type.caption.copy(
+                    fontWeight = if (!isExpense) FontWeight.SemiBold else FontWeight.Medium,
+                    color = if (!isExpense) Color.White else inactiveFg,
+                ),
             )
         }
     }

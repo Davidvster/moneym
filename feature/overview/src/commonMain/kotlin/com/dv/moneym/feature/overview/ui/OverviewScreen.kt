@@ -8,6 +8,9 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,12 +29,15 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -50,11 +56,12 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.designsystem.iconForKey
 import com.dv.moneym.core.model.IndicatorStyle
+import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.CumulativeChart
 import com.dv.moneym.core.ui.DonutChart
 import com.dv.moneym.core.ui.DonutSlice
-import com.dv.moneym.core.ui.MiniBars
+import com.dv.moneym.core.ui.MiniCumulativeLine
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIcons
@@ -97,6 +104,8 @@ import moneym.feature.overview.generated.resources.overview_period_year
 import moneym.feature.overview.generated.resources.overview_spending_by_category
 import moneym.feature.overview.generated.resources.overview_through_day
 import moneym.feature.overview.generated.resources.overview_title
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
@@ -165,6 +174,9 @@ private fun OverviewContent(
         ?: state.totalExpense.firstOrNull()?.currency?.value
         ?: "EUR"
 
+    // Period picker dialog state
+    var showPeriodPicker by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -205,13 +217,25 @@ private fun OverviewContent(
                         size = 32.dp,
                         onClick = { onIntent(OverviewIntent.PreviousPeriod) },
                     )
-                    Text(
-                        text = periodLabel,
-                        style = type.body,
-                        color = colors.text,
-                        modifier = Modifier.widthIn(min = 96.dp),
-                        textAlign = TextAlign.Center,
-                    )
+                    // Clickable period label — opens picker dialog
+                    Box(
+                        modifier = Modifier
+                            .widthIn(min = 96.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .clickable(
+                                indication = null,
+                                interactionSource = remember { MutableInteractionSource() },
+                            ) { showPeriodPicker = true }
+                            .padding(horizontal = 4.dp, vertical = 2.dp),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            text = periodLabel,
+                            style = type.body,
+                            color = colors.text,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
                     MmIconButton(
                         icon = MmIcons.chevronRight,
                         size = 32.dp,
@@ -239,7 +263,6 @@ private fun OverviewContent(
                 Column(modifier = Modifier.fillMaxWidth()) {
 
                     // ── Income + Expenses — stacked two-row card ──────────────
-                    // Two-row layout prevents amount overflow on wide values
                     MmCard(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -296,6 +319,66 @@ private fun OverviewContent(
                                 weight = FontWeight.SemiBold,
                                 currency = currencyCode,
                             )
+                        }
+                    }
+
+                    // ── Average stats card ────────────────────────────────────
+                    if (inMonthMode && state.avgDailyExpense > 0) {
+                        MmCard(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 6.dp),
+                            padded = true,
+                            shape = MM.radius.md,
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                            ) {
+                                SectionLabel(
+                                    text = "AVG / DAY",
+                                    modifier = Modifier.weight(1f),
+                                )
+                                MmMoney(
+                                    value = state.avgDailyExpense,
+                                    size = 15.sp,
+                                    weight = FontWeight.SemiBold,
+                                    currency = currencyCode,
+                                )
+                            }
+                        }
+                    }
+
+                    if (!inMonthMode && (state.avgMonthlyExpense > 0 || state.avgDailyExpenseYear > 0)) {
+                        MmCard(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 6.dp),
+                            padded = true,
+                            shape = MM.radius.md,
+                        ) {
+                            Column {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                ) {
+                                    SectionLabel(text = "AVG / MONTH", modifier = Modifier.weight(1f))
+                                    MmMoney(value = state.avgMonthlyExpense, size = 15.sp, weight = FontWeight.SemiBold, currency = currencyCode)
+                                }
+                                Spacer(Modifier.height(8.dp))
+                                HorizontalDivider(color = MM.colors.divider, thickness = 1.dp)
+                                Spacer(Modifier.height(8.dp))
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                ) {
+                                    SectionLabel(text = "AVG / DAY", modifier = Modifier.weight(1f))
+                                    MmMoney(value = state.avgDailyExpenseYear, size = 15.sp, weight = FontWeight.SemiBold, currency = currencyCode)
+                                }
+                            }
                         }
                     }
 
@@ -365,7 +448,7 @@ private fun OverviewContent(
                             }
                         }
 
-                        // Daily trend by category
+                        // Daily trend by category — now uses MiniCumulativeLine
                         CategoryTrendsCard(
                             trends = state.categoryDailyTrend,
                             highlightIndex = state.todayIndex,
@@ -437,7 +520,7 @@ private fun OverviewContent(
                             }
                         }
 
-                        // Monthly trend by category
+                        // Monthly trend by category — uses MiniCumulativeLine
                         CategoryTrendsCard(
                             trends = state.categoryMonthlyTrend,
                             highlightIndex = state.currentMonthIndex,
@@ -457,6 +540,37 @@ private fun OverviewContent(
         activeTab = TabRoute.Overview,
         onTabSelected = onTabSelected,
     )
+
+    // Period picker dialogs
+    if (showPeriodPicker) {
+        if (isMonthMode) {
+            val currentPeriod = state.period as? OverviewPeriod.Month
+            if (currentPeriod != null) {
+                OverviewMonthPickerDialog(
+                    currentYear = currentPeriod.yearMonth.year,
+                    currentMonth = currentPeriod.yearMonth.monthNumber,
+                    onDismiss = { showPeriodPicker = false },
+                    onConfirm = { year, month ->
+                        onIntent(OverviewIntent.PeriodSelected(OverviewPeriod.Month(YearMonth(year, month))))
+                        showPeriodPicker = false
+                    },
+                )
+            }
+        } else {
+            val currentPeriod = state.period as? OverviewPeriod.Year
+            if (currentPeriod != null) {
+                OverviewYearPickerDialog(
+                    currentYear = currentPeriod.year,
+                    onDismiss = { showPeriodPicker = false },
+                    onConfirm = { year ->
+                        onIntent(OverviewIntent.PeriodSelected(OverviewPeriod.Year(year)))
+                        showPeriodPicker = false
+                    },
+                )
+            }
+        }
+    }
+
     } // end outer Column
 }
 
@@ -649,13 +763,14 @@ private fun CategoryTrendsCard(
                         )
                     }
                     Spacer(Modifier.height(8.dp))
-                    MiniBars(
+                    // Use MiniCumulativeLine instead of MiniBars
+                    MiniCumulativeLine(
                         data = trend.series,
                         color = Color(trend.categoryColor),
-                        highlightIndex = if (highlightIndex >= 0) highlightIndex else -1,
+                        upToIndex = if (highlightIndex >= 0) highlightIndex else -1,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(26.dp),
+                            .height(32.dp),
                     )
                 }
 
@@ -669,6 +784,202 @@ private fun CategoryTrendsCard(
             }
         }
     }
+}
+
+// ─── Overview Period Picker Dialogs ───────────────────────────────────────────
+
+@Composable
+private fun OverviewMonthPickerDialog(
+    currentYear: Int,
+    currentMonth: Int,
+    onDismiss: () -> Unit,
+    onConfirm: (year: Int, month: Int) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+
+    var selectedYear by remember { mutableIntStateOf(currentYear) }
+    var selectedMonth by remember { mutableIntStateOf(currentMonth) }
+
+    val todayDate = remember {
+        kotlin.time.Clock.System.now()
+            .toLocalDateTime(TimeZone.currentSystemDefault()).date
+    }
+    val nowYear = todayDate.year
+    val nowMonth = todayDate.monthNumber
+
+    val monthNames = listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text("Select Month", style = type.title3, color = colors.text)
+        },
+        text = {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    MmIconButton(
+                        icon = MmIcons.chevronLeft,
+                        onClick = { selectedYear-- },
+                        size = 32.dp,
+                        contentDescription = "Previous year",
+                    )
+                    Text(
+                        text = selectedYear.toString(),
+                        style = type.body,
+                        color = if (selectedYear == nowYear) colors.accent else colors.text,
+                        modifier = Modifier.widthIn(min = 64.dp),
+                        textAlign = TextAlign.Center,
+                    )
+                    MmIconButton(
+                        icon = MmIcons.chevronRight,
+                        onClick = { selectedYear++ },
+                        size = 32.dp,
+                        contentDescription = "Next year",
+                    )
+                }
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    for (row in 0..3) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly,
+                        ) {
+                            for (col in 0..2) {
+                                val m = row * 3 + col + 1
+                                val isSelected = m == selectedMonth
+                                val isNow = m == nowMonth && selectedYear == nowYear
+                                Box(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(
+                                            if (isSelected) colors.accent else Color.Transparent,
+                                        )
+                                        .then(
+                                            if (isNow && !isSelected) {
+                                                Modifier.border(1.dp, colors.accent.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                                            } else Modifier
+                                        )
+                                        .clickable(
+                                            indication = null,
+                                            interactionSource = remember { MutableInteractionSource() },
+                                        ) { selectedMonth = m }
+                                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    Text(
+                                        text = monthNames[m - 1],
+                                        style = type.body,
+                                        color = when {
+                                            isSelected -> colors.bg
+                                            isNow -> colors.accent
+                                            else -> colors.text
+                                        },
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                TextButton(onClick = { onConfirm(nowYear, nowMonth) }) {
+                    Text("Now", color = colors.text2)
+                }
+                TextButton(onClick = { onConfirm(selectedYear, selectedMonth) }) {
+                    Text("OK", color = colors.accent)
+                }
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel", color = colors.text2)
+            }
+        },
+        containerColor = colors.surface,
+        titleContentColor = colors.text,
+    )
+}
+
+@Composable
+private fun OverviewYearPickerDialog(
+    currentYear: Int,
+    onDismiss: () -> Unit,
+    onConfirm: (year: Int) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+
+    var selectedYear by remember { mutableIntStateOf(currentYear) }
+    val nowYear = remember {
+        kotlin.time.Clock.System.now()
+            .toLocalDateTime(TimeZone.currentSystemDefault()).date.year
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text("Select Year", style = type.title3, color = colors.text)
+        },
+        text = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                MmIconButton(
+                    icon = MmIcons.chevronLeft,
+                    onClick = { selectedYear-- },
+                    size = 32.dp,
+                    contentDescription = "Previous year",
+                )
+                Text(
+                    text = selectedYear.toString(),
+                    style = type.body,
+                    color = if (selectedYear == nowYear) colors.accent else colors.text,
+                    modifier = Modifier.widthIn(min = 80.dp),
+                    textAlign = TextAlign.Center,
+                )
+                MmIconButton(
+                    icon = MmIcons.chevronRight,
+                    onClick = { selectedYear++ },
+                    size = 32.dp,
+                    contentDescription = "Next year",
+                )
+            }
+        },
+        confirmButton = {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                TextButton(onClick = { onConfirm(nowYear) }) {
+                    Text("Now", color = colors.text2)
+                }
+                TextButton(onClick = { onConfirm(selectedYear) }) {
+                    Text("OK", color = colors.accent)
+                }
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel", color = colors.text2)
+            }
+        },
+        containerColor = colors.surface,
+        titleContentColor = colors.text,
+    )
 }
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
