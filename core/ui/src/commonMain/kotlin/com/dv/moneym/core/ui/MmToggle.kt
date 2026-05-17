@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
@@ -29,11 +28,11 @@ fun MmToggle(
     enabled: Boolean = true,
 ) {
     val colors = MM.colors
-    val radius = MM.radius
+    val radius = MM.dimen
 
     val trackWidth = 44.dp
     val trackHeight = 26.dp
-    val thumbSize = MM.space.padding_2_5x
+    val thumbSize = MM.dimen.padding_2_5x
     val thumbPadding = 3.dp
     val thumbTravel = trackWidth - thumbSize - thumbPadding * 2
 

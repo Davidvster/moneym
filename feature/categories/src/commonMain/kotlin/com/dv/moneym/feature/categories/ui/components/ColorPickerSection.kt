@@ -77,7 +77,7 @@ internal fun ColorPickerSection(
             Image(
                 painter = painter,
                 contentDescription = "Custom color",
-                modifier = Modifier.size(MM.space.padding_2x),
+                modifier = Modifier.size(MM.dimen.padding_2x),
                 colorFilter = ColorFilter.tint(colors.text2),
             )
         }
@@ -108,7 +108,7 @@ private fun ColorSwatch(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(2.dp)
-                    .clip(RoundedCornerShape(MM.space.padding_1x))
+                    .clip(RoundedCornerShape(MM.dimen.padding_1x))
                     .background(colors.bg),
             ) {
                 Box(
@@ -122,7 +122,7 @@ private fun ColorSwatch(
                     Image(
                         painter = painter,
                         contentDescription = null,
-                        modifier = Modifier.size(MM.space.padding_2x),
+                        modifier = Modifier.size(MM.dimen.padding_2x),
                         colorFilter = ColorFilter.tint(Color.White),
                     )
                 }

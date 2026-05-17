@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.security.presentation
+package com.dv.moneym.feature.security.unlock
 
 import com.dv.moneym.core.security.BiometryType
 import kotlinx.serialization.Serializable

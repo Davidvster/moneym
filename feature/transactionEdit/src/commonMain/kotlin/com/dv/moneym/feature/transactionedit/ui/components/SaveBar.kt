@@ -39,10 +39,17 @@ internal fun TransactionEditSaveBar(
                 )
             }
             .background(colors.bg)
-            .padding(start = MM.space.padding_2x, end = MM.space.padding_2x, top = MM.space.padding_1_5x, bottom = MM.space.padding_2x),
+            .padding(
+                start = MM.dimen.padding_2x,
+                end = MM.dimen.padding_2x,
+                top = MM.dimen.padding_1_5x,
+                bottom = MM.dimen.padding_2x
+            ),
     ) {
         MmButton(
-            text = if (isEditMode) stringResource(Res.string.edit_save_changes) else stringResource(Res.string.edit_add_transaction),
+            text = if (isEditMode) stringResource(Res.string.edit_save_changes) else stringResource(
+                Res.string.edit_add_transaction
+            ),
             onClick = onSave,
             variant = MmButtonVariant.Accent,
             size = MmButtonSize.Lg,

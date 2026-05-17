@@ -35,7 +35,6 @@ import com.dv.moneym.core.designsystem.MM
 import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.edit_calculator_title
 import org.jetbrains.compose.resources.stringResource
-import kotlin.text.ifEmpty
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,7 +51,8 @@ internal fun CalculatorBottomSheet(
     var display by remember {
         mutableStateOf(
             if (initialAmountText.isNotBlank() && initialAmountText.toDoubleOrNull() != null &&
-                initialAmountText.toDouble() > 0) {
+                initialAmountText.toDouble() > 0
+            ) {
                 initialAmountText
             } else {
                 ""
@@ -96,9 +96,11 @@ internal fun CalculatorBottomSheet(
                 pendingOp = null
                 justAppliedOp = false
             }
+
             "⌫" -> {
                 if (display.isNotEmpty()) display = display.dropLast(1)
             }
+
             "+", "-", "*", "/" -> {
                 val result = calcResult()
                 currentValue = result
@@ -106,6 +108,7 @@ internal fun CalculatorBottomSheet(
                 display = ""
                 justAppliedOp = true
             }
+
             "=" -> {
                 val result = calcResult()
                 display = formatResult(result)
@@ -113,9 +116,11 @@ internal fun CalculatorBottomSheet(
                 pendingOp = null
                 justAppliedOp = false
             }
+
             "." -> {
                 if (!display.contains('.')) display += "."
             }
+
             else -> {
                 if (justAppliedOp) {
                     display = key
@@ -137,13 +142,19 @@ internal fun CalculatorBottomSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        shape = RoundedCornerShape(topStart = MM.space.padding_2_5x, topEnd = MM.space.padding_2_5x),
+        shape = RoundedCornerShape(
+            topStart = MM.dimen.padding_2_5x,
+            topEnd = MM.dimen.padding_2_5x
+        ),
         containerColor = colors.bg,
         dragHandle = null,
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = MM.space.padding_2x, vertical = MM.space.padding_2x),
-            verticalArrangement = Arrangement.spacedBy(MM.space.padding_1_5x),
+            modifier = Modifier.padding(
+                horizontal = MM.dimen.padding_2x,
+                vertical = MM.dimen.padding_2x
+            ),
+            verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
         ) {
             // Grab handle
             Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
@@ -168,9 +179,9 @@ internal fun CalculatorBottomSheet(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(MM.space.padding_1_5x))
+                    .clip(RoundedCornerShape(MM.dimen.padding_1_5x))
                     .background(colors.surface)
-                    .padding(horizontal = MM.space.padding_2x, vertical = MM.space.padding_1_5x),
+                    .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1_5x),
                 horizontalAlignment = Alignment.End,
             ) {
                 if (pendingOp != null) {
@@ -202,7 +213,7 @@ internal fun CalculatorBottomSheet(
             rows.forEach { row ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1x),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
                 ) {
                     row.forEach { key ->
                         val isOp = key in listOf("/", "*", "-", "+")
@@ -210,8 +221,8 @@ internal fun CalculatorBottomSheet(
                         Box(
                             modifier = Modifier
                                 .weight(1f)
-                                .height(56.dp)
-                                .clip(RoundedCornerShape(MM.space.padding_1_5x))
+                                .height(MM.dimen.padding_7x)
+                                .clip(RoundedCornerShape(MM.dimen.padding_1_5x))
                                 .background(
                                     when {
                                         isClear -> colors.danger.copy(alpha = 0.15f)
@@ -226,7 +237,7 @@ internal fun CalculatorBottomSheet(
                                         isOp -> colors.accent.copy(alpha = 0.3f)
                                         else -> colors.border
                                     },
-                                    RoundedCornerShape(MM.space.padding_1_5x),
+                                    RoundedCornerShape(MM.dimen.padding_1_5x),
                                 )
                                 .pointerInput(Unit) {
                                     detectTapGestures { onCalcKey(key) }
@@ -251,16 +262,16 @@ internal fun CalculatorBottomSheet(
             // Bottom row: backspace + save
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1x),
+                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
             ) {
                 // Backspace
                 Box(
                     modifier = Modifier
                         .weight(1f)
-                        .height(56.dp)
-                        .clip(RoundedCornerShape(MM.space.padding_1_5x))
+                        .height(MM.dimen.padding_7x)
+                        .clip(RoundedCornerShape(MM.dimen.padding_1_5x))
                         .background(colors.surface)
-                        .border(1.dp, colors.border, RoundedCornerShape(MM.space.padding_1_5x))
+                        .border(1.dp, colors.border, RoundedCornerShape(MM.dimen.padding_1_5x))
                         .pointerInput(Unit) {
                             detectTapGestures { onCalcKey("⌫") }
                         },
@@ -272,10 +283,14 @@ internal fun CalculatorBottomSheet(
                 Box(
                     modifier = Modifier
                         .weight(1f)
-                        .height(56.dp)
-                        .clip(RoundedCornerShape(MM.space.padding_1_5x))
+                        .height(MM.dimen.padding_7x)
+                        .clip(RoundedCornerShape(MM.dimen.padding_1_5x))
                         .background(colors.accent.copy(alpha = 0.15f))
-                        .border(1.dp, colors.accent.copy(alpha = 0.3f), RoundedCornerShape(MM.space.padding_1_5x))
+                        .border(
+                            1.dp,
+                            colors.accent.copy(alpha = 0.3f),
+                            RoundedCornerShape(MM.dimen.padding_1_5x)
+                        )
                         .pointerInput(Unit) {
                             detectTapGestures { onCalcKey("=") }
                         },
@@ -287,8 +302,8 @@ internal fun CalculatorBottomSheet(
                 Box(
                     modifier = Modifier
                         .weight(1f)
-                        .height(56.dp)
-                        .clip(RoundedCornerShape(MM.space.padding_1_5x))
+                        .height(MM.dimen.padding_7x)
+                        .clip(RoundedCornerShape(MM.dimen.padding_1_5x))
                         .background(colors.accent)
                         .pointerInput(Unit) {
                             detectTapGestures {
@@ -307,7 +322,7 @@ internal fun CalculatorBottomSheet(
                 }
             }
 
-            Spacer(Modifier.height(MM.space.padding_2x))
+            Spacer(Modifier.height(MM.dimen.padding_2x))
         }
     }
 }

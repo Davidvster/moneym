@@ -103,7 +103,12 @@ internal fun CurrencyStep(
         Column(
             modifier = Modifier
                 .statusBarsPadding()
-                .padding(start = MM.space.padding_2_5x, end = MM.space.padding_2_5x, top = MM.space.padding_2x, bottom = MM.space.padding_1x),
+                .padding(
+                    start = MM.dimen.padding_2_5x,
+                    end = MM.dimen.padding_2_5x,
+                    top = MM.dimen.padding_2x,
+                    bottom = MM.dimen.padding_1x
+                ),
         ) {
             Text(
                 text = stringResource(Res.string.onboarding_welcome),
@@ -127,10 +132,11 @@ internal fun CurrencyStep(
                     imageVector = MmIcons.search,
                     contentDescription = null,
                     tint = colors.text3,
-                    modifier = Modifier.size(18.dp),
+                    modifier = Modifier.size(MM.dimen.icon_1x),
                 )
             },
-            modifier = Modifier.fillMaxWidth().padding(horizontal = MM.space.padding_2x, vertical = MM.space.padding_1x),
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1x),
         )
 
         // Currency list
@@ -142,7 +148,7 @@ internal fun CurrencyStep(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(colors.bg)
-                            .padding(horizontal = MM.space.padding_2_5x, vertical = 4.dp),
+                            .padding(horizontal = MM.dimen.padding_2_5x, vertical = 4.dp),
                     )
                 }
                 items(filteredItems, key = { it.code }) { currency ->
@@ -183,7 +189,7 @@ private fun OnboardingCurrencyRow(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val radius = MM.radius
+    val radius = MM.dimen
 
     MmRow(onClick = onClick) {
         // Leading: code box

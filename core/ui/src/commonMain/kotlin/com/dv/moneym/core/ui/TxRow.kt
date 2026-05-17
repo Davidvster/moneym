@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Density
-import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.model.TxDisplayPrefs
 
 /**
@@ -57,8 +56,8 @@ fun TxRow(
     val type = MM.type
 
     val verticalPadding = when (prefs.density) {
-        Density.Comfortable -> MM.space.padding_2x
-        Density.Normal -> MM.space.padding_1_5x
+        Density.Comfortable -> MM.dimen.padding_2x
+        Density.Normal -> MM.dimen.padding_1_5x
         Density.Compact -> 10.dp
     }
 
@@ -107,9 +106,9 @@ fun TxRow(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = MM.space.padding_2_5x, vertical = verticalPadding),
+                .padding(horizontal = MM.dimen.padding_2_5x, vertical = verticalPadding),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1_5x),
+            horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
         ) {
             // Leading: category indicator
             CategoryIconTile(

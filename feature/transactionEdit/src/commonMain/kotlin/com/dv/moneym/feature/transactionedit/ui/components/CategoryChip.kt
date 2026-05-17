@@ -10,7 +10,6 @@ import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.MmChip
-import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun CategoryChip(
@@ -32,7 +31,7 @@ internal fun CategoryChip(
                 categoryName = category.name,
                 categoryColor = catColor,
                 categoryIcon = catIcon,
-                size = MM.space.padding_2_5x,
+                size = MM.dimen.padding_2_5x,
                 variant = IndicatorStyle.IconTile,
             )
         },

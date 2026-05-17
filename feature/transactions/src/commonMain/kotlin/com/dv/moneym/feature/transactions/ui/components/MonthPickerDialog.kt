@@ -27,8 +27,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmIconButton
+import com.dv.moneym.core.ui.MmIcons
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import moneym.feature.transactions.generated.resources.Res
@@ -72,7 +72,7 @@ internal fun MonthPickerDialog(
         text = {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(MM.space.padding_2x),
+                verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
             ) {
                 // Year selection row
                 Row(
@@ -83,20 +83,20 @@ internal fun MonthPickerDialog(
                     MmIconButton(
                         icon = MmIcons.chevronLeft,
                         onClick = { selectedYear-- },
-                        size = 32.dp,
+                        size = MM.dimen.padding_4x,
                         contentDescription = stringResource(Res.string.transactions_prev_year_cd),
                     )
                     Text(
                         text = selectedYear.toString(),
                         style = type.body,
                         color = if (selectedYear == nowYear) colors.accent else colors.text,
-                        modifier = Modifier.widthIn(min = 64.dp),
+                        modifier = Modifier.widthIn(min = MM.dimen.padding_8x),
                         textAlign = TextAlign.Center,
                     )
                     MmIconButton(
                         icon = MmIcons.chevronRight,
                         onClick = { selectedYear++ },
-                        size = 32.dp,
+                        size = MM.dimen.padding_4x,
                         contentDescription = stringResource(Res.string.transactions_next_year_cd),
                     )
                 }
@@ -112,7 +112,7 @@ internal fun MonthPickerDialog(
         },
         confirmButton = {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_0_5x),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 TextButton(onClick = { onConfirm(nowYear, nowMonth) }) {
@@ -146,7 +146,7 @@ private fun MonthGrid(
     val monthNames = localizedMonthAbbreviations()
 
     // Month grid — 4 rows × 3 columns
-    Column(verticalArrangement = Arrangement.spacedBy(MM.space.padding_1x)) {
+    Column(verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x)) {
         for (row in 0..3) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -158,18 +158,25 @@ private fun MonthGrid(
                     val isNow = m == nowMonth && selectedYear == nowYear
                     Box(
                         modifier = Modifier
-                            .clip(RoundedCornerShape(MM.space.padding_1x))
+                            .clip(RoundedCornerShape(MM.dimen.padding_1x))
                             .background(if (isSelected) colors.accent else Color.Transparent)
                             .then(
                                 if (isNow && !isSelected) {
-                                    Modifier.border(1.dp, colors.accent.copy(alpha = 0.5f), RoundedCornerShape(MM.space.padding_1x))
+                                    Modifier.border(
+                                        1.dp,
+                                        colors.accent.copy(alpha = 0.5f),
+                                        RoundedCornerShape(MM.dimen.padding_1x)
+                                    )
                                 } else Modifier
                             )
                             .clickable(
                                 indication = null,
                                 interactionSource = remember { MutableInteractionSource() },
                             ) { onMonthSelected(m) }
-                            .padding(horizontal = MM.space.padding_1_5x, vertical = MM.space.padding_1x),
+                            .padding(
+                                horizontal = MM.dimen.padding_1_5x,
+                                vertical = MM.dimen.padding_1x
+                            ),
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(

@@ -56,13 +56,19 @@ internal fun CategoryFilterSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        shape = RoundedCornerShape(topStart = MM.space.padding_2_5x, topEnd = MM.space.padding_2_5x),
+        shape = RoundedCornerShape(
+            topStart = MM.dimen.padding_2_5x,
+            topEnd = MM.dimen.padding_2_5x
+        ),
         containerColor = colors.bg,
         dragHandle = null,
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = MM.space.padding_2_5x, vertical = MM.space.padding_3x),
-            verticalArrangement = Arrangement.spacedBy(MM.space.padding_2x),
+            modifier = Modifier.padding(
+                horizontal = MM.dimen.padding_2_5x,
+                vertical = MM.dimen.padding_3x
+            ),
+            verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
         ) {
             // Grab handle
             Box(
@@ -101,8 +107,8 @@ internal fun CategoryFilterSheet(
 
             // Category chips — multi-select
             FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1x),
-                verticalArrangement = Arrangement.spacedBy(MM.space.padding_1x),
+                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+                verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
             ) {
                 categories.forEach { cat ->
                     val isSelected = cat.id in selectedCategoryIds
@@ -116,7 +122,7 @@ internal fun CategoryFilterSheet(
                                 categoryName = cat.name,
                                 categoryColor = catColor,
                                 categoryIcon = catIcon,
-                                size = MM.space.padding_2_5x,
+                                size = MM.dimen.padding_2_5x,
                                 variant = IndicatorStyle.IconTile,
                             )
                         },
@@ -140,7 +146,7 @@ internal fun CategoryFilterSheet(
                 fullWidth = true,
             )
 
-            Spacer(Modifier.height(MM.space.padding_1x))
+            Spacer(Modifier.height(MM.dimen.padding_1x))
         }
     }
 }

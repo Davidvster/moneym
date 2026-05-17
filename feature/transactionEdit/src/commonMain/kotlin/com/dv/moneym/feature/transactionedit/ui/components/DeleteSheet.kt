@@ -43,13 +43,19 @@ internal fun TransactionDeleteSheet(
     ModalBottomSheet(
         onDismissRequest = onCancel,
         sheetState = sheetState,
-        shape = RoundedCornerShape(topStart = MM.space.padding_2_5x, topEnd = MM.space.padding_2_5x),
+        shape = RoundedCornerShape(
+            topStart = MM.dimen.padding_2_5x,
+            topEnd = MM.dimen.padding_2_5x
+        ),
         containerColor = colors.bg,
         dragHandle = null,
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = MM.space.padding_2_5x, vertical = MM.space.padding_3x),
-            verticalArrangement = Arrangement.spacedBy(MM.space.padding_2x),
+            modifier = Modifier.padding(
+                horizontal = MM.dimen.padding_2_5x,
+                vertical = MM.dimen.padding_3x
+            ),
+            verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             // Grab handle
@@ -80,7 +86,7 @@ internal fun TransactionDeleteSheet(
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1_5x),
+                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
             ) {
                 MmButton(
                     text = stringResource(Res.string.edit_delete_confirm_cancel),
@@ -95,7 +101,7 @@ internal fun TransactionDeleteSheet(
                     modifier = Modifier.weight(1f),
                 )
             }
-            Spacer(modifier = Modifier.height(MM.space.padding_1x))
+            Spacer(modifier = Modifier.height(MM.dimen.padding_1x))
         }
     }
 }

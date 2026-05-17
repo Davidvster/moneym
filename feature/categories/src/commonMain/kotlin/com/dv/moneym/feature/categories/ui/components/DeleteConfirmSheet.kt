@@ -44,13 +44,19 @@ internal fun DeleteConfirmSheet(
     ModalBottomSheet(
         onDismissRequest = onCancel,
         sheetState = sheetState,
-        shape = RoundedCornerShape(topStart = MM.space.padding_2_5x, topEnd = MM.space.padding_2_5x),
+        shape = RoundedCornerShape(
+            topStart = MM.dimen.padding_2_5x,
+            topEnd = MM.dimen.padding_2_5x
+        ),
         containerColor = colors.bg,
         dragHandle = null,
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = MM.space.padding_2_5x, vertical = MM.space.padding_3x),
-            verticalArrangement = Arrangement.spacedBy(MM.space.padding_2x),
+            modifier = Modifier.padding(
+                horizontal = MM.dimen.padding_2_5x,
+                vertical = MM.dimen.padding_3x
+            ),
+            verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Box(
@@ -80,7 +86,7 @@ internal fun DeleteConfirmSheet(
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1_5x),
+                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
             ) {
                 MmButton(
                     text = stringResource(Res.string.categories_cancel),
@@ -95,7 +101,7 @@ internal fun DeleteConfirmSheet(
                     modifier = Modifier.weight(1f),
                 )
             }
-            Spacer(modifier = Modifier.height(MM.space.padding_1x))
+            Spacer(modifier = Modifier.height(MM.dimen.padding_1x))
         }
     }
 }

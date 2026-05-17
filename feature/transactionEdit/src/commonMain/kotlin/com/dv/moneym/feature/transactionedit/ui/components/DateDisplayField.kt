@@ -28,7 +28,7 @@ internal fun DateDisplayField(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val radius = MM.radius
+    val radius = MM.dimen
 
     Column(modifier = modifier) {
         Text(
@@ -47,7 +47,7 @@ internal fun DateDisplayField(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() },
                 ) { onClick() }
-                .padding(horizontal = MM.space.padding_2x, vertical = MM.space.padding_2x),
+                .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_2x),
             contentAlignment = Alignment.CenterStart,
         ) {
             Text(

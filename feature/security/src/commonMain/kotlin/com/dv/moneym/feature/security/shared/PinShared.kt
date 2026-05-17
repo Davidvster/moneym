@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.security.ui
+package com.dv.moneym.feature.security.shared
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -34,8 +34,8 @@ internal fun AppLockup(
 ) {
     Box(
         modifier = Modifier
-            .size(56.dp)
-            .clip(RoundedCornerShape(MM.space.padding_2x))
+            .size(MM.dimen.padding_7x)
+            .clip(RoundedCornerShape(MM.dimen.padding_2x))
             .background(colors.text),
         contentAlignment = Alignment.Center,
     ) {
@@ -61,14 +61,14 @@ internal fun PinDots(
     colors: MoneyMColors,
 ) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(18.dp),
+        horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
         modifier = Modifier.offset { IntOffset(shakeOffsetPx, 0) },
     ) {
         repeat(4) { i ->
             val filled = i < filledCount
             Box(
                 modifier = Modifier
-                    .size(MM.space.padding_1_5x)
+                    .size(MM.dimen.padding_1_5x)
                     .clip(CircleShape)
                     .background(
                         if (filled) colors.text else Color.Transparent,

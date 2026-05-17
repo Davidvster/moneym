@@ -46,7 +46,7 @@ internal fun MonthlySpendingBarChart(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
     val monthNames = localizedMonthNames().map { it.take(3) }
 
     var selectedBarIndex by remember { mutableStateOf<Int?>(null) }
@@ -60,7 +60,7 @@ internal fun MonthlySpendingBarChart(
     MmCard(
         modifier = Modifier.padding(horizontal = space.padding_2x, vertical = space.padding_0_5x),
         padded = true,
-        shape = MM.radius.radius_1_5x,
+        shape = MM.dimen.radius_1_5x,
     ) {
         Column {
             // Header: title + currency
@@ -84,11 +84,11 @@ internal fun MonthlySpendingBarChart(
             if (selectedBarIndex != null) {
                 val selVal = monthlyTotals.getOrElse(selectedBarIndex!!) { 0.0 }
                 val selName = monthNames.getOrElse(selectedBarIndex!!) { "" }
-                Spacer(Modifier.height(4.dp))
+                Spacer(Modifier.height(MM.dimen.padding_0_5x))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1x),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
                 ) {
                     Text(
                         text = selName,
@@ -137,7 +137,7 @@ internal fun MonthlySpendingBarChart(
                     )
                 }
 
-                Spacer(Modifier.width(4.dp))
+                Spacer(Modifier.width(MM.dimen.padding_0_5x))
 
                 // Bar chart area (with dotted avg line overlay)
                 Box(
@@ -181,7 +181,7 @@ internal fun MonthlySpendingBarChart(
                                 // The bar itself
                                 Box(
                                     modifier = Modifier
-                                        .width(MM.space.padding_2x)
+                                        .width(MM.dimen.padding_2x)
                                         .fillMaxHeight(barFraction.coerceAtLeast(0.01f))
                                         .clip(RoundedCornerShape(2.dp))
                                         .background(
@@ -204,11 +204,11 @@ internal fun MonthlySpendingBarChart(
             }
 
             // Month name labels in their own row — completely separated from bars so no overlap
-            Spacer(Modifier.height(4.dp))
+            Spacer(Modifier.height(MM.dimen.padding_0_5x))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = YAXIS_WIDTH + 4.dp),
+                    .padding(start = YAXIS_WIDTH + MM.dimen.padding_0_5x),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
                 monthNames.forEachIndexed { i, name ->

@@ -49,7 +49,7 @@ internal fun AmountDisplay(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = MM.space.padding_1_5x),
+            .padding(vertical = MM.dimen.padding_1_5x),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -57,7 +57,7 @@ internal fun AmountDisplay(
             style = type.micro,
             color = colors.text3,
         )
-        Spacer(Modifier.height(MM.space.padding_1x))
+        Spacer(Modifier.height(MM.dimen.padding_1x))
 
         val interactionSource = remember { MutableInteractionSource() }
         Box(
@@ -99,7 +99,7 @@ internal fun AmountDisplay(
             decorationBox = { },
         )
 
-        Spacer(Modifier.height(MM.space.padding_1x))
+        Spacer(Modifier.height(MM.dimen.padding_1x))
 
         // Calculator button
         MmIconButton(

@@ -43,11 +43,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
-import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.categoryColor
 import com.dv.moneym.core.designsystem.iconForKey
@@ -81,12 +81,24 @@ import com.dv.moneym.feature.transactions.ui.components.monthLabel
 import com.dv.moneym.feature.transactions.ui.components.onHorizontalSwipe
 import kotlinx.serialization.Serializable
 import moneym.feature.transactions.generated.resources.Res
-import moneym.feature.transactions.generated.resources.*
+import moneym.feature.transactions.generated.resources.transactions_add
+import moneym.feature.transactions.generated.resources.transactions_close_search_cd
+import moneym.feature.transactions.generated.resources.transactions_empty
+import moneym.feature.transactions.generated.resources.transactions_filter_all
+import moneym.feature.transactions.generated.resources.transactions_filter_expenses
+import moneym.feature.transactions.generated.resources.transactions_filter_income
+import moneym.feature.transactions.generated.resources.transactions_loading
+import moneym.feature.transactions.generated.resources.transactions_net_label
+import moneym.feature.transactions.generated.resources.transactions_next_month
+import moneym.feature.transactions.generated.resources.transactions_previous_month
+import moneym.feature.transactions.generated.resources.transactions_search_cd
+import moneym.feature.transactions.generated.resources.transactions_search_placeholder
+import moneym.feature.transactions.generated.resources.transactions_title
 import org.jetbrains.compose.resources.stringResource
-import com.dv.moneym.core.model.IndicatorStyle
 import org.koin.compose.viewmodel.koinViewModel
 
-@Serializable data object TransactionsKey : NavKey
+@Serializable
+data object TransactionsKey : NavKey
 
 fun EntryProviderScope<NavKey>.transactionsEntry(
     onAddTransaction: () -> Unit,
@@ -229,10 +241,12 @@ private fun TransactionListContent(
                 when {
                     animationDirection > 0 ->
                         (slideInHorizontally(tween(280)) { it } + fadeIn(tween(280))) togetherWith
-                            (slideOutHorizontally(tween(280)) { -it } + fadeOut(tween(280)))
+                                (slideOutHorizontally(tween(280)) { -it } + fadeOut(tween(280)))
+
                     animationDirection < 0 ->
                         (slideInHorizontally(tween(280)) { -it } + fadeIn(tween(280))) togetherWith
-                            (slideOutHorizontally(tween(280)) { it } + fadeOut(tween(280)))
+                                (slideOutHorizontally(tween(280)) { it } + fadeOut(tween(280)))
+
                     else ->
                         fadeIn(tween(180)) togetherWith fadeOut(tween(180))
                 }
@@ -281,7 +295,12 @@ private fun TransactionListHeader(
     }
 
     Column(
-        modifier = Modifier.statusBarsPadding().padding(start = MM.space.padding_2x, end = MM.space.padding_2x, top = 4.dp, bottom = 4.dp),
+        modifier = Modifier.statusBarsPadding().padding(
+            start = MM.dimen.padding_2x,
+            end = MM.dimen.padding_2x,
+            top = 4.dp,
+            bottom = 4.dp
+        ),
     ) {
         // Title row — or search bar when active
         if (isSearchActive) {
@@ -298,7 +317,7 @@ private fun TransactionListHeader(
                             imageVector = MmIcons.search,
                             contentDescription = null,
                             tint = colors.text3,
-                            modifier = Modifier.size(18.dp),
+                            modifier = Modifier.size(MM.dimen.icon_1x),
                         )
                     },
                     modifier = Modifier.weight(1f),
@@ -322,7 +341,9 @@ private fun TransactionListHeader(
                 )
                 // Wallet chip — show current wallet name if multiple wallets exist
                 if (state.availableAccounts.size > 1) {
-                    val walletName = state.selectedAccount?.name ?: state.availableAccounts.firstOrNull()?.name ?: ""
+                    val walletName =
+                        state.selectedAccount?.name ?: state.availableAccounts.firstOrNull()?.name
+                        ?: ""
                     MmChip(
                         selected = false,
                         onClick = onShowWalletSwitcher,
@@ -331,7 +352,7 @@ private fun TransactionListHeader(
                                 imageVector = MmIcons.wallet,
                                 contentDescription = null,
                                 tint = colors.text2,
-                                modifier = Modifier.size(MM.space.padding_1_5x),
+                                modifier = Modifier.size(MM.dimen.padding_1_5x),
                             )
                         },
                     ) {
@@ -354,7 +375,7 @@ private fun TransactionListHeader(
                         if (hasActiveFilter) {
                             Box(
                                 modifier = Modifier
-                                    .size(MM.space.padding_1x)
+                                    .size(MM.dimen.padding_1x)
                                     .clip(CircleShape)
                                     .background(colors.accent)
                                     .align(Alignment.TopEnd),
@@ -412,18 +433,18 @@ private fun MonthNavRow(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(top = MM.space.padding_1_5x, bottom = 16.dp),
+        modifier = Modifier.padding(top = MM.dimen.padding_1_5x, bottom = 16.dp),
     ) {
         MmIconButton(
             icon = MmIcons.chevronLeft,
             onClick = onPreviousMonth,
-            size = 32.dp,
+            size = MM.dimen.padding_4x,
             contentDescription = stringResource(Res.string.transactions_previous_month),
         )
         Box(
             modifier = Modifier
                 .widthIn(min = 96.dp)
-                .clip(RoundedCornerShape(MM.space.padding_1x))
+                .clip(RoundedCornerShape(MM.dimen.padding_1x))
                 .clickable(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() },
@@ -441,7 +462,7 @@ private fun MonthNavRow(
         MmIconButton(
             icon = MmIcons.chevronRight,
             onClick = onNextMonth,
-            size = 32.dp,
+            size = MM.dimen.padding_4x,
             contentDescription = stringResource(Res.string.transactions_next_month),
         )
         Spacer(modifier = Modifier.weight(1f))
@@ -489,6 +510,7 @@ private fun TransactionListBody(
                 )
             }
         }
+
         isEmpty -> {
             Box(
                 modifier = modifier
@@ -501,13 +523,13 @@ private fun TransactionListBody(
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(MM.space.padding_1x),
+                    verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
                 ) {
                     Icon(
                         imageVector = MmIcons.list,
                         contentDescription = null,
                         tint = colors.text3,
-                        modifier = Modifier.size(MM.space.padding_5x),
+                        modifier = Modifier.size(MM.dimen.padding_5x),
                     )
                     Text(
                         text = stringResource(Res.string.transactions_empty),
@@ -516,6 +538,7 @@ private fun TransactionListBody(
                 }
             }
         }
+
         else -> {
             LazyColumn(
                 modifier = modifier
@@ -573,7 +596,7 @@ private fun TransactionListFooter(
                     )
                 }
                 .background(MM.colors.bg)
-                .padding(start = 16.dp, end = 16.dp, top = MM.space.padding_1_5x, bottom = 16.dp),
+                .padding(start = 16.dp, end = 16.dp, top = MM.dimen.padding_1_5x, bottom = 16.dp),
         ) {
             MmButton(
                 text = stringResource(Res.string.transactions_add),

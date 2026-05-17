@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import com.dv.moneym.core.designsystem.MM
 
 data class DonutSlice(val color: Color, val fraction: Float)
 
@@ -15,7 +15,7 @@ data class DonutSlice(val color: Color, val fraction: Float)
 fun DonutChart(
     slices: List<DonutSlice>,
     modifier: Modifier = Modifier,
-    strokeWidth: Dp = 18.dp,
+    strokeWidth: Dp = MM.dimen.donutWidth,
 ) {
     Canvas(modifier = modifier) {
         val strokePx = strokeWidth.toPx()

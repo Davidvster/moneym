@@ -3,7 +3,6 @@ package com.dv.moneym.core.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -60,9 +58,10 @@ fun CumulativeChart(
                             change.consume()
                             if (values.size >= 2) {
                                 val totalPoints = values.size
-                                val idx = ((change.position.x / size.width.toFloat()) * (totalPoints - 1))
-                                    .toInt()
-                                    .coerceIn(0, totalPoints - 1)
+                                val idx =
+                                    ((change.position.x / size.width.toFloat()) * (totalPoints - 1))
+                                        .toInt()
+                                        .coerceIn(0, totalPoints - 1)
                                 seekIndex = idx
                             }
                         },
@@ -185,7 +184,7 @@ fun CumulativeChart(
                     .clip(RoundedCornerShape(6.dp))
                     .background(MM.colors.surface.copy(alpha = 0.92f))
                     .border(1.dp, MM.colors.border, RoundedCornerShape(6.dp))
-                    .padding(horizontal = MM.space.padding_1x, vertical = 4.dp),
+                    .padding(horizontal = MM.dimen.padding_1x, vertical = 4.dp),
             ) {
                 Text(
                     text = valueText,

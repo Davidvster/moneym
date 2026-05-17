@@ -36,7 +36,7 @@ internal fun TransactionEditModalHeader(
             .fillMaxWidth()
             .statusBarsPadding()
             .height(52.dp)
-            .padding(horizontal = MM.space.padding_1_5x, vertical = 4.dp),
+            .padding(horizontal = MM.dimen.padding_1_5x, vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         MmIconButton(
@@ -44,7 +44,9 @@ internal fun TransactionEditModalHeader(
             onClick = onDismiss,
         )
         Text(
-            text = if (isEditMode) stringResource(Res.string.edit_title_edit) else stringResource(Res.string.edit_title_add),
+            text = if (isEditMode) stringResource(Res.string.edit_title_edit) else stringResource(
+                Res.string.edit_title_add
+            ),
             style = type.title3,
             color = colors.text,
             modifier = Modifier.weight(1f),
@@ -57,7 +59,7 @@ internal fun TransactionEditModalHeader(
                 variant = MmIconButtonVariant.Danger,
             )
         } else {
-            Spacer(Modifier.size(MM.space.padding_5x))
+            Spacer(Modifier.size(MM.dimen.padding_5x))
         }
     }
 }

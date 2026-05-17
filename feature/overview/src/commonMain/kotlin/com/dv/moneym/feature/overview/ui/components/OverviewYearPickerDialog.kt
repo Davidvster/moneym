@@ -39,7 +39,7 @@ internal fun OverviewYearPickerDialog(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
 
     var selectedYear by remember { mutableIntStateOf(currentYear) }
     val nowYear = remember {
@@ -50,7 +50,11 @@ internal fun OverviewYearPickerDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(stringResource(Res.string.overview_dialog_select_year), style = type.title3, color = colors.text)
+            Text(
+                stringResource(Res.string.overview_dialog_select_year),
+                style = type.title3,
+                color = colors.text
+            )
         },
         text = {
             Row(
@@ -61,7 +65,7 @@ internal fun OverviewYearPickerDialog(
                 MmIconButton(
                     icon = MmIcons.chevronLeft,
                     onClick = { selectedYear-- },
-                    size = 32.dp,
+                    size = MM.dimen.padding_4x,
                     contentDescription = stringResource(Res.string.overview_prev_year_cd),
                 )
                 Text(
@@ -74,7 +78,7 @@ internal fun OverviewYearPickerDialog(
                 MmIconButton(
                     icon = MmIcons.chevronRight,
                     onClick = { selectedYear++ },
-                    size = 32.dp,
+                    size = MM.dimen.padding_4x,
                     contentDescription = stringResource(Res.string.overview_next_year_cd),
                 )
             }

@@ -4,17 +4,17 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.di.appModules
-import com.dv.moneym.feature.security.ui.PinUnlockScreen
+import com.dv.moneym.feature.security.unlock.PinUnlockScreen
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.module.Module
@@ -52,7 +52,8 @@ private fun AppContent() {
         if (onboardingDone) lockController.init()
     }
 
-    val themeMode by appSettingsRepo.observeThemeMode().collectAsStateWithLifecycle(initialValue = ThemeMode.Auto)
+    val themeMode by appSettingsRepo.observeThemeMode()
+        .collectAsStateWithLifecycle(initialValue = ThemeMode.Auto)
     val isDark = when (themeMode) {
         ThemeMode.Light -> false
         ThemeMode.Dark -> true

@@ -93,7 +93,7 @@ private fun OverviewContent(
     onTabSelected: (TabRoute) -> Unit,
 ) {
     val colors = MM.colors
-    val space = MM.space
+    val space = MM.dimen
     val monthNames = localizedMonthNames()
     val isMonthMode = state.period is OverviewPeriod.Month
     val periodLabel = when (val p = state.period) {

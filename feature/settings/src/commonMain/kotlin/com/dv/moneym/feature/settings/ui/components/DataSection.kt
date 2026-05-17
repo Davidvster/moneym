@@ -6,7 +6,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmIcons
@@ -24,14 +23,14 @@ internal fun DataSection(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
     MmCard(Modifier.padding(horizontal = space.padding_2x)) {
         MmRow(onClick = onNavigateToExport) {
             Icon(
                 imageVector = MmIcons.download,
                 contentDescription = null,
                 tint = colors.text,
-                modifier = Modifier.size(18.dp),
+                modifier = Modifier.size(MM.dimen.icon_1x),
             )
             Text(
                 stringResource(Res.string.settings_export_data),
@@ -43,7 +42,7 @@ internal fun DataSection(
                 imageVector = MmIcons.chevronRight,
                 contentDescription = null,
                 tint = colors.text3,
-                modifier = Modifier.size(MM.space.padding_2x),
+                modifier = Modifier.size(MM.dimen.padding_2x),
             )
         }
         MmRow(onClick = { onIntent(SettingsIntent.ImportRequested) }, divider = false) {
@@ -51,7 +50,7 @@ internal fun DataSection(
                 imageVector = MmIcons.folder,
                 contentDescription = null,
                 tint = colors.text,
-                modifier = Modifier.size(18.dp),
+                modifier = Modifier.size(MM.dimen.icon_1x),
             )
             Text(
                 stringResource(Res.string.settings_import_data),
@@ -63,7 +62,7 @@ internal fun DataSection(
                 imageVector = MmIcons.chevronRight,
                 contentDescription = null,
                 tint = colors.text3,
-                modifier = Modifier.size(MM.space.padding_2x),
+                modifier = Modifier.size(MM.dimen.padding_2x),
             )
         }
     }

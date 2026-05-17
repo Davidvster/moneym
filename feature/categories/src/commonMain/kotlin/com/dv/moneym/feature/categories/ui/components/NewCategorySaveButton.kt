@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMColors
 import com.dv.moneym.core.ui.MmButton
@@ -29,10 +28,12 @@ internal fun NewCategorySaveButton(
         modifier = Modifier
             .fillMaxWidth()
             .background(colors.bg)
-            .padding(horizontal = MM.space.padding_2_5x, vertical = MM.space.padding_2x),
+            .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_2x),
     ) {
         MmButton(
-            text = if (isEditMode) stringResource(Res.string.categories_save_changes) else stringResource(Res.string.categories_create),
+            text = if (isEditMode) stringResource(Res.string.categories_save_changes) else stringResource(
+                Res.string.categories_create
+            ),
             onClick = onSave,
             variant = MmButtonVariant.Accent,
             size = MmButtonSize.Lg,

@@ -42,8 +42,8 @@ internal fun OverviewHeader(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
-    val radius = MM.radius
+    val space = MM.dimen
+    val radius = MM.dimen
 
     val isMonthMode = period is OverviewPeriod.Month
     val isYearMode = period is OverviewPeriod.Year
@@ -56,7 +56,12 @@ internal fun OverviewHeader(
     }
 
     Column(
-        Modifier.statusBarsPadding().padding(start = space.padding_2x, end = space.padding_2x, top = space.padding_0_5x, bottom = space.padding_2x),
+        Modifier.statusBarsPadding().padding(
+            start = space.padding_2x,
+            end = space.padding_2x,
+            top = space.padding_0_5x,
+            bottom = space.padding_2x
+        ),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
@@ -74,25 +79,33 @@ internal fun OverviewHeader(
                 selectedIndex = segmentIndex,
                 onOptionSelected = { idx ->
                     when (idx) {
-                        0 -> { if (!isMonthMode) onTogglePeriod() }
-                        1 -> { if (!isYearMode) onTogglePeriod() }
-                        2 -> { onShowDateRangePicker() }
+                        0 -> {
+                            if (!isMonthMode) onTogglePeriod()
+                        }
+
+                        1 -> {
+                            if (!isYearMode) onTogglePeriod()
+                        }
+
+                        2 -> {
+                            onShowDateRangePicker()
+                        }
                     }
                 },
             )
         }
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(top = MM.space.padding_2x),
+            modifier = Modifier.padding(top = MM.dimen.padding_2x),
         ) {
             if (!isRangeMode) {
                 MmIconButton(
                     icon = MmIcons.chevronLeft,
-                    size = 32.dp,
+                    size = MM.dimen.padding_4x,
                     onClick = onPreviousPeriod,
                 )
             } else {
-                Spacer(Modifier.width(32.dp))
+                Spacer(Modifier.width(MM.dimen.padding_4x))
             }
             Box(
                 modifier = Modifier
@@ -118,11 +131,11 @@ internal fun OverviewHeader(
             if (!isRangeMode) {
                 MmIconButton(
                     icon = MmIcons.chevronRight,
-                    size = 32.dp,
+                    size = MM.dimen.padding_4x,
                     onClick = onNextPeriod,
                 )
             } else {
-                Spacer(Modifier.width(32.dp))
+                Spacer(Modifier.width(MM.dimen.padding_4x))
             }
         }
     }

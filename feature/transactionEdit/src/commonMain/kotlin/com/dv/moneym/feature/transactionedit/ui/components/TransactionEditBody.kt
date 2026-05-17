@@ -27,7 +27,6 @@ import kotlinx.datetime.LocalDate
 import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.edit_date_label
 import moneym.feature.transactionedit.generated.resources.edit_date_today
-import moneym.feature.transactionedit.generated.resources.edit_date_yesterday
 import moneym.feature.transactionedit.generated.resources.edit_note_label
 import moneym.feature.transactionedit.generated.resources.edit_note_placeholder
 import moneym.feature.transactionedit.generated.resources.edit_type_expense
@@ -47,7 +46,8 @@ internal fun TransactionEditScrollBody(
 ) {
     // Derive currency code from selected account
     val currencyCode = remember(state.selectedAccountId, state.availableAccounts) {
-        state.availableAccounts.firstOrNull { it.id == state.selectedAccountId }?.currency?.value ?: "EUR"
+        state.availableAccounts.firstOrNull { it.id == state.selectedAccountId }?.currency?.value
+            ?: "EUR"
     }
     val amountValue = state.amountText.toDoubleOrNull() ?: 0.0
     val formattedAmount = if (amountValue == 0.0) {
@@ -63,8 +63,8 @@ internal fun TransactionEditScrollBody(
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = MM.space.padding_2_5x, vertical = MM.space.padding_1x)
-            .padding(bottom = MM.space.padding_2x),
+            .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_1x)
+            .padding(bottom = MM.dimen.padding_2x),
     ) {
         TypeToggleBar(
             isExpense = state.type == TransactionType.EXPENSE,
@@ -74,7 +74,7 @@ internal fun TransactionEditScrollBody(
             onIncomeSelected = { onIntent(TransactionEditIntent.TypeChanged(TransactionType.INCOME)) },
             modifier = Modifier.fillMaxWidth(),
         )
-        Spacer(Modifier.height(MM.space.padding_3x))
+        Spacer(Modifier.height(MM.dimen.padding_3x))
         AmountDisplay(
             amountValue = amountValue,
             formattedAmount = formattedAmount,
@@ -91,7 +91,7 @@ internal fun TransactionEditScrollBody(
             onClick = onDatePickerOpen,
             modifier = Modifier.fillMaxWidth(),
         )
-        Spacer(Modifier.height(MM.space.padding_1_5x))
+        Spacer(Modifier.height(MM.dimen.padding_1_5x))
         MmField(
             value = state.note,
             onValueChange = { onIntent(TransactionEditIntent.NoteChanged(it)) },
@@ -107,7 +107,7 @@ internal fun TransactionEditScrollBody(
                 modifier = Modifier.padding(top = 6.dp),
             )
         }
-        Spacer(Modifier.height(MM.space.padding_3x))
+        Spacer(Modifier.height(MM.dimen.padding_3x))
         CategoryPicker(
             categories = state.availableCategories,
             selectedCategoryId = state.selectedCategoryId,

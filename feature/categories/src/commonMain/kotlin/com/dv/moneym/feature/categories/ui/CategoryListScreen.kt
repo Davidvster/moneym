@@ -1,112 +1,50 @@
 package com.dv.moneym.feature.categories.ui
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
-import com.dv.moneym.core.designsystem.MoneyMColors
 import com.dv.moneym.core.designsystem.categoryColor
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
-import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.navigation.ModalKey
-import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.MmButton
-import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
-import com.dv.moneym.core.ui.MmField
-import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIcons
-import com.dv.moneym.core.ui.MmRow
-import com.dv.moneym.core.ui.MmSegmented
-import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.feature.categories.presentation.CategoryListEffect
-import com.dv.moneym.feature.categories.presentation.CategoryListIntent
 import com.dv.moneym.feature.categories.presentation.CategoryListViewModel
 import com.dv.moneym.feature.categories.presentation.CategoryTab
 import com.dv.moneym.feature.categories.ui.components.CategoryListHeader
-import com.dv.moneym.feature.categories.ui.components.CategoryPreviewChip
 import com.dv.moneym.feature.categories.ui.components.DeleteConfirmSheet
 import com.dv.moneym.feature.categories.ui.components.DraggableCategoryList
-import com.dv.moneym.feature.categories.ui.components.IconPickerSection
 import com.dv.moneym.feature.categories.ui.components.NewCategorySaveButton
 import com.dv.moneym.feature.categories.ui.components.NewCategorySheetBody
 import com.dv.moneym.feature.categories.ui.components.NewCategorySheetHeader
 import kotlinx.serialization.Serializable
 import moneym.feature.categories.generated.resources.Res
-import moneym.feature.categories.generated.resources.categories_cancel
-import moneym.feature.categories.generated.resources.categories_color_label
-import moneym.feature.categories.generated.resources.categories_create
-import moneym.feature.categories.generated.resources.categories_delete
-import moneym.feature.categories.generated.resources.categories_delete_button
-import moneym.feature.categories.generated.resources.categories_delete_confirm_body
-import moneym.feature.categories.generated.resources.categories_delete_confirm_title
 import moneym.feature.categories.generated.resources.categories_edit_sheet_title
-import moneym.feature.categories.generated.resources.categories_hint
-import moneym.feature.categories.generated.resources.categories_icon_label
-import moneym.feature.categories.generated.resources.categories_name_label
-import moneym.feature.categories.generated.resources.categories_name_placeholder
-import moneym.feature.categories.generated.resources.categories_name_preview_placeholder
-import moneym.feature.categories.generated.resources.categories_new_button
 import moneym.feature.categories.generated.resources.categories_new_expense
 import moneym.feature.categories.generated.resources.categories_new_income
 import moneym.feature.categories.generated.resources.categories_new_sheet_title
-import moneym.feature.categories.generated.resources.categories_save_changes
-import moneym.feature.categories.generated.resources.categories_tab_expense
-import moneym.feature.categories.generated.resources.categories_tab_income
-import moneym.feature.categories.generated.resources.categories_title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -206,7 +144,12 @@ private fun ManageCategoriesScreen(
         else
             stringResource(Res.string.categories_new_income)
 
-        Box(modifier = Modifier.padding(horizontal = MM.space.padding_2_5x, vertical = MM.space.padding_2x)) {
+        Box(
+            modifier = Modifier.padding(
+                horizontal = MM.dimen.padding_2_5x,
+                vertical = MM.dimen.padding_2x
+            )
+        ) {
             MmButton(
                 text = newCategoryButtonText,
                 onClick = {
@@ -227,7 +170,10 @@ private fun ManageCategoriesScreen(
                 categoryToEdit = null
             },
             sheetState = sheetState,
-            shape = RoundedCornerShape(topStart = MM.space.padding_2_5x, topEnd = MM.space.padding_2_5x),
+            shape = RoundedCornerShape(
+                topStart = MM.dimen.padding_2_5x,
+                topEnd = MM.dimen.padding_2_5x
+            ),
             containerColor = colors.bg,
             dragHandle = null,
         ) {
@@ -271,7 +217,11 @@ private fun NewCategorySheet(
     val isEditMode = categoryToEdit != null
 
     var name by remember(categoryToEdit?.id) { mutableStateOf(categoryToEdit?.name ?: "") }
-    var selectedIconKey by remember(categoryToEdit?.id) { mutableStateOf(categoryToEdit?.iconKey ?: "basket") }
+    var selectedIconKey by remember(categoryToEdit?.id) {
+        mutableStateOf(
+            categoryToEdit?.iconKey ?: "basket"
+        )
+    }
     var selectedColor by remember(categoryToEdit?.id) {
         mutableStateOf(
             if (categoryToEdit != null) categoryColor(categoryToEdit.colorHex)
@@ -284,9 +234,21 @@ private fun NewCategorySheet(
     var customColors by remember(categoryToEdit?.id) { mutableStateOf(listOf<Color>()) }
 
     val palette = listOf(
-        Color(0xFFC2566B), Color(0xFF8B6FB0), Color(0xFF4A8E5C), Color(0xFF4F8694), Color(0xFFB89148),
-        Color(0xFF7A9572), Color(0xFFC97A4F), Color(0xFF5A7BA8), Color(0xFFB07089), Color(0xFF8A8A8A),
-        Color(0xFFD14C7A), Color(0xFF6B5BC4), Color(0xFF3F9E70), Color(0xFF3A82A5), Color(0xFFD88B33),
+        Color(0xFFC2566B),
+        Color(0xFF8B6FB0),
+        Color(0xFF4A8E5C),
+        Color(0xFF4F8694),
+        Color(0xFFB89148),
+        Color(0xFF7A9572),
+        Color(0xFFC97A4F),
+        Color(0xFF5A7BA8),
+        Color(0xFFB07089),
+        Color(0xFF8A8A8A),
+        Color(0xFFD14C7A),
+        Color(0xFF6B5BC4),
+        Color(0xFF3F9E70),
+        Color(0xFF3A82A5),
+        Color(0xFFD88B33),
     )
     val iconOptions = listOf(
         "heart", "film", "car", "bolt", "basket", "utensils",

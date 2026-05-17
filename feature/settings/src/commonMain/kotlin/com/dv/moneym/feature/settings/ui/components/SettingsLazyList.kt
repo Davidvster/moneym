@@ -7,7 +7,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.ui.SectionLabel
@@ -41,10 +40,13 @@ internal fun SettingsLazyList(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
     LazyColumn(modifier = modifier) {
         item(key = SettingsItem.APPEARANCE_LABEL.name) {
-            SectionLabel(stringResource(Res.string.settings_section_appearance), Modifier.padding(horizontal = MM.space.padding_2_5x, vertical = space.padding_0_5x))
+            SectionLabel(
+                stringResource(Res.string.settings_section_appearance),
+                Modifier.padding(horizontal = MM.dimen.padding_2_5x, vertical = space.padding_0_5x)
+            )
         }
         item(key = SettingsItem.APPEARANCE_CARD.name) {
             AppearanceSection(
@@ -59,7 +61,12 @@ internal fun SettingsLazyList(
         item(key = SettingsItem.SECURITY_LABEL.name) {
             SectionLabel(
                 stringResource(Res.string.settings_section_security),
-                Modifier.padding(start = MM.space.padding_2_5x, end = MM.space.padding_2_5x, top = space.padding_2x, bottom = space.padding_0_5x),
+                Modifier.padding(
+                    start = MM.dimen.padding_2_5x,
+                    end = MM.dimen.padding_2_5x,
+                    top = space.padding_2x,
+                    bottom = space.padding_0_5x
+                ),
             )
         }
         item(key = SettingsItem.SECURITY_CARD.name) {
@@ -75,7 +82,12 @@ internal fun SettingsLazyList(
         item(key = SettingsItem.PREFERENCES_LABEL.name) {
             SectionLabel(
                 stringResource(Res.string.settings_section_preferences),
-                Modifier.padding(start = MM.space.padding_2_5x, end = MM.space.padding_2_5x, top = space.padding_2x, bottom = space.padding_0_5x),
+                Modifier.padding(
+                    start = MM.dimen.padding_2_5x,
+                    end = MM.dimen.padding_2_5x,
+                    top = space.padding_2x,
+                    bottom = space.padding_0_5x
+                ),
             )
         }
         item(key = SettingsItem.PREFERENCES_CARD.name) {
@@ -89,7 +101,15 @@ internal fun SettingsLazyList(
             )
         }
         item(key = SettingsItem.DATA_LABEL.name) {
-            SectionLabel(stringResource(Res.string.settings_section_data), Modifier.padding(start = MM.space.padding_2_5x, end = MM.space.padding_2_5x, top = space.padding_2x, bottom = space.padding_0_5x))
+            SectionLabel(
+                stringResource(Res.string.settings_section_data),
+                Modifier.padding(
+                    start = MM.dimen.padding_2_5x,
+                    end = MM.dimen.padding_2_5x,
+                    top = space.padding_2x,
+                    bottom = space.padding_0_5x
+                )
+            )
         }
         item(key = SettingsItem.DATA_CARD.name) {
             DataSection(
@@ -99,7 +119,7 @@ internal fun SettingsLazyList(
         }
         item(key = SettingsItem.VERSION.name) {
             Text(
-                text = "MoneyM v2.0 · build 2026.05.15",
+                text = "MoneyM v1.0",
                 style = type.captionMono.copy(color = colors.text3),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth().padding(space.padding_3x),

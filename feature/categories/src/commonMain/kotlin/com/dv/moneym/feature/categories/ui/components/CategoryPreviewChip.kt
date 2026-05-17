@@ -37,17 +37,17 @@ internal fun CategoryPreviewChip(
     ) {
         Row(
             modifier = Modifier
-                .clip(MM.radius.pill)
+                .clip(MM.dimen.pill)
                 .background(colors.surface)
-                .border(1.dp, colors.border, MM.radius.pill)
-                .padding(horizontal = 18.dp, vertical = 10.dp),
+                .border(1.dp, colors.border, MM.dimen.pill)
+                .padding(horizontal = MM.dimen.padding_2x, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1x),
+            horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
         ) {
             Box(
                 modifier = Modifier
                     .size(28.dp)
-                    .clip(RoundedCornerShape(MM.space.padding_1x))
+                    .clip(RoundedCornerShape(MM.dimen.padding_1x))
                     .background(selectedColor),
                 contentAlignment = Alignment.Center,
             ) {
@@ -55,7 +55,7 @@ internal fun CategoryPreviewChip(
                 Image(
                     painter = painter,
                     contentDescription = null,
-                    modifier = Modifier.size(MM.space.padding_2x),
+                    modifier = Modifier.size(MM.dimen.padding_2x),
                     colorFilter = ColorFilter.tint(Color.White),
                 )
             }

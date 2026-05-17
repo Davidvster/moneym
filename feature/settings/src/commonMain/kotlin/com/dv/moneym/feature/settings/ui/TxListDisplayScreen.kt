@@ -39,6 +39,7 @@ import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.TxRow
 import com.dv.moneym.feature.settings.presentation.SettingsViewModel
 import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.settings_tx_list_display_title
 import moneym.feature.settings.generated.resources.settings_txdisplay_category_name
 import moneym.feature.settings.generated.resources.settings_txdisplay_color_indicator
 import moneym.feature.settings.generated.resources.settings_txdisplay_comfortable
@@ -52,7 +53,6 @@ import moneym.feature.settings.generated.resources.settings_txdisplay_style_bar
 import moneym.feature.settings.generated.resources.settings_txdisplay_style_dot
 import moneym.feature.settings.generated.resources.settings_txdisplay_style_minimal
 import moneym.feature.settings.generated.resources.settings_txdisplay_style_soft
-import moneym.feature.settings.generated.resources.settings_tx_list_display_title
 import moneym.feature.settings.generated.resources.settings_txdisplay_style_tile
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -115,7 +115,7 @@ private fun TxListDisplayContent(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
 
     val dividerColor = colors.divider
 
@@ -141,10 +141,13 @@ private fun TxListDisplayContent(
                             strokeWidth = strokeWidth,
                         )
                     }
-                    .padding(horizontal = MM.space.padding_2_5x, vertical = space.padding_3x),
+                    .padding(horizontal = MM.dimen.padding_2_5x, vertical = space.padding_3x),
             ) {
                 Column {
-                    SectionLabel(stringResource(Res.string.settings_txdisplay_preview), Modifier.padding(bottom = space.padding_0_5x))
+                    SectionLabel(
+                        stringResource(Res.string.settings_txdisplay_preview),
+                        Modifier.padding(bottom = space.padding_0_5x)
+                    )
                     MmCard {
                         sampleTransactions.forEachIndexed { i, tx ->
                             TxRow(
@@ -166,9 +169,14 @@ private fun TxListDisplayContent(
             // COLOR INDICATOR section
             SectionLabel(
                 stringResource(Res.string.settings_txdisplay_color_indicator),
-                Modifier.padding(start = MM.space.padding_2_5x, end = MM.space.padding_2_5x, top = space.padding_2x, bottom = space.padding_0_5x),
+                Modifier.padding(
+                    start = MM.dimen.padding_2_5x,
+                    end = MM.dimen.padding_2_5x,
+                    top = space.padding_2x,
+                    bottom = space.padding_0_5x
+                ),
             )
-            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.radius.radius_1_5x) {
+            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.dimen.radius_1_5x) {
                 val styles = IndicatorStyle.entries
                 styles.forEachIndexed { i, opt ->
                     val isLast = i == styles.size - 1
@@ -186,25 +194,28 @@ private fun TxListDisplayContent(
                                         categoryName = "Groceries",
                                         categoryColor = sampleColor,
                                         categoryIcon = MmIcons.basket,
-                                        size = 32.dp,
+                                        size = MM.dimen.padding_4x,
                                         variant = IndicatorStyle.IconTile,
                                     )
+
                                 IndicatorStyle.SoftIcon ->
                                     CategoryIconTile(
                                         categoryName = "Groceries",
                                         categoryColor = sampleColor,
                                         categoryIcon = MmIcons.basket,
-                                        size = 32.dp,
+                                        size = MM.dimen.padding_4x,
                                         variant = IndicatorStyle.SoftIcon,
                                     )
+
                                 IndicatorStyle.Bar ->
                                     CategoryIconTile(
                                         categoryName = "Groceries",
                                         categoryColor = sampleColor,
                                         categoryIcon = MmIcons.basket,
-                                        size = 32.dp,
+                                        size = MM.dimen.padding_4x,
                                         variant = IndicatorStyle.Bar,
                                     )
+
                                 IndicatorStyle.Dot ->
                                     CategoryIconTile(
                                         categoryName = "Groceries",
@@ -213,11 +224,12 @@ private fun TxListDisplayContent(
                                         size = 10.dp,
                                         variant = IndicatorStyle.Dot,
                                     )
+
                                 IndicatorStyle.Minimal ->
                                     Box(
                                         Modifier
                                             .fillMaxWidth()
-                                            .size(width = MM.space.padding_3x, height = 1.dp)
+                                            .size(width = MM.dimen.padding_3x, height = 1.dp)
                                             .background(colors.border),
                                     )
                             }
@@ -255,7 +267,7 @@ private fun TxListDisplayContent(
                                     imageVector = MmIcons.check,
                                     contentDescription = null,
                                     tint = Color.White,
-                                    modifier = Modifier.size(MM.space.padding_1_5x),
+                                    modifier = Modifier.size(MM.dimen.padding_1_5x),
                                 )
                             }
                         }
@@ -266,9 +278,14 @@ private fun TxListDisplayContent(
             // SHOW section
             SectionLabel(
                 stringResource(Res.string.settings_txdisplay_show),
-                Modifier.padding(start = MM.space.padding_2_5x, end = MM.space.padding_2_5x, top = space.padding_2x, bottom = space.padding_0_5x),
+                Modifier.padding(
+                    start = MM.dimen.padding_2_5x,
+                    end = MM.dimen.padding_2_5x,
+                    top = space.padding_2x,
+                    bottom = space.padding_0_5x
+                ),
             )
-            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.radius.radius_1_5x) {
+            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.dimen.radius_1_5x) {
                 // Category name row — row click is the single source of truth; toggle is display-only
                 MmRow(onClick = { onPrefsChanged(currentPrefs.copy(showCategoryName = !currentPrefs.showCategoryName)) }) {
                     Text(
@@ -302,9 +319,14 @@ private fun TxListDisplayContent(
             // DENSITY section — 3 radio button rows (Compact / Normal / Comfortable)
             SectionLabel(
                 stringResource(Res.string.settings_txdisplay_density),
-                Modifier.padding(start = MM.space.padding_2_5x, end = MM.space.padding_2_5x, top = space.padding_2x, bottom = space.padding_0_5x),
+                Modifier.padding(
+                    start = MM.dimen.padding_2_5x,
+                    end = MM.dimen.padding_2_5x,
+                    top = space.padding_2x,
+                    bottom = space.padding_0_5x
+                ),
             )
-            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.radius.radius_1_5x) {
+            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.dimen.radius_1_5x) {
                 val densityOptions = listOf(Density.Compact, Density.Normal, Density.Comfortable)
                 val densityLabels = mapOf(
                     Density.Compact to stringResource(Res.string.settings_txdisplay_compact),
@@ -344,7 +366,7 @@ private fun TxListDisplayContent(
                                     imageVector = MmIcons.check,
                                     contentDescription = null,
                                     tint = Color.White,
-                                    modifier = Modifier.size(MM.space.padding_1_5x),
+                                    modifier = Modifier.size(MM.dimen.padding_1_5x),
                                 )
                             }
                         }
@@ -353,7 +375,7 @@ private fun TxListDisplayContent(
             }
 
             // Bottom padding
-            Box(Modifier.padding(bottom = MM.space.padding_3x))
+            Box(Modifier.padding(bottom = MM.dimen.padding_3x))
         }
     }
 }

@@ -67,7 +67,7 @@ internal fun OverviewPeriodBody(
     state: OverviewUiState,
     currencyCode: String,
 ) {
-    val space = MM.space
+    val space = MM.dimen
     val periodOffset = state.periodOffset
     AnimatedContent(
         targetState = state.period,
@@ -174,11 +174,11 @@ private fun SpendingByCategoryCard(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
 
     var showPercent by remember { mutableStateOf(true) }
 
-    MmCard(modifier = modifier, padded = true, shape = MM.radius.radius_2x) {
+    MmCard(modifier = modifier, padded = true, shape = MM.dimen.radius_2x) {
         Column {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -221,7 +221,7 @@ private fun SpendingByCategoryCard(
                     DonutChart(
                         slices = slices,
                         modifier = Modifier.size(130.dp),
-                        strokeWidth = 18.dp,
+                        strokeWidth = MM.dimen.donutWidth,
                     )
                     SpendingByCategoryLegend(
                         categories = categories,
@@ -246,7 +246,7 @@ private fun SpendingByCategoryLegend(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(0.dp),
@@ -318,22 +318,28 @@ private fun CategoryTrendsCard(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
 
     if (trends.isEmpty()) return
 
-    MmCard(modifier = modifier, padded = false, shape = MM.radius.radius_1x) {
+    MmCard(modifier = modifier, padded = false, shape = MM.dimen.radius_1x) {
         Column {
             Text(
                 text = title,
                 style = type.title3,
                 color = colors.text,
-                modifier = Modifier.padding(horizontal = space.padding_3x, vertical = MM.space.padding_2x),
+                modifier = Modifier.padding(
+                    horizontal = space.padding_3x,
+                    vertical = MM.dimen.padding_2x
+                ),
             )
 
             trends.forEachIndexed { index, trend ->
                 Column(
-                    modifier = Modifier.padding(horizontal = space.padding_3x, vertical = MM.space.padding_2x),
+                    modifier = Modifier.padding(
+                        horizontal = space.padding_3x,
+                        vertical = MM.dimen.padding_2x
+                    ),
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -344,7 +350,7 @@ private fun CategoryTrendsCard(
                             categoryName = trend.categoryName,
                             categoryColor = Color(trend.categoryColor),
                             categoryIcon = iconForKey(trend.categoryIcon),
-                            size = 32.dp,
+                            size = MM.dimen.padding_4x,
                             variant = IndicatorStyle.IconTile,
                         )
                         Column(modifier = Modifier.weight(1f)) {
@@ -382,7 +388,7 @@ private fun CategoryTrendsCard(
                             highlightIndex = if (highlightIndex >= 0) highlightIndex else -1,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(32.dp),
+                                .height(MM.dimen.padding_4x),
                         )
                     } else {
                         MiniCumulativeLine(
@@ -391,7 +397,7 @@ private fun CategoryTrendsCard(
                             upToIndex = if (highlightIndex >= 0) highlightIndex else -1,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(32.dp),
+                                .height(MM.dimen.padding_4x),
                         )
                     }
                 }

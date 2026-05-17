@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.security.presentation
+package com.dv.moneym.feature.security.setup
 
 import com.dv.moneym.core.security.BiometryType
 

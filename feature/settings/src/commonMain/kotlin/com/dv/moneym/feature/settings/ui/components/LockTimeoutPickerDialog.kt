@@ -43,7 +43,7 @@ internal fun LockTimeoutPickerDialog(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
 
     val options = listOf(
         0 to stringResource(Res.string.settings_lock_immediately),
@@ -69,7 +69,10 @@ internal fun LockTimeoutPickerDialog(
                     MmRow(
                         onClick = { selectedSeconds = seconds },
                         divider = false,
-                        padding = PaddingValues(horizontal = space.padding_0_5x, vertical = space.padding_0_25x),
+                        padding = PaddingValues(
+                            horizontal = space.padding_0_5x,
+                            vertical = space.padding_0_25x
+                        ),
                     ) {
                         Text(
                             text = label,
@@ -94,7 +97,7 @@ internal fun LockTimeoutPickerDialog(
                                     imageVector = MmIcons.check,
                                     contentDescription = null,
                                     tint = Color.White,
-                                    modifier = Modifier.size(MM.space.padding_1_5x),
+                                    modifier = Modifier.size(MM.dimen.padding_1_5x),
                                 )
                             }
                         }

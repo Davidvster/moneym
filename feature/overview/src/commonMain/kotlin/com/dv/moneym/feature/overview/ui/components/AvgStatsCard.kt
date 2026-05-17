@@ -29,14 +29,14 @@ internal fun AvgStatsCard(
     avgMonthLabel: String,
     currencyCode: String,
 ) {
-    val space = MM.space
+    val space = MM.dimen
     if (inMonthMode && avgDailyExpense > 0) {
         MmCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = space.padding_2x, vertical = 6.dp),
             padded = true,
-            shape = MM.radius.radius_1_5x,
+            shape = MM.dimen.radius_1_5x,
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -44,7 +44,12 @@ internal fun AvgStatsCard(
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 SectionLabel(text = avgDayLabel, modifier = Modifier.weight(1f))
-                MmMoney(value = avgDailyExpense, size = 15.sp, weight = FontWeight.SemiBold, currency = currencyCode)
+                MmMoney(
+                    value = avgDailyExpense,
+                    size = 15.sp,
+                    weight = FontWeight.SemiBold,
+                    currency = currencyCode
+                )
             }
         }
     }
@@ -54,7 +59,7 @@ internal fun AvgStatsCard(
                 .fillMaxWidth()
                 .padding(horizontal = space.padding_2x, vertical = 6.dp),
             padded = true,
-            shape = MM.radius.radius_1_5x,
+            shape = MM.dimen.radius_1_5x,
         ) {
             Column {
                 Row(
@@ -63,7 +68,12 @@ internal fun AvgStatsCard(
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
                     SectionLabel(text = avgMonthLabel, modifier = Modifier.weight(1f))
-                    MmMoney(value = avgMonthlyExpense, size = 15.sp, weight = FontWeight.SemiBold, currency = currencyCode)
+                    MmMoney(
+                        value = avgMonthlyExpense,
+                        size = 15.sp,
+                        weight = FontWeight.SemiBold,
+                        currency = currencyCode
+                    )
                 }
                 Spacer(Modifier.height(space.padding_1x))
                 HorizontalDivider(color = MM.colors.divider, thickness = 1.dp)
@@ -74,7 +84,12 @@ internal fun AvgStatsCard(
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
                     SectionLabel(text = avgDayLabel, modifier = Modifier.weight(1f))
-                    MmMoney(value = avgDailyExpenseYear, size = 15.sp, weight = FontWeight.SemiBold, currency = currencyCode)
+                    MmMoney(
+                        value = avgDailyExpenseYear,
+                        size = 15.sp,
+                        weight = FontWeight.SemiBold,
+                        currency = currencyCode
+                    )
                 }
             }
         }

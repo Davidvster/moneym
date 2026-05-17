@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.security.ui
+package com.dv.moneym.feature.security.unlock
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.keyframes
@@ -18,14 +18,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
-import com.dv.moneym.feature.security.presentation.PinUnlockEffect
-import com.dv.moneym.feature.security.presentation.PinUnlockIntent
-import com.dv.moneym.feature.security.presentation.PinUnlockUiState
-import com.dv.moneym.feature.security.presentation.PinUnlockViewModel
+import com.dv.moneym.feature.security.shared.AppLockup
+import com.dv.moneym.feature.security.shared.PinDots
+import com.dv.moneym.feature.security.shared.PinKeypad
 import kotlinx.coroutines.launch
 import moneym.feature.security.generated.resources.Res
+import moneym.feature.security.generated.resources.security_app_name
 import moneym.feature.security.generated.resources.security_backoff_retry
 import moneym.feature.security.generated.resources.security_pin_enter_header
 import org.jetbrains.compose.resources.stringResource
@@ -97,33 +96,33 @@ private fun PinUnlockContent(
         // App lockup — shared composable
         AppLockup(colors = colors, type = type)
 
-        Spacer(modifier = Modifier.height(MM.space.padding_1_5x))
+        Spacer(modifier = Modifier.height(MM.dimen.padding_1_5x))
 
         Text(
-            text = "MoneyM",
+            text = stringResource(Res.string.security_app_name),
             style = type.title2,
             color = colors.text,
         )
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(MM.dimen.padding_0_5x))
 
         // Prominent "Enter your PIN" title
         Text(
             text = stringResource(Res.string.security_pin_enter_header),
-            style = type.title1,
+            style = type.body,
             color = colors.text,
         )
 
         // Backoff subtitle (shown only when locked out)
         if (subtitleText != null) {
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(MM.dimen.padding_0_5x))
             Text(
                 text = subtitleText,
                 style = type.caption.copy(color = colors.danger),
             )
         }
 
-        Spacer(modifier = Modifier.height(MM.space.padding_6x))
+        Spacer(modifier = Modifier.height(MM.dimen.padding_6x))
 
         // 4 dots with shake animation — shared composable
         PinDots(
@@ -132,7 +131,7 @@ private fun PinUnlockContent(
             colors = colors,
         )
 
-        Spacer(modifier = Modifier.height(MM.space.padding_6x))
+        Spacer(modifier = Modifier.height(MM.dimen.padding_6x))
 
         PinKeypad(
             onKey = { char -> onIntent(PinUnlockIntent.DigitPressed(char.digitToInt())) },

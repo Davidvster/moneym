@@ -36,7 +36,7 @@ fun MmField(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val radius = MM.radius
+    val radius = MM.dimen
 
     Column(modifier = modifier) {
         if (label != null) {
@@ -63,7 +63,10 @@ fun MmField(
                 .defaultMinSize(minHeight = if (singleLine) 52.dp else 80.dp),
             decorationBox = { innerTextField ->
                 Row(
-                    modifier = Modifier.padding(horizontal = MM.space.padding_2x, vertical = MM.space.padding_2x),
+                    modifier = Modifier.padding(
+                        horizontal = MM.dimen.padding_2x,
+                        vertical = MM.dimen.padding_2x
+                    ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     if (prefix != null) {

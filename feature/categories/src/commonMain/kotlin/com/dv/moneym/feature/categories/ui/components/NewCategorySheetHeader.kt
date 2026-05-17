@@ -48,7 +48,7 @@ internal fun NewCategorySheetHeader(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = MM.space.padding_1_5x, vertical = MM.space.padding_1x),
+            .padding(horizontal = MM.dimen.padding_1_5x, vertical = MM.dimen.padding_1x),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         MmIconButton(
@@ -63,6 +63,6 @@ internal fun NewCategorySheetHeader(
             modifier = Modifier.weight(1f),
             textAlign = TextAlign.Center,
         )
-        Spacer(modifier = Modifier.size(MM.space.padding_5x))
+        Spacer(modifier = Modifier.size(MM.dimen.padding_5x))
     }
 }

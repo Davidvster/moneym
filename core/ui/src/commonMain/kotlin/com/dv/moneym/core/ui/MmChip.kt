@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,7 +29,7 @@ fun MmChip(
     content: @Composable () -> Unit,
 ) {
     val colors = MM.colors
-    val radius = MM.radius
+    val radius = MM.dimen
 
     val bgColor = if (selected) colors.text else androidx.compose.ui.graphics.Color.Transparent
     val borderColor = if (selected) colors.text else colors.border
@@ -54,7 +53,7 @@ fun MmChip(
                     onTap = { onClick() },
                 )
             }
-            .padding(horizontal = MM.space.padding_1_5x),
+            .padding(horizontal = MM.dimen.padding_1_5x),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

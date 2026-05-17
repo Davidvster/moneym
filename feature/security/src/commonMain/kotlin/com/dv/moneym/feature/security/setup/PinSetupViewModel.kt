@@ -1,10 +1,11 @@
-package com.dv.moneym.feature.security.presentation
+package com.dv.moneym.feature.security.setup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.security.BiometricAuthenticator
+import com.dv.moneym.core.security.BiometryType
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.core.security.SecurityPrefs
 import kotlinx.coroutines.channels.Channel
@@ -27,7 +28,7 @@ class PinSetupViewModel(
 
     private val _state = MutableStateFlow(
         PinSetupUiState(
-            biometryType = if (biometricAuth.isAvailable) biometricAuth.biometryType else com.dv.moneym.core.security.BiometryType.None,
+            biometryType = if (biometricAuth.isAvailable) biometricAuth.biometryType else BiometryType.None,
         )
     )
     val state: StateFlow<PinSetupUiState> = _state.asStateFlow()
@@ -43,6 +44,7 @@ class PinSetupViewModel(
                 settings.putBoolean(SecurityPrefs.BIOMETRIC_ENABLED, true)
                 viewModelScope.launch { _effects.send(PinSetupEffect.Done) }
             }
+
             PinSetupIntent.BiometricOfferDeclined -> {
                 viewModelScope.launch { _effects.send(PinSetupEffect.Done) }
             }
@@ -55,11 +57,18 @@ class PinSetupViewModel(
             PinSetupStep.ENTER_FIRST -> {
                 val updated = s.firstPin + digit
                 if (updated.length == PIN_LENGTH) {
-                    _state.update { it.copy(firstPin = updated, step = PinSetupStep.CONFIRM, error = null) }
+                    _state.update {
+                        it.copy(
+                            firstPin = updated,
+                            step = PinSetupStep.CONFIRM,
+                            error = null
+                        )
+                    }
                 } else {
                     _state.update { it.copy(firstPin = updated) }
                 }
             }
+
             PinSetupStep.CONFIRM -> {
                 val updated = s.secondPin + digit
                 _state.update { it.copy(secondPin = updated) }
@@ -84,14 +93,21 @@ class PinSetupViewModel(
 
     private fun confirmPin(first: String, second: String) {
         if (first != second) {
-            _state.update { it.copy(step = PinSetupStep.ENTER_FIRST, firstPin = "", secondPin = "", error = "PINs don't match") }
+            _state.update {
+                it.copy(
+                    step = PinSetupStep.ENTER_FIRST,
+                    firstPin = "",
+                    secondPin = "",
+                    error = "PINs don't match"
+                )
+            }
             return
         }
         _state.update { it.copy(isSaving = true) }
         viewModelScope.launch {
             withContext(dispatchers.io) { pinManager.setPin(first) }
             val shouldOfferBiometrics = biometricAuth.isAvailable &&
-                !settings.getBoolean(SecurityPrefs.BIOMETRIC_ENABLED)
+                    !settings.getBoolean(SecurityPrefs.BIOMETRIC_ENABLED)
             if (shouldOfferBiometrics) {
                 _effects.send(PinSetupEffect.OfferBiometrics)
             } else {
@@ -102,8 +118,9 @@ class PinSetupViewModel(
 
     fun reset() {
         _state.value = PinSetupUiState(
-            biometryType = if (biometricAuth.isAvailable) biometricAuth.biometryType else com.dv.moneym.core.security.BiometryType.None,
+            biometryType = if (biometricAuth.isAvailable) biometricAuth.biometryType else BiometryType.None,
         )
-        while (_effects.tryReceive().isSuccess) {}
+        while (_effects.tryReceive().isSuccess) {
+        }
     }
 }

@@ -59,7 +59,7 @@ internal fun IconPickerSection(
                 Image(
                     painter = painter,
                     contentDescription = iconKey,
-                    modifier = Modifier.size(MM.space.padding_2_5x),
+                    modifier = Modifier.size(MM.dimen.padding_2_5x),
                     colorFilter = ColorFilter.tint(if (isSelected) Color.White else colors.text),
                 )
             }

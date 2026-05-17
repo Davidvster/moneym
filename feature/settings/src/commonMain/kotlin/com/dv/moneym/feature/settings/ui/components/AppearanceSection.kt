@@ -7,7 +7,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.ui.MmCard
@@ -35,7 +34,7 @@ internal fun AppearanceSection(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
     val isDark = themeMode == ThemeMode.Dark
     MmCard(Modifier.padding(horizontal = space.padding_2x)) {
         MmRow {
@@ -43,9 +42,14 @@ internal fun AppearanceSection(
                 imageVector = if (isDark) MmIcons.moon else MmIcons.sun,
                 contentDescription = null,
                 tint = colors.text,
-                modifier = Modifier.size(18.dp),
+                modifier = Modifier.size(MM.dimen.icon_1x),
             )
-            Text(stringResource(Res.string.settings_theme), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
+            Text(
+                stringResource(Res.string.settings_theme),
+                style = type.body,
+                color = colors.text,
+                modifier = Modifier.weight(1f)
+            )
             MmSegmented(
                 options = listOf(
                     stringResource(Res.string.settings_theme_light),
@@ -62,17 +66,21 @@ internal fun AppearanceSection(
                 imageVector = MmIcons.sliders,
                 contentDescription = null,
                 tint = colors.text,
-                modifier = Modifier.size(18.dp),
+                modifier = Modifier.size(MM.dimen.icon_1x),
             )
             Column(Modifier.weight(1f)) {
-                Text(stringResource(Res.string.settings_tx_list), style = type.body, color = colors.text)
+                Text(
+                    stringResource(Res.string.settings_tx_list),
+                    style = type.body,
+                    color = colors.text
+                )
                 Text(txDisplaySummary, style = type.caption.copy(color = colors.text2))
             }
             Icon(
                 imageVector = MmIcons.chevronRight,
                 contentDescription = null,
                 tint = colors.text3,
-                modifier = Modifier.size(MM.space.padding_2x),
+                modifier = Modifier.size(MM.dimen.padding_2x),
             )
         }
     }

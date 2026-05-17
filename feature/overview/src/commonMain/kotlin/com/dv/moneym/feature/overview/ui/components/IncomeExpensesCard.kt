@@ -32,11 +32,11 @@ internal fun IncomeExpensesCard(
     modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
-    val space = MM.space
+    val space = MM.dimen
     MmCard(
         modifier = modifier,
         padded = true,
-        shape = MM.radius.radius_1_5x,
+        shape = MM.dimen.radius_1_5x,
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -47,7 +47,7 @@ internal fun IncomeExpensesCard(
                 imageVector = MmIcons.arrowDown,
                 contentDescription = null,
                 tint = colors.accent,
-                modifier = Modifier.size(MM.space.padding_1_5x),
+                modifier = Modifier.size(MM.dimen.padding_1_5x),
             )
             SectionLabel(
                 text = stringResource(Res.string.overview_label_income),
@@ -73,7 +73,7 @@ internal fun IncomeExpensesCard(
                 imageVector = MmIcons.arrowUp,
                 contentDescription = null,
                 tint = colors.text,
-                modifier = Modifier.size(MM.space.padding_1_5x),
+                modifier = Modifier.size(MM.dimen.padding_1_5x),
             )
             SectionLabel(
                 text = stringResource(Res.string.overview_label_expenses),

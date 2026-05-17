@@ -86,7 +86,12 @@ internal fun SecurityStep(
         Column(
             modifier = Modifier
                 .statusBarsPadding()
-                .padding(start = MM.space.padding_2_5x, end = MM.space.padding_2_5x, top = MM.space.padding_2x, bottom = 24.dp),
+                .padding(
+                    start = MM.dimen.padding_2_5x,
+                    end = MM.dimen.padding_2_5x,
+                    top = MM.dimen.padding_2x,
+                    bottom = 24.dp
+                ),
         ) {
             Text(
                 text = stringResource(Res.string.onboarding_security_title),
@@ -101,14 +106,14 @@ internal fun SecurityStep(
         }
 
         // Security card
-        MmCard(Modifier.padding(horizontal = MM.space.padding_2x)) {
+        MmCard(Modifier.padding(horizontal = MM.dimen.padding_2x)) {
             // PIN toggle row
             MmRow(divider = biometricAvailable && pinEnabled) {
                 Icon(
                     imageVector = MmIcons.lock,
                     contentDescription = null,
                     tint = colors.text,
-                    modifier = Modifier.size(18.dp),
+                    modifier = Modifier.size(MM.dimen.icon_1x),
                 )
                 Column(Modifier.weight(1f)) {
                     Text(
@@ -139,7 +144,7 @@ internal fun SecurityStep(
                         imageVector = MmIcons.fingerprint,
                         contentDescription = null,
                         tint = colors.text,
-                        modifier = Modifier.size(18.dp),
+                        modifier = Modifier.size(MM.dimen.icon_1x),
                     )
                     Column(Modifier.weight(1f)) {
                         Text(
@@ -165,8 +170,8 @@ internal fun SecurityStep(
 
         // Bottom buttons
         Column(
-            modifier = Modifier.padding(horizontal = MM.space.padding_2x, vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(MM.space.padding_1x),
+            modifier = Modifier.padding(horizontal = MM.dimen.padding_2x, vertical = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
         ) {
             MmButton(
                 text = stringResource(if (pinEnabled) Res.string.onboarding_done else Res.string.onboarding_skip),

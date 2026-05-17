@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -96,7 +95,8 @@ internal fun DraggableCategoryList(
                             onDragEnd = {
                                 // Persist final order to repository
                                 if (draggingFromIndex != -1 && draggingIndex != -1 &&
-                                    draggingFromIndex != draggingIndex) {
+                                    draggingFromIndex != draggingIndex
+                                ) {
                                     onReorder(draggingFromIndex, draggingIndex)
                                 }
                                 draggingIndex = -1
@@ -119,7 +119,7 @@ internal fun DraggableCategoryList(
                     imageVector = MmIcons.dragHandle,
                     contentDescription = "Drag to reorder",
                     tint = colors.text3,
-                    modifier = Modifier.size(18.dp),
+                    modifier = Modifier.size(MM.dimen.icon_1x),
                 )
                 CategoryIconTile(
                     categoryName = cat.name,
@@ -138,7 +138,7 @@ internal fun DraggableCategoryList(
                     imageVector = MmIcons.chevronRight,
                     contentDescription = null,
                     tint = colors.text3,
-                    modifier = Modifier.size(MM.space.padding_2x),
+                    modifier = Modifier.size(MM.dimen.padding_2x),
                 )
             }
         }

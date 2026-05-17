@@ -29,7 +29,7 @@ internal fun TypeToggleBar(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val radius = MM.radius
+    val radius = MM.dimen
 
     val expenseActiveColor = colors.danger
     val incomeActiveColor = colors.accent

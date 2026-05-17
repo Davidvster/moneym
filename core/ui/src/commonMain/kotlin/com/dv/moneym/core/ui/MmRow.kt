@@ -28,7 +28,10 @@ fun MmRow(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     divider: Boolean = true,
-    padding: PaddingValues = PaddingValues(horizontal = MM.space.padding_2_5x, vertical = MM.space.padding_2x),
+    padding: PaddingValues = PaddingValues(
+        horizontal = MM.dimen.padding_2_5x,
+        vertical = MM.dimen.padding_2x
+    ),
     content: @Composable RowScope.() -> Unit,
 ) {
     val colors = MM.colors
@@ -54,7 +57,7 @@ fun MmRow(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .defaultMinSize(minHeight = 56.dp)
+            .defaultMinSize(minHeight = MM.dimen.padding_7x)
             .then(clickModifier)
             .then(
                 if (divider) {
@@ -73,9 +76,9 @@ fun MmRow(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .defaultMinSize(minHeight = 56.dp)
+                .defaultMinSize(minHeight = MM.dimen.padding_7x)
                 .padding(padding),
-            horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1_5x),
+            horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
             verticalAlignment = Alignment.CenterVertically,
             content = content,
         )

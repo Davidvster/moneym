@@ -12,9 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
-import com.dv.moneym.core.designsystem.MoneyMColors
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmField
@@ -48,7 +46,7 @@ internal fun NewCategorySheetBody(
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = MM.space.padding_2_5x, vertical = MM.space.padding_2x),
+            .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_2x),
     ) {
         // Live preview chip
         CategoryPreviewChip(
@@ -59,7 +57,7 @@ internal fun NewCategorySheetBody(
             colors = colors,
         )
 
-        Spacer(modifier = Modifier.height(MM.space.padding_3x))
+        Spacer(modifier = Modifier.height(MM.dimen.padding_3x))
 
         MmField(
             value = name,
@@ -69,12 +67,12 @@ internal fun NewCategorySheetBody(
             modifier = Modifier.fillMaxWidth(),
         )
 
-        Spacer(modifier = Modifier.height(MM.space.padding_3x))
+        Spacer(modifier = Modifier.height(MM.dimen.padding_3x))
         Text(
             text = stringResource(Res.string.categories_color_label),
             style = MM.type.caption.copy(color = colors.text2),
         )
-        Spacer(modifier = Modifier.height(MM.space.padding_1_5x))
+        Spacer(modifier = Modifier.height(MM.dimen.padding_1_5x))
 
         ColorPickerSection(
             palette = palette,
@@ -85,12 +83,12 @@ internal fun NewCategorySheetBody(
             colors = colors,
         )
 
-        Spacer(modifier = Modifier.height(MM.space.padding_3x))
+        Spacer(modifier = Modifier.height(MM.dimen.padding_3x))
         Text(
             text = stringResource(Res.string.categories_icon_label),
             style = MM.type.caption.copy(color = colors.text2),
         )
-        Spacer(modifier = Modifier.height(MM.space.padding_1_5x))
+        Spacer(modifier = Modifier.height(MM.dimen.padding_1_5x))
 
         IconPickerSection(
             iconOptions = iconOptions,
@@ -101,7 +99,7 @@ internal fun NewCategorySheetBody(
         )
 
         if (isEditMode) {
-            Spacer(modifier = Modifier.height(MM.space.padding_3x))
+            Spacer(modifier = Modifier.height(MM.dimen.padding_3x))
             MmButton(
                 text = stringResource(Res.string.categories_delete),
                 onClick = onDeleteClick,
@@ -110,6 +108,6 @@ internal fun NewCategorySheetBody(
             )
         }
 
-        Spacer(modifier = Modifier.height(MM.space.padding_2x))
+        Spacer(modifier = Modifier.height(MM.dimen.padding_2x))
     }
 }

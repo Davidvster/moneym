@@ -27,11 +27,11 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
-import androidx.compose.ui.tooling.preview.Preview
 
 enum class MmButtonVariant { Primary, Secondary, Ghost, Outline, Accent, Danger }
 enum class MmButtonSize { Sm, Md, Lg }
@@ -49,18 +49,18 @@ fun MmButton(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val radius = MM.radius
+    val radius = MM.dimen
 
     val height: Dp = when (size) {
-        MmButtonSize.Sm -> 32.dp
+        MmButtonSize.Sm -> MM.dimen.padding_4x
         MmButtonSize.Md -> 44.dp
         MmButtonSize.Lg -> 52.dp
     }
 
     val horizontalPadding: Dp = when (size) {
-        MmButtonSize.Sm -> MM.space.padding_1_5x
-        MmButtonSize.Md -> MM.space.padding_2x
-        MmButtonSize.Lg -> MM.space.padding_2_5x
+        MmButtonSize.Sm -> MM.dimen.padding_1_5x
+        MmButtonSize.Md -> MM.dimen.padding_2x
+        MmButtonSize.Lg -> MM.dimen.padding_2_5x
     }
 
     val bgColor: Color
@@ -78,26 +78,31 @@ fun MmButton(
                 fgColor = colors.bg
                 borderColor = null
             }
+
             MmButtonVariant.Secondary -> {
                 bgColor = colors.surface2
                 fgColor = colors.text
                 borderColor = colors.border
             }
+
             MmButtonVariant.Ghost -> {
                 bgColor = Color.Transparent
                 fgColor = colors.text
                 borderColor = null
             }
+
             MmButtonVariant.Outline -> {
                 bgColor = Color.Transparent
                 fgColor = colors.text
                 borderColor = colors.borderStrong
             }
+
             MmButtonVariant.Accent -> {
                 bgColor = colors.accent
                 fgColor = Color.White
                 borderColor = null
             }
+
             MmButtonVariant.Danger -> {
                 bgColor = Color.Transparent
                 fgColor = colors.danger
@@ -137,7 +142,7 @@ fun MmButton(
     ) {
         Row(
             modifier = Modifier.padding(horizontal = horizontalPadding),
-            horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1x),
+            horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (leadingIcon != null) {
@@ -145,7 +150,7 @@ fun MmButton(
                 Image(
                     painter = painter,
                     contentDescription = null,
-                    modifier = Modifier.size(MM.space.padding_2x),
+                    modifier = Modifier.size(MM.dimen.padding_2x),
                     colorFilter = ColorFilter.tint(fgColor),
                 )
             }
@@ -162,7 +167,10 @@ fun MmButton(
 @Composable
 private fun MmButtonPreview() {
     MoneyMTheme {
-        Column(Modifier.padding(MM.space.padding_2x), verticalArrangement = Arrangement.spacedBy(MM.space.padding_1x)) {
+        Column(
+            Modifier.padding(MM.dimen.padding_2x),
+            verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x)
+        ) {
             MmButton("Primary", onClick = {}, variant = MmButtonVariant.Primary)
             MmButton("Secondary", onClick = {}, variant = MmButtonVariant.Secondary)
             MmButton("Accent", onClick = {}, variant = MmButtonVariant.Accent)

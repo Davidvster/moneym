@@ -20,7 +20,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
@@ -65,7 +64,7 @@ fun WalletManageScreen(
 
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
 
     if (state.showAddDialog) {
         AddWalletDialog(
@@ -118,11 +117,11 @@ fun WalletManageScreen(
                     )
                 }
                 item {
-                    MmCard(padded = false, shape = MM.radius.radius_1_5x) {
+                    MmCard(padded = false, shape = MM.dimen.radius_1_5x) {
                         Column {
                             activeAccounts.forEachIndexed { idx, account ->
                                 val isSelected = account.id.value == state.selectedAccountId ||
-                                    (state.selectedAccountId <= 0L && account.isDefault)
+                                        (state.selectedAccountId <= 0L && account.isDefault)
                                 MmRow(
                                     onClick = {
                                         viewModel.onIntent(WalletManageIntent.SelectAccount(account.id.value))
@@ -138,7 +137,8 @@ fun WalletManageScreen(
                                         Text(
                                             text = stringResource(
                                                 Res.string.settings_wallet_type_currency,
-                                                account.type.name.lowercase().replaceFirstChar { it.uppercase() },
+                                                account.type.name.lowercase()
+                                                    .replaceFirstChar { it.uppercase() },
                                                 account.currency.value,
                                             ),
                                             style = type.caption.copy(color = colors.text2),
@@ -149,7 +149,7 @@ fun WalletManageScreen(
                                             imageVector = MmIcons.check,
                                             contentDescription = null,
                                             tint = colors.accent,
-                                            modifier = Modifier.size(18.dp),
+                                            modifier = Modifier.size(MM.dimen.icon_1x),
                                         )
                                     }
                                 }
@@ -169,7 +169,7 @@ private fun AddWalletDialog(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
 
     var name by remember { mutableStateOf("") }
     var currency by remember { mutableStateOf("EUR") }
@@ -177,7 +177,11 @@ private fun AddWalletDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(stringResource(Res.string.settings_wallet_add_title), style = type.title3, color = colors.text)
+            Text(
+                stringResource(Res.string.settings_wallet_add_title),
+                style = type.title3,
+                color = colors.text
+            )
         },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(space.padding_1_5x)) {

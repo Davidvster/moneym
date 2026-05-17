@@ -27,11 +27,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
-import androidx.compose.ui.tooling.preview.Preview
 import moneym.core.ui.generated.resources.Res
 import moneym.core.ui.generated.resources.tab_overview
 import moneym.core.ui.generated.resources.tab_settings
@@ -72,7 +72,7 @@ fun MmTabBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = MM.space.padding_1x)
+                .padding(top = MM.dimen.padding_1x)
                 .windowInsetsPadding(WindowInsets.navigationBars),
             horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
@@ -113,12 +113,12 @@ private fun TabItem(
 
     Column(
         modifier = Modifier
-            .padding(horizontal = MM.space.padding_2x, vertical = 6.dp)
+            .padding(horizontal = MM.dimen.padding_2x, vertical = 6.dp)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = { onClick() })
             },
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_0_5x),
     ) {
         Box(modifier = Modifier.size(22.dp), contentAlignment = Alignment.Center) {
             Icon(

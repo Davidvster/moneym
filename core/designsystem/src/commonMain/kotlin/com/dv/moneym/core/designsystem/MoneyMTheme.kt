@@ -15,24 +15,20 @@ fun MoneyMTheme(
     val colors = if (darkTheme) MoneyMDark else MoneyMLight
 
     CompositionLocalProvider(
-        LocalMoneyMColors  provides colors,
-        LocalMoneyMType    provides moneyMType(geist, geistMono),
-        LocalMoneyMSpacing provides MoneyMSpacing(),
-        LocalMoneyMRadius  provides MoneyMRadius(),
+        LocalMoneyMColors provides colors,
+        LocalMoneyMType provides moneyMType(geist, geistMono),
+        LocalMoneyMDimensions provides MoneyMDimensions(),
         content = content,
     )
 }
 
 object MoneyMTheme {
-    val spacing: MoneyMSpacing
-        @Composable @ReadOnlyComposable get() = LocalMoneyMSpacing.current
+    val dimen: MoneyMDimensions
+        @Composable @ReadOnlyComposable get() = LocalMoneyMDimensions.current
 
     val colors: MoneyMColors
         @Composable @ReadOnlyComposable get() = LocalMoneyMColors.current
 
     val type: MoneyMType
         @Composable @ReadOnlyComposable get() = LocalMoneyMType.current
-
-    val radius: MoneyMRadius
-        @Composable @ReadOnlyComposable get() = LocalMoneyMRadius.current
 }

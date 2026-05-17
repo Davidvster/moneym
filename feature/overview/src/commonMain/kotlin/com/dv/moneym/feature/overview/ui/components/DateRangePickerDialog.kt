@@ -113,7 +113,11 @@ internal fun DateRangePickerDialog(
                     text = stringResource(Res.string.overview_date_range_title),
                     style = MM.type.title3,
                     color = colors.text,
-                    modifier = Modifier.padding(start = MM.space.padding_3x, end = MM.space.padding_1_5x, top = MM.space.padding_2x),
+                    modifier = Modifier.padding(
+                        start = MM.dimen.padding_3x,
+                        end = MM.dimen.padding_1_5x,
+                        top = MM.dimen.padding_2x
+                    ),
                 )
             },
             headline = {
@@ -128,8 +132,12 @@ internal fun DateRangePickerDialog(
                 val fromLabel = stringResource(Res.string.overview_date_range_from)
                 val toLabel = stringResource(Res.string.overview_date_range_to)
                 Row(
-                    modifier = Modifier.padding(start = MM.space.padding_3x, end = MM.space.padding_1_5x, bottom = MM.space.padding_1_5x),
-                    horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1x),
+                    modifier = Modifier.padding(
+                        start = MM.dimen.padding_3x,
+                        end = MM.dimen.padding_1_5x,
+                        bottom = MM.dimen.padding_1_5x
+                    ),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
                 ) {
                     Text(
                         text = if (start != null) "${start.dayOfMonth}.${start.monthNumber}.${start.year}" else fromLabel,

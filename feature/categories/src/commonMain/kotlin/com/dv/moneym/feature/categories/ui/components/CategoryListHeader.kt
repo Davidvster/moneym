@@ -50,7 +50,7 @@ internal fun CategoryListHeader(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = MM.space.padding_2x, vertical = MM.space.padding_1_5x),
+            .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1_5x),
     ) {
         MmSegmented(
             options = listOf(
@@ -71,6 +71,11 @@ internal fun CategoryListHeader(
     Text(
         text = "$categoryCount $tabLabel ${stringResource(Res.string.categories_hint)}",
         style = MM.type.caption.copy(color = colors.text3),
-        modifier = Modifier.padding(start = MM.space.padding_2_5x, end = MM.space.padding_2_5x, top = 4.dp, bottom = MM.space.padding_1_5x),
+        modifier = Modifier.padding(
+            start = MM.dimen.padding_2_5x,
+            end = MM.dimen.padding_2_5x,
+            top = 4.dp,
+            bottom = MM.dimen.padding_1_5x
+        ),
     )
 }

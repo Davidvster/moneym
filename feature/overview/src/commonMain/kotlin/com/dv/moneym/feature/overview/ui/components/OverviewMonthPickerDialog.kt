@@ -49,7 +49,7 @@ internal fun OverviewMonthPickerDialog(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
 
     var selectedYear by remember { mutableIntStateOf(currentYear) }
     var selectedMonth by remember { mutableIntStateOf(currentMonth) }
@@ -66,7 +66,11 @@ internal fun OverviewMonthPickerDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(stringResource(Res.string.overview_dialog_select_month), style = type.title3, color = colors.text)
+            Text(
+                stringResource(Res.string.overview_dialog_select_month),
+                style = type.title3,
+                color = colors.text
+            )
         },
         text = {
             OverviewMonthPickerContent(
@@ -116,8 +120,8 @@ private fun OverviewMonthPickerContent(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
-    val radius = MM.radius
+    val space = MM.dimen
+    val radius = MM.dimen
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(space.padding_2x),
@@ -130,20 +134,20 @@ private fun OverviewMonthPickerContent(
             MmIconButton(
                 icon = MmIcons.chevronLeft,
                 onClick = onYearDecrement,
-                size = 32.dp,
+                size = MM.dimen.padding_4x,
                 contentDescription = stringResource(Res.string.overview_prev_year_cd),
             )
             Text(
                 text = selectedYear.toString(),
                 style = type.body,
                 color = if (selectedYear == nowYear) colors.accent else colors.text,
-                modifier = Modifier.widthIn(min = 64.dp),
+                modifier = Modifier.widthIn(min = MM.dimen.padding_8x),
                 textAlign = TextAlign.Center,
             )
             MmIconButton(
                 icon = MmIcons.chevronRight,
                 onClick = onYearIncrement,
-                size = 32.dp,
+                size = MM.dimen.padding_4x,
                 contentDescription = stringResource(Res.string.overview_next_year_cd),
             )
         }
@@ -165,14 +169,21 @@ private fun OverviewMonthPickerContent(
                                 )
                                 .then(
                                     if (isNow && !isSelected) {
-                                        Modifier.border(1.dp, colors.accent.copy(alpha = 0.5f), radius.radius_1x)
+                                        Modifier.border(
+                                            1.dp,
+                                            colors.accent.copy(alpha = 0.5f),
+                                            radius.radius_1x
+                                        )
                                     } else Modifier
                                 )
                                 .clickable(
                                     indication = null,
                                     interactionSource = remember { MutableInteractionSource() },
                                 ) { onMonthSelected(m) }
-                                .padding(horizontal = space.padding_1_5x, vertical = space.padding_1x),
+                                .padding(
+                                    horizontal = space.padding_1_5x,
+                                    vertical = space.padding_1x
+                                ),
                             contentAlignment = Alignment.Center,
                         ) {
                             Text(

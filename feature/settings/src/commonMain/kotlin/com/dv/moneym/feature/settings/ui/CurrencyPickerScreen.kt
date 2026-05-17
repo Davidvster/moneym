@@ -150,7 +150,7 @@ private fun CurrencyPickerContent(
     onBack: () -> Unit,
 ) {
     val colors = MM.colors
-    val space = MM.space
+    val space = MM.dimen
 
     Column(Modifier.fillMaxSize().background(colors.bg)) {
         ScreenHeader(stringResource(Res.string.settings_currency_picker_title), onBack = onBack)
@@ -164,10 +164,11 @@ private fun CurrencyPickerContent(
                     imageVector = MmIcons.search,
                     contentDescription = null,
                     tint = colors.text3,
-                    modifier = Modifier.size(18.dp),
+                    modifier = Modifier.size(MM.dimen.icon_1x),
                 )
             },
-            modifier = Modifier.fillMaxWidth().padding(horizontal = space.padding_2x, vertical = space.padding_1x),
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = space.padding_2x, vertical = space.padding_1x),
         )
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -178,7 +179,10 @@ private fun CurrencyPickerContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(colors.bg)
-                            .padding(horizontal = MM.space.padding_2_5x, vertical = space.padding_0_5x),
+                            .padding(
+                                horizontal = MM.dimen.padding_2_5x,
+                                vertical = space.padding_0_5x
+                            ),
                     )
                 }
                 items(filteredPopular, key = { "popular_${it.code}" }) { currency ->
@@ -196,7 +200,7 @@ private fun CurrencyPickerContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(colors.bg)
-                        .padding(horizontal = MM.space.padding_2_5x, vertical = space.padding_0_5x),
+                        .padding(horizontal = MM.dimen.padding_2_5x, vertical = space.padding_0_5x),
                 )
             }
             items(filteredAll, key = { "all_${it.code}" }) { currency ->
@@ -218,7 +222,7 @@ private fun CurrencyRow(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val radius = MM.radius
+    val radius = MM.dimen
 
     MmRow(onClick = onClick) {
         // Leading: symbol box
@@ -256,7 +260,7 @@ private fun CurrencyRow(
                 imageVector = MmIcons.check,
                 contentDescription = null,
                 tint = colors.accent,
-                modifier = Modifier.size(MM.space.padding_2x),
+                modifier = Modifier.size(MM.dimen.padding_2x),
             )
         }
     }

@@ -96,8 +96,8 @@ private fun LanguagePickerContent(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val radius = MM.radius
-    val space = MM.space
+    val radius = MM.dimen
+    val space = MM.dimen
 
     Column(Modifier.fillMaxSize().background(colors.bg)) {
         ScreenHeader(stringResource(Res.string.settings_language_picker_title), onBack = onBack)
@@ -120,7 +120,7 @@ private fun LanguagePickerContent(
                         imageVector = MmIcons.globe,
                         contentDescription = null,
                         tint = colors.text,
-                        modifier = Modifier.size(18.dp),
+                        modifier = Modifier.size(MM.dimen.icon_1x),
                     )
                     Text(
                         stringResource(Res.string.settings_language_use_device),
@@ -138,7 +138,7 @@ private fun LanguagePickerContent(
 
         SectionLabel(
             stringResource(Res.string.settings_language_all_languages),
-            Modifier.padding(horizontal = MM.space.padding_2_5x, vertical = space.padding_0_5x),
+            Modifier.padding(horizontal = MM.dimen.padding_2_5x, vertical = space.padding_0_5x),
         )
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -175,7 +175,7 @@ private fun LanguagePickerContent(
                             imageVector = MmIcons.check,
                             contentDescription = null,
                             tint = colors.accent,
-                            modifier = Modifier.size(MM.space.padding_2x),
+                            modifier = Modifier.size(MM.dimen.padding_2x),
                         )
                     }
                 }

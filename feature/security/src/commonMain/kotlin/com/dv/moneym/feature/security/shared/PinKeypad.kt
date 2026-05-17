@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.security.ui
+package com.dv.moneym.feature.security.shared
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -8,11 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,13 +20,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
@@ -45,7 +38,7 @@ private fun KeyCell(
     content: @Composable () -> Unit,
 ) {
     val colors = MM.colors
-    val shape = RoundedCornerShape(MM.space.padding_2x)
+    val shape = RoundedCornerShape(MM.dimen.padding_2x)
     var pressed by remember { mutableStateOf(false) }
 
     Box(
@@ -126,11 +119,11 @@ fun PinKeypad(
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(MM.space.padding_1_5x),
+        verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
     ) {
         // Rows 1-3
         listOf(listOf(1, 2, 3), listOf(4, 5, 6), listOf(7, 8, 9)).forEach { row ->
-            Row(horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1_5x)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x)) {
                 row.forEach { digit ->
                     KeyCell(onClick = { onKey(digit.digitToChar()) }) {
                         Text(text = "$digit", style = digitStyle)
@@ -140,7 +133,7 @@ fun PinKeypad(
         }
 
         // Row 4: biometric | 0 | backspace
-        Row(horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1_5x)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x)) {
             // Biometric or spacer
             if (onBiometric != null) {
                 TransparentKeyCell(onClick = onBiometric) {

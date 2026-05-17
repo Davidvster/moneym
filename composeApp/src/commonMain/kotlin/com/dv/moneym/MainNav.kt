@@ -1,8 +1,6 @@
 package com.dv.moneym
 
 import androidx.compose.animation.ContentTransform
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -18,15 +16,15 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.TabRoute
-import com.dv.moneym.platform.FilePlatform
 import com.dv.moneym.feature.categories.ui.CategoriesKey
 import com.dv.moneym.feature.categories.ui.CategoryEditKey
 import com.dv.moneym.feature.categories.ui.categoriesEntry
 import com.dv.moneym.feature.categories.ui.categoryEditEntry
 import com.dv.moneym.feature.overview.ui.OverviewKey
 import com.dv.moneym.feature.overview.ui.overviewEntry
-import com.dv.moneym.feature.security.ui.PinSetupKey
-import com.dv.moneym.feature.security.ui.pinSetupEntry
+import com.dv.moneym.feature.security.setup.PinSetupKey
+import com.dv.moneym.feature.security.setup.pinSetupEntry
+import com.dv.moneym.feature.settings.presentation.SettingsViewModel
 import com.dv.moneym.feature.settings.ui.CurrencyPickerKey
 import com.dv.moneym.feature.settings.ui.ExportDataKey
 import com.dv.moneym.feature.settings.ui.LanguagePickerKey
@@ -43,7 +41,7 @@ import com.dv.moneym.feature.transactionedit.ui.TransactionEditKey
 import com.dv.moneym.feature.transactionedit.ui.transactionEditEntry
 import com.dv.moneym.feature.transactions.ui.TransactionsKey
 import com.dv.moneym.feature.transactions.ui.transactionsEntry
-import com.dv.moneym.feature.settings.presentation.SettingsViewModel
+import com.dv.moneym.platform.FilePlatform
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -75,12 +73,17 @@ internal fun MainNav(lockController: AppLockController) {
                     slideInVertically(animationSpec = tween(350)),
                     slideOutVertically(animationSpec = tween(350)),
                 )
+
                 else -> {
-                    val fromKey = initialState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-                    val toKey = targetState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+                    val fromKey = initialState.key as? NavKey
+                        ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+                    val toKey = targetState.key as? NavKey
+                        ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
                     val dir = tabSlideDirection(fromKey, toKey)
                     if (dir != 0)
-                        slideInHorizontally(tween(300)) { it * dir } togetherWith slideOutHorizontally(tween(300)) { -it * dir }
+                        slideInHorizontally(tween(300)) { it * dir } togetherWith slideOutHorizontally(
+                            tween(300)
+                        ) { -it * dir }
                     else
                         fadeIn(tween(220)) togetherWith fadeOut(tween(220))
                 }
@@ -92,12 +95,17 @@ internal fun MainNav(lockController: AppLockController) {
                     slideInVertically(animationSpec = tween(350)),
                     slideOutVertically(animationSpec = tween(350)),
                 )
+
                 else -> {
-                    val fromKey = initialState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-                    val toKey = targetState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+                    val fromKey = initialState.key as? NavKey
+                        ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+                    val toKey = targetState.key as? NavKey
+                        ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
                     val dir = tabSlideDirection(fromKey, toKey)
                     if (dir != 0)
-                        slideInHorizontally(tween(300)) { -it * dir } togetherWith slideOutHorizontally(tween(300)) { it * dir }
+                        slideInHorizontally(tween(300)) { -it * dir } togetherWith slideOutHorizontally(
+                            tween(300)
+                        ) { it * dir }
                     else
                         fadeIn(tween(220)) togetherWith fadeOut(tween(220))
                 }
@@ -109,12 +117,17 @@ internal fun MainNav(lockController: AppLockController) {
                     slideInVertically(animationSpec = tween(350)),
                     slideOutVertically(animationSpec = tween(350)),
                 )
+
                 else -> {
-                    val fromKey = initialState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-                    val toKey = targetState.key as? NavKey ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+                    val fromKey = initialState.key as? NavKey
+                        ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+                    val toKey = targetState.key as? NavKey
+                        ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
                     val dir = tabSlideDirection(fromKey, toKey)
                     if (dir != 0)
-                        slideInHorizontally(tween(300)) { -it * dir } togetherWith slideOutHorizontally(tween(300)) { it * dir }
+                        slideInHorizontally(tween(300)) { -it * dir } togetherWith slideOutHorizontally(
+                            tween(300)
+                        ) { it * dir }
                     else
                         fadeIn(tween(220)) togetherWith fadeOut(tween(220))
                 }

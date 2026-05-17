@@ -3,7 +3,6 @@ package com.dv.moneym.feature.transactions.ui.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -11,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
@@ -31,7 +29,7 @@ internal fun WalletSwitcherDialog(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -66,7 +64,7 @@ internal fun WalletSwitcherDialog(
                                 imageVector = MmIcons.check,
                                 contentDescription = null,
                                 tint = colors.accent,
-                                modifier = Modifier.size(18.dp),
+                                modifier = Modifier.size(MM.dimen.icon_1x),
                             )
                         }
                     }

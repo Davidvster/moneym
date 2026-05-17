@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.CumulativeChart
@@ -33,11 +32,11 @@ internal fun CumulativeSpendCard(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
     MmCard(
         modifier = Modifier.padding(horizontal = space.padding_2x, vertical = space.padding_0_5x),
         padded = true,
-        shape = MM.radius.radius_1_5x,
+        shape = MM.dimen.radius_1_5x,
     ) {
         Column {
             Row(
@@ -101,7 +100,7 @@ internal fun CumulativeSpendCard(
                             modifier = Modifier.fillMaxWidth(),
                         )
                     }
-                    Spacer(Modifier.width(4.dp))
+                    Spacer(Modifier.width(MM.dimen.padding_0_5x))
                     CumulativeChart(
                         values = cumulativeTotals,
                         todayIndex = todayIndex,

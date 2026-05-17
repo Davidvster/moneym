@@ -32,11 +32,11 @@ internal fun CategoryPicker(
         style = type.micro,
         color = if (categoryError) colors.danger else colors.text3,
     )
-    Spacer(Modifier.height(MM.space.padding_1_5x))
+    Spacer(Modifier.height(MM.dimen.padding_1_5x))
 
     FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1x),
-        verticalArrangement = Arrangement.spacedBy(MM.space.padding_1x),
+        horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+        verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
     ) {
         categories.forEach { cat ->
             CategoryChip(
@@ -49,7 +49,7 @@ internal fun CategoryPicker(
 
     // Category error message
     if (categoryError) {
-        Spacer(Modifier.height(MM.space.padding_1x))
+        Spacer(Modifier.height(MM.dimen.padding_1x))
         Text(
             text = stringResource(Res.string.edit_category_error),
             style = type.caption,

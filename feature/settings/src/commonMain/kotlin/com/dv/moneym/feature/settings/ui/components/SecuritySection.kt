@@ -15,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmIcons
@@ -41,13 +40,13 @@ internal fun SecuritySection(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.space
+    val space = MM.dimen
     MmCard(Modifier.padding(horizontal = space.padding_2x)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 56.dp)
-                .padding(horizontal = MM.space.padding_2_5x, vertical = MM.space.padding_2x),
+                .heightIn(min = MM.dimen.padding_7x)
+                .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_2x),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
@@ -61,9 +60,16 @@ internal fun SecuritySection(
                         else onIntent(SettingsIntent.PinToggled(true))
                     },
             ) {
-                Text(stringResource(Res.string.settings_pin_lock), style = type.body, color = colors.text)
+                Text(
+                    stringResource(Res.string.settings_pin_lock),
+                    style = type.body,
+                    color = colors.text
+                )
                 if (pinEnabled) {
-                    Text(stringResource(Res.string.settings_change_pin), style = type.caption.copy(color = colors.text2))
+                    Text(
+                        stringResource(Res.string.settings_change_pin),
+                        style = type.caption.copy(color = colors.text2)
+                    )
                 }
             }
             MmToggle(
@@ -79,11 +85,18 @@ internal fun SecuritySection(
                     imageVector = MmIcons.fingerprint,
                     contentDescription = null,
                     tint = colors.text,
-                    modifier = Modifier.size(18.dp),
+                    modifier = Modifier.size(MM.dimen.icon_1x),
                 )
                 Column(Modifier.weight(1f)) {
-                    Text(stringResource(Res.string.settings_biometrics), style = type.body, color = colors.text)
-                    Text(stringResource(Res.string.settings_biometrics_subtitle), style = type.caption.copy(color = colors.text2))
+                    Text(
+                        stringResource(Res.string.settings_biometrics),
+                        style = type.body,
+                        color = colors.text
+                    )
+                    Text(
+                        stringResource(Res.string.settings_biometrics_subtitle),
+                        style = type.caption.copy(color = colors.text2)
+                    )
                 }
                 MmToggle(
                     checked = biometricEnabled,
@@ -104,7 +117,7 @@ internal fun SecuritySection(
                 imageVector = MmIcons.chevronRight,
                 contentDescription = null,
                 tint = colors.text3,
-                modifier = Modifier.size(MM.space.padding_2x),
+                modifier = Modifier.size(MM.dimen.padding_2x),
             )
         }
     }

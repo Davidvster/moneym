@@ -25,7 +25,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -72,7 +71,9 @@ internal fun HsvColorPickerDialog(
         val g = (currentColor.green * 255).toInt()
         val b = (currentColor.blue * 255).toInt()
         mutableStateOf(
-            "#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}".uppercase()
+            "#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${
+                b.toString(16).padStart(2, '0')
+            }".uppercase()
         )
     }
 
@@ -83,8 +84,8 @@ internal fun HsvColorPickerDialog(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = MM.space.padding_2x)
-                .clip(RoundedCornerShape(MM.space.padding_2_5x))
+                .padding(horizontal = MM.dimen.padding_2x)
+                .clip(RoundedCornerShape(MM.dimen.padding_2_5x))
                 .background(colors.bg),
         ) {
             HsvColorPickerContent(
@@ -129,8 +130,8 @@ internal fun HsvColorPickerContent(
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = MM.space.padding_2_5x, vertical = MM.space.padding_2x),
-        verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(MM.space.padding_1_5x),
+            .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_2x),
+        verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(MM.dimen.padding_1_5x),
     ) {
         Text(
             stringResource(Res.string.categories_color_picker_title),
@@ -144,8 +145,8 @@ internal fun HsvColorPickerContent(
         Box(
             Modifier
                 .fillMaxWidth()
-                .height(MM.space.padding_6x)
-                .clip(RoundedCornerShape(MM.space.padding_1_5x))
+                .height(MM.dimen.padding_6x)
+                .clip(RoundedCornerShape(MM.dimen.padding_1_5x))
                 .background(currentColor),
         )
 
@@ -172,7 +173,8 @@ internal fun HsvColorPickerContent(
                         val b = clean.substring(4, 6).toInt(16) / 255f
                         val (h, s, v) = colorToHsv(Color(r, g, b))
                         onHsvChange(h, s, v)
-                    } catch (_: Exception) {}
+                    } catch (_: Exception) {
+                    }
                 }
             },
             label = stringResource(Res.string.categories_color_hex),
@@ -182,7 +184,7 @@ internal fun HsvColorPickerContent(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(MM.space.padding_1_5x),
+            horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(MM.dimen.padding_1_5x),
         ) {
             MmButton(
                 text = stringResource(Res.string.categories_cancel),
@@ -197,7 +199,7 @@ internal fun HsvColorPickerContent(
                 modifier = Modifier.weight(1f),
             )
         }
-        Spacer(Modifier.height(MM.space.padding_1x))
+        Spacer(Modifier.height(MM.dimen.padding_1x))
     }
 }
 
@@ -215,7 +217,10 @@ internal fun HsvSlidersSection(
 ) {
     val type = MM.type
     // Hue slider
-    Text(stringResource(Res.string.categories_color_hue), style = type.caption.copy(color = colors.text2))
+    Text(
+        stringResource(Res.string.categories_color_hue),
+        style = type.caption.copy(color = colors.text2)
+    )
     HsvSlider(
         gradient = Brush.horizontalGradient((0..6).map { i -> hsvToColor(i * 60f, 1f, 1f) }),
         thumbPosition = hue / 360f,
@@ -223,20 +228,33 @@ internal fun HsvSlidersSection(
         colors = colors,
     )
     // Saturation slider
-    Text(stringResource(Res.string.categories_color_saturation), style = type.caption.copy(color = colors.text2))
+    Text(
+        stringResource(Res.string.categories_color_saturation),
+        style = type.caption.copy(color = colors.text2)
+    )
     HsvSlider(
-        gradient = Brush.horizontalGradient(listOf(
-            hsvToColor(hue, 0f, brightness.coerceAtLeast(0.3f)),
-            hsvToColor(hue, 1f, brightness.coerceAtLeast(0.3f)),
-        )),
+        gradient = Brush.horizontalGradient(
+            listOf(
+                hsvToColor(hue, 0f, brightness.coerceAtLeast(0.3f)),
+                hsvToColor(hue, 1f, brightness.coerceAtLeast(0.3f)),
+            )
+        ),
         thumbPosition = saturation,
         onPositionChanged = { pos -> onSaturationChange(pos) },
         colors = colors,
     )
     // Brightness slider
-    Text(stringResource(Res.string.categories_color_brightness), style = type.caption.copy(color = colors.text2))
+    Text(
+        stringResource(Res.string.categories_color_brightness),
+        style = type.caption.copy(color = colors.text2)
+    )
     HsvSlider(
-        gradient = Brush.horizontalGradient(listOf(Color.Black, hsvToColor(hue, saturation.coerceAtLeast(0.3f), 1f))),
+        gradient = Brush.horizontalGradient(
+            listOf(
+                Color.Black,
+                hsvToColor(hue, saturation.coerceAtLeast(0.3f), 1f)
+            )
+        ),
         thumbPosition = brightness,
         onPositionChanged = { pos -> onBrightnessChange(pos) },
         colors = colors,
@@ -255,8 +273,8 @@ internal fun HsvSlider(
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
-            .height(32.dp)
-            .clip(RoundedCornerShape(MM.space.padding_2x)),
+            .height(MM.dimen.padding_4x)
+            .clip(RoundedCornerShape(MM.dimen.padding_2x)),
     ) {
         val widthPx = constraints.maxWidth.toFloat()
         Box(
@@ -269,13 +287,15 @@ internal fun HsvSlider(
                         onPositionChanged((change.position.x / widthPx).coerceIn(0f, 1f))
                     }
                 }
-                .clickable(indication = null, interactionSource = remember { MutableInteractionSource() }) {},
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }) {},
         ) {
             val thumbXDp = (thumbPosition * widthPx).toInt()
             Box(
                 modifier = Modifier
                     .padding(start = (thumbXDp - 12).coerceAtLeast(0).dp)
-                    .size(MM.space.padding_3x)
+                    .size(MM.dimen.padding_3x)
                     .clip(CircleShape)
                     .background(Color.White)
                     .border(2.dp, colors.borderStrong, CircleShape),
@@ -287,8 +307,11 @@ internal fun HsvSlider(
 // ─── HSV math helpers ─────────────────────────────────────────────────────────
 
 internal fun colorToHsv(color: Color): Triple<Float, Float, Float> {
-    val r = color.red; val g = color.green; val b = color.blue
-    val max = maxOf(r, g, b); val min = minOf(r, g, b)
+    val r = color.red;
+    val g = color.green;
+    val b = color.blue
+    val max = maxOf(r, g, b);
+    val min = minOf(r, g, b)
     val delta = max - min
     val h = when {
         delta == 0f -> 0f

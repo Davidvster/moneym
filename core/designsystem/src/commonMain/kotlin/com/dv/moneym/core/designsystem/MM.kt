@@ -9,9 +9,6 @@ object MM {
     val type: MoneyMType
         @Composable get() = LocalMoneyMType.current
 
-    val space: MoneyMSpacing
-        @Composable get() = LocalMoneyMSpacing.current
-
-    val radius: MoneyMRadius
-        @Composable get() = LocalMoneyMRadius.current
+    val dimen: MoneyMDimensions
+        @Composable get() = LocalMoneyMDimensions.current
 }
