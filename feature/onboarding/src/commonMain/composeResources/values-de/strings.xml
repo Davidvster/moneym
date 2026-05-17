@@ -10,4 +10,6 @@
     <string name="onboarding_done">Fertig</string>
     <string name="onboarding_skip">Jetzt überspringen</string>
     <string name="onboarding_skip_short">Überspringen</string>
+    <string name="onboarding_search_currency">Währung suchen…</string>
+    <string name="onboarding_currencies_header">WÄHRUNGEN</string>
 </resources>

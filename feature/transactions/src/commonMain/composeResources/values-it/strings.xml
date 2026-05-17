@@ -21,4 +21,14 @@
     <string name="transactions_month_oct">Ott</string>
     <string name="transactions_month_nov">Nov</string>
     <string name="transactions_month_dec">Dic</string>
+    <string name="transactions_search_placeholder">Cerca transazioni…</string>
+    <string name="transactions_search_cd">Cerca</string>
+    <string name="transactions_close_search_cd">Chiudi ricerca</string>
+    <string name="transactions_net_label">NETTO</string>
+    <string name="transactions_dialog_select_month">Seleziona mese</string>
+    <string name="transactions_prev_year_cd">Anno precedente</string>
+    <string name="transactions_next_year_cd">Anno successivo</string>
+    <string name="transactions_now">Ora</string>
+    <string name="transactions_ok">OK</string>
+    <string name="transactions_cancel">Annulla</string>
 </resources>

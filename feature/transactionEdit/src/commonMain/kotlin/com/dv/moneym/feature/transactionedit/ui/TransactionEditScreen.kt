@@ -158,7 +158,6 @@ private fun TransactionEditContent(
     onDismiss: () -> Unit,
 ) {
     val colors = MM.colors
-    val type = MM.type
 
     var showDeleteDialog by rememberSaveable { mutableStateOf(false) }
     var showDatePicker by rememberSaveable { mutableStateOf(false) }
@@ -173,21 +172,67 @@ private fun TransactionEditContent(
         }
     }
 
-    // Compute today and yesterday dates
     val todayDate = remember {
         kotlin.time.Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     }
     val yesterdayDate = remember { todayDate.minus(DatePeriod(days = 1)) }
 
-    // Derive currency code from selected account
-    val currencyCode = remember(state.selectedAccountId, state.availableAccounts) {
-        state.availableAccounts
-            .firstOrNull { it.id == state.selectedAccountId }
-            ?.currency?.value
-            ?: "EUR"
+    if (showDeleteDialog) {
+        TransactionDeleteSheet(
+            onConfirm = { onIntent(TransactionEditIntent.DeleteConfirmed); showDeleteDialog = false },
+            onCancel = { showDeleteDialog = false },
+        )
+    }
+    if (showDatePicker) {
+        TransactionDatePickerDialog(
+            state = state,
+            todayDate = todayDate,
+            yesterdayDate = yesterdayDate,
+            onIntent = onIntent,
+            onDismiss = { showDatePicker = false },
+        )
     }
 
-    // Parse amountText to Double for display logic
+    Column(modifier = Modifier.fillMaxSize().background(colors.bg)) {
+        TransactionEditModalHeader(
+            isEditMode = state.isEditMode,
+            onDismiss = onDismiss,
+            onDeleteClick = { showDeleteDialog = true },
+        )
+        TransactionEditScrollBody(
+            state = state,
+            todayDate = todayDate,
+            yesterdayDate = yesterdayDate,
+            focusRequester = focusRequester,
+            onIntent = onIntent,
+            onDatePickerOpen = { showDatePicker = true },
+            modifier = Modifier.weight(1f),
+        )
+        TransactionEditSaveBar(
+            isEditMode = state.isEditMode,
+            isSaving = state.isSaving,
+            onSave = { onIntent(TransactionEditIntent.SaveRequested) },
+        )
+    }
+}
+
+// ─── Scrollable body ──────────────────────────────────────────────────────────
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun TransactionEditScrollBody(
+    state: TransactionEditUiState,
+    todayDate: LocalDate,
+    yesterdayDate: LocalDate,
+    focusRequester: FocusRequester,
+    onIntent: (TransactionEditIntent) -> Unit,
+    onDatePickerOpen: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    // Derive currency code from selected account
+    val currencyCode = remember(state.selectedAccountId, state.availableAccounts) {
+        state.availableAccounts.firstOrNull { it.id == state.selectedAccountId }?.currency?.value ?: "EUR"
+    }
     val amountValue = state.amountText.toDoubleOrNull() ?: 0.0
     val formattedAmount = if (amountValue == 0.0) {
         "0.00"
@@ -196,255 +241,293 @@ private fun TransactionEditContent(
         val fractional = ((amountValue - major.toDouble()) * 100).toLong().coerceAtLeast(0L)
         "$major.${fractional.toString().padStart(2, '0')}"
     }
+    val todayLabel = stringResource(Res.string.edit_date_today)
+    val yesterdayLabel = stringResource(Res.string.edit_date_yesterday)
+    val dateText = state.date?.toFriendlyString(todayDate, yesterdayDate, todayLabel, yesterdayLabel) ?: ""
 
-    // Delete confirmation bottom sheet
-    if (showDeleteDialog) {
-        TransactionDeleteSheet(
-            onConfirm = {
-                onIntent(TransactionEditIntent.DeleteConfirmed)
-                showDeleteDialog = false
-            },
-            onCancel = { showDeleteDialog = false },
+    Column(
+        modifier = modifier
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 20.dp, vertical = 8.dp)
+            .padding(bottom = 100.dp),
+    ) {
+        TypeToggleBar(
+            isExpense = state.type == TransactionType.EXPENSE,
+            expenseLabel = stringResource(Res.string.edit_type_expense),
+            incomeLabel = stringResource(Res.string.edit_type_income),
+            onExpenseSelected = { onIntent(TransactionEditIntent.TypeChanged(TransactionType.EXPENSE)) },
+            onIncomeSelected = { onIntent(TransactionEditIntent.TypeChanged(TransactionType.INCOME)) },
+            modifier = Modifier.fillMaxWidth(),
+        )
+        Spacer(Modifier.height(24.dp))
+        AmountDisplay(
+            amountValue = amountValue,
+            formattedAmount = formattedAmount,
+            currencyCode = currencyCode,
+            amountText = state.amountText,
+            focusRequester = focusRequester,
+            onAmountChanged = { onIntent(TransactionEditIntent.AmountChanged(it)) },
+        )
+        MmField(
+            value = dateText,
+            onValueChange = {},
+            label = stringResource(Res.string.edit_date_label),
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth().clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() },
+            ) { onDatePickerOpen() },
+        )
+        Spacer(Modifier.height(12.dp))
+        MmField(
+            value = state.note,
+            onValueChange = { onIntent(TransactionEditIntent.NoteChanged(it)) },
+            label = stringResource(Res.string.edit_note_label),
+            placeholder = stringResource(Res.string.edit_note_placeholder),
+            modifier = Modifier.fillMaxWidth(),
+        )
+        Spacer(Modifier.height(24.dp))
+        CategoryPicker(
+            categories = state.availableCategories,
+            selectedCategoryId = state.selectedCategoryId,
+            onCategorySelected = { onIntent(TransactionEditIntent.CategorySelected(it)) },
         )
     }
+}
 
-    // Date picker dialog with Today/Yesterday quick buttons
-    if (showDatePicker) {
-        val initialMillis = state.date
-            ?.atStartOfDayIn(TimeZone.UTC)
-            ?.toEpochMilliseconds()
-        val datePickerState = rememberDatePickerState(
-            initialSelectedDateMillis = initialMillis,
+// ─── Modal header ─────────────────────────────────────────────────────────────
+
+@Composable
+private fun TransactionEditModalHeader(
+    isEditMode: Boolean,
+    onDismiss: () -> Unit,
+    onDeleteClick: () -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .statusBarsPadding()
+            .height(52.dp)
+            .padding(horizontal = 12.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        MmIconButton(
+            icon = MmIcons.close,
+            onClick = onDismiss,
         )
-        DatePickerDialog(
-            onDismissRequest = { showDatePicker = false },
-            confirmButton = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                ) {
-                    // Yesterday quick button
-                    TextButton(onClick = {
-                        onIntent(TransactionEditIntent.DateChanged(yesterdayDate))
-                        showDatePicker = false
-                    }) {
-                        Text(stringResource(Res.string.edit_date_yesterday), color = colors.text2)
-                    }
-                    // Today quick button
-                    TextButton(onClick = {
-                        onIntent(TransactionEditIntent.DateChanged(todayDate))
-                        showDatePicker = false
-                    }) {
-                        Text(stringResource(Res.string.edit_date_today), color = colors.accent)
-                    }
-                    // OK button
-                    TextButton(onClick = {
-                        datePickerState.selectedDateMillis?.let { millis ->
-                            val instant = kotlin.time.Instant.fromEpochMilliseconds(millis)
-                            val localDate = instant.toLocalDateTime(TimeZone.UTC).date
-                            onIntent(TransactionEditIntent.DateChanged(localDate))
-                        }
-                        showDatePicker = false
-                    }) {
-                        Text(stringResource(Res.string.edit_date_ok), color = colors.accent)
-                    }
-                }
-            },
-        ) {
-            DatePicker(state = datePickerState)
+        Text(
+            text = if (isEditMode) stringResource(Res.string.edit_title_edit) else stringResource(Res.string.edit_title_add),
+            style = type.title3,
+            color = colors.text,
+            modifier = Modifier.weight(1f),
+            textAlign = TextAlign.Center,
+        )
+        if (isEditMode) {
+            MmIconButton(
+                icon = MmIcons.trash,
+                onClick = onDeleteClick,
+                variant = MmIconButtonVariant.Danger,
+            )
+        } else {
+            Spacer(Modifier.size(40.dp))
         }
     }
+}
+
+// ─── Amount display ───────────────────────────────────────────────────────────
+
+@Composable
+private fun AmountDisplay(
+    amountValue: Double,
+    formattedAmount: String,
+    currencyCode: String,
+    amountText: String,
+    focusRequester: FocusRequester,
+    onAmountChanged: (String) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(colors.bg),
+            .fillMaxWidth()
+            .padding(vertical = 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        // Modal header — 52dp tall
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .statusBarsPadding()
-                .height(52.dp)
-                .padding(horizontal = 12.dp, vertical = 4.dp),
-            verticalAlignment = Alignment.CenterVertically,
+        Text(
+            text = stringResource(Res.string.edit_amount_label).uppercase(),
+            style = type.micro,
+            color = colors.text3,
+        )
+        Spacer(Modifier.height(8.dp))
+
+        val interactionSource = remember { MutableInteractionSource() }
+        Box(
+            modifier = Modifier.clickable(
+                indication = null,
+                interactionSource = interactionSource,
+            ) {
+                focusRequester.requestFocus()
+            },
         ) {
-            MmIconButton(
-                icon = MmIcons.close,
-                onClick = onDismiss,
-            )
-            Text(
-                text = if (state.isEditMode) stringResource(Res.string.edit_title_edit) else stringResource(Res.string.edit_title_add),
-                style = type.title3,
-                color = colors.text,
-                modifier = Modifier.weight(1f),
-                textAlign = TextAlign.Center,
-            )
-            if (state.isEditMode) {
-                MmIconButton(
-                    icon = MmIcons.trash,
-                    onClick = { showDeleteDialog = true },
-                    variant = MmIconButtonVariant.Danger,
-                )
-            } else {
-                Spacer(Modifier.size(40.dp))
-            }
-        }
-
-        // Scrollable body
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp, vertical = 8.dp)
-                .padding(bottom = 100.dp),
-        ) {
-            // Expense / Income type toggle bar — colored
-            TypeToggleBar(
-                isExpense = state.type == TransactionType.EXPENSE,
-                expenseLabel = stringResource(Res.string.edit_type_expense),
-                incomeLabel = stringResource(Res.string.edit_type_income),
-                onExpenseSelected = { onIntent(TransactionEditIntent.TypeChanged(TransactionType.EXPENSE)) },
-                onIncomeSelected = { onIntent(TransactionEditIntent.TypeChanged(TransactionType.INCOME)) },
-                modifier = Modifier.fillMaxWidth(),
-            )
-
-            Spacer(Modifier.height(24.dp))
-
-            // Big amount display — tapping opens numeric keyboard
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
+            Row(
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 Text(
-                    text = stringResource(Res.string.edit_amount_label).uppercase(),
-                    style = type.micro,
+                    text = currencyCode,
+                    style = type.bodyMono,
                     color = colors.text3,
                 )
-                Spacer(Modifier.height(8.dp))
-
-                val interactionSource = remember { MutableInteractionSource() }
-                Box(
-                    modifier = Modifier.clickable(
-                        indication = null,
-                        interactionSource = interactionSource,
-                    ) {
-                        focusRequester.requestFocus()
-                    },
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.Bottom,
-                        horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    ) {
-                        Text(
-                            text = currencyCode,
-                            style = type.bodyMono,
-                            color = colors.text3,
-                        )
-                        Text(
-                            text = formattedAmount,
-                            style = type.display.copy(
-                                fontSize = 52.sp,
-                                color = if (amountValue == 0.0) colors.text3 else colors.text,
-                            ),
-                        )
-                    }
-                }
-
-                // Hidden BasicTextField for numeric input
-                BasicTextField(
-                    value = state.amountText,
-                    onValueChange = { onIntent(TransactionEditIntent.AmountChanged(it)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                    modifier = Modifier
-                        .size(1.dp)
-                        .focusRequester(focusRequester),
-                    decorationBox = { },
+                Text(
+                    text = formattedAmount,
+                    style = type.display.copy(
+                        fontSize = 52.sp,
+                        color = if (amountValue == 0.0) colors.text3 else colors.text,
+                    ),
                 )
             }
+        }
 
-            // Date field — shows friendly date label; tapping opens date picker
-            val todayLabel = stringResource(Res.string.edit_date_today)
-            val yesterdayLabel = stringResource(Res.string.edit_date_yesterday)
-            val dateText = state.date?.toFriendlyString(todayDate, yesterdayDate, todayLabel, yesterdayLabel) ?: ""
-            MmField(
-                value = dateText,
-                onValueChange = {},
-                label = stringResource(Res.string.edit_date_label),
-                singleLine = true,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable(
-                        indication = null,
-                        interactionSource = remember { MutableInteractionSource() },
-                    ) {
-                        showDatePicker = true
-                    },
+        // Hidden BasicTextField for numeric input
+        BasicTextField(
+            value = amountText,
+            onValueChange = onAmountChanged,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            modifier = Modifier
+                .size(1.dp)
+                .focusRequester(focusRequester),
+            decorationBox = { },
+        )
+    }
+}
+
+// ─── Category picker ──────────────────────────────────────────────────────────
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun CategoryPicker(
+    categories: List<Category>,
+    selectedCategoryId: com.dv.moneym.core.model.CategoryId?,
+    onCategorySelected: (com.dv.moneym.core.model.CategoryId) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+
+    Text(
+        text = stringResource(Res.string.edit_category_label).uppercase(),
+        style = type.micro,
+        color = colors.text3,
+    )
+    Spacer(Modifier.height(12.dp))
+
+    FlowRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        categories.forEach { cat ->
+            CategoryChip(
+                category = cat,
+                isSelected = cat.id == selectedCategoryId,
+                onClick = { onCategorySelected(cat.id) },
             )
+        }
+    }
+}
 
-            Spacer(Modifier.height(12.dp))
+// ─── Save bar ─────────────────────────────────────────────────────────────────
 
-            // Note field
-            MmField(
-                value = state.note,
-                onValueChange = { onIntent(TransactionEditIntent.NoteChanged(it)) },
-                label = stringResource(Res.string.edit_note_label),
-                placeholder = stringResource(Res.string.edit_note_placeholder),
-                modifier = Modifier.fillMaxWidth(),
-            )
+@Composable
+private fun TransactionEditSaveBar(
+    isEditMode: Boolean,
+    isSaving: Boolean,
+    onSave: () -> Unit,
+) {
+    val colors = MM.colors
+    val dividerColor = colors.divider
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .drawBehind {
+                drawLine(
+                    color = dividerColor,
+                    start = Offset(0f, 0f),
+                    end = Offset(size.width, 0f),
+                    strokeWidth = 1.dp.toPx(),
+                )
+            }
+            .background(colors.bg)
+            .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 16.dp),
+    ) {
+        MmButton(
+            text = if (isEditMode) stringResource(Res.string.edit_save_changes) else stringResource(Res.string.edit_add_transaction),
+            onClick = onSave,
+            variant = MmButtonVariant.Accent,
+            size = MmButtonSize.Lg,
+            leadingIcon = MmIcons.check,
+            fullWidth = true,
+            enabled = !isSaving,
+        )
+    }
+}
 
-            Spacer(Modifier.height(24.dp))
+// ─── Date picker dialog ───────────────────────────────────────────────────────
 
-            // Category picker
-            Text(
-                text = stringResource(Res.string.edit_category_label).uppercase(),
-                style = type.micro,
-                color = colors.text3,
-            )
-            Spacer(Modifier.height(12.dp))
-
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TransactionDatePickerDialog(
+    state: TransactionEditUiState,
+    todayDate: LocalDate,
+    yesterdayDate: LocalDate,
+    onIntent: (TransactionEditIntent) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val colors = MM.colors
+    val initialMillis = state.date
+        ?.atStartOfDayIn(TimeZone.UTC)
+        ?.toEpochMilliseconds()
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = initialMillis,
+    )
+    DatePickerDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                state.availableCategories.forEach { cat ->
-                    CategoryChip(
-                        category = cat,
-                        isSelected = cat.id == state.selectedCategoryId,
-                        onClick = { onIntent(TransactionEditIntent.CategorySelected(cat.id)) },
-                    )
+                // Yesterday quick button
+                TextButton(onClick = {
+                    onIntent(TransactionEditIntent.DateChanged(yesterdayDate))
+                    onDismiss()
+                }) {
+                    Text(stringResource(Res.string.edit_date_yesterday), color = colors.text2)
+                }
+                // Today quick button
+                TextButton(onClick = {
+                    onIntent(TransactionEditIntent.DateChanged(todayDate))
+                    onDismiss()
+                }) {
+                    Text(stringResource(Res.string.edit_date_today), color = colors.accent)
+                }
+                // OK button
+                TextButton(onClick = {
+                    datePickerState.selectedDateMillis?.let { millis ->
+                        val instant = kotlin.time.Instant.fromEpochMilliseconds(millis)
+                        val localDate = instant.toLocalDateTime(TimeZone.UTC).date
+                        onIntent(TransactionEditIntent.DateChanged(localDate))
+                    }
+                    onDismiss()
+                }) {
+                    Text(stringResource(Res.string.edit_date_ok), color = colors.accent)
                 }
             }
-        }
-
-        // Pinned save bar
-        val dividerColor = colors.divider
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .drawBehind {
-                    drawLine(
-                        color = dividerColor,
-                        start = Offset(0f, 0f),
-                        end = Offset(size.width, 0f),
-                        strokeWidth = 1.dp.toPx(),
-                    )
-                }
-                .background(colors.bg)
-                .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 16.dp),
-        ) {
-            MmButton(
-                text = if (state.isEditMode) stringResource(Res.string.edit_save_changes) else stringResource(Res.string.edit_add_transaction),
-                onClick = { onIntent(TransactionEditIntent.SaveRequested) },
-                variant = MmButtonVariant.Accent,
-                size = MmButtonSize.Lg,
-                leadingIcon = MmIcons.check,
-                fullWidth = true,
-                enabled = !state.isSaving,
-            )
-        }
+        },
+    ) {
+        DatePicker(state = datePickerState)
     }
 }
 

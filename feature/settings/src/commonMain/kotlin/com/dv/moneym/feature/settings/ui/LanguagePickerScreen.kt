@@ -33,6 +33,7 @@ import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.feature.settings.presentation.SettingsViewModel
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_language_all_languages
+import moneym.feature.settings.generated.resources.settings_language_picker_title
 import moneym.feature.settings.generated.resources.settings_language_restart_note
 import moneym.feature.settings.generated.resources.settings_language_use_device
 import org.jetbrains.compose.resources.stringResource
@@ -96,17 +97,18 @@ private fun LanguagePickerContent(
     val colors = MM.colors
     val type = MM.type
     val radius = MM.radius
+    val space = MM.space
 
     Column(Modifier.fillMaxSize().background(colors.bg)) {
-        ScreenHeader("Language", onBack = onBack)
+        ScreenHeader(stringResource(Res.string.settings_language_picker_title), onBack = onBack)
 
         Text(
             text = stringResource(Res.string.settings_language_restart_note),
             style = type.caption.copy(color = colors.text2),
-            modifier = Modifier.padding(20.dp),
+            modifier = Modifier.padding(space.padding_3x),
         )
 
-        Box(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+        Box(Modifier.padding(horizontal = space.padding_2x, vertical = space.padding_1x)) {
             Box(
                 modifier = Modifier
                     .clip(radius.md)
@@ -136,7 +138,7 @@ private fun LanguagePickerContent(
 
         SectionLabel(
             stringResource(Res.string.settings_language_all_languages),
-            Modifier.padding(horizontal = 20.dp, vertical = 4.dp),
+            Modifier.padding(horizontal = 20.dp, vertical = space.padding_0_5x),
         )
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -150,7 +152,7 @@ private fun LanguagePickerContent(
                     Box(
                         modifier = Modifier
                             .size(36.dp)
-                            .clip(radius.sm)
+                            .clip(radius.radius_1x)
                             .background(colors.surface2),
                         contentAlignment = Alignment.Center,
                     ) {

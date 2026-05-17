@@ -42,4 +42,15 @@
     <string name="overview_daily_trend">Täglicher Trend nach Kategorie</string>
     <string name="overview_monthly_spending">Monatliche Ausgaben</string>
     <string name="overview_monthly_trend">Monatlicher Trend nach Kategorie</string>
+    <string name="overview_avg_day">ø / TAG</string>
+    <string name="overview_avg_month">ø / MONAT</string>
+    <string name="overview_dialog_select_month">Monat auswählen</string>
+    <string name="overview_dialog_select_year">Jahr auswählen</string>
+    <string name="overview_prev_year_cd">Vorheriges Jahr</string>
+    <string name="overview_next_year_cd">Nächstes Jahr</string>
+    <string name="overview_now">Jetzt</string>
+    <string name="overview_ok">OK</string>
+    <string name="overview_cancel">Abbrechen</string>
+    <string name="overview_tx_count_singular">%1$d Transaktion</string>
+    <string name="overview_tx_count_plural">%1$d Transaktionen</string>
 </resources>

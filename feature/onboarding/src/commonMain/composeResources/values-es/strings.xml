@@ -10,4 +10,6 @@
     <string name="onboarding_done">Listo</string>
     <string name="onboarding_skip">Omitir por ahora</string>
     <string name="onboarding_skip_short">Saltar</string>
+    <string name="onboarding_search_currency">Buscar moneda…</string>
+    <string name="onboarding_currencies_header">MONEDAS</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.dv.moneym.platform
 
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import platform.Foundation.NSDocumentDirectory
@@ -11,6 +12,7 @@ import platform.Foundation.create
 import platform.Foundation.writeToFile
 
 actual class FilePlatform {
+    @OptIn(ExperimentalForeignApi::class)
     actual suspend fun saveFile(suggestedName: String, content: String, mimeType: String): Boolean {
         return withContext(Dispatchers.Main) {
             try {

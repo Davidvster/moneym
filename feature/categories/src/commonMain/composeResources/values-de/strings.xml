@@ -33,4 +33,11 @@
     <string name="categories_delete_confirm_title">"%1$s" löschen?</string>
     <string name="categories_delete_confirm_body">Die Kategorie wird entfernt. Betroffene Transaktionen können beeinflusst werden.</string>
     <string name="categories_delete_button">Löschen</string>
+    <string name="categories_color_picker_title">Farbe wählen</string>
+    <string name="categories_color_hue">Farbton</string>
+    <string name="categories_color_saturation">Sättigung</string>
+    <string name="categories_color_brightness">Helligkeit</string>
+    <string name="categories_color_hex">Hex-Farbe</string>
+    <string name="categories_color_select">Farbe auswählen</string>
+    <string name="categories_name_preview_placeholder">Kategoriename</string>
 </resources>

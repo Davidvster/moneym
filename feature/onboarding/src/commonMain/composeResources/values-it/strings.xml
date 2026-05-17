@@ -10,4 +10,6 @@
     <string name="onboarding_done">Fatto</string>
     <string name="onboarding_skip">Salta per ora</string>
     <string name="onboarding_skip_short">Salta</string>
+    <string name="onboarding_search_currency">Cerca valuta…</string>
+    <string name="onboarding_currencies_header">VALUTE</string>
 </resources>

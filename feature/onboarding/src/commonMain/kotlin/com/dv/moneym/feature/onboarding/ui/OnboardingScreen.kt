@@ -46,7 +46,18 @@ import com.dv.moneym.feature.onboarding.presentation.OnboardingStep
 import com.dv.moneym.feature.onboarding.presentation.OnboardingViewModel
 import com.dv.moneym.feature.onboarding.presentation.commonCurrencies
 import moneym.feature.onboarding.generated.resources.Res
-import moneym.feature.onboarding.generated.resources.*
+import moneym.feature.onboarding.generated.resources.onboarding_continue
+import moneym.feature.onboarding.generated.resources.onboarding_currencies_header
+import moneym.feature.onboarding.generated.resources.onboarding_currency_title
+import moneym.feature.onboarding.generated.resources.onboarding_done
+import moneym.feature.onboarding.generated.resources.onboarding_pin_label
+import moneym.feature.onboarding.generated.resources.onboarding_pin_set
+import moneym.feature.onboarding.generated.resources.onboarding_search_currency
+import moneym.feature.onboarding.generated.resources.onboarding_security_subtitle
+import moneym.feature.onboarding.generated.resources.onboarding_security_title
+import moneym.feature.onboarding.generated.resources.onboarding_skip
+import moneym.feature.onboarding.generated.resources.onboarding_skip_short
+import moneym.feature.onboarding.generated.resources.onboarding_welcome
 import org.jetbrains.compose.resources.stringResource
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
@@ -152,7 +163,7 @@ private fun CurrencyStep(
         MmField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
-            placeholder = "Search currency…",
+            placeholder = stringResource(Res.string.onboarding_search_currency),
             prefix = {
                 Icon(
                     imageVector = MmIcons.search,
@@ -169,7 +180,7 @@ private fun CurrencyStep(
             if (filteredItems.isNotEmpty()) {
                 stickyHeader {
                     SectionLabel(
-                        text = "CURRENCIES",
+                        text = stringResource(Res.string.onboarding_currencies_header),
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(colors.bg)

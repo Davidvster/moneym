@@ -3,19 +3,12 @@ package com.dv.moneym.feature.security.ui
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,18 +18,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.feature.security.presentation.PinUnlockEffect
 import com.dv.moneym.feature.security.presentation.PinUnlockIntent
 import com.dv.moneym.feature.security.presentation.PinUnlockUiState
 import com.dv.moneym.feature.security.presentation.PinUnlockViewModel
 import kotlinx.coroutines.launch
+import moneym.feature.security.generated.resources.Res
+import moneym.feature.security.generated.resources.security_backoff_retry
+import moneym.feature.security.generated.resources.security_pin_enter_title
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
 
@@ -87,6 +79,13 @@ private fun PinUnlockContent(
         }
     }
 
+    val subtitleText = if (state.backoffRemainingMs > 0) {
+        val seconds = (state.backoffRemainingMs / 1000) + 1
+        stringResource(Res.string.security_backoff_retry, seconds)
+    } else {
+        stringResource(Res.string.security_pin_enter_title)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -95,23 +94,8 @@ private fun PinUnlockContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        // App lockup
-        Box(
-            modifier = Modifier
-                .size(56.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .background(colors.text),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(
-                text = "M",
-                style = type.title2.copy(
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = colors.bg,
-                ),
-            )
-        }
+        // App lockup — shared composable
+        AppLockup(colors = colors, type = type)
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -122,41 +106,18 @@ private fun PinUnlockContent(
         )
 
         Text(
-            text = if (state.backoffRemainingMs > 0) {
-                val seconds = (state.backoffRemainingMs / 1000) + 1
-                "Try again in $seconds seconds"
-            } else {
-                "Enter your PIN"
-            },
+            text = subtitleText,
             style = type.caption.copy(color = colors.text2),
         )
 
         Spacer(modifier = Modifier.height(48.dp))
 
-        // 4 dots with shake animation
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(18.dp),
-            modifier = Modifier.offset { IntOffset(shakeOffset.value.roundToInt(), 0) },
-        ) {
-            val filledCount = state.pin.length
-            repeat(4) { i ->
-                val filled = i < filledCount
-                Box(
-                    modifier = Modifier
-                        .size(12.dp)
-                        .clip(CircleShape)
-                        .background(
-                            if (filled) colors.text else Color.Transparent,
-                            CircleShape,
-                        )
-                        .border(
-                            width = 1.5.dp,
-                            color = if (filled) colors.text else colors.borderStrong,
-                            shape = CircleShape,
-                        ),
-                )
-            }
-        }
+        // 4 dots with shake animation — shared composable
+        PinDots(
+            filledCount = state.pin.length,
+            shakeOffsetPx = shakeOffset.value.roundToInt(),
+            colors = colors,
+        )
 
         Spacer(modifier = Modifier.height(48.dp))
 

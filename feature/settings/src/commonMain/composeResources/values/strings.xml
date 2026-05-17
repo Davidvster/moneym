@@ -71,4 +71,16 @@
     <string name="settings_export_as_json">Export as JSON</string>
     <string name="settings_export_as_csv">Export as CSV</string>
     <string name="settings_import_data">Import data</string>
+    <string name="settings_lock_after_title">Lock after</string>
+    <string name="settings_ok">OK</string>
+    <string name="settings_currency_picker_title">Currency</string>
+    <string name="settings_search_currency">Search currency…</string>
+    <string name="settings_currency_popular">POPULAR</string>
+    <string name="settings_currency_all">ALL CURRENCIES</string>
+    <string name="settings_language_picker_title">Language</string>
+    <string name="settings_tx_list_display_title">Transaction list</string>
+    <string name="settings_lang_system_default">System default</string>
+    <string name="settings_lock_30s_label">30 seconds</string>
+    <string name="settings_lock_1m_label">1 minute</string>
+    <string name="settings_lock_5m_label">5 minutes</string>
 </resources>

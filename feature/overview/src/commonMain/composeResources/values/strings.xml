@@ -42,4 +42,15 @@
     <string name="overview_daily_trend">Daily trend by category</string>
     <string name="overview_monthly_spending">Monthly spending</string>
     <string name="overview_monthly_trend">Monthly trend by category</string>
+    <string name="overview_avg_day">AVG / DAY</string>
+    <string name="overview_avg_month">AVG / MONTH</string>
+    <string name="overview_dialog_select_month">Select Month</string>
+    <string name="overview_dialog_select_year">Select Year</string>
+    <string name="overview_prev_year_cd">Previous year</string>
+    <string name="overview_next_year_cd">Next year</string>
+    <string name="overview_now">Now</string>
+    <string name="overview_ok">OK</string>
+    <string name="overview_cancel">Cancel</string>
+    <string name="overview_tx_count_singular">%1$d transaction</string>
+    <string name="overview_tx_count_plural">%1$d transactions</string>
 </resources>

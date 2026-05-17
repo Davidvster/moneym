@@ -31,6 +31,12 @@ import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.feature.settings.presentation.SettingsViewModel
+import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.settings_currency_all
+import moneym.feature.settings.generated.resources.settings_currency_picker_title
+import moneym.feature.settings.generated.resources.settings_currency_popular
+import moneym.feature.settings.generated.resources.settings_search_currency
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 fun EntryProviderScope<NavKey>.currencyPickerEntry(
@@ -144,14 +150,15 @@ private fun CurrencyPickerContent(
     onBack: () -> Unit,
 ) {
     val colors = MM.colors
+    val space = MM.space
 
     Column(Modifier.fillMaxSize().background(colors.bg)) {
-        ScreenHeader("Currency", onBack = onBack)
+        ScreenHeader(stringResource(Res.string.settings_currency_picker_title), onBack = onBack)
 
         MmField(
             value = searchQuery,
             onValueChange = onSearchQueryChanged,
-            placeholder = "Search currency…",
+            placeholder = stringResource(Res.string.settings_search_currency),
             prefix = {
                 Icon(
                     imageVector = MmIcons.search,
@@ -160,18 +167,18 @@ private fun CurrencyPickerContent(
                     modifier = Modifier.size(18.dp),
                 )
             },
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = space.padding_2x, vertical = space.padding_1x),
         )
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             if (filteredPopular.isNotEmpty()) {
                 stickyHeader {
                     SectionLabel(
-                        text = "POPULAR",
+                        text = stringResource(Res.string.settings_currency_popular),
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(colors.bg)
-                            .padding(horizontal = 20.dp, vertical = 4.dp),
+                            .padding(horizontal = 20.dp, vertical = space.padding_0_5x),
                     )
                 }
                 items(filteredPopular, key = { "popular_${it.code}" }) { currency ->
@@ -185,11 +192,11 @@ private fun CurrencyPickerContent(
 
             stickyHeader {
                 SectionLabel(
-                    text = "ALL CURRENCIES",
+                    text = stringResource(Res.string.settings_currency_all),
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(colors.bg)
-                        .padding(horizontal = 20.dp, vertical = 4.dp),
+                        .padding(horizontal = 20.dp, vertical = space.padding_0_5x),
                 )
             }
             items(filteredAll, key = { "all_${it.code}" }) { currency ->
@@ -218,7 +225,7 @@ private fun CurrencyRow(
         Box(
             modifier = Modifier
                 .size(36.dp)
-                .clip(radius.sm)
+                .clip(radius.radius_1x)
                 .background(colors.surface2),
             contentAlignment = Alignment.Center,
         ) {

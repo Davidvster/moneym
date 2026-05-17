@@ -53,6 +53,7 @@ import moneym.feature.settings.generated.resources.settings_txdisplay_style_bar
 import moneym.feature.settings.generated.resources.settings_txdisplay_style_dot
 import moneym.feature.settings.generated.resources.settings_txdisplay_style_minimal
 import moneym.feature.settings.generated.resources.settings_txdisplay_style_soft
+import moneym.feature.settings.generated.resources.settings_tx_list_display_title
 import moneym.feature.settings.generated.resources.settings_txdisplay_style_tile
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -115,11 +116,12 @@ private fun TxListDisplayContent(
 ) {
     val colors = MM.colors
     val type = MM.type
+    val space = MM.space
 
     val dividerColor = colors.divider
 
     Column(Modifier.fillMaxSize().background(colors.bg)) {
-        ScreenHeader("Transaction list", onBack = onBack)
+        ScreenHeader(stringResource(Res.string.settings_tx_list_display_title), onBack = onBack)
 
         Column(
             modifier = Modifier
@@ -140,10 +142,10 @@ private fun TxListDisplayContent(
                             strokeWidth = strokeWidth,
                         )
                     }
-                    .padding(horizontal = 20.dp, vertical = 20.dp),
+                    .padding(horizontal = 20.dp, vertical = space.padding_3x),
             ) {
                 Column {
-                    SectionLabel(stringResource(Res.string.settings_txdisplay_preview), Modifier.padding(bottom = 4.dp))
+                    SectionLabel(stringResource(Res.string.settings_txdisplay_preview), Modifier.padding(bottom = space.padding_0_5x))
                     MmCard {
                         sampleTransactions.forEachIndexed { i, tx ->
                             TxRow(
@@ -165,9 +167,9 @@ private fun TxListDisplayContent(
             // COLOR INDICATOR section
             SectionLabel(
                 stringResource(Res.string.settings_txdisplay_color_indicator),
-                Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
+                Modifier.padding(start = 20.dp, end = 20.dp, top = space.padding_2x, bottom = space.padding_0_5x),
             )
-            MmCard(Modifier.padding(horizontal = 16.dp), shape = MM.radius.md) {
+            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.radius.md) {
                 val styles = IndicatorStyle.entries
                 styles.forEachIndexed { i, opt ->
                     val isLast = i == styles.size - 1
@@ -265,9 +267,9 @@ private fun TxListDisplayContent(
             // SHOW section
             SectionLabel(
                 stringResource(Res.string.settings_txdisplay_show),
-                Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
+                Modifier.padding(start = 20.dp, end = 20.dp, top = space.padding_2x, bottom = space.padding_0_5x),
             )
-            MmCard(Modifier.padding(horizontal = 16.dp), shape = MM.radius.md) {
+            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.radius.md) {
                 // Category name row — now clickable (entire row toggles the switch)
                 MmRow(onClick = { onPrefsChanged(currentPrefs.copy(showCategoryName = !currentPrefs.showCategoryName)) }) {
                     Text(
@@ -301,9 +303,9 @@ private fun TxListDisplayContent(
             // DENSITY section
             SectionLabel(
                 stringResource(Res.string.settings_txdisplay_density),
-                Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 4.dp),
+                Modifier.padding(start = 20.dp, end = 20.dp, top = space.padding_2x, bottom = space.padding_0_5x),
             )
-            MmCard(Modifier.padding(horizontal = 16.dp), shape = MM.radius.md) {
+            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.radius.md) {
                 MmRow(divider = false) {
                     Text(
                         stringResource(Res.string.settings_txdisplay_row_size),
