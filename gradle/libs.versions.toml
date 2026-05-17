@@ -30,7 +30,7 @@ kotlinxDatetime = "0.7.0"
 kotlinxSerialization = "1.8.0"
 
 # DI
-koin = "4.0.0"
+koin = "4.1.0"
 
 # Storage
 sqldelight = "2.0.2"

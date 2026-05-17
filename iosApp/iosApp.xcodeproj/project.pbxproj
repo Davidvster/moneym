@@ -8,7 +8,12 @@
 
 /* Begin PBXFileReference section */
 		3ACF8A1B21009C0062C5F1AE /* MoneyM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoneyM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1B2C3D4E5F60001A2B3C4D5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXBuildFile section */
+		A1B2C3D4E5F60002A2B3C4D5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60001A2B3C4D5 /* libsqlite3.tbd */; };
+/* End PBXBuildFile section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		38DB94AC4DE0DB6EFD5E879B /* Exceptions for "iosApp" folder in "iosApp" target */ = {
@@ -41,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1B2C3D4E5F60002A2B3C4D5 /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
