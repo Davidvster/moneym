@@ -45,7 +45,7 @@ private fun KeyCell(
     content: @Composable () -> Unit,
 ) {
     val colors = MM.colors
-    val shape = RoundedCornerShape(16.dp)
+    val shape = RoundedCornerShape(MM.space.padding_2x)
     var pressed by remember { mutableStateOf(false) }
 
     Box(
@@ -126,11 +126,11 @@ fun PinKeypad(
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(MM.space.padding_1_5x),
     ) {
         // Rows 1-3
         listOf(listOf(1, 2, 3), listOf(4, 5, 6), listOf(7, 8, 9)).forEach { row ->
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1_5x)) {
                 row.forEach { digit ->
                     KeyCell(onClick = { onKey(digit.digitToChar()) }) {
                         Text(text = "$digit", style = digitStyle)
@@ -140,7 +140,7 @@ fun PinKeypad(
         }
 
         // Row 4: biometric | 0 | backspace
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1_5x)) {
             // Biometric or spacer
             if (onBiometric != null) {
                 TransparentKeyCell(onClick = onBiometric) {

@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlin.time.Clock
 
 class WalletManageViewModel(
     private val accountRepository: AccountRepository,
@@ -53,8 +54,8 @@ class WalletManageViewModel(
                             currency = CurrencyCode(intent.currency),
                             isDefault = accounts.isEmpty(),
                             archived = false,
-                            createdAt = kotlin.time.Clock.System.now(),
-                            updatedAt = kotlin.time.Clock.System.now(),
+                            createdAt = Clock.System.now(),
+                            updatedAt = Clock.System.now(),
                         )
                     )
                 }

@@ -20,6 +20,8 @@ import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
 import com.dv.moneym.feature.transactionedit.presentation.TransactionEditViewModel
+import com.dv.moneym.data.backup.BackupExporter
+import com.dv.moneym.data.backup.BackupImporter
 import com.dv.moneym.feature.transactions.presentation.TransactionListViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -76,8 +78,8 @@ val featureSecurityModule = module {
 }
 
 val dataBackupModule = module {
-    single { com.dv.moneym.data.backup.BackupExporter(get(), get(), get(), get()) }
-    single { com.dv.moneym.data.backup.BackupImporter(get(), get(), get()) }
+    single { BackupExporter(get(), get(), get(), get()) }
+    single { BackupImporter(get(), get(), get()) }
 }
 
 val featureSettingsModule = module {

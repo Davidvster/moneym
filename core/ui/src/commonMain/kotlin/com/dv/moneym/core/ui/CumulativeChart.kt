@@ -185,7 +185,7 @@ fun CumulativeChart(
                     .clip(RoundedCornerShape(6.dp))
                     .background(MM.colors.surface.copy(alpha = 0.92f))
                     .border(1.dp, MM.colors.border, RoundedCornerShape(6.dp))
-                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                    .padding(horizontal = MM.space.padding_1x, vertical = 4.dp),
             ) {
                 Text(
                     text = valueText,

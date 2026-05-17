@@ -141,7 +141,7 @@ private fun TxListDisplayContent(
                             strokeWidth = strokeWidth,
                         )
                     }
-                    .padding(horizontal = 20.dp, vertical = space.padding_3x),
+                    .padding(horizontal = MM.space.padding_2_5x, vertical = space.padding_3x),
             ) {
                 Column {
                     SectionLabel(stringResource(Res.string.settings_txdisplay_preview), Modifier.padding(bottom = space.padding_0_5x))
@@ -166,9 +166,9 @@ private fun TxListDisplayContent(
             // COLOR INDICATOR section
             SectionLabel(
                 stringResource(Res.string.settings_txdisplay_color_indicator),
-                Modifier.padding(start = 20.dp, end = 20.dp, top = space.padding_2x, bottom = space.padding_0_5x),
+                Modifier.padding(start = MM.space.padding_2_5x, end = MM.space.padding_2_5x, top = space.padding_2x, bottom = space.padding_0_5x),
             )
-            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.radius.md) {
+            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.radius.radius_1_5x) {
                 val styles = IndicatorStyle.entries
                 styles.forEachIndexed { i, opt ->
                     val isLast = i == styles.size - 1
@@ -217,7 +217,7 @@ private fun TxListDisplayContent(
                                     Box(
                                         Modifier
                                             .fillMaxWidth()
-                                            .size(width = 24.dp, height = 1.dp)
+                                            .size(width = MM.space.padding_3x, height = 1.dp)
                                             .background(colors.border),
                                     )
                             }
@@ -255,7 +255,7 @@ private fun TxListDisplayContent(
                                     imageVector = MmIcons.check,
                                     contentDescription = null,
                                     tint = Color.White,
-                                    modifier = Modifier.size(12.dp),
+                                    modifier = Modifier.size(MM.space.padding_1_5x),
                                 )
                             }
                         }
@@ -266,9 +266,9 @@ private fun TxListDisplayContent(
             // SHOW section
             SectionLabel(
                 stringResource(Res.string.settings_txdisplay_show),
-                Modifier.padding(start = 20.dp, end = 20.dp, top = space.padding_2x, bottom = space.padding_0_5x),
+                Modifier.padding(start = MM.space.padding_2_5x, end = MM.space.padding_2_5x, top = space.padding_2x, bottom = space.padding_0_5x),
             )
-            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.radius.md) {
+            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.radius.radius_1_5x) {
                 // Category name row — row click is the single source of truth; toggle is display-only
                 MmRow(onClick = { onPrefsChanged(currentPrefs.copy(showCategoryName = !currentPrefs.showCategoryName)) }) {
                     Text(
@@ -302,9 +302,9 @@ private fun TxListDisplayContent(
             // DENSITY section — 3 radio button rows (Compact / Normal / Comfortable)
             SectionLabel(
                 stringResource(Res.string.settings_txdisplay_density),
-                Modifier.padding(start = 20.dp, end = 20.dp, top = space.padding_2x, bottom = space.padding_0_5x),
+                Modifier.padding(start = MM.space.padding_2_5x, end = MM.space.padding_2_5x, top = space.padding_2x, bottom = space.padding_0_5x),
             )
-            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.radius.md) {
+            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.radius.radius_1_5x) {
                 val densityOptions = listOf(Density.Compact, Density.Normal, Density.Comfortable)
                 val densityLabels = mapOf(
                     Density.Compact to stringResource(Res.string.settings_txdisplay_compact),
@@ -344,7 +344,7 @@ private fun TxListDisplayContent(
                                     imageVector = MmIcons.check,
                                     contentDescription = null,
                                     tint = Color.White,
-                                    modifier = Modifier.size(12.dp),
+                                    modifier = Modifier.size(MM.space.padding_1_5x),
                                 )
                             }
                         }
@@ -353,7 +353,7 @@ private fun TxListDisplayContent(
             }
 
             // Bottom padding
-            Box(Modifier.padding(bottom = 24.dp))
+            Box(Modifier.padding(bottom = MM.space.padding_3x))
         }
     }
 }

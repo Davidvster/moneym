@@ -23,14 +23,14 @@ Read this README first. Open `MoneyM Redesign.html` in a browser to explore the 
 | CSS variable `--text` etc. | `MaterialTheme.colorScheme.onSurface` (custom scheme) or a custom `MoneyMColors` object |
 | Light/dark mode toggle | `isSystemInDarkTheme()` → swap a custom `CompositionLocal<MoneyMColors>` |
 | `Geist` / `Geist Mono` font | Bundle `geist_*.ttf` / `geist_mono_*.ttf` from Google Fonts as resources, register as `FontFamily` |
-| 8px transaction-row category dot | `Box(Modifier.size(8.dp).clip(CircleShape).background(catColor))` |
-| 38px filled icon tile (default) | `Box(Modifier.size(38.dp).clip(RoundedCornerShape(11.dp)).background(catColor))` with a centered `Icon(...)` in white |
+| 8px transaction-row category dot | `Box(Modifier.size(MM.space.padding_1x).clip(CircleShape).background(catColor))` |
+| 38px filled icon tile (default) | `Box(Modifier.size(3MM.space.padding_1x).clip(RoundedCornerShape(11.dp)).background(catColor))` with a centered `Icon(...)` in white |
 | Donut chart | `Canvas { drawArc(...) }` — see *Charts* below |
 | Bottom Tab Bar | Custom `Row` — **do not** use `NavigationBar` from Material3 (too many opinionated paddings/lozenges). Build it from `Icon` + `Text` + clickable `Modifier.weight(1f)` |
 | Segmented control | Custom `Row` inside a pill-shaped `Surface`; selected item gets its own elevated pill |
 | FAB / "+ New" | **No FAB.** A full-width pinned `Button` at the bottom of the list, above the tab bar |
-| Sheet (Category picker, New category) | `ModalBottomSheet` with `shape = RoundedCornerShape(topStart=20.dp, topEnd=20.dp)` |
-| Numeric keypad on PIN screen | Grid of `Surface(shape = RoundedCornerShape(16.dp))` buttons, 80×72dp |
+| Sheet (Category picker, New category) | `ModalBottomSheet` with `shape = RoundedCornerShape(topStart=MM.space.padding_2_5x, topEnd=MM.space.padding_2_5x)` |
+| Numeric keypad on PIN screen | Grid of `Surface(shape = RoundedCornerShape(MM.space.padding_2x))` buttons, 80×72dp |
 
 ### Why no Material3 defaults
 The current MoneyM build is "too Material" — Material 3's defaults render fine on Android but look out of place on iOS. The redesign deliberately avoids:

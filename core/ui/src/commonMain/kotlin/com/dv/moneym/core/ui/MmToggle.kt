@@ -33,7 +33,7 @@ fun MmToggle(
 
     val trackWidth = 44.dp
     val trackHeight = 26.dp
-    val thumbSize = 20.dp
+    val thumbSize = MM.space.padding_2_5x
     val thumbPadding = 3.dp
     val thumbTravel = trackWidth - thumbSize - thumbPadding * 2
 

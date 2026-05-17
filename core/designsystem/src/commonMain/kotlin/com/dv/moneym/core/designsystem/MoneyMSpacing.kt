@@ -13,6 +13,7 @@ data class MoneyMSpacing(
     val padding_1_25x: Dp = 10.dp,
     val padding_1_5x: Dp  = 12.dp,
     val padding_2x: Dp    = 16.dp,
+    val padding_2_5x: Dp  = 20.dp,
     val padding_3x: Dp    = 24.dp,
     val padding_4x: Dp    = 32.dp,
     val padding_5x: Dp    = 40.dp,

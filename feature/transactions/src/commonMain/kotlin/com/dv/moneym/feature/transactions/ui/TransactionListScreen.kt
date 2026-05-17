@@ -8,38 +8,26 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -53,25 +41,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.categoryColor
 import com.dv.moneym.core.designsystem.iconForKey
-import com.dv.moneym.core.model.Account
-import com.dv.moneym.core.model.AccountId
-import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
-import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
@@ -80,10 +64,8 @@ import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmMoney
-import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmTabBar
-import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.core.ui.TxRow
 import com.dv.moneym.core.ui.wallet
@@ -91,23 +73,24 @@ import com.dv.moneym.feature.transactions.presentation.DayGroup
 import com.dv.moneym.feature.transactions.presentation.TransactionListIntent
 import com.dv.moneym.feature.transactions.presentation.TransactionListUiState
 import com.dv.moneym.feature.transactions.presentation.TransactionListViewModel
-import com.dv.moneym.feature.transactions.presentation.TransactionUiModel
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import com.dv.moneym.feature.transactions.ui.components.CategoryFilterSheet
+import com.dv.moneym.feature.transactions.ui.components.DayGroupHeader
+import com.dv.moneym.feature.transactions.ui.components.MonthPickerDialog
+import com.dv.moneym.feature.transactions.ui.components.WalletSwitcherDialog
+import com.dv.moneym.feature.transactions.ui.components.monthLabel
+import com.dv.moneym.feature.transactions.ui.components.onHorizontalSwipe
 import kotlinx.serialization.Serializable
 import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.model.IndicatorStyle
 import org.koin.compose.viewmodel.koinViewModel
-import kotlin.math.abs
 
 @Serializable data object TransactionsKey : NavKey
 
 fun EntryProviderScope<NavKey>.transactionsEntry(
     onAddTransaction: () -> Unit,
-    onEditTransaction: (com.dv.moneym.core.model.TransactionId) -> Unit,
+    onEditTransaction: (TransactionId) -> Unit,
     onTabSelected: (TabRoute) -> Unit = {},
 ) = entry<TransactionsKey> {
     TransactionListScreen(
@@ -131,31 +114,6 @@ fun TransactionListScreen(
         onAddTransaction = onAddTransaction,
         onEditTransaction = onEditTransaction,
         onTabSelected = onTabSelected,
-    )
-}
-
-// ─── Swipe-to-navigate modifier ───────────────────────────────────────────────
-
-private fun Modifier.onHorizontalSwipe(
-    thresholdDp: Float = 60f,
-    onSwipeLeft: () -> Unit,
-    onSwipeRight: () -> Unit,
-): Modifier = this.pointerInput(Unit) {
-    val thresholdPx = thresholdDp * density
-    var totalX = 0f
-    detectHorizontalDragGestures(
-        onDragStart = { totalX = 0f },
-        onDragEnd = {
-            when {
-                totalX > thresholdPx -> onSwipeRight()
-                totalX < -thresholdPx -> onSwipeLeft()
-            }
-            totalX = 0f
-        },
-        onHorizontalDrag = { change, delta ->
-            change.consume()
-            totalX += delta
-        },
     )
 }
 
@@ -323,7 +281,7 @@ private fun TransactionListHeader(
     }
 
     Column(
-        modifier = Modifier.statusBarsPadding().padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 4.dp),
+        modifier = Modifier.statusBarsPadding().padding(start = MM.space.padding_2x, end = MM.space.padding_2x, top = 4.dp, bottom = 4.dp),
     ) {
         // Title row — or search bar when active
         if (isSearchActive) {
@@ -373,7 +331,7 @@ private fun TransactionListHeader(
                                 imageVector = MmIcons.wallet,
                                 contentDescription = null,
                                 tint = colors.text2,
-                                modifier = Modifier.size(12.dp),
+                                modifier = Modifier.size(MM.space.padding_1_5x),
                             )
                         },
                     ) {
@@ -396,7 +354,7 @@ private fun TransactionListHeader(
                         if (hasActiveFilter) {
                             Box(
                                 modifier = Modifier
-                                    .size(8.dp)
+                                    .size(MM.space.padding_1x)
                                     .clip(CircleShape)
                                     .background(colors.accent)
                                     .align(Alignment.TopEnd),
@@ -440,113 +398,6 @@ private fun TransactionListHeader(
     }
 }
 
-// ─── Category Filter Bottom Sheet (Phase 6) ────────────────────────────────────
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
-@Composable
-private fun CategoryFilterSheet(
-    categories: List<Category>,
-    selectedCategoryIds: Set<CategoryId>,
-    onToggle: (CategoryId) -> Unit,
-    onClearAll: () -> Unit,
-    onDismiss: () -> Unit,
-) {
-    val colors = MM.colors
-    val type = MM.type
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = sheetState,
-        shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
-        containerColor = colors.bg,
-        dragHandle = null,
-    ) {
-        Column(
-            modifier = Modifier.padding(horizontal = 20.dp, vertical = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            // Grab handle
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center,
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(width = 36.dp, height = 4.dp)
-                        .clip(RoundedCornerShape(50))
-                        .background(colors.borderStrong),
-                )
-            }
-
-            // Title row
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = stringResource(Res.string.transactions_filter_all),
-                    style = type.title3,
-                    color = colors.text,
-                    modifier = Modifier.weight(1f),
-                )
-                if (selectedCategoryIds.isNotEmpty()) {
-                    TextButton(onClick = onClearAll) {
-                        Text(
-                            text = stringResource(Res.string.transactions_cancel),
-                            color = colors.text2,
-                            style = type.caption,
-                        )
-                    }
-                }
-            }
-
-            // Category chips — multi-select
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                categories.forEach { cat ->
-                    val isSelected = cat.id in selectedCategoryIds
-                    val catColor = categoryColor(cat.colorHex)
-                    val catIcon = iconForKey(cat.iconKey)
-                    MmChip(
-                        selected = isSelected,
-                        onClick = { onToggle(cat.id) },
-                        leadingContent = {
-                            CategoryIconTile(
-                                categoryName = cat.name,
-                                categoryColor = catColor,
-                                categoryIcon = catIcon,
-                                size = 20.dp,
-                                variant = IndicatorStyle.IconTile,
-                            )
-                        },
-                    ) {
-                        Text(
-                            text = cat.name,
-                            style = type.caption,
-                            color = if (isSelected) colors.bg else colors.text,
-                            maxLines = 1,
-                        )
-                    }
-                }
-            }
-
-            // Done button
-            com.dv.moneym.core.ui.MmButton(
-                text = stringResource(Res.string.transactions_ok),
-                onClick = onDismiss,
-                variant = MmButtonVariant.Primary,
-                size = MmButtonSize.Lg,
-                fullWidth = true,
-            )
-
-            Spacer(Modifier.height(8.dp))
-        }
-    }
-}
-
 @Composable
 private fun MonthNavRow(
     state: TransactionListUiState,
@@ -556,12 +407,12 @@ private fun MonthNavRow(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val monthLabel = monthLabel(state.currentMonth.year, state.currentMonth.monthNumber)
+    val label = monthLabel(state.currentMonth.year, state.currentMonth.monthNumber)
     val netDouble = state.netAmount / 100.0
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(top = 12.dp, bottom = 16.dp),
+        modifier = Modifier.padding(top = MM.space.padding_1_5x, bottom = 16.dp),
     ) {
         MmIconButton(
             icon = MmIcons.chevronLeft,
@@ -572,7 +423,7 @@ private fun MonthNavRow(
         Box(
             modifier = Modifier
                 .widthIn(min = 96.dp)
-                .clip(RoundedCornerShape(8.dp))
+                .clip(RoundedCornerShape(MM.space.padding_1x))
                 .clickable(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() },
@@ -581,7 +432,7 @@ private fun MonthNavRow(
             contentAlignment = Alignment.Center,
         ) {
             Text(
-                text = monthLabel,
+                text = label,
                 style = type.body,
                 color = colors.text,
                 textAlign = TextAlign.Center,
@@ -650,13 +501,13 @@ private fun TransactionListBody(
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(MM.space.padding_1x),
                 ) {
                     Icon(
                         imageVector = MmIcons.list,
                         contentDescription = null,
                         tint = colors.text3,
-                        modifier = Modifier.size(40.dp),
+                        modifier = Modifier.size(MM.space.padding_5x),
                     )
                     Text(
                         text = stringResource(Res.string.transactions_empty),
@@ -702,46 +553,6 @@ private fun TransactionListBody(
     }
 }
 
-// ─── Day Group Header with daily total ────────────────────────────────────────
-
-@Composable
-private fun DayGroupHeader(group: DayGroup) {
-    val colors = MM.colors
-    val type = MM.type
-
-    // Compute daily net: income - expenses (in minor units)
-    val dailyExpenses = group.transactions.filter { it.isExpense }.sumOf { it.amountMinorUnits }
-    val dailyIncome = group.transactions.filter { !it.isExpense }.sumOf { it.amountMinorUnits }
-    val dailyNet = dailyIncome - dailyExpenses
-    val currency = group.transactions.firstOrNull()?.currency ?: "EUR"
-    val absValue = abs(dailyNet) / 100.0
-    val sign = if (dailyNet >= 0) "+" else "−"
-    val formattedDaily = formatDailyAmount(absValue)
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(colors.bg)
-            .padding(horizontal = 20.dp, vertical = 6.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        SectionLabel(
-            text = group.label,
-            modifier = Modifier.weight(1f),
-        )
-        Text(
-            text = "$sign $currency $formattedDaily",
-            style = type.caption.copy(fontSize = 11.sp, color = colors.text3),
-        )
-    }
-}
-
-private fun formatDailyAmount(value: Double): String {
-    val intPart = value.toLong()
-    val decPart = kotlin.math.round((value - intPart) * 100).toInt()
-    return "$intPart.${decPart.toString().padStart(2, '0')}"
-}
-
 @Composable
 private fun TransactionListFooter(
     onAddTransaction: () -> Unit,
@@ -762,7 +573,7 @@ private fun TransactionListFooter(
                     )
                 }
                 .background(MM.colors.bg)
-                .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 16.dp),
+                .padding(start = 16.dp, end = 16.dp, top = MM.space.padding_1_5x, bottom = 16.dp),
         ) {
             MmButton(
                 text = stringResource(Res.string.transactions_add),
@@ -778,258 +589,6 @@ private fun TransactionListFooter(
             onTabSelected = onTabSelected,
         )
     }
-}
-
-// ─── Wallet Switcher Dialog ────────────────────────────────────────────────────
-
-@Composable
-private fun WalletSwitcherDialog(
-    accounts: List<Account>,
-    selectedAccountId: AccountId?,
-    onDismiss: () -> Unit,
-    onSelect: (AccountId?) -> Unit,
-) {
-    val colors = MM.colors
-    val type = MM.type
-    val space = MM.space
-
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(
-                text = stringResource(Res.string.transactions_wallet_select),
-                style = type.title3,
-                color = colors.text,
-            )
-        },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(space.padding_0_25x)) {
-                accounts.forEach { account ->
-                    val isSelected = account.id == selectedAccountId
-                    MmRow(
-                        onClick = { onSelect(account.id) },
-                        divider = false,
-                        padding = PaddingValues(
-                            horizontal = space.padding_0_5x,
-                            vertical = space.padding_0_25x,
-                        ),
-                    ) {
-                        Column(Modifier.weight(1f)) {
-                            Text(text = account.name, style = type.body, color = colors.text)
-                            Text(
-                                text = account.currency.value,
-                                style = type.caption.copy(color = colors.text2),
-                            )
-                        }
-                        if (isSelected) {
-                            Icon(
-                                imageVector = MmIcons.check,
-                                contentDescription = null,
-                                tint = colors.accent,
-                                modifier = Modifier.size(18.dp),
-                            )
-                        }
-                    }
-                }
-            }
-        },
-        confirmButton = {},
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(Res.string.transactions_cancel), color = colors.text2)
-            }
-        },
-        containerColor = colors.surface,
-        titleContentColor = colors.text,
-    )
-}
-
-// ─── Month Picker Dialog ──────────────────────────────────────────────────────
-
-@Composable
-private fun MonthPickerDialog(
-    currentYear: Int,
-    currentMonth: Int,
-    onDismiss: () -> Unit,
-    onConfirm: (year: Int, month: Int) -> Unit,
-) {
-    val colors = MM.colors
-    val type = MM.type
-
-    var selectedYear by remember { mutableIntStateOf(currentYear) }
-    var selectedMonth by remember { mutableIntStateOf(currentMonth) }
-
-    val todayDate = remember {
-        kotlin.time.Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-    }
-    val nowYear = todayDate.year
-    val nowMonth = todayDate.monthNumber
-
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(
-                text = stringResource(Res.string.transactions_dialog_select_month),
-                style = type.title3,
-                color = colors.text,
-            )
-        },
-        text = {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                // Year selection row
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    MmIconButton(
-                        icon = MmIcons.chevronLeft,
-                        onClick = { selectedYear-- },
-                        size = 32.dp,
-                        contentDescription = stringResource(Res.string.transactions_prev_year_cd),
-                    )
-                    Text(
-                        text = selectedYear.toString(),
-                        style = type.body,
-                        color = if (selectedYear == nowYear) colors.accent else colors.text,
-                        modifier = Modifier.widthIn(min = 64.dp),
-                        textAlign = TextAlign.Center,
-                    )
-                    MmIconButton(
-                        icon = MmIcons.chevronRight,
-                        onClick = { selectedYear++ },
-                        size = 32.dp,
-                        contentDescription = stringResource(Res.string.transactions_next_year_cd),
-                    )
-                }
-
-                MonthGrid(
-                    selectedMonth = selectedMonth,
-                    selectedYear = selectedYear,
-                    nowMonth = nowMonth,
-                    nowYear = nowYear,
-                    onMonthSelected = { selectedMonth = it },
-                )
-            }
-        },
-        confirmButton = {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                TextButton(onClick = { onConfirm(nowYear, nowMonth) }) {
-                    Text(stringResource(Res.string.transactions_now), color = colors.text2)
-                }
-                TextButton(onClick = { onConfirm(selectedYear, selectedMonth) }) {
-                    Text(stringResource(Res.string.transactions_ok), color = colors.accent)
-                }
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(Res.string.transactions_cancel), color = colors.text2)
-            }
-        },
-        containerColor = colors.surface,
-        titleContentColor = colors.text,
-    )
-}
-
-@Composable
-private fun MonthGrid(
-    selectedMonth: Int,
-    selectedYear: Int,
-    nowMonth: Int,
-    nowYear: Int,
-    onMonthSelected: (Int) -> Unit,
-) {
-    val colors = MM.colors
-    val type = MM.type
-    val monthNames = localizedMonthAbbreviations()
-
-    // Month grid — 4 rows × 3 columns
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        for (row in 0..3) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-            ) {
-                for (col in 0..2) {
-                    val m = row * 3 + col + 1
-                    val isSelected = m == selectedMonth
-                    val isNow = m == nowMonth && selectedYear == nowYear
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(if (isSelected) colors.accent else Color.Transparent)
-                            .then(
-                                if (isNow && !isSelected) {
-                                    Modifier.border(1.dp, colors.accent.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                                } else Modifier
-                            )
-                            .clickable(
-                                indication = null,
-                                interactionSource = remember { MutableInteractionSource() },
-                            ) { onMonthSelected(m) }
-                            .padding(horizontal = 12.dp, vertical = 8.dp),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Text(
-                            text = monthNames[m - 1],
-                            style = type.body,
-                            color = when {
-                                isSelected -> colors.bg
-                                isNow -> colors.accent
-                                else -> colors.text
-                            },
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-// ─── Localized month abbreviations ────────────────────────────────────────────
-
-@Composable
-private fun localizedMonthAbbreviations(): List<String> = listOf(
-    stringResource(Res.string.transactions_month_jan),
-    stringResource(Res.string.transactions_month_feb),
-    stringResource(Res.string.transactions_month_mar),
-    stringResource(Res.string.transactions_month_apr),
-    stringResource(Res.string.transactions_month_may),
-    stringResource(Res.string.transactions_month_jun),
-    stringResource(Res.string.transactions_month_jul),
-    stringResource(Res.string.transactions_month_aug),
-    stringResource(Res.string.transactions_month_sep),
-    stringResource(Res.string.transactions_month_oct),
-    stringResource(Res.string.transactions_month_nov),
-    stringResource(Res.string.transactions_month_dec),
-)
-
-// ─── Month label helper ────────────────────────────────────────────────────────
-
-@Composable
-private fun monthLabel(year: Int, month: Int): String {
-    val names = listOf(
-        stringResource(Res.string.transactions_month_jan),
-        stringResource(Res.string.transactions_month_feb),
-        stringResource(Res.string.transactions_month_mar),
-        stringResource(Res.string.transactions_month_apr),
-        stringResource(Res.string.transactions_month_may),
-        stringResource(Res.string.transactions_month_jun),
-        stringResource(Res.string.transactions_month_jul),
-        stringResource(Res.string.transactions_month_aug),
-        stringResource(Res.string.transactions_month_sep),
-        stringResource(Res.string.transactions_month_oct),
-        stringResource(Res.string.transactions_month_nov),
-        stringResource(Res.string.transactions_month_dec),
-    )
-    return "${names[month - 1]} $year"
 }
 
 @Preview

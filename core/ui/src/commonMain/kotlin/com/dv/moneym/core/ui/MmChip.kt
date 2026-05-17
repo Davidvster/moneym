@@ -54,7 +54,7 @@ fun MmChip(
                     onTap = { onClick() },
                 )
             }
-            .padding(horizontal = 12.dp),
+            .padding(horizontal = MM.space.padding_1_5x),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

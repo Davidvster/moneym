@@ -111,8 +111,8 @@ private fun LanguagePickerContent(
         Box(Modifier.padding(horizontal = space.padding_2x, vertical = space.padding_1x)) {
             Box(
                 modifier = Modifier
-                    .clip(radius.md)
-                    .border(1.dp, colors.border, radius.md)
+                    .clip(radius.radius_1_5x)
+                    .border(1.dp, colors.border, radius.radius_1_5x)
                     .background(colors.surface),
             ) {
                 MmRow(divider = false) {
@@ -138,7 +138,7 @@ private fun LanguagePickerContent(
 
         SectionLabel(
             stringResource(Res.string.settings_language_all_languages),
-            Modifier.padding(horizontal = 20.dp, vertical = space.padding_0_5x),
+            Modifier.padding(horizontal = MM.space.padding_2_5x, vertical = space.padding_0_5x),
         )
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -175,7 +175,7 @@ private fun LanguagePickerContent(
                             imageVector = MmIcons.check,
                             contentDescription = null,
                             tint = colors.accent,
-                            modifier = Modifier.size(16.dp),
+                            modifier = Modifier.size(MM.space.padding_2x),
                         )
                     }
                 }

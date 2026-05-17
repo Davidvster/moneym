@@ -26,7 +26,7 @@ fun MmIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     variant: MmIconButtonVariant = MmIconButtonVariant.Default,
-    size: Dp = 40.dp,
+    size: Dp = MM.space.padding_5x,
     contentDescription: String? = null,
 ) {
     val colors = MM.colors

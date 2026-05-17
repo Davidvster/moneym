@@ -167,7 +167,7 @@ fun MmSegmented(
 @Composable
 private fun MmSegmentedPreview() {
     MoneyMTheme {
-        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(Modifier.padding(MM.space.padding_2x), verticalArrangement = Arrangement.spacedBy(MM.space.padding_1x)) {
             MmSegmented(listOf("Month", "Year"), selectedIndex = 0, onOptionSelected = {})
             MmSegmented(
                 listOf("All", "Expenses", "Income"),

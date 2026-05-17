@@ -72,7 +72,7 @@ fun MmTabBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp)
+                .padding(top = MM.space.padding_1x)
                 .windowInsetsPadding(WindowInsets.navigationBars),
             horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
@@ -113,7 +113,7 @@ private fun TabItem(
 
     Column(
         modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 6.dp)
+            .padding(horizontal = MM.space.padding_2x, vertical = 6.dp)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = { onClick() })
             },

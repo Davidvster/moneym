@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.time.Clock
 
 class CategoryListViewModel(
     private val categoryRepository: CategoryRepository,
@@ -97,7 +98,7 @@ class CategoryListViewModel(
         if (name.isBlank()) return
         viewModelScope.launch {
             withContext(dispatchers.io) {
-                val now = kotlin.time.Clock.System.now()
+                val now = Clock.System.now()
                 val category = Category(
                     id = CategoryId(0),
                     name = name.trim(),
@@ -118,7 +119,7 @@ class CategoryListViewModel(
         viewModelScope.launch {
             val existing = withContext(dispatchers.io) { categoryRepository.getById(id) } ?: return@launch
             withContext(dispatchers.io) {
-                val now = kotlin.time.Clock.System.now()
+                val now = Clock.System.now()
                 categoryRepository.update(
                     existing.copy(
                         name = name.trim(),

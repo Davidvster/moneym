@@ -4,7 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -44,15 +44,15 @@ private fun AppContent() {
         onDispose { lifecycleOwner.lifecycle.removeObserver(lifecycleObserver) }
     }
 
-    val isLocked by lockController.isLocked.collectAsState()
+    val isLocked by lockController.isLocked.collectAsStateWithLifecycle()
     val onboardingDone by appSettings.observeBoolean(PrefKeys.ONBOARDING_COMPLETED)
-        .collectAsState(initial = appSettings.getBoolean(PrefKeys.ONBOARDING_COMPLETED))
+        .collectAsStateWithLifecycle(initialValue = appSettings.getBoolean(PrefKeys.ONBOARDING_COMPLETED))
 
     LaunchedEffect(onboardingDone) {
         if (onboardingDone) lockController.init()
     }
 
-    val themeMode by appSettingsRepo.observeThemeMode().collectAsState(ThemeMode.Auto)
+    val themeMode by appSettingsRepo.observeThemeMode().collectAsStateWithLifecycle(initialValue = ThemeMode.Auto)
     val isDark = when (themeMode) {
         ThemeMode.Light -> false
         ThemeMode.Dark -> true

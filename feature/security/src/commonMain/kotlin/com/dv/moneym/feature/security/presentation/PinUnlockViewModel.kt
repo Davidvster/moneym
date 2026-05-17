@@ -11,6 +11,7 @@ import com.dv.moneym.core.security.BiometricResult
 import com.dv.moneym.core.security.BiometryType
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.core.security.SecurityPrefs
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

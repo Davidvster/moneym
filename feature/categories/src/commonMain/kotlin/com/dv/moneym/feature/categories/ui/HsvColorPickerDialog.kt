@@ -83,8 +83,8 @@ internal fun HsvColorPickerDialog(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .clip(RoundedCornerShape(20.dp))
+                .padding(horizontal = MM.space.padding_2x)
+                .clip(RoundedCornerShape(MM.space.padding_2_5x))
                 .background(colors.bg),
         ) {
             HsvColorPickerContent(
@@ -129,8 +129,8 @@ internal fun HsvColorPickerContent(
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = 20.dp, vertical = 16.dp),
-        verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(12.dp),
+            .padding(horizontal = MM.space.padding_2_5x, vertical = MM.space.padding_2x),
+        verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(MM.space.padding_1_5x),
     ) {
         Text(
             stringResource(Res.string.categories_color_picker_title),
@@ -144,8 +144,8 @@ internal fun HsvColorPickerContent(
         Box(
             Modifier
                 .fillMaxWidth()
-                .height(48.dp)
-                .clip(RoundedCornerShape(12.dp))
+                .height(MM.space.padding_6x)
+                .clip(RoundedCornerShape(MM.space.padding_1_5x))
                 .background(currentColor),
         )
 
@@ -182,7 +182,7 @@ internal fun HsvColorPickerContent(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(12.dp),
+            horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(MM.space.padding_1_5x),
         ) {
             MmButton(
                 text = stringResource(Res.string.categories_cancel),
@@ -197,7 +197,7 @@ internal fun HsvColorPickerContent(
                 modifier = Modifier.weight(1f),
             )
         }
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(MM.space.padding_1x))
     }
 }
 
@@ -256,7 +256,7 @@ internal fun HsvSlider(
         modifier = Modifier
             .fillMaxWidth()
             .height(32.dp)
-            .clip(RoundedCornerShape(16.dp)),
+            .clip(RoundedCornerShape(MM.space.padding_2x)),
     ) {
         val widthPx = constraints.maxWidth.toFloat()
         Box(
@@ -275,7 +275,7 @@ internal fun HsvSlider(
             Box(
                 modifier = Modifier
                     .padding(start = (thumbXDp - 12).coerceAtLeast(0).dp)
-                    .size(24.dp)
+                    .size(MM.space.padding_3x)
                     .clip(CircleShape)
                     .background(Color.White)
                     .border(2.dp, colors.borderStrong, CircleShape),

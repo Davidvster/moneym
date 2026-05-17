@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMColors
 import com.dv.moneym.core.designsystem.MoneyMType
 
@@ -34,7 +35,7 @@ internal fun AppLockup(
     Box(
         modifier = Modifier
             .size(56.dp)
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(MM.space.padding_2x))
             .background(colors.text),
         contentAlignment = Alignment.Center,
     ) {
@@ -67,7 +68,7 @@ internal fun PinDots(
             val filled = i < filledCount
             Box(
                 modifier = Modifier
-                    .size(12.dp)
+                    .size(MM.space.padding_1_5x)
                     .clip(CircleShape)
                     .background(
                         if (filled) colors.text else Color.Transparent,

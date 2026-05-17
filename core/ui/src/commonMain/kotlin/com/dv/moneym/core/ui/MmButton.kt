@@ -58,9 +58,9 @@ fun MmButton(
     }
 
     val horizontalPadding: Dp = when (size) {
-        MmButtonSize.Sm -> 12.dp
-        MmButtonSize.Md -> 16.dp
-        MmButtonSize.Lg -> 20.dp
+        MmButtonSize.Sm -> MM.space.padding_1_5x
+        MmButtonSize.Md -> MM.space.padding_2x
+        MmButtonSize.Lg -> MM.space.padding_2_5x
     }
 
     val bgColor: Color
@@ -107,7 +107,7 @@ fun MmButton(
     }
 
     var pressed by remember { mutableStateOf(false) }
-    val shape = radius.xl
+    val shape = radius.radius_2_5x
 
     val sizeModifier = if (fullWidth) Modifier.fillMaxWidth() else Modifier
 
@@ -137,7 +137,7 @@ fun MmButton(
     ) {
         Row(
             modifier = Modifier.padding(horizontal = horizontalPadding),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1x),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (leadingIcon != null) {
@@ -145,7 +145,7 @@ fun MmButton(
                 Image(
                     painter = painter,
                     contentDescription = null,
-                    modifier = Modifier.size(16.dp),
+                    modifier = Modifier.size(MM.space.padding_2x),
                     colorFilter = ColorFilter.tint(fgColor),
                 )
             }
@@ -162,7 +162,7 @@ fun MmButton(
 @Composable
 private fun MmButtonPreview() {
     MoneyMTheme {
-        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(Modifier.padding(MM.space.padding_2x), verticalArrangement = Arrangement.spacedBy(MM.space.padding_1x)) {
             MmButton("Primary", onClick = {}, variant = MmButtonVariant.Primary)
             MmButton("Secondary", onClick = {}, variant = MmButtonVariant.Secondary)
             MmButton("Accent", onClick = {}, variant = MmButtonVariant.Accent)

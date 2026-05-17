@@ -70,9 +70,9 @@ Quantized scale, accessed via `MoneyMTheme.spacing`:
 ```
 xxs = 2.dp
 xs  = 4.dp
-sm  = 8.dp
-md  = 12.dp
-lg  = 16.dp
+sm  = MM.space.padding_1x
+md  = MM.space.padding_1_5x
+lg  = MM.space.padding_2x
 xl  = 24.dp
 xxl = 32.dp
 ```
@@ -118,7 +118,7 @@ Minimalist means restrained motion:
 ## Accessibility
 
 - All interactive elements have `contentDescription` or `Modifier.semantics`.
-- Minimum tap target: 48.dp.
+- Minimum tap target: MM.space.padding_6x.
 - Color contrast on text ≥ 4.5:1 on both themes — verified for the token palette above.
 - Category color is **never** the only signal: pair with text and icon.
 - Dynamic font sizing is respected — no fixed font sizes in dp.

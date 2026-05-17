@@ -131,7 +131,7 @@ private fun BiometricOfferDialog(
     AlertDialog(
         onDismissRequest = onDecline,
         containerColor = colors.surface,
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(MM.space.padding_2x),
         title = {
             Text(
                 text = stringResource(Res.string.security_biometric_offer_title),
@@ -216,8 +216,8 @@ private fun PinSetupContent(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .windowInsetsPadding(WindowInsets.statusBars)
-                .padding(top = 8.dp, end = 16.dp)
-                .size(40.dp)
+                .padding(top = MM.space.padding_1x, end = MM.space.padding_2x)
+                .size(MM.space.padding_5x)
                 .pointerInput(Unit) {
                     detectTapGestures(onTap = { onDismiss() })
                 },
@@ -227,7 +227,7 @@ private fun PinSetupContent(
             androidx.compose.foundation.Image(
                 painter = painter,
                 contentDescription = cancelLabel,
-                modifier = Modifier.size(20.dp),
+                modifier = Modifier.size(MM.space.padding_2_5x),
                 colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(colors.text),
             )
         }
@@ -261,7 +261,7 @@ private fun PinSetupBody(
     ) {
         AppLockup(colors = colors, type = type)
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(MM.space.padding_1_5x))
 
         Text(
             text = "MoneyM",
@@ -279,14 +279,14 @@ private fun PinSetupBody(
         )
 
         if (errorText != null) {
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(MM.space.padding_1x))
             Text(
                 text = errorText,
                 style = type.caption.copy(color = colors.danger),
             )
         }
 
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(MM.space.padding_6x))
 
         PinDots(
             filledCount = filledCount,
@@ -294,7 +294,7 @@ private fun PinSetupBody(
             colors = colors,
         )
 
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(MM.space.padding_6x))
 
         PinKeypad(
             onKey = { char -> onIntent(PinSetupIntent.DigitPressed(char.digitToInt())) },

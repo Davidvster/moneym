@@ -178,7 +178,7 @@ private fun CurrencyPickerContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(colors.bg)
-                            .padding(horizontal = 20.dp, vertical = space.padding_0_5x),
+                            .padding(horizontal = MM.space.padding_2_5x, vertical = space.padding_0_5x),
                     )
                 }
                 items(filteredPopular, key = { "popular_${it.code}" }) { currency ->
@@ -196,7 +196,7 @@ private fun CurrencyPickerContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(colors.bg)
-                        .padding(horizontal = 20.dp, vertical = space.padding_0_5x),
+                        .padding(horizontal = MM.space.padding_2_5x, vertical = space.padding_0_5x),
                 )
             }
             items(filteredAll, key = { "all_${it.code}" }) { currency ->
@@ -256,7 +256,7 @@ private fun CurrencyRow(
                 imageVector = MmIcons.check,
                 contentDescription = null,
                 tint = colors.accent,
-                modifier = Modifier.size(16.dp),
+                modifier = Modifier.size(MM.space.padding_2x),
             )
         }
     }

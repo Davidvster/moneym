@@ -60,7 +60,7 @@ The stateless `*Content` is the only thing tested and previewed. The wrapper exi
 ## Theming and design system
 
 - Always use `MaterialTheme.colorScheme.*` or the `MoneyMTheme` tokens. **Never hard-code hex.**
-- Spacing comes from `MoneyMTheme.spacing` (4/8/12/16/24/32). No raw `8.dp` outside `core:designsystem`.
+- Spacing comes from `MoneyMTheme.spacing` (4/8/12/16/24/32). No raw `MM.space.padding_1x` outside `core:designsystem`.
 - Typography comes from `MaterialTheme.typography`. No raw `TextStyle` constructions in features.
 - Icons via `core:designsystem`'s `MoneyMIcons` object — even if it forwards to Material icons, indirection lets us swap later.
 - Category colors are the only color that varies per data. They come from `Category.colorHex` and are surfaced via a `categoryColor(...)` helper in `core:designsystem`.
@@ -101,7 +101,7 @@ Preview-only sample data lives in a sibling `*Samples.kt` file marked `internal`
 ## Accessibility
 
 - Every actionable element (icon buttons, swipe affordances, chart segments) has a `contentDescription` or `Modifier.semantics { contentDescription = ... }`.
-- Tap targets ≥ 48.dp.
+- Tap targets ≥ MM.space.padding_6x.
 - Don't gate critical information on color alone — use icon + text/number alongside category color.
 
 ## Lists

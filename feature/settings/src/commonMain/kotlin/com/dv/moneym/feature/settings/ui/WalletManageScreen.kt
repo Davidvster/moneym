@@ -118,7 +118,7 @@ fun WalletManageScreen(
                     )
                 }
                 item {
-                    MmCard(padded = false, shape = MM.radius.md) {
+                    MmCard(padded = false, shape = MM.radius.radius_1_5x) {
                         Column {
                             activeAccounts.forEachIndexed { idx, account ->
                                 val isSelected = account.id.value == state.selectedAccountId ||

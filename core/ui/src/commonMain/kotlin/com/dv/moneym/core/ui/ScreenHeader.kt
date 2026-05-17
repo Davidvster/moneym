@@ -49,7 +49,7 @@ fun ScreenHeader(
             Box(
                 modifier = Modifier
                     .align(Alignment.CenterStart)
-                    .padding(start = 8.dp),
+                    .padding(start = MM.space.padding_1x),
             ) {
                 MmIconButton(
                     icon = MmIcons.chevronLeft,
@@ -72,7 +72,7 @@ fun ScreenHeader(
             Box(
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
-                    .padding(end = 8.dp),
+                    .padding(end = MM.space.padding_1x),
             ) {
                 trailingContent()
             }

@@ -97,7 +97,7 @@ private fun PinUnlockContent(
         // App lockup — shared composable
         AppLockup(colors = colors, type = type)
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(MM.space.padding_1_5x))
 
         Text(
             text = "MoneyM",
@@ -123,7 +123,7 @@ private fun PinUnlockContent(
             )
         }
 
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(MM.space.padding_6x))
 
         // 4 dots with shake animation — shared composable
         PinDots(
@@ -132,7 +132,7 @@ private fun PinUnlockContent(
             colors = colors,
         )
 
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(MM.space.padding_6x))
 
         PinKeypad(
             onKey = { char -> onIntent(PinUnlockIntent.DigitPressed(char.digitToInt())) },

@@ -25,7 +25,7 @@ fun MmCard(
 ) {
     val colors = MM.colors
     val radius = MM.radius
-    val resolvedShape = shape ?: radius.lg
+    val resolvedShape = shape ?: radius.radius_2x
 
     Column(
         modifier = modifier
@@ -33,7 +33,7 @@ fun MmCard(
             .clip(resolvedShape)
             .background(colors.surface, resolvedShape)
             .border(1.dp, colors.border, resolvedShape)
-            .then(if (padded) Modifier.padding(20.dp) else Modifier),
+            .then(if (padded) Modifier.padding(MM.space.padding_2_5x) else Modifier),
     ) {
         content()
     }
@@ -43,7 +43,7 @@ fun MmCard(
 @Composable
 private fun MmCardPreview() {
     MoneyMTheme {
-        MmCard(Modifier.padding(16.dp).fillMaxWidth(), padded = true) {
+        MmCard(Modifier.padding(MM.space.padding_2x).fillMaxWidth(), padded = true) {
             Text("Card content", style = MM.type.body, color = MM.colors.text)
         }
     }

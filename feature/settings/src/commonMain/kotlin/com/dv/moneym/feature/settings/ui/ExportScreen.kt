@@ -136,7 +136,7 @@ private fun ExportContent(
                     text = stringResource(Res.string.settings_export_format),
                     modifier = Modifier.padding(bottom = space.padding_0_5x),
                 )
-                MmCard(padded = true, shape = MM.radius.md) {
+                MmCard(padded = true, shape = MM.radius.radius_1_5x) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,

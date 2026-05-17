@@ -57,14 +57,14 @@ fun TxRow(
     val type = MM.type
 
     val verticalPadding = when (prefs.density) {
-        Density.Comfortable -> 14.dp
-        Density.Normal -> 12.dp
+        Density.Comfortable -> MM.space.padding_2x
+        Density.Normal -> MM.space.padding_1_5x
         Density.Compact -> 10.dp
     }
 
     val hasNote = !note.isNullOrBlank()
     val showNoteAsPrimary = hasNote && prefs.showNote
-    val primaryText = if (showNoteAsPrimary) note.orEmpty() else categoryName
+    val primaryText = if (showNoteAsPrimary) note else categoryName
     val secondaryText = if (showNoteAsPrimary && prefs.showCategoryName) categoryName else null
 
     val dividerColor = colors.divider
@@ -107,9 +107,9 @@ fun TxRow(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = verticalPadding),
+                .padding(horizontal = MM.space.padding_2_5x, vertical = verticalPadding),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(MM.space.padding_1_5x),
         ) {
             // Leading: category indicator
             CategoryIconTile(

@@ -80,7 +80,7 @@ fun CategoryIconTile(
         IndicatorStyle.Dot -> {
             Box(
                 modifier = modifier
-                    .size(8.dp)
+                    .size(MM.space.padding_1x)
                     .clip(CircleShape)
                     .background(categoryColor, CircleShape),
             )
