@@ -13,4 +13,5 @@
     <string name="security_app_name">MoneyM</string>
     <string name="security_cancel">Annulla</string>
     <string name="security_backoff_retry">Riprova tra %1$ds</string>
+    <string name="security_biometric_unlock_prompt">Sblocca MoneyM</string>
 </resources>

@@ -25,8 +25,8 @@ import com.dv.moneym.feature.security.setup.PinSetupKey
 import com.dv.moneym.feature.security.setup.pinSetupEntry
 import com.dv.moneym.feature.settings.settings.CurrencyPickerKey
 import com.dv.moneym.feature.settings.settings.LanguagePickerKey
+import com.dv.moneym.feature.settings.settings.SecuritySettingsViewModel
 import com.dv.moneym.feature.settings.settings.SettingsKey
-import com.dv.moneym.feature.settings.settings.SettingsViewModel
 import com.dv.moneym.feature.settings.settings.TxListDisplayKey
 import com.dv.moneym.feature.settings.settings.currencypicker.currencyPickerEntry
 import com.dv.moneym.feature.settings.settings.export.ExportDataKey
@@ -34,7 +34,12 @@ import com.dv.moneym.feature.settings.settings.export.exportDataEntry
 import com.dv.moneym.feature.settings.settings.locale.languagePickerEntry
 import com.dv.moneym.feature.settings.settings.settingsEntry
 import com.dv.moneym.feature.settings.settings.transactiondisplay.txListDisplayEntry
+import com.dv.moneym.feature.settings.wallet.AddWalletCurrencyPickerKey
+import com.dv.moneym.feature.settings.wallet.AddWalletKey
+import com.dv.moneym.feature.settings.wallet.AddWalletViewModel
 import com.dv.moneym.feature.settings.wallet.WalletManageKey
+import com.dv.moneym.feature.settings.wallet.addWalletCurrencyPickerEntry
+import com.dv.moneym.feature.settings.wallet.addWalletEntry
 import com.dv.moneym.feature.settings.wallet.walletManageEntry
 import com.dv.moneym.feature.transactionedit.TransactionEditKey
 import com.dv.moneym.feature.transactionedit.transactionEditEntry
@@ -60,8 +65,10 @@ private fun tabSlideDirection(from: NavKey, to: NavKey): Int {
 internal fun MainNav(lockController: AppLockController) {
     val tabBackStack = remember { TabBackStack(TransactionsKey) }
     val filePlatform = koinInject<FilePlatform>()
-    // Shared SettingsViewModel so we can call refreshPinState after pin setup
-    val settingsViewModel: SettingsViewModel = koinViewModel()
+    // Shared SecuritySettingsViewModel so we can call refreshPinState after pin setup
+    val securitySettingsViewModel: SecuritySettingsViewModel = koinViewModel()
+    // Shared AddWalletViewModel so both AddWalletScreen and its currency picker share state
+    val addWalletViewModel: AddWalletViewModel = koinViewModel()
 
     NavDisplay(
         backStack = tabBackStack.backStack,
@@ -155,7 +162,7 @@ internal fun MainNav(lockController: AppLockController) {
                 },
             )
             settingsEntry(
-                viewModel = settingsViewModel,
+                securityViewModel = securitySettingsViewModel,
                 // From settings, we push PinSetupKey(isChangePinFlow = true) for change PIN
                 onNavigateToPinSetup = { tabBackStack.push(PinSetupKey(isChangePinFlow = true)) },
                 onNavigateToCategories = { tabBackStack.push(CategoriesKey) },
@@ -171,18 +178,12 @@ internal fun MainNav(lockController: AppLockController) {
                         TabRoute.Settings -> tabBackStack.switchTab(SettingsKey)
                     }
                 },
-                onExportReady = { fileName, content, mimeType ->
-                    filePlatform.saveFile(fileName, content, mimeType)
-                },
-                onImportRequested = {
-                    filePlatform.openTextFile()
-                },
             )
             // Setup flow (isChangePinFlow = false by default)
             pinSetupEntry(onDone = {
                 lockController.init()
                 // Refresh pin state in settings so toggles reflect actual storage truth
-                settingsViewModel.refreshPinState()
+                securitySettingsViewModel.refreshPinState()
                 tabBackStack.removeLast()
             })
             categoriesEntry(
@@ -198,7 +199,24 @@ internal fun MainNav(lockController: AppLockController) {
                     filePlatform.saveFile(fileName, content, mimeType)
                 },
             )
-            walletManageEntry(onBack = { tabBackStack.removeLast() })
+            walletManageEntry(
+                onBack = { tabBackStack.removeLast() },
+                onNavigateToAddWallet = { tabBackStack.push(AddWalletKey) },
+            )
+            addWalletEntry(
+                viewModel = addWalletViewModel,
+                onBack = { tabBackStack.removeLast() },
+                onNavigateToCurrencyPicker = { tabBackStack.push(AddWalletCurrencyPickerKey) },
+                onConfirm = { name, currency ->
+                    addWalletViewModel.addWallet(name, currency)
+                    tabBackStack.removeLast()
+                },
+            )
+            addWalletCurrencyPickerEntry(
+                currentCurrency = { addWalletViewModel.selectedCurrency.value },
+                onBack = { tabBackStack.removeLast() },
+                onCurrencySelected = { code -> addWalletViewModel.setCurrency(code) },
+            )
         },
     )
 }

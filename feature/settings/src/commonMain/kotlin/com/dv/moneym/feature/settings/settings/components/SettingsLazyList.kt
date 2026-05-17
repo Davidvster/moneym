@@ -10,7 +10,11 @@ import androidx.compose.ui.text.style.TextAlign
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.ui.SectionLabel
-import com.dv.moneym.feature.settings.settings.SettingsIntent
+import com.dv.moneym.feature.settings.settings.AppearanceSection
+import com.dv.moneym.feature.settings.settings.DataSection
+import com.dv.moneym.feature.settings.settings.SecuritySettingsIntent
+import com.dv.moneym.feature.settings.settings.SecuritySettingsUiState
+import com.dv.moneym.feature.settings.settings.SettingsItem
 import com.dv.moneym.feature.settings.settings.SettingsUiState
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_section_appearance
@@ -23,12 +27,14 @@ import org.jetbrains.compose.resources.stringResource
 internal fun SettingsLazyList(
     modifier: Modifier,
     state: SettingsUiState,
+    securityState: SecuritySettingsUiState,
     themeIndex: Int,
     themeModes: List<ThemeMode>,
     txDisplaySummary: String,
     lockAfterLabel: String,
     languageSubtitle: String,
-    onIntent: (SettingsIntent) -> Unit,
+    onThemeModeChanged: (ThemeMode) -> Unit,
+    onSecurityIntent: (SecuritySettingsIntent) -> Unit,
     onNavigateToTxDisplay: () -> Unit,
     onNavigateToCategories: () -> Unit,
     onNavigateToCurrency: () -> Unit,
@@ -41,23 +47,23 @@ internal fun SettingsLazyList(
     val type = MM.type
     val space = MM.dimen
     LazyColumn(modifier = modifier) {
-        item(key = _root_ide_package_.com.dv.moneym.feature.settings.settings.SettingsItem.APPEARANCE_LABEL.name) {
+        item(key = SettingsItem.APPEARANCE_LABEL.name) {
             SectionLabel(
                 stringResource(Res.string.settings_section_appearance),
                 Modifier.padding(horizontal = MM.dimen.padding_2_5x, vertical = space.padding_0_5x)
             )
         }
-        item(key = _root_ide_package_.com.dv.moneym.feature.settings.settings.SettingsItem.APPEARANCE_CARD.name) {
-            _root_ide_package_.com.dv.moneym.feature.settings.settings.AppearanceSection(
+        item(key = SettingsItem.APPEARANCE_CARD.name) {
+            AppearanceSection(
                 themeMode = state.themeMode,
                 themeIndex = themeIndex,
                 themeModes = themeModes,
                 txDisplaySummary = txDisplaySummary,
-                onIntent = onIntent,
+                onThemeModeChanged = onThemeModeChanged,
                 onNavigateToTxDisplay = onNavigateToTxDisplay,
             )
         }
-        item(key = _root_ide_package_.com.dv.moneym.feature.settings.settings.SettingsItem.SECURITY_LABEL.name) {
+        item(key = SettingsItem.SECURITY_LABEL.name) {
             SectionLabel(
                 stringResource(Res.string.settings_section_security),
                 Modifier.padding(
@@ -68,17 +74,17 @@ internal fun SettingsLazyList(
                 ),
             )
         }
-        item(key = _root_ide_package_.com.dv.moneym.feature.settings.settings.SettingsItem.SECURITY_CARD.name) {
+        item(key = SettingsItem.SECURITY_CARD.name) {
             SecuritySection(
-                pinEnabled = state.pinEnabled,
-                biometricAvailable = state.biometricAvailable,
-                biometricEnabled = state.biometricEnabled,
+                pinEnabled = securityState.pinEnabled,
+                biometricAvailable = securityState.biometricAvailable,
+                biometricEnabled = securityState.biometricEnabled,
                 lockAfterLabel = lockAfterLabel,
-                onIntent = onIntent,
+                onIntent = onSecurityIntent,
                 onShowLockPicker = onShowLockPicker,
             )
         }
-        item(key = _root_ide_package_.com.dv.moneym.feature.settings.settings.SettingsItem.PREFERENCES_LABEL.name) {
+        item(key = SettingsItem.PREFERENCES_LABEL.name) {
             SectionLabel(
                 stringResource(Res.string.settings_section_preferences),
                 Modifier.padding(
@@ -89,7 +95,7 @@ internal fun SettingsLazyList(
                 ),
             )
         }
-        item(key = _root_ide_package_.com.dv.moneym.feature.settings.settings.SettingsItem.PREFERENCES_CARD.name) {
+        item(key = SettingsItem.PREFERENCES_CARD.name) {
             PreferencesSection(
                 currencySubtitle = state.defaultCurrency,
                 languageSubtitle = languageSubtitle,
@@ -99,7 +105,7 @@ internal fun SettingsLazyList(
                 onNavigateToWallets = onNavigateToWallets,
             )
         }
-        item(key = _root_ide_package_.com.dv.moneym.feature.settings.settings.SettingsItem.DATA_LABEL.name) {
+        item(key = SettingsItem.DATA_LABEL.name) {
             SectionLabel(
                 stringResource(Res.string.settings_section_data),
                 Modifier.padding(
@@ -110,13 +116,12 @@ internal fun SettingsLazyList(
                 )
             )
         }
-        item(key = _root_ide_package_.com.dv.moneym.feature.settings.settings.SettingsItem.DATA_CARD.name) {
-            _root_ide_package_.com.dv.moneym.feature.settings.settings.DataSection(
-                onIntent = onIntent,
+        item(key = SettingsItem.DATA_CARD.name) {
+            DataSection(
                 onNavigateToExport = onNavigateToExport,
             )
         }
-        item(key = _root_ide_package_.com.dv.moneym.feature.settings.settings.SettingsItem.VERSION.name) {
+        item(key = SettingsItem.VERSION.name) {
             Text(
                 text = "MoneyM v1.0",
                 style = type.captionMono.copy(color = colors.text3),

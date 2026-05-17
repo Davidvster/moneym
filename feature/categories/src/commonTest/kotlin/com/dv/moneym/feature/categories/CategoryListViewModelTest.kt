@@ -9,6 +9,7 @@ import com.dv.moneym.core.testing.TestDispatcherProvider
 import com.dv.moneym.core.testing.runTestWithDispatchers
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
 import com.dv.moneym.feature.categories.list.CategoryListIntent
+import androidx.lifecycle.SavedStateHandle
 import com.dv.moneym.feature.categories.list.CategoryListViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -51,7 +52,7 @@ class CategoryListViewModelTest {
             makeCategory(1, archived = false),
             makeCategory(2, archived = true),
         ))
-        val vm = CategoryListViewModel(catRepo, archiveUseCase, dispatchers)
+        val vm = CategoryListViewModel(catRepo, archiveUseCase, dispatchers, SavedStateHandle())
         vm.state.test {
             var state = awaitItem()
             while (state.isLoading) state = awaitItem()
@@ -64,7 +65,7 @@ class CategoryListViewModelTest {
     @Test
     fun archiveIntentDeletesCategoryWithNoTransactions() = runTestWithDispatchers(testDispatcher) {
         catRepo.addAll(listOf(makeCategory(1)))
-        val vm = CategoryListViewModel(catRepo, archiveUseCase, dispatchers)
+        val vm = CategoryListViewModel(catRepo, archiveUseCase, dispatchers, SavedStateHandle())
         vm.state.test {
             var state = awaitItem()
             while (state.isLoading) state = awaitItem()

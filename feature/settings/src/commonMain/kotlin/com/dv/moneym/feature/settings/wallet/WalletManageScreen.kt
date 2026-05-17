@@ -1,30 +1,22 @@
 package com.dv.moneym.feature.settings.wallet
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmCard
-import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
@@ -32,12 +24,7 @@ import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
-import moneym.feature.settings.generated.resources.settings_wallet_add_cancel
-import moneym.feature.settings.generated.resources.settings_wallet_add_confirm
-import moneym.feature.settings.generated.resources.settings_wallet_add_title
-import moneym.feature.settings.generated.resources.settings_wallet_currency_placeholder
 import moneym.feature.settings.generated.resources.settings_wallet_manage_title
-import moneym.feature.settings.generated.resources.settings_wallet_name_placeholder
 import moneym.feature.settings.generated.resources.settings_wallet_no_wallets
 import moneym.feature.settings.generated.resources.settings_wallet_section_header
 import moneym.feature.settings.generated.resources.settings_wallet_type_currency
@@ -49,13 +36,18 @@ data object WalletManageKey : NavKey
 
 fun EntryProviderScope<NavKey>.walletManageEntry(
     onBack: () -> Unit,
+    onNavigateToAddWallet: () -> Unit,
 ) = entry<WalletManageKey> {
-    WalletManageScreen(onBack = onBack)
+    WalletManageScreen(
+        onBack = onBack,
+        onNavigateToAddWallet = onNavigateToAddWallet,
+    )
 }
 
 @Composable
 private fun WalletManageScreen(
     onBack: () -> Unit,
+    onNavigateToAddWallet: () -> Unit,
     viewModel: WalletManageViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -63,15 +55,6 @@ private fun WalletManageScreen(
     val colors = MM.colors
     val type = MM.type
     val space = MM.dimen
-
-    if (state.showAddDialog) {
-        AddWalletDialog(
-            onDismiss = { viewModel.onIntent(WalletManageIntent.DismissAddDialog) },
-            onConfirm = { name, currency ->
-                viewModel.onIntent(WalletManageIntent.AddWallet(name, currency))
-            },
-        )
-    }
 
     Column(
         modifier = Modifier
@@ -84,7 +67,7 @@ private fun WalletManageScreen(
             trailingContent = {
                 MmIconButton(
                     icon = MmIcons.plus,
-                    onClick = { viewModel.onIntent(WalletManageIntent.ShowAddDialog) },
+                    onClick = onNavigateToAddWallet,
                 )
             },
         )
@@ -158,62 +141,4 @@ private fun WalletManageScreen(
             }
         }
     }
-}
-
-@Composable
-private fun AddWalletDialog(
-    onDismiss: () -> Unit,
-    onConfirm: (name: String, currency: String) -> Unit,
-) {
-    val colors = MM.colors
-    val type = MM.type
-    val space = MM.dimen
-
-    var name by remember { mutableStateOf("") }
-    var currency by remember { mutableStateOf("EUR") }
-
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(
-                stringResource(Res.string.settings_wallet_add_title),
-                style = type.title3,
-                color = colors.text
-            )
-        },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(space.padding_1_5x)) {
-                MmField(
-                    value = name,
-                    onValueChange = { name = it },
-                    placeholder = stringResource(Res.string.settings_wallet_name_placeholder),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                MmField(
-                    value = currency,
-                    onValueChange = { currency = it.uppercase().take(3) },
-                    placeholder = stringResource(Res.string.settings_wallet_currency_placeholder),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    if (name.isNotBlank() && currency.isNotBlank()) {
-                        onConfirm(name.trim(), currency.trim())
-                    }
-                },
-            ) {
-                Text(stringResource(Res.string.settings_wallet_add_confirm), color = colors.accent)
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(Res.string.settings_wallet_add_cancel), color = colors.text2)
-            }
-        },
-        containerColor = colors.surface,
-        titleContentColor = colors.text,
-    )
 }

@@ -4,6 +4,7 @@ import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
 import kotlinx.coroutines.flow.Flow
+import kotlinx.datetime.LocalDate
 
 interface TransactionRepository {
     fun observeAll(): Flow<List<Transaction>>
@@ -12,4 +13,6 @@ interface TransactionRepository {
     suspend fun getById(id: TransactionId): Transaction?
     suspend fun upsert(transaction: Transaction): TransactionId
     suspend fun delete(id: TransactionId)
+    suspend fun getEarliestTransactionDate(): LocalDate?
+    suspend fun getLatestTransactionDate(): LocalDate?
 }

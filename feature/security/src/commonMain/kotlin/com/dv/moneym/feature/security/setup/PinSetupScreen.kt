@@ -36,6 +36,7 @@ import com.dv.moneym.feature.security.shared.PinDots
 import com.dv.moneym.feature.security.shared.PinKeypad
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
+import com.dv.moneym.feature.security.PinError
 import moneym.feature.security.generated.resources.Res
 import moneym.feature.security.generated.resources.security_biometric_offer_body
 import moneym.feature.security.generated.resources.security_biometric_offer_enable
@@ -43,6 +44,8 @@ import moneym.feature.security.generated.resources.security_biometric_offer_skip
 import moneym.feature.security.generated.resources.security_biometric_offer_title
 import moneym.feature.security.generated.resources.security_change_pin_title
 import moneym.feature.security.generated.resources.security_pin_confirm_header
+import moneym.feature.security.generated.resources.security_pin_incorrect
+import moneym.feature.security.generated.resources.security_pin_mismatch
 import moneym.feature.security.generated.resources.security_pin_set_header
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -198,6 +201,12 @@ private fun PinSetupContent(
         PinSetupStep.CONFIRM -> stringResource(Res.string.security_pin_confirm_header)
     }
 
+    val errorText = when (state.error) {
+        is PinError.IncorrectPin -> stringResource(Res.string.security_pin_incorrect)
+        is PinError.PinsMismatch -> stringResource(Res.string.security_pin_mismatch)
+        null -> null
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -210,7 +219,7 @@ private fun PinSetupContent(
 
         PinSetupBody(
             subtitle = subtitle,
-            errorText = state.error,
+            errorText = errorText,
             filledCount = filledCount,
             shakeOffsetPx = shakeOffset.value.roundToInt(),
             onIntent = onIntent,

@@ -59,3 +59,9 @@ DELETE FROM TransactionEntry WHERE id = ?;
 
 lastInsertId:
 SELECT last_insert_rowid();
+
+getEarliestDate:
+SELECT MIN(occurred_on) FROM TransactionEntry;
+
+getLatestDate:
+SELECT MAX(occurred_on) FROM TransactionEntry;

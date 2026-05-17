@@ -11,6 +11,7 @@ import com.dv.moneym.core.security.BiometricResult
 import com.dv.moneym.core.security.BiometryType
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.core.security.SecurityPrefs
+import com.dv.moneym.feature.security.PinError
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -58,19 +59,25 @@ class PinUnlockViewModel(
         startBackoffTimer()
 
         // Auto-trigger biometrics on unlock screen open if available
+        // The screen will call setBiometricPrompt before triggering via LaunchedEffect
         if (biometricAvailable) {
             viewModelScope.launch {
-                // Small delay to allow the UI to render first
-                triggerBiometric()
+                triggerBiometric(biometricPrompt)
             }
         }
+    }
+
+    private var biometricPrompt: String = "Unlock MoneyM"
+
+    fun setBiometricPrompt(prompt: String) {
+        biometricPrompt = prompt
     }
 
     internal fun onIntent(intent: PinUnlockIntent) {
         when (intent) {
             is PinUnlockIntent.DigitPressed -> onDigit(intent.digit)
             PinUnlockIntent.DeletePressed -> _state.update { it.copy(pin = it.pin.dropLast(1)) }
-            PinUnlockIntent.BiometricRequested -> triggerBiometric()
+            is PinUnlockIntent.BiometricRequested -> triggerBiometric(intent.prompt)
         }
     }
 
@@ -96,7 +103,7 @@ class PinUnlockViewModel(
                     it.copy(
                         pin = "",
                         isVerifying = false,
-                        error = "Incorrect PIN",
+                        error = PinError.IncorrectPin,
                         failedAttempts = pinManager.failedAttempts(),
                         backoffRemainingMs = remaining,
                     )
@@ -106,9 +113,9 @@ class PinUnlockViewModel(
         }
     }
 
-    private fun triggerBiometric() {
+    private fun triggerBiometric(prompt: String) {
         viewModelScope.launch {
-            val result = biometricAuth.authenticate("Unlock MoneyM")
+            val result = biometricAuth.authenticate(prompt)
             when (result) {
                 BiometricResult.Success -> {
                     pinManager.resetAttempts()

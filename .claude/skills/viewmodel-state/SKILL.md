@@ -13,7 +13,7 @@ UI state is **one immutable data class per screen**, exposed as `StateFlow<UiSta
 
 ```kotlin
 @Serializable
-data class TransactionListUiState(
+internal data class TransactionListUiState(
     val isLoading: Boolean = true,
     val days: List<DayGroup> = emptyList(),
     val filter: TransactionFilter = TransactionFilter.None,
@@ -45,24 +45,25 @@ class TransactionListViewModel(
     private val _state by savedStateHandle.saved {
         MutableStateFlow(TransactionListUiState())
     }
-    val state: StateFlow<SettingsUiState> = _state
+    internal val state: StateFlow<SettingsUiState> = _state
         .onStart { init() }
         .stateIn(viewModelScope, SharingStarted.Eagerly, _state.value)
 
     private val _effects = Channel<TransactionListEffect>(Channel.BUFFERED)
-    val effects = _effects.receiveAsFlow()
+    internal val effects = _effects.receiveAsFlow()
 
     private suspend fun init() {
         // initial action
     }
-    
-    fun onIntent(intent: TransactionListIntent) { /* when (intent) ... */ }
+
+    internal fun onIntent(intent: TransactionListIntent) { /* when (intent) ... */ }
 }
 ```
 
-- One entry point: `onIntent(intent)`. No fan-out of public methods.
+- One entry point: `internal fun onIntent(intent)`. No fan-out of public methods.
 - Intents are nouns of user action ("FilterChanged"), not commands ("changeFilter").
-- `init` block triggers initial loads; no `load()` lifecycle method called from UI.
+- `suspend fun init()` block triggers initial loads; no `load()` lifecycle method called from UI.
+- No other internal/public function apart from onIntent(intent), the UI can only communicate to the ViewModel via intent.
 
 ## One-shot effects
 
@@ -70,7 +71,7 @@ Things like "navigate", "show snackbar", "dismiss sheet" don't belong in state â
 
 ```kotlin
 private val _effects = Channel<TransactionListEffect>(Channel.BUFFERED)
-val effects: Flow<TransactionListEffect> = _effects.receiveAsFlow()
+internal val effects: Flow<TransactionListEffect> = _effects.receiveAsFlow()
 ```
 
 The screen collects effects in a `LaunchedEffect` and dispatches them to the navigation/snackbar host. **Navigation events never travel through `UiState`.**

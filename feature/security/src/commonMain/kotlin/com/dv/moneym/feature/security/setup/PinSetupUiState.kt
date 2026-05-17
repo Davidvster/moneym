@@ -1,6 +1,7 @@
 package com.dv.moneym.feature.security.setup
 
 import com.dv.moneym.core.security.BiometryType
+import com.dv.moneym.feature.security.PinError
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -8,7 +9,7 @@ internal data class PinSetupUiState(
     val step: PinSetupStep = PinSetupStep.ENTER_FIRST,
     val firstPin: String = "",
     val secondPin: String = "",
-    val error: String? = null,
+    val error: PinError? = null,
     val isSaving: Boolean = false,
     val biometryType: BiometryType = BiometryType.None,
 )

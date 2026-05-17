@@ -1,6 +1,7 @@
 package com.dv.moneym.feature.onboarding
 
 import app.cash.turbine.test
+import androidx.lifecycle.SavedStateHandle
 import com.dv.moneym.core.testing.FakeAppSettings
 import com.dv.moneym.core.testing.runTestWithDispatchers
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyEffect
@@ -24,7 +25,7 @@ class OnboardingViewModelTest {
 
     private fun makeVm(): OnboardingCurrencyViewModel {
         val settings = FakeAppSettings()
-        return OnboardingCurrencyViewModel(settings)
+        return OnboardingCurrencyViewModel(settings, SavedStateHandle())
     }
 
     @Test

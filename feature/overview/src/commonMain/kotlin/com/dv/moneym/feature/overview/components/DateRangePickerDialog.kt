@@ -7,6 +7,7 @@ import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDateRangePickerState
@@ -36,6 +37,8 @@ internal fun DateRangePickerDialog(
     initEndYear: Int,
     initEndMonth: Int,
     initEndDay: Int,
+    minSelectableDateIso: String? = null,
+    maxSelectableDateIso: String? = null,
     onDismiss: () -> Unit,
     onConfirm: (startYear: Int, startMonth: Int, startDay: Int, endYear: Int, endMonth: Int, endDay: Int) -> Unit,
 ) {
@@ -53,9 +56,28 @@ internal fun DateRangePickerDialog(
             .toEpochMilliseconds()
     }
 
+    val minDate = remember(minSelectableDateIso) {
+        minSelectableDateIso?.let { LocalDate.parse(it) }
+    }
+    val maxDate = remember(maxSelectableDateIso) {
+        maxSelectableDateIso?.let { LocalDate.parse(it) }
+    }
+
+    val selectableDates = remember(minDate, maxDate) {
+        object : SelectableDates {
+            override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                if (minDate == null && maxDate == null) return true
+                val date = Instant.fromEpochMilliseconds(utcTimeMillis)
+                    .toLocalDateTime(TimeZone.UTC).date
+                return (minDate == null || date >= minDate) && (maxDate == null || date <= maxDate)
+            }
+        }
+    }
+
     val dateRangeState = rememberDateRangePickerState(
         initialSelectedStartDateMillis = initStartMillis,
         initialSelectedEndDateMillis = initEndMillis,
+        selectableDates = selectableDates,
     )
 
     val themedColors = DatePickerDefaults.colors(

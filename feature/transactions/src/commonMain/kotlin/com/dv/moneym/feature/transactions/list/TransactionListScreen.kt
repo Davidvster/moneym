@@ -1,12 +1,5 @@
 package com.dv.moneym.feature.transactions.list
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -23,14 +16,16 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -76,7 +71,9 @@ import com.dv.moneym.feature.transactions.list.components.DayGroupHeader
 import com.dv.moneym.feature.transactions.list.components.MonthPickerDialog
 import com.dv.moneym.feature.transactions.list.components.WalletSwitcherDialog
 import com.dv.moneym.feature.transactions.list.components.monthLabel
-import com.dv.moneym.feature.transactions.list.components.onHorizontalSwipe
+import kotlin.time.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.todayIn
 import kotlinx.serialization.Serializable
 import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.transactions_add
@@ -94,6 +91,22 @@ import moneym.feature.transactions.generated.resources.transactions_search_place
 import moneym.feature.transactions.generated.resources.transactions_title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+
+private const val PAGE_COUNT = 2400
+private const val PAGE_OFFSET = 1200
+
+private fun YearMonth.toPageIndex(): Int {
+    val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
+    val deltaMonths = (year - today.year) * 12 + (monthNumber - today.monthNumber)
+    return PAGE_OFFSET + deltaMonths
+}
+
+private fun pageIndexToYearMonth(page: Int): YearMonth {
+    val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
+    val deltaMonths = page - PAGE_OFFSET
+    val totalMonth0 = today.year * 12 + (today.monthNumber - 1) + deltaMonths
+    return YearMonth(totalMonth0 / 12, totalMonth0 % 12 + 1)
+}
 
 @Serializable
 data object TransactionsKey : NavKey
@@ -144,18 +157,6 @@ private fun TransactionListContent(
     var showCategoryFilter by remember { mutableStateOf(false) }
     // Local (non-persisted) category filter: set of selected category IDs
     var selectedCategoryIds by remember { mutableStateOf(emptySet<CategoryId>()) }
-    // Track animation direction: -1 = previous (swipe right), +1 = next (swipe left)
-    var animationDirection by remember { mutableIntStateOf(0) }
-
-    // Wrapped callbacks that set animation direction before dispatching
-    val onPreviousMonth: () -> Unit = {
-        animationDirection = -1
-        onIntent(TransactionListIntent.PreviousMonth)
-    }
-    val onNextMonth: () -> Unit = {
-        animationDirection = 1
-        onIntent(TransactionListIntent.NextMonth)
-    }
 
     if (showMonthPicker) {
         MonthPickerDialog(
@@ -214,6 +215,25 @@ private fun TransactionListContent(
         }
     }
 
+    val pagerState = rememberPagerState(
+        initialPage = state.currentMonth.toPageIndex(),
+        pageCount = { PAGE_COUNT },
+    )
+
+    LaunchedEffect(pagerState.settledPage) {
+        val newMonth = pageIndexToYearMonth(pagerState.settledPage)
+        if (newMonth != state.currentMonth) {
+            onIntent(TransactionListIntent.MonthSelected(newMonth))
+        }
+    }
+
+    LaunchedEffect(state.currentMonth) {
+        val targetPage = state.currentMonth.toPageIndex()
+        if (pagerState.currentPage != targetPage && !pagerState.isScrollInProgress) {
+            pagerState.animateScrollToPage(targetPage)
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -228,38 +248,19 @@ private fun TransactionListContent(
             onShowWalletSwitcher = { showWalletSwitcher = true },
             onShowCategoryFilter = { showCategoryFilter = true },
             onIntent = onIntent,
-            onPreviousMonth = onPreviousMonth,
-            onNextMonth = onNextMonth,
+            onPreviousMonth = { onIntent(TransactionListIntent.PreviousMonth) },
+            onNextMonth = { onIntent(TransactionListIntent.NextMonth) },
         )
 
-        // Animated content for month slide transitions (Phase 5)
-        AnimatedContent(
-            targetState = state.currentMonth,
-            transitionSpec = {
-                when {
-                    animationDirection > 0 ->
-                        (slideInHorizontally(tween(280)) { it } + fadeIn(tween(280))) togetherWith
-                                (slideOutHorizontally(tween(280)) { -it } + fadeOut(tween(280)))
-
-                    animationDirection < 0 ->
-                        (slideInHorizontally(tween(280)) { -it } + fadeIn(tween(280))) togetherWith
-                                (slideOutHorizontally(tween(280)) { it } + fadeOut(tween(280)))
-
-                    else ->
-                        fadeIn(tween(180)) togetherWith fadeOut(tween(180))
-                }
-            },
-            label = "month_slide",
-            modifier = Modifier.weight(1f),
-        ) { _ ->
+        HorizontalPager(state = pagerState, modifier = Modifier.weight(1f)) { page ->
+            val pageMonth = pageIndexToYearMonth(page)
+            val groups = if (pageMonth == state.currentMonth) filteredDayGroups else emptyList()
             TransactionListBody(
-                dayGroups = filteredDayGroups,
+                dayGroups = groups,
                 txDisplayPrefs = state.txDisplayPrefs,
-                isLoading = state.isLoading,
-                isEmpty = filteredDayGroups.isEmpty() && !state.isLoading,
+                isLoading = state.isLoading && pageMonth == state.currentMonth,
+                isEmpty = groups.isEmpty() && !(state.isLoading && pageMonth == state.currentMonth),
                 onEditTransaction = onEditTransaction,
-                onPreviousMonth = onPreviousMonth,
-                onNextMonth = onNextMonth,
             )
         }
 
@@ -488,8 +489,6 @@ private fun TransactionListBody(
     isLoading: Boolean,
     isEmpty: Boolean,
     onEditTransaction: (TransactionId) -> Unit,
-    onPreviousMonth: () -> Unit,
-    onNextMonth: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
@@ -511,12 +510,7 @@ private fun TransactionListBody(
 
         isEmpty -> {
             Box(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .onHorizontalSwipe(
-                        onSwipeLeft = onNextMonth,
-                        onSwipeRight = onPreviousMonth,
-                    ),
+                modifier = modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
                 Column(
@@ -538,13 +532,7 @@ private fun TransactionListBody(
         }
 
         else -> {
-            LazyColumn(
-                modifier = modifier
-                    .onHorizontalSwipe(
-                        onSwipeLeft = onNextMonth,
-                        onSwipeRight = onPreviousMonth,
-                    ),
-            ) {
+            LazyColumn(modifier = modifier) {
                 dayGroups.forEach { group ->
                     stickyHeader(key = "header_${group.date}") {
                         DayGroupHeader(group = group)

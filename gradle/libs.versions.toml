@@ -102,6 +102,7 @@ sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", versi
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
 multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatformSettings" }
 multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatformSettings" }
+multiplatform-settings-test = { module = "com.russhwolf:multiplatform-settings-test", version.ref = "multiplatformSettings" }
 
 # Charts
 compose-charts = { module = "io.github.ehsannarmani:compose-charts", version.ref = "composeCharts" }

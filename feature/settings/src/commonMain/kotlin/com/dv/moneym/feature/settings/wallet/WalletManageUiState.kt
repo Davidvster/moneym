@@ -7,12 +7,9 @@ import kotlinx.serialization.Serializable
 internal data class WalletManageUiState(
     val accounts: List<Account> = emptyList(),
     val selectedAccountId: Long = -1L,
-    val showAddDialog: Boolean = false,
 )
 
 internal sealed interface WalletManageIntent {
     data class SelectAccount(val id: Long) : WalletManageIntent
-    data object ShowAddDialog : WalletManageIntent
-    data object DismissAddDialog : WalletManageIntent
     data class AddWallet(val name: String, val currency: String) : WalletManageIntent
 }

@@ -15,5 +15,3 @@ data class ImportPreview(
 data class EntityCount(val new: Int, val duplicate: Int) {
     val total: Int get() = new + duplicate
 }
-
-enum class ImportMode { MERGE, REPLACE }

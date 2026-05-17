@@ -13,6 +13,6 @@ data class Account(
     val currency: CurrencyCode,
     val isDefault: Boolean,
     val archived: Boolean,
-    val createdAt: Instant,
-    val updatedAt: Instant,
+    @Serializable(with = InstantSerializer::class) val createdAt: Instant,
+    @Serializable(with = InstantSerializer::class) val updatedAt: Instant,
 )

@@ -23,10 +23,14 @@ import com.dv.moneym.feature.security.shared.AppLockup
 import com.dv.moneym.feature.security.shared.PinDots
 import com.dv.moneym.feature.security.shared.PinKeypad
 import kotlinx.coroutines.launch
+import com.dv.moneym.feature.security.PinError
 import moneym.feature.security.generated.resources.Res
 import moneym.feature.security.generated.resources.security_app_name
 import moneym.feature.security.generated.resources.security_backoff_retry
+import moneym.feature.security.generated.resources.security_biometric_unlock_prompt
 import moneym.feature.security.generated.resources.security_pin_enter_header
+import moneym.feature.security.generated.resources.security_pin_incorrect
+import moneym.feature.security.generated.resources.security_pin_mismatch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
@@ -37,13 +41,17 @@ fun PinUnlockScreen(
     viewModel: PinUnlockViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val biometricPrompt = stringResource(Res.string.security_biometric_unlock_prompt)
+
     LaunchedEffect(viewModel) {
+        viewModel.setBiometricPrompt(biometricPrompt)
         viewModel.effects.collect { if (it == PinUnlockEffect.Unlocked) onUnlocked() }
     }
 
     PinUnlockContent(
         state = state,
         onIntent = viewModel::onIntent,
+        biometricPrompt = biometricPrompt,
     )
 }
 
@@ -51,12 +59,19 @@ fun PinUnlockScreen(
 private fun PinUnlockContent(
     state: PinUnlockUiState,
     onIntent: (PinUnlockIntent) -> Unit,
+    biometricPrompt: String,
 ) {
     val colors = MM.colors
     val type = MM.type
 
     val shakeOffset = remember { Animatable(0f) }
     val scope = rememberCoroutineScope()
+
+    val errorText = when (state.error) {
+        is PinError.IncorrectPin -> stringResource(Res.string.security_pin_incorrect)
+        is PinError.PinsMismatch -> stringResource(Res.string.security_pin_mismatch)
+        null -> null
+    }
 
     // Trigger shake on error
     val errorSnapshot = state.error
@@ -113,11 +128,12 @@ private fun PinUnlockContent(
             color = colors.text,
         )
 
-        // Backoff subtitle (shown only when locked out)
-        if (subtitleText != null) {
+        // Backoff or error subtitle
+        val displaySubtitle = subtitleText ?: errorText
+        if (displaySubtitle != null) {
             Spacer(modifier = Modifier.height(MM.dimen.padding_0_5x))
             Text(
-                text = subtitleText,
+                text = displaySubtitle,
                 style = type.caption.copy(color = colors.danger),
             )
         }
@@ -137,7 +153,7 @@ private fun PinUnlockContent(
             onKey = { char -> onIntent(PinUnlockIntent.DigitPressed(char.digitToInt())) },
             onDelete = { onIntent(PinUnlockIntent.DeletePressed) },
             onBiometric = if (state.biometricAvailable) {
-                { onIntent(PinUnlockIntent.BiometricRequested) }
+                { onIntent(PinUnlockIntent.BiometricRequested(biometricPrompt)) }
             } else {
                 null
             },

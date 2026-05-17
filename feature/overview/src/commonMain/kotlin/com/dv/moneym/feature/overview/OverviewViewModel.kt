@@ -43,6 +43,10 @@ class OverviewViewModel(
     private val _selectedSliceIndex by savedStateHandle.saved { MutableStateFlow<Int?>(null) }
     private val _selectedAccountId by savedStateHandle.saved { MutableStateFlow<Long>(-1L) }
 
+    // Holds ISO date strings for the earliest and latest transaction dates.
+    // Loaded once on init to constrain the date range picker.
+    private val _dateBounds = MutableStateFlow<Pair<String?, String?>>(null to null)
+
     private suspend fun init() {
         // Restore persisted overview period mode on startup
         viewModelScope.launch {
@@ -58,6 +62,13 @@ class OverviewViewModel(
             appSettingsRepository.observeSelectedAccountId().collect { id ->
                 _selectedAccountId.value = id
             }
+        }
+
+        // Fetch transaction date bounds for constraining the date range picker
+        viewModelScope.launch {
+            val earliest = transactionRepository.getEarliestTransactionDate()?.toString()
+            val latest = transactionRepository.getLatestTransactionDate()?.toString()
+            _dateBounds.value = earliest to latest
         }
     }
 
@@ -298,6 +309,9 @@ class OverviewViewModel(
     }
         .combine(_selectedSliceIndex) { s, slice -> s.copy(selectedSliceIndex = slice) }
         .combine(_periodOffset) { s, offset -> s.copy(periodOffset = offset) }
+        .combine(_dateBounds) { s, (minIso, maxIso) ->
+            s.copy(minSelectableDateIso = minIso, maxSelectableDateIso = maxIso)
+        }
         .stateIn(viewModelScope, SharingStarted.Eagerly, OverviewUiState())
 
     internal fun onIntent(intent: OverviewIntent) {

@@ -28,7 +28,7 @@ internal fun AppearanceSection(
     themeIndex: Int,
     themeModes: List<ThemeMode>,
     txDisplaySummary: String,
-    onIntent: (SettingsIntent) -> Unit,
+    onThemeModeChanged: (ThemeMode) -> Unit,
     onNavigateToTxDisplay: () -> Unit,
 ) {
     val colors = MM.colors
@@ -56,7 +56,7 @@ internal fun AppearanceSection(
                     stringResource(Res.string.settings_theme_auto),
                 ),
                 selectedIndex = themeIndex,
-                onOptionSelected = { onIntent(SettingsIntent.ThemeModeChanged(themeModes[it])) },
+                onOptionSelected = { onThemeModeChanged(themeModes[it]) },
                 size = MmSegmentedSize.Sm,
             )
         }

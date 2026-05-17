@@ -1,33 +1,54 @@
 package com.dv.moneym.core.security
 
-import com.dv.moneym.core.common.AppLogger
+import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.UByteVar
+import kotlinx.cinterop.allocArray
+import kotlinx.cinterop.memScoped
+import kotlinx.cinterop.readBytes
+import kotlinx.cinterop.toCValues
+import platform.CoreCrypto.CCKeyDerivationPBKDF
+import platform.CoreCrypto.kCCPBKDF2
+import platform.CoreCrypto.kCCPRFHmacAlgSHA256
+import platform.CoreCrypto.kCCSuccess
+import platform.Security.SecRandomCopyBytes
+import platform.Security.kSecRandomDefault
 
-private val logger = AppLogger.tag("PinHasher")
-
-// Phase 1 stub — replaced with CommonCrypto PBKDF2 in Phase 4.
-// The stub is deterministic so round-trip tests pass on iOS Simulator.
+@OptIn(ExperimentalForeignApi::class)
 actual class PinHasher actual constructor() {
 
     actual fun hash(pin: String): HashedPin {
-        logger.w { "PinHasher: using Phase 1 stub on iOS — NOT for production use" }
-        val pinBytes = pin.encodeToByteArray()
-        val salt = ByteArray(16) { i -> pinBytes.getOrElse(i) { 0 } }
-        val digest = deterministicDerive(pinBytes, salt)
-        return HashedPin(STUB_ALGORITHM, 1, salt, digest)
+        val salt = ByteArray(SALT_BYTES)
+        memScoped {
+            SecRandomCopyBytes(kSecRandomDefault, SALT_BYTES.toULong(), salt.asUByteArray().toCValues().ptr)
+        }
+        val digest = pbkdf2(pin, salt, ITERATIONS)
+        return HashedPin(ALGORITHM, ITERATIONS, salt, digest)
     }
 
     actual fun verify(pin: String, hashed: HashedPin): Boolean {
-        val candidate = hash(pin)
-        return constantTimeEquals(candidate.digest, hashed.digest)
+        val candidate = pbkdf2(pin, hashed.salt, hashed.iterations)
+        return constantTimeEquals(candidate, hashed.digest)
     }
 
-    private fun deterministicDerive(pinBytes: ByteArray, salt: ByteArray): ByteArray {
-        val digest = ByteArray(32)
-        val combined = pinBytes + salt
-        combined.forEachIndexed { i, b ->
-            digest[i % 32] = (digest[i % 32].toInt() xor b.toInt()).toByte()
+    private fun pbkdf2(pin: String, salt: ByteArray, iterations: Int): ByteArray {
+        val pinBytes = pin.encodeToByteArray()
+        val digestBytes = DIGEST_BITS / 8
+        return memScoped {
+            val output = allocArray<UByteVar>(digestBytes)
+            val result = CCKeyDerivationPBKDF(
+                algorithm = kCCPBKDF2,
+                password = pin,
+                passwordLen = pinBytes.size.toULong(),
+                salt = salt.asUByteArray().toCValues().ptr,
+                saltLen = salt.size.toULong(),
+                prf = kCCPRFHmacAlgSHA256,
+                rounds = iterations.toUInt(),
+                derivedKey = output,
+                derivedKeyLen = digestBytes.toULong(),
+            )
+            check(result == kCCSuccess) { "CCKeyDerivationPBKDF failed: $result" }
+            output.readBytes(digestBytes)
         }
-        return digest
     }
 
     private fun constantTimeEquals(a: ByteArray, b: ByteArray): Boolean {
@@ -38,6 +59,9 @@ actual class PinHasher actual constructor() {
     }
 
     private companion object {
-        const val STUB_ALGORITHM = "STUB-Phase1"
+        const val ALGORITHM = "PBKDF2WithHmacSHA256"
+        const val ITERATIONS = 600_000
+        const val SALT_BYTES = 16
+        const val DIGEST_BITS = 256
     }
 }

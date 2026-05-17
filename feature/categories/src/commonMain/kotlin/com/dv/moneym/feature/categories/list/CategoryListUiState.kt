@@ -4,6 +4,7 @@ import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import kotlinx.serialization.Serializable
 
+@Serializable
 internal enum class CategoryTab { Expense, Income }
 
 @Serializable
@@ -21,3 +22,5 @@ internal sealed interface CategoryListIntent {
     data class ArchiveRequested(val id: CategoryId) : CategoryListIntent
     data class UnarchiveRequested(val id: CategoryId) : CategoryListIntent
 }
+
+internal sealed interface CategoryListEffect

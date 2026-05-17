@@ -25,13 +25,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.CommonCurrencies
+import com.dv.moneym.core.model.CurrencyInfo
+import com.dv.moneym.core.model.PopularCurrencyCodes
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.feature.settings.settings.CurrencyPickerKey
-import com.dv.moneym.feature.settings.settings.SettingsViewModel
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_currency_all
 import moneym.feature.settings.generated.resources.settings_currency_picker_title
@@ -46,74 +48,24 @@ fun EntryProviderScope<NavKey>.currencyPickerEntry(
     CurrencyPickerScreen(onBack = onBack)
 }
 
-data class CurrencyInfo(
-    val code: String,
-    val name: String,
-    val symbol: String,
-    val region: String = "",
-)
-
-private val popularCurrencyCodes = listOf("USD", "EUR", "GBP", "JPY", "CHF", "CAD", "AUD", "CNY")
-
-private val allCurrencies = listOf(
-    CurrencyInfo("USD", "US Dollar", "$", "United States"),
-    CurrencyInfo("EUR", "Euro", "€", "Eurozone"),
-    CurrencyInfo("GBP", "British Pound", "£", "United Kingdom"),
-    CurrencyInfo("JPY", "Japanese Yen", "¥", "Japan"),
-    CurrencyInfo("CHF", "Swiss Franc", "CHF", "Switzerland"),
-    CurrencyInfo("CAD", "Canadian Dollar", "CA$", "Canada"),
-    CurrencyInfo("AUD", "Australian Dollar", "A$", "Australia"),
-    CurrencyInfo("CNY", "Chinese Yuan", "¥", "China"),
-    CurrencyInfo("HKD", "Hong Kong Dollar", "HK$", "Hong Kong"),
-    CurrencyInfo("SGD", "Singapore Dollar", "S$", "Singapore"),
-    CurrencyInfo("SEK", "Swedish Krona", "kr", "Sweden"),
-    CurrencyInfo("NOK", "Norwegian Krone", "kr", "Norway"),
-    CurrencyInfo("DKK", "Danish Krone", "kr", "Denmark"),
-    CurrencyInfo("NZD", "New Zealand Dollar", "NZ$", "New Zealand"),
-    CurrencyInfo("MXN", "Mexican Peso", "MX$", "Mexico"),
-    CurrencyInfo("BRL", "Brazilian Real", "R$", "Brazil"),
-    CurrencyInfo("INR", "Indian Rupee", "₹", "India"),
-    CurrencyInfo("KRW", "South Korean Won", "₩", "South Korea"),
-    CurrencyInfo("ZAR", "South African Rand", "R", "South Africa"),
-    CurrencyInfo("TRY", "Turkish Lira", "₺", "Turkey"),
-    CurrencyInfo("PLN", "Polish Zloty", "zł", "Poland"),
-    CurrencyInfo("CZK", "Czech Koruna", "Kč", "Czech Republic"),
-    CurrencyInfo("HUF", "Hungarian Forint", "Ft", "Hungary"),
-    CurrencyInfo("RUB", "Russian Ruble", "₽", "Russia"),
-    CurrencyInfo("AED", "UAE Dirham", "د.إ", "UAE"),
-    CurrencyInfo("SAR", "Saudi Riyal", "﷼", "Saudi Arabia"),
-    CurrencyInfo("THB", "Thai Baht", "฿", "Thailand"),
-    CurrencyInfo("IDR", "Indonesian Rupiah", "Rp", "Indonesia"),
-    CurrencyInfo("MYR", "Malaysian Ringgit", "RM", "Malaysia"),
-    CurrencyInfo("PHP", "Philippine Peso", "₱", "Philippines"),
-    CurrencyInfo("VND", "Vietnamese Dong", "₫", "Vietnam"),
-    CurrencyInfo("UAH", "Ukrainian Hryvnia", "₴", "Ukraine"),
-    CurrencyInfo("ILS", "Israeli Shekel", "₪", "Israel"),
-    CurrencyInfo("EGP", "Egyptian Pound", "£", "Egypt"),
-    CurrencyInfo("NGN", "Nigerian Naira", "₦", "Nigeria"),
-    CurrencyInfo("KES", "Kenyan Shilling", "KSh", "Kenya"),
-    CurrencyInfo("GHS", "Ghanaian Cedi", "₵", "Ghana"),
-)
-
-private val popularCurrencies = allCurrencies.filter { it.code in popularCurrencyCodes }
+private val popularCurrencies = CommonCurrencies.filter { it.code in PopularCurrencyCodes }
 
 @Composable
 private fun CurrencyPickerScreen(
     onBack: () -> Unit,
-    viewModel: SettingsViewModel = koinViewModel(),
+    viewModel: CurrencyPickerViewModel = koinViewModel(),
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    val selectedCurrencyCode = state.defaultCurrency
+    val selectedCurrencyCode by viewModel.selectedCurrency.collectAsStateWithLifecycle()
 
     var searchQuery by remember { mutableStateOf("") }
 
     val filteredAll by remember(searchQuery) {
         derivedStateOf {
             if (searchQuery.isBlank()) {
-                allCurrencies
+                CommonCurrencies
             } else {
                 val q = searchQuery.trim().lowercase()
-                allCurrencies.filter { c ->
+                CommonCurrencies.filter { c ->
                     c.code.lowercase().contains(q) || c.name.lowercase().contains(q)
                 }
             }

@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.datetime.LocalDate
 
 class FakeTransactionRepository : TransactionRepository {
     private val _transactions = MutableStateFlow<List<Transaction>>(emptyList())
@@ -53,4 +54,8 @@ class FakeTransactionRepository : TransactionRepository {
     override suspend fun delete(id: TransactionId) {
         _transactions.update { list -> list.filter { it.id != id } }
     }
+
+    override suspend fun getEarliestTransactionDate(): LocalDate? = null
+
+    override suspend fun getLatestTransactionDate(): LocalDate? = null
 }

@@ -9,6 +9,8 @@ import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
+import androidx.lifecycle.SavedStateHandle
+import com.dv.moneym.core.testing.FakeAccountRepository
 import com.dv.moneym.core.testing.FakeAppSettingsRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
@@ -64,8 +66,10 @@ class TransactionListViewModelTest {
         val vm = TransactionListViewModel(
             transactionRepository = FakeTransactionRepository(),
             categoryRepository = FakeCategoryRepository(),
+            accountRepository = FakeAccountRepository(),
             appSettingsRepository = FakeAppSettingsRepository(),
             clock = clock,
+            savedStateHandle = SavedStateHandle(),
         )
         assertTrue(vm.state.value.isLoading)
     }
@@ -74,7 +78,7 @@ class TransactionListViewModelTest {
     fun transactionsForCurrentMonthAppearInState() = runTestWithDispatchers {
         val txnRepo = FakeTransactionRepository()
         val catRepo = FakeCategoryRepository()
-        val vm = TransactionListViewModel(txnRepo, catRepo, FakeAppSettingsRepository(), clock)
+        val vm = TransactionListViewModel(txnRepo, catRepo, FakeAccountRepository(), FakeAppSettingsRepository(), clock, SavedStateHandle())
 
         val id = txnRepo.upsert(makeTxn(today))
 
@@ -90,7 +94,7 @@ class TransactionListViewModelTest {
     fun filterByTypeRemovesNonMatchingTransactions() = runTestWithDispatchers {
         val txnRepo = FakeTransactionRepository()
         val catRepo = FakeCategoryRepository()
-        val vm = TransactionListViewModel(txnRepo, catRepo, FakeAppSettingsRepository(), clock)
+        val vm = TransactionListViewModel(txnRepo, catRepo, FakeAccountRepository(), FakeAppSettingsRepository(), clock, SavedStateHandle())
 
         txnRepo.upsert(makeTxn())
         txnRepo.upsert(makeTxn().copy(type = TransactionType.INCOME))
@@ -111,7 +115,7 @@ class TransactionListViewModelTest {
 
     @Test
     fun previousMonthNavigationDecreasesMonth() = runTestWithDispatchers {
-        val vm = TransactionListViewModel(FakeTransactionRepository(), FakeCategoryRepository(), FakeAppSettingsRepository(), clock)
+        val vm = TransactionListViewModel(FakeTransactionRepository(), FakeCategoryRepository(), FakeAccountRepository(), FakeAppSettingsRepository(), clock, SavedStateHandle())
         vm.state.test {
             var state = awaitItem()
             while (state.isLoading) state = awaitItem()

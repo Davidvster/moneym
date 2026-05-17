@@ -15,6 +15,7 @@ class FakeAppSettingsRepository : AppSettingsRepository {
     private val _language = MutableStateFlow("")
     private val _lastTransactionFilter = MutableStateFlow("all")
     private val _lastOverviewPeriod = MutableStateFlow("month")
+    private val _selectedAccountId = MutableStateFlow(-1L)
 
     override fun observeThemeMode(): Flow<ThemeMode> = _themeMode.asStateFlow()
 
@@ -50,5 +51,11 @@ class FakeAppSettingsRepository : AppSettingsRepository {
 
     override suspend fun setLastOverviewPeriod(encoded: String) {
         _lastOverviewPeriod.value = encoded
+    }
+
+    override fun observeSelectedAccountId(): Flow<Long> = _selectedAccountId.asStateFlow()
+
+    override suspend fun setSelectedAccountId(id: Long) {
+        _selectedAccountId.value = id
     }
 }

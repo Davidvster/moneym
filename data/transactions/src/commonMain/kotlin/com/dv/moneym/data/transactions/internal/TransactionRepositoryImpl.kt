@@ -7,6 +7,7 @@ import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.datetime.LocalDate
 import kotlin.time.Clock
 
 internal class TransactionRepositoryImpl(
@@ -66,4 +67,10 @@ internal class TransactionRepositoryImpl(
     }
 
     override suspend fun delete(id: TransactionId) = dataSource.delete(id.value)
+
+    override suspend fun getEarliestTransactionDate(): LocalDate? =
+        dataSource.getEarliestDate()?.let { LocalDate.parse(it) }
+
+    override suspend fun getLatestTransactionDate(): LocalDate? =
+        dataSource.getLatestDate()?.let { LocalDate.parse(it) }
 }

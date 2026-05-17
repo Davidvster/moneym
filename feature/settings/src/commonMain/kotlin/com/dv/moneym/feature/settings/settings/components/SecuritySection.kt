@@ -20,7 +20,7 @@ import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.MmToggle
-import com.dv.moneym.feature.settings.settings.SettingsIntent
+import com.dv.moneym.feature.settings.settings.SecuritySettingsIntent
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_biometrics
 import moneym.feature.settings.generated.resources.settings_biometrics_subtitle
@@ -35,7 +35,7 @@ internal fun SecuritySection(
     biometricAvailable: Boolean,
     biometricEnabled: Boolean,
     lockAfterLabel: String,
-    onIntent: (SettingsIntent) -> Unit,
+    onIntent: (SecuritySettingsIntent) -> Unit,
     onShowLockPicker: () -> Unit,
 ) {
     val colors = MM.colors
@@ -56,8 +56,8 @@ internal fun SecuritySection(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null,
                     ) {
-                        if (pinEnabled) onIntent(SettingsIntent.ChangePinRequested)
-                        else onIntent(SettingsIntent.PinToggled(true))
+                        if (pinEnabled) onIntent(SecuritySettingsIntent.ChangePinRequested)
+                        else onIntent(SecuritySettingsIntent.PinToggled(true))
                     },
             ) {
                 Text(
@@ -74,7 +74,7 @@ internal fun SecuritySection(
             }
             MmToggle(
                 checked = pinEnabled,
-                onCheckedChange = { onIntent(SettingsIntent.PinToggled(it)) },
+                onCheckedChange = { onIntent(SecuritySettingsIntent.PinToggled(it)) },
             )
         }
         if (biometricAvailable) {
@@ -100,7 +100,7 @@ internal fun SecuritySection(
                 }
                 MmToggle(
                     checked = biometricEnabled,
-                    onCheckedChange = { onIntent(SettingsIntent.BiometricToggled(it)) },
+                    onCheckedChange = { onIntent(SecuritySettingsIntent.BiometricToggled(it)) },
                     enabled = pinEnabled,
                 )
             }

@@ -17,9 +17,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
+import com.dv.moneym.feature.settings.settings.components.LockTimeoutPickerDialog
+import com.dv.moneym.feature.settings.settings.components.SettingsLazyList
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_lang_system_default
@@ -61,9 +64,7 @@ fun EntryProviderScope<NavKey>.settingsEntry(
     onNavigateToExport: () -> Unit = {},
     onNavigateToWallets: () -> Unit = {},
     onTabSelected: (TabRoute) -> Unit,
-    onExportReady: (suspend (String, String, String) -> Unit)? = null,
-    onImportRequested: (suspend () -> String?)? = null,
-    viewModel: SettingsViewModel? = null,
+    securityViewModel: SecuritySettingsViewModel? = null,
 ) = entry<SettingsKey> {
     SettingsScreen(
         onNavigateToPinSetup = onNavigateToPinSetup,
@@ -74,9 +75,7 @@ fun EntryProviderScope<NavKey>.settingsEntry(
         onNavigateToExport = onNavigateToExport,
         onNavigateToWallets = onNavigateToWallets,
         onTabSelected = onTabSelected,
-        onExportReady = onExportReady,
-        onImportRequested = onImportRequested,
-        viewModel = viewModel ?: koinViewModel(),
+        securityViewModel = securityViewModel ?: koinViewModel(),
     )
 }
 
@@ -90,33 +89,35 @@ fun SettingsScreen(
     onNavigateToExport: () -> Unit = {},
     onNavigateToWallets: () -> Unit = {},
     onTabSelected: (TabRoute) -> Unit = {},
-    onExportReady: (suspend (String, String, String) -> Unit)? = null,
-    onImportRequested: (suspend () -> String?)? = null,
-    viewModel: SettingsViewModel = koinViewModel(),
+    overviewViewModel: SettingsOverviewViewModel = koinViewModel(),
+    securityViewModel: SecuritySettingsViewModel = koinViewModel(),
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val themeMode by overviewViewModel.themeMode.collectAsStateWithLifecycle()
+    val txDisplayPrefs by overviewViewModel.txDisplayPrefs.collectAsStateWithLifecycle()
+    val defaultCurrency by overviewViewModel.defaultCurrency.collectAsStateWithLifecycle()
+    val language by overviewViewModel.language.collectAsStateWithLifecycle()
+    val securityState by securityViewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(viewModel) {
-        viewModel.effects.collect { effect ->
+    LaunchedEffect(securityViewModel) {
+        securityViewModel.effects.collect { effect ->
             when (effect) {
-                SettingsEffect.NavigateToPinSetup -> onNavigateToPinSetup()
-                is SettingsEffect.ExportReady -> {
-                    onExportReady?.invoke(effect.fileName, effect.content, effect.mimeType)
-                }
-
-                SettingsEffect.ImportRequested -> {
-                    val content = onImportRequested?.invoke()
-                    if (content != null) {
-                        viewModel.onIntent(SettingsIntent.ImportJsonChanged(content))
-                        viewModel.onIntent(SettingsIntent.ApplyImportRequested)
-                    }
-                }
+                SecuritySettingsEffect.NavigateToPinSetup -> onNavigateToPinSetup()
             }
         }
     }
+
+    val state = SettingsUiState(
+        themeMode = themeMode,
+        txDisplayPrefs = txDisplayPrefs,
+        defaultCurrency = defaultCurrency,
+        language = language,
+    )
+
     SettingsContent(
         state = state,
-        onIntent = viewModel::onIntent,
+        securityState = securityState,
+        onThemeModeChanged = { overviewViewModel.setThemeMode(it) },
+        onSecurityIntent = securityViewModel::onIntent,
         onNavigateToCategories = onNavigateToCategories,
         onNavigateToTxDisplay = onNavigateToTxDisplay,
         onNavigateToCurrency = onNavigateToCurrency,
@@ -130,7 +131,9 @@ fun SettingsScreen(
 @Composable
 private fun SettingsContent(
     state: SettingsUiState,
-    onIntent: (SettingsIntent) -> Unit,
+    securityState: SecuritySettingsUiState,
+    onThemeModeChanged: (ThemeMode) -> Unit,
+    onSecurityIntent: (SecuritySettingsIntent) -> Unit,
     onNavigateToCategories: () -> Unit,
     onNavigateToTxDisplay: () -> Unit,
     onNavigateToCurrency: () -> Unit,
@@ -151,12 +154,12 @@ private fun SettingsContent(
     val prefs = state.txDisplayPrefs
     val txDisplaySummary =
         "${prefs.indicatorStyle.name} · ${if (prefs.showNote) "with note" else "no note"}"
-    val lockAfterLabel = when (state.backgroundLockSeconds) {
+    val lockAfterLabel = when (securityState.backgroundLockSeconds) {
         0 -> stringResource(Res.string.settings_lock_immediately)
         30 -> stringResource(Res.string.settings_lock_30s)
         60 -> stringResource(Res.string.settings_lock_1m)
         300 -> stringResource(Res.string.settings_lock_5m)
-        else -> "${state.backgroundLockSeconds}s"
+        else -> "${securityState.backgroundLockSeconds}s"
     }
     val languageSubtitle = when (state.language) {
         "en" -> "English"
@@ -170,11 +173,11 @@ private fun SettingsContent(
 
     var showLockPicker by remember { mutableStateOf(false) }
     if (showLockPicker) {
-        _root_ide_package_.com.dv.moneym.feature.settings.settings.components.LockTimeoutPickerDialog(
-            currentSeconds = state.backgroundLockSeconds,
+        LockTimeoutPickerDialog(
+            currentSeconds = securityState.backgroundLockSeconds,
             onDismiss = { showLockPicker = false },
             onConfirm = { seconds ->
-                onIntent(SettingsIntent.LockTimeoutChanged(seconds))
+                onSecurityIntent(SecuritySettingsIntent.LockTimeoutChanged(seconds))
                 showLockPicker = false
             },
         )
@@ -196,15 +199,17 @@ private fun SettingsContent(
                 ),
         )
 
-        _root_ide_package_.com.dv.moneym.feature.settings.settings.components.SettingsLazyList(
+        SettingsLazyList(
             modifier = Modifier.weight(1f),
             state = state,
+            securityState = securityState,
             themeIndex = themeIndex,
             themeModes = themeModes,
             txDisplaySummary = txDisplaySummary,
             lockAfterLabel = lockAfterLabel,
             languageSubtitle = languageSubtitle,
-            onIntent = onIntent,
+            onThemeModeChanged = onThemeModeChanged,
+            onSecurityIntent = onSecurityIntent,
             onNavigateToTxDisplay = onNavigateToTxDisplay,
             onNavigateToCategories = onNavigateToCategories,
             onNavigateToCurrency = onNavigateToCurrency,
@@ -220,10 +225,12 @@ private fun SettingsContent(
 @androidx.compose.ui.tooling.preview.Preview
 @Composable
 private fun SettingsScreenPreview() {
-    com.dv.moneym.core.designsystem.MoneyMTheme {
+    MoneyMTheme {
         SettingsContent(
             state = SettingsUiState(),
-            onIntent = {},
+            securityState = SecuritySettingsUiState(),
+            onThemeModeChanged = {},
+            onSecurityIntent = {},
             onNavigateToCategories = {},
             onNavigateToTxDisplay = {},
             onNavigateToCurrency = {},

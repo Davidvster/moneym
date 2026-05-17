@@ -31,7 +31,6 @@ import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.feature.settings.settings.LanguagePickerKey
-import com.dv.moneym.feature.settings.settings.SettingsViewModel
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_language_all_languages
 import moneym.feature.settings.generated.resources.settings_language_picker_title
@@ -60,10 +59,9 @@ private val supportedLanguages = listOf(
 @Composable
 private fun LanguagePickerScreen(
     onBack: () -> Unit,
-    viewModel: SettingsViewModel = koinViewModel(),
+    viewModel: LanguagePickerViewModel = koinViewModel(),
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    val selectedLanguage = state.language
+    val selectedLanguage by viewModel.selectedLanguage.collectAsStateWithLifecycle()
 
     // "" means use device language
     var useDeviceLanguage by remember(selectedLanguage) {

@@ -100,4 +100,9 @@
     <string name="settings_wallet_name_placeholder">Wallet name</string>
     <string name="settings_wallet_currency_placeholder">Currency (e.g. EUR)</string>
     <string name="settings_wallet_type_currency">%1$s · %2$s</string>
+    <!-- Add wallet screen -->
+    <string name="settings_wallet_add_screen_title">Add Wallet</string>
+    <string name="settings_wallet_currency_label">Currency</string>
+    <string name="settings_wallet_currency_change">Change</string>
+    <string name="settings_wallet_currency_none">None selected</string>
 </resources>

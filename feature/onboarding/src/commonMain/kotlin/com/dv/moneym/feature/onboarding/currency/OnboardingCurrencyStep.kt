@@ -27,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.CommonCurrencies
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
@@ -73,8 +74,6 @@ private fun OnboardingCurrencyScreen(
     )
 }
 
-private data class CurrencyItem(val code: String, val name: String)
-
 @Composable
 internal fun CurrencyStep(
     selected: String,
@@ -86,14 +85,12 @@ internal fun CurrencyStep(
     val colors = MM.colors
     val type = MM.type
 
-    val allItems = remember { commonCurrencies.map { (code, name) -> CurrencyItem(code, name) } }
-
     val filteredItems by remember(searchQuery) {
         derivedStateOf {
-            if (searchQuery.isBlank()) allItems
+            if (searchQuery.isBlank()) CommonCurrencies
             else {
                 val q = searchQuery.trim().lowercase()
-                allItems.filter { c ->
+                CommonCurrencies.filter { c ->
                     c.code.lowercase().contains(q) || c.name.lowercase().contains(q)
                 }
             }

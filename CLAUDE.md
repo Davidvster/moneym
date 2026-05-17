@@ -52,6 +52,9 @@ iOS Xcode project lives in `iosApp/`.
 | Android Activity | androidx-activity-compose |
 | ViewModel | androidx-lifecycle-viewmodel-compose |
 
+## Kotlin conventions
+Always try to import the class, never use the fully qualified name unless its explicity necessary
+
 ## Platform Abstraction Pattern
 
 Platform-specific behavior uses Kotlin's `expect/actual` mechanism:

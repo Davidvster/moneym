@@ -6,14 +6,16 @@ import kotlinx.serialization.Serializable
 
 // ─── Period / Mode ─────────────────────────────────────────────
 
+@Serializable
 internal sealed interface OverviewPeriod {
-    data class Month(val yearMonth: YearMonth) : OverviewPeriod
-    data class Year(val year: Int) : OverviewPeriod
+    @Serializable data class Month(val yearMonth: YearMonth) : OverviewPeriod
+    @Serializable data class Year(val year: Int) : OverviewPeriod
 
     /**
      * Custom date range. Dates are stored as individual Int fields for KMP
      * serialization simplicity (avoids expect/actual for LocalDate serialization).
      */
+    @Serializable
     data class DateRange(
         val startYear: Int,
         val startMonth: Int,
@@ -108,6 +110,11 @@ internal data class OverviewUiState(
 
     val selectedSliceIndex: Int? = null,
     val currency: String = "EUR",
+
+    // ISO date strings (yyyy-MM-dd) for constraining the date range picker.
+    // Stored as String? to avoid LocalDate serialization issues in saved state.
+    val minSelectableDateIso: String? = null,
+    val maxSelectableDateIso: String? = null,
 )
 
 internal sealed interface OverviewIntent {

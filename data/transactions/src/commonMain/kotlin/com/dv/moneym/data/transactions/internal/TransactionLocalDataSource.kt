@@ -19,4 +19,6 @@ internal interface TransactionLocalDataSource {
         occurredOn: String, note: String?, categoryId: Long, accountId: Long, updatedAt: Long,
     )
     suspend fun delete(id: Long)
+    suspend fun getEarliestDate(): String?
+    suspend fun getLatestDate(): String?
 }

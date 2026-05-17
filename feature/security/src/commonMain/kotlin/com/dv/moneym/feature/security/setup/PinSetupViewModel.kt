@@ -10,6 +10,7 @@ import com.dv.moneym.core.security.BiometricAuthenticator
 import com.dv.moneym.core.security.BiometryType
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.core.security.SecurityPrefs
+import com.dv.moneym.feature.security.PinError
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -103,7 +104,7 @@ class PinSetupViewModel(
                     step = PinSetupStep.ENTER_FIRST,
                     firstPin = "",
                     secondPin = "",
-                    error = "PINs don't match"
+                    error = PinError.PinsMismatch
                 )
             }
             return

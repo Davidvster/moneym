@@ -37,7 +37,6 @@ import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.TxRow
-import com.dv.moneym.feature.settings.settings.SettingsViewModel
 import com.dv.moneym.feature.settings.settings.TxListDisplayKey
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_tx_list_display_title
@@ -96,10 +95,9 @@ private fun indicatorDescription(style: IndicatorStyle): String = when (style) {
 @Composable
 private fun TxListDisplayScreen(
     onBack: () -> Unit,
-    viewModel: SettingsViewModel = koinViewModel(),
+    viewModel: TxListDisplayViewModel = koinViewModel(),
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    val currentPrefs = state.txDisplayPrefs
+    val currentPrefs by viewModel.txDisplayPrefs.collectAsStateWithLifecycle()
 
     TxListDisplayContent(
         currentPrefs = currentPrefs,

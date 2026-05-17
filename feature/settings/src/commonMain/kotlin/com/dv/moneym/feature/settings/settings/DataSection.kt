@@ -17,7 +17,6 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun DataSection(
-    onIntent: (SettingsIntent) -> Unit,
     onNavigateToExport: () -> Unit,
 ) {
     val colors = MM.colors
@@ -44,7 +43,7 @@ internal fun DataSection(
                 modifier = Modifier.size(MM.dimen.padding_2x),
             )
         }
-        MmRow(onClick = { onIntent(SettingsIntent.ImportRequested) }, divider = false) {
+        MmRow(onClick = onNavigateToExport, divider = false) {
             Icon(
                 imageVector = MmIcons.folder,
                 contentDescription = null,

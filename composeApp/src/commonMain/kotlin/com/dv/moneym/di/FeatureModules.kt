@@ -16,7 +16,13 @@ import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
 import com.dv.moneym.feature.overview.OverviewViewModel
 import com.dv.moneym.feature.security.setup.PinSetupViewModel
 import com.dv.moneym.feature.security.unlock.PinUnlockViewModel
-import com.dv.moneym.feature.settings.settings.SettingsViewModel
+import com.dv.moneym.feature.settings.settings.SecuritySettingsViewModel
+import com.dv.moneym.feature.settings.settings.SettingsOverviewViewModel
+import com.dv.moneym.feature.settings.settings.currencypicker.CurrencyPickerViewModel
+import com.dv.moneym.feature.settings.settings.export.ExportViewModel
+import com.dv.moneym.feature.settings.settings.locale.LanguagePickerViewModel
+import com.dv.moneym.feature.settings.settings.transactiondisplay.TxListDisplayViewModel
+import com.dv.moneym.feature.settings.wallet.AddWalletViewModel
 import com.dv.moneym.feature.settings.wallet.WalletManageViewModel
 import com.dv.moneym.feature.transactionedit.TransactionEditViewModel
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
@@ -87,15 +93,44 @@ val dataBackupModule = module {
 
 val featureSettingsModule = module {
     viewModel {
-        SettingsViewModel(
-            settings = get(),
+        SettingsOverviewViewModel(
             appSettingsRepository = get(),
+            savedStateHandle = get(),
+        )
+    }
+    viewModel {
+        SecuritySettingsViewModel(
+            settings = get(),
             pinManager = get(),
             biometricAuth = get(),
+            dispatchers = get(),
+            savedStateHandle = get(),
+        )
+    }
+    viewModel {
+        ExportViewModel(
             exporter = get(),
             importer = get(),
             dispatchers = get(),
+            savedStateHandle = get(),
+        )
+    }
+    viewModel {
+        CurrencyPickerViewModel(
+            appSettingsRepository = get(),
+            savedStateHandle = get(),
+        )
+    }
+    viewModel {
+        LanguagePickerViewModel(
+            appSettingsRepository = get(),
             localeController = get(),
+            savedStateHandle = get(),
+        )
+    }
+    viewModel {
+        TxListDisplayViewModel(
+            appSettingsRepository = get(),
             savedStateHandle = get(),
         )
     }
@@ -106,6 +141,12 @@ val featureWalletModule = module {
         WalletManageViewModel(
             accountRepository = get(),
             appSettingsRepository = get(),
+            savedStateHandle = get(),
+        )
+    }
+    viewModel {
+        AddWalletViewModel(
+            accountRepository = get(),
             savedStateHandle = get(),
         )
     }

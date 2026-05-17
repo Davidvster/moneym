@@ -204,6 +204,8 @@ private fun OverviewContent(
                 initEndYear = initEnd.first,
                 initEndMonth = initEnd.second,
                 initEndDay = initEnd.third,
+                minSelectableDateIso = state.minSelectableDateIso,
+                maxSelectableDateIso = state.maxSelectableDateIso,
                 onDismiss = { showDateRangePicker = false },
                 onConfirm = { sy, sm, sd, ey, em, ed ->
                     onIntent(

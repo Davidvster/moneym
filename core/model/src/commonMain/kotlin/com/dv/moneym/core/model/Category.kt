@@ -11,6 +11,6 @@ data class Category(
     val colorHex: String,
     val isUserCreated: Boolean,
     val archived: Boolean,
-    val createdAt: Instant,
-    val updatedAt: Instant,
+    @Serializable(with = InstantSerializer::class) val createdAt: Instant,
+    @Serializable(with = InstantSerializer::class) val updatedAt: Instant,
 )

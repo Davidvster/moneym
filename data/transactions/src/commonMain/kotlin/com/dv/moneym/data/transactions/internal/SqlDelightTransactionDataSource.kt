@@ -57,4 +57,12 @@ internal class SqlDelightTransactionDataSource(
     override suspend fun delete(id: Long) = withContext(dispatchers.io) {
         q.deleteById(id)
     }
+
+    override suspend fun getEarliestDate(): String? = withContext(dispatchers.io) {
+        q.getEarliestDate().executeAsOne().MIN
+    }
+
+    override suspend fun getLatestDate(): String? = withContext(dispatchers.io) {
+        q.getLatestDate().executeAsOne().MAX
+    }
 }

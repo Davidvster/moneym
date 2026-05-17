@@ -31,9 +31,6 @@ import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
-import com.dv.moneym.feature.settings.settings.SettingsEffect
-import com.dv.moneym.feature.settings.settings.SettingsIntent
-import com.dv.moneym.feature.settings.settings.SettingsViewModel
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_export_as_csv
@@ -61,27 +58,26 @@ fun EntryProviderScope<NavKey>.exportDataEntry(
 private fun ExportScreen(
     onBack: () -> Unit,
     onExportReady: (suspend (String, String, String) -> Unit)? = null,
-    viewModel: SettingsViewModel = koinViewModel(),
+    viewModel: ExportViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(viewModel) {
         viewModel.effects.collect { effect ->
             when (effect) {
-                is SettingsEffect.ExportReady -> {
+                is ExportEffect.ExportReady -> {
                     onExportReady?.invoke(effect.fileName, effect.content, effect.mimeType)
                 }
 
-                else -> { /* handled elsewhere */
-                }
+                ExportEffect.ImportRequested -> { /* handled by platform caller */ }
             }
         }
     }
 
     ExportContent(
         isExporting = state.isExporting,
-        onExportJson = { viewModel.onIntent(SettingsIntent.ExportJsonRequested) },
-        onExportCsv = { viewModel.onIntent(SettingsIntent.ExportCsvRequested) },
+        onExportJson = { viewModel.onIntent(ExportIntent.ExportJsonRequested) },
+        onExportCsv = { viewModel.onIntent(ExportIntent.ExportCsvRequested) },
         onBack = onBack,
     )
 }

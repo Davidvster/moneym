@@ -1,5 +1,6 @@
 package com.dv.moneym.feature.overview
 
+import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
@@ -8,6 +9,7 @@ import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
+import com.dv.moneym.core.testing.FakeAppSettingsRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.FixedClock
@@ -37,6 +39,9 @@ class OverviewViewModelTest {
     private val clock = FixedClock(Instant.parse("2026-05-10T12:00:00Z"))
     private val txnRepo = FakeTransactionRepository()
     private val catRepo = FakeCategoryRepository()
+    private val settingsRepo = FakeAppSettingsRepository()
+
+    private fun makeVm() = OverviewViewModel(txnRepo, catRepo, settingsRepo, clock, SavedStateHandle())
 
     private fun makeTxn(
         type: TransactionType,
@@ -56,7 +61,7 @@ class OverviewViewModelTest {
 
     @Test
     fun emptyMonthShowsEmptyState() = runTestWithDispatchers(testDispatcher) {
-        val vm = OverviewViewModel(txnRepo, catRepo, clock)
+        val vm = makeVm()
         vm.state.test {
             var state = awaitItem()
             while (state.isLoading) state = awaitItem()
@@ -69,37 +74,38 @@ class OverviewViewModelTest {
     fun incomeTotalsAggregatedCorrectly() = runTestWithDispatchers(testDispatcher) {
         txnRepo.upsert(makeTxn(TransactionType.INCOME, 10000))
         txnRepo.upsert(makeTxn(TransactionType.INCOME, 5000))
-        val vm = OverviewViewModel(txnRepo, catRepo, clock)
+        val vm = makeVm()
         vm.state.test {
             var state = awaitItem()
             while (state.isLoading) state = awaitItem()
             assertFalse(state.isEmpty)
-            assertEquals(15000L, state.totalIncome.firstOrNull()?.minorUnits)
+            // income is now a Double in minor units
+            assertEquals(150.0, state.income)
             cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
     fun monthViewHasDailyBars() = runTestWithDispatchers(testDispatcher) {
-        val vm = OverviewViewModel(txnRepo, catRepo, clock)
+        val vm = makeVm()
         vm.state.test {
             var state = awaitItem()
             while (state.isLoading) state = awaitItem()
             assertIs<OverviewPeriod.Month>(state.period)
-            assertEquals(31, state.chartBars.size) // May 2026 has 31 days
+            assertEquals(31, state.dailyTotals.size) // May 2026 has 31 days
             cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
     fun yearViewHasMonthlyBars() = runTestWithDispatchers(testDispatcher) {
-        val vm = OverviewViewModel(txnRepo, catRepo, clock)
+        val vm = makeVm()
         vm.onIntent(OverviewIntent.TogglePeriod)
         vm.state.test {
             var state = awaitItem()
             while (state.isLoading) state = awaitItem()
             assertIs<OverviewPeriod.Year>(state.period)
-            assertEquals(12, state.chartBars.size)
+            assertEquals(12, state.monthlyTotals.size)
             cancelAndIgnoreRemainingEvents()
         }
     }
