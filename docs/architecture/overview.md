@@ -16,9 +16,9 @@ MoneyM is a Kotlin Compose Multiplatform personal-finance app, **local-first**, 
 
 ```
 ┌────────────────────────────────────────────────┐
-│              feature/<name>/ui                 │  Composables (stateful wrapper + stateless content)
+│              feature/<name>/                   │  Composables (stateful wrapper + stateless content)
 ├────────────────────────────────────────────────┤
-│         feature/<name>/presentation            │  ViewModel + UiState + Intent + Effect
+│         feature/<name>/                        │  ViewModel + UiState + Intent + Effect
 ├────────────────────────────────────────────────┤
 │            feature/<name>/domain               │  UseCases (feature-local; reusable ones promoted to core)
 ├────────────────────────────────────────────────┤

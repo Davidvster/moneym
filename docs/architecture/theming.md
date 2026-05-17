@@ -74,19 +74,11 @@ Hierarchy we'll actually use:
 Numbers (amounts) deserve a tabular-figure variant for column alignment. We pass
 `fontFeatureSettings = "tnum"` on amount text.
 
-## Spacing
+## Dimensions
 
-Quantized scale, accessed via `MoneyMTheme.spacing`:
+Quantized scale, accessed via `MoneyMTheme.dimens`:
 
-```
-xxs = 2.dp
-xs  = 4.dp
-sm  = MM.dimen.padding_1x
-md  = MM.dimen.padding_1_5x
-lg  = MM.dimen.padding_2x
-xl  = 24.dp
-xxl = MM.dimen.padding_4x
-```
+TODO
 
 No raw `.dp` outside `core:designsystem`.
 
