@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-MoneyM is a Kotlin Multiplatform (KMP) project targeting Android, iOS, Web (JS), and WebAssembly. All shared UI is built with Compose Multiplatform. The project is currently at the starter/template stage — there is no data layer, navigation, or DI framework yet.
+MoneyM is a Kotlin Multiplatform (KMP) project targeting Android, iOS. All shared UI is built with Compose Multiplatform. The project is currently at the starter/template stage — there is no data layer, navigation, or DI framework yet.
 
 ## Build Commands
 
@@ -45,12 +45,12 @@ iOS Xcode project lives in `iosApp/`.
 
 ## Key Tech Stack
 
-| Area | Library | Version |
-|------|---------|---------|
-| Language | Kotlin | 2.3.21 |
-| UI | Compose Multiplatform | 1.10.3 |
-| Android Activity | androidx-activity-compose | 1.13.0 |
-| ViewModel | androidx-lifecycle-viewmodel-compose | 2.10.0 |
+| Area | Library |
+|------|---------|
+| Language | Kotlin |
+| UI | Compose Multiplatform |
+| Android Activity | androidx-activity-compose |
+| ViewModel | androidx-lifecycle-viewmodel-compose |
 
 ## Platform Abstraction Pattern
 
