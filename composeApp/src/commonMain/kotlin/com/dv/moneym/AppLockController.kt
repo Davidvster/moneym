@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class AppLockController(private val settings: AppSettings) {
 
-    private val _isLocked = MutableStateFlow(false)
-    val isLocked: StateFlow<Boolean> = _isLocked.asStateFlow()
+    private val _isLocked: MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    val isLocked: StateFlow<Boolean?> = _isLocked.asStateFlow()
 
     fun init() {
         _isLocked.value = settings.getBoolean(SecurityPrefs.PIN_ENABLED)

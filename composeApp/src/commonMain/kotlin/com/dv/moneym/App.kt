@@ -1,16 +1,25 @@
 package com.dv.moneym
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.datastore.PrefKeys
+import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.di.appModules
@@ -62,8 +71,13 @@ private fun AppContent() {
 
     MoneyMTheme(darkTheme = isDark) {
         when {
-            isLocked -> PinUnlockScreen(onUnlocked = { lockController.unlock() })
             !onboardingDone -> OnboardingNav()
+            isLocked == null -> Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MM.colors.bg)
+            ) // loading
+            isLocked == true -> PinUnlockScreen(onUnlocked = { lockController.unlock() })
             else -> MainNav(lockController = lockController)
         }
     }

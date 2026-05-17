@@ -93,6 +93,7 @@ val featureSettingsModule = module {
             importer = get(),
             dispatchers = get(),
             localeController = get(),
+            savedStateHandle = get(),
         )
     }
 }

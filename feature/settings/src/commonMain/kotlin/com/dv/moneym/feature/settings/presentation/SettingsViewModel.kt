@@ -1,12 +1,13 @@
 package com.dv.moneym.feature.settings.presentation
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.common.LocaleController
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.AppSettingsRepository
-import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.model.TxDisplayPrefs
 import com.dv.moneym.core.security.BiometricAuthenticator
 import com.dv.moneym.core.security.PinManager
@@ -16,12 +17,14 @@ import com.dv.moneym.data.backup.BackupImporter
 import com.dv.moneym.data.backup.ImportMode
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -35,22 +38,30 @@ class SettingsViewModel(
     private val importer: BackupImporter,
     private val dispatchers: DispatcherProvider,
     private val localeController: LocaleController,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(SettingsUiState())
-    val state: StateFlow<SettingsUiState> = _state.asStateFlow()
+    private val _state by savedStateHandle.saved {
+        MutableStateFlow(SettingsUiState())
+    }
+    val state: StateFlow<SettingsUiState> = _state.
+        onStart { init() }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, _state.value)
 
     private val _effects = Channel<SettingsEffect>(Channel.BUFFERED)
     val effects = _effects.receiveAsFlow()
 
-    init {
+    private fun init() {
         // Load security prefs from legacy AppSettings (unchanged)
         _state.update {
             it.copy(
                 pinEnabled = settings.getBoolean(SecurityPrefs.PIN_ENABLED),
                 biometricEnabled = settings.getBoolean(SecurityPrefs.BIOMETRIC_ENABLED),
                 biometricAvailable = biometricAuth.isAvailable,
-                backgroundLockSeconds = settings.getInt(SecurityPrefs.BACKGROUND_LOCK_SECONDS, SecurityPrefs.DEFAULT_LOCK_SECONDS),
+                backgroundLockSeconds = settings.getInt(
+                    SecurityPrefs.BACKGROUND_LOCK_SECONDS,
+                    SecurityPrefs.DEFAULT_LOCK_SECONDS
+                ),
                 language = localeController.getCurrentLanguageTag(),
             )
         }
@@ -89,14 +100,17 @@ class SettingsViewModel(
                     }
                 }
             }
+
             is SettingsIntent.BiometricToggled -> {
                 settings.putBoolean(SecurityPrefs.BIOMETRIC_ENABLED, intent.enable)
                 _state.update { it.copy(biometricEnabled = intent.enable) }
             }
+
             is SettingsIntent.LockTimeoutChanged -> {
                 settings.putInt(SecurityPrefs.BACKGROUND_LOCK_SECONDS, intent.seconds)
                 _state.update { it.copy(backgroundLockSeconds = intent.seconds) }
             }
+
             SettingsIntent.ChangePinRequested ->
                 viewModelScope.launch { _effects.send(SettingsEffect.NavigateToPinSetup) }
 
@@ -108,9 +122,16 @@ class SettingsViewModel(
                 viewModelScope.launch {
                     val json = withContext(dispatchers.io) { exporter.exportToJson() }
                     _state.update { it.copy(isExporting = false) }
-                    _effects.send(SettingsEffect.ExportReady(json, "moneym_backup.json", "application/json"))
+                    _effects.send(
+                        SettingsEffect.ExportReady(
+                            json,
+                            "moneym_backup.json",
+                            "application/json"
+                        )
+                    )
                 }
             }
+
             SettingsIntent.ExportCsvRequested -> {
                 _state.update { it.copy(isExporting = true) }
                 viewModelScope.launch {
@@ -119,11 +140,20 @@ class SettingsViewModel(
                     _effects.send(SettingsEffect.ExportReady(csv, "moneym_export.csv", "text/csv"))
                 }
             }
+
             SettingsIntent.ImportRequested -> {
                 viewModelScope.launch { _effects.send(SettingsEffect.ImportRequested) }
             }
+
             is SettingsIntent.ImportJsonChanged ->
-                _state.update { it.copy(importJson = intent.json, importPreview = null, importError = null) }
+                _state.update {
+                    it.copy(
+                        importJson = intent.json,
+                        importPreview = null,
+                        importError = null
+                    )
+                }
+
             SettingsIntent.PreviewImportRequested -> {
                 val json = _state.value.importJson
                 if (json.isBlank()) return
@@ -136,19 +166,31 @@ class SettingsViewModel(
                     }
                 }
             }
+
             SettingsIntent.ApplyImportRequested -> {
                 val json = _state.value.importJson
                 _state.update { it.copy(isImporting = true) }
                 viewModelScope.launch {
                     withContext(dispatchers.io) { importer.applyFromJson(json, ImportMode.MERGE) }
                     _state.update {
-                        it.copy(isImporting = false, showImportSuccess = true, importJson = "", importPreview = null)
+                        it.copy(
+                            isImporting = false,
+                            showImportSuccess = true,
+                            importJson = "",
+                            importPreview = null
+                        )
                     }
                 }
             }
+
             SettingsIntent.ClearExport -> _state.update { it.copy(exportedJson = null) }
             SettingsIntent.ClearImport -> _state.update {
-                it.copy(importJson = "", importPreview = null, importError = null, showImportSuccess = false)
+                it.copy(
+                    importJson = "",
+                    importPreview = null,
+                    importError = null,
+                    showImportSuccess = false
+                )
             }
         }
     }

@@ -1,11 +1,11 @@
 package com.dv.moneym.feature.settings.presentation
 
-import com.dv.moneym.core.model.Density
-import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.model.TxDisplayPrefs
 import com.dv.moneym.data.backup.ImportPreview
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SettingsUiState(
     val pinEnabled: Boolean = false,
     val biometricEnabled: Boolean = false,
