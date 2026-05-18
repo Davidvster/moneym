@@ -17,7 +17,7 @@ fun MmMoney(
     size: TextUnit = 15.sp,
     weight: FontWeight = FontWeight.Medium,
     color: Color = Color.Unspecified,
-    currency: String = "EUR",
+    currency: String = "",
 ) {
     val colors = MM.colors
     val type = MM.type

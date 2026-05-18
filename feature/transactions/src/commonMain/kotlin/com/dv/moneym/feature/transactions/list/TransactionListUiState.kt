@@ -2,6 +2,7 @@ package com.dv.moneym.feature.transactions.list
 
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
@@ -45,7 +46,7 @@ internal data class TransactionUiModel(
     val isExpense: Boolean,
     val categoryName: String,
     val categoryColorHex: String,
-    val categoryIconKey: String,
+    val categoryIcon: Icon,
     val note: String?,
     val occurredOn: LocalDate,
 )

@@ -1,5 +1,8 @@
 package com.dv.moneym.core.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 enum class Icon(val key: String) {
     Plus("plus"),
     Close("close"),
@@ -40,6 +43,13 @@ enum class Icon(val key: String) {
     Chart("chart"),
     Calculator("calculator"),
     Wallet("wallet"),
+    Cart("cart"),
+    Restaurant("restaurant"),
+    HeartPulse("heart_pulse"),
+    Health("health"),
+    PlayCircle("play_circle"),
+    Bank("bank"),
+    Dots("dots"),
     ;
 
     companion object {

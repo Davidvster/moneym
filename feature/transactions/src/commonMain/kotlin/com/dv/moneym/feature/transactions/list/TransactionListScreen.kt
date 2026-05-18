@@ -48,7 +48,7 @@ import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.designsystem.categoryColor
-import com.dv.moneym.core.designsystem.iconForKey
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
@@ -542,7 +542,7 @@ private fun TransactionListBody(
                         key = { it.id.value },
                     ) { tx ->
                         val resolvedColor = categoryColor(tx.categoryColorHex)
-                        val resolvedIcon = iconForKey(tx.categoryIconKey)
+                        val resolvedIcon = tx.categoryIcon.imageVector
                         TxRow(
                             categoryName = tx.categoryName,
                             categoryColor = resolvedColor,

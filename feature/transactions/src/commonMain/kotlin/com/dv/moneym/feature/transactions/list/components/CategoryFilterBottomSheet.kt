@@ -25,8 +25,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.categoryColor
-import com.dv.moneym.core.designsystem.iconForKey
 import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.ui.CategoryIconTile
@@ -113,7 +114,7 @@ internal fun CategoryFilterSheet(
                 categories.forEach { cat ->
                     val isSelected = cat.id in selectedCategoryIds
                     val catColor = categoryColor(cat.colorHex)
-                    val catIcon = iconForKey(cat.iconKey)
+                    val catIcon = Icon.fromKeyOrDefault(cat.iconKey).imageVector
                     MmChip(
                         selected = isSelected,
                         onClick = { onToggle(cat.id) },

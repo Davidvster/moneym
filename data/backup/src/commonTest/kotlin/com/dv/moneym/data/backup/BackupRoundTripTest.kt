@@ -4,6 +4,7 @@ import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.AccountType
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.ImportMode
@@ -28,7 +29,7 @@ class BackupRoundTripTest {
     private val eur = CurrencyCode("EUR")
 
     private fun makeCategory(id: Long) = Category(
-        id = CategoryId(id), name = "Cat$id", iconKey = "dots", colorHex = "#8A8A8A",
+        id = CategoryId(id), name = "Cat$id", iconKey = Icon.Dots.key, colorHex = "#8A8A8A",
         isUserCreated = true, archived = false, createdAt = epoch, updatedAt = epoch,
     )
     private fun makeAccount(id: Long) = Account(

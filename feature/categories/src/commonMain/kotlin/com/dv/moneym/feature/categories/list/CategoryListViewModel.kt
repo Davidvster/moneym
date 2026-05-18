@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
 import kotlinx.coroutines.channels.Channel
@@ -100,7 +101,7 @@ class CategoryListViewModel(
         _manualOrder.update { mutable.map { it.id.value } }
     }
 
-    fun createCategory(name: String, iconKey: String, colorHex: String) {
+    fun createCategory(name: String, icon: Icon, colorHex: String) {
         if (name.isBlank()) return
         viewModelScope.launch {
             withContext(dispatchers.io) {
@@ -108,7 +109,7 @@ class CategoryListViewModel(
                 val category = Category(
                     id = CategoryId(0),
                     name = name.trim(),
-                    iconKey = iconKey,
+                    iconKey = icon.key,
                     colorHex = colorHex,
                     isUserCreated = true,
                     archived = false,
@@ -120,7 +121,7 @@ class CategoryListViewModel(
         }
     }
 
-    fun updateCategory(id: CategoryId, name: String, iconKey: String, colorHex: String) {
+    fun updateCategory(id: CategoryId, name: String, icon: Icon, colorHex: String) {
         if (name.isBlank()) return
         viewModelScope.launch {
             val existing =
@@ -130,7 +131,7 @@ class CategoryListViewModel(
                 categoryRepository.update(
                     existing.copy(
                         name = name.trim(),
-                        iconKey = iconKey,
+                        iconKey = icon.key,
                         colorHex = colorHex,
                         updatedAt = now,
                     )

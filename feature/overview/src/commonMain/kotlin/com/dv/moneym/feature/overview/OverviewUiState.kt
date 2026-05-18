@@ -1,6 +1,7 @@
 package com.dv.moneym.feature.overview
 
 import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.YearMonth
 import kotlinx.serialization.Serializable
 
@@ -34,7 +35,7 @@ internal sealed interface OverviewPeriod {
 internal data class CategorySpend(
     val categoryName: String,
     val categoryColor: Long,   // ARGB long — convert with Color(it)
-    val categoryIcon: String,  // icon key, resolve via iconForKey()
+    val categoryIcon: Icon,
     val amount: Double,        // major units (e.g. 12.50 EUR)
     val percent: Int,          // 0–100
     /** Average spend per day for this category in the current period. 0 if not applicable. */
@@ -50,7 +51,7 @@ internal data class CategorySpend(
 internal data class CategoryTrend(
     val categoryName: String,
     val categoryColor: Long,
-    val categoryIcon: String,
+    val categoryIcon: Icon,
     val totalAmount: Double,
     val txCount: Int,
     val series: List<Double>,  // 31 values (month mode) or 12 values (year mode)
@@ -109,7 +110,7 @@ internal data class OverviewUiState(
 
 
     val selectedSliceIndex: Int? = null,
-    val currency: String = "EUR",
+    val currency: String = "",
 
     // ISO date strings (yyyy-MM-dd) for constraining the date range picker.
     // Stored as String? to avoid LocalDate serialization issues in saved state.

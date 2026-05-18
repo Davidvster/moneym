@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
@@ -210,7 +211,7 @@ private fun Transaction.toUiModel(category: Category?) = TransactionUiModel(
     isExpense = type == TransactionType.EXPENSE,
     categoryName = category?.name ?: "—",
     categoryColorHex = category?.colorHex ?: "#8A8A8A",
-    categoryIconKey = category?.iconKey ?: "dots",
+    categoryIcon = Icon.fromKeyOrDefault(category?.iconKey ?: Icon.Dots.key),
     note = note,
     occurredOn = occurredOn,
 )

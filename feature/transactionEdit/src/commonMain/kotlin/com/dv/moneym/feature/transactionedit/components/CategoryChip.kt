@@ -5,8 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.style.TextOverflow
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.categoryColor
-import com.dv.moneym.core.designsystem.iconForKey
 import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.MmChip
@@ -21,7 +22,7 @@ internal fun CategoryChip(
     val type = MM.type
 
     val catColor = categoryColor(category.colorHex)
-    val catIcon = iconForKey(category.iconKey)
+    val catIcon = Icon.fromKeyOrDefault(category.iconKey).imageVector
 
     MmChip(
         selected = isSelected,

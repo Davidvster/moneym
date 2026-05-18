@@ -70,11 +70,11 @@ fun CategoryListScreen(
         onBack = onBack,
         onSetTab = { viewModel.setTab(it) },
         onReorder = { from, to -> viewModel.reorder(from, to) },
-        onCreateCategory = { name, iconKey, colorHex ->
-            viewModel.createCategory(name, iconKey, colorHex)
+        onCreateCategory = { name, icon, colorHex ->
+            viewModel.createCategory(name, icon, colorHex)
         },
-        onUpdateCategory = { id, name, iconKey, colorHex ->
-            viewModel.updateCategory(id, name, iconKey, colorHex)
+        onUpdateCategory = { id, name, icon, colorHex ->
+            viewModel.updateCategory(id, name, icon, colorHex)
         },
         onDeleteCategory = { id -> viewModel.deleteCategory(id) },
     )
@@ -88,8 +88,8 @@ private fun ManageCategoriesScreen(
     onBack: () -> Unit,
     onSetTab: (CategoryTab) -> Unit,
     onReorder: (Int, Int) -> Unit,
-    onCreateCategory: (String, String, String) -> Unit,
-    onUpdateCategory: (CategoryId, String, String, String) -> Unit,
+    onCreateCategory: (String, Icon, String) -> Unit,
+    onUpdateCategory: (CategoryId, String, Icon, String) -> Unit,
     onDeleteCategory: (CategoryId) -> Unit,
 ) {
     val colors = MM.colors
@@ -170,12 +170,12 @@ private fun ManageCategoriesScreen(
                     showNewCategorySheet = false
                     categoryToEdit = null
                 },
-                onSave = { name, iconKey, colorHex ->
+                onSave = { name, icon, colorHex ->
                     val editing = categoryToEdit
                     if (editing != null) {
-                        onUpdateCategory(editing.id, name, iconKey, colorHex)
+                        onUpdateCategory(editing.id, name, icon, colorHex)
                     } else {
-                        onCreateCategory(name, iconKey, colorHex)
+                        onCreateCategory(name, icon, colorHex)
                     }
                     showNewCategorySheet = false
                     categoryToEdit = null
@@ -196,16 +196,16 @@ private fun NewCategorySheet(
     categoryToEdit: Category?,
     defaultTab: CategoryTab,
     onDismiss: () -> Unit,
-    onSave: (name: String, iconKey: String, colorHex: String) -> Unit,
+    onSave: (name: String, icon: Icon, colorHex: String) -> Unit,
     onDelete: (CategoryId) -> Unit,
 ) {
     val colors = MM.colors
     val isEditMode = categoryToEdit != null
 
     var name by remember(categoryToEdit?.id) { mutableStateOf(categoryToEdit?.name ?: "") }
-    var selectedIconKey by remember(categoryToEdit?.id) {
+    var selectedIcon by remember(categoryToEdit?.id) {
         mutableStateOf(
-            categoryToEdit?.iconKey ?: "basket"
+            categoryToEdit?.iconKey?.let { Icon.fromKey(it) } ?: Icon.Basket
         )
     }
     var selectedColor by remember(categoryToEdit?.id) {
@@ -237,8 +237,8 @@ private fun NewCategorySheet(
         Color(0xFFD88B33),
     )
     val iconOptions = listOf(
-        "heart", "film", "car", "bolt", "basket", "utensils",
-        "home", "bag", "tag", "banknote", "gift", "sun", "moon", "globe", "folder",
+        Icon.Heart, Icon.Film, Icon.Car, Icon.Bolt, Icon.Basket, Icon.Utensils,
+        Icon.Home, Icon.Bag, Icon.Tag, Icon.Banknote, Icon.Gift, Icon.Sun, Icon.Moon, Icon.Globe, Icon.Folder,
     )
 
     val sheetTitle = if (isEditMode)
@@ -253,20 +253,20 @@ private fun NewCategorySheet(
             palette = palette,
             iconOptions = iconOptions,
             selectedColor = selectedColor,
-            selectedIconKey = selectedIconKey,
+            selectedIcon = selectedIcon,
             customColors = customColors,
             isEditMode = isEditMode,
             onNameChange = { name = it },
             onColorSelected = { selectedColor = it },
             onCustomColorClick = { showColorPicker = true },
-            onIconSelected = { selectedIconKey = it },
+            onIconSelected = { selectedIcon = it },
             onDeleteClick = { showDeleteConfirm = true },
         )
         NewCategorySaveButton(
             isEditMode = isEditMode,
             nameIsBlank = name.isBlank(),
             colors = colors,
-            onSave = { onSave(name, selectedIconKey, colorToHex(selectedColor)) },
+            onSave = { onSave(name, selectedIcon, colorToHex(selectedColor)) },
         )
     }
 

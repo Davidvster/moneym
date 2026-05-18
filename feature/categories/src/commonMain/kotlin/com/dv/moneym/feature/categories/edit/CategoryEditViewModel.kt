@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.data.categories.CategoryRepository
 import kotlinx.coroutines.channels.Channel
@@ -53,7 +54,7 @@ class CategoryEditViewModel(
                     it.copy(
                         isLoading = false,
                         name = cat.name,
-                        selectedIconKey = cat.iconKey,
+                        selectedIcon = Icon.fromKeyOrDefault(cat.iconKey),
                         selectedColorHex = cat.colorHex,
                     )
                 }
@@ -70,7 +71,7 @@ class CategoryEditViewModel(
                 )
             }
 
-            is CategoryEditIntent.IconSelected -> _state.update { it.copy(selectedIconKey = intent.key) }
+            is CategoryEditIntent.IconSelected -> _state.update { it.copy(selectedIcon = intent.icon) }
             is CategoryEditIntent.ColorSelected -> _state.update { it.copy(selectedColorHex = intent.hex) }
             CategoryEditIntent.SaveRequested -> save()
         }
@@ -88,7 +89,7 @@ class CategoryEditViewModel(
             val category = Category(
                 id = editingId ?: CategoryId(0),
                 name = s.name.trim(),
-                iconKey = s.selectedIconKey,
+                iconKey = s.selectedIcon.key,
                 colorHex = s.selectedColorHex,
                 isUserCreated = true,
                 archived = false,

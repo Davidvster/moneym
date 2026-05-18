@@ -34,8 +34,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
-import com.dv.moneym.core.designsystem.iconForKey
 import com.dv.moneym.core.model.IndicatorStyle
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.DonutChart
 import com.dv.moneym.core.ui.DonutSlice
@@ -349,7 +349,7 @@ private fun CategoryTrendsCard(
                         CategoryIconTile(
                             categoryName = trend.categoryName,
                             categoryColor = Color(trend.categoryColor),
-                            categoryIcon = iconForKey(trend.categoryIcon),
+                            categoryIcon = trend.categoryIcon.imageVector,
                             size = MM.dimen.padding_4x,
                             variant = IndicatorStyle.IconTile,
                         )

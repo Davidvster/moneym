@@ -51,15 +51,15 @@ import org.jetbrains.compose.resources.stringResource
 internal fun NewCategorySheetBody(
     name: String,
     palette: List<Color>,
-    iconOptions: List<String>,
+    iconOptions: List<Icon>,
     selectedColor: Color,
-    selectedIconKey: String,
+    selectedIcon: Icon,
     customColors: List<Color>,
     isEditMode: Boolean,
     onNameChange: (String) -> Unit,
     onColorSelected: (Color) -> Unit,
     onCustomColorClick: () -> Unit,
-    onIconSelected: (String) -> Unit,
+    onIconSelected: (Icon) -> Unit,
     onDeleteClick: () -> Unit,
 ) {
     val colors = MM.colors
@@ -73,7 +73,7 @@ internal fun NewCategorySheetBody(
         CategoryPreviewChip(
             name = name,
             selectedColor = selectedColor,
-            selectedIconKey = selectedIconKey,
+            selectedIcon = selectedIcon,
             placeholderText = stringResource(Res.string.categories_name_preview_placeholder),
             colors = colors,
         )
@@ -113,7 +113,7 @@ internal fun NewCategorySheetBody(
 
         IconPickerSection(
             iconOptions = iconOptions,
-            selectedIconKey = selectedIconKey,
+            selectedIcon = selectedIcon,
             selectedColor = selectedColor,
             onIconSelected = onIconSelected,
             colors = colors,
@@ -137,7 +137,7 @@ internal fun NewCategorySheetBody(
 private fun CategoryPreviewChip(
     name: String,
     selectedColor: Color,
-    selectedIconKey: String,
+    selectedIcon: Icon,
     placeholderText: String,
     colors: MoneyMColors,
 ) {
@@ -161,7 +161,7 @@ private fun CategoryPreviewChip(
                     .background(selectedColor),
                 contentAlignment = Alignment.Center,
             ) {
-                val painter = rememberVectorPainter(Icon.fromKeyOrDefault(selectedIconKey).imageVector)
+                val painter = rememberVectorPainter(selectedIcon.imageVector)
                 Image(
                     painter = painter,
                     contentDescription = null,
@@ -286,18 +286,18 @@ private fun ColorSwatch(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun IconPickerSection(
-    iconOptions: List<String>,
-    selectedIconKey: String,
+    iconOptions: List<Icon>,
+    selectedIcon: Icon,
     selectedColor: Color,
-    onIconSelected: (String) -> Unit,
+    onIconSelected: (Icon) -> Unit,
     colors: MoneyMColors,
 ) {
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        iconOptions.forEach { iconKey ->
-            val isSelected = selectedIconKey == iconKey
+        iconOptions.forEach { icon ->
+            val isSelected = selectedIcon == icon
             Box(
                 modifier = Modifier
                     .size(44.dp)
@@ -311,13 +311,13 @@ private fun IconPickerSection(
                     .clickable(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() },
-                    ) { onIconSelected(iconKey) },
+                    ) { onIconSelected(icon) },
                 contentAlignment = Alignment.Center,
             ) {
-                val painter = rememberVectorPainter(Icon.fromKeyOrDefault(iconKey).imageVector)
+                val painter = rememberVectorPainter(icon.imageVector)
                 Image(
                     painter = painter,
-                    contentDescription = iconKey,
+                    contentDescription = icon.key,
                     modifier = Modifier.size(MM.dimen.padding_2_5x),
                     colorFilter = ColorFilter.tint(if (isSelected) Color.White else colors.text),
                 )

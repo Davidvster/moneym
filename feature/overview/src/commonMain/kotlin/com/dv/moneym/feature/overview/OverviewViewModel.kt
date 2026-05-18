@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.OverviewPeriodMode
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Transaction
@@ -125,7 +126,7 @@ class OverviewViewModel(
                 CategorySpend(
                     categoryName = cat?.name ?: "—",
                     categoryColor = colorLong,
-                    categoryIcon = cat?.iconKey ?: "dots",
+                    categoryIcon = Icon.fromKeyOrDefault(cat?.iconKey ?: Icon.Dots.key),
                     amount = amountMinor.toDouble() / 100.0,
                     percent = if (totalExpenseMinor > 0)
                         ((amountMinor.toDouble() / totalExpenseMinor.toDouble()) * 100).toInt()
@@ -441,7 +442,7 @@ class OverviewViewModel(
                 CategoryTrend(
                     categoryName = cat?.name ?: "—",
                     categoryColor = colorHexToLong(cat?.colorHex ?: "#8A8A8A"),
-                    categoryIcon = cat?.iconKey ?: "dots",
+                    categoryIcon = Icon.fromKeyOrDefault(cat?.iconKey ?: Icon.Dots.key),
                     totalAmount = txns.sumOf { it.amount.minorUnits }.toDouble() / 100.0,
                     txCount = txns.size,
                     series = series,
@@ -470,7 +471,7 @@ class OverviewViewModel(
                 CategoryTrend(
                     categoryName = cat?.name ?: "—",
                     categoryColor = colorHexToLong(cat?.colorHex ?: "#8A8A8A"),
-                    categoryIcon = cat?.iconKey ?: "dots",
+                    categoryIcon = Icon.fromKeyOrDefault(cat?.iconKey ?: Icon.Dots.key),
                     totalAmount = txns.sumOf { it.amount.minorUnits }.toDouble() / 100.0,
                     txCount = txns.size,
                     series = series,
@@ -516,7 +517,7 @@ class OverviewViewModel(
                 CategoryTrend(
                     categoryName = cat?.name ?: "—",
                     categoryColor = colorHexToLong(cat?.colorHex ?: "#8A8A8A"),
-                    categoryIcon = cat?.iconKey ?: "dots",
+                    categoryIcon = Icon.fromKeyOrDefault(cat?.iconKey ?: Icon.Dots.key),
                     totalAmount = txns.sumOf { it.amount.minorUnits }.toDouble() / 100.0,
                     txCount = txns.size,
                     series = series,

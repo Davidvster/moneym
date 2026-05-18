@@ -3,6 +3,7 @@ package com.dv.moneym.feature.categories
 import app.cash.turbine.test
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.TestDispatcherProvider
@@ -38,7 +39,7 @@ class CategoryListViewModelTest {
     private fun makeCategory(id: Long, archived: Boolean = false) = Category(
         id = CategoryId(id),
         name = "Cat$id",
-        iconKey = "dots",
+        iconKey = Icon.Dots.key,
         colorHex = "#8A8A8A",
         isUserCreated = true,
         archived = archived,

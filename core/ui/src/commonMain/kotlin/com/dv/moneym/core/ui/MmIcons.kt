@@ -1268,5 +1268,12 @@ internal object MmIcons {
         Icon.Chart -> chart
         Icon.Calculator -> calculator
         Icon.Wallet -> wallet
+        Icon.Cart -> basket
+        Icon.Restaurant -> utensils
+        Icon.HeartPulse -> heart
+        Icon.Health -> heart
+        Icon.PlayCircle -> film
+        Icon.Bank -> banknote
+        Icon.Dots -> tag
     }
 }
