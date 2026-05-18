@@ -9,7 +9,10 @@ import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.categories.SeedCategoriesUseCase
 import com.dv.moneym.data.categories.createCategoryRepository
 import com.dv.moneym.data.categories.db.CategoriesDatabase
+import com.dv.moneym.data.transactions.PaymentModeRepository
+import com.dv.moneym.data.transactions.SeedPaymentModesUseCase
 import com.dv.moneym.data.transactions.TransactionRepository
+import com.dv.moneym.data.transactions.createPaymentModeRepository
 import com.dv.moneym.data.transactions.createTransactionRepository
 import com.dv.moneym.data.transactions.db.TransactionsDatabase
 import org.koin.dsl.module
@@ -35,4 +38,6 @@ val dataTransactionsModule = module {
         TransactionsDatabase(get<SqlDriverFactory>().create(TransactionsDatabase.Schema, "moneym_transactions.db"))
     }
     single<TransactionRepository> { createTransactionRepository(get(), get()) }
+    single<PaymentModeRepository> { createPaymentModeRepository(get(), get()) }
+    single { SeedPaymentModesUseCase(get(), get()) }
 }

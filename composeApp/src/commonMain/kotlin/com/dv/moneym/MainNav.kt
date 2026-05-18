@@ -25,6 +25,7 @@ import com.dv.moneym.feature.security.setup.PinSetupKey
 import com.dv.moneym.feature.security.setup.pinSetupEntry
 import com.dv.moneym.feature.settings.overview.CurrencyPickerKey
 import com.dv.moneym.feature.settings.overview.LanguagePickerKey
+import com.dv.moneym.feature.settings.overview.PaymentModeListKey
 import com.dv.moneym.feature.settings.overview.SecuritySettingsViewModel
 import com.dv.moneym.feature.settings.overview.SettingsKey
 import com.dv.moneym.feature.settings.overview.TxListDisplayKey
@@ -34,6 +35,7 @@ import com.dv.moneym.feature.settings.overview.export.exportDataEntry
 import com.dv.moneym.feature.settings.overview.locale.languagePickerEntry
 import com.dv.moneym.feature.settings.overview.settingsEntry
 import com.dv.moneym.feature.settings.overview.transactiondisplay.txListDisplayEntry
+import com.dv.moneym.feature.settings.paymentmodes.paymentModeListEntry
 import com.dv.moneym.feature.settings.wallet.AddWalletCurrencyPickerKey
 import com.dv.moneym.feature.settings.wallet.AddWalletKey
 import com.dv.moneym.feature.settings.wallet.AddWalletViewModel
@@ -171,6 +173,7 @@ internal fun MainNav(lockController: AppLockController) {
                 onNavigateToLanguage = { tabBackStack.push(LanguagePickerKey) },
                 onNavigateToExport = { tabBackStack.push(ExportDataKey) },
                 onNavigateToWallets = { tabBackStack.push(WalletManageKey) },
+                onNavigateToPaymentModes = { tabBackStack.push(PaymentModeListKey) },
                 onTabSelected = { route ->
                     when (route) {
                         TabRoute.Transactions -> tabBackStack.switchTab(TransactionsKey)
@@ -199,6 +202,7 @@ internal fun MainNav(lockController: AppLockController) {
                     filePlatform.saveFile(fileName, content, mimeType)
                 },
             )
+            paymentModeListEntry(onBack = { tabBackStack.removeLast() })
             walletManageEntry(
                 onBack = { tabBackStack.removeLast() },
                 onNavigateToAddWallet = { tabBackStack.push(AddWalletKey) },

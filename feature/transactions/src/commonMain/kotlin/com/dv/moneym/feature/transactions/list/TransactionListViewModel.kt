@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
+import com.dv.moneym.core.common.DateStyle
+import com.dv.moneym.core.common.formatDate
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.Icon
@@ -244,8 +246,4 @@ private fun buildSummary(transactions: List<Transaction>, filter: TransactionFil
     }
 }
 
-private fun LocalDate.toDisplayLabel(): String {
-    val day = dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }
-    val month = month.name.lowercase().replaceFirstChar { it.uppercase() }
-    return "$day, $month $dayOfMonth"
-}
+private fun LocalDate.toDisplayLabel(): String = formatDate(this, DateStyle.Full)

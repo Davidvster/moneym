@@ -12,4 +12,5 @@ data class TxDisplayPrefs(
     val showCategoryName: Boolean = true,
     val showNote: Boolean = true,
     val density: Density = Density.Comfortable,
+    val showDailySums: Boolean = true,
 )

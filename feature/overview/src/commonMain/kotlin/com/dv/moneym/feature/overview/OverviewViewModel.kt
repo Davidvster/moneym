@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.OverviewPeriodMode
-import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -48,6 +49,10 @@ class OverviewViewModel(
     // Holds ISO date strings for the earliest and latest transaction dates.
     // Loaded once on init to constrain the date range picker.
     private val _dateBounds = MutableStateFlow<Pair<String?, String?>>(null to null)
+
+    // Reactive set of ISO date strings for all dates that have at least one transaction.
+    private val _transactionDateIsos = transactionRepository.getTransactionDates()
+        .map { dates -> dates.map { it.toString() }.toSet() }
 
     private suspend fun init() {
         // Restore persisted overview period mode on startup
@@ -180,12 +185,18 @@ class OverviewViewModel(
                     days - 1
                 }
 
+                // Average stats for month mode
+                val elapsed = if (isCurrentMonth) today.dayOfMonth else days
+                elapsedDaysForCat = elapsed.coerceAtLeast(1)
+                elapsedMonthsForCat = 1
+
                 // Category daily trends
                 categoryDailyTrend = buildCategoryDailyTrend(
                     periodTxns = periodTxns,
                     catMap = catMap,
                     days = days,
                     month = month,
+                    elapsedDays = elapsedDaysForCat,
                 )
 
                 // Year-mode fields — empty for month mode
@@ -193,10 +204,6 @@ class OverviewViewModel(
                 categoryMonthlyTrend = emptyList()
                 currentMonthIndex = -1
 
-                // Average stats for month mode
-                val elapsed = if (isCurrentMonth) today.dayOfMonth else days
-                elapsedDaysForCat = elapsed.coerceAtLeast(1)
-                elapsedMonthsForCat = 1
                 avgDailyExpense = if (elapsed > 0) expensesDouble / elapsed else 0.0
                 avgMonthlyExpense = 0.0
                 avgDailyExpenseYear = 0.0
@@ -217,19 +224,7 @@ class OverviewViewModel(
 
                 currentMonthIndex = if (period.year == today.year) today.monthNumber - 1 else -1
 
-                categoryMonthlyTrend = buildCategoryMonthlyTrend(
-                    allTransactions = accountFilteredTransactions,
-                    catMap = catMap,
-                    year = period.year,
-                )
-
-                // Month-mode fields — empty for year mode
-                dailyTotals = emptyList()
-                cumulativeTotals = emptyList()
-                todayIndex = 0
-                categoryDailyTrend = emptyList()
-
-                // Average stats for year mode
+                // Average stats for year mode — compute before building trends
                 val isCurrentYear = period.year == today.year
                 val elapsedMonths = if (isCurrentYear) today.monthNumber else 12
                 val elapsedDaysInYear = if (isCurrentYear) {
@@ -242,6 +237,21 @@ class OverviewViewModel(
                 }
                 elapsedMonthsForCat = elapsedMonths.coerceAtLeast(1)
                 elapsedDaysForCat = elapsedDaysInYear.coerceAtLeast(1)
+
+                categoryMonthlyTrend = buildCategoryMonthlyTrend(
+                    allTransactions = accountFilteredTransactions,
+                    catMap = catMap,
+                    year = period.year,
+                    elapsedMonths = elapsedMonthsForCat,
+                    elapsedDays = elapsedDaysForCat,
+                )
+
+                // Month-mode fields — empty for year mode
+                dailyTotals = emptyList()
+                cumulativeTotals = emptyList()
+                todayIndex = 0
+                categoryDailyTrend = emptyList()
+
                 avgDailyExpense = 0.0
                 avgMonthlyExpense = if (elapsedMonths > 0) expensesDouble / elapsedMonths else 0.0
                 avgDailyExpenseYear =
@@ -314,6 +324,9 @@ class OverviewViewModel(
         .combine(_periodOffset) { s, offset -> s.copy(periodOffset = offset) }
         .combine(_dateBounds) { s, (minIso, maxIso) ->
             s.copy(minSelectableDateIso = minIso, maxSelectableDateIso = maxIso)
+        }
+        .combine(_transactionDateIsos) { s, isos ->
+            s.copy(transactionDateIsos = isos)
         }
         .stateIn(viewModelScope, SharingStarted.Eagerly, OverviewUiState())
 
@@ -428,6 +441,7 @@ class OverviewViewModel(
         catMap: Map<CategoryId, Category>,
         days: Int,
         month: YearMonth,
+        elapsedDays: Int = 1,
     ): List<CategoryTrend> {
         val expenseTxns = periodTxns.filter { it.type == TransactionType.EXPENSE }
         return expenseTxns
@@ -439,13 +453,15 @@ class OverviewViewModel(
                         .sumOf { it.amount.minorUnits }
                         .toDouble() / 100.0
                 }
+                val totalAmount = txns.sumOf { it.amount.minorUnits }.toDouble() / 100.0
                 CategoryTrend(
                     categoryName = cat?.name ?: "—",
                     categoryColor = colorHexToLong(cat?.colorHex ?: "#8A8A8A"),
                     categoryIcon = Icon.fromKeyOrDefault(cat?.iconKey ?: Icon.Dots.key),
-                    totalAmount = txns.sumOf { it.amount.minorUnits }.toDouble() / 100.0,
+                    totalAmount = totalAmount,
                     txCount = txns.size,
                     series = series,
+                    avgPerDay = totalAmount / elapsedDays,
                 )
             }
             .sortedByDescending { it.totalAmount }
@@ -455,6 +471,8 @@ class OverviewViewModel(
         allTransactions: List<Transaction>,
         catMap: Map<CategoryId, Category>,
         year: Int,
+        elapsedMonths: Int = 1,
+        elapsedDays: Int = 1,
     ): List<CategoryTrend> {
         val yearExpenses = allTransactions.filter {
             it.type == TransactionType.EXPENSE && it.occurredOn.year == year
@@ -468,13 +486,16 @@ class OverviewViewModel(
                         .sumOf { it.amount.minorUnits }
                         .toDouble() / 100.0
                 }
+                val totalAmount = txns.sumOf { it.amount.minorUnits }.toDouble() / 100.0
                 CategoryTrend(
                     categoryName = cat?.name ?: "—",
                     categoryColor = colorHexToLong(cat?.colorHex ?: "#8A8A8A"),
                     categoryIcon = Icon.fromKeyOrDefault(cat?.iconKey ?: Icon.Dots.key),
-                    totalAmount = txns.sumOf { it.amount.minorUnits }.toDouble() / 100.0,
+                    totalAmount = totalAmount,
                     txCount = txns.size,
                     series = series,
+                    avgPerDay = totalAmount / elapsedDays,
+                    avgPerMonth = totalAmount / elapsedMonths,
                 )
             }
             .sortedByDescending { it.totalAmount }

@@ -6,6 +6,7 @@ import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.common.DispatcherProvider
+import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CurrencyCode
@@ -16,6 +17,7 @@ import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.core.model.toMinorUnits
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
+import com.dv.moneym.data.transactions.PaymentModeRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
@@ -41,6 +43,8 @@ class TransactionEditViewModel(
     private val categoryRepository: CategoryRepository,
     private val accountRepository: AccountRepository,
     private val transactionRepository: TransactionRepository,
+    private val appSettingsRepository: AppSettingsRepository,
+    private val paymentModeRepository: PaymentModeRepository,
     private val dispatchers: DispatcherProvider,
     private val clock: AppClock,
     savedStateHandle: SavedStateHandle
@@ -65,6 +69,27 @@ class TransactionEditViewModel(
     internal val effects = _effects.receiveAsFlow()
 
     private suspend fun init() {
+        if (isNewTransaction) {
+            viewModelScope.launch {
+                val defaultType = appSettingsRepository.observeDefaultTransactionType().first()
+                _state.update { it.copy(type = defaultType) }
+            }
+        }
+        viewModelScope.launch {
+            // Observe payment mode enabled setting + available modes
+            combine(
+                appSettingsRepository.observePaymentModeEnabled(),
+                paymentModeRepository.observeAll(),
+            ) { enabled, modes -> enabled to modes }
+                .collect { (enabled, modes) ->
+                    _state.update { s ->
+                        s.copy(
+                            showPaymentMode = enabled,
+                            paymentModes = modes,
+                        )
+                    }
+                }
+        }
         viewModelScope.launch {
             // Load categories + accounts
             combine(
@@ -102,6 +127,7 @@ class TransactionEditViewModel(
                             selectedCategoryId = txn.categoryId,
                             selectedAccountId = txn.accountId,
                             note = txn.note ?: "",
+                            selectedPaymentModeId = txn.paymentModeId,
                         )
                     }
                 }
@@ -136,6 +162,9 @@ class TransactionEditViewModel(
             is TransactionEditIntent.NoteSelected -> {
                 _state.update { it.copy(note = intent.note, noteSuggestions = emptyList()) }
             }
+
+            is TransactionEditIntent.PaymentModeSelected ->
+                _state.update { it.copy(selectedPaymentModeId = intent.id) }
 
             TransactionEditIntent.SaveRequested -> save()
             TransactionEditIntent.DeleteRequested -> _state.update { it.copy(showDeleteConfirm = true) }
@@ -219,6 +248,7 @@ class TransactionEditViewModel(
                 accountId = accId,
                 createdAt = clock.now(),
                 updatedAt = clock.now(),
+                paymentModeId = if (s.showPaymentMode) s.selectedPaymentModeId else null,
             )
             withContext(dispatchers.io) { upsertTransaction(txn) }
             _effects.send(TransactionEditEffect.Saved)

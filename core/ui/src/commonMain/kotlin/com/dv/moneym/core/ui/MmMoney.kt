@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import com.dv.moneym.core.common.formatNumber
 import com.dv.moneym.core.designsystem.MM
 
 @Composable
@@ -55,17 +56,4 @@ fun MmMoney(
     )
 }
 
-private fun formatMoneyValue(value: Double): String {
-    val intPart = value.toLong()
-    val decPart = kotlin.math.round((value - intPart) * 100).toInt()
-    val formatted = buildString {
-        val s = intPart.toString()
-        var count = 0
-        for (i in s.indices.reversed()) {
-            if (count > 0 && count % 3 == 0) insert(0, ',')
-            insert(0, s[i])
-            count++
-        }
-    }
-    return "$formatted.${decPart.toString().padStart(2, '0')}"
-}
+private fun formatMoneyValue(value: Double): String = formatNumber(value, 2)

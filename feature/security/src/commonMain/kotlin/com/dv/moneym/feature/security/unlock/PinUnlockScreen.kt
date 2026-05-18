@@ -17,6 +17,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.feature.security.shared.AppLockup
@@ -46,6 +48,10 @@ fun PinUnlockScreen(
     LaunchedEffect(viewModel) {
         viewModel.setBiometricPrompt(biometricPrompt)
         viewModel.effects.collect { if (it == PinUnlockEffect.Unlocked) onUnlocked() }
+    }
+
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        viewModel.onResume()
     }
 
     PinUnlockContent(

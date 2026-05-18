@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -227,6 +228,114 @@ internal fun MonthlySpendingBarChart(
                         modifier = Modifier.weight(1f),
                         textAlign = TextAlign.Center,
                     )
+                }
+            }
+        }
+    }
+}
+
+/**
+ * A reusable bar chart canvas for per-category yearly data.
+ * Draws bars with an avg dotted line overlay. Tapping a bar shows its value.
+ */
+@Composable
+internal fun CategoryBarChart(
+    monthlyTotals: List<Double>,
+    currentMonthIndex: Int,
+    barColor: Color,
+    modifier: Modifier = Modifier,
+) {
+    val colors = MM.colors
+    val type = MM.type
+
+    var selectedBarIndex by remember { mutableStateOf<Int?>(null) }
+
+    val maxVal = monthlyTotals.maxOrNull()?.takeIf { it > 0 } ?: 1.0
+    val avgVal = monthlyTotals.filter { it > 0 }.let { nonZero ->
+        if (nonZero.isNotEmpty()) nonZero.average() else 0.0
+    }
+    val avgFraction = (avgVal / maxVal).toFloat().coerceIn(0f, 1f)
+
+    Column(modifier = modifier) {
+        // Show selected bar amount prominently
+        if (selectedBarIndex != null) {
+            val selVal = monthlyTotals.getOrElse(selectedBarIndex!!) { 0.0 }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+            ) {
+                val monthNames = localizedMonthNames().map { it.take(3) }
+                Text(
+                    text = monthNames.getOrElse(selectedBarIndex!!) { "" },
+                    style = type.caption.copy(color = colors.text2),
+                )
+                MmMoney(
+                    value = selVal,
+                    size = 13.sp,
+                    weight = FontWeight.SemiBold,
+                )
+            }
+            Spacer(Modifier.height(MM.dimen.padding_0_5x))
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+        ) {
+            // Dashed average line
+            if (avgVal > 0) {
+                Canvas(modifier = Modifier.fillMaxWidth().matchParentSize()) {
+                    val avgY = size.height * (1f - avgFraction)
+                    drawLine(
+                        color = barColor.copy(alpha = 0.50f),
+                        start = Offset(0f, avgY),
+                        end = Offset(size.width, avgY),
+                        strokeWidth = 1.dp.toPx(),
+                        pathEffect = PathEffect.dashPathEffect(floatArrayOf(6f, 4f), 0f),
+                    )
+                }
+            }
+
+            // Bars
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .matchParentSize(),
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.SpaceEvenly,
+            ) {
+                monthlyTotals.forEachIndexed { i, value ->
+                    val isCurrent = i == currentMonthIndex
+                    val isSelected = i == selectedBarIndex
+                    val barFraction = (value / maxVal).toFloat().coerceIn(0f, 1f)
+
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight(),
+                        contentAlignment = Alignment.BottomCenter,
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .width(MM.dimen.padding_2x)
+                                .fillMaxHeight(barFraction.coerceAtLeast(0.01f))
+                                .clip(RoundedCornerShape(2.dp))
+                                .background(
+                                    when {
+                                        isSelected -> barColor
+                                        isCurrent -> barColor.copy(alpha = 0.85f)
+                                        else -> barColor.copy(alpha = 0.35f)
+                                    },
+                                )
+                                .alpha(if (value == 0.0) 0.3f else 1f)
+                                .clickable(
+                                    indication = null,
+                                    interactionSource = remember { MutableInteractionSource() },
+                                ) { selectedBarIndex = if (isSelected) null else i },
+                        )
+                    }
                 }
             }
         }

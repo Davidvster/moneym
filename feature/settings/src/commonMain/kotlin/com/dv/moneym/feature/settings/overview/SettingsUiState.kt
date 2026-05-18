@@ -1,6 +1,7 @@
 package com.dv.moneym.feature.settings.overview
 
 import com.dv.moneym.core.model.ThemeMode
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.TxDisplayPrefs
 import kotlinx.serialization.Serializable
 
@@ -13,6 +14,10 @@ data class SettingsUiState(
     val defaultCurrency: String = "EUR",
     // language
     val language: String = "",
+    // default transaction type for new transactions
+    val defaultTransactionType: TransactionType = TransactionType.EXPENSE,
+    // payment mode toggle
+    val paymentModeEnabled: Boolean = false,
 )
 
 sealed interface SettingsIntent {

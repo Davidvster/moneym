@@ -22,6 +22,7 @@ import com.dv.moneym.feature.settings.overview.currencypicker.CurrencyPickerView
 import com.dv.moneym.feature.settings.overview.export.ExportViewModel
 import com.dv.moneym.feature.settings.overview.locale.LanguagePickerViewModel
 import com.dv.moneym.feature.settings.overview.transactiondisplay.TxListDisplayViewModel
+import com.dv.moneym.feature.settings.paymentmodes.PaymentModeListViewModel
 import com.dv.moneym.feature.settings.wallet.AddWalletViewModel
 import com.dv.moneym.feature.settings.wallet.WalletManageViewModel
 import com.dv.moneym.feature.transactionedit.TransactionEditViewModel
@@ -37,7 +38,7 @@ val coreSecurityModule = module {
     single { PinHasher() }
     single { PinManager(get(), get(), get()) }
     single { AppLockController(get()) }
-    single { AppInitializer(get(), get(), get()) }
+    single { AppInitializer(get(), get(), get(), get()) }
 }
 
 val featureTransactionsModule = module {
@@ -66,6 +67,8 @@ val featureTransactionEditModule = module {
             categoryRepository = get(),
             accountRepository = get(),
             transactionRepository = get(),
+            appSettingsRepository = get(),
+            paymentModeRepository = get(),
             dispatchers = get(),
             clock = get(),
             savedStateHandle = get(),
@@ -131,6 +134,12 @@ val featureSettingsModule = module {
     viewModel {
         TxListDisplayViewModel(
             appSettingsRepository = get(),
+            savedStateHandle = get(),
+        )
+    }
+    viewModel {
+        PaymentModeListViewModel(
+            paymentModeRepository = get(),
             savedStateHandle = get(),
         )
     }

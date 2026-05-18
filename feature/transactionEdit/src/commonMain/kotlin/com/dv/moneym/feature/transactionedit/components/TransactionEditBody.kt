@@ -23,12 +23,14 @@ import com.dv.moneym.core.ui.MmChip
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.feature.transactionedit.TransactionEditIntent
 import com.dv.moneym.feature.transactionedit.TransactionEditUiState
+import com.dv.moneym.core.model.PaymentModeId
 import kotlinx.datetime.LocalDate
 import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.edit_date_label
 import moneym.feature.transactionedit.generated.resources.edit_date_today
 import moneym.feature.transactionedit.generated.resources.edit_note_label
 import moneym.feature.transactionedit.generated.resources.edit_note_placeholder
+import moneym.feature.transactionedit.generated.resources.edit_payment_mode_label
 import moneym.feature.transactionedit.generated.resources.edit_type_expense
 import moneym.feature.transactionedit.generated.resources.edit_type_income
 import org.jetbrains.compose.resources.stringResource
@@ -104,6 +106,56 @@ internal fun TransactionEditScrollBody(
             categoryError = state.categoryError,
             onCategorySelected = { onIntent(TransactionEditIntent.CategorySelected(it)) },
         )
+        if (state.showPaymentMode && state.paymentModes.isNotEmpty()) {
+            Spacer(Modifier.height(MM.dimen.padding_3x))
+            PaymentModePicker(
+                modes = state.paymentModes.map { it.id to it.name },
+                selectedId = state.selectedPaymentModeId,
+                onSelected = { onIntent(TransactionEditIntent.PaymentModeSelected(it)) },
+            )
+        }
+    }
+}
+
+@Composable
+internal fun PaymentModePicker(
+    modes: List<Pair<PaymentModeId, String>>,
+    selectedId: PaymentModeId?,
+    onSelected: (PaymentModeId?) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+
+    Text(
+        text = stringResource(Res.string.edit_payment_mode_label).uppercase(),
+        style = type.micro,
+        color = colors.text3,
+    )
+    Spacer(Modifier.height(MM.dimen.padding_1_5x))
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+    ) {
+        modes.forEach { (id, name) ->
+            val isSelected = id == selectedId
+            MmChip(
+                selected = isSelected,
+                onClick = {
+                    // Tap selected chip to deselect
+                    onSelected(if (isSelected) null else id)
+                },
+            ) {
+                Text(
+                    text = name,
+                    style = type.caption,
+                    color = if (isSelected) colors.bg else colors.text,
+                    maxLines = 1,
+                )
+            }
+        }
     }
 }
 

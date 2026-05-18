@@ -47,6 +47,7 @@ import moneym.feature.settings.generated.resources.settings_txdisplay_comfortabl
 import moneym.feature.settings.generated.resources.settings_txdisplay_compact
 import moneym.feature.settings.generated.resources.settings_txdisplay_density
 import moneym.feature.settings.generated.resources.settings_txdisplay_normal
+import moneym.feature.settings.generated.resources.settings_txdisplay_daily_sums
 import moneym.feature.settings.generated.resources.settings_txdisplay_note
 import moneym.feature.settings.generated.resources.settings_txdisplay_preview
 import moneym.feature.settings.generated.resources.settings_txdisplay_show
@@ -300,7 +301,7 @@ private fun TxListDisplayContent(
                     )
                 }
                 MmRow(
-                    divider = false,
+                    divider = true,
                     onClick = { onPrefsChanged(currentPrefs.copy(showNote = !currentPrefs.showNote)) },
                 ) {
                     Text(
@@ -312,6 +313,21 @@ private fun TxListDisplayContent(
                     MmToggle(
                         checked = currentPrefs.showNote,
                         onCheckedChange = { onPrefsChanged(currentPrefs.copy(showNote = !currentPrefs.showNote)) },
+                    )
+                }
+                MmRow(
+                    divider = false,
+                    onClick = { onPrefsChanged(currentPrefs.copy(showDailySums = !currentPrefs.showDailySums)) },
+                ) {
+                    Text(
+                        stringResource(Res.string.settings_txdisplay_daily_sums),
+                        style = type.body,
+                        color = colors.text,
+                        modifier = Modifier.weight(1f),
+                    )
+                    MmToggle(
+                        checked = currentPrefs.showDailySums,
+                        onCheckedChange = { onPrefsChanged(currentPrefs.copy(showDailySums = !currentPrefs.showDailySums)) },
                     )
                 }
             }

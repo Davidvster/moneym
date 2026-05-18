@@ -4,6 +4,7 @@ import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Money
+import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
@@ -21,6 +22,7 @@ internal fun TransactionRow.toDomain() = Transaction(
     accountId = AccountId(account_id),
     createdAt = Instant.fromEpochMilliseconds(created_at),
     updatedAt = Instant.fromEpochMilliseconds(updated_at),
+    paymentModeId = payment_mode_id?.let { PaymentModeId(it) },
 )
 
 internal fun yearMonthKey(year: Int, month: Int): String =

@@ -535,7 +535,7 @@ private fun TransactionListBody(
             LazyColumn(modifier = modifier) {
                 dayGroups.forEach { group ->
                     stickyHeader(key = "header_${group.date}") {
-                        DayGroupHeader(group = group)
+                        DayGroupHeader(group = group, showAmount = txDisplayPrefs.showDailySums)
                     }
                     items(
                         items = group.transactions,

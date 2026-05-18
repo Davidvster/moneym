@@ -4,6 +4,8 @@ import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.PaymentMode
+import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
 import kotlinx.datetime.LocalDate
@@ -27,6 +29,9 @@ internal data class TransactionEditUiState(
     val isSaving: Boolean = false,
     val amountError: Boolean = false,
     val categoryError: Boolean = false,
+    val paymentModes: List<PaymentMode> = emptyList(),
+    val selectedPaymentModeId: PaymentModeId? = null,
+    val showPaymentMode: Boolean = false,
 )
 
 internal sealed interface TransactionEditEffect {

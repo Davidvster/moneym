@@ -55,6 +55,8 @@ internal data class CategoryTrend(
     val totalAmount: Double,
     val txCount: Int,
     val series: List<Double>,  // 31 values (month mode) or 12 values (year mode)
+    val avgPerDay: Double = 0.0,
+    val avgPerMonth: Double = 0.0,
 )
 
 /**
@@ -64,7 +66,7 @@ internal data class CategoryTrend(
 internal data class CategoryAvgSpend(
     val categoryName: String,
     val categoryColor: Long,
-    val categoryIcon: String,
+    val categoryIcon: Icon,
     val avgAmount: Double,
 )
 
@@ -110,12 +112,17 @@ internal data class OverviewUiState(
 
 
     val selectedSliceIndex: Int? = null,
-    val currency: String = "",
+    val currency: String = "EUR",
 
     // ISO date strings (yyyy-MM-dd) for constraining the date range picker.
     // Stored as String? to avoid LocalDate serialization issues in saved state.
     val minSelectableDateIso: String? = null,
     val maxSelectableDateIso: String? = null,
+
+    // Set of ISO date strings (yyyy-MM-dd) for dates that have at least one transaction.
+    // Stored as Set<String> to avoid LocalDate serialization issues in saved state.
+    // When non-empty, only these dates are selectable in the DateRangePicker.
+    val transactionDateIsos: Set<String> = emptySet(),
 )
 
 internal sealed interface OverviewIntent {

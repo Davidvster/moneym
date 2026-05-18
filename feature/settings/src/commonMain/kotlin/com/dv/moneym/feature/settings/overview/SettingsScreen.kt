@@ -19,6 +19,7 @@ import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.ThemeMode
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.feature.settings.overview.components.LockTimeoutPickerDialog
@@ -42,6 +43,8 @@ data object TxListDisplayKey : NavKey
 data object CurrencyPickerKey : NavKey
 @Serializable
 data object LanguagePickerKey : NavKey
+@Serializable
+data object PaymentModeListKey : NavKey
 
 enum class SettingsItem {
     APPEARANCE_LABEL,
@@ -63,6 +66,7 @@ fun EntryProviderScope<NavKey>.settingsEntry(
     onNavigateToLanguage: () -> Unit,
     onNavigateToExport: () -> Unit = {},
     onNavigateToWallets: () -> Unit = {},
+    onNavigateToPaymentModes: () -> Unit = {},
     onTabSelected: (TabRoute) -> Unit,
     securityViewModel: SecuritySettingsViewModel? = null,
 ) = entry<SettingsKey> {
@@ -74,6 +78,7 @@ fun EntryProviderScope<NavKey>.settingsEntry(
         onNavigateToLanguage = onNavigateToLanguage,
         onNavigateToExport = onNavigateToExport,
         onNavigateToWallets = onNavigateToWallets,
+        onNavigateToPaymentModes = onNavigateToPaymentModes,
         onTabSelected = onTabSelected,
         securityViewModel = securityViewModel ?: koinViewModel(),
     )
@@ -88,6 +93,7 @@ fun SettingsScreen(
     onNavigateToLanguage: () -> Unit = {},
     onNavigateToExport: () -> Unit = {},
     onNavigateToWallets: () -> Unit = {},
+    onNavigateToPaymentModes: () -> Unit = {},
     onTabSelected: (TabRoute) -> Unit = {},
     overviewViewModel: SettingsOverviewViewModel = koinViewModel(),
     securityViewModel: SecuritySettingsViewModel = koinViewModel(),
@@ -96,6 +102,8 @@ fun SettingsScreen(
     val txDisplayPrefs by overviewViewModel.txDisplayPrefs.collectAsStateWithLifecycle()
     val defaultCurrency by overviewViewModel.defaultCurrency.collectAsStateWithLifecycle()
     val language by overviewViewModel.language.collectAsStateWithLifecycle()
+    val defaultTransactionType by overviewViewModel.defaultTransactionType.collectAsStateWithLifecycle()
+    val paymentModeEnabled by overviewViewModel.paymentModeEnabled.collectAsStateWithLifecycle()
     val securityState by securityViewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(securityViewModel) {
@@ -111,12 +119,16 @@ fun SettingsScreen(
         txDisplayPrefs = txDisplayPrefs,
         defaultCurrency = defaultCurrency,
         language = language,
+        defaultTransactionType = defaultTransactionType,
+        paymentModeEnabled = paymentModeEnabled,
     )
 
     SettingsContent(
         state = state,
         securityState = securityState,
         onThemeModeChanged = { overviewViewModel.setThemeMode(it) },
+        onDefaultTransactionTypeChanged = { overviewViewModel.setDefaultTransactionType(it) },
+        onPaymentModeEnabledChanged = { overviewViewModel.setPaymentModeEnabled(it) },
         onSecurityIntent = securityViewModel::onIntent,
         onNavigateToCategories = onNavigateToCategories,
         onNavigateToTxDisplay = onNavigateToTxDisplay,
@@ -124,6 +136,7 @@ fun SettingsScreen(
         onNavigateToLanguage = onNavigateToLanguage,
         onNavigateToExport = onNavigateToExport,
         onNavigateToWallets = onNavigateToWallets,
+        onNavigateToPaymentModes = onNavigateToPaymentModes,
         onTabSelected = onTabSelected,
     )
 }
@@ -133,6 +146,8 @@ private fun SettingsContent(
     state: SettingsUiState,
     securityState: SecuritySettingsUiState,
     onThemeModeChanged: (ThemeMode) -> Unit,
+    onDefaultTransactionTypeChanged: (TransactionType) -> Unit,
+    onPaymentModeEnabledChanged: (Boolean) -> Unit,
     onSecurityIntent: (SecuritySettingsIntent) -> Unit,
     onNavigateToCategories: () -> Unit,
     onNavigateToTxDisplay: () -> Unit,
@@ -140,6 +155,7 @@ private fun SettingsContent(
     onNavigateToLanguage: () -> Unit,
     onNavigateToExport: () -> Unit,
     onNavigateToWallets: () -> Unit,
+    onNavigateToPaymentModes: () -> Unit,
     onTabSelected: (TabRoute) -> Unit,
 ) {
     val colors = MM.colors
@@ -209,6 +225,8 @@ private fun SettingsContent(
             lockAfterLabel = lockAfterLabel,
             languageSubtitle = languageSubtitle,
             onThemeModeChanged = onThemeModeChanged,
+            onDefaultTransactionTypeChanged = onDefaultTransactionTypeChanged,
+            onPaymentModeEnabledChanged = onPaymentModeEnabledChanged,
             onSecurityIntent = onSecurityIntent,
             onNavigateToTxDisplay = onNavigateToTxDisplay,
             onNavigateToCategories = onNavigateToCategories,
@@ -216,6 +234,7 @@ private fun SettingsContent(
             onNavigateToLanguage = onNavigateToLanguage,
             onNavigateToExport = onNavigateToExport,
             onNavigateToWallets = onNavigateToWallets,
+            onNavigateToPaymentModes = onNavigateToPaymentModes,
             onShowLockPicker = { showLockPicker = true },
         )
         MmTabBar(activeTab = TabRoute.Settings, onTabSelected = onTabSelected)
@@ -230,6 +249,8 @@ private fun SettingsScreenPreview() {
             state = SettingsUiState(),
             securityState = SecuritySettingsUiState(),
             onThemeModeChanged = {},
+            onDefaultTransactionTypeChanged = {},
+            onPaymentModeEnabledChanged = {},
             onSecurityIntent = {},
             onNavigateToCategories = {},
             onNavigateToTxDisplay = {},
@@ -237,6 +258,7 @@ private fun SettingsScreenPreview() {
             onNavigateToLanguage = {},
             onNavigateToExport = {},
             onNavigateToWallets = {},
+            onNavigateToPaymentModes = {},
             onTabSelected = {},
         )
     }

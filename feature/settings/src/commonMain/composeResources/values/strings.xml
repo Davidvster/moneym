@@ -43,6 +43,7 @@
     <string name="settings_txdisplay_show">SHOW</string>
     <string name="settings_txdisplay_category_name">Category name</string>
     <string name="settings_txdisplay_note">Note / description</string>
+    <string name="settings_txdisplay_daily_sums">Daily totals</string>
     <string name="settings_txdisplay_density">DENSITY</string>
     <string name="settings_txdisplay_row_size">Row size</string>
     <string name="settings_txdisplay_compact">Compact</string>
@@ -105,4 +106,20 @@
     <string name="settings_wallet_currency_label">Currency</string>
     <string name="settings_wallet_currency_change">Change</string>
     <string name="settings_wallet_currency_none">None selected</string>
+    <!-- Default transaction type preference -->
+    <string name="settings_default_tx_type">Default transaction type</string>
+    <string name="settings_default_tx_expense">Expense</string>
+    <string name="settings_default_tx_income">Income</string>
+    <!-- Payment mode -->
+    <string name="settings_payment_mode_enabled">Payment mode</string>
+    <string name="settings_payment_modes">Manage Payment Modes</string>
+    <string name="settings_payment_mode_list_title">Payment Modes</string>
+    <string name="settings_payment_mode_add">Add payment mode</string>
+    <string name="settings_payment_mode_rename_title">Rename</string>
+    <string name="settings_payment_mode_name_placeholder">Mode name</string>
+    <string name="settings_payment_mode_delete_title">Delete payment mode</string>
+    <string name="settings_payment_mode_delete_message">Delete "%1$s"? This cannot be undone.</string>
+    <string name="settings_payment_mode_delete_confirm">Delete</string>
+    <string name="settings_payment_mode_cancel">Cancel</string>
+    <string name="settings_payment_mode_save">Save</string>
 </resources>

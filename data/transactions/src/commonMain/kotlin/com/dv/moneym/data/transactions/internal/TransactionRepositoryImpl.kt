@@ -48,6 +48,7 @@ internal class TransactionRepositoryImpl(
                 accountId = transaction.accountId.value,
                 createdAt = now,
                 updatedAt = now,
+                paymentModeId = transaction.paymentModeId?.value,
             )
             TransactionId(newId)
         } else {
@@ -61,6 +62,7 @@ internal class TransactionRepositoryImpl(
                 categoryId = transaction.categoryId.value,
                 accountId = transaction.accountId.value,
                 updatedAt = now,
+                paymentModeId = transaction.paymentModeId?.value,
             )
             transaction.id
         }
@@ -73,4 +75,12 @@ internal class TransactionRepositoryImpl(
 
     override suspend fun getLatestTransactionDate(): LocalDate? =
         dataSource.getLatestDate()?.let { LocalDate.parse(it) }
+
+    override fun getTransactionDates(): Flow<Set<LocalDate>> =
+        dataSource.getDistinctTransactionDates()
+            .map { strings ->
+                strings.mapNotNullTo(mutableSetOf()) { s ->
+                    runCatching { LocalDate.parse(s) }.getOrNull()
+                }
+            }
 }

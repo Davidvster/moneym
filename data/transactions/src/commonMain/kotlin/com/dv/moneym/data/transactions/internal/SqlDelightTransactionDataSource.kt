@@ -38,10 +38,11 @@ internal class SqlDelightTransactionDataSource(
     override suspend fun insert(
         type: String, amountMinor: Long, currency: String, occurredOn: String,
         note: String?, categoryId: Long, accountId: Long, createdAt: Long, updatedAt: Long,
+        paymentModeId: Long?,
     ): Long = withContext(dispatchers.io) {
         var id = 0L
         db.transaction {
-            q.insert(type, amountMinor, currency, occurredOn, note, categoryId, accountId, createdAt, updatedAt)
+            q.insert(type, amountMinor, currency, occurredOn, note, categoryId, accountId, createdAt, updatedAt, paymentModeId)
             id = q.lastInsertId().executeAsOne()
         }
         id
@@ -50,8 +51,9 @@ internal class SqlDelightTransactionDataSource(
     override suspend fun update(
         id: Long, type: String, amountMinor: Long, currency: String,
         occurredOn: String, note: String?, categoryId: Long, accountId: Long, updatedAt: Long,
+        paymentModeId: Long?,
     ) = withContext(dispatchers.io) {
-        q.updateById(type, amountMinor, currency, occurredOn, note, categoryId, accountId, updatedAt, id)
+        q.updateById(type, amountMinor, currency, occurredOn, note, categoryId, accountId, updatedAt, paymentModeId, id)
     }
 
     override suspend fun delete(id: Long) = withContext(dispatchers.io) {
@@ -65,4 +67,9 @@ internal class SqlDelightTransactionDataSource(
     override suspend fun getLatestDate(): String? = withContext(dispatchers.io) {
         q.getLatestDate().executeAsOne().MAX
     }
+
+    override fun getDistinctTransactionDates(): Flow<List<String>> =
+        db.transactionEntryQueries.selectDistinctDates()
+            .asFlow()
+            .mapToList(dispatchers.io)
 }

@@ -8,9 +8,10 @@ CREATE TABLE IF NOT EXISTS TransactionEntry (
     note            TEXT,
     category_id     INTEGER NOT NULL,
     account_id      INTEGER NOT NULL,
-    recurrence_rule TEXT,               -- reserved for Phase 2+; always NULL in v1
-    created_at      INTEGER NOT NULL,   -- epoch millis
-    updated_at      INTEGER NOT NULL
+    recurrence_rule  TEXT,               -- reserved for Phase 2+; always NULL in v1
+    created_at       INTEGER NOT NULL,   -- epoch millis
+    updated_at       INTEGER NOT NULL,
+    payment_mode_id  INTEGER             -- nullable FK to PaymentMode.id
 );
 
 CREATE INDEX IF NOT EXISTS idx_te_date     ON TransactionEntry(occurred_on);
@@ -45,13 +46,13 @@ ORDER BY occurred_on DESC, created_at DESC;
 
 insert:
 INSERT INTO TransactionEntry
-    (type, amount_minor, currency, occurred_on, note, category_id, account_id, recurrence_rule, created_at, updated_at)
-VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?, ?);
+    (type, amount_minor, currency, occurred_on, note, category_id, account_id, recurrence_rule, created_at, updated_at, payment_mode_id)
+VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?);
 
 updateById:
 UPDATE TransactionEntry
 SET type = ?, amount_minor = ?, currency = ?, occurred_on = ?, note = ?,
-    category_id = ?, account_id = ?, updated_at = ?
+    category_id = ?, account_id = ?, updated_at = ?, payment_mode_id = ?
 WHERE id = ?;
 
 deleteById:
@@ -65,3 +66,6 @@ SELECT MIN(occurred_on) FROM TransactionEntry;
 
 getLatestDate:
 SELECT MAX(occurred_on) FROM TransactionEntry;
+
+selectDistinctDates:
+SELECT DISTINCT occurred_on FROM TransactionEntry ORDER BY occurred_on;

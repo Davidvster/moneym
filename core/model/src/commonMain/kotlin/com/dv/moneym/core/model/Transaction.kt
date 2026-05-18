@@ -13,6 +13,7 @@ data class Transaction(
     val accountId: AccountId,
     val createdAt: Instant,
     val updatedAt: Instant,
+    val paymentModeId: PaymentModeId? = null,
 )
 
 val UNSAVED_TRANSACTION_ID = TransactionId(0L)

@@ -1,10 +1,9 @@
 package com.dv.moneym.feature.transactionedit.components
 
+import com.dv.moneym.core.common.DateStyle
+import com.dv.moneym.core.common.formatDate
 import kotlinx.datetime.LocalDate
 
 internal fun LocalDate.toFriendlyString(today: LocalDate): String {
-    val dayName = dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }.take(3)
-    val monthName = month.name.lowercase().replaceFirstChar { it.uppercase() }.take(3)
-    val yearSuffix = if (year != today.year) " $year" else ""
-    return "$dayName, $monthName $day$yearSuffix"
+    return formatDate(this, DateStyle.Medium)
 }

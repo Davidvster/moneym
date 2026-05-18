@@ -13,11 +13,11 @@ import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.feature.transactions.list.DayGroup
+import com.dv.moneym.core.common.formatNumber
 import kotlin.math.abs
-import kotlin.math.round
 
 @Composable
-internal fun DayGroupHeader(group: DayGroup) {
+internal fun DayGroupHeader(group: DayGroup, showAmount: Boolean = true) {
     val colors = MM.colors
     val type = MM.type
 
@@ -26,9 +26,8 @@ internal fun DayGroupHeader(group: DayGroup) {
     val dailyIncome = group.transactions.filter { !it.isExpense }.sumOf { it.amountMinorUnits }
     val dailyNet = dailyIncome - dailyExpenses
     val currency = group.transactions.firstOrNull()?.currency ?: "EUR"
-    val absValue = abs(dailyNet) / 100.0
     val sign = if (dailyNet >= 0) "+" else "−"
-    val formattedDaily = formatDailyAmount(absValue)
+    val formattedDaily = formatDailyAmount(abs(dailyNet).toDouble() / 100.0)
 
     Row(
         modifier = Modifier
@@ -41,15 +40,13 @@ internal fun DayGroupHeader(group: DayGroup) {
             text = group.label,
             modifier = Modifier.weight(1f),
         )
-        Text(
-            text = "$sign $currency $formattedDaily",
-            style = type.caption.copy(fontSize = 11.sp, color = colors.text3),
-        )
+        if (showAmount) {
+            Text(
+                text = "$sign $currency $formattedDaily",
+                style = type.caption.copy(fontSize = 11.sp, color = colors.text3),
+            )
+        }
     }
 }
 
-internal fun formatDailyAmount(value: Double): String {
-    val intPart = value.toLong()
-    val decPart = round((value - intPart) * 100).toInt()
-    return "$intPart.${decPart.toString().padStart(2, '0')}"
-}
+internal fun formatDailyAmount(value: Double): String = formatNumber(value, 2)

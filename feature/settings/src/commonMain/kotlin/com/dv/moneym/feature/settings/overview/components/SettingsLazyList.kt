@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.ThemeMode
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.feature.settings.overview.SecuritySettingsIntent
 import com.dv.moneym.feature.settings.overview.SecuritySettingsUiState
@@ -32,6 +33,8 @@ internal fun SettingsLazyList(
     lockAfterLabel: String,
     languageSubtitle: String,
     onThemeModeChanged: (ThemeMode) -> Unit,
+    onDefaultTransactionTypeChanged: (TransactionType) -> Unit,
+    onPaymentModeEnabledChanged: (Boolean) -> Unit,
     onSecurityIntent: (SecuritySettingsIntent) -> Unit,
     onNavigateToTxDisplay: () -> Unit,
     onNavigateToCategories: () -> Unit,
@@ -39,6 +42,7 @@ internal fun SettingsLazyList(
     onNavigateToLanguage: () -> Unit,
     onNavigateToExport: () -> Unit,
     onNavigateToWallets: () -> Unit,
+    onNavigateToPaymentModes: () -> Unit,
     onShowLockPicker: () -> Unit,
 ) {
     val colors = MM.colors
@@ -97,10 +101,15 @@ internal fun SettingsLazyList(
             PreferencesSection(
                 currencySubtitle = state.defaultCurrency,
                 languageSubtitle = languageSubtitle,
+                defaultTransactionType = state.defaultTransactionType,
+                paymentModeEnabled = state.paymentModeEnabled,
                 onNavigateToCurrency = onNavigateToCurrency,
                 onNavigateToLanguage = onNavigateToLanguage,
                 onNavigateToCategories = onNavigateToCategories,
                 onNavigateToWallets = onNavigateToWallets,
+                onNavigateToPaymentModes = onNavigateToPaymentModes,
+                onDefaultTransactionTypeChanged = onDefaultTransactionTypeChanged,
+                onPaymentModeEnabledChanged = onPaymentModeEnabledChanged,
             )
         }
         item(key = SettingsItem.DATA_LABEL.name) {

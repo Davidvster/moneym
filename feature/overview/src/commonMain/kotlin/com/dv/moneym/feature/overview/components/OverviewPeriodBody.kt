@@ -39,8 +39,7 @@ import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.DonutChart
 import com.dv.moneym.core.ui.DonutSlice
-import com.dv.moneym.core.ui.MiniBars
-import com.dv.moneym.core.ui.MiniCumulativeLine
+import com.dv.moneym.core.ui.CumulativeChart
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmSegmented
@@ -121,6 +120,7 @@ internal fun OverviewPeriodBody(
                     xLabels = listOf("1", "8", "15", "22", "31"),
                     title = stringResource(Res.string.overview_daily_trend),
                     showBars = false,
+                    currencyCode = state.currency,
                     modifier = Modifier.padding(
                         horizontal = space.padding_2x,
                         vertical = space.padding_0_5x
@@ -138,6 +138,7 @@ internal fun OverviewPeriodBody(
                     xLabels = listOf("Jan", "Apr", "Jul", "Oct", "Dec"),
                     title = stringResource(Res.string.overview_monthly_trend),
                     showBars = true,
+                    currencyCode = state.currency,
                     modifier = Modifier.padding(
                         horizontal = space.padding_2x,
                         vertical = space.padding_0_5x
@@ -152,6 +153,7 @@ internal fun OverviewPeriodBody(
                         xLabels = emptyList(),
                         title = stringResource(Res.string.overview_daily_trend),
                         showBars = true,
+                        currencyCode = state.currency,
                         modifier = Modifier.padding(
                             horizontal = space.padding_2x,
                             vertical = space.padding_0_5x
@@ -314,6 +316,7 @@ private fun CategoryTrendsCard(
     xLabels: List<String>,
     title: String,
     showBars: Boolean = false,
+    currencyCode: String = "",
     modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
@@ -382,22 +385,58 @@ private fun CategoryTrendsCard(
                     }
                     Spacer(Modifier.height(space.padding_1x))
                     if (showBars) {
-                        MiniBars(
-                            data = trend.series,
-                            color = Color(trend.categoryColor),
-                            highlightIndex = if (highlightIndex >= 0) highlightIndex else -1,
+                        // Yearly mode: avg/month + avg/day labels, then full bar chart
+                        if (trend.avgPerMonth > 0 || trend.avgPerDay > 0) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(space.padding_2x),
+                            ) {
+                                if (trend.avgPerMonth > 0) {
+                                    Text(
+                                        text = "avg/mo: ${formatAmount(trend.avgPerMonth)} $currencyCode",
+                                        style = type.caption.copy(color = colors.text2),
+                                    )
+                                }
+                                if (trend.avgPerDay > 0) {
+                                    Text(
+                                        text = "avg/day: ${formatAmount(trend.avgPerDay)} $currencyCode",
+                                        style = type.caption.copy(color = colors.text2),
+                                    )
+                                }
+                            }
+                            Spacer(Modifier.height(space.padding_1x))
+                        }
+                        CategoryBarChart(
+                            monthlyTotals = trend.series,
+                            currentMonthIndex = if (highlightIndex >= 0) highlightIndex else -1,
+                            barColor = Color(trend.categoryColor),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(MM.dimen.padding_4x),
+                                .height(CHART_HEIGHT),
                         )
                     } else {
-                        MiniCumulativeLine(
-                            data = trend.series,
-                            color = Color(trend.categoryColor),
-                            upToIndex = if (highlightIndex >= 0) highlightIndex else -1,
+                        // Monthly mode: avg/day label, then full cumulative chart
+                        if (trend.avgPerDay > 0) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.End,
+                            ) {
+                                Text(
+                                    text = "avg/day: ${formatAmount(trend.avgPerDay)} $currencyCode",
+                                    style = type.caption.copy(color = colors.text2),
+                                )
+                            }
+                            Spacer(Modifier.height(space.padding_1x))
+                        }
+                        val cumulativeData = trend.series
+                            .runningFold(0.0) { acc, v -> acc + v }
+                            .drop(1)
+                        CumulativeChart(
+                            values = cumulativeData,
+                            todayIndex = if (highlightIndex >= 0) highlightIndex else cumulativeData.lastIndex.coerceAtLeast(0),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(MM.dimen.padding_4x),
+                                .height(CHART_HEIGHT),
                         )
                     }
                 }

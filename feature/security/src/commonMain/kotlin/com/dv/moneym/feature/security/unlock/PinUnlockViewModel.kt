@@ -73,6 +73,14 @@ class PinUnlockViewModel(
         biometricPrompt = prompt
     }
 
+    fun onResume() {
+        if (_state.value.biometricAvailable && !_state.value.isVerifying && _state.value.backoffRemainingMs <= 0) {
+            viewModelScope.launch {
+                triggerBiometric(biometricPrompt)
+            }
+        }
+    }
+
     internal fun onIntent(intent: PinUnlockIntent) {
         when (intent) {
             is PinUnlockIntent.DigitPressed -> onDigit(intent.digit)

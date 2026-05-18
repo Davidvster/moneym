@@ -30,6 +30,7 @@ import com.dv.moneym.feature.overview.components.OverviewYearPickerDialog
 import com.dv.moneym.feature.overview.components.daysInMonthUi
 import com.dv.moneym.feature.overview.components.formatShortDate
 import com.dv.moneym.feature.overview.components.localizedMonthNames
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -197,6 +198,11 @@ private fun OverviewContent(
 
                 is OverviewPeriod.Year -> Triple(p.year, 12, 31)
             }
+            val transactionDates = remember(state.transactionDateIsos) {
+                state.transactionDateIsos.mapNotNullTo(mutableSetOf()) { iso ->
+                    runCatching { LocalDate.parse(iso) }.getOrNull()
+                }
+            }
             DateRangePickerDialog(
                 initStartYear = initStart.first,
                 initStartMonth = initStart.second,
@@ -206,6 +212,7 @@ private fun OverviewContent(
                 initEndDay = initEnd.third,
                 minSelectableDateIso = state.minSelectableDateIso,
                 maxSelectableDateIso = state.maxSelectableDateIso,
+                selectableDates = transactionDates,
                 onDismiss = { showDateRangePicker = false },
                 onConfirm = { sy, sm, sd, ey, em, ed ->
                     onIntent(

@@ -51,14 +51,17 @@ class DefaultAppSettingsRepository(
                 runCatching { enumValueOf<Density>(stored ?: Density.Comfortable.name) }
                     .getOrDefault(Density.Comfortable)
             }
+        val showDailySumsFlow = appSettings
+            .observeBoolean(PrefKeys.TX_SHOW_DAILY_SUMS, true)
 
-        return combine(indicatorFlow, showCategoryFlow, showNoteFlow, densityFlow) {
-                indicator, showCategory, showNote, density ->
+        return combine(indicatorFlow, showCategoryFlow, showNoteFlow, densityFlow, showDailySumsFlow) {
+                indicator, showCategory, showNote, density, showDailySums ->
             TxDisplayPrefs(
                 indicatorStyle = indicator,
                 showCategoryName = showCategory,
                 showNote = showNote,
                 density = density,
+                showDailySums = showDailySums,
             )
         }
     }
@@ -68,6 +71,7 @@ class DefaultAppSettingsRepository(
         appSettings.putBoolean(PrefKeys.TX_SHOW_CATEGORY, prefs.showCategoryName)
         appSettings.putBoolean(PrefKeys.TX_SHOW_NOTE, prefs.showNote)
         appSettings.putString(PrefKeys.TX_DENSITY, prefs.density.name)
+        appSettings.putBoolean(PrefKeys.TX_SHOW_DAILY_SUMS, prefs.showDailySums)
     }
 
     override fun observeDefaultCurrency(): Flow<String> =
@@ -141,5 +145,23 @@ class DefaultAppSettingsRepository(
 
     override suspend fun setSelectedAccountId(id: Long) {
         appSettings.putString(PrefKeys.SELECTED_ACCOUNT_ID, id.toString())
+    }
+
+    override fun observeDefaultTransactionType(): Flow<TransactionType> =
+        appSettings.observeString(PrefKeys.DEFAULT_TX_TYPE, TransactionType.EXPENSE.name)
+            .map { stored ->
+                runCatching { enumValueOf<TransactionType>(stored ?: TransactionType.EXPENSE.name) }
+                    .getOrDefault(TransactionType.EXPENSE)
+            }
+
+    override suspend fun setDefaultTransactionType(type: TransactionType) {
+        appSettings.putString(PrefKeys.DEFAULT_TX_TYPE, type.name)
+    }
+
+    override fun observePaymentModeEnabled(): Flow<Boolean> =
+        appSettings.observeBoolean(PrefKeys.PAYMENT_MODE_ENABLED, false)
+
+    override suspend fun setPaymentModeEnabled(enabled: Boolean) {
+        appSettings.putBoolean(PrefKeys.PAYMENT_MODE_ENABLED, enabled)
     }
 }
