@@ -8,6 +8,8 @@ import com.dv.moneym.core.security.PinHasher
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.data.backup.BackupExporter
 import com.dv.moneym.data.backup.BackupImporter
+import com.dv.moneym.feature.settings.overview.importdata.CsvImportHolder
+import com.dv.moneym.feature.settings.overview.importdata.ImportDataViewModel
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
 import com.dv.moneym.feature.categories.edit.CategoryEditViewModel
 import com.dv.moneym.feature.categories.list.CategoryListViewModel
@@ -92,6 +94,7 @@ val featureSecurityModule = module {
 val dataBackupModule = module {
     single { BackupExporter(get(), get(), get(), get()) }
     single { BackupImporter(get(), get(), get()) }
+    single { CsvImportHolder() }
 }
 
 val featureSettingsModule = module {
@@ -128,6 +131,17 @@ val featureSettingsModule = module {
         LanguagePickerViewModel(
             appSettingsRepository = get(),
             localeController = get(),
+            savedStateHandle = get(),
+        )
+    }
+    viewModel {
+        ImportDataViewModel(
+            holder = get(),
+            categoryRepository = get(),
+            accountRepository = get(),
+            transactionRepository = get(),
+            dispatchers = get(),
+            clock = get(),
             savedStateHandle = get(),
         )
     }

@@ -122,4 +122,20 @@
     <string name="settings_payment_mode_delete_confirm">Delete</string>
     <string name="settings_payment_mode_cancel">Cancel</string>
     <string name="settings_payment_mode_save">Save</string>
+    <!-- Import CSV -->
+    <string name="settings_import_csv">Import CSV</string>
+    <string name="settings_import_from">Import from</string>
+    <string name="settings_import_source_moneym">MoneyM</string>
+    <string name="settings_import_source_ehf">Easy Home Finance</string>
+    <string name="settings_import_data_title">Import Data</string>
+    <string name="settings_import_select_all">Select all</string>
+    <string name="settings_import_deselect_all">Deselect all</string>
+    <string name="settings_import_into">Import into</string>
+    <string name="settings_import_categories">Categories</string>
+    <string name="settings_import_transactions_selected">Transactions (%1$d selected)</string>
+    <string name="settings_import_button_one">Import %1$d Transaction</string>
+    <string name="settings_import_button_other">Import %1$d Transactions</string>
+    <string name="settings_import_new_category">New category</string>
+    <string name="settings_import_map_to">Map \"%1$s\" to</string>
+    <string name="settings_import_create_new_category">Create new category</string>
 </resources>

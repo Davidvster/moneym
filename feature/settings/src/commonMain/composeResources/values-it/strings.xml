@@ -84,4 +84,20 @@
     <string name="settings_lock_30s_label">30 secondi</string>
     <string name="settings_lock_1m_label">1 minuto</string>
     <string name="settings_lock_5m_label">5 minuti</string>
+    <!-- Import CSV -->
+    <string name="settings_import_csv">Importa CSV</string>
+    <string name="settings_import_from">Importa da</string>
+    <string name="settings_import_source_moneym">MoneyM</string>
+    <string name="settings_import_source_ehf">Easy Home Finance</string>
+    <string name="settings_import_data_title">Importa dati</string>
+    <string name="settings_import_select_all">Seleziona tutto</string>
+    <string name="settings_import_deselect_all">Deseleziona tutto</string>
+    <string name="settings_import_into">Importa in</string>
+    <string name="settings_import_categories">Categorie</string>
+    <string name="settings_import_transactions_selected">Transazioni (%1$d selezionate)</string>
+    <string name="settings_import_button_one">Importa %1$d transazione</string>
+    <string name="settings_import_button_other">Importa %1$d transazioni</string>
+    <string name="settings_import_new_category">Nuova categoria</string>
+    <string name="settings_import_map_to">Associa \"%1$s\" a</string>
+    <string name="settings_import_create_new_category">Crea nuova categoria</string>
 </resources>

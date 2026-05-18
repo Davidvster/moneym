@@ -1,0 +1,52 @@
+package com.dv.moneym.platform
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import kotlinx.cinterop.ExperimentalForeignApi
+import platform.Foundation.NSURL
+import platform.Foundation.NSString
+import platform.Foundation.NSUTF8StringEncoding
+import platform.Foundation.stringWithContentsOfURL
+import platform.UIKit.UIApplication
+import platform.UIKit.UIDocumentPickerViewController
+import platform.UIKit.UIDocumentPickerDelegateProtocol
+import platform.UniformTypeIdentifiers.UTTypeCommaSeparatedText
+import platform.UniformTypeIdentifiers.UTTypePlainText
+import platform.darwin.NSObject
+
+@OptIn(ExperimentalForeignApi::class)
+@Composable
+actual fun rememberFilePicker(onResult: (String?) -> Unit): () -> Unit {
+    val callback = rememberUpdatedState(onResult)
+
+    val delegate = remember {
+        object : NSObject(), UIDocumentPickerDelegateProtocol {
+            override fun documentPicker(
+                controller: UIDocumentPickerViewController,
+                didPickDocumentsAtURLs: List<*>,
+            ) {
+                val url = didPickDocumentsAtURLs.firstOrNull() as? NSURL
+                val content = url?.let {
+                    @Suppress("UNCHECKED_CAST")
+                    NSString.stringWithContentsOfURL(it, NSUTF8StringEncoding, null) as? String
+                }
+                callback.value(content)
+            }
+
+            override fun documentPickerWasCancelled(controller: UIDocumentPickerViewController) {
+                callback.value(null)
+            }
+        }
+    }
+
+    return {
+        val picker = UIDocumentPickerViewController(
+            forOpeningContentTypes = listOf(UTTypeCommaSeparatedText, UTTypePlainText),
+        )
+        picker.delegate = delegate
+        picker.allowsMultipleSelection = false
+        UIApplication.sharedApplication.keyWindow?.rootViewController
+            ?.presentViewController(picker, animated = true, completion = null)
+    }
+}

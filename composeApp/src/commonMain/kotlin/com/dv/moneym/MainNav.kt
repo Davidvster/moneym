@@ -32,6 +32,9 @@ import com.dv.moneym.feature.settings.overview.TxListDisplayKey
 import com.dv.moneym.feature.settings.overview.currencypicker.currencyPickerEntry
 import com.dv.moneym.feature.settings.overview.export.ExportDataKey
 import com.dv.moneym.feature.settings.overview.export.exportDataEntry
+import com.dv.moneym.feature.settings.overview.importdata.CsvImportHolder
+import com.dv.moneym.feature.settings.overview.importdata.ImportDataKey
+import com.dv.moneym.feature.settings.overview.importdata.importDataEntry
 import com.dv.moneym.feature.settings.overview.locale.languagePickerEntry
 import com.dv.moneym.feature.settings.overview.settingsEntry
 import com.dv.moneym.feature.settings.overview.transactiondisplay.txListDisplayEntry
@@ -48,6 +51,7 @@ import com.dv.moneym.feature.transactionedit.transactionEditEntry
 import com.dv.moneym.feature.transactions.list.TransactionsKey
 import com.dv.moneym.feature.transactions.list.transactionsEntry
 import com.dv.moneym.platform.FilePlatform
+import com.dv.moneym.platform.rememberFilePicker
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -67,10 +71,18 @@ private fun tabSlideDirection(from: NavKey, to: NavKey): Int {
 internal fun MainNav(lockController: AppLockController) {
     val tabBackStack = remember { TabBackStack(TransactionsKey) }
     val filePlatform = koinInject<FilePlatform>()
+    val csvImportHolder = koinInject<CsvImportHolder>()
     // Shared SecuritySettingsViewModel so we can call refreshPinState after pin setup
     val securitySettingsViewModel: SecuritySettingsViewModel = koinViewModel()
     // Shared AddWalletViewModel so both AddWalletScreen and its currency picker share state
     val addWalletViewModel: AddWalletViewModel = koinViewModel()
+
+    val csvFilePicker = rememberFilePicker { content ->
+        if (content != null) {
+            csvImportHolder.content = content
+            tabBackStack.push(ImportDataKey)
+        }
+    }
 
     NavDisplay(
         backStack = tabBackStack.backStack,
@@ -201,7 +213,12 @@ internal fun MainNav(lockController: AppLockController) {
                 onExportReady = { fileName, content, mimeType ->
                     filePlatform.saveFile(fileName, content, mimeType)
                 },
+                onImportSourceSelected = { format ->
+                    csvImportHolder.format = format
+                    csvFilePicker()
+                },
             )
+            importDataEntry(onBack = { tabBackStack.removeLast() })
             paymentModeListEntry(onBack = { tabBackStack.removeLast() })
             walletManageEntry(
                 onBack = { tabBackStack.removeLast() },

@@ -26,11 +26,14 @@ import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
+import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
+import com.dv.moneym.feature.settings.overview.importdata.CsvSourceFormat
+import com.dv.moneym.feature.settings.overview.importdata.ImportSourceSheet
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_export_as_csv
@@ -38,6 +41,7 @@ import moneym.feature.settings.generated.resources.settings_export_as_json
 import moneym.feature.settings.generated.resources.settings_export_data_title
 import moneym.feature.settings.generated.resources.settings_export_format
 import moneym.feature.settings.generated.resources.settings_export_start
+import moneym.feature.settings.generated.resources.settings_import_csv
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -47,10 +51,12 @@ data object ExportDataKey : NavKey
 fun EntryProviderScope<NavKey>.exportDataEntry(
     onBack: () -> Unit,
     onExportReady: (suspend (String, String, String) -> Unit)? = null,
+    onImportSourceSelected: (CsvSourceFormat) -> Unit = {},
 ) = entry<ExportDataKey> {
     ExportScreen(
         onBack = onBack,
         onExportReady = onExportReady,
+        onImportSourceSelected = onImportSourceSelected,
     )
 }
 
@@ -58,9 +64,11 @@ fun EntryProviderScope<NavKey>.exportDataEntry(
 private fun ExportScreen(
     onBack: () -> Unit,
     onExportReady: (suspend (String, String, String) -> Unit)? = null,
+    onImportSourceSelected: (CsvSourceFormat) -> Unit = {},
     viewModel: ExportViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    var showImportSheet by remember { mutableStateOf(false) }
 
     LaunchedEffect(viewModel) {
         viewModel.effects.collect { effect ->
@@ -68,8 +76,7 @@ private fun ExportScreen(
                 is ExportEffect.ExportReady -> {
                     onExportReady?.invoke(effect.fileName, effect.content, effect.mimeType)
                 }
-
-                ExportEffect.ImportRequested -> { /* handled by platform caller */ }
+                ExportEffect.ImportRequested -> Unit
             }
         }
     }
@@ -78,8 +85,23 @@ private fun ExportScreen(
         isExporting = state.isExporting,
         onExportJson = { viewModel.onIntent(ExportIntent.ExportJsonRequested) },
         onExportCsv = { viewModel.onIntent(ExportIntent.ExportCsvRequested) },
+        onImport = { showImportSheet = true },
         onBack = onBack,
     )
+
+    if (showImportSheet) {
+        ImportSourceSheet(
+            onMoneyMSelected = {
+                showImportSheet = false
+                onImportSourceSelected(CsvSourceFormat.MONEYM)
+            },
+            onEasyHomeFinanceSelected = {
+                showImportSheet = false
+                onImportSourceSelected(CsvSourceFormat.EASY_HOME_FINANCE)
+            },
+            onDismiss = { showImportSheet = false },
+        )
+    }
 }
 
 @Composable
@@ -87,6 +109,7 @@ private fun ExportContent(
     isExporting: Boolean,
     onExportJson: () -> Unit,
     onExportCsv: () -> Unit,
+    onImport: () -> Unit,
     onBack: () -> Unit,
 ) {
     val colors = MM.colors
@@ -115,7 +138,6 @@ private fun ExportContent(
             verticalArrangement = Arrangement.spacedBy(space.padding_2x),
         ) {
             item {
-                // Format section
                 SectionLabel(
                     text = stringResource(Res.string.settings_export_format),
                     modifier = Modifier.padding(bottom = space.padding_0_5x),
@@ -145,7 +167,6 @@ private fun ExportContent(
             }
 
             item {
-                // Export button
                 Spacer(Modifier.height(space.padding_1x))
                 MmButton(
                     text = stringResource(Res.string.settings_export_start),
@@ -155,6 +176,16 @@ private fun ExportContent(
                     modifier = Modifier.fillMaxWidth(),
                     size = MmButtonSize.Lg,
                     enabled = !isExporting,
+                )
+            }
+
+            item {
+                MmButton(
+                    text = stringResource(Res.string.settings_import_csv),
+                    onClick = onImport,
+                    modifier = Modifier.fillMaxWidth(),
+                    size = MmButtonSize.Lg,
+                    variant = MmButtonVariant.Secondary,
                 )
             }
         }

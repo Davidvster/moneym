@@ -101,14 +101,38 @@ private fun TransactionListContentPreview_Dark() {
 
 Preview-only sample data lives in a sibling `*Samples.kt` file marked `internal`.
 
-## Internationalization
+## Internationalization (NON-NEGOTIABLE)
 
-- Every user-visible string goes through Compose resources (`stringResource(Res.string.x)`).
-- Strings live in `core:designsystem` or the owning feature module under
-  `commonMain/composeResources/values/`.
-- Supported locales for v1: `en` (default), `es`, `it`, `de`. Always update all four when adding a
-  string. Missing translations fall back to English silently — that's fine for development, but
-  `en`, `es`, `it`, `de` must all be present before release.
+**Hard rule: every user-visible string MUST use `stringResource(Res.string.x)`. No hardcoded
+string literals in composables — not even "OK", "Cancel", or button labels.**
+
+Strings live in the owning feature module under `commonMain/composeResources/values/strings.xml`.
+
+**Every new string key MUST be added to all four locale files in the same change:**
+
+| File | Locale |
+|------|--------|
+| `composeResources/values/strings.xml` | English (default) |
+| `composeResources/values-de/strings.xml` | German |
+| `composeResources/values-es/strings.xml` | Spanish |
+| `composeResources/values-it/strings.xml` | Italian |
+
+If you add a key to `values/` but not the others, the task is incomplete. Missing translations
+fall back to English at runtime, but all four files must be updated before a task is considered
+done.
+
+Format arguments use `%1$s` / `%1$d` placeholders:
+
+```xml
+<string name="settings_import_transactions_selected">Transactions (%1$d selected)</string>
+```
+
+```kotlin
+stringResource(Res.string.settings_import_transactions_selected, selectedCount)
+```
+
+Plural forms (1 item vs N items) are handled with two separate keys (`_one` / `_other`) since
+Compose Multiplatform `stringResource` does not support Android-style `<plurals>` in commonMain.
 
 ## Accessibility
 

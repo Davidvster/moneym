@@ -103,7 +103,18 @@ In the ViewModel:
 - Lightweight formatting decisions that depend on domain logic ("show empty state when X")
 
 NOT in the ViewModel:
-- Strings: pass IDs / typed errors, let the UI resolve `stringResource(...)`
+- **Strings**: never put user-visible text in ViewModel state as raw `String`. Use a typed error
+  (sealed class / enum) and let the UI call `stringResource(...)` to translate it. A raw string
+  in state bypasses localisation and is untestable. Example of the correct pattern:
+  ```kotlin
+  // ❌ Wrong — hardcoded English leaks into state
+  _state.update { it.copy(error = "No file content") }
+
+  // ✅ Correct — typed error, UI translates
+  sealed interface ImportError { data object NoContent : ImportError; data object ParseFailed : ImportError }
+  // UiState holds: val error: ImportError? = null
+  // Screen: Text(stringResource(when (state.error) { ImportError.NoContent -> Res.string.import_error_no_content ... }))
+  ```
 - Currency/date formatting: that's a Compose-side concern using locale
 - Navigation: the ViewModel emits an effect; the screen does the navigating
 - Platform APIs (Context, NSURL, etc.): platform glue belongs in `core:*` modules behind expect/actual
