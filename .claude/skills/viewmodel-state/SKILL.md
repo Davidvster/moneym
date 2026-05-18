@@ -94,13 +94,72 @@ The screen collects effects in a `LaunchedEffect` and dispatches them to the nav
 - In the screen: `koinViewModel<TransactionListViewModel>()` (from `koin-compose-viewmodel`).
 - Do not put ViewModels in the DI graph manually — always through the Koin `viewModel` DSL so lifecycle is handled.
 
+## Business logic belongs in the ViewModel — never in the UI
+
+**Hard rule: the UI is a dumb rendering layer.** It reads `UiState`, renders it, and sends `Intent` back. It never derives domain values, filters lists, computes percentages, compares domain objects, or decides what to show beyond simple null checks.
+
+If you find yourself writing any of the following inside a composable, stop and move it to the ViewModel:
+
+| Pattern in composable | Where it belongs |
+|---|---|
+| `list.filter { it.type == state.type }` | VM: expose pre-filtered list in state |
+| `items.map { it.copy(percent = (it.amount / total * 100).toInt()) }` | VM: compute derived fields inside `combine` |
+| `val isToday = state.date == todayDate` | VM: expose `val isDateToday: Boolean` in `UiState` |
+| `if (state.type == EXPENSE) expenseCategories else incomeCategories` | VM: expose one `val categories` already resolved |
+| `val total = if (filter == All) income + expenses else expenses` | VM: expose `val displayedTotal: Double` |
+| `items.groupBy { it.category }` | VM or UseCase |
+| business `when` branches on domain enums | VM |
+
+### Correct pattern
+
+```kotlin
+// ❌ Wrong — composable deciding which list to show
+@Composable
+fun CategoryPicker(state: EditUiState) {
+    val categories = state.availableCategories.filter { it.type == state.type }
+    // ...
+}
+
+// ✅ Correct — VM resolves, composable just renders
+// In ViewModel:
+is EditIntent.TypeChanged -> _state.update {
+    it.copy(
+        type = intent.type,
+        selectedCategoryId = null,
+        visibleCategories = allCategories.filter { c -> c.type == intent.type },
+    )
+}
+// In composable:
+CategoryPicker(categories = state.visibleCategories)
+```
+
+```kotlin
+// ❌ Wrong — composable computing percentages
+val slices = categories.map {
+    it.copy(percent = ((it.amount / total) * 100).toInt())
+}
+
+// ✅ Correct — VM computes, composable reads
+// In ViewModel combine block:
+categoryBreakdown = rawCategories.map { cs ->
+    cs.copy(percent = if (totalMinor > 0) ((cs.amountMinor * 100) / totalMinor).toInt() else 0)
+}
+// In composable:
+val slices = state.categoryBreakdown.map { DonutSlice(Color(it.categoryColor), it.percent / 100f) }
+```
+
+### The test tells you who owns it
+
+If the logic is worth a unit test, it belongs in the ViewModel. Composables are not unit-tested in this project. If you can't test it without rendering Compose, it's allowed in the composable; if you can reason about it with pure Kotlin, put it in the ViewModel.
+
 ## What goes in a ViewModel — and what doesn't
 
 In the ViewModel:
 - Combining and mapping repository Flows into UI state
 - Calling UseCases in response to intents
 - Emitting effects
-- Lightweight formatting decisions that depend on domain logic ("show empty state when X")
+- **All filtering, mapping, computing, and deriving of data before it reaches the UI**
+- Boolean flags the UI reads directly: `val isDateToday: Boolean`, `val hasSelection: Boolean`, `val showEmptyState: Boolean`
 
 NOT in the ViewModel:
 - **Strings**: never put user-visible text in ViewModel state as raw `String`. Use a typed error
@@ -118,6 +177,7 @@ NOT in the ViewModel:
 - Currency/date formatting: that's a Compose-side concern using locale
 - Navigation: the ViewModel emits an effect; the screen does the navigating
 - Platform APIs (Context, NSURL, etc.): platform glue belongs in `core:*` modules behind expect/actual
+- **Color, Dp, TextStyle**: state fields are domain types only. Never `Color`, `Dp`, or typography in `UiState`.
 
 ## Testing
 

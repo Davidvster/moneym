@@ -59,7 +59,65 @@ ViewModel and route callbacks outward.
 - Children receive immutable state + lambdas. Never pass a ViewModel down.
 - Compute derived UI fields in the ViewModel — keep `*Content` dumb.
 - No `remember { mutableStateOf(...) }` for screen state. Local-only UI state (e.g. a dropdown
-  expanded flag) may stay in the composable.
+  expanded flag, a dialog visibility) may stay in the composable.
+
+## The UI is a dumb rendering layer — this is non-negotiable
+
+**Composables only do two things: render state and emit intents.** They never contain business logic.
+
+### What the UI MUST NOT do
+
+```kotlin
+// ❌ Filtering a list based on domain rules
+val categories = state.availableCategories.filter { it.type == state.type }
+
+// ❌ Computing derived domain values (percentages, totals, averages)
+val percent = (cat.amount / total * 100).toInt()
+val balance = state.income - state.expenses
+
+// ❌ Comparing domain objects to make a conditional decision
+val isToday = state.date == todayDate   // todayDate computed locally
+
+// ❌ Selecting between data sets based on a local UI filter
+val categories = when (localFilter) {
+    Filter.All -> expenses + income
+    Filter.Expenses -> expenses
+    Filter.Income -> income
+}
+
+// ❌ Re-mapping or re-shaping domain data
+val slices = categories.map { it.copy(percent = recalculate(it.amount, total)) }
+```
+
+All of the above belong in the ViewModel's `combine` block or `onIntent` handler, and the result goes directly into `UiState` as a ready-to-render field.
+
+### What the UI IS allowed to do
+
+```kotlin
+// ✅ Direct read from state
+Text(state.categoryName)
+
+// ✅ Null/empty check for conditional rendering
+if (state.categories.isEmpty()) EmptyState() else CategoryList(state.categories)
+
+// ✅ Mapping domain data to a rendering primitive (color, size) — no business logic
+val color = Color(cat.categoryColor)  // just a cast, not a decision
+
+// ✅ String resource lookup from a typed state field
+Text(stringResource(when (state.error) { is NoContent -> Res.string.error_no_content }))
+
+// ✅ Local-only ephemeral UI state
+var showDropdown by remember { mutableStateOf(false) }
+
+// ✅ Sending an intent and letting the VM decide
+MmButton(onClick = { onIntent(DateQuickTapped) })  // VM resolves yesterday vs today
+```
+
+### How to enforce the boundary
+
+Before writing logic in a composable, ask: **can I write a pure Kotlin unit test for this?**
+- Yes → it belongs in the ViewModel.
+- No (needs Compose, context, resources) → it may stay in the composable.
 
 ## Theming and design system
 
@@ -154,3 +212,11 @@ Compose Multiplatform `stringResource` does not support Android-style `<plurals>
 - Don't pass `NavController` into a composable. Navigation is one lambda callback per destination.
 - Don't read `LocalContext.current` in `commonMain`. Use platform abstractions in `core:common`.
 - Don't import `androidx.compose.material.*` (Material 2). Material 3 only.
+- **Don't filter, map, group, sort, or compute inside a composable.** If you're about to write any
+  collection operation on domain data inside a `@Composable` function, stop — that logic belongs
+  in the ViewModel. Expose the already-prepared list in `UiState`.
+- **Don't derive booleans from domain comparisons in the composable.** `val isToday = state.date == today`
+  computed locally in a composable is wrong — the VM exposes `val isDateToday: Boolean` in state.
+- **Don't maintain a local copy of domain state.** `var localFilter by remember { mutableStateOf(...) }`
+  that shadows or overrides domain data is wrong — filter state belongs in the ViewModel with a
+  corresponding intent (`FilterChanged`), so it survives navigation and is testable.
