@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.transactionedit.components
 
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIconButtonVariant
-import com.dv.moneym.core.ui.MmIcons
 import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.edit_title_add
 import moneym.feature.transactionedit.generated.resources.edit_title_edit
@@ -40,7 +41,7 @@ internal fun TransactionEditModalHeader(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         MmIconButton(
-            icon = MmIcons.close,
+            icon = Icon.Close.imageVector,
             onClick = onDismiss,
         )
         Text(
@@ -54,7 +55,7 @@ internal fun TransactionEditModalHeader(
         )
         if (isEditMode) {
             MmIconButton(
-                icon = MmIcons.trash,
+                icon = Icon.Trash.imageVector,
                 onClick = onDeleteClick,
                 variant = MmIconButtonVariant.Danger,
             )

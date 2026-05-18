@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.security.shared
 
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.security.BiometryType
-import com.dv.moneym.core.ui.MmIcons
 
 // Each keypad cell: 80x72dp, 16dp radius, surface bg, 1dp border
 @Composable
@@ -111,9 +112,9 @@ fun PinKeypad(
 
     // Select biometric icon based on type
     val biometricIcon = when (biometryType) {
-        BiometryType.FaceId -> MmIcons.faceId
-        BiometryType.Fingerprint -> MmIcons.fingerprint
-        BiometryType.None -> MmIcons.fingerprint
+        BiometryType.FaceId -> Icon.FaceId.imageVector
+        BiometryType.Fingerprint -> Icon.Fingerprint.imageVector
+        BiometryType.None -> Icon.Fingerprint.imageVector
     }
 
     Column(
@@ -156,7 +157,7 @@ fun PinKeypad(
 
             // Backspace
             TransparentKeyCell(onClick = onDelete) {
-                val painter = rememberVectorPainter(MmIcons.backspace)
+                val painter = rememberVectorPainter(Icon.Backspace.imageVector)
                 Image(
                     painter = painter,
                     contentDescription = "Delete",

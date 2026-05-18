@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.settings.overview.components
 
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
@@ -17,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmCard
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.feature.settings.overview.SecuritySettingsIntent
@@ -82,7 +83,7 @@ internal fun SecuritySection(
                 modifier = Modifier.alpha(if (pinEnabled) 1f else 0.45f),
             ) {
                 Icon(
-                    imageVector = MmIcons.fingerprint,
+                    imageVector = Icon.Fingerprint.imageVector,
                     contentDescription = null,
                     tint = colors.text,
                     modifier = Modifier.size(MM.dimen.icon_1x),
@@ -114,7 +115,7 @@ internal fun SecuritySection(
             )
             Text(lockAfterLabel, style = type.caption.copy(color = colors.text2))
             Icon(
-                imageVector = MmIcons.chevronRight,
+                imageVector = Icon.ChevronRight.imageVector,
                 contentDescription = null,
                 tint = colors.text3,
                 modifier = Modifier.size(MM.dimen.padding_2x),

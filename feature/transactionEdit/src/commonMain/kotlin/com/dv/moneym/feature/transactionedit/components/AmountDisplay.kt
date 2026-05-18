@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.transactionedit.components
 
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -26,8 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmIconButton
-import com.dv.moneym.core.ui.MmIcons
-import com.dv.moneym.core.ui.calculator
 import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.edit_amount_label
 import moneym.feature.transactionedit.generated.resources.edit_calculator_title
@@ -103,7 +103,7 @@ internal fun AmountDisplay(
 
         // Calculator button
         MmIconButton(
-            icon = MmIcons.calculator,
+            icon = Icon.Calculator.imageVector,
             onClick = onCalculatorClick,
             contentDescription = stringResource(Res.string.edit_calculator_title),
         )

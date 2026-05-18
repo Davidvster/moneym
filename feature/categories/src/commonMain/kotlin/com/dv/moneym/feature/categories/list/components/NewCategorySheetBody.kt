@@ -32,11 +32,11 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMColors
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmField
-import com.dv.moneym.core.ui.MmIcons
-import com.dv.moneym.feature.categories.list.resolveIconVector
+import com.dv.moneym.core.ui.imageVector
 import moneym.feature.categories.generated.resources.Res
 import moneym.feature.categories.generated.resources.categories_color_label
 import moneym.feature.categories.generated.resources.categories_delete
@@ -161,7 +161,7 @@ private fun CategoryPreviewChip(
                     .background(selectedColor),
                 contentAlignment = Alignment.Center,
             ) {
-                val painter = rememberVectorPainter(resolveIconVector(selectedIconKey))
+                val painter = rememberVectorPainter(Icon.fromKeyOrDefault(selectedIconKey).imageVector)
                 Image(
                     painter = painter,
                     contentDescription = null,
@@ -225,7 +225,7 @@ private fun ColorPickerSection(
                 ) { onCustomColorClick() },
             contentAlignment = Alignment.Center,
         ) {
-            val painter = rememberVectorPainter(MmIcons.plus)
+            val painter = rememberVectorPainter(Icon.Plus.imageVector)
             Image(
                 painter = painter,
                 contentDescription = "Custom color",
@@ -270,7 +270,7 @@ private fun ColorSwatch(
                         .background(color),
                     contentAlignment = Alignment.Center,
                 ) {
-                    val painter = rememberVectorPainter(MmIcons.check)
+                    val painter = rememberVectorPainter(Icon.Check.imageVector)
                     Image(
                         painter = painter,
                         contentDescription = null,
@@ -314,7 +314,7 @@ private fun IconPickerSection(
                     ) { onIconSelected(iconKey) },
                 contentAlignment = Alignment.Center,
             ) {
-                val painter = rememberVectorPainter(resolveIconVector(iconKey))
+                val painter = rememberVectorPainter(Icon.fromKeyOrDefault(iconKey).imageVector)
                 Image(
                     painter = painter,
                     contentDescription = iconKey,

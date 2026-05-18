@@ -25,8 +25,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
-import com.dv.moneym.core.ui.MmIcons
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmRow
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
@@ -116,7 +117,7 @@ private fun LanguagePickerContent(
             ) {
                 MmRow(divider = false) {
                     Icon(
-                        imageVector = MmIcons.globe,
+                        imageVector = Icon.Globe.imageVector,
                         contentDescription = null,
                         tint = colors.text,
                         modifier = Modifier.size(MM.dimen.icon_1x),
@@ -171,7 +172,7 @@ private fun LanguagePickerContent(
 
                     if (lang.code == selectedLanguage && !useDeviceLanguage) {
                         Icon(
-                            imageVector = MmIcons.check,
+                            imageVector = Icon.Check.imageVector,
                             contentDescription = null,
                             tint = colors.accent,
                             modifier = Modifier.size(MM.dimen.padding_2x),

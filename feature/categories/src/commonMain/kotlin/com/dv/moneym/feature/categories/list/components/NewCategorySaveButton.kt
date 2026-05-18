@@ -8,10 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMColors
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
-import com.dv.moneym.core.ui.MmIcons
+import com.dv.moneym.core.ui.imageVector
 import moneym.feature.categories.generated.resources.Res
 import moneym.feature.categories.generated.resources.categories_create
 import moneym.feature.categories.generated.resources.categories_save_changes
@@ -37,7 +38,7 @@ internal fun NewCategorySaveButton(
             onClick = onSave,
             variant = MmButtonVariant.Accent,
             size = MmButtonSize.Lg,
-            leadingIcon = MmIcons.check,
+            leadingIcon = Icon.Check.imageVector,
             fullWidth = true,
             enabled = !nameIsBlank,
         )

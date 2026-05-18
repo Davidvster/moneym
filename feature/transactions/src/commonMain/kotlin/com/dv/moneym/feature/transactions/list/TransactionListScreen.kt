@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.transactions.list
 
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -59,13 +61,11 @@ import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmChip
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.core.ui.TxRow
-import com.dv.moneym.core.ui.wallet
 import com.dv.moneym.feature.transactions.list.components.CategoryFilterSheet
 import com.dv.moneym.feature.transactions.list.components.DayGroupHeader
 import com.dv.moneym.feature.transactions.list.components.MonthPickerDialog
@@ -313,7 +313,7 @@ private fun TransactionListHeader(
                     placeholder = stringResource(Res.string.transactions_search_placeholder),
                     prefix = {
                         Icon(
-                            imageVector = MmIcons.search,
+                            imageVector = Icon.Search.imageVector,
                             contentDescription = null,
                             tint = colors.text3,
                             modifier = Modifier.size(MM.dimen.icon_1x),
@@ -322,7 +322,7 @@ private fun TransactionListHeader(
                     modifier = Modifier.weight(1f),
                 )
                 MmIconButton(
-                    icon = MmIcons.close,
+                    icon = Icon.Close.imageVector,
                     onClick = {
                         onSearchActiveChange(false)
                         onIntent(TransactionListIntent.SearchQueryChanged(""))
@@ -348,7 +348,7 @@ private fun TransactionListHeader(
                         onClick = onShowWalletSwitcher,
                         leadingContent = {
                             Icon(
-                                imageVector = MmIcons.wallet,
+                                imageVector = Icon.Wallet.imageVector,
                                 contentDescription = null,
                                 tint = colors.text2,
                                 modifier = Modifier.size(MM.dimen.padding_1_5x),
@@ -367,7 +367,7 @@ private fun TransactionListHeader(
                 if (state.availableCategories.isNotEmpty()) {
                     Box {
                         MmIconButton(
-                            icon = MmIcons.sliders,
+                            icon = Icon.Sliders.imageVector,
                             onClick = onShowCategoryFilter,
                             contentDescription = stringResource(Res.string.transactions_search_cd),
                         )
@@ -383,7 +383,7 @@ private fun TransactionListHeader(
                     }
                 }
                 MmIconButton(
-                    icon = MmIcons.search,
+                    icon = Icon.Search.imageVector,
                     onClick = { onSearchActiveChange(true) },
                     contentDescription = stringResource(Res.string.transactions_search_cd),
                 )
@@ -435,7 +435,7 @@ private fun MonthNavRow(
         modifier = Modifier.padding(top = MM.dimen.padding_1_5x, bottom = 16.dp),
     ) {
         MmIconButton(
-            icon = MmIcons.chevronLeft,
+            icon = Icon.ChevronLeft.imageVector,
             onClick = onPreviousMonth,
             size = MM.dimen.padding_4x,
             contentDescription = stringResource(Res.string.transactions_previous_month),
@@ -459,7 +459,7 @@ private fun MonthNavRow(
             )
         }
         MmIconButton(
-            icon = MmIcons.chevronRight,
+            icon = Icon.ChevronRight.imageVector,
             onClick = onNextMonth,
             size = MM.dimen.padding_4x,
             contentDescription = stringResource(Res.string.transactions_next_month),
@@ -518,7 +518,7 @@ private fun TransactionListBody(
                     verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
                 ) {
                     Icon(
-                        imageVector = MmIcons.list,
+                        imageVector = Icon.List.imageVector,
                         contentDescription = null,
                         tint = colors.text3,
                         modifier = Modifier.size(MM.dimen.padding_5x),
@@ -589,7 +589,7 @@ private fun TransactionListFooter(
                 onClick = onAddTransaction,
                 variant = MmButtonVariant.Primary,
                 size = MmButtonSize.Lg,
-                leadingIcon = MmIcons.plus,
+                leadingIcon = Icon.Plus.imageVector,
                 fullWidth = true,
             )
         }

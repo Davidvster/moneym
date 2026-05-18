@@ -9,9 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.ThemeMode
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmCard
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
 import moneym.feature.settings.generated.resources.Res
@@ -38,7 +39,7 @@ internal fun AppearanceSection(
     MmCard(Modifier.padding(horizontal = space.padding_2x)) {
         MmRow {
             Icon(
-                imageVector = if (isDark) MmIcons.moon else MmIcons.sun,
+                imageVector = if (isDark) Icon.Moon.imageVector else Icon.Sun.imageVector,
                 contentDescription = null,
                 tint = colors.text,
                 modifier = Modifier.size(MM.dimen.icon_1x),
@@ -62,7 +63,7 @@ internal fun AppearanceSection(
         }
         MmRow(onClick = onNavigateToTxDisplay, divider = false) {
             Icon(
-                imageVector = MmIcons.sliders,
+                imageVector = Icon.Sliders.imageVector,
                 contentDescription = null,
                 tint = colors.text,
                 modifier = Modifier.size(MM.dimen.icon_1x),
@@ -76,7 +77,7 @@ internal fun AppearanceSection(
                 Text(txDisplaySummary, style = type.caption.copy(color = colors.text2))
             }
             Icon(
-                imageVector = MmIcons.chevronRight,
+                imageVector = Icon.ChevronRight.imageVector,
                 contentDescription = null,
                 tint = colors.text3,
                 modifier = Modifier.size(MM.dimen.padding_2x),

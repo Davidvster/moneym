@@ -1,0 +1,49 @@
+package com.dv.moneym.core.model
+
+enum class Icon(val key: String) {
+    Plus("plus"),
+    Close("close"),
+    Search("search"),
+    ChevronLeft("chevron_left"),
+    ChevronRight("chevron_right"),
+    ChevronDown("chevron_down"),
+    Check("check"),
+    Trash("trash"),
+    Backspace("backspace"),
+    FaceId("face_id"),
+    Fingerprint("fingerprint"),
+    Lock("lock"),
+    Sun("sun"),
+    Moon("moon"),
+    Sliders("sliders"),
+    Globe("globe"),
+    List("list"),
+    Download("download"),
+    Folder("folder"),
+    ArrowUp("arrow_up"),
+    ArrowDown("arrow_down"),
+    Info("info"),
+    Heart("heart"),
+    Film("film"),
+    Car("car"),
+    Bolt("bolt"),
+    Basket("basket"),
+    Utensils("utensils"),
+    Home("home"),
+    Bag("bag"),
+    Tag("tag"),
+    Banknote("banknote"),
+    Gift("gift"),
+    Calendar("calendar"),
+    DragHandle("drag_handle"),
+    Settings("settings"),
+    Chart("chart"),
+    Calculator("calculator"),
+    Wallet("wallet"),
+    ;
+
+    companion object {
+        fun fromKey(key: String): Icon? = entries.find { it.key == key }
+        fun fromKeyOrDefault(key: String, default: Icon = Tag): Icon = fromKey(key) ?: default
+    }
+}

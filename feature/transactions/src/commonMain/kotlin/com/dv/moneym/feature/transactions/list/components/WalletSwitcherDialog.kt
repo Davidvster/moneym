@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.transactions.list.components
 
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,7 +15,6 @@ import androidx.compose.ui.Modifier
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
 import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.transactions_cancel
@@ -61,7 +62,7 @@ internal fun WalletSwitcherDialog(
                         }
                         if (isSelected) {
                             Icon(
-                                imageVector = MmIcons.check,
+                                imageVector = Icon.Check.imageVector,
                                 contentDescription = null,
                                 tint = colors.accent,
                                 modifier = Modifier.size(MM.dimen.icon_1x),

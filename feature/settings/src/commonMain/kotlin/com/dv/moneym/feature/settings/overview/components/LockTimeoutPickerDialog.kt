@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.settings.overview.components
 
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +25,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_cancel
@@ -94,7 +95,7 @@ internal fun LockTimeoutPickerDialog(
                         ) {
                             if (isSelected) {
                                 Icon(
-                                    imageVector = MmIcons.check,
+                                    imageVector = Icon.Check.imageVector,
                                     contentDescription = null,
                                     tint = Color.White,
                                     modifier = Modifier.size(MM.dimen.padding_1_5x),

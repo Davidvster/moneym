@@ -8,10 +8,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmCard
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
-import com.dv.moneym.core.ui.wallet
+import com.dv.moneym.core.ui.imageVector
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_categories
 import moneym.feature.settings.generated.resources.settings_currency
@@ -34,7 +34,7 @@ internal fun PreferencesSection(
     MmCard(Modifier.padding(horizontal = space.padding_2x)) {
         MmRow(onClick = onNavigateToCurrency) {
             Icon(
-                imageVector = MmIcons.info,
+                imageVector = Icon.Info.imageVector,
                 contentDescription = null,
                 tint = colors.text,
                 modifier = Modifier.size(MM.dimen.icon_1x),
@@ -48,7 +48,7 @@ internal fun PreferencesSection(
                 Text(currencySubtitle, style = type.caption.copy(color = colors.text2))
             }
             Icon(
-                imageVector = MmIcons.chevronRight,
+                imageVector = Icon.ChevronRight.imageVector,
                 contentDescription = null,
                 tint = colors.text3,
                 modifier = Modifier.size(MM.dimen.padding_2x),
@@ -56,7 +56,7 @@ internal fun PreferencesSection(
         }
         MmRow(onClick = onNavigateToLanguage) {
             Icon(
-                imageVector = MmIcons.globe,
+                imageVector = Icon.Globe.imageVector,
                 contentDescription = null,
                 tint = colors.text,
                 modifier = Modifier.size(MM.dimen.icon_1x),
@@ -70,7 +70,7 @@ internal fun PreferencesSection(
                 Text(languageSubtitle, style = type.caption.copy(color = colors.text2))
             }
             Icon(
-                imageVector = MmIcons.chevronRight,
+                imageVector = Icon.ChevronRight.imageVector,
                 contentDescription = null,
                 tint = colors.text3,
                 modifier = Modifier.size(MM.dimen.padding_2x),
@@ -78,7 +78,7 @@ internal fun PreferencesSection(
         }
         MmRow(onClick = onNavigateToCategories) {
             Icon(
-                imageVector = MmIcons.list,
+                imageVector = Icon.List.imageVector,
                 contentDescription = null,
                 tint = colors.text,
                 modifier = Modifier.size(MM.dimen.icon_1x),
@@ -90,7 +90,7 @@ internal fun PreferencesSection(
                 modifier = Modifier.weight(1f),
             )
             Icon(
-                imageVector = MmIcons.chevronRight,
+                imageVector = Icon.ChevronRight.imageVector,
                 contentDescription = null,
                 tint = colors.text3,
                 modifier = Modifier.size(MM.dimen.padding_2x),
@@ -98,7 +98,7 @@ internal fun PreferencesSection(
         }
         MmRow(onClick = onNavigateToWallets, divider = false) {
             Icon(
-                imageVector = MmIcons.wallet,
+                imageVector = Icon.Wallet.imageVector,
                 contentDescription = null,
                 tint = colors.text,
                 modifier = Modifier.size(MM.dimen.icon_1x),
@@ -110,7 +110,7 @@ internal fun PreferencesSection(
                 modifier = Modifier.weight(1f),
             )
             Icon(
-                imageVector = MmIcons.chevronRight,
+                imageVector = Icon.ChevronRight.imageVector,
                 contentDescription = null,
                 tint = colors.text3,
                 modifier = Modifier.size(MM.dimen.padding_2x),

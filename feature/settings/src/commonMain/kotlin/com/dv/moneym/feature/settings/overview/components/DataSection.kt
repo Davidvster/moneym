@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.settings.overview.components
 
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -8,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmCard
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_export_data
@@ -25,7 +26,7 @@ internal fun DataSection(
     MmCard(Modifier.padding(horizontal = space.padding_2x)) {
         MmRow(onClick = onNavigateToExport) {
             Icon(
-                imageVector = MmIcons.download,
+                imageVector = Icon.Download.imageVector,
                 contentDescription = null,
                 tint = colors.text,
                 modifier = Modifier.size(MM.dimen.icon_1x),
@@ -37,7 +38,7 @@ internal fun DataSection(
                 modifier = Modifier.weight(1f),
             )
             Icon(
-                imageVector = MmIcons.chevronRight,
+                imageVector = Icon.ChevronRight.imageVector,
                 contentDescription = null,
                 tint = colors.text3,
                 modifier = Modifier.size(MM.dimen.padding_2x),
@@ -45,7 +46,7 @@ internal fun DataSection(
         }
         MmRow(onClick = onNavigateToExport, divider = false) {
             Icon(
-                imageVector = MmIcons.folder,
+                imageVector = Icon.Folder.imageVector,
                 contentDescription = null,
                 tint = colors.text,
                 modifier = Modifier.size(MM.dimen.icon_1x),
@@ -57,7 +58,7 @@ internal fun DataSection(
                 modifier = Modifier.weight(1f),
             )
             Icon(
-                imageVector = MmIcons.chevronRight,
+                imageVector = Icon.ChevronRight.imageVector,
                 contentDescription = null,
                 tint = colors.text3,
                 modifier = Modifier.size(MM.dimen.padding_2x),

@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 
 // Extension icons — added separately to keep MmIcons.kt manageable
 
-val MmIcons.calculator: ImageVector
+internal val MmIcons.calculator: ImageVector
     get() = _calculator ?: buildCalculator().also { _calculator = it }
 
 private var _calculator: ImageVector? = null
@@ -55,7 +55,7 @@ private fun buildCalculator(): ImageVector =
         )
     }.build()
 
-val MmIcons.wallet: ImageVector
+internal val MmIcons.wallet: ImageVector
     get() = _wallet ?: buildWallet().also { _wallet = it }
 
 private var _wallet: ImageVector? = null

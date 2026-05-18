@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.onboarding.security
 
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,7 +27,6 @@ import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmCard
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.MmToggle
 import kotlinx.serialization.Serializable
@@ -125,7 +126,7 @@ internal fun SecurityStep(
             // PIN toggle row
             MmRow(divider = biometricAvailable && pinEnabled) {
                 Icon(
-                    imageVector = MmIcons.lock,
+                    imageVector = Icon.Lock.imageVector,
                     contentDescription = null,
                     tint = colors.text,
                     modifier = Modifier.size(MM.dimen.icon_1x),
@@ -156,7 +157,7 @@ internal fun SecurityStep(
                     modifier = Modifier.alpha(if (pinEnabled) 1f else 0.45f),
                 ) {
                     Icon(
-                        imageVector = MmIcons.fingerprint,
+                        imageVector = Icon.Fingerprint.imageVector,
                         contentDescription = null,
                         tint = colors.text,
                         modifier = Modifier.size(MM.dimen.icon_1x),

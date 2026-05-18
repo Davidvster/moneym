@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.overview.components
 
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmCard
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.SectionLabel
 import moneym.feature.overview.generated.resources.Res
@@ -44,7 +45,7 @@ internal fun IncomeExpensesCard(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             Icon(
-                imageVector = MmIcons.arrowDown,
+                imageVector = Icon.ArrowDown.imageVector,
                 contentDescription = null,
                 tint = colors.accent,
                 modifier = Modifier.size(MM.dimen.padding_1_5x),
@@ -70,7 +71,7 @@ internal fun IncomeExpensesCard(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             Icon(
-                imageVector = MmIcons.arrowUp,
+                imageVector = Icon.ArrowUp.imageVector,
                 contentDescription = null,
                 tint = colors.text,
                 modifier = Modifier.size(MM.dimen.padding_1_5x),

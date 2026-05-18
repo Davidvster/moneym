@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.settings.overview.transactiondisplay
 
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -31,7 +33,6 @@ import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.model.TxDisplayPrefs
 import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.MmCard
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
@@ -152,7 +153,7 @@ private fun TxListDisplayContent(
                             TxRow(
                                 categoryName = tx.categoryName,
                                 categoryColor = tx.categoryColor,
-                                categoryIcon = MmIcons.basket,
+                                categoryIcon = Icon.Basket.imageVector,
                                 note = tx.note,
                                 isExpense = tx.isExpense,
                                 amountValue = tx.amount,
@@ -192,7 +193,7 @@ private fun TxListDisplayContent(
                                     CategoryIconTile(
                                         categoryName = "Groceries",
                                         categoryColor = sampleColor,
-                                        categoryIcon = MmIcons.basket,
+                                        categoryIcon = Icon.Basket.imageVector,
                                         size = MM.dimen.padding_4x,
                                         variant = IndicatorStyle.IconTile,
                                     )
@@ -201,7 +202,7 @@ private fun TxListDisplayContent(
                                     CategoryIconTile(
                                         categoryName = "Groceries",
                                         categoryColor = sampleColor,
-                                        categoryIcon = MmIcons.basket,
+                                        categoryIcon = Icon.Basket.imageVector,
                                         size = MM.dimen.padding_4x,
                                         variant = IndicatorStyle.SoftIcon,
                                     )
@@ -210,7 +211,7 @@ private fun TxListDisplayContent(
                                     CategoryIconTile(
                                         categoryName = "Groceries",
                                         categoryColor = sampleColor,
-                                        categoryIcon = MmIcons.basket,
+                                        categoryIcon = Icon.Basket.imageVector,
                                         size = MM.dimen.padding_4x,
                                         variant = IndicatorStyle.Bar,
                                     )
@@ -219,7 +220,7 @@ private fun TxListDisplayContent(
                                     CategoryIconTile(
                                         categoryName = "Groceries",
                                         categoryColor = sampleColor,
-                                        categoryIcon = MmIcons.basket,
+                                        categoryIcon = Icon.Basket.imageVector,
                                         size = 10.dp,
                                         variant = IndicatorStyle.Dot,
                                     )
@@ -263,7 +264,7 @@ private fun TxListDisplayContent(
                         ) {
                             if (isSelected) {
                                 Icon(
-                                    imageVector = MmIcons.check,
+                                    imageVector = Icon.Check.imageVector,
                                     contentDescription = null,
                                     tint = Color.White,
                                     modifier = Modifier.size(MM.dimen.padding_1_5x),
@@ -361,7 +362,7 @@ private fun TxListDisplayContent(
                         ) {
                             if (isSelected) {
                                 Icon(
-                                    imageVector = MmIcons.check,
+                                    imageVector = Icon.Check.imageVector,
                                     contentDescription = null,
                                     tint = Color.White,
                                     modifier = Modifier.size(MM.dimen.padding_1_5x),

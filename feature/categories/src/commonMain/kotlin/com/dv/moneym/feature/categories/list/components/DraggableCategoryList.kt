@@ -24,11 +24,11 @@ import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.categoryColor
 import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.ui.CategoryIconTile
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
-import com.dv.moneym.feature.categories.list.resolveIconVector
+import com.dv.moneym.core.ui.imageVector
 
 @Composable
 internal fun DraggableCategoryList(
@@ -116,7 +116,7 @@ internal fun DraggableCategoryList(
                 divider = index != localCategories.lastIndex,
             ) {
                 Icon(
-                    imageVector = MmIcons.dragHandle,
+                    imageVector = Icon.DragHandle.imageVector,
                     contentDescription = "Drag to reorder",
                     tint = colors.text3,
                     modifier = Modifier.size(MM.dimen.icon_1x),
@@ -124,7 +124,7 @@ internal fun DraggableCategoryList(
                 CategoryIconTile(
                     categoryName = cat.name,
                     categoryColor = categoryColor(cat.colorHex),
-                    categoryIcon = resolveIconVector(cat.iconKey),
+                    categoryIcon = Icon.fromKeyOrDefault(cat.iconKey).imageVector,
                     size = 36.dp,
                     variant = IndicatorStyle.IconTile,
                 )
@@ -135,7 +135,7 @@ internal fun DraggableCategoryList(
                     modifier = Modifier.weight(1f),
                 )
                 Icon(
-                    imageVector = MmIcons.chevronRight,
+                    imageVector = Icon.ChevronRight.imageVector,
                     contentDescription = null,
                     tint = colors.text3,
                     modifier = Modifier.size(MM.dimen.padding_2x),

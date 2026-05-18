@@ -16,10 +16,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmIconButton
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import kotlinx.serialization.Serializable
@@ -66,7 +67,7 @@ private fun WalletManageScreen(
             onBack = onBack,
             trailingContent = {
                 MmIconButton(
-                    icon = MmIcons.plus,
+                    icon = Icon.Plus.imageVector,
                     onClick = onNavigateToAddWallet,
                 )
             },
@@ -127,7 +128,7 @@ private fun WalletManageScreen(
                                     }
                                     if (isSelected) {
                                         Icon(
-                                            imageVector = MmIcons.check,
+                                            imageVector = Icon.Check.imageVector,
                                             contentDescription = null,
                                             tint = colors.accent,
                                             modifier = Modifier.size(MM.dimen.icon_1x),

@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.transactionedit.components
 
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +15,6 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
-import com.dv.moneym.core.ui.MmIcons
 import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.edit_add_transaction
 import moneym.feature.transactionedit.generated.resources.edit_save_changes
@@ -53,7 +54,7 @@ internal fun TransactionEditSaveBar(
             onClick = onSave,
             variant = MmButtonVariant.Accent,
             size = MmButtonSize.Lg,
-            leadingIcon = MmIcons.check,
+            leadingIcon = Icon.Check.imageVector,
             fullWidth = true,
             enabled = !isSaving,
         )

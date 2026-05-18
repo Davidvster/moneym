@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.overview.components
 
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -20,7 +22,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmIconButton
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.feature.overview.OverviewPeriod
 import moneym.feature.overview.generated.resources.Res
@@ -100,7 +101,7 @@ internal fun OverviewHeader(
         ) {
             if (!isRangeMode) {
                 MmIconButton(
-                    icon = MmIcons.chevronLeft,
+                    icon = Icon.ChevronLeft.imageVector,
                     size = MM.dimen.padding_4x,
                     onClick = onPreviousPeriod,
                 )
@@ -130,7 +131,7 @@ internal fun OverviewHeader(
             }
             if (!isRangeMode) {
                 MmIconButton(
-                    icon = MmIcons.chevronRight,
+                    icon = Icon.ChevronRight.imageVector,
                     size = MM.dimen.padding_4x,
                     onClick = onNextPeriod,
                 )

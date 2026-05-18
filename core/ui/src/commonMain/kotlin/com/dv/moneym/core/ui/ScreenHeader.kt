@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.Icon
 
 @Composable
 fun ScreenHeader(
@@ -54,7 +55,7 @@ fun ScreenHeader(
                         .padding(start = MM.dimen.padding_1x),
                 ) {
                     MmIconButton(
-                        icon = MmIcons.chevronLeft,
+                        icon = Icon.ChevronLeft.imageVector,
                         onClick = onBack,
                         contentDescription = "Back",
                     )

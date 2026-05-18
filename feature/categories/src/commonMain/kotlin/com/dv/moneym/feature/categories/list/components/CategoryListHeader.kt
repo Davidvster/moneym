@@ -8,11 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmSegmented
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.feature.categories.list.CategoryTab
 import moneym.feature.categories.generated.resources.Res
@@ -42,7 +43,7 @@ internal fun CategoryListHeader(
                 onClick = onAddClick,
                 variant = MmButtonVariant.Ghost,
                 size = MmButtonSize.Sm,
-                leadingIcon = MmIcons.plus,
+                leadingIcon = Icon.Plus.imageVector,
             )
         },
     )

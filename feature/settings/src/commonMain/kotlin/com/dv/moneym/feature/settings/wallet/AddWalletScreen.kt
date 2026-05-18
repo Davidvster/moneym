@@ -30,12 +30,13 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.CommonCurrencies
 import com.dv.moneym.core.model.CurrencyInfo
 import com.dv.moneym.core.model.PopularCurrencyCodes
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmField
-import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import kotlinx.serialization.Serializable
@@ -213,7 +214,7 @@ private fun AddWalletCurrencyPickerScreen(
             placeholder = stringResource(Res.string.settings_search_currency),
             prefix = {
                 Icon(
-                    imageVector = MmIcons.search,
+                    imageVector = Icon.Search.imageVector,
                     contentDescription = null,
                     tint = colors.text3,
                     modifier = Modifier.size(MM.dimen.icon_1x),
@@ -310,7 +311,7 @@ private fun AddWalletCurrencyRow(
 
         if (isSelected) {
             Icon(
-                imageVector = MmIcons.check,
+                imageVector = Icon.Check.imageVector,
                 contentDescription = null,
                 tint = colors.accent,
                 modifier = Modifier.size(dimen.padding_2x),

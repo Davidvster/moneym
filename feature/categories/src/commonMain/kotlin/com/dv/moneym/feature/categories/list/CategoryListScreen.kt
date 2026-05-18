@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
@@ -26,9 +25,10 @@ import com.dv.moneym.core.designsystem.categoryColor
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.navigation.ModalKey
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
-import com.dv.moneym.core.ui.MmIcons
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.categories.list.components.CategoryListHeader
 import com.dv.moneym.feature.categories.list.components.DeleteConfirmSheet
 import com.dv.moneym.feature.categories.list.components.DraggableCategoryList
@@ -144,7 +144,7 @@ private fun ManageCategoriesScreen(
                 },
                 variant = MmButtonVariant.Secondary,
                 fullWidth = true,
-                leadingIcon = MmIcons.plus,
+                leadingIcon = Icon.Plus.imageVector,
             )
         }
     }
@@ -297,27 +297,6 @@ private fun NewCategorySheet(
             onCancel = { showDeleteConfirm = false },
         )
     }
-}
-
-// ─── Icon resolution ──────────────────────────────────────────────────────────
-
-internal fun resolveIconVector(key: String): ImageVector = when (key) {
-    "heart" -> MmIcons.heart
-    "film" -> MmIcons.film
-    "car" -> MmIcons.car
-    "bolt" -> MmIcons.bolt
-    "basket" -> MmIcons.basket
-    "utensils" -> MmIcons.utensils
-    "home" -> MmIcons.home
-    "bag" -> MmIcons.bag
-    "tag" -> MmIcons.tag
-    "banknote" -> MmIcons.banknote
-    "gift" -> MmIcons.gift
-    "sun" -> MmIcons.sun
-    "moon" -> MmIcons.moon
-    "globe" -> MmIcons.globe
-    "folder" -> MmIcons.folder
-    else -> MmIcons.tag
 }
 
 private fun colorToHex(color: Color): String {

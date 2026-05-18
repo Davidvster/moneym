@@ -8,10 +8,11 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.addPathNodes
 import androidx.compose.ui.unit.dp
+import com.dv.moneym.core.model.Icon
 
-object MmIcons {
+internal object MmIcons {
 
-    val plus: ImageVector by lazy {
+    private val plus: ImageVector by lazy {
         ImageVector.Builder(
             name = "plus",
             defaultWidth = 24.dp,
@@ -40,7 +41,7 @@ object MmIcons {
         }.build()
     }
 
-    val close: ImageVector by lazy {
+    private val close: ImageVector by lazy {
         ImageVector.Builder(
             name = "close",
             defaultWidth = 24.dp,
@@ -69,7 +70,7 @@ object MmIcons {
         }.build()
     }
 
-    val search: ImageVector by lazy {
+    private val search: ImageVector by lazy {
         ImageVector.Builder(
             name = "search",
             defaultWidth = 24.dp,
@@ -98,7 +99,7 @@ object MmIcons {
         }.build()
     }
 
-    val chevronLeft: ImageVector by lazy {
+    private val chevronLeft: ImageVector by lazy {
         ImageVector.Builder(
             name = "chevronLeft",
             defaultWidth = 24.dp,
@@ -118,7 +119,7 @@ object MmIcons {
         }.build()
     }
 
-    val chevronRight: ImageVector by lazy {
+    private val chevronRight: ImageVector by lazy {
         ImageVector.Builder(
             name = "chevronRight",
             defaultWidth = 24.dp,
@@ -138,7 +139,7 @@ object MmIcons {
         }.build()
     }
 
-    val chevronDown: ImageVector by lazy {
+    private val chevronDown: ImageVector by lazy {
         ImageVector.Builder(
             name = "chevronDown",
             defaultWidth = 24.dp,
@@ -158,7 +159,7 @@ object MmIcons {
         }.build()
     }
 
-    val check: ImageVector by lazy {
+    private val check: ImageVector by lazy {
         ImageVector.Builder(
             name = "check",
             defaultWidth = 24.dp,
@@ -178,7 +179,7 @@ object MmIcons {
         }.build()
     }
 
-    val trash: ImageVector by lazy {
+    private val trash: ImageVector by lazy {
         ImageVector.Builder(
             name = "trash",
             defaultWidth = 24.dp,
@@ -216,7 +217,7 @@ object MmIcons {
         }.build()
     }
 
-    val backspace: ImageVector by lazy {
+    private val backspace: ImageVector by lazy {
         ImageVector.Builder(
             name = "backspace",
             defaultWidth = 24.dp,
@@ -254,7 +255,7 @@ object MmIcons {
         }.build()
     }
 
-    val faceId: ImageVector by lazy {
+    private val faceId: ImageVector by lazy {
         ImageVector.Builder(
             name = "faceId",
             defaultWidth = 24.dp,
@@ -337,7 +338,7 @@ object MmIcons {
         }.build()
     }
 
-    val fingerprint: ImageVector by lazy {
+    private val fingerprint: ImageVector by lazy {
         ImageVector.Builder(
             name = "fingerprint",
             defaultWidth = 24.dp,
@@ -402,7 +403,7 @@ object MmIcons {
         }.build()
     }
 
-    val lock: ImageVector by lazy {
+    private val lock: ImageVector by lazy {
         ImageVector.Builder(
             name = "lock",
             defaultWidth = 24.dp,
@@ -431,7 +432,7 @@ object MmIcons {
         }.build()
     }
 
-    val sun: ImageVector by lazy {
+    private val sun: ImageVector by lazy {
         ImageVector.Builder(
             name = "sun",
             defaultWidth = 24.dp,
@@ -460,7 +461,7 @@ object MmIcons {
         }.build()
     }
 
-    val moon: ImageVector by lazy {
+    private val moon: ImageVector by lazy {
         ImageVector.Builder(
             name = "moon",
             defaultWidth = 24.dp,
@@ -480,7 +481,7 @@ object MmIcons {
         }.build()
     }
 
-    val sliders: ImageVector by lazy {
+    private val sliders: ImageVector by lazy {
         ImageVector.Builder(
             name = "sliders",
             defaultWidth = 24.dp,
@@ -527,7 +528,7 @@ object MmIcons {
         }.build()
     }
 
-    val globe: ImageVector by lazy {
+    private val globe: ImageVector by lazy {
         ImageVector.Builder(
             name = "globe",
             defaultWidth = 24.dp,
@@ -565,7 +566,7 @@ object MmIcons {
         }.build()
     }
 
-    val list: ImageVector by lazy {
+    private val list: ImageVector by lazy {
         ImageVector.Builder(
             name = "list",
             defaultWidth = 24.dp,
@@ -603,7 +604,7 @@ object MmIcons {
         }.build()
     }
 
-    val download: ImageVector by lazy {
+    private val download: ImageVector by lazy {
         ImageVector.Builder(
             name = "download",
             defaultWidth = 24.dp,
@@ -641,7 +642,7 @@ object MmIcons {
         }.build()
     }
 
-    val folder: ImageVector by lazy {
+    private val folder: ImageVector by lazy {
         ImageVector.Builder(
             name = "folder",
             defaultWidth = 24.dp,
@@ -661,7 +662,7 @@ object MmIcons {
         }.build()
     }
 
-    val arrowUp: ImageVector by lazy {
+    private val arrowUp: ImageVector by lazy {
         ImageVector.Builder(
             name = "arrowUp",
             defaultWidth = 24.dp,
@@ -690,7 +691,7 @@ object MmIcons {
         }.build()
     }
 
-    val arrowDown: ImageVector by lazy {
+    private val arrowDown: ImageVector by lazy {
         ImageVector.Builder(
             name = "arrowDown",
             defaultWidth = 24.dp,
@@ -719,7 +720,7 @@ object MmIcons {
         }.build()
     }
 
-    val info: ImageVector by lazy {
+    private val info: ImageVector by lazy {
         ImageVector.Builder(
             name = "info",
             defaultWidth = 24.dp,
@@ -754,7 +755,7 @@ object MmIcons {
         }.build()
     }
 
-    val heart: ImageVector by lazy {
+    private val heart: ImageVector by lazy {
         ImageVector.Builder(
             name = "heart",
             defaultWidth = 24.dp,
@@ -774,7 +775,7 @@ object MmIcons {
         }.build()
     }
 
-    val film: ImageVector by lazy {
+    private val film: ImageVector by lazy {
         ImageVector.Builder(
             name = "film",
             defaultWidth = 24.dp,
@@ -803,7 +804,7 @@ object MmIcons {
         }.build()
     }
 
-    val car: ImageVector by lazy {
+    private val car: ImageVector by lazy {
         ImageVector.Builder(
             name = "car",
             defaultWidth = 24.dp,
@@ -850,7 +851,7 @@ object MmIcons {
         }.build()
     }
 
-    val bolt: ImageVector by lazy {
+    private val bolt: ImageVector by lazy {
         ImageVector.Builder(
             name = "bolt",
             defaultWidth = 24.dp,
@@ -870,7 +871,7 @@ object MmIcons {
         }.build()
     }
 
-    val basket: ImageVector by lazy {
+    private val basket: ImageVector by lazy {
         ImageVector.Builder(
             name = "basket",
             defaultWidth = 24.dp,
@@ -908,7 +909,7 @@ object MmIcons {
         }.build()
     }
 
-    val utensils: ImageVector by lazy {
+    private val utensils: ImageVector by lazy {
         ImageVector.Builder(
             name = "utensils",
             defaultWidth = 24.dp,
@@ -946,7 +947,7 @@ object MmIcons {
         }.build()
     }
 
-    val home: ImageVector by lazy {
+    private val home: ImageVector by lazy {
         ImageVector.Builder(
             name = "home",
             defaultWidth = 24.dp,
@@ -975,7 +976,7 @@ object MmIcons {
         }.build()
     }
 
-    val bag: ImageVector by lazy {
+    private val bag: ImageVector by lazy {
         ImageVector.Builder(
             name = "bag",
             defaultWidth = 24.dp,
@@ -1004,7 +1005,7 @@ object MmIcons {
         }.build()
     }
 
-    val tag: ImageVector by lazy {
+    private val tag: ImageVector by lazy {
         ImageVector.Builder(
             name = "tag",
             defaultWidth = 24.dp,
@@ -1030,7 +1031,7 @@ object MmIcons {
         }.build()
     }
 
-    val banknote: ImageVector by lazy {
+    private val banknote: ImageVector by lazy {
         ImageVector.Builder(
             name = "banknote",
             defaultWidth = 24.dp,
@@ -1077,7 +1078,7 @@ object MmIcons {
         }.build()
     }
 
-    val gift: ImageVector by lazy {
+    private val gift: ImageVector by lazy {
         ImageVector.Builder(
             name = "gift",
             defaultWidth = 24.dp,
@@ -1124,7 +1125,7 @@ object MmIcons {
         }.build()
     }
 
-    val calendar: ImageVector by lazy {
+    private val calendar: ImageVector by lazy {
         ImageVector.Builder(
             name = "calendar",
             defaultWidth = 24.dp,
@@ -1153,7 +1154,7 @@ object MmIcons {
         }.build()
     }
 
-    val dragHandle: ImageVector by lazy {
+    private val dragHandle: ImageVector by lazy {
         ImageVector.Builder(
             name = "dragHandle",
             defaultWidth = 24.dp,
@@ -1178,7 +1179,7 @@ object MmIcons {
         }.build()
     }
 
-    val settings: ImageVector by lazy {
+    private val settings: ImageVector by lazy {
         ImageVector.Builder(
             name = "settings",
             defaultWidth = 24.dp,
@@ -1207,7 +1208,7 @@ object MmIcons {
         }.build()
     }
 
-    val chart: ImageVector by lazy {
+    private val chart: ImageVector by lazy {
         ImageVector.Builder(
             name = "chart",
             defaultWidth = 24.dp,
@@ -1225,5 +1226,47 @@ object MmIcons {
                 fillAlpha = 0f,
             )
         }.build()
+    }
+
+    internal fun forIcon(icon: Icon): ImageVector = when (icon) {
+        Icon.Plus -> plus
+        Icon.Close -> close
+        Icon.Search -> search
+        Icon.ChevronLeft -> chevronLeft
+        Icon.ChevronRight -> chevronRight
+        Icon.ChevronDown -> chevronDown
+        Icon.Check -> check
+        Icon.Trash -> trash
+        Icon.Backspace -> backspace
+        Icon.FaceId -> faceId
+        Icon.Fingerprint -> fingerprint
+        Icon.Lock -> lock
+        Icon.Sun -> sun
+        Icon.Moon -> moon
+        Icon.Sliders -> sliders
+        Icon.Globe -> globe
+        Icon.List -> list
+        Icon.Download -> download
+        Icon.Folder -> folder
+        Icon.ArrowUp -> arrowUp
+        Icon.ArrowDown -> arrowDown
+        Icon.Info -> info
+        Icon.Heart -> heart
+        Icon.Film -> film
+        Icon.Car -> car
+        Icon.Bolt -> bolt
+        Icon.Basket -> basket
+        Icon.Utensils -> utensils
+        Icon.Home -> home
+        Icon.Bag -> bag
+        Icon.Tag -> tag
+        Icon.Banknote -> banknote
+        Icon.Gift -> gift
+        Icon.Calendar -> calendar
+        Icon.DragHandle -> dragHandle
+        Icon.Settings -> settings
+        Icon.Chart -> chart
+        Icon.Calculator -> calculator
+        Icon.Wallet -> wallet
     }
 }

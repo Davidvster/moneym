@@ -16,8 +16,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmIconButton
-import com.dv.moneym.core.ui.MmIcons
+import com.dv.moneym.core.ui.imageVector
 import moneym.feature.categories.generated.resources.Res
 import moneym.feature.categories.generated.resources.categories_cancel
 import org.jetbrains.compose.resources.stringResource
@@ -52,7 +53,7 @@ internal fun NewCategorySheetHeader(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         MmIconButton(
-            icon = MmIcons.close,
+            icon = Icon.Close.imageVector,
             onClick = onDismiss,
             contentDescription = stringResource(Res.string.categories_cancel),
         )

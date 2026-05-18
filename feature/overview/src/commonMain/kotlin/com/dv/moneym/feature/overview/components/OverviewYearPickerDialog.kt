@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.overview.components
 
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,7 +20,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmIconButton
-import com.dv.moneym.core.ui.MmIcons
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import moneym.feature.overview.generated.resources.Res
@@ -63,7 +64,7 @@ internal fun OverviewYearPickerDialog(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 MmIconButton(
-                    icon = MmIcons.chevronLeft,
+                    icon = Icon.ChevronLeft.imageVector,
                     onClick = { selectedYear-- },
                     size = MM.dimen.padding_4x,
                     contentDescription = stringResource(Res.string.overview_prev_year_cd),
@@ -76,7 +77,7 @@ internal fun OverviewYearPickerDialog(
                     textAlign = TextAlign.Center,
                 )
                 MmIconButton(
-                    icon = MmIcons.chevronRight,
+                    icon = Icon.ChevronRight.imageVector,
                     onClick = { selectedYear++ },
                     size = MM.dimen.padding_4x,
                     contentDescription = stringResource(Res.string.overview_next_year_cd),

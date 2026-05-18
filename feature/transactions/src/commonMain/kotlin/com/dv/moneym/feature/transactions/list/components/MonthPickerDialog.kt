@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.transactions.list.components
 
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -28,7 +30,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmIconButton
-import com.dv.moneym.core.ui.MmIcons
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import moneym.feature.transactions.generated.resources.Res
@@ -81,7 +82,7 @@ internal fun MonthPickerDialog(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     MmIconButton(
-                        icon = MmIcons.chevronLeft,
+                        icon = Icon.ChevronLeft.imageVector,
                         onClick = { selectedYear-- },
                         size = MM.dimen.padding_4x,
                         contentDescription = stringResource(Res.string.transactions_prev_year_cd),
@@ -94,7 +95,7 @@ internal fun MonthPickerDialog(
                         textAlign = TextAlign.Center,
                     )
                     MmIconButton(
-                        icon = MmIcons.chevronRight,
+                        icon = Icon.ChevronRight.imageVector,
                         onClick = { selectedYear++ },
                         size = MM.dimen.padding_4x,
                         contentDescription = stringResource(Res.string.transactions_next_year_cd),
