@@ -4,8 +4,6 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-// ─── Semantic token layer ────────────────────────────────────
-
 @Immutable
 data class MoneyMColors(
     val bg: Color,

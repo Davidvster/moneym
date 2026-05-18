@@ -193,6 +193,7 @@ private fun ManageCategoriesScreen(
     }
 }
 
+// TODO this sheet could be a new screen with a new viewmodel
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun NewCategorySheet(
@@ -205,6 +206,7 @@ private fun NewCategorySheet(
     val colors = MM.colors
     val isEditMode = categoryToEdit != null
 
+    // TODO move all of this to viewmodel
     var name by remember(categoryToEdit?.id) { mutableStateOf(categoryToEdit?.name ?: "") }
     var selectedIcon by remember(categoryToEdit?.id) {
         mutableStateOf(
@@ -223,6 +225,7 @@ private fun NewCategorySheet(
     // List of custom colors generated via the HSV picker — appends on each new color
     var customColors by remember(categoryToEdit?.id) { mutableStateOf(listOf<Color>()) }
 
+    // TODO this should come from viewmodel
     val palette = listOf(
         Color(0xFFC2566B),
         Color(0xFF8B6FB0),
