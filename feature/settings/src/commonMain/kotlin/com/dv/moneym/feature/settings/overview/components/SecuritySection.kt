@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.settings.settings.components
+package com.dv.moneym.feature.settings.overview.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -20,7 +20,7 @@ import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.MmToggle
-import com.dv.moneym.feature.settings.settings.SecuritySettingsIntent
+import com.dv.moneym.feature.settings.overview.SecuritySettingsIntent
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_biometrics
 import moneym.feature.settings.generated.resources.settings_biometrics_subtitle

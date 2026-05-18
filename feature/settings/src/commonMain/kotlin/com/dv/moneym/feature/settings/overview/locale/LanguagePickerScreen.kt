@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.settings.settings.locale
+package com.dv.moneym.feature.settings.overview.locale
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,7 +30,7 @@ import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
-import com.dv.moneym.feature.settings.settings.LanguagePickerKey
+import com.dv.moneym.feature.settings.overview.LanguagePickerKey
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_language_all_languages
 import moneym.feature.settings.generated.resources.settings_language_picker_title

@@ -1,28 +1,23 @@
-package com.dv.moneym.feature.settings.settings.locale
+package com.dv.moneym.feature.settings.overview.currencypicker
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dv.moneym.core.common.LocaleController
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class LanguagePickerViewModel(
+class CurrencyPickerViewModel(
     private val appSettingsRepository: AppSettingsRepository,
-    private val localeController: LocaleController,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    val selectedLanguage: StateFlow<String> = appSettingsRepository.observeLanguage()
+    val selectedCurrency: StateFlow<String> = appSettingsRepository.observeDefaultCurrency()
         .stateIn(viewModelScope, SharingStarted.Eagerly, "")
 
-    fun setLanguage(tag: String) {
-        viewModelScope.launch {
-            appSettingsRepository.setLanguage(tag)
-            localeController.applyLocale(tag)
-        }
+    fun setDefaultCurrency(code: String) {
+        viewModelScope.launch { appSettingsRepository.setDefaultCurrency(code) }
     }
 }

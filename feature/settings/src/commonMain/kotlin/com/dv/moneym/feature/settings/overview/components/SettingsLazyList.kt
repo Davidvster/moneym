@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.settings.settings.components
+package com.dv.moneym.feature.settings.overview.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,12 +10,10 @@ import androidx.compose.ui.text.style.TextAlign
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.ui.SectionLabel
-import com.dv.moneym.feature.settings.settings.AppearanceSection
-import com.dv.moneym.feature.settings.settings.DataSection
-import com.dv.moneym.feature.settings.settings.SecuritySettingsIntent
-import com.dv.moneym.feature.settings.settings.SecuritySettingsUiState
-import com.dv.moneym.feature.settings.settings.SettingsItem
-import com.dv.moneym.feature.settings.settings.SettingsUiState
+import com.dv.moneym.feature.settings.overview.SecuritySettingsIntent
+import com.dv.moneym.feature.settings.overview.SecuritySettingsUiState
+import com.dv.moneym.feature.settings.overview.SettingsItem
+import com.dv.moneym.feature.settings.overview.SettingsUiState
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_section_appearance
 import moneym.feature.settings.generated.resources.settings_section_data

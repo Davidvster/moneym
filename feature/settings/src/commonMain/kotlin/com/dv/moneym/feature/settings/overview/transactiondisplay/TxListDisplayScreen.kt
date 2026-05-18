@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.settings.settings.transactiondisplay
+package com.dv.moneym.feature.settings.overview.transactiondisplay
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -37,7 +37,7 @@ import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.TxRow
-import com.dv.moneym.feature.settings.settings.TxListDisplayKey
+import com.dv.moneym.feature.settings.overview.TxListDisplayKey
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_tx_list_display_title
 import moneym.feature.settings.generated.resources.settings_txdisplay_category_name

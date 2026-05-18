@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.settings.settings
+package com.dv.moneym.feature.settings.overview
 
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.model.TxDisplayPrefs

@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.settings.settings.currencypicker
+package com.dv.moneym.feature.settings.overview.currencypicker
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -33,7 +33,7 @@ import com.dv.moneym.core.ui.MmIcons
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
-import com.dv.moneym.feature.settings.settings.CurrencyPickerKey
+import com.dv.moneym.feature.settings.overview.CurrencyPickerKey
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_currency_all
 import moneym.feature.settings.generated.resources.settings_currency_picker_title

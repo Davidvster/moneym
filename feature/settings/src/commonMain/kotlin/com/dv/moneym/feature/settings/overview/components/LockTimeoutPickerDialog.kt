@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.settings.settings.components
+package com.dv.moneym.feature.settings.overview.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

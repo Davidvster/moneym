@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.settings.settings
+package com.dv.moneym.feature.settings.overview
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

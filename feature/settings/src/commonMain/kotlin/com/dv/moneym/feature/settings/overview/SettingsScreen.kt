@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.settings.settings
+package com.dv.moneym.feature.settings.overview
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -21,8 +21,8 @@ import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
-import com.dv.moneym.feature.settings.settings.components.LockTimeoutPickerDialog
-import com.dv.moneym.feature.settings.settings.components.SettingsLazyList
+import com.dv.moneym.feature.settings.overview.components.LockTimeoutPickerDialog
+import com.dv.moneym.feature.settings.overview.components.SettingsLazyList
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_lang_system_default

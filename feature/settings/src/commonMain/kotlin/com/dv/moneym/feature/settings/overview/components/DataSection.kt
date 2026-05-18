@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.settings.settings
+package com.dv.moneym.feature.settings.overview.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size

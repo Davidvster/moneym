@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.settings.settings.export
+package com.dv.moneym.feature.settings.overview.export
 
 import com.dv.moneym.data.backup.ImportPreview
 import kotlinx.serialization.Serializable
