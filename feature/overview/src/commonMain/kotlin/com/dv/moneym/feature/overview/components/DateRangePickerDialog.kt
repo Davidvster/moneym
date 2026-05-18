@@ -39,7 +39,6 @@ internal fun DateRangePickerDialog(
     initEndDay: Int,
     minSelectableDateIso: String? = null,
     maxSelectableDateIso: String? = null,
-    selectableDates: Set<LocalDate> = emptySet(),
     onDismiss: () -> Unit,
     onConfirm: (startYear: Int, startMonth: Int, startDay: Int, endYear: Int, endMonth: Int, endDay: Int) -> Unit,
 ) {
@@ -64,15 +63,12 @@ internal fun DateRangePickerDialog(
         maxSelectableDateIso?.let { LocalDate.parse(it) }
     }
 
-    val selectableDatesImpl = remember(minDate, maxDate, selectableDates) {
+    val selectableDatesImpl = remember(minDate, maxDate) {
         object : SelectableDates {
             override fun isSelectableDate(utcTimeMillis: Long): Boolean {
                 val date = Instant.fromEpochMilliseconds(utcTimeMillis)
                     .toLocalDateTime(TimeZone.UTC).date
-                val withinBounds =
-                    (minDate == null || date >= minDate) && (maxDate == null || date <= maxDate)
-                if (!withinBounds) return false
-                return selectableDates.isEmpty() || date in selectableDates
+                return (minDate == null || date >= minDate) && (maxDate == null || date <= maxDate)
             }
         }
     }
@@ -100,6 +96,7 @@ internal fun DateRangePickerDialog(
         todayContentColor = colors.accent,
         todayDateBorderColor = colors.accent,
         dayContentColor = colors.text,
+        disabledDayContentColor = colors.text.copy(alpha = 0.3f),
         navigationContentColor = colors.text,
     )
 

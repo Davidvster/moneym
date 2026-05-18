@@ -19,7 +19,6 @@ import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.ThemeMode
-import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.feature.settings.overview.components.LockTimeoutPickerDialog
@@ -127,7 +126,6 @@ fun SettingsScreen(
         state = state,
         securityState = securityState,
         onThemeModeChanged = { overviewViewModel.setThemeMode(it) },
-        onDefaultTransactionTypeChanged = { overviewViewModel.setDefaultTransactionType(it) },
         onPaymentModeEnabledChanged = { overviewViewModel.setPaymentModeEnabled(it) },
         onSecurityIntent = securityViewModel::onIntent,
         onNavigateToCategories = onNavigateToCategories,
@@ -146,7 +144,6 @@ private fun SettingsContent(
     state: SettingsUiState,
     securityState: SecuritySettingsUiState,
     onThemeModeChanged: (ThemeMode) -> Unit,
-    onDefaultTransactionTypeChanged: (TransactionType) -> Unit,
     onPaymentModeEnabledChanged: (Boolean) -> Unit,
     onSecurityIntent: (SecuritySettingsIntent) -> Unit,
     onNavigateToCategories: () -> Unit,
@@ -167,9 +164,6 @@ private fun SettingsContent(
         ThemeMode.Auto -> 2
     }
     val themeModes = listOf(ThemeMode.Light, ThemeMode.Dark, ThemeMode.Auto)
-    val prefs = state.txDisplayPrefs
-    val txDisplaySummary =
-        "${prefs.indicatorStyle.name} · ${if (prefs.showNote) "with note" else "no note"}"
     val lockAfterLabel = when (securityState.backgroundLockSeconds) {
         0 -> stringResource(Res.string.settings_lock_immediately)
         30 -> stringResource(Res.string.settings_lock_30s)
@@ -221,11 +215,9 @@ private fun SettingsContent(
             securityState = securityState,
             themeIndex = themeIndex,
             themeModes = themeModes,
-            txDisplaySummary = txDisplaySummary,
             lockAfterLabel = lockAfterLabel,
             languageSubtitle = languageSubtitle,
             onThemeModeChanged = onThemeModeChanged,
-            onDefaultTransactionTypeChanged = onDefaultTransactionTypeChanged,
             onPaymentModeEnabledChanged = onPaymentModeEnabledChanged,
             onSecurityIntent = onSecurityIntent,
             onNavigateToTxDisplay = onNavigateToTxDisplay,
@@ -249,7 +241,6 @@ private fun SettingsScreenPreview() {
             state = SettingsUiState(),
             securityState = SecuritySettingsUiState(),
             onThemeModeChanged = {},
-            onDefaultTransactionTypeChanged = {},
             onPaymentModeEnabledChanged = {},
             onSecurityIntent = {},
             onNavigateToCategories = {},

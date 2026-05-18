@@ -1,6 +1,5 @@
 package com.dv.moneym.feature.settings.overview.components
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -28,7 +27,6 @@ internal fun AppearanceSection(
     themeMode: ThemeMode,
     themeIndex: Int,
     themeModes: List<ThemeMode>,
-    txDisplaySummary: String,
     onThemeModeChanged: (ThemeMode) -> Unit,
     onNavigateToTxDisplay: () -> Unit,
 ) {
@@ -68,14 +66,12 @@ internal fun AppearanceSection(
                 tint = colors.text,
                 modifier = Modifier.size(MM.dimen.icon_1x),
             )
-            Column(Modifier.weight(1f)) {
-                Text(
-                    stringResource(Res.string.settings_tx_list),
-                    style = type.body,
-                    color = colors.text
-                )
-                Text(txDisplaySummary, style = type.caption.copy(color = colors.text2))
-            }
+            Text(
+                stringResource(Res.string.settings_tx_list),
+                style = type.body,
+                color = colors.text,
+                modifier = Modifier.weight(1f)
+            )
             Icon(
                 imageVector = Icon.ChevronRight.imageVector,
                 contentDescription = null,

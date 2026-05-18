@@ -30,10 +30,13 @@ import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Density
 import com.dv.moneym.core.model.IndicatorStyle
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.TxDisplayPrefs
 import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmRow
+import com.dv.moneym.core.ui.MmSegmented
+import com.dv.moneym.core.ui.MmSegmentedSize
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
@@ -47,6 +50,9 @@ import moneym.feature.settings.generated.resources.settings_txdisplay_comfortabl
 import moneym.feature.settings.generated.resources.settings_txdisplay_compact
 import moneym.feature.settings.generated.resources.settings_txdisplay_density
 import moneym.feature.settings.generated.resources.settings_txdisplay_normal
+import moneym.feature.settings.generated.resources.settings_default_tx_expense
+import moneym.feature.settings.generated.resources.settings_default_tx_income
+import moneym.feature.settings.generated.resources.settings_default_tx_type
 import moneym.feature.settings.generated.resources.settings_txdisplay_daily_sums
 import moneym.feature.settings.generated.resources.settings_txdisplay_note
 import moneym.feature.settings.generated.resources.settings_txdisplay_preview
@@ -100,10 +106,13 @@ private fun TxListDisplayScreen(
     viewModel: TxListDisplayViewModel = koinViewModel(),
 ) {
     val currentPrefs by viewModel.txDisplayPrefs.collectAsStateWithLifecycle()
+    val defaultTransactionType by viewModel.defaultTransactionType.collectAsStateWithLifecycle()
 
     TxListDisplayContent(
         currentPrefs = currentPrefs,
         onPrefsChanged = { viewModel.setTxDisplayPrefs(it) },
+        defaultTransactionType = defaultTransactionType,
+        onDefaultTransactionTypeChanged = { viewModel.setDefaultTransactionType(it) },
         onBack = onBack,
     )
 }
@@ -112,6 +121,8 @@ private fun TxListDisplayScreen(
 private fun TxListDisplayContent(
     currentPrefs: TxDisplayPrefs,
     onPrefsChanged: (TxDisplayPrefs) -> Unit,
+    defaultTransactionType: TransactionType,
+    onDefaultTransactionTypeChanged: (TransactionType) -> Unit,
     onBack: () -> Unit,
 ) {
     val colors = MM.colors
@@ -387,6 +398,44 @@ private fun TxListDisplayContent(
                             }
                         }
                     }
+                }
+            }
+
+            // DEFAULT TYPE section
+            SectionLabel(
+                stringResource(Res.string.settings_default_tx_type),
+                Modifier.padding(
+                    start = MM.dimen.padding_2_5x,
+                    end = MM.dimen.padding_2_5x,
+                    top = space.padding_2x,
+                    bottom = space.padding_0_5x
+                ),
+            )
+            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.dimen.radius_1_5x) {
+                val txTypes = listOf(TransactionType.EXPENSE, TransactionType.INCOME)
+                val txTypeIndex = txTypes.indexOf(defaultTransactionType).coerceAtLeast(0)
+                MmRow(divider = false) {
+                    Icon(
+                        imageVector = Icon.ArrowDown.imageVector,
+                        contentDescription = null,
+                        tint = colors.text,
+                        modifier = Modifier.size(MM.dimen.icon_1x),
+                    )
+                    Text(
+                        stringResource(Res.string.settings_default_tx_type),
+                        style = type.body,
+                        color = colors.text,
+                        modifier = Modifier.weight(1f),
+                    )
+                    MmSegmented(
+                        options = listOf(
+                            stringResource(Res.string.settings_default_tx_expense),
+                            stringResource(Res.string.settings_default_tx_income),
+                        ),
+                        selectedIndex = txTypeIndex,
+                        onOptionSelected = { onDefaultTransactionTypeChanged(txTypes[it]) },
+                        size = MmSegmentedSize.Sm,
+                    )
                 }
             }
 

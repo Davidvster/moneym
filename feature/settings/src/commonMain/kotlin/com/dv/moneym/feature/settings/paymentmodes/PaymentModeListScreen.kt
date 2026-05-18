@@ -40,6 +40,7 @@ import moneym.feature.settings.generated.resources.settings_payment_mode_list_ti
 import moneym.feature.settings.generated.resources.settings_payment_mode_name_placeholder
 import moneym.feature.settings.generated.resources.settings_payment_mode_rename_title
 import moneym.feature.settings.generated.resources.settings_payment_mode_save
+import androidx.compose.material3.TextFieldDefaults
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -150,6 +151,9 @@ private fun PaymentModeListContent(
         is PaymentModeDialogState.DeleteConfirm -> {
             AlertDialog(
                 onDismissRequest = onDismissDialog,
+                containerColor = MM.colors.bg,
+                titleContentColor = MM.colors.text,
+                textContentColor = MM.colors.text,
                 title = {
                     Text(stringResource(Res.string.settings_payment_mode_delete_title))
                 },
@@ -168,7 +172,7 @@ private fun PaymentModeListContent(
                 },
                 dismissButton = {
                     TextButton(onClick = onDismissDialog) {
-                        Text(stringResource(Res.string.settings_payment_mode_cancel))
+                        Text(stringResource(Res.string.settings_payment_mode_cancel), color = MM.colors.text2)
                     }
                 },
             )
@@ -189,6 +193,9 @@ private fun NameInputDialog(
     var name by remember(initialName) { mutableStateOf(initialName) }
     AlertDialog(
         onDismissRequest = onDismiss,
+        containerColor = MM.colors.bg,
+        titleContentColor = MM.colors.text,
+        textContentColor = MM.colors.text,
         title = { Text(title) },
         text = {
             TextField(
@@ -197,18 +204,29 @@ private fun NameInputDialog(
                 placeholder = { Text(placeholder) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = MM.colors.surface,
+                    unfocusedContainerColor = MM.colors.surface,
+                    focusedTextColor = MM.colors.text,
+                    unfocusedTextColor = MM.colors.text,
+                    focusedIndicatorColor = MM.colors.accent,
+                    unfocusedIndicatorColor = MM.colors.border,
+                    cursorColor = MM.colors.accent,
+                    focusedPlaceholderColor = MM.colors.text3,
+                    unfocusedPlaceholderColor = MM.colors.text3,
+                ),
             )
         },
         confirmButton = {
             TextButton(
                 onClick = { if (name.isNotBlank()) onConfirm(name) },
             ) {
-                Text(stringResource(Res.string.settings_payment_mode_save))
+                Text(stringResource(Res.string.settings_payment_mode_save), color = MM.colors.accent)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(stringResource(Res.string.settings_payment_mode_cancel))
+                Text(stringResource(Res.string.settings_payment_mode_cancel), color = MM.colors.text2)
             }
         },
     )

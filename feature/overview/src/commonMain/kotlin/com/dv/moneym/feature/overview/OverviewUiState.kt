@@ -118,6 +118,7 @@ internal data class OverviewUiState(
     // Stored as String? to avoid LocalDate serialization issues in saved state.
     val minSelectableDateIso: String? = null,
     val maxSelectableDateIso: String? = null,
+    val canGoBack: Boolean = true,
 
     // Set of ISO date strings (yyyy-MM-dd) for dates that have at least one transaction.
     // Stored as Set<String> to avoid LocalDate serialization issues in saved state.

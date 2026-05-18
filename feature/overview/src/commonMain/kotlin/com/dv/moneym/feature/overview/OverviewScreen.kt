@@ -123,6 +123,7 @@ private fun OverviewContent(
             onNextPeriod = { onIntent(OverviewIntent.NextPeriod) },
             onShowPeriodPicker = { showPeriodPicker = true },
             onShowDateRangePicker = { showDateRangePicker = true },
+            canGoBack = state.canGoBack,
         )
 
         // Scrollable body with swipe gesture
@@ -154,6 +155,8 @@ private fun OverviewContent(
                 OverviewMonthPickerDialog(
                     currentYear = currentPeriod.yearMonth.year,
                     currentMonth = currentPeriod.yearMonth.monthNumber,
+                    minYear = state.minSelectableDateIso?.let { LocalDate.parse(it).year },
+                    minMonth = state.minSelectableDateIso?.let { LocalDate.parse(it).monthNumber },
                     onDismiss = { showPeriodPicker = false },
                     onConfirm = { year, month ->
                         onIntent(
@@ -173,6 +176,7 @@ private fun OverviewContent(
                 val currentPeriod = state.period
                 OverviewYearPickerDialog(
                     currentYear = currentPeriod.year,
+                    minYear = state.minSelectableDateIso?.let { LocalDate.parse(it).year },
                     onDismiss = { showPeriodPicker = false },
                     onConfirm = { year ->
                         onIntent(OverviewIntent.PeriodSelected(OverviewPeriod.Year(year)))
@@ -198,11 +202,6 @@ private fun OverviewContent(
 
                 is OverviewPeriod.Year -> Triple(p.year, 12, 31)
             }
-            val transactionDates = remember(state.transactionDateIsos) {
-                state.transactionDateIsos.mapNotNullTo(mutableSetOf()) { iso ->
-                    runCatching { LocalDate.parse(iso) }.getOrNull()
-                }
-            }
             DateRangePickerDialog(
                 initStartYear = initStart.first,
                 initStartMonth = initStart.second,
@@ -212,7 +211,6 @@ private fun OverviewContent(
                 initEndDay = initEnd.third,
                 minSelectableDateIso = state.minSelectableDateIso,
                 maxSelectableDateIso = state.maxSelectableDateIso,
-                selectableDates = transactionDates,
                 onDismiss = { showDateRangePicker = false },
                 onConfirm = { sy, sm, sd, ey, em, ed ->
                     onIntent(

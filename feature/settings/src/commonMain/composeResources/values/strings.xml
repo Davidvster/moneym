@@ -59,7 +59,7 @@
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_theme_auto">Auto</string>
-    <string name="settings_tx_list">Transaction list</string>
+    <string name="settings_tx_list">Transaction view</string>
     <string name="settings_section_security">SECURITY</string>
     <string name="settings_pin_lock">Pin Lock</string>
     <string name="settings_change_pin">Change pin</string>

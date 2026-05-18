@@ -323,7 +323,20 @@ class OverviewViewModel(
         .combine(_selectedSliceIndex) { s, slice -> s.copy(selectedSliceIndex = slice) }
         .combine(_periodOffset) { s, offset -> s.copy(periodOffset = offset) }
         .combine(_dateBounds) { s, (minIso, maxIso) ->
-            s.copy(minSelectableDateIso = minIso, maxSelectableDateIso = maxIso)
+            val canGoBack = when (val p = s.period) {
+                is OverviewPeriod.Month -> {
+                    val minDate = minIso?.let { LocalDate.parse(it) }
+                    if (minDate == null) true
+                    else YearMonth(p.yearMonth.year, p.yearMonth.monthNumber) >
+                        YearMonth(minDate.year, minDate.monthNumber)
+                }
+                is OverviewPeriod.Year -> {
+                    val minYear = minIso?.let { LocalDate.parse(it).year }
+                    minYear == null || p.year > minYear
+                }
+                is OverviewPeriod.DateRange -> false
+            }
+            s.copy(minSelectableDateIso = minIso, maxSelectableDateIso = maxIso, canGoBack = canGoBack)
         }
         .combine(_transactionDateIsos) { s, isos ->
             s.copy(transactionDateIsos = isos)
@@ -334,7 +347,21 @@ class OverviewViewModel(
         when (intent) {
             OverviewIntent.PreviousPeriod -> {
                 _periodOffset.value = -1
-                _period.update { it.previous() }
+                val minIso = _dateBounds.value.first
+                _period.update { current ->
+                    val prev = current.previous()
+                    if (minIso != null) {
+                        val minDate = LocalDate.parse(minIso)
+                        when (prev) {
+                            is OverviewPeriod.Month ->
+                                if (YearMonth(prev.yearMonth.year, prev.yearMonth.monthNumber) <
+                                    YearMonth(minDate.year, minDate.monthNumber)) current else prev
+                            is OverviewPeriod.Year ->
+                                if (prev.year < minDate.year) current else prev
+                            else -> prev
+                        }
+                    } else prev
+                }
             }
 
             OverviewIntent.NextPeriod -> {

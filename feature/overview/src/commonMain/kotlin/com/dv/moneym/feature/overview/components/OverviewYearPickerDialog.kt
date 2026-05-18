@@ -4,7 +4,9 @@ import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
@@ -35,6 +37,7 @@ import kotlin.time.Clock
 @Composable
 internal fun OverviewYearPickerDialog(
     currentYear: Int,
+    minYear: Int? = null,
     onDismiss: () -> Unit,
     onConfirm: (year: Int) -> Unit,
 ) {
@@ -63,12 +66,16 @@ internal fun OverviewYearPickerDialog(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                MmIconButton(
-                    icon = Icon.ChevronLeft.imageVector,
-                    onClick = { selectedYear-- },
-                    size = MM.dimen.padding_4x,
-                    contentDescription = stringResource(Res.string.overview_prev_year_cd),
-                )
+                if (minYear == null || selectedYear > minYear) {
+                    MmIconButton(
+                        icon = Icon.ChevronLeft.imageVector,
+                        onClick = { selectedYear-- },
+                        size = MM.dimen.padding_4x,
+                        contentDescription = stringResource(Res.string.overview_prev_year_cd),
+                    )
+                } else {
+                    Spacer(Modifier.width(MM.dimen.padding_4x))
+                }
                 Text(
                     text = selectedYear.toString(),
                     style = type.body,

@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.datastore.AppSettingsRepository
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.TxDisplayPrefs
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +19,15 @@ class TxListDisplayViewModel(
     val txDisplayPrefs: StateFlow<TxDisplayPrefs> = appSettingsRepository.observeTxDisplayPrefs()
         .stateIn(viewModelScope, SharingStarted.Eagerly, TxDisplayPrefs())
 
+    val defaultTransactionType: StateFlow<TransactionType> =
+        appSettingsRepository.observeDefaultTransactionType()
+            .stateIn(viewModelScope, SharingStarted.Eagerly, TransactionType.EXPENSE)
+
     fun setTxDisplayPrefs(prefs: TxDisplayPrefs) {
         viewModelScope.launch { appSettingsRepository.setTxDisplayPrefs(prefs) }
+    }
+
+    fun setDefaultTransactionType(type: TransactionType) {
+        viewModelScope.launch { appSettingsRepository.setDefaultTransactionType(type) }
     }
 }

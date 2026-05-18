@@ -40,6 +40,7 @@ internal fun OverviewHeader(
     onNextPeriod: () -> Unit,
     onShowPeriodPicker: () -> Unit,
     onShowDateRangePicker: () -> Unit,
+    canGoBack: Boolean = true,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -99,7 +100,7 @@ internal fun OverviewHeader(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(top = MM.dimen.padding_2x),
         ) {
-            if (!isRangeMode) {
+            if (!isRangeMode && canGoBack) {
                 MmIconButton(
                     icon = Icon.ChevronLeft.imageVector,
                     size = MM.dimen.padding_4x,

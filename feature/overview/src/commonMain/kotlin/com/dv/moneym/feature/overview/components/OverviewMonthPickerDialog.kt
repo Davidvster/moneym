@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
@@ -45,6 +47,8 @@ import kotlin.time.Clock
 internal fun OverviewMonthPickerDialog(
     currentYear: Int,
     currentMonth: Int,
+    minYear: Int? = null,
+    minMonth: Int? = null,
     onDismiss: () -> Unit,
     onConfirm: (year: Int, month: Int) -> Unit,
 ) {
@@ -80,6 +84,8 @@ internal fun OverviewMonthPickerDialog(
                 nowYear = nowYear,
                 nowMonth = nowMonth,
                 monthNames = monthNames,
+                minYear = minYear,
+                minMonth = minMonth,
                 onYearDecrement = { selectedYear-- },
                 onYearIncrement = { selectedYear++ },
                 onMonthSelected = { selectedMonth = it },
@@ -115,6 +121,8 @@ private fun OverviewMonthPickerContent(
     nowYear: Int,
     nowMonth: Int,
     monthNames: List<String>,
+    minYear: Int? = null,
+    minMonth: Int? = null,
     onYearDecrement: () -> Unit,
     onYearIncrement: () -> Unit,
     onMonthSelected: (Int) -> Unit,
@@ -132,12 +140,16 @@ private fun OverviewMonthPickerContent(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            MmIconButton(
-                icon = Icon.ChevronLeft.imageVector,
-                onClick = onYearDecrement,
-                size = MM.dimen.padding_4x,
-                contentDescription = stringResource(Res.string.overview_prev_year_cd),
-            )
+            if (minYear == null || selectedYear > minYear) {
+                MmIconButton(
+                    icon = Icon.ChevronLeft.imageVector,
+                    onClick = onYearDecrement,
+                    size = MM.dimen.padding_4x,
+                    contentDescription = stringResource(Res.string.overview_prev_year_cd),
+                )
+            } else {
+                Spacer(Modifier.width(MM.dimen.padding_4x))
+            }
             Text(
                 text = selectedYear.toString(),
                 style = type.body,
@@ -162,14 +174,15 @@ private fun OverviewMonthPickerContent(
                         val m = row * 3 + col + 1
                         val isSelected = m == selectedMonth
                         val isNow = m == nowMonth && selectedYear == nowYear
+                        val isDisabled = minYear != null && selectedYear == minYear && minMonth != null && m < minMonth
                         Box(
                             modifier = Modifier
                                 .clip(radius.radius_1x)
                                 .background(
-                                    if (isSelected) colors.accent else Color.Transparent,
+                                    if (isSelected && !isDisabled) colors.accent else Color.Transparent,
                                 )
                                 .then(
-                                    if (isNow && !isSelected) {
+                                    if (isNow && !isSelected && !isDisabled) {
                                         Modifier.border(
                                             1.dp,
                                             colors.accent.copy(alpha = 0.5f),
@@ -178,6 +191,7 @@ private fun OverviewMonthPickerContent(
                                     } else Modifier
                                 )
                                 .clickable(
+                                    enabled = !isDisabled,
                                     indication = null,
                                     interactionSource = remember { MutableInteractionSource() },
                                 ) { onMonthSelected(m) }
@@ -191,7 +205,8 @@ private fun OverviewMonthPickerContent(
                                 text = monthNames[m - 1],
                                 style = type.body,
                                 color = when {
-                                    isSelected -> colors.bg
+                                    isSelected && !isDisabled -> colors.bg
+                                    isDisabled -> colors.text.copy(alpha = 0.3f)
                                     isNow -> colors.accent
                                     else -> colors.text
                                 },

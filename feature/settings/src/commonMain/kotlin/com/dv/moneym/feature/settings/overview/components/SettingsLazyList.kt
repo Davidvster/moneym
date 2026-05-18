@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.ThemeMode
-import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.feature.settings.overview.SecuritySettingsIntent
 import com.dv.moneym.feature.settings.overview.SecuritySettingsUiState
@@ -29,11 +28,9 @@ internal fun SettingsLazyList(
     securityState: SecuritySettingsUiState,
     themeIndex: Int,
     themeModes: List<ThemeMode>,
-    txDisplaySummary: String,
     lockAfterLabel: String,
     languageSubtitle: String,
     onThemeModeChanged: (ThemeMode) -> Unit,
-    onDefaultTransactionTypeChanged: (TransactionType) -> Unit,
     onPaymentModeEnabledChanged: (Boolean) -> Unit,
     onSecurityIntent: (SecuritySettingsIntent) -> Unit,
     onNavigateToTxDisplay: () -> Unit,
@@ -60,7 +57,6 @@ internal fun SettingsLazyList(
                 themeMode = state.themeMode,
                 themeIndex = themeIndex,
                 themeModes = themeModes,
-                txDisplaySummary = txDisplaySummary,
                 onThemeModeChanged = onThemeModeChanged,
                 onNavigateToTxDisplay = onNavigateToTxDisplay,
             )
@@ -101,14 +97,12 @@ internal fun SettingsLazyList(
             PreferencesSection(
                 currencySubtitle = state.defaultCurrency,
                 languageSubtitle = languageSubtitle,
-                defaultTransactionType = state.defaultTransactionType,
                 paymentModeEnabled = state.paymentModeEnabled,
                 onNavigateToCurrency = onNavigateToCurrency,
                 onNavigateToLanguage = onNavigateToLanguage,
                 onNavigateToCategories = onNavigateToCategories,
                 onNavigateToWallets = onNavigateToWallets,
                 onNavigateToPaymentModes = onNavigateToPaymentModes,
-                onDefaultTransactionTypeChanged = onDefaultTransactionTypeChanged,
                 onPaymentModeEnabledChanged = onPaymentModeEnabledChanged,
             )
         }

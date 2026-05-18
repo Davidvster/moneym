@@ -27,6 +27,9 @@ internal data class TransactionListUiState(
     // Wallet / account
     val selectedAccount: Account? = null,
     val availableAccounts: List<Account> = emptyList(),
+    val canGoBack: Boolean = true,
+    val minYear: Int? = null,
+    val minMonth: Int? = null,
 )
 
 @Serializable

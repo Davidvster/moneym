@@ -47,31 +47,26 @@ internal fun AmountDisplay(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = MM.dimen.padding_1_5x),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.Start,
     ) {
         Text(
             text = stringResource(Res.string.edit_amount_label).uppercase(),
             style = type.micro,
-            color = colors.text3,
+            color = colors.text2,
         )
         Spacer(Modifier.height(MM.dimen.padding_1x))
 
         Row(
             verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
         ) {
-            Text(
-                text = currencyCode,
-                style = type.bodyMono,
-                color = colors.text3,
-            )
-            Box(contentAlignment = Alignment.CenterStart) {
+            Box(contentAlignment = Alignment.CenterStart, modifier = Modifier.weight(1f)) {
                 // Placeholder shown when field is empty
                 if (amountText.isEmpty()) {
                     Text(
                         text = "0.00",
                         style = type.display.copy(
-                            fontSize = 52.sp,
+                            fontSize = 40.sp,
                             color = colors.text3,
                         ),
                     )
@@ -83,7 +78,7 @@ internal fun AmountDisplay(
                     ),
                     onValueChange = { onAmountChanged(it.text) },
                     textStyle = type.display.copy(
-                        fontSize = 52.sp,
+                        fontSize = 40.sp,
                         color = colors.text,
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
@@ -94,14 +89,19 @@ internal fun AmountDisplay(
                         .defaultMinSize(minWidth = 1.dp),
                 )
             }
+
+            Text(
+                text = currencyCode,
+                style = type.bodyMono,
+                color = colors.text3,
+            )
+
+            MmIconButton(
+                icon = Icon.Calculator.imageVector,
+                onClick = onCalculatorClick,
+                contentDescription = stringResource(Res.string.edit_calculator_title),
+            )
         }
-
         Spacer(Modifier.height(MM.dimen.padding_1x))
-
-        MmIconButton(
-            icon = Icon.Calculator.imageVector,
-            onClick = onCalculatorClick,
-            contentDescription = stringResource(Res.string.edit_calculator_title),
-        )
     }
 }

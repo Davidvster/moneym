@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -162,6 +163,8 @@ private fun TransactionListContent(
         MonthPickerDialog(
             currentYear = state.currentMonth.year,
             currentMonth = state.currentMonth.monthNumber,
+            minYear = state.minYear,
+            minMonth = state.minMonth,
             onDismiss = { showMonthPicker = false },
             onConfirm = { year, month ->
                 onIntent(TransactionListIntent.MonthSelected(YearMonth(year, month)))
@@ -434,12 +437,16 @@ private fun MonthNavRow(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(top = MM.dimen.padding_1_5x, bottom = 16.dp),
     ) {
-        MmIconButton(
-            icon = Icon.ChevronLeft.imageVector,
-            onClick = onPreviousMonth,
-            size = MM.dimen.padding_4x,
-            contentDescription = stringResource(Res.string.transactions_previous_month),
-        )
+        if (state.canGoBack) {
+            MmIconButton(
+                icon = Icon.ChevronLeft.imageVector,
+                onClick = onPreviousMonth,
+                size = MM.dimen.padding_4x,
+                contentDescription = stringResource(Res.string.transactions_previous_month),
+            )
+        } else {
+            Spacer(Modifier.width(MM.dimen.padding_4x))
+        }
         Box(
             modifier = Modifier
                 .widthIn(min = 96.dp)

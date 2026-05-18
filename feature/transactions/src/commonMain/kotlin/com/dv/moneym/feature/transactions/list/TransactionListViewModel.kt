@@ -58,6 +58,7 @@ class TransactionListViewModel(
     private val _selectedAccountId by savedStateHandle.saved {
         MutableStateFlow<Long>(-1L)
     }
+    private val _earliestMonth = MutableStateFlow<YearMonth?>(null)
 
     // Combine base state: month + filter + query + cats + prefs
     private data class BaseState(
@@ -157,6 +158,11 @@ class TransactionListViewModel(
                 availableAccounts = accounts.filter { !it.archived },
             )
         }
+    }.combine(_earliestMonth) { state, earliestMonth ->
+        val canGoBack = earliestMonth == null || state.currentMonth > earliestMonth
+        val minYear = earliestMonth?.year
+        val minMonth = earliestMonth?.monthNumber
+        state.copy(canGoBack = canGoBack, minYear = minYear, minMonth = minMonth)
     }.stateIn(
         scope = viewModelScope,
         // Use Eagerly so the flow stays active while the edit modal is shown —
@@ -177,11 +183,22 @@ class TransactionListViewModel(
         appSettingsRepository.observeSelectedAccountId()
             .onEach { id -> _selectedAccountId.value = id }
             .launchIn(viewModelScope)
+
+        viewModelScope.launch {
+            val earliest = transactionRepository.getEarliestTransactionDate()
+            _earliestMonth.value = earliest?.let { YearMonth(it.year, it.monthNumber) }
+        }
     }
 
     internal fun onIntent(intent: TransactionListIntent) {
         when (intent) {
-            TransactionListIntent.PreviousMonth -> _currentMonth.update { it.previous() }
+            TransactionListIntent.PreviousMonth -> {
+                val min = _earliestMonth.value
+                _currentMonth.update { current ->
+                    val prev = current.previous()
+                    if (min != null && prev < min) current else prev
+                }
+            }
             TransactionListIntent.NextMonth -> _currentMonth.update { it.next() }
             is TransactionListIntent.FilterChanged -> {
                 _filter.update { intent.filter }
@@ -192,7 +209,12 @@ class TransactionListViewModel(
             }
 
             is TransactionListIntent.SearchQueryChanged -> _searchQuery.update { intent.query }
-            is TransactionListIntent.MonthSelected -> _currentMonth.update { intent.yearMonth }
+            is TransactionListIntent.MonthSelected -> {
+                val min = _earliestMonth.value
+                _currentMonth.update {
+                    if (min != null && intent.yearMonth < min) min else intent.yearMonth
+                }
+            }
             is TransactionListIntent.AccountSelected -> {
                 val id = intent.accountId?.value ?: -1L
                 _selectedAccountId.value = id
