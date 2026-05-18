@@ -31,20 +31,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.IndicatorStyle
-import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.CategoryIconTile
+import com.dv.moneym.core.ui.CumulativeChart
 import com.dv.moneym.core.ui.DonutChart
 import com.dv.moneym.core.ui.DonutSlice
-import com.dv.moneym.core.ui.CumulativeChart
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
-import com.dv.moneym.core.ui.SectionLabel
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.overview.CategorySpend
 import com.dv.moneym.feature.overview.CategoryTrend
 import com.dv.moneym.feature.overview.OverviewIntent
@@ -54,10 +55,11 @@ import moneym.feature.overview.generated.resources.Res
 import moneym.feature.overview.generated.resources.overview_all
 import moneym.feature.overview.generated.resources.overview_avg_day
 import moneym.feature.overview.generated.resources.overview_avg_month
+import moneym.feature.overview.generated.resources.overview_cat_avg_day
+import moneym.feature.overview.generated.resources.overview_cat_avg_month
 import moneym.feature.overview.generated.resources.overview_daily_trend
 import moneym.feature.overview.generated.resources.overview_expenses
 import moneym.feature.overview.generated.resources.overview_income
-import moneym.feature.overview.generated.resources.overview_label_total
 import moneym.feature.overview.generated.resources.overview_monthly_trend
 import moneym.feature.overview.generated.resources.overview_no_expenses
 import moneym.feature.overview.generated.resources.overview_spending_by_category
@@ -111,6 +113,7 @@ internal fun OverviewPeriodBody(
                 totalIncome = state.income,
                 currencyCode = currencyCode,
                 selectedSliceIndex = state.selectedSliceIndex,
+                inYearMode = inYearMode,
                 onSliceTapped = { onIntent(OverviewIntent.SliceTapped(it)) },
                 modifier = Modifier.padding(
                     horizontal = space.padding_2x,
@@ -186,6 +189,7 @@ private fun SpendingByCategoryCard(
     totalIncome: Double,
     currencyCode: String,
     selectedSliceIndex: Int?,
+    inYearMode: Boolean,
     onSliceTapped: (Int?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -244,92 +248,79 @@ private fun SpendingByCategoryCard(
                 transitionSpec = { fadeIn(tween(220)) togetherWith fadeOut(tween(180)) },
                 label = "spending_filter",
             ) { activeFilter ->
-            val animCats = when (activeFilter) {
-                SpendingFilter.All -> {
-                    val combined = expenseCategories + incomeCategories
-                    if (total > 0) combined.map { it.copy(percent = ((it.amount / total) * 100).toInt()) } else combined
+                val animCats = when (activeFilter) {
+                    SpendingFilter.All -> {
+                        val combined = expenseCategories + incomeCategories
+                        if (total > 0) combined.map { it.copy(percent = ((it.amount / total) * 100).toInt()) } else combined
+                    }
+
+                    SpendingFilter.Expenses -> expenseCategories
+                    SpendingFilter.Income -> incomeCategories
                 }
-                SpendingFilter.Expenses -> expenseCategories
-                SpendingFilter.Income -> incomeCategories
-            }
-            Column {
-            if (animCats.isEmpty()) {
-                Text(
-                    text = stringResource(Res.string.overview_no_expenses),
-                    style = type.caption,
-                    color = colors.text3,
-                )
-            } else {
-                val slices = animCats.map {
-                    DonutSlice(
-                        color = Color(it.categoryColor),
-                        fraction = it.percent.toFloat() / 100f,
-                    )
-                }
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    DonutChart(
-                        slices = slices,
-                        modifier = Modifier.size(180.dp),
-                        strokeWidth = MM.dimen.donutWidth,
-                        selectedIndex = selectedSliceIndex,
-                        onSliceClick = { i -> onSliceTapped(if (i == selectedSliceIndex) null else i) },
-                    )
-                    val selIdx = selectedSliceIndex
-                    if (selIdx != null && selIdx < animCats.size) {
-                        val cat = animCats[selIdx]
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center,
-                        ) {
-                            Text(
-                                text = cat.categoryName,
-                                style = type.caption.copy(color = colors.text2),
-                            )
-                            Text(
-                                text = "${cat.percent}%",
-                                style = type.bodyMono.copy(color = colors.text),
-                            )
-                            Text(
-                                text = "$currencyCode ${formatAmount(cat.amount)}",
-                                style = type.captionMono.copy(color = colors.text2),
+                Column {
+                    if (animCats.isEmpty()) {
+                        Text(
+                            text = stringResource(Res.string.overview_no_expenses),
+                            style = type.caption,
+                            color = colors.text3,
+                        )
+                    } else {
+                        val slices = animCats.map {
+                            DonutSlice(
+                                color = Color(it.categoryColor),
+                                fraction = it.percent.toFloat() / 100f,
                             )
                         }
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            DonutChart(
+                                slices = slices,
+                                modifier = Modifier.size(180.dp),
+                                strokeWidth = MM.dimen.donutWidth,
+                                selectedIndex = selectedSliceIndex,
+                                onSliceClick = { i -> onSliceTapped(if (i == selectedSliceIndex) null else i) },
+                            )
+                            val selIdx = selectedSliceIndex
+                            if (selIdx != null && selIdx < animCats.size) {
+                                val cat = animCats[selIdx]
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center,
+                                ) {
+                                    Text(
+                                        text = cat.categoryName,
+                                        style = type.caption.copy(color = colors.text2),
+                                    )
+                                    Text(
+                                        text = "${cat.percent}%",
+                                        style = type.bodyMono.copy(color = colors.text),
+                                    )
+                                    Text(
+                                        text = "$currencyCode ${formatAmount(cat.amount)}",
+                                        style = type.captionMono.copy(color = colors.text2),
+                                    )
+                                }
+                            }
+                        }
+
+                        Spacer(Modifier.height(space.padding_2x))
+
+                        SpendingByCategoryLegend(
+                            categories = animCats,
+                            total = total,
+                            currencyCode = currencyCode,
+                            showPercent = showPercent,
+                            inYearMode = inYearMode,
+                            onTogglePercent = { showPercent = !showPercent },
+                            selectedIndex = selectedSliceIndex,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
                     }
-                }
-
-                Spacer(Modifier.height(space.padding_2x))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    SectionLabel(stringResource(Res.string.overview_label_total))
-                    Spacer(Modifier.weight(1f))
-                    MmSegmented(
-                        options = listOf("%", currencyCode),
-                        selectedIndex = if (showPercent) 0 else 1,
-                        onOptionSelected = { showPercent = it == 0 },
-                        size = MmSegmentedSize.Sm,
-                    )
-                }
-
-                Spacer(Modifier.height(6.dp))
-
-                SpendingByCategoryLegend(
-                    categories = animCats,
-                    total = total,
-                    currencyCode = currencyCode,
-                    showPercent = showPercent,
-                    selectedIndex = selectedSliceIndex,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-            } // Column
-        } // AnimatedContent
-    }
+                } // Column
+            } // AnimatedContent
+        }
     }
 }
 
@@ -339,52 +330,137 @@ private fun SpendingByCategoryLegend(
     total: Double,
     currencyCode: String,
     showPercent: Boolean,
+    inYearMode: Boolean,
+    onTogglePercent: () -> Unit,
     selectedIndex: Int? = null,
     modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
     val type = MM.type
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(0.dp),
-    ) {
-        Spacer(Modifier.height(6.dp))
+    val colStyle = type.captionMono.copy(color = colors.text3)
+    val vDivider: @Composable () -> Unit = {
+        Box(
+            modifier = Modifier
+                .width(1.dp)
+                .height(16.dp)
+                .background(colors.divider),
+        )
+    }
+
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(0.dp)) {
+        // % / total segmented toggle
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Spacer(Modifier.weight(1f))
+            MmSegmented(
+                options = listOf("%", currencyCode),
+                selectedIndex = if (showPercent) 0 else 1,
+                onOptionSelected = { if ((it == 0) != showPercent) onTogglePercent() },
+                size = MmSegmentedSize.Sm,
+            )
+        }
+
+        Spacer(Modifier.height(MM.dimen.padding_1x))
+        HorizontalDivider(color = colors.divider, thickness = 1.dp)
+
+        // Header row
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
+            Spacer(Modifier.weight(0.3f))
+            vDivider()
+            Text(
+                text = if (showPercent) "%" else currencyCode,
+                style = colStyle,
+                modifier = Modifier.weight(0.25f),
+                textAlign = TextAlign.End,
+            )
+            if (inYearMode) {
+                vDivider()
+                Text(
+                    text = stringResource(Res.string.overview_cat_avg_month),
+                    style = colStyle,
+                    modifier = Modifier.weight(0.225f),
+                    textAlign = TextAlign.End
+                )
+            }
+            vDivider()
+            Text(
+                text = stringResource(Res.string.overview_cat_avg_day),
+                style = colStyle,
+                modifier = Modifier.weight(0.225f),
+                textAlign = TextAlign.End
+            )
+        }
+
+        HorizontalDivider(color = colors.divider, thickness = 1.dp)
 
         categories.forEachIndexed { i, cat ->
             val isSelected = selectedIndex == i
             val hasSelection = selectedIndex != null
+            val textColor = if (hasSelection && !isSelected) colors.text3 else colors.text
+            val numColor = if (hasSelection && !isSelected) colors.text3 else colors.text2
+
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 3.dp),
+                modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(6.dp)
-                        .clip(CircleShape)
-                        .background(
-                            Color(cat.categoryColor).copy(
-                                alpha = if (hasSelection && !isSelected) 0.4f else 1f
-                            )
-                        ),
-                )
+
+                Row(
+                    modifier = Modifier.weight(0.3f),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(6.dp)
+                            .clip(CircleShape)
+                            .background(Color(cat.categoryColor).copy(alpha = if (hasSelection && !isSelected) 0.4f else 1f)),
+                    )
+                    Text(
+                        text = cat.categoryName,
+                        style = type.caption,
+                        color = textColor,
+                        modifier = Modifier.weight(1f),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+                vDivider()
                 Text(
-                    text = cat.categoryName,
-                    style = type.caption,
-                    color = if (hasSelection && !isSelected) colors.text3 else colors.text,
-                    modifier = Modifier.weight(1f),
-                )
-                Text(
-                    text = if (showPercent) {
-                        "${cat.percent}%"
-                    } else {
-                        "$currencyCode ${formatAmount(cat.amount)}"
-                    },
+                    text = if (showPercent) "${cat.percent}%" else formatAmount(cat.amount),
                     style = type.captionMono,
-                    color = if (hasSelection && !isSelected) colors.text3 else colors.text2,
+                    color = numColor,
+                    modifier = Modifier.weight(0.25f),
+                    textAlign = TextAlign.End,
                 )
+                if (inYearMode) {
+                    vDivider()
+                    Text(
+                        text = if (cat.avgPerMonth > 0) formatAmount(cat.avgPerMonth) else "—",
+                        style = type.captionMono,
+                        color = numColor,
+                        modifier = Modifier.weight(0.225f),
+                        textAlign = TextAlign.End,
+                    )
+                }
+                vDivider()
+                Text(
+                    text = if (cat.avgPerDay > 0) formatAmount(cat.avgPerDay) else "—",
+                    style = type.captionMono,
+                    color = numColor,
+                    modifier = Modifier.weight(0.225f),
+                    textAlign = TextAlign.End,
+                )
+            }
+
+            if (i < categories.lastIndex) {
+                HorizontalDivider(color = colors.divider.copy(alpha = 0.5f), thickness = 1.dp)
             }
         }
     }
@@ -505,7 +581,9 @@ private fun CategoryTrendsCard(
                                 horizontalArrangement = Arrangement.End,
                             ) {
                                 Text(
-                                    text = "avg/day: ${formatAmount(trend.avgPerDay)} $currencyCode",
+                                    text = "${stringResource(Res.string.overview_cat_avg_day)}: " +
+                                            "${formatAmount(trend.avgPerDay)} " +
+                                            currencyCode,
                                     style = type.caption.copy(color = colors.text2),
                                 )
                             }
@@ -516,7 +594,9 @@ private fun CategoryTrendsCard(
                             .drop(1)
                         CumulativeChart(
                             values = cumulativeData,
-                            todayIndex = if (highlightIndex >= 0) highlightIndex else cumulativeData.lastIndex.coerceAtLeast(0),
+                            todayIndex = if (highlightIndex >= 0) highlightIndex else cumulativeData.lastIndex.coerceAtLeast(
+                                0
+                            ),
                             xLabels = xLabels,
                             modifier = Modifier
                                 .fillMaxWidth()
