@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,21 +15,26 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.TransactionType
+import com.dv.moneym.core.ui.MmButton
+import com.dv.moneym.core.ui.MmButtonSize
+import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmChip
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.feature.transactionedit.TransactionEditIntent
 import com.dv.moneym.feature.transactionedit.TransactionEditUiState
-import com.dv.moneym.core.model.PaymentModeId
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.minus
 import moneym.feature.transactionedit.generated.resources.Res
-import moneym.feature.transactionedit.generated.resources.edit_date_label
 import moneym.feature.transactionedit.generated.resources.edit_date_today
-import moneym.feature.transactionedit.generated.resources.edit_note_label
+import moneym.feature.transactionedit.generated.resources.edit_date_yesterday
 import moneym.feature.transactionedit.generated.resources.edit_note_placeholder
 import moneym.feature.transactionedit.generated.resources.edit_payment_mode_label
 import moneym.feature.transactionedit.generated.resources.edit_type_expense
@@ -39,20 +45,22 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 internal fun TransactionEditScrollBody(
     state: TransactionEditUiState,
-    todayDate: LocalDate,
     focusRequester: FocusRequester,
     onIntent: (TransactionEditIntent) -> Unit,
     onDatePickerOpen: () -> Unit,
     onCalculatorOpen: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val todayDate = state.todayDate
     // Derive currency code from selected account
     val currencyCode = remember(state.selectedAccountId, state.availableAccounts) {
         state.availableAccounts.firstOrNull { it.id == state.selectedAccountId }?.currency?.value
             ?: "EUR"
     }
     val todayLabel = stringResource(Res.string.edit_date_today)
-    val dateText = state.date?.toFriendlyString(todayDate) ?: todayLabel
+    val yesterdayLabel = stringResource(Res.string.edit_date_yesterday)
+    val dateText = if (state.date != null && todayDate != null) state.date.toFriendlyString(todayDate) else todayLabel
+    val notesFocusRequester = remember { FocusRequester() }
 
     Column(
         modifier = modifier
@@ -68,28 +76,48 @@ internal fun TransactionEditScrollBody(
             onIncomeSelected = { onIntent(TransactionEditIntent.TypeChanged(TransactionType.INCOME)) },
             modifier = Modifier.fillMaxWidth(),
         )
-        Spacer(Modifier.height(MM.dimen.padding_3x))
+        Spacer(Modifier.height(MM.dimen.padding_2x))
+
+        // Date row: date field + quick Yesterday/Today button — same height (MmButton.Sm)
+        val isToday = state.date == todayDate
+        Row(
+            modifier = Modifier.fillMaxWidth().height(MM.dimen.padding_4x),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+        ) {
+            DateDisplayField(
+                dateText = dateText,
+                onClick = onDatePickerOpen,
+                modifier = Modifier.weight(0.7f).fillMaxHeight(),
+            )
+            MmButton(
+                text = if (isToday) yesterdayLabel else todayLabel,
+                onClick = {
+                    val newDate = if (isToday && todayDate != null) todayDate.minus(DatePeriod(days = 1)) else todayDate
+                    if (newDate != null) onIntent(TransactionEditIntent.DateChanged(newDate))
+                },
+                size = MmButtonSize.Sm,
+                variant = MmButtonVariant.Secondary,
+                modifier = Modifier.weight(0.3f).fillMaxHeight(),
+            )
+        }
+
         AmountDisplay(
             amountText = state.amountText,
             currencyCode = currencyCode,
             focusRequester = focusRequester,
             onAmountChanged = { onIntent(TransactionEditIntent.AmountChanged(it)) },
             onCalculatorClick = onCalculatorOpen,
+            notesFocusRequester = notesFocusRequester,
         )
-        // Date field — clickable display field (not an editable text input)
-        DateDisplayField(
-            dateText = dateText,
-            label = stringResource(Res.string.edit_date_label),
-            onClick = onDatePickerOpen,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Spacer(Modifier.height(MM.dimen.padding_1_5x))
+
         MmField(
             value = state.note,
             onValueChange = { onIntent(TransactionEditIntent.NoteChanged(it)) },
-            label = stringResource(Res.string.edit_note_label),
             placeholder = stringResource(Res.string.edit_note_placeholder),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(notesFocusRequester),
         )
         // Inline note suggestions — shown when the field has text and matches exist
         if (state.noteSuggestions.isNotEmpty()) {
@@ -101,7 +129,7 @@ internal fun TransactionEditScrollBody(
         }
         Spacer(Modifier.height(MM.dimen.padding_3x))
         CategoryPicker(
-            categories = state.availableCategories,
+            categories = state.availableCategories.filter { it.type == state.type },
             selectedCategoryId = state.selectedCategoryId,
             categoryError = state.categoryError,
             onCategorySelected = { onIntent(TransactionEditIntent.CategorySelected(it)) },

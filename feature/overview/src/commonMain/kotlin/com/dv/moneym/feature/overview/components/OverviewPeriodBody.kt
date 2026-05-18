@@ -47,12 +47,16 @@ import com.dv.moneym.core.ui.MmSegmentedSize
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.feature.overview.CategorySpend
 import com.dv.moneym.feature.overview.CategoryTrend
+import com.dv.moneym.feature.overview.OverviewIntent
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.OverviewUiState
 import moneym.feature.overview.generated.resources.Res
+import moneym.feature.overview.generated.resources.overview_all
 import moneym.feature.overview.generated.resources.overview_avg_day
 import moneym.feature.overview.generated.resources.overview_avg_month
 import moneym.feature.overview.generated.resources.overview_daily_trend
+import moneym.feature.overview.generated.resources.overview_expenses
+import moneym.feature.overview.generated.resources.overview_income
 import moneym.feature.overview.generated.resources.overview_label_total
 import moneym.feature.overview.generated.resources.overview_monthly_trend
 import moneym.feature.overview.generated.resources.overview_no_expenses
@@ -65,6 +69,7 @@ import org.jetbrains.compose.resources.stringResource
 internal fun OverviewPeriodBody(
     state: OverviewUiState,
     currencyCode: String,
+    onIntent: (OverviewIntent) -> Unit = {},
 ) {
     val space = MM.dimen
     val periodOffset = state.periodOffset
@@ -100,9 +105,13 @@ internal fun OverviewPeriodBody(
                 currencyCode = currencyCode,
             )
             SpendingByCategoryCard(
-                categories = state.categoryBreakdown,
-                total = state.expenses,
+                expenseCategories = state.categoryBreakdown,
+                incomeCategories = state.categoryIncomeBreakdown,
+                totalExpenses = state.expenses,
+                totalIncome = state.income,
                 currencyCode = currencyCode,
+                selectedSliceIndex = state.selectedSliceIndex,
+                onSliceTapped = { onIntent(OverviewIntent.SliceTapped(it)) },
                 modifier = Modifier.padding(
                     horizontal = space.padding_2x,
                     vertical = space.padding_1_5x
@@ -167,11 +176,17 @@ internal fun OverviewPeriodBody(
 }
 
 
+private enum class SpendingFilter { All, Expenses, Income }
+
 @Composable
 private fun SpendingByCategoryCard(
-    categories: List<CategorySpend>,
-    total: Double,
+    expenseCategories: List<CategorySpend>,
+    incomeCategories: List<CategorySpend>,
+    totalExpenses: Double,
+    totalIncome: Double,
     currencyCode: String,
+    selectedSliceIndex: Int?,
+    onSliceTapped: (Int?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
@@ -179,62 +194,142 @@ private fun SpendingByCategoryCard(
     val space = MM.dimen
 
     var showPercent by remember { mutableStateOf(true) }
+    var filter by remember { mutableStateOf(SpendingFilter.Expenses) }
+
+    val total = when (filter) {
+        SpendingFilter.All -> totalExpenses + totalIncome
+        SpendingFilter.Expenses -> totalExpenses
+        SpendingFilter.Income -> totalIncome
+    }
 
     MmCard(modifier = modifier, padded = true, shape = MM.dimen.radius_2x) {
         Column {
-            Row(
+            Text(
+                text = stringResource(Res.string.overview_spending_by_category),
+                style = type.title3,
+                color = colors.text,
+            )
+
+            Spacer(Modifier.height(space.padding_1_5x))
+
+            // All / Expenses / Income toggle — equal-width full-width
+            MmSegmented(
+                options = listOf(
+                    stringResource(Res.string.overview_all),
+                    stringResource(Res.string.overview_expenses),
+                    stringResource(Res.string.overview_income),
+                ),
+                selectedIndex = when (filter) {
+                    SpendingFilter.All -> 0
+                    SpendingFilter.Expenses -> 1
+                    SpendingFilter.Income -> 2
+                },
+                onOptionSelected = {
+                    filter = when (it) {
+                        0 -> SpendingFilter.All
+                        1 -> SpendingFilter.Expenses
+                        else -> SpendingFilter.Income
+                    }
+                    onSliceTapped(null)
+                },
+                size = MmSegmentedSize.Sm,
+                fillWidth = true,
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = stringResource(Res.string.overview_spending_by_category),
-                    style = type.title3,
-                    color = colors.text,
-                    modifier = Modifier.weight(1f),
-                )
-                MmSegmented(
-                    options = listOf("%", currencyCode),
-                    selectedIndex = if (showPercent) 0 else 1,
-                    onOptionSelected = { showPercent = it == 0 },
-                    size = MmSegmentedSize.Sm,
-                )
-            }
+            )
 
             Spacer(Modifier.height(space.padding_2x))
 
-            if (categories.isEmpty()) {
+            AnimatedContent(
+                targetState = filter,
+                transitionSpec = { fadeIn(tween(220)) togetherWith fadeOut(tween(180)) },
+                label = "spending_filter",
+            ) { activeFilter ->
+            val animCats = when (activeFilter) {
+                SpendingFilter.All -> {
+                    val combined = expenseCategories + incomeCategories
+                    if (total > 0) combined.map { it.copy(percent = ((it.amount / total) * 100).toInt()) } else combined
+                }
+                SpendingFilter.Expenses -> expenseCategories
+                SpendingFilter.Income -> incomeCategories
+            }
+            Column {
+            if (animCats.isEmpty()) {
                 Text(
                     text = stringResource(Res.string.overview_no_expenses),
                     style = type.caption,
                     color = colors.text3,
                 )
             } else {
+                val slices = animCats.map {
+                    DonutSlice(
+                        color = Color(it.categoryColor),
+                        fraction = it.percent.toFloat() / 100f,
+                    )
+                }
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    DonutChart(
+                        slices = slices,
+                        modifier = Modifier.size(180.dp),
+                        strokeWidth = MM.dimen.donutWidth,
+                        selectedIndex = selectedSliceIndex,
+                        onSliceClick = { i -> onSliceTapped(if (i == selectedSliceIndex) null else i) },
+                    )
+                    val selIdx = selectedSliceIndex
+                    if (selIdx != null && selIdx < animCats.size) {
+                        val cat = animCats[selIdx]
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                        ) {
+                            Text(
+                                text = cat.categoryName,
+                                style = type.caption.copy(color = colors.text2),
+                            )
+                            Text(
+                                text = "${cat.percent}%",
+                                style = type.bodyMono.copy(color = colors.text),
+                            )
+                            Text(
+                                text = "$currencyCode ${formatAmount(cat.amount)}",
+                                style = type.captionMono.copy(color = colors.text2),
+                            )
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(space.padding_2x))
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(space.padding_2x),
                 ) {
-                    val slices = categories.map {
-                        DonutSlice(
-                            color = Color(it.categoryColor),
-                            fraction = it.percent.toFloat() / 100f,
-                        )
-                    }
-                    DonutChart(
-                        slices = slices,
-                        modifier = Modifier.size(130.dp),
-                        strokeWidth = MM.dimen.donutWidth,
-                    )
-                    SpendingByCategoryLegend(
-                        categories = categories,
-                        total = total,
-                        currencyCode = currencyCode,
-                        showPercent = showPercent,
-                        modifier = Modifier.weight(1f),
+                    SectionLabel(stringResource(Res.string.overview_label_total))
+                    Spacer(Modifier.weight(1f))
+                    MmSegmented(
+                        options = listOf("%", currencyCode),
+                        selectedIndex = if (showPercent) 0 else 1,
+                        onOptionSelected = { showPercent = it == 0 },
+                        size = MmSegmentedSize.Sm,
                     )
                 }
+
+                Spacer(Modifier.height(6.dp))
+
+                SpendingByCategoryLegend(
+                    categories = animCats,
+                    total = total,
+                    currencyCode = currencyCode,
+                    showPercent = showPercent,
+                    selectedIndex = selectedSliceIndex,
+                    modifier = Modifier.fillMaxWidth(),
+                )
             }
-        }
+            } // Column
+        } // AnimatedContent
+    }
     }
 }
 
@@ -244,38 +339,20 @@ private fun SpendingByCategoryLegend(
     total: Double,
     currencyCode: String,
     showPercent: Boolean,
+    selectedIndex: Int? = null,
     modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.dimen
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            SectionLabel(stringResource(Res.string.overview_label_total))
-            Spacer(Modifier.width(6.dp))
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .height(1.dp)
-                    .background(colors.divider),
-            )
-            Spacer(Modifier.width(6.dp))
-            Text(
-                text = if (showPercent) "100%" else "$currencyCode ${formatAmount(total)}",
-                style = type.captionMono,
-                color = colors.text,
-            )
-        }
-
         Spacer(Modifier.height(6.dp))
 
-        categories.forEach { cat ->
+        categories.forEachIndexed { i, cat ->
+            val isSelected = selectedIndex == i
+            val hasSelection = selectedIndex != null
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -287,12 +364,16 @@ private fun SpendingByCategoryLegend(
                     modifier = Modifier
                         .size(6.dp)
                         .clip(CircleShape)
-                        .background(Color(cat.categoryColor)),
+                        .background(
+                            Color(cat.categoryColor).copy(
+                                alpha = if (hasSelection && !isSelected) 0.4f else 1f
+                            )
+                        ),
                 )
                 Text(
                     text = cat.categoryName,
                     style = type.caption,
-                    color = colors.text,
+                    color = if (hasSelection && !isSelected) colors.text3 else colors.text,
                     modifier = Modifier.weight(1f),
                 )
                 Text(
@@ -302,7 +383,7 @@ private fun SpendingByCategoryLegend(
                         "$currencyCode ${formatAmount(cat.amount)}"
                     },
                     style = type.captionMono,
-                    color = colors.text2,
+                    color = if (hasSelection && !isSelected) colors.text3 else colors.text2,
                 )
             }
         }
@@ -387,9 +468,10 @@ private fun CategoryTrendsCard(
                     if (showBars) {
                         // Yearly mode: avg/month + avg/day labels, then full bar chart
                         if (trend.avgPerMonth > 0 || trend.avgPerDay > 0) {
-                            Row(
+                            Column(
                                 modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(space.padding_2x),
+                                horizontalAlignment = Alignment.End,
+                                verticalArrangement = Arrangement.spacedBy(2.dp),
                             ) {
                                 if (trend.avgPerMonth > 0) {
                                     Text(
@@ -410,6 +492,7 @@ private fun CategoryTrendsCard(
                             monthlyTotals = trend.series,
                             currentMonthIndex = if (highlightIndex >= 0) highlightIndex else -1,
                             barColor = Color(trend.categoryColor),
+                            xLabels = xLabels,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(CHART_HEIGHT),
@@ -434,6 +517,7 @@ private fun CategoryTrendsCard(
                         CumulativeChart(
                             values = cumulativeData,
                             todayIndex = if (highlightIndex >= 0) highlightIndex else cumulativeData.lastIndex.coerceAtLeast(0),
+                            xLabels = xLabels,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(CHART_HEIGHT),

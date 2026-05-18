@@ -244,6 +244,7 @@ internal fun CategoryBarChart(
     currentMonthIndex: Int,
     barColor: Color,
     modifier: Modifier = Modifier,
+    xLabels: List<String> = emptyList(),
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -279,63 +280,118 @@ internal fun CategoryBarChart(
             Spacer(Modifier.height(MM.dimen.padding_0_5x))
         }
 
-        Box(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
+            verticalAlignment = Alignment.Bottom,
         ) {
-            // Dashed average line
-            if (avgVal > 0) {
-                Canvas(modifier = Modifier.fillMaxWidth().matchParentSize()) {
-                    val avgY = size.height * (1f - avgFraction)
-                    drawLine(
-                        color = barColor.copy(alpha = 0.50f),
-                        start = Offset(0f, avgY),
-                        end = Offset(size.width, avgY),
-                        strokeWidth = 1.dp.toPx(),
-                        pathEffect = PathEffect.dashPathEffect(floatArrayOf(6f, 4f), 0f),
-                    )
-                }
+            // Y-axis labels column
+            Column(
+                modifier = Modifier
+                    .width(YAXIS_WIDTH)
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    text = formatAxisAmount(maxVal),
+                    style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                Text(
+                    text = formatAxisAmount(maxVal / 2),
+                    style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                Text(
+                    text = "0",
+                    style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.fillMaxWidth(),
+                )
             }
 
-            // Bars
+            Spacer(Modifier.width(MM.dimen.padding_0_5x))
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight(),
+            ) {
+                // Dashed average line
+                if (avgVal > 0) {
+                    Canvas(modifier = Modifier.fillMaxWidth().matchParentSize()) {
+                        val avgY = size.height * (1f - avgFraction)
+                        drawLine(
+                            color = barColor.copy(alpha = 0.50f),
+                            start = Offset(0f, avgY),
+                            end = Offset(size.width, avgY),
+                            strokeWidth = 1.dp.toPx(),
+                            pathEffect = PathEffect.dashPathEffect(floatArrayOf(6f, 4f), 0f),
+                        )
+                    }
+                }
+
+                // Bars
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .matchParentSize(),
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                ) {
+                    monthlyTotals.forEachIndexed { i, value ->
+                        val isCurrent = i == currentMonthIndex
+                        val isSelected = i == selectedBarIndex
+                        val barFraction = (value / maxVal).toFloat().coerceIn(0f, 1f)
+
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight(),
+                            contentAlignment = Alignment.BottomCenter,
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .width(MM.dimen.padding_2x)
+                                    .fillMaxHeight(barFraction.coerceAtLeast(0.01f))
+                                    .clip(RoundedCornerShape(2.dp))
+                                    .background(
+                                        when {
+                                            isSelected -> barColor
+                                            isCurrent -> barColor.copy(alpha = 0.85f)
+                                            else -> barColor.copy(alpha = 0.35f)
+                                        },
+                                    )
+                                    .alpha(if (value == 0.0) 0.3f else 1f)
+                                    .clickable(
+                                        indication = null,
+                                        interactionSource = remember { MutableInteractionSource() },
+                                    ) { selectedBarIndex = if (isSelected) null else i },
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        if (xLabels.isNotEmpty()) {
+            Spacer(Modifier.height(MM.dimen.padding_0_5x))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .matchParentSize(),
-                verticalAlignment = Alignment.Bottom,
+                    .padding(start = YAXIS_WIDTH + MM.dimen.padding_0_5x),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
-                monthlyTotals.forEachIndexed { i, value ->
-                    val isCurrent = i == currentMonthIndex
-                    val isSelected = i == selectedBarIndex
-                    val barFraction = (value / maxVal).toFloat().coerceIn(0f, 1f)
-
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight(),
-                        contentAlignment = Alignment.BottomCenter,
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .width(MM.dimen.padding_2x)
-                                .fillMaxHeight(barFraction.coerceAtLeast(0.01f))
-                                .clip(RoundedCornerShape(2.dp))
-                                .background(
-                                    when {
-                                        isSelected -> barColor
-                                        isCurrent -> barColor.copy(alpha = 0.85f)
-                                        else -> barColor.copy(alpha = 0.35f)
-                                    },
-                                )
-                                .alpha(if (value == 0.0) 0.3f else 1f)
-                                .clickable(
-                                    indication = null,
-                                    interactionSource = remember { MutableInteractionSource() },
-                                ) { selectedBarIndex = if (isSelected) null else i },
-                        )
-                    }
+                xLabels.forEach { label ->
+                    Text(
+                        text = label,
+                        style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center,
+                    )
                 }
             }
         }

@@ -140,6 +140,7 @@ private fun OverviewContent(
                 OverviewPeriodBody(
                     state = state,
                     currencyCode = currencyCode,
+                    onIntent = onIntent,
                 )
             }
         }

@@ -33,10 +33,11 @@ internal class SqlDelightCategoryDataSource(
     override suspend fun insert(
         name: String, iconKey: String, colorHex: String,
         isUserCreated: Boolean, createdAt: Long, updatedAt: Long,
+        categoryType: String,
     ): Long = withContext(dispatchers.io) {
         var id = 0L
         db.transaction {
-            q.insert(name, iconKey, colorHex, if (isUserCreated) 1L else 0L, createdAt, updatedAt)
+            q.insert(name, iconKey, colorHex, if (isUserCreated) 1L else 0L, createdAt, updatedAt, categoryType)
             id = q.lastInsertId().executeAsOne()
         }
         id

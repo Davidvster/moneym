@@ -8,6 +8,7 @@ import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
 import kotlinx.coroutines.channels.Channel
@@ -41,8 +42,9 @@ class CategoryListViewModel(
         _activeTab,
         _manualOrder,
     ) { categories, showArchived, tab, manualOrder ->
-        val active = categories.filter { !it.archived }
-        val archived = categories.filter { it.archived }
+        val tabType = if (tab == CategoryTab.Expense) TransactionType.EXPENSE else TransactionType.INCOME
+        val active = categories.filter { !it.archived && it.type == tabType }
+        val archived = categories.filter { it.archived && it.type == tabType }
 
         // Apply manual ordering: categories not yet in manualOrder go to the end
         val orderedActive = if (manualOrder.isEmpty()) {
@@ -103,6 +105,7 @@ class CategoryListViewModel(
 
     fun createCategory(name: String, icon: Icon, colorHex: String) {
         if (name.isBlank()) return
+        val tabType = if (_activeTab.value == CategoryTab.Expense) TransactionType.EXPENSE else TransactionType.INCOME
         viewModelScope.launch {
             withContext(dispatchers.io) {
                 val now = Clock.System.now()
@@ -115,6 +118,7 @@ class CategoryListViewModel(
                     archived = false,
                     createdAt = now,
                     updatedAt = now,
+                    type = tabType,
                 )
                 categoryRepository.insert(category)
             }

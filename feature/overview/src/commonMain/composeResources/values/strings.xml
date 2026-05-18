@@ -35,6 +35,7 @@
     <string name="overview_period_custom">Custom</string>
     <string name="overview_label_income">INCOME</string>
     <string name="overview_label_expenses">EXPENSES</string>
+    <string name="overview_label_balance">BALANCE</string>
     <string name="overview_spending_by_category">Spending by category</string>
     <string name="overview_no_expenses">No expenses this period</string>
     <string name="overview_label_total">TOTAL</string>

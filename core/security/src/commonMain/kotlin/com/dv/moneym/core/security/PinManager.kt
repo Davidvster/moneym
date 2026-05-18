@@ -3,6 +3,8 @@ package com.dv.moneym.core.security
 import com.dv.moneym.core.datastore.AppSettings
 import kotlin.time.Clock
 
+private const val MAX_ITERATIONS = 100_000
+
 class PinManager(
     private val secureStore: SecureStore,
     private val pinHasher: PinHasher,
@@ -18,6 +20,10 @@ class PinManager(
     suspend fun verifyPin(pin: String): Boolean {
         val stored = secureStore.get(SecurityKeys.PIN_HASH) ?: return false
         val hashed = hashedPinFromBytes(stored) ?: return false
+        if (hashed.iterations > MAX_ITERATIONS) {
+            clearPin()
+            return false
+        }
         return pinHasher.verify(pin, hashed)
     }
 

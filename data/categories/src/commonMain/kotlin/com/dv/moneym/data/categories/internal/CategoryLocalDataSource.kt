@@ -11,6 +11,7 @@ internal interface CategoryLocalDataSource {
     suspend fun insert(
         name: String, iconKey: String, colorHex: String,
         isUserCreated: Boolean, createdAt: Long, updatedAt: Long,
+        categoryType: String = "EXPENSE",
     ): Long
     suspend fun update(
         id: Long, name: String, iconKey: String, colorHex: String,

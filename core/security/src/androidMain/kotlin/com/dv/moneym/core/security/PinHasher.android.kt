@@ -31,7 +31,7 @@ actual class PinHasher actual constructor() {
 
     private companion object {
         const val ALGORITHM = "PBKDF2WithHmacSHA256"
-        const val ITERATIONS = 600_000
+        const val ITERATIONS = 100_000
         const val SALT_BYTES = 16
         const val DIGEST_BITS = 256
     }

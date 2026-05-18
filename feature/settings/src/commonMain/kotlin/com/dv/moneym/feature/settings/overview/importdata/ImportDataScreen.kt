@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.clickable
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -44,11 +46,8 @@ import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmCard
-import com.dv.moneym.core.ui.MmIconButton
-import com.dv.moneym.core.ui.MmIconButtonVariant
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmRow
-import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.imageVector
@@ -117,22 +116,9 @@ private fun ImportDataContent(
             .fillMaxSize()
             .background(colors.bg),
     ) {
-        val selectAllDesc = if (allSelected) stringResource(Res.string.settings_import_deselect_all)
-            else stringResource(Res.string.settings_import_select_all)
-
         ScreenHeader(
             title = stringResource(Res.string.settings_import_data_title),
             onBack = onBack,
-            trailingContent = if (state.transactions.isNotEmpty() && !state.isParsing) {
-                {
-                    MmIconButton(
-                        icon = MmIcon.Check.imageVector,
-                        onClick = { onIntent(ImportDataIntent.SelectAllToggled) },
-                        contentDescription = selectAllDesc,
-                        variant = if (allSelected) MmIconButtonVariant.Accent else MmIconButtonVariant.Default,
-                    )
-                }
-            } else null,
         )
 
         when {
@@ -162,6 +148,24 @@ private fun ImportDataContent(
             }
 
             else -> {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onIntent(ImportDataIntent.SelectAllToggled) }
+                        .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1x),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+                ) {
+                    Checkbox(
+                        checked = allSelected,
+                        onCheckedChange = { onIntent(ImportDataIntent.SelectAllToggled) },
+                    )
+                    Text(
+                        text = stringResource(if (allSelected) Res.string.settings_import_deselect_all else Res.string.settings_import_select_all),
+                        style = MM.type.body,
+                        color = MM.colors.text,
+                    )
+                }
                 LazyColumn(
                     modifier = Modifier.weight(1f),
                     contentPadding = PaddingValues(
@@ -442,7 +446,7 @@ private fun TransactionImportRow(
     val sign = if (isExpense) "" else "+"
 
     MmRow(onClick = onToggle, divider = false) {
-        MmToggle(
+        Checkbox(
             checked = item.isSelected,
             onCheckedChange = { onToggle() },
         )

@@ -11,7 +11,7 @@
     <string name="edit_date_yesterday">Yesterday</string>
     <string name="edit_date_ok">OK</string>
     <string name="edit_note_label">Note (optional)</string>
-    <string name="edit_note_placeholder">Add a note…</string>
+    <string name="edit_note_placeholder">Add a note… (optional)</string>
     <string name="edit_category_label">Category</string>
     <string name="edit_category_error">Select a category</string>
     <string name="edit_save">Save</string>

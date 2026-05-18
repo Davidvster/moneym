@@ -21,6 +21,7 @@ import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.SectionLabel
 import moneym.feature.overview.generated.resources.Res
+import moneym.feature.overview.generated.resources.overview_label_balance
 import moneym.feature.overview.generated.resources.overview_label_expenses
 import moneym.feature.overview.generated.resources.overview_label_income
 import org.jetbrains.compose.resources.stringResource
@@ -84,6 +85,28 @@ internal fun IncomeExpensesCard(
                 value = expenses,
                 size = 17.sp,
                 weight = FontWeight.SemiBold,
+                currency = currencyCode,
+            )
+        }
+        Spacer(Modifier.height(space.padding_1_25x))
+        HorizontalDivider(color = colors.divider, thickness = 1.dp)
+        Spacer(Modifier.height(space.padding_1_25x))
+        val balance = income - expenses
+        val balanceColor = if (balance >= 0) colors.accent else colors.danger
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
+            SectionLabel(
+                text = stringResource(Res.string.overview_label_balance),
+                modifier = Modifier.weight(1f),
+            )
+            MmMoney(
+                value = kotlin.math.abs(balance),
+                size = 17.sp,
+                weight = FontWeight.SemiBold,
+                color = balanceColor,
                 currency = currencyCode,
             )
         }

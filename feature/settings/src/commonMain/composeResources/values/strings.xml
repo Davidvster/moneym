@@ -122,6 +122,7 @@
     <string name="settings_payment_mode_delete_confirm">Delete</string>
     <string name="settings_payment_mode_cancel">Cancel</string>
     <string name="settings_payment_mode_save">Save</string>
+    <string name="settings_import_export">Import / Export</string>
     <!-- Import CSV -->
     <string name="settings_import_csv">Import CSV</string>
     <string name="settings_import_from">Import from</string>

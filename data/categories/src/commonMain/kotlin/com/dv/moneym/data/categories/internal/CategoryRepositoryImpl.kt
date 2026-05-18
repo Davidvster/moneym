@@ -31,6 +31,7 @@ internal class CategoryRepositoryImpl(
             isUserCreated = category.isUserCreated,
             createdAt = now,
             updatedAt = now,
+            categoryType = category.type.name,
         )
         return CategoryId(id)
     }

@@ -147,7 +147,6 @@ private fun TransactionEditContent(
         )
         TransactionEditScrollBody(
             state = state,
-            todayDate = todayDate,
             focusRequester = focusRequester,
             onIntent = onIntent,
             onDatePickerOpen = { showDatePicker = true },

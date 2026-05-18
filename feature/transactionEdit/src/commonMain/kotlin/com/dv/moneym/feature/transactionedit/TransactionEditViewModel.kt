@@ -52,12 +52,15 @@ class TransactionEditViewModel(
 
     private val isNewTransaction = editingId == null
 
+    private val today = clock.today()
+
     private val _state by savedStateHandle.saved {
         MutableStateFlow(
             TransactionEditUiState(
                 isLoading = editingId != null,
                 isEditMode = editingId != null,
-                date = clock.today(),
+                date = today,
+                todayDate = today,
             )
         )
     }
@@ -69,6 +72,7 @@ class TransactionEditViewModel(
     internal val effects = _effects.receiveAsFlow()
 
     private suspend fun init() {
+        _state.update { it.copy(todayDate = today) }
         if (isNewTransaction) {
             viewModelScope.launch {
                 val defaultType = appSettingsRepository.observeDefaultTransactionType().first()
@@ -137,7 +141,7 @@ class TransactionEditViewModel(
 
     internal fun onIntent(intent: TransactionEditIntent) {
         when (intent) {
-            is TransactionEditIntent.TypeChanged -> _state.update { it.copy(type = intent.type) }
+            is TransactionEditIntent.TypeChanged -> _state.update { it.copy(type = intent.type, selectedCategoryId = null) }
             is TransactionEditIntent.AmountChanged -> _state.update {
                 it.copy(
                     amountText = filterAmountInput(intent.text),
@@ -160,7 +164,24 @@ class TransactionEditViewModel(
             }
 
             is TransactionEditIntent.NoteSelected -> {
-                _state.update { it.copy(note = intent.note, noteSuggestions = emptyList()) }
+                val note = intent.note
+                val currentType = _state.value.type
+                viewModelScope.launch {
+                    val allTxns = withContext(dispatchers.io) {
+                        transactionRepository.observeAll().first()
+                    }
+                    val matchTxn = allTxns
+                        .filter { it.note == note && it.type == currentType }
+                        .maxByOrNull { it.occurredOn }
+                    _state.update { s ->
+                        s.copy(
+                            note = note,
+                            noteSuggestions = emptyList(),
+                            selectedCategoryId = matchTxn?.categoryId ?: s.selectedCategoryId,
+                            categoryError = false,
+                        )
+                    }
+                }
             }
 
             is TransactionEditIntent.PaymentModeSelected ->

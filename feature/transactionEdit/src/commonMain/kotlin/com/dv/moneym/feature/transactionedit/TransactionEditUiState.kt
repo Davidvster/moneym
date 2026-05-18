@@ -8,7 +8,9 @@ import com.dv.moneym.core.model.PaymentMode
 import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
+import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.minus
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -23,6 +25,7 @@ internal data class TransactionEditUiState(
     val selectedAccountId: AccountId? = null,
     val note: String = "",
     val noteSuggestions: List<String> = emptyList(),
+    val todayDate: LocalDate? = null,
     val availableCategories: List<Category> = emptyList(),
     val availableAccounts: List<Account> = emptyList(),
     val showDeleteConfirm: Boolean = false,

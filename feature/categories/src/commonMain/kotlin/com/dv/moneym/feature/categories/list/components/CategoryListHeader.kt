@@ -9,16 +9,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Icon
-import com.dv.moneym.core.ui.MmButton
-import com.dv.moneym.core.ui.MmButtonSize
-import com.dv.moneym.core.ui.MmButtonVariant
+import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.feature.categories.list.CategoryTab
 import moneym.feature.categories.generated.resources.Res
 import moneym.feature.categories.generated.resources.categories_hint
-import moneym.feature.categories.generated.resources.categories_new_button
 import moneym.feature.categories.generated.resources.categories_tab_expense
 import moneym.feature.categories.generated.resources.categories_tab_income
 import moneym.feature.categories.generated.resources.categories_title
@@ -38,12 +35,9 @@ internal fun CategoryListHeader(
         title = stringResource(Res.string.categories_title),
         onBack = onBack,
         trailingContent = {
-            MmButton(
-                text = stringResource(Res.string.categories_new_button),
+            MmIconButton(
+                icon = Icon.Plus.imageVector,
                 onClick = onAddClick,
-                variant = MmButtonVariant.Ghost,
-                size = MmButtonSize.Sm,
-                leadingIcon = Icon.Plus.imageVector,
             )
         },
     )

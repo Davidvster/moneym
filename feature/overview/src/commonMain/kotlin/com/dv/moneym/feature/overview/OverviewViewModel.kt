@@ -298,6 +298,31 @@ class OverviewViewModel(
             )
         }
 
+        // Income category breakdown
+        val totalIncomeMinor = periodTxns
+            .filter { it.type == TransactionType.INCOME }
+            .sumOf { it.amount.minorUnits }
+        val incomeBreakdown = periodTxns
+            .filter { it.type == TransactionType.INCOME }
+            .groupBy { it.categoryId }
+            .map { (catId, txns) ->
+                val cat = catMap[catId]
+                val amountMinor = txns.sumOf { it.amount.minorUnits }
+                val colorLong = colorHexToLong(cat?.colorHex ?: "#4A7A56")
+                CategorySpend(
+                    categoryName = cat?.name ?: "—",
+                    categoryColor = colorLong,
+                    categoryIcon = Icon.fromKeyOrDefault(cat?.iconKey ?: Icon.Dots.key),
+                    amount = amountMinor.toDouble() / 100.0,
+                    percent = if (totalIncomeMinor > 0)
+                        ((amountMinor.toDouble() / totalIncomeMinor.toDouble()) * 100).toInt()
+                    else 0,
+                    avgPerDay = amountMinor.toDouble() / 100.0 / elapsedDaysForCat,
+                    avgPerMonth = if (isMonthMode) 0.0 else amountMinor.toDouble() / 100.0 / elapsedMonthsForCat,
+                )
+            }
+            .sortedByDescending { it.amount }
+
         OverviewUiState(
             isLoading = false,
             isEmpty = periodTxns.isEmpty(),
@@ -306,6 +331,7 @@ class OverviewViewModel(
             income = incomeDouble,
             expenses = expensesDouble,
             categoryBreakdown = newBreakdown,
+            categoryIncomeBreakdown = incomeBreakdown,
             dailyTotals = dailyTotals,
             cumulativeTotals = cumulativeTotals,
             todayIndex = todayIndex,

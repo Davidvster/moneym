@@ -12,8 +12,7 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmRow
 import moneym.feature.settings.generated.resources.Res
-import moneym.feature.settings.generated.resources.settings_export_data
-import moneym.feature.settings.generated.resources.settings_import_data
+import moneym.feature.settings.generated.resources.settings_import_export
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -24,26 +23,6 @@ internal fun DataSection(
     val type = MM.type
     val space = MM.dimen
     MmCard(Modifier.padding(horizontal = space.padding_2x)) {
-        MmRow(onClick = onNavigateToExport) {
-            Icon(
-                imageVector = Icon.Download.imageVector,
-                contentDescription = null,
-                tint = colors.text,
-                modifier = Modifier.size(MM.dimen.icon_1x),
-            )
-            Text(
-                stringResource(Res.string.settings_export_data),
-                style = type.body,
-                color = colors.text,
-                modifier = Modifier.weight(1f),
-            )
-            Icon(
-                imageVector = Icon.ChevronRight.imageVector,
-                contentDescription = null,
-                tint = colors.text3,
-                modifier = Modifier.size(MM.dimen.padding_2x),
-            )
-        }
         MmRow(onClick = onNavigateToExport, divider = false) {
             Icon(
                 imageVector = Icon.Folder.imageVector,
@@ -52,7 +31,7 @@ internal fun DataSection(
                 modifier = Modifier.size(MM.dimen.icon_1x),
             )
             Text(
-                stringResource(Res.string.settings_import_data),
+                stringResource(Res.string.settings_import_export),
                 style = type.body,
                 color = colors.text,
                 modifier = Modifier.weight(1f),

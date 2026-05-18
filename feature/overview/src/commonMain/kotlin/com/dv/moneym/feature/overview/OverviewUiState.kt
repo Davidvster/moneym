@@ -89,7 +89,8 @@ internal data class OverviewUiState(
     val expenses: Double = 0.0,
 
     // ── Category breakdown ───────────────────────────────────────
-    val categoryBreakdown: List<CategorySpend> = emptyList(),
+    val categoryBreakdown: List<CategorySpend> = emptyList(),          // expense only
+    val categoryIncomeBreakdown: List<CategorySpend> = emptyList(),    // income only
 
     // ── Month-view data ──────────────────────────────────────────
     val dailyTotals: List<Double> = emptyList(),        // up to 31 values (expense amounts)

@@ -3,8 +3,14 @@ package com.dv.moneym.core.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -21,6 +27,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
@@ -30,8 +37,10 @@ fun CumulativeChart(
     values: List<Double>,
     todayIndex: Int,
     modifier: Modifier = Modifier,
+    xLabels: List<String> = emptyList(),
 ) {
     val colors = MM.colors
+    val type = MM.type
     val lineColor = colors.text
     val gridColor = colors.text3
     val todayLineColor = colors.text3
@@ -39,7 +48,8 @@ fun CumulativeChart(
 
     var seekIndex by remember { mutableStateOf<Int?>(null) }
 
-    Box(modifier = modifier) {
+    Column(modifier = modifier) {
+    Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
         androidx.compose.foundation.Canvas(
             modifier = Modifier
                 .fillMaxSize()
@@ -193,7 +203,24 @@ fun CumulativeChart(
                 )
             }
         }
+    } // end Box
+    if (xLabels.isNotEmpty()) {
+        Spacer(Modifier.height(MM.dimen.padding_0_5x))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+        ) {
+            xLabels.forEach { label ->
+                Text(
+                    text = label,
+                    style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Center,
+                )
+            }
+        }
     }
+    } // end Column
 }
 
 private fun formatSeekValue(value: Double): String {

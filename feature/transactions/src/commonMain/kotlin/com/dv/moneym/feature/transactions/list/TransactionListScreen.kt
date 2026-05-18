@@ -223,8 +223,8 @@ private fun TransactionListContent(
         pageCount = { PAGE_COUNT },
     )
 
-    LaunchedEffect(pagerState.settledPage) {
-        val newMonth = pageIndexToYearMonth(pagerState.settledPage)
+    LaunchedEffect(pagerState.currentPage) {
+        val newMonth = pageIndexToYearMonth(pagerState.currentPage)
         if (newMonth != state.currentMonth) {
             onIntent(TransactionListIntent.MonthSelected(newMonth))
         }
@@ -257,12 +257,13 @@ private fun TransactionListContent(
 
         HorizontalPager(state = pagerState, modifier = Modifier.weight(1f)) { page ->
             val pageMonth = pageIndexToYearMonth(page)
-            val groups = if (pageMonth == state.currentMonth) filteredDayGroups else emptyList()
+            val isCurrentPage = pageMonth == state.currentMonth
+            val groups = if (isCurrentPage) filteredDayGroups else emptyList()
             TransactionListBody(
                 dayGroups = groups,
                 txDisplayPrefs = state.txDisplayPrefs,
-                isLoading = state.isLoading && pageMonth == state.currentMonth,
-                isEmpty = groups.isEmpty() && !(state.isLoading && pageMonth == state.currentMonth),
+                isLoading = if (isCurrentPage) state.isLoading else true,
+                isEmpty = isCurrentPage && groups.isEmpty() && !state.isLoading,
                 onEditTransaction = onEditTransaction,
             )
         }
