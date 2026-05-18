@@ -88,8 +88,8 @@ private fun ManageCategoriesScreen(
     onBack: () -> Unit,
     onSetTab: (CategoryTab) -> Unit,
     onReorder: (Int, Int) -> Unit,
-    onCreateCategory: (String, Icon, String) -> Unit,
-    onUpdateCategory: (CategoryId, String, Icon, String) -> Unit,
+    onCreateCategory: (String, Icon, String) -> Boolean,
+    onUpdateCategory: (CategoryId, String, Icon, String) -> Boolean,
     onDeleteCategory: (CategoryId) -> Unit,
 ) {
     val colors = MM.colors
@@ -172,13 +172,16 @@ private fun ManageCategoriesScreen(
                 },
                 onSave = { name, icon, colorHex ->
                     val editing = categoryToEdit
-                    if (editing != null) {
+                    val success = if (editing != null) {
                         onUpdateCategory(editing.id, name, icon, colorHex)
                     } else {
                         onCreateCategory(name, icon, colorHex)
                     }
-                    showNewCategorySheet = false
-                    categoryToEdit = null
+                    if (success) {
+                        showNewCategorySheet = false
+                        categoryToEdit = null
+                    }
+                    success
                 },
                 onDelete = { id ->
                     onDeleteCategory(id)
@@ -196,7 +199,7 @@ private fun NewCategorySheet(
     categoryToEdit: Category?,
     defaultTab: CategoryTab,
     onDismiss: () -> Unit,
-    onSave: (name: String, icon: Icon, colorHex: String) -> Unit,
+    onSave: (name: String, icon: Icon, colorHex: String) -> Boolean,
     onDelete: (CategoryId) -> Unit,
 ) {
     val colors = MM.colors
@@ -214,6 +217,7 @@ private fun NewCategorySheet(
             else Color(0xFF4A8E5C)
         )
     }
+    var nameError by remember(categoryToEdit?.id) { mutableStateOf<String?>(null) }
     var showDeleteConfirm by remember { mutableStateOf(false) }
     var showColorPicker by remember { mutableStateOf(false) }
     // List of custom colors generated via the HSV picker — appends on each new color
@@ -256,7 +260,8 @@ private fun NewCategorySheet(
             selectedIcon = selectedIcon,
             customColors = customColors,
             isEditMode = isEditMode,
-            onNameChange = { name = it },
+            nameError = nameError,
+            onNameChange = { name = it; nameError = null },
             onColorSelected = { selectedColor = it },
             onCustomColorClick = { showColorPicker = true },
             onIconSelected = { selectedIcon = it },
@@ -266,7 +271,10 @@ private fun NewCategorySheet(
             isEditMode = isEditMode,
             nameIsBlank = name.isBlank(),
             colors = colors,
-            onSave = { onSave(name, selectedIcon, colorToHex(selectedColor)) },
+            onSave = {
+                val ok = onSave(name, selectedIcon, colorToHex(selectedColor))
+                if (ok) nameError = null else nameError = "A category with this name already exists"
+            },
         )
     }
 

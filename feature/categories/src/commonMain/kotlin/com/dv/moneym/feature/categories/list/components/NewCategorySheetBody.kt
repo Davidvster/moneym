@@ -56,6 +56,7 @@ internal fun NewCategorySheetBody(
     selectedIcon: Icon,
     customColors: List<Color>,
     isEditMode: Boolean,
+    nameError: String? = null,
     onNameChange: (String) -> Unit,
     onColorSelected: (Color) -> Unit,
     onCustomColorClick: () -> Unit,
@@ -87,6 +88,15 @@ internal fun NewCategorySheetBody(
             placeholder = stringResource(Res.string.categories_name_placeholder),
             modifier = Modifier.fillMaxWidth(),
         )
+        if (nameError != null) {
+            Spacer(Modifier.height(4.dp))
+            Text(
+                text = nameError,
+                style = MM.type.caption,
+                color = Color(0xFFB00020),
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
 
         Spacer(modifier = Modifier.height(MM.dimen.padding_3x))
         Text(

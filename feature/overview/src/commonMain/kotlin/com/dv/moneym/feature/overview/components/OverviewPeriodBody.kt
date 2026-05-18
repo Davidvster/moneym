@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -79,10 +80,12 @@ internal fun OverviewPeriodBody(
         targetState = state.period,
         transitionSpec = {
             if (periodOffset != 0)
-                slideInHorizontally(tween(280)) { it * periodOffset } togetherWith
-                        slideOutHorizontally(tween(280)) { -it * periodOffset }
+                (slideInHorizontally(tween(280)) { it * periodOffset } togetherWith
+                        slideOutHorizontally(tween(280)) { -it * periodOffset })
+                            .using(SizeTransform(clip = false))
             else
-                fadeIn(tween(180)) togetherWith fadeOut(tween(180))
+                (fadeIn(tween(220)) togetherWith fadeOut(tween(180)))
+                    .using(SizeTransform(clip = false))
         },
         label = "overview_period",
     ) { period ->

@@ -223,6 +223,8 @@ private fun TransactionListContent(
         pageCount = { PAGE_COUNT },
     )
 
+    var initialScrollDone by remember { mutableStateOf(false) }
+
     LaunchedEffect(pagerState.currentPage) {
         val newMonth = pageIndexToYearMonth(pagerState.currentPage)
         if (newMonth != state.currentMonth) {
@@ -233,8 +235,13 @@ private fun TransactionListContent(
     LaunchedEffect(state.currentMonth) {
         val targetPage = state.currentMonth.toPageIndex()
         if (pagerState.currentPage != targetPage && !pagerState.isScrollInProgress) {
-            pagerState.animateScrollToPage(targetPage)
+            if (initialScrollDone) {
+                pagerState.animateScrollToPage(targetPage)
+            } else {
+                pagerState.scrollToPage(targetPage)
+            }
         }
+        initialScrollDone = true
     }
 
     Column(
@@ -260,6 +267,7 @@ private fun TransactionListContent(
             val isCurrentPage = pageMonth == state.currentMonth
             val groups = if (isCurrentPage) filteredDayGroups else emptyList()
             TransactionListBody(
+                modifier = Modifier.fillMaxSize(),
                 dayGroups = groups,
                 txDisplayPrefs = state.txDisplayPrefs,
                 isLoading = if (isCurrentPage) state.isLoading else true,

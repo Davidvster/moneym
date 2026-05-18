@@ -103,15 +103,18 @@ class CategoryListViewModel(
         _manualOrder.update { mutable.map { it.id.value } }
     }
 
-    fun createCategory(name: String, icon: Icon, colorHex: String) {
-        if (name.isBlank()) return
+    fun createCategory(name: String, icon: Icon, colorHex: String): Boolean {
+        val trimmed = name.trim()
+        if (trimmed.isBlank()) return false
         val tabType = if (_activeTab.value == CategoryTab.Expense) TransactionType.EXPENSE else TransactionType.INCOME
+        val isDuplicate = state.value.active.any { it.name.equals(trimmed, ignoreCase = true) }
+        if (isDuplicate) return false
         viewModelScope.launch {
             withContext(dispatchers.io) {
                 val now = Clock.System.now()
                 val category = Category(
                     id = CategoryId(0),
-                    name = name.trim(),
+                    name = trimmed,
                     iconKey = icon.key,
                     colorHex = colorHex,
                     isUserCreated = true,
@@ -123,18 +126,23 @@ class CategoryListViewModel(
                 categoryRepository.insert(category)
             }
         }
+        return true
     }
 
-    fun updateCategory(id: CategoryId, name: String, icon: Icon, colorHex: String) {
-        if (name.isBlank()) return
+    fun updateCategory(id: CategoryId, name: String, icon: Icon, colorHex: String): Boolean {
+        val trimmed = name.trim()
+        if (trimmed.isBlank()) return false
+        val isDuplicate = state.value.active.any {
+            it.id != id && it.name.equals(trimmed, ignoreCase = true)
+        }
+        if (isDuplicate) return false
         viewModelScope.launch {
-            val existing =
-                withContext(dispatchers.io) { categoryRepository.getById(id) } ?: return@launch
+            val existing = withContext(dispatchers.io) { categoryRepository.getById(id) } ?: return@launch
             withContext(dispatchers.io) {
                 val now = Clock.System.now()
                 categoryRepository.update(
                     existing.copy(
-                        name = name.trim(),
+                        name = trimmed,
                         iconKey = icon.key,
                         colorHex = colorHex,
                         updatedAt = now,
@@ -142,6 +150,7 @@ class CategoryListViewModel(
                 )
             }
         }
+        return true
     }
 
     fun deleteCategory(id: CategoryId) {
