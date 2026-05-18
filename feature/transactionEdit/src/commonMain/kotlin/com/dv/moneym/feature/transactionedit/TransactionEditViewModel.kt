@@ -34,6 +34,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.minus
 
 class TransactionEditViewModel(
     private val editingId: TransactionId?,
@@ -60,7 +62,7 @@ class TransactionEditViewModel(
                 isLoading = editingId != null,
                 isEditMode = editingId != null,
                 date = today,
-                todayDate = today,
+                isToday = true,
             )
         )
     }
@@ -72,12 +74,9 @@ class TransactionEditViewModel(
     internal val effects = _effects.receiveAsFlow()
 
     private suspend fun init() {
-        _state.update { it.copy(todayDate = today) }
         if (isNewTransaction) {
-            viewModelScope.launch {
-                val defaultType = appSettingsRepository.observeDefaultTransactionType().first()
-                _state.update { it.copy(type = defaultType) }
-            }
+            val defaultType = appSettingsRepository.observeDefaultTransactionType().first()
+            _state.update { it.copy(type = defaultType) }
         }
         viewModelScope.launch {
             // Observe payment mode enabled setting + available modes
@@ -109,7 +108,7 @@ class TransactionEditViewModel(
                             selectedAccountId = s.selectedAccountId ?: defaultAcc?.id,
                             // For new transactions, pre-select the first category if none selected yet
                             selectedCategoryId = if (isNewTransaction && s.selectedCategoryId == null) {
-                                cats.firstOrNull()?.id
+                                cats.firstOrNull { it.type == s.type }?.id
                             } else {
                                 s.selectedCategoryId
                             },
@@ -141,7 +140,13 @@ class TransactionEditViewModel(
 
     internal fun onIntent(intent: TransactionEditIntent) {
         when (intent) {
-            is TransactionEditIntent.TypeChanged -> _state.update { it.copy(type = intent.type, selectedCategoryId = null) }
+            is TransactionEditIntent.TypeChanged -> _state.update {
+                it.copy(
+                    type = intent.type,
+                    selectedCategoryId = null
+                )
+            }
+
             is TransactionEditIntent.AmountChanged -> _state.update {
                 it.copy(
                     amountText = filterAmountInput(intent.text),
@@ -149,7 +154,19 @@ class TransactionEditViewModel(
                 )
             }
 
-            is TransactionEditIntent.DateChanged -> _state.update { it.copy(date = intent.date) }
+            is TransactionEditIntent.DateChanged -> _state.update {
+                it.copy(
+                    date = intent.date,
+                    isToday = intent.date == today
+                )
+            }
+
+            is TransactionEditIntent.YesterdayTodayClicked -> {
+                val newDate =
+                    if (_state.value.isToday == true) today.minus(DatePeriod(days = 1)) else today
+                _state.update { it.copy(date = newDate, isToday = newDate == today) }
+            }
+
             is TransactionEditIntent.CategorySelected -> _state.update {
                 it.copy(
                     selectedCategoryId = intent.id,

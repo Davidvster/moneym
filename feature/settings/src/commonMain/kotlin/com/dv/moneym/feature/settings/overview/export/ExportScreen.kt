@@ -38,8 +38,8 @@ import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_export_as_csv
 import moneym.feature.settings.generated.resources.settings_export_as_json
-import moneym.feature.settings.generated.resources.settings_export_data_title
 import moneym.feature.settings.generated.resources.settings_export_format
+import moneym.feature.settings.generated.resources.settings_export_import_data_title
 import moneym.feature.settings.generated.resources.settings_export_start
 import moneym.feature.settings.generated.resources.settings_import_csv
 import org.jetbrains.compose.resources.stringResource
@@ -76,6 +76,7 @@ private fun ExportScreen(
                 is ExportEffect.ExportReady -> {
                     onExportReady?.invoke(effect.fileName, effect.content, effect.mimeType)
                 }
+
                 ExportEffect.ImportRequested -> Unit
             }
         }
@@ -125,7 +126,7 @@ private fun ExportContent(
             .background(colors.bg),
     ) {
         ScreenHeader(
-            title = stringResource(Res.string.settings_export_data_title),
+            title = stringResource(Res.string.settings_export_import_data_title),
             onBack = onBack,
         )
 

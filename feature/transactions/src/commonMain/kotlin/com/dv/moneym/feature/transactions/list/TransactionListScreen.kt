@@ -1,7 +1,5 @@
 package com.dv.moneym.feature.transactions.list
 
-import com.dv.moneym.core.ui.imageVector
-import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -49,8 +47,8 @@ import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.designsystem.categoryColor
-import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
@@ -67,12 +65,12 @@ import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.core.ui.TxRow
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.transactions.list.components.CategoryFilterSheet
 import com.dv.moneym.feature.transactions.list.components.DayGroupHeader
 import com.dv.moneym.feature.transactions.list.components.MonthPickerDialog
 import com.dv.moneym.feature.transactions.list.components.WalletSwitcherDialog
 import com.dv.moneym.feature.transactions.list.components.monthLabel
-import kotlin.time.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
 import kotlinx.serialization.Serializable
@@ -92,8 +90,10 @@ import moneym.feature.transactions.generated.resources.transactions_search_place
 import moneym.feature.transactions.generated.resources.transactions_title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.time.Clock
 
-private const val PAGE_COUNT = 2400
+private const val PAGE_COUNT =
+    2400 // TODO fix this, just use the available months and when user clicks next add one in the viewmodel, the user should never go before ther first transaction
 private const val PAGE_OFFSET = 1200
 
 private fun YearMonth.toPageIndex(): Int {
@@ -240,8 +240,8 @@ private fun TransactionListContent(
             } else {
                 pagerState.scrollToPage(targetPage)
             }
+            initialScrollDone = true
         }
-        initialScrollDone = true
     }
 
     Column(
@@ -263,6 +263,7 @@ private fun TransactionListContent(
         )
 
         HorizontalPager(state = pagerState, modifier = Modifier.weight(1f)) { page ->
+            // TODO use beyondViewportPageCount to load the previous and next page - in the viewmodel preload those as well
             val pageMonth = pageIndexToYearMonth(page)
             val isCurrentPage = pageMonth == state.currentMonth
             val groups = if (isCurrentPage) filteredDayGroups else emptyList()

@@ -10,10 +10,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dv.moneym.core.common.formatNumber
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.feature.transactions.list.DayGroup
-import com.dv.moneym.core.common.formatNumber
 import kotlin.math.abs
 
 @Composable
@@ -32,18 +32,19 @@ internal fun DayGroupHeader(group: DayGroup, showAmount: Boolean = true) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(colors.bg)
+            .background(colors.surface)
             .padding(horizontal = MM.dimen.padding_2_5x, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         SectionLabel(
             text = group.label,
+            color = colors.text2,
             modifier = Modifier.weight(1f),
         )
         if (showAmount) {
             Text(
                 text = "$sign $currency $formattedDaily",
-                style = type.caption.copy(fontSize = 11.sp, color = colors.text3),
+                style = type.caption.copy(fontSize = 11.sp, color = colors.text2),
             )
         }
     }

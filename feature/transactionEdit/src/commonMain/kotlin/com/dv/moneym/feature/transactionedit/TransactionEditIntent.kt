@@ -10,6 +10,7 @@ internal sealed interface TransactionEditIntent {
     data class TypeChanged(val type: TransactionType) : TransactionEditIntent
     data class AmountChanged(val text: String) : TransactionEditIntent
     data class DateChanged(val date: LocalDate) : TransactionEditIntent
+    data object YesterdayTodayClicked : TransactionEditIntent
     data class CategorySelected(val id: CategoryId) : TransactionEditIntent
     data class AccountSelected(val id: AccountId) : TransactionEditIntent
     data class NoteChanged(val note: String) : TransactionEditIntent

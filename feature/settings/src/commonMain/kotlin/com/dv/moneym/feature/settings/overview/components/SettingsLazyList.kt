@@ -48,8 +48,11 @@ internal fun SettingsLazyList(
     LazyColumn(modifier = modifier) {
         item(key = SettingsItem.APPEARANCE_LABEL.name) {
             SectionLabel(
-                stringResource(Res.string.settings_section_appearance),
-                Modifier.padding(horizontal = MM.dimen.padding_2_5x, vertical = space.padding_0_5x)
+                text = stringResource(Res.string.settings_section_appearance),
+                modifier = Modifier.padding(
+                    horizontal = MM.dimen.padding_2_5x,
+                    vertical = space.padding_0_5x
+                )
             )
         }
         item(key = SettingsItem.APPEARANCE_CARD.name) {
@@ -63,8 +66,8 @@ internal fun SettingsLazyList(
         }
         item(key = SettingsItem.SECURITY_LABEL.name) {
             SectionLabel(
-                stringResource(Res.string.settings_section_security),
-                Modifier.padding(
+                text = stringResource(Res.string.settings_section_security),
+                modifier = Modifier.padding(
                     start = MM.dimen.padding_2_5x,
                     end = MM.dimen.padding_2_5x,
                     top = space.padding_2x,
@@ -84,8 +87,8 @@ internal fun SettingsLazyList(
         }
         item(key = SettingsItem.PREFERENCES_LABEL.name) {
             SectionLabel(
-                stringResource(Res.string.settings_section_preferences),
-                Modifier.padding(
+                text = stringResource(Res.string.settings_section_preferences),
+                modifier = Modifier.padding(
                     start = MM.dimen.padding_2_5x,
                     end = MM.dimen.padding_2_5x,
                     top = space.padding_2x,
@@ -108,8 +111,8 @@ internal fun SettingsLazyList(
         }
         item(key = SettingsItem.DATA_LABEL.name) {
             SectionLabel(
-                stringResource(Res.string.settings_section_data),
-                Modifier.padding(
+                text = stringResource(Res.string.settings_section_data),
+                modifier = Modifier.padding(
                     start = MM.dimen.padding_2_5x,
                     end = MM.dimen.padding_2_5x,
                     top = space.padding_2x,

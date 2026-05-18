@@ -1,7 +1,5 @@
 package com.dv.moneym.feature.settings.overview.transactiondisplay
 
-import com.dv.moneym.core.ui.imageVector
-import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -29,31 +27,31 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Density
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.TxDisplayPrefs
 import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmRow
-import com.dv.moneym.core.ui.MmSegmented
-import com.dv.moneym.core.ui.MmSegmentedSize
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.TxRow
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.settings.overview.TxListDisplayKey
 import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.settings_default_tx_expense
+import moneym.feature.settings.generated.resources.settings_default_tx_income
+import moneym.feature.settings.generated.resources.settings_default_tx_type
 import moneym.feature.settings.generated.resources.settings_tx_list_display_title
 import moneym.feature.settings.generated.resources.settings_txdisplay_category_name
 import moneym.feature.settings.generated.resources.settings_txdisplay_color_indicator
 import moneym.feature.settings.generated.resources.settings_txdisplay_comfortable
 import moneym.feature.settings.generated.resources.settings_txdisplay_compact
+import moneym.feature.settings.generated.resources.settings_txdisplay_daily_sums
 import moneym.feature.settings.generated.resources.settings_txdisplay_density
 import moneym.feature.settings.generated.resources.settings_txdisplay_normal
-import moneym.feature.settings.generated.resources.settings_default_tx_expense
-import moneym.feature.settings.generated.resources.settings_default_tx_income
-import moneym.feature.settings.generated.resources.settings_default_tx_type
-import moneym.feature.settings.generated.resources.settings_txdisplay_daily_sums
 import moneym.feature.settings.generated.resources.settings_txdisplay_note
 import moneym.feature.settings.generated.resources.settings_txdisplay_preview
 import moneym.feature.settings.generated.resources.settings_txdisplay_show
@@ -125,13 +123,8 @@ private fun TxListDisplayContent(
     onDefaultTransactionTypeChanged: (TransactionType) -> Unit,
     onBack: () -> Unit,
 ) {
-    val colors = MM.colors
-    val type = MM.type
-    val space = MM.dimen
 
-    val dividerColor = colors.divider
-
-    Column(Modifier.fillMaxSize().background(colors.bg)) {
+    Column(Modifier.fillMaxSize().background(MM.colors.bg)) {
         ScreenHeader(stringResource(Res.string.settings_tx_list_display_title), onBack = onBack)
 
         Column(
@@ -139,308 +132,413 @@ private fun TxListDisplayContent(
                 .weight(1f)
                 .verticalScroll(rememberScrollState()),
         ) {
-            // Live preview panel
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .background(colors.surface2)
-                    .drawBehind {
-                        val strokeWidth = 1.dp.toPx()
-                        drawLine(
-                            color = dividerColor,
-                            start = Offset(0f, size.height - strokeWidth / 2),
-                            end = Offset(size.width, size.height - strokeWidth / 2),
-                            strokeWidth = strokeWidth,
-                        )
-                    }
-                    .padding(horizontal = MM.dimen.padding_2_5x, vertical = space.padding_3x),
-            ) {
-                Column {
-                    SectionLabel(
-                        stringResource(Res.string.settings_txdisplay_preview),
-                        Modifier.padding(bottom = space.padding_0_5x)
-                    )
-                    MmCard {
-                        sampleTransactions.forEachIndexed { i, tx ->
-                            TxRow(
-                                categoryName = tx.categoryName,
-                                categoryColor = tx.categoryColor,
-                                categoryIcon = Icon.Basket.imageVector,
-                                note = tx.note,
-                                isExpense = tx.isExpense,
-                                amountValue = tx.amount,
-                                currency = tx.currency,
-                                prefs = currentPrefs,
-                                divider = i < sampleTransactions.size - 1,
-                            )
-                        }
-                    }
-                }
-            }
-
-            // COLOR INDICATOR section
-            SectionLabel(
-                stringResource(Res.string.settings_txdisplay_color_indicator),
-                Modifier.padding(
-                    start = MM.dimen.padding_2_5x,
-                    end = MM.dimen.padding_2_5x,
-                    top = space.padding_2x,
-                    bottom = space.padding_0_5x
-                ),
+            ItemPreviewPanel(
+                currentPrefs = currentPrefs
             )
-            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.dimen.radius_1_5x) {
-                val styles = IndicatorStyle.entries
-                styles.forEachIndexed { i, opt ->
-                    val isLast = i == styles.size - 1
-                    val isSelected = currentPrefs.indicatorStyle == opt
 
-                    MmRow(
-                        onClick = { onPrefsChanged(currentPrefs.copy(indicatorStyle = opt)) },
-                        divider = !isLast,
-                    ) {
-                        // Mini preview
-                        Box(Modifier.size(38.dp), contentAlignment = Alignment.Center) {
-                            when (opt) {
-                                IndicatorStyle.IconTile ->
-                                    CategoryIconTile(
-                                        categoryName = "Groceries",
-                                        categoryColor = sampleColor,
-                                        categoryIcon = Icon.Basket.imageVector,
-                                        size = MM.dimen.padding_4x,
-                                        variant = IndicatorStyle.IconTile,
-                                    )
-
-                                IndicatorStyle.SoftIcon ->
-                                    CategoryIconTile(
-                                        categoryName = "Groceries",
-                                        categoryColor = sampleColor,
-                                        categoryIcon = Icon.Basket.imageVector,
-                                        size = MM.dimen.padding_4x,
-                                        variant = IndicatorStyle.SoftIcon,
-                                    )
-
-                                IndicatorStyle.Bar ->
-                                    CategoryIconTile(
-                                        categoryName = "Groceries",
-                                        categoryColor = sampleColor,
-                                        categoryIcon = Icon.Basket.imageVector,
-                                        size = MM.dimen.padding_4x,
-                                        variant = IndicatorStyle.Bar,
-                                    )
-
-                                IndicatorStyle.Dot ->
-                                    CategoryIconTile(
-                                        categoryName = "Groceries",
-                                        categoryColor = sampleColor,
-                                        categoryIcon = Icon.Basket.imageVector,
-                                        size = 10.dp,
-                                        variant = IndicatorStyle.Dot,
-                                    )
-
-                                IndicatorStyle.Minimal ->
-                                    Box(
-                                        Modifier
-                                            .fillMaxWidth()
-                                            .size(width = MM.dimen.padding_3x, height = 1.dp)
-                                            .background(colors.border),
-                                    )
-                            }
-                        }
-
-                        Column(Modifier.weight(1f)) {
-                            Text(
-                                text = opt.name.replace(Regex("([A-Z])"), " $1").trim(),
-                                style = type.body,
-                                color = colors.text,
-                            )
-                            Text(
-                                text = indicatorDescription(opt),
-                                style = type.caption.copy(color = colors.text2),
-                            )
-                        }
-
-                        // Custom radio circle — not M3 RadioButton
-                        Box(
-                            modifier = Modifier
-                                .size(22.dp)
-                                .clip(CircleShape)
-                                .border(
-                                    1.5.dp,
-                                    if (isSelected) colors.accent else colors.borderStrong,
-                                    CircleShape,
-                                )
-                                .background(
-                                    if (isSelected) colors.accent else Color.Transparent,
-                                ),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            if (isSelected) {
-                                Icon(
-                                    imageVector = Icon.Check.imageVector,
-                                    contentDescription = null,
-                                    tint = Color.White,
-                                    modifier = Modifier.size(MM.dimen.padding_1_5x),
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-
-            // SHOW section
-            SectionLabel(
-                stringResource(Res.string.settings_txdisplay_show),
-                Modifier.padding(
-                    start = MM.dimen.padding_2_5x,
-                    end = MM.dimen.padding_2_5x,
-                    top = space.padding_2x,
-                    bottom = space.padding_0_5x
-                ),
+            ItemIndicatorSection(
+                currentPrefs = currentPrefs,
+                onPrefsChanged = onPrefsChanged
             )
-            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.dimen.radius_1_5x) {
-                // Category name row — row click is the single source of truth; toggle is display-only
-                MmRow(onClick = { onPrefsChanged(currentPrefs.copy(showCategoryName = !currentPrefs.showCategoryName)) }) {
-                    Text(
-                        stringResource(Res.string.settings_txdisplay_category_name),
-                        style = type.body,
-                        color = colors.text,
-                        modifier = Modifier.weight(1f),
-                    )
-                    MmToggle(
-                        checked = currentPrefs.showCategoryName,
-                        onCheckedChange = { onPrefsChanged(currentPrefs.copy(showCategoryName = !currentPrefs.showCategoryName)) },
-                    )
-                }
-                MmRow(
-                    divider = true,
-                    onClick = { onPrefsChanged(currentPrefs.copy(showNote = !currentPrefs.showNote)) },
-                ) {
-                    Text(
-                        stringResource(Res.string.settings_txdisplay_note),
-                        style = type.body,
-                        color = colors.text,
-                        modifier = Modifier.weight(1f),
-                    )
-                    MmToggle(
-                        checked = currentPrefs.showNote,
-                        onCheckedChange = { onPrefsChanged(currentPrefs.copy(showNote = !currentPrefs.showNote)) },
-                    )
-                }
-                MmRow(
-                    divider = false,
-                    onClick = { onPrefsChanged(currentPrefs.copy(showDailySums = !currentPrefs.showDailySums)) },
-                ) {
-                    Text(
-                        stringResource(Res.string.settings_txdisplay_daily_sums),
-                        style = type.body,
-                        color = colors.text,
-                        modifier = Modifier.weight(1f),
-                    )
-                    MmToggle(
-                        checked = currentPrefs.showDailySums,
-                        onCheckedChange = { onPrefsChanged(currentPrefs.copy(showDailySums = !currentPrefs.showDailySums)) },
-                    )
-                }
-            }
 
-            // DENSITY section — 3 radio button rows (Compact / Normal / Comfortable)
-            SectionLabel(
-                stringResource(Res.string.settings_txdisplay_density),
-                Modifier.padding(
-                    start = MM.dimen.padding_2_5x,
-                    end = MM.dimen.padding_2_5x,
-                    top = space.padding_2x,
-                    bottom = space.padding_0_5x
-                ),
+            ItemDetailsShowSection(
+                currentPrefs = currentPrefs,
+                onPrefsChanged = onPrefsChanged
             )
-            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.dimen.radius_1_5x) {
-                val densityOptions = listOf(Density.Compact, Density.Normal, Density.Comfortable)
-                val densityLabels = mapOf(
-                    Density.Compact to stringResource(Res.string.settings_txdisplay_compact),
-                    Density.Normal to stringResource(Res.string.settings_txdisplay_normal),
-                    Density.Comfortable to stringResource(Res.string.settings_txdisplay_comfortable),
-                )
-                densityOptions.forEachIndexed { i, opt ->
-                    val isLast = i == densityOptions.size - 1
-                    val isSelected = currentPrefs.density == opt
-                    MmRow(
-                        onClick = { onPrefsChanged(currentPrefs.copy(density = opt)) },
-                        divider = !isLast,
-                    ) {
-                        Text(
-                            text = densityLabels[opt] ?: opt.name,
-                            style = type.body,
-                            color = colors.text,
-                            modifier = Modifier.weight(1f),
-                        )
-                        // Custom radio circle
-                        Box(
-                            modifier = Modifier
-                                .size(22.dp)
-                                .clip(CircleShape)
-                                .border(
-                                    1.5.dp,
-                                    if (isSelected) colors.accent else colors.borderStrong,
-                                    CircleShape,
-                                )
-                                .background(
-                                    if (isSelected) colors.accent else Color.Transparent,
-                                ),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            if (isSelected) {
-                                Icon(
-                                    imageVector = Icon.Check.imageVector,
-                                    contentDescription = null,
-                                    tint = Color.White,
-                                    modifier = Modifier.size(MM.dimen.padding_1_5x),
-                                )
-                            }
-                        }
-                    }
-                }
-            }
 
-            // DEFAULT TYPE section
-            SectionLabel(
-                stringResource(Res.string.settings_default_tx_type),
-                Modifier.padding(
-                    start = MM.dimen.padding_2_5x,
-                    end = MM.dimen.padding_2_5x,
-                    top = space.padding_2x,
-                    bottom = space.padding_0_5x
-                ),
+            ItemDensitySection(
+                currentPrefs = currentPrefs,
+                onPrefsChanged = onPrefsChanged
             )
-            MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.dimen.radius_1_5x) {
-                val txTypes = listOf(TransactionType.EXPENSE, TransactionType.INCOME)
-                val txTypeIndex = txTypes.indexOf(defaultTransactionType).coerceAtLeast(0)
-                MmRow(divider = false) {
-                    Icon(
-                        imageVector = Icon.ArrowDown.imageVector,
-                        contentDescription = null,
-                        tint = colors.text,
-                        modifier = Modifier.size(MM.dimen.icon_1x),
-                    )
-                    Text(
-                        stringResource(Res.string.settings_default_tx_type),
-                        style = type.body,
-                        color = colors.text,
-                        modifier = Modifier.weight(1f),
-                    )
-                    MmSegmented(
-                        options = listOf(
-                            stringResource(Res.string.settings_default_tx_expense),
-                            stringResource(Res.string.settings_default_tx_income),
-                        ),
-                        selectedIndex = txTypeIndex,
-                        onOptionSelected = { onDefaultTransactionTypeChanged(txTypes[it]) },
-                        size = MmSegmentedSize.Sm,
-                    )
-                }
-            }
 
-            // Bottom padding
+            ExtraShowOptions(
+                currentPrefs = currentPrefs,
+                onPrefsChanged = onPrefsChanged
+            )
+
+            DefaultTransactionType(
+                defaultTransactionType = defaultTransactionType,
+                onDefaultTransactionTypeChanged = onDefaultTransactionTypeChanged
+            )
+
             Box(Modifier.padding(bottom = MM.dimen.padding_3x))
+        }
+    }
+}
+
+@Composable
+private fun ItemPreviewPanel(
+    currentPrefs: TxDisplayPrefs,
+) {
+    val dividerColor = MM.colors.divider
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .background(MM.colors.surface2)
+            .drawBehind {
+                val strokeWidth = 1.dp.toPx()
+                drawLine(
+                    color = dividerColor,
+                    start = Offset(0f, size.height - strokeWidth / 2),
+                    end = Offset(size.width, size.height - strokeWidth / 2),
+                    strokeWidth = strokeWidth,
+                )
+            }
+            .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_3x),
+    ) {
+        Column {
+            SectionLabel(
+                text = stringResource(Res.string.settings_txdisplay_preview),
+                modifier = Modifier.padding(bottom = MM.dimen.padding_0_5x)
+            )
+            MmCard {
+                sampleTransactions.forEachIndexed { i, tx ->
+                    TxRow(
+                        categoryName = tx.categoryName,
+                        categoryColor = tx.categoryColor,
+                        categoryIcon = Icon.Basket.imageVector,
+                        note = tx.note,
+                        isExpense = tx.isExpense,
+                        amountValue = tx.amount,
+                        currency = tx.currency,
+                        prefs = currentPrefs,
+                        divider = i < sampleTransactions.size - 1,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ItemIndicatorSection(
+    currentPrefs: TxDisplayPrefs,
+    onPrefsChanged: (TxDisplayPrefs) -> Unit,
+) {
+    SectionLabel(
+        text = stringResource(Res.string.settings_txdisplay_color_indicator),
+        modifier = Modifier.padding(
+            start = MM.dimen.padding_2_5x,
+            end = MM.dimen.padding_2_5x,
+            top = MM.dimen.padding_2x,
+            bottom = MM.dimen.padding_0_5x
+        ),
+    )
+    MmCard(Modifier.padding(horizontal = MM.dimen.padding_2x), shape = MM.dimen.radius_1_5x) {
+        val styles = IndicatorStyle.entries
+        styles.forEachIndexed { i, opt ->
+            val isLast = i == styles.size - 1
+            val isSelected = currentPrefs.indicatorStyle == opt
+
+            MmRow(
+                onClick = { onPrefsChanged(currentPrefs.copy(indicatorStyle = opt)) },
+                divider = !isLast,
+            ) {
+                // Mini preview
+                Box(Modifier.size(38.dp), contentAlignment = Alignment.Center) {
+                    when (opt) {
+                        IndicatorStyle.IconTile ->
+                            CategoryIconTile(
+                                categoryName = "Groceries",
+                                categoryColor = sampleColor,
+                                categoryIcon = Icon.Basket.imageVector,
+                                size = MM.dimen.padding_4x,
+                                variant = IndicatorStyle.IconTile,
+                            )
+
+                        IndicatorStyle.SoftIcon ->
+                            CategoryIconTile(
+                                categoryName = "Groceries",
+                                categoryColor = sampleColor,
+                                categoryIcon = Icon.Basket.imageVector,
+                                size = MM.dimen.padding_4x,
+                                variant = IndicatorStyle.SoftIcon,
+                            )
+
+                        IndicatorStyle.Bar ->
+                            CategoryIconTile(
+                                categoryName = "Groceries",
+                                categoryColor = sampleColor,
+                                categoryIcon = Icon.Basket.imageVector,
+                                size = MM.dimen.padding_4x,
+                                variant = IndicatorStyle.Bar,
+                            )
+
+                        IndicatorStyle.Dot ->
+                            CategoryIconTile(
+                                categoryName = "Groceries",
+                                categoryColor = sampleColor,
+                                categoryIcon = Icon.Basket.imageVector,
+                                size = 10.dp,
+                                variant = IndicatorStyle.Dot,
+                            )
+
+                        IndicatorStyle.Minimal ->
+                            Box(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .size(width = MM.dimen.padding_3x, height = 1.dp)
+                                    .background(MM.colors.border),
+                            )
+                    }
+                }
+
+                Column(Modifier.weight(1f)) {
+                    Text(
+                        text = opt.name.replace(Regex("([A-Z])"), " $1").trim(),
+                        style = MM.type.body,
+                        color = MM.colors.text,
+                    )
+                    Text(
+                        text = indicatorDescription(opt),
+                        style = MM.type.caption.copy(color = MM.colors.text2),
+                    )
+                }
+
+                // Custom radio circle — not M3 RadioButton
+                Box(
+                    modifier = Modifier
+                        .size(22.dp)
+                        .clip(CircleShape)
+                        .border(
+                            1.5.dp,
+                            if (isSelected) MM.colors.accent else MM.colors.borderStrong,
+                            CircleShape,
+                        )
+                        .background(
+                            if (isSelected) MM.colors.accent else Color.Transparent,
+                        ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    if (isSelected) {
+                        Icon(
+                            imageVector = Icon.Check.imageVector,
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(MM.dimen.padding_1_5x),
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ItemDetailsShowSection(
+    currentPrefs: TxDisplayPrefs,
+    onPrefsChanged: (TxDisplayPrefs) -> Unit,
+) {
+    SectionLabel(
+        text = stringResource(Res.string.settings_txdisplay_show),
+        modifier = Modifier.padding(
+            start = MM.dimen.padding_2_5x,
+            end = MM.dimen.padding_2_5x,
+            top = MM.dimen.padding_2x,
+            bottom = MM.dimen.padding_0_5x
+        ),
+    )
+    MmCard(Modifier.padding(horizontal = MM.dimen.padding_2x), shape = MM.dimen.radius_1_5x) {
+        // Category name row — row click is the single source of truth; toggle is display-only
+        MmRow(onClick = { onPrefsChanged(currentPrefs.copy(showCategoryName = !currentPrefs.showCategoryName)) }) {
+            Text(
+                stringResource(Res.string.settings_txdisplay_category_name),
+                style = MM.type.body,
+                color = MM.colors.text,
+                modifier = Modifier.weight(1f),
+            )
+            MmToggle(
+                checked = currentPrefs.showCategoryName,
+                onCheckedChange = { onPrefsChanged(currentPrefs.copy(showCategoryName = !currentPrefs.showCategoryName)) },
+            )
+        }
+        MmRow(
+            divider = true,
+            onClick = { onPrefsChanged(currentPrefs.copy(showNote = !currentPrefs.showNote)) },
+        ) {
+            Text(
+                stringResource(Res.string.settings_txdisplay_note),
+                style = MM.type.body,
+                color = MM.colors.text,
+                modifier = Modifier.weight(1f),
+            )
+            MmToggle(
+                checked = currentPrefs.showNote,
+                onCheckedChange = { onPrefsChanged(currentPrefs.copy(showNote = !currentPrefs.showNote)) },
+            )
+        }
+        MmRow(
+            divider = false,
+            onClick = { onPrefsChanged(currentPrefs.copy(showDailySums = !currentPrefs.showDailySums)) },
+        ) {
+            Text(
+                stringResource(Res.string.settings_txdisplay_daily_sums),
+                style = MM.type.body,
+                color = MM.colors.text,
+                modifier = Modifier.weight(1f),
+            )
+            MmToggle(
+                checked = currentPrefs.showDailySums,
+                onCheckedChange = { onPrefsChanged(currentPrefs.copy(showDailySums = !currentPrefs.showDailySums)) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun ItemDensitySection(
+    currentPrefs: TxDisplayPrefs,
+    onPrefsChanged: (TxDisplayPrefs) -> Unit,
+) {
+    SectionLabel(
+        text = stringResource(Res.string.settings_txdisplay_density),
+        modifier = Modifier.padding(
+            start = MM.dimen.padding_2_5x,
+            end = MM.dimen.padding_2_5x,
+            top = MM.dimen.padding_2x,
+            bottom = MM.dimen.padding_0_5x
+        ),
+    )
+    MmCard(Modifier.padding(horizontal = MM.dimen.padding_2x), shape = MM.dimen.radius_1_5x) {
+        val densityOptions = listOf(Density.Compact, Density.Normal, Density.Comfortable)
+        val densityLabels = mapOf(
+            Density.Compact to stringResource(Res.string.settings_txdisplay_compact),
+            Density.Normal to stringResource(Res.string.settings_txdisplay_normal),
+            Density.Comfortable to stringResource(Res.string.settings_txdisplay_comfortable),
+        )
+        densityOptions.forEachIndexed { i, opt ->
+            val isLast = i == densityOptions.size - 1
+            val isSelected = currentPrefs.density == opt
+            MmRow(
+                onClick = { onPrefsChanged(currentPrefs.copy(density = opt)) },
+                divider = !isLast,
+            ) {
+                Text(
+                    text = densityLabels[opt] ?: opt.name,
+                    style = MM.type.body,
+                    color = MM.colors.text,
+                    modifier = Modifier.weight(1f),
+                )
+                // Custom radio circle
+                Box(
+                    modifier = Modifier
+                        .size(22.dp)
+                        .clip(CircleShape)
+                        .border(
+                            1.5.dp,
+                            if (isSelected) MM.colors.accent else MM.colors.borderStrong,
+                            CircleShape,
+                        )
+                        .background(
+                            if (isSelected) MM.colors.accent else Color.Transparent,
+                        ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    if (isSelected) {
+                        Icon(
+                            imageVector = Icon.Check.imageVector,
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(MM.dimen.padding_1_5x),
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ExtraShowOptions(
+    currentPrefs: TxDisplayPrefs,
+    onPrefsChanged: (TxDisplayPrefs) -> Unit,
+) {
+    SectionLabel(
+        text = stringResource(Res.string.settings_txdisplay_show),
+        modifier = Modifier.padding(
+            start = MM.dimen.padding_2_5x,
+            end = MM.dimen.padding_2_5x,
+            top = MM.dimen.padding_2x,
+            bottom = MM.dimen.padding_0_5x
+        ),
+    )
+    MmCard(Modifier.padding(horizontal = MM.dimen.padding_2x), shape = MM.dimen.radius_1_5x) {
+        MmRow(
+            divider = false,
+            onClick = { onPrefsChanged(currentPrefs.copy(showDailySums = !currentPrefs.showDailySums)) },
+        ) {
+            Text(
+                stringResource(Res.string.settings_txdisplay_daily_sums),
+                style = MM.type.body,
+                color = MM.colors.text,
+                modifier = Modifier.weight(1f),
+            )
+            MmToggle(
+                checked = currentPrefs.showDailySums,
+                onCheckedChange = { onPrefsChanged(currentPrefs.copy(showDailySums = !currentPrefs.showDailySums)) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun DefaultTransactionType(
+    defaultTransactionType: TransactionType,
+    onDefaultTransactionTypeChanged: (TransactionType) -> Unit,
+) {
+    SectionLabel(
+        text = stringResource(Res.string.settings_default_tx_type),
+        modifier = Modifier.padding(
+            start = MM.dimen.padding_2_5x,
+            end = MM.dimen.padding_2_5x,
+            top = MM.dimen.padding_2x,
+            bottom = MM.dimen.padding_0_5x
+        ),
+    )
+    MmCard(Modifier.padding(horizontal = MM.dimen.padding_2x), shape = MM.dimen.radius_1_5x) {
+        val txTypes = listOf(TransactionType.EXPENSE, TransactionType.INCOME)
+        val txTypesLabels = mapOf(
+            TransactionType.EXPENSE to stringResource(Res.string.settings_default_tx_expense),
+            TransactionType.INCOME to stringResource(Res.string.settings_default_tx_income),
+        )
+        txTypes.forEachIndexed { i, type ->
+            val isLast = i == txTypes.lastIndex
+            val isSelected = defaultTransactionType == type
+            MmRow(
+                onClick = { onDefaultTransactionTypeChanged(type) },
+                divider = !isLast,
+            ) {
+                Text(
+                    text = txTypesLabels[type] ?: type.name,
+                    style = MM.type.body,
+                    color = MM.colors.text,
+                    modifier = Modifier.weight(1f),
+                )
+                // Custom radio circle
+                Box(
+                    modifier = Modifier
+                        .size(22.dp)
+                        .clip(CircleShape)
+                        .border(
+                            1.5.dp,
+                            if (isSelected) MM.colors.accent else MM.colors.borderStrong,
+                            CircleShape,
+                        )
+                        .background(
+                            if (isSelected) MM.colors.accent else Color.Transparent,
+                        ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    if (isSelected) {
+                        Icon(
+                            imageVector = Icon.Check.imageVector,
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(MM.dimen.padding_1_5x),
+                        )
+                    }
+                }
+            }
         }
     }
 }

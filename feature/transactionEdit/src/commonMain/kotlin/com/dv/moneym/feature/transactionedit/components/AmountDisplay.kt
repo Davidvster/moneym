@@ -1,7 +1,5 @@
 package com.dv.moneym.feature.transactionedit.components
 
-import com.dv.moneym.core.ui.imageVector
-import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,7 +26,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmIconButton
+import com.dv.moneym.core.ui.imageVector
 import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.edit_calculator_title
 import org.jetbrains.compose.resources.stringResource
@@ -55,6 +55,11 @@ internal fun AmountDisplay(
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
         ) {
+            Text(
+                text = currencyCode,
+                style = type.bodyMono,
+                color = colors.text3,
+            )
             Box(contentAlignment = Alignment.CenterStart, modifier = Modifier.weight(1f)) {
                 // Placeholder shown when field is empty
                 if (amountText.isEmpty()) {
@@ -90,12 +95,6 @@ internal fun AmountDisplay(
                         .defaultMinSize(minWidth = 1.dp),
                 )
             }
-
-            Text(
-                text = currencyCode,
-                style = type.bodyMono,
-                color = colors.text3,
-            )
 
             MmIconButton(
                 icon = Icon.Calculator.imageVector,

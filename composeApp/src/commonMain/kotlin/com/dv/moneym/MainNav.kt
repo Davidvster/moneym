@@ -16,7 +16,6 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.TabRoute
-import com.dv.moneym.feature.categories.edit.categoryEditEntry
 import com.dv.moneym.feature.categories.list.CategoriesKey
 import com.dv.moneym.feature.categories.list.categoriesEntry
 import com.dv.moneym.feature.overview.OverviewKey
@@ -204,7 +203,6 @@ internal fun MainNav(lockController: AppLockController) {
             categoriesEntry(
                 onBack = { tabBackStack.removeLast() },
             )
-            categoryEditEntry(onDismiss = { tabBackStack.removeLast() })
             txListDisplayEntry(onBack = { tabBackStack.removeLast() })
             currencyPickerEntry(onBack = { tabBackStack.removeLast() })
             languagePickerEntry(onBack = { tabBackStack.removeLast() })

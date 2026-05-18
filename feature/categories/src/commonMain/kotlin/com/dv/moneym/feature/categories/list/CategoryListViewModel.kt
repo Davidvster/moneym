@@ -34,6 +34,7 @@ class CategoryListViewModel(
     private val _activeTab by savedStateHandle.saved { MutableStateFlow(CategoryTab.Expense) }
 
     // local ordering: maps category id to its display index (for in-memory reorder)
+    // TODO order should be persisted to disk - the category in the database should have an order index
     private val _manualOrder by savedStateHandle.saved { MutableStateFlow<List<Long>>(emptyList()) }
 
     internal val state: StateFlow<CategoryListUiState> = combine(
@@ -42,7 +43,8 @@ class CategoryListViewModel(
         _activeTab,
         _manualOrder,
     ) { categories, showArchived, tab, manualOrder ->
-        val tabType = if (tab == CategoryTab.Expense) TransactionType.EXPENSE else TransactionType.INCOME
+        val tabType =
+            if (tab == CategoryTab.Expense) TransactionType.EXPENSE else TransactionType.INCOME
         val active = categories.filter { !it.archived && it.type == tabType }
         val archived = categories.filter { it.archived && it.type == tabType }
 
@@ -90,6 +92,7 @@ class CategoryListViewModel(
         }
     }
 
+    // TODO use onIntent to communicate with the viewmodel instead of public functions
     internal fun setTab(tab: CategoryTab) {
         _activeTab.update { tab }
     }
@@ -106,7 +109,8 @@ class CategoryListViewModel(
     fun createCategory(name: String, icon: Icon, colorHex: String): Boolean {
         val trimmed = name.trim()
         if (trimmed.isBlank()) return false
-        val tabType = if (_activeTab.value == CategoryTab.Expense) TransactionType.EXPENSE else TransactionType.INCOME
+        val tabType =
+            if (_activeTab.value == CategoryTab.Expense) TransactionType.EXPENSE else TransactionType.INCOME
         val isDuplicate = state.value.active.any { it.name.equals(trimmed, ignoreCase = true) }
         if (isDuplicate) return false
         viewModelScope.launch {
@@ -137,7 +141,8 @@ class CategoryListViewModel(
         }
         if (isDuplicate) return false
         viewModelScope.launch {
-            val existing = withContext(dispatchers.io) { categoryRepository.getById(id) } ?: return@launch
+            val existing =
+                withContext(dispatchers.io) { categoryRepository.getById(id) } ?: return@launch
             withContext(dispatchers.io) {
                 val now = Clock.System.now()
                 categoryRepository.update(

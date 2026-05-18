@@ -86,9 +86,8 @@
     <string name="settings_lock_30s_label">30 seconds</string>
     <string name="settings_lock_1m_label">1 minute</string>
     <string name="settings_lock_5m_label">5 minutes</string>
-    <!-- Export sub-screen -->
-    <string name="settings_export_data">Export data</string>
-    <string name="settings_export_data_title">Export Data</string>
+    <!-- Export Import sub-screen -->
+    <string name="settings_export_import_data_title">Import / Export</string>
     <string name="settings_export_format">FORMAT</string>
     <string name="settings_export_start">Export</string>
     <!-- Wallet manage sub-screen -->

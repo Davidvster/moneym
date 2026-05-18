@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 
 @Composable
@@ -38,7 +37,7 @@ internal fun TypeToggleBar(
 
     Row(
         modifier = modifier
-            .height(44.dp)
+            .height(MM.dimen.padding_5x)
             .clip(radius.radius_2_5x)
             .background(inactiveBg),
     ) {
@@ -78,7 +77,7 @@ internal fun TypeToggleBar(
         ) {
             Text(
                 text = incomeLabel,
-                style = type.caption.copy(
+                style = type.body.copy(
                     fontWeight = if (!isExpense) FontWeight.SemiBold else FontWeight.Medium,
                     color = if (!isExpense) Color.White else inactiveFg,
                 ),

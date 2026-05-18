@@ -21,6 +21,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.ui.MmButton
@@ -28,10 +29,9 @@ import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmChip
 import com.dv.moneym.core.ui.MmField
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.transactionedit.TransactionEditIntent
 import com.dv.moneym.feature.transactionedit.TransactionEditUiState
-import kotlinx.datetime.DatePeriod
-import kotlinx.datetime.minus
 import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.edit_date_today
 import moneym.feature.transactionedit.generated.resources.edit_date_yesterday
@@ -51,7 +51,6 @@ internal fun TransactionEditScrollBody(
     onCalculatorOpen: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val todayDate = state.todayDate
     // Derive currency code from selected account
     val currencyCode = remember(state.selectedAccountId, state.availableAccounts) {
         state.availableAccounts.firstOrNull { it.id == state.selectedAccountId }?.currency?.value
@@ -59,7 +58,7 @@ internal fun TransactionEditScrollBody(
     }
     val todayLabel = stringResource(Res.string.edit_date_today)
     val yesterdayLabel = stringResource(Res.string.edit_date_yesterday)
-    val dateText = if (state.date != null && todayDate != null) state.date.toFriendlyString(todayDate) else todayLabel
+    val dateText = if (state.date != null) state.date.toFriendlyString(state.date) else todayLabel
     val notesFocusRequester = remember { FocusRequester() }
 
     Column(
@@ -79,24 +78,23 @@ internal fun TransactionEditScrollBody(
         Spacer(Modifier.height(MM.dimen.padding_2x))
 
         // Date row: date field + quick Yesterday/Today button — same height (MmButton.Sm)
-        val isToday = state.date == todayDate
         Row(
             modifier = Modifier.fillMaxWidth().height(MM.dimen.padding_4x),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
         ) {
-            DateDisplayField(
-                dateText = dateText,
+            MmButton(
+                text = dateText,
                 onClick = onDatePickerOpen,
+                leadingIcon = Icon.Calendar.imageVector,
+                size = MmButtonSize.Md,
+                variant = MmButtonVariant.Secondary,
                 modifier = Modifier.weight(0.7f).fillMaxHeight(),
             )
             MmButton(
-                text = if (isToday) yesterdayLabel else todayLabel,
-                onClick = {
-                    val newDate = if (isToday && todayDate != null) todayDate.minus(DatePeriod(days = 1)) else todayDate
-                    if (newDate != null) onIntent(TransactionEditIntent.DateChanged(newDate))
-                },
-                size = MmButtonSize.Sm,
+                text = if (state.isToday == true) yesterdayLabel else todayLabel,
+                onClick = { onIntent(TransactionEditIntent.YesterdayTodayClicked) },
+                size = MmButtonSize.Md,
                 variant = MmButtonVariant.Secondary,
                 modifier = Modifier.weight(0.3f).fillMaxHeight(),
             )

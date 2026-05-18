@@ -27,10 +27,10 @@ import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmRow
-import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.settings.overview.LanguagePickerKey
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_language_all_languages
@@ -137,8 +137,11 @@ private fun LanguagePickerContent(
         }
 
         SectionLabel(
-            stringResource(Res.string.settings_language_all_languages),
-            Modifier.padding(horizontal = MM.dimen.padding_2_5x, vertical = space.padding_0_5x),
+            text = stringResource(Res.string.settings_language_all_languages),
+            modifier = Modifier.padding(
+                horizontal = MM.dimen.padding_2_5x,
+                vertical = space.padding_0_5x
+            ),
         )
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {

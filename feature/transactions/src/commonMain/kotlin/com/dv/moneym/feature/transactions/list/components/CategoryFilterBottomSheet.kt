@@ -26,18 +26,18 @@ import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.categoryColor
 import com.dv.moneym.core.model.Category
-import com.dv.moneym.core.model.Icon
-import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmChip
+import com.dv.moneym.core.ui.imageVector
 import moneym.feature.transactions.generated.resources.Res
-import moneym.feature.transactions.generated.resources.transactions_cancel
-import moneym.feature.transactions.generated.resources.transactions_filter_all
+import moneym.feature.transactions.generated.resources.transactions_filter_categories
+import moneym.feature.transactions.generated.resources.transactions_filter_clear
 import moneym.feature.transactions.generated.resources.transactions_ok
 import org.jetbrains.compose.resources.stringResource
 
@@ -90,7 +90,7 @@ internal fun CategoryFilterSheet(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = stringResource(Res.string.transactions_filter_all),
+                    text = stringResource(Res.string.transactions_filter_categories),
                     style = type.title3,
                     color = colors.text,
                     modifier = Modifier.weight(1f),
@@ -98,7 +98,7 @@ internal fun CategoryFilterSheet(
                 if (selectedCategoryIds.isNotEmpty()) {
                     TextButton(onClick = onClearAll) {
                         Text(
-                            text = stringResource(Res.string.transactions_cancel),
+                            text = stringResource(Res.string.transactions_filter_clear),
                             color = colors.text2,
                             style = type.caption,
                         )

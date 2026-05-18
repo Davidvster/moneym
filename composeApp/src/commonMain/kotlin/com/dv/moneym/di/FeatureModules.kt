@@ -2,16 +2,12 @@ package com.dv.moneym.di
 
 import com.dv.moneym.AppInitializer
 import com.dv.moneym.AppLockController
-import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.security.PinHasher
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.data.backup.BackupExporter
 import com.dv.moneym.data.backup.BackupImporter
-import com.dv.moneym.feature.settings.overview.importdata.CsvImportHolder
-import com.dv.moneym.feature.settings.overview.importdata.ImportDataViewModel
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
-import com.dv.moneym.feature.categories.edit.CategoryEditViewModel
 import com.dv.moneym.feature.categories.list.CategoryListViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
@@ -22,6 +18,8 @@ import com.dv.moneym.feature.settings.overview.SecuritySettingsViewModel
 import com.dv.moneym.feature.settings.overview.SettingsOverviewViewModel
 import com.dv.moneym.feature.settings.overview.currencypicker.CurrencyPickerViewModel
 import com.dv.moneym.feature.settings.overview.export.ExportViewModel
+import com.dv.moneym.feature.settings.overview.importdata.CsvImportHolder
+import com.dv.moneym.feature.settings.overview.importdata.ImportDataViewModel
 import com.dv.moneym.feature.settings.overview.locale.LanguagePickerViewModel
 import com.dv.moneym.feature.settings.overview.transactiondisplay.TxListDisplayViewModel
 import com.dv.moneym.feature.settings.paymentmodes.PaymentModeListViewModel
@@ -178,15 +176,6 @@ val featureWalletModule = module {
 val featureCategoriesModule = module {
     single { ArchiveCategoryUseCase(get(), get()) }
     viewModelOf(::CategoryListViewModel)
-    viewModel { params ->
-        CategoryEditViewModel(
-            editingId = params.getOrNull<CategoryId>(),
-            repository = get(),
-            dispatchers = get(),
-            clock = get(),
-            savedStateHandle = get(),
-        )
-    }
 }
 
 val featureOnboardingModule = module {
