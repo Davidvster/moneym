@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -27,6 +28,9 @@ fun MmToggle(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
 ) {
+    val currentChecked by rememberUpdatedState(checked)
+    val currentOnCheckedChange by rememberUpdatedState(onCheckedChange)
+
     val colors = MM.colors
     val radius = MM.dimen
 
@@ -54,7 +58,7 @@ fun MmToggle(
             .alpha(if (enabled) 1f else 0.45f)
             .pointerInput(enabled) {
                 if (enabled) {
-                    detectTapGestures(onTap = { onCheckedChange(!checked) })
+                    detectTapGestures(onTap = { currentOnCheckedChange(!currentChecked) })
                 }
             },
         contentAlignment = Alignment.CenterStart,

@@ -1,7 +1,9 @@
 package com.dv.moneym.core.testing
 
 import com.dv.moneym.core.datastore.AppSettingsRepository
+import com.dv.moneym.core.model.OverviewPeriodMode
 import com.dv.moneym.core.model.ThemeMode
+import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TxDisplayPrefs
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,8 +15,8 @@ class FakeAppSettingsRepository : AppSettingsRepository {
     private val _txDisplayPrefs = MutableStateFlow(TxDisplayPrefs())
     private val _defaultCurrency = MutableStateFlow("EUR")
     private val _language = MutableStateFlow("")
-    private val _lastTransactionFilter = MutableStateFlow("all")
-    private val _lastOverviewPeriod = MutableStateFlow("month")
+    private val _lastTransactionFilter = MutableStateFlow<TransactionFilter>(TransactionFilter.None)
+    private val _lastOverviewPeriod = MutableStateFlow(OverviewPeriodMode.Month)
     private val _selectedAccountId = MutableStateFlow(-1L)
 
     override fun observeThemeMode(): Flow<ThemeMode> = _themeMode.asStateFlow()
@@ -41,16 +43,16 @@ class FakeAppSettingsRepository : AppSettingsRepository {
         _language.value = language
     }
 
-    override fun observeLastTransactionFilter(): Flow<String> = _lastTransactionFilter.asStateFlow()
+    override fun observeLastTransactionFilter(): Flow<TransactionFilter> = _lastTransactionFilter.asStateFlow()
 
-    override suspend fun setLastTransactionFilter(encoded: String) {
-        _lastTransactionFilter.value = encoded
+    override suspend fun setLastTransactionFilter(filter: TransactionFilter) {
+        _lastTransactionFilter.value = filter
     }
 
-    override fun observeLastOverviewPeriod(): Flow<String> = _lastOverviewPeriod.asStateFlow()
+    override fun observeLastOverviewPeriod(): Flow<OverviewPeriodMode> = _lastOverviewPeriod.asStateFlow()
 
-    override suspend fun setLastOverviewPeriod(encoded: String) {
-        _lastOverviewPeriod.value = encoded
+    override suspend fun setLastOverviewPeriod(mode: OverviewPeriodMode) {
+        _lastOverviewPeriod.value = mode
     }
 
     override fun observeSelectedAccountId(): Flow<Long> = _selectedAccountId.asStateFlow()

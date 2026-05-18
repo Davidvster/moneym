@@ -165,8 +165,8 @@ class TransactionListViewModel(
     private suspend fun init() {
         // Restore persisted filter on startup
         appSettingsRepository.observeLastTransactionFilter()
-            .onEach { encoded ->
-                _filter.update { decodeFilter(encoded) }
+            .onEach { filter ->
+                _filter.update { filter }
             }
             .launchIn(viewModelScope)
 
@@ -184,7 +184,7 @@ class TransactionListViewModel(
                 _filter.update { intent.filter }
                 // Persist the selected filter
                 viewModelScope.launch {
-                    appSettingsRepository.setLastTransactionFilter(encodeFilter(intent.filter))
+                    appSettingsRepository.setLastTransactionFilter(intent.filter)
                 }
             }
 
@@ -199,22 +199,6 @@ class TransactionListViewModel(
             }
         }
     }
-}
-
-private fun encodeFilter(filter: TransactionFilter): String = when (filter) {
-    is TransactionFilter.None -> "all"
-    is TransactionFilter.ByType -> when (filter.type) {
-        TransactionType.EXPENSE -> "expense"
-        TransactionType.INCOME -> "income"
-    }
-
-    else -> "all"
-}
-
-private fun decodeFilter(encoded: String): TransactionFilter = when (encoded) {
-    "expense" -> TransactionFilter.ByType(TransactionType.EXPENSE)
-    "income" -> TransactionFilter.ByType(TransactionType.INCOME)
-    else -> TransactionFilter.None
 }
 
 private fun Transaction.toUiModel(category: Category?) = TransactionUiModel(

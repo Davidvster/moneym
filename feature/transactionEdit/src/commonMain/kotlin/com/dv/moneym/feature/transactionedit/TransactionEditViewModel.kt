@@ -114,8 +114,8 @@ class TransactionEditViewModel(
             is TransactionEditIntent.TypeChanged -> _state.update { it.copy(type = intent.type) }
             is TransactionEditIntent.AmountChanged -> _state.update {
                 it.copy(
-                    amountText = intent.text,
-                    amountError = false
+                    amountText = filterAmountInput(intent.text),
+                    amountError = false,
                 )
             }
 
@@ -141,6 +141,20 @@ class TransactionEditViewModel(
             TransactionEditIntent.DeleteRequested -> _state.update { it.copy(showDeleteConfirm = true) }
             TransactionEditIntent.DeleteConfirmed -> delete()
             TransactionEditIntent.DeleteCancelled -> _state.update { it.copy(showDeleteConfirm = false) }
+        }
+    }
+
+    private fun filterAmountInput(input: String): String {
+        val filtered = input.filter { it.isDigit() || it == '.' }
+        val dotIndex = filtered.indexOf('.')
+        return if (dotIndex == -1) {
+            filtered
+        } else {
+            val before = filtered.substring(0, dotIndex)
+            val after = filtered.substring(dotIndex + 1)
+                .filter { it.isDigit() }
+                .take(2)
+            "$before.$after"
         }
     }
 

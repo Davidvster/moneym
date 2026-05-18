@@ -49,14 +49,6 @@ internal fun TransactionEditScrollBody(
         state.availableAccounts.firstOrNull { it.id == state.selectedAccountId }?.currency?.value
             ?: "EUR"
     }
-    val amountValue = state.amountText.toDoubleOrNull() ?: 0.0
-    val formattedAmount = if (amountValue == 0.0) {
-        "0.00"
-    } else {
-        val major = amountValue.toLong()
-        val fractional = ((amountValue - major.toDouble()) * 100).toLong().coerceAtLeast(0L)
-        "$major.${fractional.toString().padStart(2, '0')}"
-    }
     val todayLabel = stringResource(Res.string.edit_date_today)
     val dateText = state.date?.toFriendlyString(todayDate) ?: todayLabel
 
@@ -76,10 +68,8 @@ internal fun TransactionEditScrollBody(
         )
         Spacer(Modifier.height(MM.dimen.padding_3x))
         AmountDisplay(
-            amountValue = amountValue,
-            formattedAmount = formattedAmount,
-            currencyCode = currencyCode,
             amountText = state.amountText,
+            currencyCode = currencyCode,
             focusRequester = focusRequester,
             onAmountChanged = { onIntent(TransactionEditIntent.AmountChanged(it)) },
             onCalculatorClick = onCalculatorOpen,

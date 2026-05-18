@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.OverviewPeriodMode
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionType
@@ -51,10 +52,11 @@ class OverviewViewModel(
         // Restore persisted overview period mode on startup
         viewModelScope.launch {
             val saved = appSettingsRepository.observeLastOverviewPeriod().first()
-            if (saved == "year") {
-                _period.value = OverviewPeriod.Year(today.year)
+            when (saved) {
+                OverviewPeriodMode.Year -> _period.value = OverviewPeriod.Year(today.year)
+                OverviewPeriodMode.DateRange -> { /* stay as Month — no date range to restore */ }
+                OverviewPeriodMode.Month -> { /* default already set */ }
             }
-            // if "month" or anything else, default is already Month (set above)
         }
 
         // Observe selected account (wallet filter)
@@ -382,13 +384,13 @@ class OverviewViewModel(
     }
 
     private fun persistPeriod(period: OverviewPeriod) {
-        val encoded = when (period) {
-            is OverviewPeriod.Month -> "month"
-            is OverviewPeriod.Year -> "year"
-            is OverviewPeriod.DateRange -> "range"
+        val mode = when (period) {
+            is OverviewPeriod.Month -> OverviewPeriodMode.Month
+            is OverviewPeriod.Year -> OverviewPeriodMode.Year
+            is OverviewPeriod.DateRange -> OverviewPeriodMode.DateRange
         }
         viewModelScope.launch {
-            appSettingsRepository.setLastOverviewPeriod(encoded)
+            appSettingsRepository.setLastOverviewPeriod(mode)
         }
     }
 

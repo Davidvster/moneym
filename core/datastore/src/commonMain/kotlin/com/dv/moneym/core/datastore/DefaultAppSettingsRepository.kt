@@ -2,7 +2,10 @@ package com.dv.moneym.core.datastore
 
 import com.dv.moneym.core.model.Density
 import com.dv.moneym.core.model.IndicatorStyle
+import com.dv.moneym.core.model.OverviewPeriodMode
 import com.dv.moneym.core.model.ThemeMode
+import com.dv.moneym.core.model.TransactionFilter
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.TxDisplayPrefs
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -85,22 +88,50 @@ class DefaultAppSettingsRepository(
         appSettings.putString(PrefKeys.LANGUAGE, language)
     }
 
-    override fun observeLastTransactionFilter(): Flow<String> =
+    override fun observeLastTransactionFilter(): Flow<TransactionFilter> =
         appSettings
             .observeString(PrefKeys.TX_LAST_FILTER, "all")
-            .map { it ?: "all" }
+            .map { decodeFilter(it ?: "all") }
 
-    override suspend fun setLastTransactionFilter(encoded: String) {
-        appSettings.putString(PrefKeys.TX_LAST_FILTER, encoded)
+    override suspend fun setLastTransactionFilter(filter: TransactionFilter) {
+        appSettings.putString(PrefKeys.TX_LAST_FILTER, encodeFilter(filter))
     }
 
-    override fun observeLastOverviewPeriod(): Flow<String> =
+    override fun observeLastOverviewPeriod(): Flow<OverviewPeriodMode> =
         appSettings
             .observeString(PrefKeys.OVERVIEW_LAST_TAB, "month")
-            .map { it ?: "month" }
+            .map { decodeOverviewPeriod(it ?: "month") }
 
-    override suspend fun setLastOverviewPeriod(encoded: String) {
-        appSettings.putString(PrefKeys.OVERVIEW_LAST_TAB, encoded)
+    override suspend fun setLastOverviewPeriod(mode: OverviewPeriodMode) {
+        appSettings.putString(PrefKeys.OVERVIEW_LAST_TAB, encodeOverviewPeriod(mode))
+    }
+
+    // Private helpers — strings are ONLY here
+    private fun encodeFilter(filter: TransactionFilter): String = when (filter) {
+        is TransactionFilter.None -> "all"
+        is TransactionFilter.ByType -> when (filter.type) {
+            TransactionType.EXPENSE -> "expense"
+            TransactionType.INCOME -> "income"
+        }
+        else -> "all"
+    }
+
+    private fun decodeFilter(encoded: String): TransactionFilter = when (encoded) {
+        "expense" -> TransactionFilter.ByType(TransactionType.EXPENSE)
+        "income" -> TransactionFilter.ByType(TransactionType.INCOME)
+        else -> TransactionFilter.None
+    }
+
+    private fun encodeOverviewPeriod(mode: OverviewPeriodMode): String = when (mode) {
+        OverviewPeriodMode.Month -> "month"
+        OverviewPeriodMode.Year -> "year"
+        OverviewPeriodMode.DateRange -> "range"
+    }
+
+    private fun decodeOverviewPeriod(encoded: String): OverviewPeriodMode = when (encoded) {
+        "year" -> OverviewPeriodMode.Year
+        "range" -> OverviewPeriodMode.DateRange
+        else -> OverviewPeriodMode.Month
     }
 
     override fun observeSelectedAccountId(): Flow<Long> =

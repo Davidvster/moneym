@@ -1,6 +1,8 @@
 package com.dv.moneym.core.datastore
 
+import com.dv.moneym.core.model.OverviewPeriodMode
 import com.dv.moneym.core.model.ThemeMode
+import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TxDisplayPrefs
 import kotlinx.coroutines.flow.Flow
 
@@ -14,10 +16,10 @@ interface AppSettingsRepository {
     fun observeLanguage(): Flow<String>
     suspend fun setLanguage(language: String)
     // User last-selected settings
-    fun observeLastTransactionFilter(): Flow<String>
-    suspend fun setLastTransactionFilter(encoded: String)
-    fun observeLastOverviewPeriod(): Flow<String>
-    suspend fun setLastOverviewPeriod(encoded: String)
+    fun observeLastTransactionFilter(): Flow<TransactionFilter>
+    suspend fun setLastTransactionFilter(filter: TransactionFilter)
+    fun observeLastOverviewPeriod(): Flow<OverviewPeriodMode>
+    suspend fun setLastOverviewPeriod(mode: OverviewPeriodMode)
     // Selected wallet / account (stored as Long, -1 = not set / use default)
     fun observeSelectedAccountId(): Flow<Long>
     suspend fun setSelectedAccountId(id: Long)

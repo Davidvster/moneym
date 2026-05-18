@@ -287,7 +287,7 @@ private fun TxListDisplayContent(
             )
             MmCard(Modifier.padding(horizontal = space.padding_2x), shape = MM.dimen.radius_1_5x) {
                 // Category name row — row click is the single source of truth; toggle is display-only
-                MmRow {
+                MmRow(onClick = { onPrefsChanged(currentPrefs.copy(showCategoryName = !currentPrefs.showCategoryName)) }) {
                     Text(
                         stringResource(Res.string.settings_txdisplay_category_name),
                         style = type.body,
@@ -301,6 +301,7 @@ private fun TxListDisplayContent(
                 }
                 MmRow(
                     divider = false,
+                    onClick = { onPrefsChanged(currentPrefs.copy(showNote = !currentPrefs.showNote)) },
                 ) {
                     Text(
                         stringResource(Res.string.settings_txdisplay_note),
