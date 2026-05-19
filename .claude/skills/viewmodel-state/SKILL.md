@@ -179,9 +179,11 @@ NOT in the ViewModel:
 - Platform APIs (Context, NSURL, etc.): platform glue belongs in `core:*` modules behind expect/actual
 - **Color, Dp, TextStyle**: state fields are domain types only. Never `Color`, `Dp`, or typography in `UiState`.
 
-## Testing
+## Testing (NON-NEGOTIABLE)
 
-ViewModel tests live in the feature module's `commonTest`. See the `testing` skill for setup. The contract a ViewModel test verifies:
+**Every ViewModel MUST have unit tests. Writing a ViewModel without tests means the task is
+incomplete.** ViewModel tests live in the feature module's `commonTest`. See the `testing` skill
+for setup. The contract a ViewModel test verifies:
 
 1. Given an initial intent/state, the StateFlow emits the expected sequence.
 2. Given a repository Flow change, state updates accordingly.

@@ -137,7 +137,10 @@ Before writing logic in a composable, ask: **can I write a pure Kotlin unit test
 - Test minimum-contrast on tonal surfaces — `MoneyMTheme` is responsible, but eyeball your screen in
   dark mode before merging.
 
-## Previews
+## Previews (NON-NEGOTIABLE)
+
+**Every composable function — screens, components, and sub-components — MUST have at least two
+previews: one light, one dark. Missing previews mean the task is incomplete.**
 
 Each `*Content` composable gets at least two previews:
 
@@ -220,3 +223,4 @@ Compose Multiplatform `stringResource` does not support Android-style `<plurals>
 - **Don't maintain a local copy of domain state.** `var localFilter by remember { mutableStateOf(...) }`
   that shadows or overrides domain data is wrong — filter state belongs in the ViewModel with a
   corresponding intent (`FilterChanged`), so it survives navigation and is testable.
+- Don't write a composable longer than 100 lines. Extract sub-composables instead.
