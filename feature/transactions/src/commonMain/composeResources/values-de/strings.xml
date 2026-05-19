@@ -5,6 +5,9 @@
     <string name="transactions_filter_all">Alle</string>
     <string name="transactions_filter_expenses">Ausgaben</string>
     <string name="transactions_filter_income">Einnahmen</string>
+    <string name="transactions_filter_categories">Nach Kategorie filtern</string>
+    <string name="transactions_filter_clear">Löschen</string>
+    <string name="transactions_filter_done">Fertig</string>
     <string name="transactions_empty">Keine Transaktionen diesen Monat</string>
     <string name="transactions_previous_month">Vorheriger Monat</string>
     <string name="transactions_next_month">Nächster Monat</string>
@@ -31,4 +34,6 @@
     <string name="transactions_now">Jetzt</string>
     <string name="transactions_ok">OK</string>
     <string name="transactions_cancel">Abbrechen</string>
+    <string name="transactions_wallet_select">Wallet auswählen</string>
+    <string name="transactions_wallet_all">Alle Wallets</string>
 </resources>

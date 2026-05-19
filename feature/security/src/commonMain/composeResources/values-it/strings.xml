@@ -14,4 +14,12 @@
     <string name="security_cancel">Annulla</string>
     <string name="security_backoff_retry">Riprova tra %1$ds</string>
     <string name="security_biometric_unlock_prompt">Sblocca MoneyM</string>
+    <string name="security_change_pin_title">Cambia PIN</string>
+    <string name="security_pin_set_header">Imposta il tuo PIN</string>
+    <string name="security_pin_confirm_header">Conferma il tuo PIN</string>
+    <string name="security_pin_enter_header">Inserisci il tuo PIN</string>
+    <string name="security_biometric_offer_title">Abilitare la biometria?</string>
+    <string name="security_biometric_offer_body">Sblocca MoneyM rapidamente con Face ID o impronta.</string>
+    <string name="security_biometric_offer_enable">Abilita</string>
+    <string name="security_biometric_offer_skip">Non ora</string>
 </resources>

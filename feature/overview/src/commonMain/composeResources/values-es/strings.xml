@@ -32,8 +32,10 @@
     <string name="overview_month_dec">Dic</string>
     <string name="overview_period_month">Mes</string>
     <string name="overview_period_year">Año</string>
+    <string name="overview_period_custom">Personalizado</string>
     <string name="overview_label_income">INGRESOS</string>
     <string name="overview_label_expenses">GASTOS</string>
+    <string name="overview_label_balance">SALDO</string>
     <string name="overview_spending_by_category">Gastos por categoría</string>
     <string name="overview_no_expenses">Sin gastos este período</string>
     <string name="overview_label_total">TOTAL</string>
@@ -53,4 +55,9 @@
     <string name="overview_cancel">Cancelar</string>
     <string name="overview_tx_count_singular">%1$d transacción</string>
     <string name="overview_tx_count_plural">%1$d transacciones</string>
+    <string name="overview_cat_avg_day">prom/día</string>
+    <string name="overview_cat_avg_month">prom/mes</string>
+    <string name="overview_date_range_title">Seleccionar rango</string>
+    <string name="overview_date_range_from">DESDE</string>
+    <string name="overview_date_range_to">HASTA</string>
 </resources>

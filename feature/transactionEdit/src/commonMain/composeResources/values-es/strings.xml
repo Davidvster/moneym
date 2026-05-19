@@ -23,4 +23,6 @@
     <string name="edit_delete_confirm_body">Esta acción no se puede deshacer.</string>
     <string name="edit_delete_confirm_ok">Eliminar</string>
     <string name="edit_delete_confirm_cancel">Cancelar</string>
+    <string name="edit_calculator_title">Calculadora</string>
+    <string name="edit_payment_mode_label">Método de pago</string>
 </resources>

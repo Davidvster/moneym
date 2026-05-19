@@ -12,4 +12,6 @@
     <string name="onboarding_skip_short">Überspringen</string>
     <string name="onboarding_search_currency">Währung suchen…</string>
     <string name="onboarding_currencies_header">WÄHRUNGEN</string>
+    <string name="onboarding_biometrics_label">Biometrie</string>
+    <string name="onboarding_biometrics_subtitle">Mit Face ID oder Fingerabdruck entsperren</string>
 </resources>

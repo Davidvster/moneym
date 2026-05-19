@@ -14,4 +14,12 @@
     <string name="security_cancel">Abbrechen</string>
     <string name="security_backoff_retry">Erneut versuchen in %1$ds</string>
     <string name="security_biometric_unlock_prompt">MoneyM entsperren</string>
+    <string name="security_change_pin_title">PIN ändern</string>
+    <string name="security_pin_set_header">PIN festlegen</string>
+    <string name="security_pin_confirm_header">PIN bestätigen</string>
+    <string name="security_pin_enter_header">PIN eingeben</string>
+    <string name="security_biometric_offer_title">Biometrie aktivieren?</string>
+    <string name="security_biometric_offer_body">MoneyM schnell mit Face ID oder Fingerabdruck entsperren.</string>
+    <string name="security_biometric_offer_enable">Aktivieren</string>
+    <string name="security_biometric_offer_skip">Nicht jetzt</string>
 </resources>

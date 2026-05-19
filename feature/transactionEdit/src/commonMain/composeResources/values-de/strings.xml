@@ -23,4 +23,6 @@
     <string name="edit_delete_confirm_body">Dies kann nicht rückgängig gemacht werden.</string>
     <string name="edit_delete_confirm_ok">Löschen</string>
     <string name="edit_delete_confirm_cancel">Abbrechen</string>
+    <string name="edit_calculator_title">Rechner</string>
+    <string name="edit_payment_mode_label">Zahlungsart</string>
 </resources>

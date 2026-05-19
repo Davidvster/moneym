@@ -43,6 +43,7 @@
     <string name="settings_txdisplay_show">MOSTRAR</string>
     <string name="settings_txdisplay_category_name">Nombre de categoría</string>
     <string name="settings_txdisplay_note">Nota / descripción</string>
+    <string name="settings_txdisplay_daily_sums">Totales diarios</string>
     <string name="settings_txdisplay_density">DENSIDAD</string>
     <string name="settings_txdisplay_row_size">Tamaño de fila</string>
     <string name="settings_txdisplay_compact">Compacto</string>
@@ -68,6 +69,7 @@
     <string name="settings_section_preferences">PREFERENCIAS</string>
     <string name="settings_currency">Moneda predeterminada</string>
     <string name="settings_language">Idioma</string>
+    <string name="settings_wallets">Billeteras</string>
     <string name="settings_section_data">DATOS</string>
     <string name="settings_export_as_json">Exportar como JSON</string>
     <string name="settings_export_as_csv">Exportar como CSV</string>
@@ -100,4 +102,40 @@
     <string name="settings_import_new_category">Nueva categoría</string>
     <string name="settings_import_map_to">Asignar \"%1$s\" a</string>
     <string name="settings_import_create_new_category">Crear nueva categoría</string>
+    <!-- Export Import sub-screen -->
+    <string name="settings_export_import_data_title">Importar / Exportar</string>
+    <string name="settings_export_format">FORMATO</string>
+    <string name="settings_export_start">Exportar</string>
+    <!-- Wallet manage sub-screen -->
+    <string name="settings_wallet_manage_title">Billeteras</string>
+    <string name="settings_wallet_no_wallets">No se encontraron billeteras</string>
+    <string name="settings_wallet_section_header">BILLETERAS</string>
+    <string name="settings_wallet_add_title">Añadir billetera</string>
+    <string name="settings_wallet_add_confirm">Añadir</string>
+    <string name="settings_wallet_add_cancel">Cancelar</string>
+    <string name="settings_wallet_name_placeholder">Nombre de billetera</string>
+    <string name="settings_wallet_currency_placeholder">Moneda (p. ej. EUR)</string>
+    <string name="settings_wallet_type_currency">%1$s · %2$s</string>
+    <!-- Add wallet screen -->
+    <string name="settings_wallet_add_screen_title">Añadir billetera</string>
+    <string name="settings_wallet_currency_label">Moneda</string>
+    <string name="settings_wallet_currency_change">Cambiar</string>
+    <string name="settings_wallet_currency_none">Ninguna seleccionada</string>
+    <!-- Default transaction type preference -->
+    <string name="settings_default_tx_type">Tipo de transacción predeterminado</string>
+    <string name="settings_default_tx_expense">Gasto</string>
+    <string name="settings_default_tx_income">Ingreso</string>
+    <!-- Payment mode -->
+    <string name="settings_payment_mode_enabled">Método de pago</string>
+    <string name="settings_payment_modes">Gestionar métodos de pago</string>
+    <string name="settings_payment_mode_list_title">Métodos de pago</string>
+    <string name="settings_payment_mode_add">Añadir método de pago</string>
+    <string name="settings_payment_mode_rename_title">Renombrar</string>
+    <string name="settings_payment_mode_name_placeholder">Nombre del método</string>
+    <string name="settings_payment_mode_delete_title">Eliminar método de pago</string>
+    <string name="settings_payment_mode_delete_message">¿Eliminar \"%1$s\"? Esta acción no se puede deshacer.</string>
+    <string name="settings_payment_mode_delete_confirm">Eliminar</string>
+    <string name="settings_payment_mode_cancel">Cancelar</string>
+    <string name="settings_payment_mode_save">Guardar</string>
+    <string name="settings_import_export">Importar / Exportar</string>
 </resources>

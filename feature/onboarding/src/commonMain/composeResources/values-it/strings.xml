@@ -12,4 +12,6 @@
     <string name="onboarding_skip_short">Salta</string>
     <string name="onboarding_search_currency">Cerca valuta…</string>
     <string name="onboarding_currencies_header">VALUTE</string>
+    <string name="onboarding_biometrics_label">Biometria</string>
+    <string name="onboarding_biometrics_subtitle">Sblocca con Face ID o impronta digitale</string>
 </resources>

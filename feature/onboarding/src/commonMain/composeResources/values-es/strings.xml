@@ -12,4 +12,6 @@
     <string name="onboarding_skip_short">Saltar</string>
     <string name="onboarding_search_currency">Buscar moneda…</string>
     <string name="onboarding_currencies_header">MONEDAS</string>
+    <string name="onboarding_biometrics_label">Biometría</string>
+    <string name="onboarding_biometrics_subtitle">Desbloquea con Face ID o huella dactilar</string>
 </resources>
