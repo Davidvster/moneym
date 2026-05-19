@@ -9,6 +9,8 @@ import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.AccountType
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.data.accounts.AccountRepository
+import com.dv.moneym.data.transactions.TransactionRepository
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -18,17 +20,22 @@ import kotlin.time.Clock
 
 class WalletManageViewModel(
     private val accountRepository: AccountRepository,
+    private val transactionRepository: TransactionRepository,
     private val appSettingsRepository: AppSettingsRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
+    private val _pendingDeleteId = MutableStateFlow<Long?>(null)
+
     internal val state: StateFlow<WalletManageUiState> = combine(
         accountRepository.observeAll(),
         appSettingsRepository.observeSelectedAccountId(),
-    ) { accounts, selectedId ->
+        _pendingDeleteId,
+    ) { accounts, selectedId, pendingDeleteId ->
         WalletManageUiState(
             accounts = accounts,
             selectedAccountId = selectedId,
+            pendingDeleteId = pendingDeleteId,
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, WalletManageUiState())
 
@@ -53,6 +60,19 @@ class WalletManageViewModel(
                             updatedAt = Clock.System.now(),
                         )
                     )
+                }
+            }
+
+            is WalletManageIntent.DeleteRequested -> _pendingDeleteId.value = intent.id
+
+            WalletManageIntent.DeleteCancelled -> _pendingDeleteId.value = null
+
+            WalletManageIntent.DeleteConfirmed -> {
+                val id = _pendingDeleteId.value ?: return
+                _pendingDeleteId.value = null
+                viewModelScope.launch {
+                    transactionRepository.deleteByAccountId(AccountId(id))
+                    accountRepository.delete(AccountId(id))
                 }
             }
         }

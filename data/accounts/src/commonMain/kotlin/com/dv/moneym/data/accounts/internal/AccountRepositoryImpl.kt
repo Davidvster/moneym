@@ -47,4 +47,6 @@ internal class AccountRepositoryImpl(
             updatedAt = now,
         )
     }
+
+    override suspend fun delete(id: AccountId) = dataSource.delete(id.value)
 }

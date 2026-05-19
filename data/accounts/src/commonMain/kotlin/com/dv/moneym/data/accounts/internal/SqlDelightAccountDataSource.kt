@@ -48,4 +48,8 @@ internal class SqlDelightAccountDataSource(
     ) = withContext(dispatchers.io) {
         q.updateById(name, type, currency, if (isDefault) 1L else 0L, if (archived) 1L else 0L, updatedAt, id)
     }
+
+    override suspend fun delete(id: Long) = withContext(dispatchers.io) {
+        q.deleteById(id)
+    }
 }

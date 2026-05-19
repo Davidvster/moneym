@@ -161,6 +161,7 @@ val featureWalletModule = module {
     viewModel {
         WalletManageViewModel(
             accountRepository = get(),
+            transactionRepository = get(),
             appSettingsRepository = get(),
             savedStateHandle = get(),
         )

@@ -32,3 +32,6 @@ WHERE id = ?;
 
 lastInsertId:
 SELECT last_insert_rowid();
+
+deleteById:
+DELETE FROM Account WHERE id = ?;

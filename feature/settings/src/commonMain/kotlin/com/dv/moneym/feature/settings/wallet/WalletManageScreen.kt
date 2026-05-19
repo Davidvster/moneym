@@ -73,6 +73,13 @@ private fun WalletManageScreen(
             },
         )
 
+        if (state.pendingDeleteId != null) {
+            WalletDeleteSheet(
+                onConfirm = { viewModel.onIntent(WalletManageIntent.DeleteConfirmed) },
+                onCancel = { viewModel.onIntent(WalletManageIntent.DeleteCancelled) },
+            )
+        }
+
         LazyColumn(
             modifier = Modifier.weight(1f),
             contentPadding = PaddingValues(
@@ -134,6 +141,12 @@ private fun WalletManageScreen(
                                             modifier = Modifier.size(MM.dimen.icon_1x),
                                         )
                                     }
+                                    MmIconButton(
+                                        icon = Icon.Trash.imageVector,
+                                        onClick = {
+                                            viewModel.onIntent(WalletManageIntent.DeleteRequested(account.id.value))
+                                        },
+                                    )
                                 }
                             }
                         }

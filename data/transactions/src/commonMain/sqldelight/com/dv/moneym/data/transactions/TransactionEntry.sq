@@ -58,6 +58,9 @@ WHERE id = ?;
 deleteById:
 DELETE FROM TransactionEntry WHERE id = ?;
 
+deleteByAccountId:
+DELETE FROM TransactionEntry WHERE account_id = ?;
+
 lastInsertId:
 SELECT last_insert_rowid();
 

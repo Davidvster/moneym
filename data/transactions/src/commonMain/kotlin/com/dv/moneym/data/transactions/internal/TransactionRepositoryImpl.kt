@@ -1,5 +1,6 @@
 package com.dv.moneym.data.transactions.internal
 
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
@@ -69,6 +70,8 @@ internal class TransactionRepositoryImpl(
     }
 
     override suspend fun delete(id: TransactionId) = dataSource.delete(id.value)
+
+    override suspend fun deleteByAccountId(id: AccountId) = dataSource.deleteByAccountId(id.value)
 
     override suspend fun getEarliestTransactionDate(): LocalDate? =
         dataSource.getEarliestDate()?.let { LocalDate.parse(it) }

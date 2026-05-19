@@ -121,6 +121,11 @@
     <string name="settings_wallet_currency_label">Währung</string>
     <string name="settings_wallet_currency_change">Ändern</string>
     <string name="settings_wallet_currency_none">Keine ausgewählt</string>
+    <!-- Delete wallet confirmation -->
+    <string name="settings_wallet_delete_confirm_title">Wallet löschen?</string>
+    <string name="settings_wallet_delete_confirm_body">Alle Transaktionen in diesem Wallet werden dauerhaft gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="settings_wallet_delete_confirm_ok">Löschen</string>
+    <string name="settings_wallet_delete_confirm_cancel">Abbrechen</string>
     <!-- Default transaction type preference -->
     <string name="settings_default_tx_type">Standard-Transaktionstyp</string>
     <string name="settings_default_tx_expense">Ausgabe</string>

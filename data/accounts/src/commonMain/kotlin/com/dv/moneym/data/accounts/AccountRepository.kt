@@ -11,4 +11,5 @@ interface AccountRepository {
     suspend fun count(): Long
     suspend fun insert(account: Account): AccountId
     suspend fun update(account: Account)
+    suspend fun delete(id: AccountId)
 }

@@ -16,4 +16,5 @@ internal interface AccountLocalDataSource {
         id: Long, name: String, type: String, currency: String,
         isDefault: Boolean, archived: Boolean, updatedAt: Long,
     )
+    suspend fun delete(id: Long)
 }

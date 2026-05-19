@@ -121,6 +121,11 @@
     <string name="settings_wallet_currency_label">Moneda</string>
     <string name="settings_wallet_currency_change">Cambiar</string>
     <string name="settings_wallet_currency_none">Ninguna seleccionada</string>
+    <!-- Delete wallet confirmation -->
+    <string name="settings_wallet_delete_confirm_title">¿Eliminar billetera?</string>
+    <string name="settings_wallet_delete_confirm_body">Todas las transacciones de esta billetera se eliminarán permanentemente. Esta acción no se puede deshacer.</string>
+    <string name="settings_wallet_delete_confirm_ok">Eliminar</string>
+    <string name="settings_wallet_delete_confirm_cancel">Cancelar</string>
     <!-- Default transaction type preference -->
     <string name="settings_default_tx_type">Tipo de transacción predeterminado</string>
     <string name="settings_default_tx_expense">Gasto</string>

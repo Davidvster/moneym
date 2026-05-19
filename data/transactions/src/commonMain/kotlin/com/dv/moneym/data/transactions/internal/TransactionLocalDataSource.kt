@@ -21,6 +21,7 @@ internal interface TransactionLocalDataSource {
         paymentModeId: Long? = null,
     )
     suspend fun delete(id: Long)
+    suspend fun deleteByAccountId(accountId: Long)
     suspend fun getEarliestDate(): String?
     suspend fun getLatestDate(): String?
     fun getDistinctTransactionDates(): Flow<List<String>>
