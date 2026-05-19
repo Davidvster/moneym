@@ -30,7 +30,7 @@ class WalletManageViewModel(
             accounts = accounts,
             selectedAccountId = selectedId,
         )
-    }.stateIn(viewModelScope, SharingStarted.Eagerly, WalletManageUiState())
+    }.stateIn(viewModelScope, SharingStarted.Lazily, WalletManageUiState())
 
     internal fun onIntent(intent: WalletManageIntent) {
         when (intent) {

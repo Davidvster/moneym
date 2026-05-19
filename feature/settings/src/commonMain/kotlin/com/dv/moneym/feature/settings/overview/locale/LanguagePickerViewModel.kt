@@ -17,7 +17,7 @@ class LanguagePickerViewModel(
 ) : ViewModel() {
 
     val selectedLanguage: StateFlow<String> = appSettingsRepository.observeLanguage()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, "")
+        .stateIn(viewModelScope, SharingStarted.Lazily, "")
 
     fun setLanguage(tag: String) {
         viewModelScope.launch {

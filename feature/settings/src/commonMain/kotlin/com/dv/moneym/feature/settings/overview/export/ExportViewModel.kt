@@ -32,7 +32,7 @@ class ExportViewModel(
 
     val state: StateFlow<ExportUiState> = _state
         .onStart { }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, _state.value)
+        .stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
     private val _effects = Channel<ExportEffect>(Channel.BUFFERED)
     val effects = _effects.receiveAsFlow()

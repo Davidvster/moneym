@@ -44,7 +44,7 @@ class SecuritySettingsViewModel(
 
     val state: StateFlow<SecuritySettingsUiState> = _state
         .onStart { }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, _state.value)
+        .stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
     private val _effects = Channel<SecuritySettingsEffect>(Channel.BUFFERED)
     val effects = _effects.receiveAsFlow()

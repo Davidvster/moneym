@@ -367,7 +367,7 @@ class OverviewViewModel(
         .combine(_transactionDateIsos) { s, isos ->
             s.copy(transactionDateIsos = isos)
         }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, OverviewUiState())
+        .stateIn(viewModelScope, SharingStarted.Lazily, OverviewUiState())
 
     internal fun onIntent(intent: OverviewIntent) {
         when (intent) {

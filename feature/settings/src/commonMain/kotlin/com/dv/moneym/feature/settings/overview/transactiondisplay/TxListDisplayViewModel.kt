@@ -17,11 +17,11 @@ class TxListDisplayViewModel(
 ) : ViewModel() {
 
     val txDisplayPrefs: StateFlow<TxDisplayPrefs> = appSettingsRepository.observeTxDisplayPrefs()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, TxDisplayPrefs())
+        .stateIn(viewModelScope, SharingStarted.Lazily, TxDisplayPrefs())
 
     val defaultTransactionType: StateFlow<TransactionType> =
         appSettingsRepository.observeDefaultTransactionType()
-            .stateIn(viewModelScope, SharingStarted.Eagerly, TransactionType.EXPENSE)
+            .stateIn(viewModelScope, SharingStarted.Lazily, TransactionType.EXPENSE)
 
     fun setTxDisplayPrefs(prefs: TxDisplayPrefs) {
         viewModelScope.launch { appSettingsRepository.setTxDisplayPrefs(prefs) }

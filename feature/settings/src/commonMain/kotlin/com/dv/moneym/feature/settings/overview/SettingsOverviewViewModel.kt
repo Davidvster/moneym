@@ -18,22 +18,22 @@ class SettingsOverviewViewModel(
 ) : ViewModel() {
 
     val themeMode: StateFlow<ThemeMode> = appSettingsRepository.observeThemeMode()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, ThemeMode.Auto)
+        .stateIn(viewModelScope, SharingStarted.Lazily, ThemeMode.Auto)
 
     val txDisplayPrefs: StateFlow<TxDisplayPrefs> = appSettingsRepository.observeTxDisplayPrefs()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, TxDisplayPrefs())
+        .stateIn(viewModelScope, SharingStarted.Lazily, TxDisplayPrefs())
 
     val defaultCurrency: StateFlow<String> = appSettingsRepository.observeDefaultCurrency()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, "")
+        .stateIn(viewModelScope, SharingStarted.Lazily, "")
 
     val language: StateFlow<String> = appSettingsRepository.observeLanguage()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, "")
+        .stateIn(viewModelScope, SharingStarted.Lazily, "")
 
     val defaultTransactionType: StateFlow<TransactionType> = appSettingsRepository.observeDefaultTransactionType()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, TransactionType.EXPENSE)
+        .stateIn(viewModelScope, SharingStarted.Lazily, TransactionType.EXPENSE)
 
     val paymentModeEnabled: StateFlow<Boolean> = appSettingsRepository.observePaymentModeEnabled()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, false)
+        .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
     fun setThemeMode(mode: ThemeMode) {
         viewModelScope.launch { appSettingsRepository.setThemeMode(mode) }

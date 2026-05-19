@@ -167,7 +167,7 @@ class TransactionListViewModel(
         scope = viewModelScope,
         // Use Eagerly so the flow stays active while the edit modal is shown —
         // this ensures DB deletions/additions are never missed.
-        started = SharingStarted.Eagerly,
+        started = SharingStarted.Lazily,
         initialValue = TransactionListUiState(),
     )
 

@@ -68,7 +68,7 @@ class TransactionEditViewModel(
     }
     internal val state: StateFlow<TransactionEditUiState> = _state
         .onStart { init() }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, _state.value)
+        .stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
     private val _effects = Channel<TransactionEditEffect>(Channel.BUFFERED)
     internal val effects = _effects.receiveAsFlow()

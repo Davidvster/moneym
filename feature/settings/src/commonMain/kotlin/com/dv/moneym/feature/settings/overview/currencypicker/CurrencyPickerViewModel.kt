@@ -15,7 +15,7 @@ class CurrencyPickerViewModel(
 ) : ViewModel() {
 
     val selectedCurrency: StateFlow<String> = appSettingsRepository.observeDefaultCurrency()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, "")
+        .stateIn(viewModelScope, SharingStarted.Lazily, "")
 
     fun setDefaultCurrency(code: String) {
         viewModelScope.launch { appSettingsRepository.setDefaultCurrency(code) }

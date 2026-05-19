@@ -32,7 +32,7 @@ class PaymentModeListViewModel(
             isLoading = false,
             dialogState = dialogState,
         )
-    }.stateIn(viewModelScope, SharingStarted.Eagerly, PaymentModeListUiState())
+    }.stateIn(viewModelScope, SharingStarted.Lazily, PaymentModeListUiState())
 
     internal fun showAddDialog() {
         _dialogState.update { PaymentModeDialogState.Add }

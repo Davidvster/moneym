@@ -43,7 +43,7 @@ class ImportDataViewModel(
     private val _state by savedStateHandle.saved { MutableStateFlow(ImportDataUiState()) }
 
     val state: StateFlow<ImportDataUiState> = _state
-        .stateIn(viewModelScope, SharingStarted.Eagerly, _state.value)
+        .stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
     private val _effects = Channel<ImportDataEffect>(Channel.BUFFERED)
     val effects = _effects.receiveAsFlow()

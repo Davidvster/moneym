@@ -47,7 +47,7 @@ class TransactionListViewModel(
     }
     internal val state: StateFlow<SettingsUiState> = _state
         .onStart { init() }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, _state.value)
+        .stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
     private val _effects = Channel<TransactionListEffect>(Channel.BUFFERED)
     internal val effects = _effects.receiveAsFlow()

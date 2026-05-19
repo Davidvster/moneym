@@ -68,7 +68,7 @@ class CategoryListViewModel(
             activeTab = tab,
             orderedCategories = orderedActive,
         )
-    }.stateIn(viewModelScope, SharingStarted.Eagerly, CategoryListUiState())
+    }.stateIn(viewModelScope, SharingStarted.Lazily, CategoryListUiState())
 
     private val _effects = Channel<CategoryListEffect>(Channel.BUFFERED)
     internal val effects = _effects.receiveAsFlow()
