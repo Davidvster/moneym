@@ -34,5 +34,8 @@ WHERE id = ?;
 deleteById:
 DELETE FROM Category WHERE id = ?;
 
+deleteAll:
+DELETE FROM Category;
+
 lastInsertId:
 SELECT last_insert_rowid();

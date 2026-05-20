@@ -13,9 +13,12 @@ internal interface CategoryLocalDataSource {
         isUserCreated: Boolean, createdAt: Long, updatedAt: Long,
         categoryType: String = "EXPENSE",
     ): Long
+
     suspend fun update(
         id: Long, name: String, iconKey: String, colorHex: String,
         archived: Boolean, updatedAt: Long,
     )
+
     suspend fun delete(id: Long)
+    suspend fun deleteAll()
 }

@@ -14,4 +14,9 @@
     <string name="onboarding_currencies_header">CURRENCIES</string>
     <string name="onboarding_biometrics_label">Biometrics</string>
     <string name="onboarding_biometrics_subtitle">Unlock with Face ID or fingerprint</string>
+    <string name="onboarding_restore_from_backup">Restore from backup</string>
+    <string name="onboarding_import_data">Import data</string>
+    <string name="onboarding_restore_warning_title">Replace all data?</string>
+    <string name="onboarding_restore_warning_body">This will replace your current data with the backup and skip setup.</string>
+    <string name="onboarding_restore_confirm">Restore</string>
 </resources>

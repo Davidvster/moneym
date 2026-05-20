@@ -143,4 +143,15 @@
     <string name="settings_payment_mode_cancel">Abbrechen</string>
     <string name="settings_payment_mode_save">Speichern</string>
     <string name="settings_import_export">Importieren / Exportieren</string>
+    <string name="settings_section_backup">SICHERN &amp; WIEDERHERSTELLEN</string>
+    <string name="settings_backup_restore">Sichern &amp; Wiederherstellen</string>
+    <string name="settings_backup_to_file">In Datei sichern</string>
+    <string name="settings_restore_from_file">Aus Datei wiederherstellen</string>
+    <string name="settings_restore_warning_title">Alle Daten ersetzen?</string>
+    <string name="settings_restore_warning_body">Alle aktuellen Daten werden dauerhaft durch die Sicherung ersetzt. Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="settings_restore_confirm">Ersetzen</string>
+    <string name="settings_auto_backup">Automatisches Backup</string>
+    <string name="settings_auto_backup_subtitle">Aktualisiert die Backup-Datei automatisch bei jeder Änderung</string>
+    <string name="settings_backup_saved">Backup gespeichert</string>
+    <string name="settings_last_backup">Letztes Backup: %1$s</string>
 </resources>

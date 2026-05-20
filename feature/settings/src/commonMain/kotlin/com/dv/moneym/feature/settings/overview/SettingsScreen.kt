@@ -58,6 +58,8 @@ enum class SettingsItem {
     PREFERENCES_CARD,
     DATA_LABEL,
     DATA_CARD,
+    BACKUP_LABEL,
+    BACKUP_CARD,
     VERSION,
 }
 
@@ -69,6 +71,7 @@ fun EntryProviderScope<NavKey>.settingsEntry(
     onNavigateToExport: () -> Unit = {},
     onNavigateToWallets: () -> Unit = {},
     onNavigateToPaymentModes: () -> Unit = {},
+    onNavigateToBackupRestore: () -> Unit = {},
     onTabSelected: (TabRoute) -> Unit,
     securityViewModel: SecuritySettingsViewModel? = null,
 ) = entry<SettingsKey> {
@@ -80,6 +83,7 @@ fun EntryProviderScope<NavKey>.settingsEntry(
         onNavigateToExport = onNavigateToExport,
         onNavigateToWallets = onNavigateToWallets,
         onNavigateToPaymentModes = onNavigateToPaymentModes,
+        onNavigateToBackupRestore = onNavigateToBackupRestore,
         onTabSelected = onTabSelected,
         securityViewModel = securityViewModel ?: koinViewModel(),
     )
@@ -94,6 +98,7 @@ fun SettingsScreen(
     onNavigateToExport: () -> Unit = {},
     onNavigateToWallets: () -> Unit = {},
     onNavigateToPaymentModes: () -> Unit = {},
+    onNavigateToBackupRestore: () -> Unit = {},
     onTabSelected: (TabRoute) -> Unit = {},
     overviewViewModel: SettingsOverviewViewModel = koinViewModel(),
     securityViewModel: SecuritySettingsViewModel = koinViewModel(),
@@ -133,6 +138,7 @@ fun SettingsScreen(
         onNavigateToExport = onNavigateToExport,
         onNavigateToWallets = onNavigateToWallets,
         onNavigateToPaymentModes = onNavigateToPaymentModes,
+        onNavigateToBackupRestore = onNavigateToBackupRestore,
         onTabSelected = onTabSelected,
     )
 }
@@ -150,6 +156,7 @@ private fun SettingsContent(
     onNavigateToExport: () -> Unit,
     onNavigateToWallets: () -> Unit,
     onNavigateToPaymentModes: () -> Unit,
+    onNavigateToBackupRestore: () -> Unit,
     onTabSelected: (TabRoute) -> Unit,
 ) {
     val colors = MM.colors
@@ -223,6 +230,7 @@ private fun SettingsContent(
             onNavigateToExport = onNavigateToExport,
             onNavigateToWallets = onNavigateToWallets,
             onNavigateToPaymentModes = onNavigateToPaymentModes,
+            onNavigateToBackupRestore = onNavigateToBackupRestore,
             onShowLockPicker = { showLockPicker = true },
         )
         MmTabBar(activeTab = TabRoute.Settings, onTabSelected = onTabSelected)
@@ -245,6 +253,7 @@ private fun SettingsScreenPreview() {
             onNavigateToExport = {},
             onNavigateToWallets = {},
             onNavigateToPaymentModes = {},
+            onNavigateToBackupRestore = {},
             onTabSelected = {},
         )
     }

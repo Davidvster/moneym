@@ -5,8 +5,11 @@ import com.dv.moneym.AppLockController
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.security.PinHasher
 import com.dv.moneym.core.security.PinManager
+import com.dv.moneym.AutoBackupManager
+import com.dv.moneym.backup.DbBackupManager
 import com.dv.moneym.data.backup.BackupExporter
 import com.dv.moneym.data.backup.BackupImporter
+import com.dv.moneym.data.backup.BackupRestorer
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
 import com.dv.moneym.feature.categories.list.CategoryListViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
@@ -16,6 +19,7 @@ import com.dv.moneym.feature.security.setup.PinSetupViewModel
 import com.dv.moneym.feature.security.unlock.PinUnlockViewModel
 import com.dv.moneym.feature.settings.overview.SecuritySettingsViewModel
 import com.dv.moneym.feature.settings.overview.SettingsOverviewViewModel
+import com.dv.moneym.feature.settings.overview.backuprestore.BackupRestoreViewModel
 import com.dv.moneym.feature.settings.overview.currencypicker.CurrencyPickerViewModel
 import com.dv.moneym.feature.settings.overview.export.ExportViewModel
 import com.dv.moneym.feature.settings.overview.importdata.CsvImportHolder
@@ -93,7 +97,10 @@ val featureSecurityModule = module {
 val dataBackupModule = module {
     single { BackupExporter(get(), get(), get(), get()) }
     single { BackupImporter(get(), get(), get()) }
+    single { BackupRestorer(get(), get(), get(), get()) }
     single { CsvImportHolder() }
+    single { DbBackupManager(get()) }
+    single { AutoBackupManager(get(), get(), get(), get(), get(), get(), get()) }
 }
 
 val featureSettingsModule = module {
@@ -145,6 +152,12 @@ val featureSettingsModule = module {
         )
     }
     viewModel {
+        BackupRestoreViewModel(
+            appSettings = get(),
+            savedStateHandle = get(),
+        )
+    }
+    viewModel {
         TxListDisplayViewModel(
             appSettingsRepository = get(),
             savedStateHandle = get(),
@@ -181,7 +194,12 @@ val featureCategoriesModule = module {
 }
 
 val featureOnboardingModule = module {
-    viewModel { OnboardingCurrencyViewModel(accountRepository = get(), savedStateHandle = get()) }
+    viewModel {
+        OnboardingCurrencyViewModel(
+            accountRepository = get(),
+            savedStateHandle = get(),
+        )
+    }
     viewModel {
         OnboardingSecurityViewModel(
             settings = get(),

@@ -19,15 +19,19 @@ internal class TransactionRepositoryImpl(
         dataSource.observeAll().map { rows -> rows.map { it.toDomain() } }
 
     override fun observeByMonth(year: Int, month: Int): Flow<List<Transaction>> =
-        dataSource.observeByMonth(yearMonthKey(year, month)).map { rows -> rows.map { it.toDomain() } }
+        dataSource.observeByMonth(yearMonthKey(year, month))
+            .map { rows -> rows.map { it.toDomain() } }
 
     override fun observeFiltered(filter: TransactionFilter): Flow<List<Transaction>> =
         when (filter) {
             is TransactionFilter.None -> observeAll()
             is TransactionFilter.ByCategory ->
-                dataSource.observeByCategory(filter.categoryId.value).map { it.map { r -> r.toDomain() } }
+                dataSource.observeByCategory(filter.categoryId.value)
+                    .map { it.map { r -> r.toDomain() } }
+
             is TransactionFilter.ByType ->
                 dataSource.observeByType(filter.type.name).map { it.map { r -> r.toDomain() } }
+
             is TransactionFilter.ByCategoryAndType ->
                 dataSource.observeByCategoryAndType(filter.categoryId.value, filter.type.name)
                     .map { it.map { r -> r.toDomain() } }
@@ -72,6 +76,7 @@ internal class TransactionRepositoryImpl(
     override suspend fun delete(id: TransactionId) = dataSource.delete(id.value)
 
     override suspend fun deleteByAccountId(id: AccountId) = dataSource.deleteByAccountId(id.value)
+    override suspend fun deleteAll() = dataSource.deleteAll()
 
     override suspend fun getEarliestTransactionDate(): LocalDate? =
         dataSource.getEarliestDate()?.let { LocalDate.parse(it) }

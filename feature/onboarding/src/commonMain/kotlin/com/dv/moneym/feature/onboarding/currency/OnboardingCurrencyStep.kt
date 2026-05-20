@@ -1,7 +1,5 @@
 package com.dv.moneym.feature.onboarding.currency
 
-import com.dv.moneym.core.ui.imageVector
-import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,8 +12,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -30,48 +30,77 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.CommonCurrencies
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.SectionLabel
+import com.dv.moneym.core.ui.imageVector
 import kotlinx.serialization.Serializable
 import moneym.feature.onboarding.generated.resources.Res
 import moneym.feature.onboarding.generated.resources.onboarding_continue
 import moneym.feature.onboarding.generated.resources.onboarding_currencies_header
 import moneym.feature.onboarding.generated.resources.onboarding_currency_title
+import moneym.feature.onboarding.generated.resources.onboarding_import_data
+import moneym.feature.onboarding.generated.resources.onboarding_restore_confirm
+import moneym.feature.onboarding.generated.resources.onboarding_restore_from_backup
+import moneym.feature.onboarding.generated.resources.onboarding_restore_warning_body
+import moneym.feature.onboarding.generated.resources.onboarding_restore_warning_title
 import moneym.feature.onboarding.generated.resources.onboarding_search_currency
 import moneym.feature.onboarding.generated.resources.onboarding_welcome
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
-@Serializable data object OnboardingKey : NavKey
+@Serializable
+data object OnboardingKey : NavKey
+
 fun EntryProviderScope<NavKey>.onboardingCurrencyEntry(
     onNavigateToSecurity: () -> Unit,
+    onOpenRestoreFilePicker: () -> Unit = {},
+    onOpenCsvFilePicker: () -> Unit = {},
+    onRestoreReady: suspend (ByteArray) -> Unit = {},
+    viewModel: OnboardingCurrencyViewModel? = null,
 ) = entry<OnboardingKey> {
-    OnboardingCurrencyScreen(onNavigateToSecurity = onNavigateToSecurity)
+    OnboardingCurrencyScreen(
+        onNavigateToSecurity = onNavigateToSecurity,
+        onOpenRestoreFilePicker = onOpenRestoreFilePicker,
+        onOpenCsvFilePicker = onOpenCsvFilePicker,
+        onRestoreReady = onRestoreReady,
+        viewModel = viewModel ?: koinViewModel(),
+    )
 }
 
 @Composable
 private fun OnboardingCurrencyScreen(
     onNavigateToSecurity: () -> Unit,
-    viewModel: OnboardingCurrencyViewModel = koinViewModel(),
+    onOpenRestoreFilePicker: () -> Unit,
+    onOpenCsvFilePicker: () -> Unit,
+    onRestoreReady: suspend (ByteArray) -> Unit,
+    viewModel: OnboardingCurrencyViewModel,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(viewModel) {
         viewModel.effects.collect { effect ->
             when (effect) {
                 OnboardingCurrencyEffect.NavigateToSecurity -> onNavigateToSecurity()
+                OnboardingCurrencyEffect.OpenCsvFilePicker -> onOpenCsvFilePicker()
+                is OnboardingCurrencyEffect.RestoreReady -> onRestoreReady(effect.content)
             }
         }
     }
     CurrencyStep(
         selected = state.selectedCurrency,
         searchQuery = state.searchQuery,
+        showRestoreWarning = state.showRestoreWarning,
         onSelect = { viewModel.onIntent(OnboardingCurrencyIntent.CurrencySelected(it)) },
         onSearchQueryChanged = { viewModel.onIntent(OnboardingCurrencyIntent.SearchQueryChanged(it)) },
         onContinue = { viewModel.onIntent(OnboardingCurrencyIntent.Continue) },
+        onRestoreFromBackup = { onOpenRestoreFilePicker() },
+        onImportCsv = { viewModel.onIntent(OnboardingCurrencyIntent.ImportCsvTapped) },
+        onRestoreConfirmed = { viewModel.onIntent(OnboardingCurrencyIntent.RestoreConfirmed) },
+        onRestoreDismissed = { viewModel.onIntent(OnboardingCurrencyIntent.RestoreDismissed) },
     )
 }
 
@@ -79,12 +108,35 @@ private fun OnboardingCurrencyScreen(
 internal fun CurrencyStep(
     selected: String,
     searchQuery: String,
+    showRestoreWarning: Boolean = false,
     onSelect: (String) -> Unit,
     onSearchQueryChanged: (String) -> Unit,
     onContinue: () -> Unit,
+    onRestoreFromBackup: () -> Unit = {},
+    onImportCsv: () -> Unit = {},
+    onRestoreConfirmed: () -> Unit = {},
+    onRestoreDismissed: () -> Unit = {},
 ) {
     val colors = MM.colors
     val type = MM.type
+
+    if (showRestoreWarning) {
+        AlertDialog(
+            onDismissRequest = onRestoreDismissed,
+            title = { Text(stringResource(Res.string.onboarding_restore_warning_title)) },
+            text = { Text(stringResource(Res.string.onboarding_restore_warning_body)) },
+            confirmButton = {
+                TextButton(onClick = onRestoreConfirmed) {
+                    Text(stringResource(Res.string.onboarding_restore_confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = onRestoreDismissed) {
+                    Text("Cancel")
+                }
+            },
+        )
+    }
 
     val filteredItems by remember(searchQuery) {
         derivedStateOf {
@@ -173,13 +225,30 @@ internal fun CurrencyStep(
                 .background(colors.bg)
                 .padding(horizontal = 16.dp, vertical = 16.dp),
         ) {
-            MmButton(
-                text = stringResource(Res.string.onboarding_continue),
-                onClick = onContinue,
-                variant = MmButtonVariant.Primary,
-                size = MmButtonSize.Lg,
-                fullWidth = true,
-            )
+            Column {
+                MmButton(
+                    text = stringResource(Res.string.onboarding_continue),
+                    onClick = onContinue,
+                    variant = MmButtonVariant.Primary,
+                    size = MmButtonSize.Lg,
+                    fullWidth = true,
+                )
+                Spacer(Modifier.height(8.dp))
+                MmButton(
+                    text = stringResource(Res.string.onboarding_restore_from_backup),
+                    onClick = onRestoreFromBackup,
+                    variant = MmButtonVariant.Ghost,
+                    size = MmButtonSize.Md,
+                    fullWidth = true,
+                )
+                MmButton(
+                    text = stringResource(Res.string.onboarding_import_data),
+                    onClick = onImportCsv,
+                    variant = MmButtonVariant.Ghost,
+                    size = MmButtonSize.Md,
+                    fullWidth = true,
+                )
+            }
         }
     }
 }

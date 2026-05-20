@@ -16,6 +16,7 @@ import com.dv.moneym.feature.settings.overview.SettingsItem
 import com.dv.moneym.feature.settings.overview.SettingsUiState
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_section_appearance
+import moneym.feature.settings.generated.resources.settings_section_backup
 import moneym.feature.settings.generated.resources.settings_section_data
 import moneym.feature.settings.generated.resources.settings_section_preferences
 import moneym.feature.settings.generated.resources.settings_section_security
@@ -39,6 +40,7 @@ internal fun SettingsLazyList(
     onNavigateToExport: () -> Unit,
     onNavigateToWallets: () -> Unit,
     onNavigateToPaymentModes: () -> Unit,
+    onNavigateToBackupRestore: () -> Unit,
     onShowLockPicker: () -> Unit,
 ) {
     val colors = MM.colors
@@ -121,6 +123,20 @@ internal fun SettingsLazyList(
             DataSection(
                 onNavigateToExport = onNavigateToExport,
             )
+        }
+        item(key = SettingsItem.BACKUP_LABEL.name) {
+            SectionLabel(
+                text = stringResource(Res.string.settings_section_backup),
+                modifier = Modifier.padding(
+                    start = MM.dimen.padding_2_5x,
+                    end = MM.dimen.padding_2_5x,
+                    top = space.padding_2x,
+                    bottom = space.padding_0_5x
+                )
+            )
+        }
+        item(key = SettingsItem.BACKUP_CARD.name) {
+            BackupSection(onNavigateToBackupRestore = onNavigateToBackupRestore)
         }
         item(key = SettingsItem.VERSION.name) {
             Text(

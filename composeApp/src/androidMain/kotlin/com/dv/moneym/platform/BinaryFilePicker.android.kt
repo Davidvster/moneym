@@ -7,16 +7,18 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
-actual fun rememberFilePicker(onResult: (String?) -> Unit): () -> Unit {
+actual fun rememberBinaryFilePicker(onResult: (ByteArray?) -> Unit): () -> Unit {
     val context = LocalContext.current
     val callback = rememberUpdatedState(onResult)
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
     ) { uri ->
-        val content = uri?.let {
-            context.contentResolver.openInputStream(it)?.bufferedReader()?.use { r -> r.readText() }
+        val bytes = uri?.let {
+            runCatching {
+                context.contentResolver.openInputStream(it)?.use { s -> s.readBytes() }
+            }.getOrNull()
         }
-        callback.value(content)
+        callback.value(bytes)
     }
     return { launcher.launch("*/*") }
 }

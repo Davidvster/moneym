@@ -40,4 +40,9 @@ object PrefKeys {
 
     // Payment mode feature toggle
     const val PAYMENT_MODE_ENABLED = "pref.payment_mode_enabled"
+
+    // Auto-backup
+    const val AUTO_BACKUP_ENABLED = "pref.auto_backup_enabled"
+    const val LAST_BACKUP_TIME_MS = "pref.last_backup_time_ms"
+    const val LAST_BACKUP_PATH = "pref.last_backup_path"
 }

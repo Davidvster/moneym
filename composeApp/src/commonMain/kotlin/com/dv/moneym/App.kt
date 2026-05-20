@@ -39,6 +39,7 @@ private fun AppContent() {
     val lockController = koinInject<AppLockController>()
     val appSettings = koinInject<AppSettings>()
     val appSettingsRepo = koinInject<AppSettingsRepository>()
+    val autoBackupManager = koinInject<AutoBackupManager>()
 
     LaunchedEffect(Unit) { initializer.initialize() }
 
@@ -55,6 +56,14 @@ private fun AppContent() {
 
     LaunchedEffect(onboardingDone) {
         if (onboardingDone) lockController.init()
+    }
+
+    val autoBackupEnabled by appSettings.observeBoolean(PrefKeys.AUTO_BACKUP_ENABLED)
+        .collectAsStateWithLifecycle(initialValue = appSettings.getBoolean(PrefKeys.AUTO_BACKUP_ENABLED))
+
+    LaunchedEffect(autoBackupEnabled) {
+        if (autoBackupEnabled) autoBackupManager.start(this)
+        else autoBackupManager.stop()
     }
 
     val themeMode by appSettingsRepo.observeThemeMode()

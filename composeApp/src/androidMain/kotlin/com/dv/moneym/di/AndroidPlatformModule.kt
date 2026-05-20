@@ -9,6 +9,7 @@ import com.dv.moneym.core.security.BiometricAuthenticator
 import com.dv.moneym.core.security.BiometricAuthenticatorImpl
 import com.dv.moneym.core.security.SecureStore
 import com.dv.moneym.locale.AndroidLocaleController
+import com.dv.moneym.platform.DbPlatform
 import com.dv.moneym.platform.FilePlatform
 import org.koin.dsl.module
 
@@ -18,4 +19,5 @@ fun androidPlatformModule(context: Context) = module {
     single<BiometricAuthenticator> { BiometricAuthenticatorImpl() }
     single<LocaleController> { AndroidLocaleController(get()) }
     single { FilePlatform(context) }
+    single { DbPlatform(context) }
 }

@@ -49,4 +49,5 @@ internal class CategoryRepositoryImpl(
     }
 
     override suspend fun delete(id: CategoryId) = dataSource.delete(id.value)
+    override suspend fun deleteAll() = dataSource.deleteAll()
 }

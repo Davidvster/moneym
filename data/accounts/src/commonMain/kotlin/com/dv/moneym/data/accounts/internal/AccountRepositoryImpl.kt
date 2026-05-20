@@ -49,4 +49,5 @@ internal class AccountRepositoryImpl(
     }
 
     override suspend fun delete(id: AccountId) = dataSource.delete(id.value)
+    override suspend fun deleteAll() = dataSource.deleteAll()
 }

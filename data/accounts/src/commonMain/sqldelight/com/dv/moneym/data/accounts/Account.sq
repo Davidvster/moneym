@@ -35,3 +35,6 @@ SELECT last_insert_rowid();
 
 deleteById:
 DELETE FROM Account WHERE id = ?;
+
+deleteAll:
+DELETE FROM Account;

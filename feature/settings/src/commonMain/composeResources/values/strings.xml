@@ -143,4 +143,16 @@
     <string name="settings_import_new_category">New category</string>
     <string name="settings_import_map_to">Map \"%1$s\" to</string>
     <string name="settings_import_create_new_category">Create new category</string>
+    <!-- Backup & Restore -->
+    <string name="settings_section_backup">BACKUP &amp; RESTORE</string>
+    <string name="settings_backup_restore">Backup &amp; Restore</string>
+    <string name="settings_backup_to_file">Back up to file</string>
+    <string name="settings_restore_from_file">Restore from file</string>
+    <string name="settings_restore_warning_title">Replace all data?</string>
+    <string name="settings_restore_warning_body">This will permanently replace all current data with the backup. This cannot be undone.</string>
+    <string name="settings_restore_confirm">Replace</string>
+    <string name="settings_auto_backup">Auto-backup</string>
+    <string name="settings_auto_backup_subtitle">Updates the backup file automatically on every change</string>
+    <string name="settings_backup_saved">Backup saved</string>
+    <string name="settings_last_backup">Last backup: %1$s</string>
 </resources>

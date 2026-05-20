@@ -2,7 +2,6 @@ package com.dv.moneym.data.transactions.internal
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.data.transactions.TransactionEntry
 import com.dv.moneym.data.transactions.db.TransactionsDatabase
@@ -28,7 +27,10 @@ internal class SqlDelightTransactionDataSource(
     override fun observeByType(type: String): Flow<List<TransactionEntry>> =
         q.selectByType(type).asFlow().mapToList(dispatchers.io)
 
-    override fun observeByCategoryAndType(categoryId: Long, type: String): Flow<List<TransactionEntry>> =
+    override fun observeByCategoryAndType(
+        categoryId: Long,
+        type: String
+    ): Flow<List<TransactionEntry>> =
         q.selectByCategoryAndType(categoryId, type).asFlow().mapToList(dispatchers.io)
 
     override suspend fun getById(id: Long): TransactionEntry? = withContext(dispatchers.io) {
@@ -42,7 +44,18 @@ internal class SqlDelightTransactionDataSource(
     ): Long = withContext(dispatchers.io) {
         var id = 0L
         db.transaction {
-            q.insert(type, amountMinor, currency, occurredOn, note, categoryId, accountId, createdAt, updatedAt, paymentModeId)
+            q.insert(
+                type,
+                amountMinor,
+                currency,
+                occurredOn,
+                note,
+                categoryId,
+                accountId,
+                createdAt,
+                updatedAt,
+                paymentModeId
+            )
             id = q.lastInsertId().executeAsOne()
         }
         id
@@ -53,7 +66,18 @@ internal class SqlDelightTransactionDataSource(
         occurredOn: String, note: String?, categoryId: Long, accountId: Long, updatedAt: Long,
         paymentModeId: Long?,
     ) = withContext(dispatchers.io) {
-        q.updateById(type, amountMinor, currency, occurredOn, note, categoryId, accountId, updatedAt, paymentModeId, id)
+        q.updateById(
+            type,
+            amountMinor,
+            currency,
+            occurredOn,
+            note,
+            categoryId,
+            accountId,
+            updatedAt,
+            paymentModeId,
+            id
+        )
     }
 
     override suspend fun delete(id: Long) = withContext(dispatchers.io) {
@@ -62,6 +86,10 @@ internal class SqlDelightTransactionDataSource(
 
     override suspend fun deleteByAccountId(accountId: Long) = withContext(dispatchers.io) {
         q.deleteByAccountId(accountId)
+    }
+
+    override suspend fun deleteAll() = withContext(dispatchers.io) {
+        q.deleteAll()
     }
 
     override suspend fun getEarliestDate(): String? = withContext(dispatchers.io) {

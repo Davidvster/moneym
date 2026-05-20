@@ -20,7 +20,7 @@ import kotlin.time.Clock
 
 class OnboardingCurrencyViewModel(
     private val accountRepository: AccountRepository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _state by savedStateHandle.saved { MutableStateFlow(OnboardingCurrencyUiState()) }
@@ -28,6 +28,12 @@ class OnboardingCurrencyViewModel(
 
     private val _effects = Channel<OnboardingCurrencyEffect>(Channel.BUFFERED)
     internal val effects = _effects.receiveAsFlow()
+
+    private var pendingRestoreContent: ByteArray? = null
+
+    fun onRestoreFileSelected(content: ByteArray) {
+        onIntent(OnboardingCurrencyIntent.RestoreFileSelected(content))
+    }
 
     internal fun onIntent(intent: OnboardingCurrencyIntent) {
         when (intent) {
@@ -55,6 +61,29 @@ class OnboardingCurrencyViewModel(
                     }
                     _effects.send(OnboardingCurrencyEffect.NavigateToSecurity)
                 }
+            }
+
+            is OnboardingCurrencyIntent.RestoreFileSelected -> {
+                pendingRestoreContent = intent.content
+                _state.update { it.copy(showRestoreWarning = true) }
+            }
+
+            OnboardingCurrencyIntent.RestoreConfirmed -> {
+                val content = pendingRestoreContent ?: return
+                pendingRestoreContent = null
+                _state.update { it.copy(showRestoreWarning = false) }
+                viewModelScope.launch {
+                    _effects.send(OnboardingCurrencyEffect.RestoreReady(content))
+                }
+            }
+
+            OnboardingCurrencyIntent.RestoreDismissed -> {
+                pendingRestoreContent = null
+                _state.update { it.copy(showRestoreWarning = false) }
+            }
+
+            OnboardingCurrencyIntent.ImportCsvTapped -> {
+                viewModelScope.launch { _effects.send(OnboardingCurrencyEffect.OpenCsvFilePicker) }
             }
         }
     }

@@ -27,6 +27,12 @@ import com.dv.moneym.feature.settings.overview.PaymentModeListKey
 import com.dv.moneym.feature.settings.overview.SecuritySettingsViewModel
 import com.dv.moneym.feature.settings.overview.SettingsKey
 import com.dv.moneym.feature.settings.overview.TxListDisplayKey
+import com.dv.moneym.feature.settings.overview.backuprestore.BackupRestoreIntent
+import com.dv.moneym.feature.settings.overview.backuprestore.BackupRestoreKey
+import com.dv.moneym.feature.settings.overview.backuprestore.BackupRestoreViewModel
+import com.dv.moneym.AutoBackupManager
+import com.dv.moneym.backup.DbBackupManager
+import com.dv.moneym.feature.settings.overview.backuprestore.backupRestoreEntry
 import com.dv.moneym.feature.settings.overview.export.ExportDataKey
 import com.dv.moneym.feature.settings.overview.export.exportDataEntry
 import com.dv.moneym.feature.settings.overview.importdata.CsvImportHolder
@@ -48,7 +54,9 @@ import com.dv.moneym.feature.transactionedit.transactionEditEntry
 import com.dv.moneym.feature.transactions.list.TransactionsKey
 import com.dv.moneym.feature.transactions.list.transactionsEntry
 import com.dv.moneym.platform.FilePlatform
+import com.dv.moneym.platform.rememberBinaryFilePicker
 import com.dv.moneym.platform.rememberFilePicker
+import com.dv.moneym.platform.rememberFileSaver
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -73,6 +81,10 @@ internal fun MainNav(lockController: AppLockController) {
     val securitySettingsViewModel: SecuritySettingsViewModel = koinViewModel()
     // Shared AddWalletViewModel so both AddWalletScreen and its currency picker share state
     val addWalletViewModel: AddWalletViewModel = koinViewModel()
+    // Shared BackupRestoreViewModel so MainNav can wire the file picker to it
+    val backupRestoreViewModel: BackupRestoreViewModel = koinViewModel()
+    val autoBackupManager = koinInject<AutoBackupManager>()
+    val dbBackupManager = koinInject<DbBackupManager>()
 
     val csvFilePicker = rememberFilePicker { content ->
         if (content != null) {
@@ -80,6 +92,18 @@ internal fun MainNav(lockController: AppLockController) {
             tabBackStack.push(ImportDataKey)
         }
     }
+
+    val restoreFilePicker = rememberBinaryFilePicker { bytes ->
+        if (bytes != null) {
+            backupRestoreViewModel.onIntent(BackupRestoreIntent.RestoreFileSelected(bytes))
+        }
+    }
+
+    val fileSaver = rememberFileSaver { path ->
+        if (path != null) autoBackupManager.recordBackup(path)
+        backupRestoreViewModel.onIntent(BackupRestoreIntent.BackupSaveCompleted(path != null))
+    }
+
 
     NavDisplay(
         backStack = tabBackStack.backStack,
@@ -182,6 +206,7 @@ internal fun MainNav(lockController: AppLockController) {
                 onNavigateToExport = { tabBackStack.push(ExportDataKey) },
                 onNavigateToWallets = { tabBackStack.push(WalletManageKey) },
                 onNavigateToPaymentModes = { tabBackStack.push(PaymentModeListKey) },
+                onNavigateToBackupRestore = { tabBackStack.push(BackupRestoreKey) },
                 onTabSelected = { route ->
                     when (route) {
                         TabRoute.Transactions -> tabBackStack.switchTab(TransactionsKey)
@@ -213,6 +238,16 @@ internal fun MainNav(lockController: AppLockController) {
                 },
             )
             importDataEntry(onBack = { tabBackStack.removeLast() })
+            backupRestoreEntry(
+                onBack = { tabBackStack.removeLast() },
+                onDoExport = {
+                    val content = dbBackupManager.export()
+                    fileSaver(content, "moneym-backup.json")
+                },
+                onDoRestore = { bytes -> dbBackupManager.restore(bytes) },
+                launchRestoreFilePicker = restoreFilePicker,
+                viewModel = backupRestoreViewModel,
+            )
             paymentModeListEntry(onBack = { tabBackStack.removeLast() })
             walletManageEntry(
                 onBack = { tabBackStack.removeLast() },

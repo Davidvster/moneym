@@ -12,4 +12,5 @@ interface CategoryRepository {
     suspend fun insert(category: Category): CategoryId
     suspend fun update(category: Category)
     suspend fun delete(id: CategoryId)
+    suspend fun deleteAll()
 }

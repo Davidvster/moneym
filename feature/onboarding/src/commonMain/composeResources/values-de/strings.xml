@@ -14,4 +14,9 @@
     <string name="onboarding_currencies_header">WÄHRUNGEN</string>
     <string name="onboarding_biometrics_label">Biometrie</string>
     <string name="onboarding_biometrics_subtitle">Mit Face ID oder Fingerabdruck entsperren</string>
+    <string name="onboarding_restore_from_backup">Aus Backup wiederherstellen</string>
+    <string name="onboarding_import_data">Daten importieren</string>
+    <string name="onboarding_restore_warning_title">Alle Daten ersetzen?</string>
+    <string name="onboarding_restore_warning_body">Alle aktuellen Daten werden durch das Backup ersetzt und die Einrichtung wird übersprungen.</string>
+    <string name="onboarding_restore_confirm">Wiederherstellen</string>
 </resources>

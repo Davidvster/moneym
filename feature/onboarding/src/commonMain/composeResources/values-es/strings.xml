@@ -14,4 +14,9 @@
     <string name="onboarding_currencies_header">MONEDAS</string>
     <string name="onboarding_biometrics_label">Biometría</string>
     <string name="onboarding_biometrics_subtitle">Desbloquea con Face ID o huella dactilar</string>
+    <string name="onboarding_restore_from_backup">Restaurar desde copia de seguridad</string>
+    <string name="onboarding_import_data">Importar datos</string>
+    <string name="onboarding_restore_warning_title">¿Reemplazar todos los datos?</string>
+    <string name="onboarding_restore_warning_body">Los datos actuales se reemplazarán con la copia de seguridad y se omitirá la configuración.</string>
+    <string name="onboarding_restore_confirm">Restaurar</string>
 </resources>

@@ -12,9 +12,12 @@ internal interface AccountLocalDataSource {
         name: String, type: String, currency: String,
         isDefault: Boolean, createdAt: Long, updatedAt: Long,
     ): Long
+
     suspend fun update(
         id: Long, name: String, type: String, currency: String,
         isDefault: Boolean, archived: Boolean, updatedAt: Long,
     )
+
     suspend fun delete(id: Long)
+    suspend fun deleteAll()
 }

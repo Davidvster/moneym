@@ -2,7 +2,6 @@ package com.dv.moneym.data.categories.internal
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.data.categories.Category
 import com.dv.moneym.data.categories.db.CategoriesDatabase
@@ -37,7 +36,15 @@ internal class SqlDelightCategoryDataSource(
     ): Long = withContext(dispatchers.io) {
         var id = 0L
         db.transaction {
-            q.insert(name, iconKey, colorHex, if (isUserCreated) 1L else 0L, createdAt, updatedAt, categoryType)
+            q.insert(
+                name,
+                iconKey,
+                colorHex,
+                if (isUserCreated) 1L else 0L,
+                createdAt,
+                updatedAt,
+                categoryType
+            )
             id = q.lastInsertId().executeAsOne()
         }
         id
@@ -52,5 +59,9 @@ internal class SqlDelightCategoryDataSource(
 
     override suspend fun delete(id: Long) = withContext(dispatchers.io) {
         q.deleteById(id)
+    }
+
+    override suspend fun deleteAll() = withContext(dispatchers.io) {
+        q.deleteAll()
     }
 }

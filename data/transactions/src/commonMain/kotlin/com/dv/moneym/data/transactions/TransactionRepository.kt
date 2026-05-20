@@ -15,6 +15,7 @@ interface TransactionRepository {
     suspend fun upsert(transaction: Transaction): TransactionId
     suspend fun delete(id: TransactionId)
     suspend fun deleteByAccountId(id: AccountId)
+    suspend fun deleteAll()
     suspend fun getEarliestTransactionDate(): LocalDate?
     suspend fun getLatestTransactionDate(): LocalDate?
     fun getTransactionDates(): Flow<Set<LocalDate>>
