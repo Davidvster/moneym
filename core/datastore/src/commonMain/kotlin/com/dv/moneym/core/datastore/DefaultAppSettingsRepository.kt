@@ -54,8 +54,13 @@ class DefaultAppSettingsRepository(
         val showDailySumsFlow = appSettings
             .observeBoolean(PrefKeys.TX_SHOW_DAILY_SUMS, true)
 
-        return combine(indicatorFlow, showCategoryFlow, showNoteFlow, densityFlow, showDailySumsFlow) {
-                indicator, showCategory, showNote, density, showDailySums ->
+        return combine(
+            indicatorFlow,
+            showCategoryFlow,
+            showNoteFlow,
+            densityFlow,
+            showDailySumsFlow
+        ) { indicator, showCategory, showNote, density, showDailySums ->
             TxDisplayPrefs(
                 indicatorStyle = indicator,
                 showCategoryName = showCategory,
@@ -72,15 +77,6 @@ class DefaultAppSettingsRepository(
         appSettings.putBoolean(PrefKeys.TX_SHOW_NOTE, prefs.showNote)
         appSettings.putString(PrefKeys.TX_DENSITY, prefs.density.name)
         appSettings.putBoolean(PrefKeys.TX_SHOW_DAILY_SUMS, prefs.showDailySums)
-    }
-
-    override fun observeDefaultCurrency(): Flow<String> =
-        appSettings
-            .observeString(PrefKeys.DEFAULT_CURRENCY, "USD")
-            .map { it ?: "USD" }
-
-    override suspend fun setDefaultCurrency(currency: String) {
-        appSettings.putString(PrefKeys.DEFAULT_CURRENCY, currency)
     }
 
     override fun observeLanguage(): Flow<String> =
@@ -117,6 +113,7 @@ class DefaultAppSettingsRepository(
             TransactionType.EXPENSE -> "expense"
             TransactionType.INCOME -> "income"
         }
+
         else -> "all"
     }
 

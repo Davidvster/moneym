@@ -35,7 +35,6 @@ internal fun SettingsLazyList(
     onSecurityIntent: (SecuritySettingsIntent) -> Unit,
     onNavigateToTxDisplay: () -> Unit,
     onNavigateToCategories: () -> Unit,
-    onNavigateToCurrency: () -> Unit,
     onNavigateToLanguage: () -> Unit,
     onNavigateToExport: () -> Unit,
     onNavigateToWallets: () -> Unit,
@@ -98,10 +97,8 @@ internal fun SettingsLazyList(
         }
         item(key = SettingsItem.PREFERENCES_CARD.name) {
             PreferencesSection(
-                currencySubtitle = state.defaultCurrency,
                 languageSubtitle = languageSubtitle,
                 paymentModeEnabled = state.paymentModeEnabled,
-                onNavigateToCurrency = onNavigateToCurrency,
                 onNavigateToLanguage = onNavigateToLanguage,
                 onNavigateToCategories = onNavigateToCategories,
                 onNavigateToWallets = onNavigateToWallets,

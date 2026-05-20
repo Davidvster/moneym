@@ -11,11 +11,10 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmRow
+import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.imageVector
 import moneym.feature.settings.generated.resources.Res
-import com.dv.moneym.core.ui.MmToggle
 import moneym.feature.settings.generated.resources.settings_categories
-import moneym.feature.settings.generated.resources.settings_currency
 import moneym.feature.settings.generated.resources.settings_language
 import moneym.feature.settings.generated.resources.settings_payment_mode_enabled
 import moneym.feature.settings.generated.resources.settings_payment_modes
@@ -24,10 +23,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun PreferencesSection(
-    currencySubtitle: String,
     languageSubtitle: String,
     paymentModeEnabled: Boolean,
-    onNavigateToCurrency: () -> Unit,
     onNavigateToLanguage: () -> Unit,
     onNavigateToCategories: () -> Unit,
     onNavigateToWallets: () -> Unit,
@@ -38,28 +35,6 @@ internal fun PreferencesSection(
     val type = MM.type
     val space = MM.dimen
     MmCard(Modifier.padding(horizontal = space.padding_2x)) {
-        MmRow(onClick = onNavigateToCurrency) {
-            Icon(
-                imageVector = Icon.Info.imageVector,
-                contentDescription = null,
-                tint = colors.text,
-                modifier = Modifier.size(MM.dimen.icon_1x),
-            )
-            Column(Modifier.weight(1f)) {
-                Text(
-                    stringResource(Res.string.settings_currency),
-                    style = type.body,
-                    color = colors.text
-                )
-                Text(currencySubtitle, style = type.caption.copy(color = colors.text2))
-            }
-            Icon(
-                imageVector = Icon.ChevronRight.imageVector,
-                contentDescription = null,
-                tint = colors.text3,
-                modifier = Modifier.size(MM.dimen.padding_2x),
-            )
-        }
         MmRow(onClick = onNavigateToLanguage) {
             Icon(
                 imageVector = Icon.Globe.imageVector,
@@ -122,7 +97,9 @@ internal fun PreferencesSection(
                 modifier = Modifier.size(MM.dimen.padding_2x),
             )
         }
-        MmRow(divider = paymentModeEnabled, onClick = { onPaymentModeEnabledChanged(!paymentModeEnabled) }) {
+        MmRow(
+            divider = paymentModeEnabled,
+            onClick = { onPaymentModeEnabledChanged(!paymentModeEnabled) }) {
             Icon(
                 imageVector = Icon.Banknote.imageVector,
                 contentDescription = null,

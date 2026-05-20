@@ -47,6 +47,7 @@ val featureTransactionsModule = module {
             transactionRepository = get(),
             categoryRepository = get(),
             accountRepository = get(),
+            paymentModeRepository = get(),
             appSettingsRepository = get(),
             clock = get(),
             savedStateHandle = get(),
@@ -180,7 +181,7 @@ val featureCategoriesModule = module {
 }
 
 val featureOnboardingModule = module {
-    viewModel { OnboardingCurrencyViewModel(settings = get(), savedStateHandle = get()) }
+    viewModel { OnboardingCurrencyViewModel(accountRepository = get(), savedStateHandle = get()) }
     viewModel {
         OnboardingSecurityViewModel(
             settings = get(),

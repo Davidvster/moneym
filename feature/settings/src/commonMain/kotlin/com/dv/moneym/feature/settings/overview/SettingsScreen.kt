@@ -36,12 +36,16 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
 data object SettingsKey : NavKey
+
 @Serializable
 data object TxListDisplayKey : NavKey
+
 @Serializable
 data object CurrencyPickerKey : NavKey
+
 @Serializable
 data object LanguagePickerKey : NavKey
+
 @Serializable
 data object PaymentModeListKey : NavKey
 
@@ -61,7 +65,6 @@ fun EntryProviderScope<NavKey>.settingsEntry(
     onNavigateToPinSetup: () -> Unit,
     onNavigateToCategories: () -> Unit,
     onNavigateToTxDisplay: () -> Unit,
-    onNavigateToCurrency: () -> Unit,
     onNavigateToLanguage: () -> Unit,
     onNavigateToExport: () -> Unit = {},
     onNavigateToWallets: () -> Unit = {},
@@ -73,7 +76,6 @@ fun EntryProviderScope<NavKey>.settingsEntry(
         onNavigateToPinSetup = onNavigateToPinSetup,
         onNavigateToCategories = onNavigateToCategories,
         onNavigateToTxDisplay = onNavigateToTxDisplay,
-        onNavigateToCurrency = onNavigateToCurrency,
         onNavigateToLanguage = onNavigateToLanguage,
         onNavigateToExport = onNavigateToExport,
         onNavigateToWallets = onNavigateToWallets,
@@ -88,7 +90,6 @@ fun SettingsScreen(
     onNavigateToPinSetup: () -> Unit,
     onNavigateToCategories: () -> Unit = {},
     onNavigateToTxDisplay: () -> Unit = {},
-    onNavigateToCurrency: () -> Unit = {},
     onNavigateToLanguage: () -> Unit = {},
     onNavigateToExport: () -> Unit = {},
     onNavigateToWallets: () -> Unit = {},
@@ -99,7 +100,6 @@ fun SettingsScreen(
 ) {
     val themeMode by overviewViewModel.themeMode.collectAsStateWithLifecycle()
     val txDisplayPrefs by overviewViewModel.txDisplayPrefs.collectAsStateWithLifecycle()
-    val defaultCurrency by overviewViewModel.defaultCurrency.collectAsStateWithLifecycle()
     val language by overviewViewModel.language.collectAsStateWithLifecycle()
     val defaultTransactionType by overviewViewModel.defaultTransactionType.collectAsStateWithLifecycle()
     val paymentModeEnabled by overviewViewModel.paymentModeEnabled.collectAsStateWithLifecycle()
@@ -116,7 +116,6 @@ fun SettingsScreen(
     val state = SettingsUiState(
         themeMode = themeMode,
         txDisplayPrefs = txDisplayPrefs,
-        defaultCurrency = defaultCurrency,
         language = language,
         defaultTransactionType = defaultTransactionType,
         paymentModeEnabled = paymentModeEnabled,
@@ -130,7 +129,6 @@ fun SettingsScreen(
         onSecurityIntent = securityViewModel::onIntent,
         onNavigateToCategories = onNavigateToCategories,
         onNavigateToTxDisplay = onNavigateToTxDisplay,
-        onNavigateToCurrency = onNavigateToCurrency,
         onNavigateToLanguage = onNavigateToLanguage,
         onNavigateToExport = onNavigateToExport,
         onNavigateToWallets = onNavigateToWallets,
@@ -148,7 +146,6 @@ private fun SettingsContent(
     onSecurityIntent: (SecuritySettingsIntent) -> Unit,
     onNavigateToCategories: () -> Unit,
     onNavigateToTxDisplay: () -> Unit,
-    onNavigateToCurrency: () -> Unit,
     onNavigateToLanguage: () -> Unit,
     onNavigateToExport: () -> Unit,
     onNavigateToWallets: () -> Unit,
@@ -222,7 +219,6 @@ private fun SettingsContent(
             onSecurityIntent = onSecurityIntent,
             onNavigateToTxDisplay = onNavigateToTxDisplay,
             onNavigateToCategories = onNavigateToCategories,
-            onNavigateToCurrency = onNavigateToCurrency,
             onNavigateToLanguage = onNavigateToLanguage,
             onNavigateToExport = onNavigateToExport,
             onNavigateToWallets = onNavigateToWallets,
@@ -245,7 +241,6 @@ private fun SettingsScreenPreview() {
             onSecurityIntent = {},
             onNavigateToCategories = {},
             onNavigateToTxDisplay = {},
-            onNavigateToCurrency = {},
             onNavigateToLanguage = {},
             onNavigateToExport = {},
             onNavigateToWallets = {},

@@ -1,15 +1,13 @@
 package com.dv.moneym.data.backup
 
 import com.dv.moneym.core.datastore.AppSettings
-import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.core.security.SecurityPrefs
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.transactions.TransactionRepository
-import kotlin.time.Clock
 import kotlinx.coroutines.flow.first
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlin.time.Clock
 
 class BackupExporter(
     private val categoryRepository: CategoryRepository,
@@ -23,8 +21,11 @@ class BackupExporter(
         val categories = categoryRepository.observeAll().first()
         val accounts = accountRepository.observeAll().first()
         val transactions = transactionRepository.observeAll().first()
-        val currency = appSettings.getString(PrefKeys.DEFAULT_CURRENCY) ?: "EUR"
-        val lockSeconds = appSettings.getInt(SecurityPrefs.BACKGROUND_LOCK_SECONDS, SecurityPrefs.DEFAULT_LOCK_SECONDS)
+        val currency = accounts.firstOrNull { it.isDefault }?.currency?.value ?: "USD"
+        val lockSeconds = appSettings.getInt(
+            SecurityPrefs.BACKGROUND_LOCK_SECONDS,
+            SecurityPrefs.DEFAULT_LOCK_SECONDS
+        )
 
         val backup = BackupDto(
             moneym = BackupMetaDto(
@@ -50,10 +51,14 @@ class BackupExporter(
         val sb = StringBuilder()
         sb.appendLine("date,type,amount,currency,category,account,note")
         transactions.forEach { txn ->
-            val catName = (categories[txn.categoryId]?.name ?: "").replace(",", ";").replace("\"", "\"\"")
-            val accName = (accounts[txn.accountId]?.name ?: "").replace(",", ";").replace("\"", "\"\"")
+            val catName =
+                (categories[txn.categoryId]?.name ?: "").replace(",", ";").replace("\"", "\"\"")
+            val accName =
+                (accounts[txn.accountId]?.name ?: "").replace(",", ";").replace("\"", "\"\"")
             val note = (txn.note ?: "").replace("\"", "\"\"")
-            val amount = "${txn.amount.minorUnits / 100}.${(txn.amount.minorUnits % 100).toString().padStart(2, '0')}"
+            val amount = "${txn.amount.minorUnits / 100}.${
+                (txn.amount.minorUnits % 100).toString().padStart(2, '0')
+            }"
             sb.appendLine("${txn.occurredOn},${txn.type.name},$amount,${txn.amount.currency.value},\"$catName\",\"$accName\",\"$note\"")
         }
         return sb.toString()

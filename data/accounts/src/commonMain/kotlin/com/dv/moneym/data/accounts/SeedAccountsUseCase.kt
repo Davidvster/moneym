@@ -13,23 +13,20 @@ class SeedAccountsUseCase(
     private val settings: AppSettings,
 ) {
     suspend operator fun invoke() {
-        if (repository.count() == 0L) {
-            val currency = settings.getString(PrefKeys.DEFAULT_CURRENCY)
-                ?.takeIf { it.isNotBlank() }
-                ?: "EUR"
-            val epoch = Instant.fromEpochMilliseconds(0)
-            repository.insert(
-                Account(
-                    id = AccountId(0),
-                    name = "Main",
-                    type = AccountType.CASH,
-                    currency = CurrencyCode(currency),
-                    isDefault = true,
-                    archived = false,
-                    createdAt = epoch,
-                    updatedAt = epoch,
-                )
+        if (repository.count() > 0L) return
+        if (!settings.getBoolean(PrefKeys.ONBOARDING_COMPLETED)) return
+        val epoch = Instant.fromEpochMilliseconds(0)
+        repository.insert(
+            Account(
+                id = AccountId(0),
+                name = "Main",
+                type = AccountType.CASH,
+                currency = CurrencyCode("USD"),
+                isDefault = true,
+                archived = false,
+                createdAt = epoch,
+                updatedAt = epoch,
             )
-        }
+        )
     }
 }

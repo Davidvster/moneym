@@ -26,16 +26,19 @@ class WalletManageViewModel(
 ) : ViewModel() {
 
     private val _pendingDeleteId = MutableStateFlow<Long?>(null)
+    private val _pendingEditCurrencyAccountId = MutableStateFlow<Long?>(null)
 
     internal val state: StateFlow<WalletManageUiState> = combine(
         accountRepository.observeAll(),
         appSettingsRepository.observeSelectedAccountId(),
         _pendingDeleteId,
-    ) { accounts, selectedId, pendingDeleteId ->
+        _pendingEditCurrencyAccountId,
+    ) { accounts, selectedId, pendingDeleteId, pendingEditCurrencyAccountId ->
         WalletManageUiState(
             accounts = accounts,
             selectedAccountId = selectedId,
             pendingDeleteId = pendingDeleteId,
+            pendingEditCurrencyAccountId = pendingEditCurrencyAccountId,
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, WalletManageUiState())
 
@@ -73,6 +76,22 @@ class WalletManageViewModel(
                 viewModelScope.launch {
                     transactionRepository.deleteByAccountId(AccountId(id))
                     accountRepository.delete(AccountId(id))
+                }
+            }
+
+            is WalletManageIntent.EditCurrencyRequested ->
+                _pendingEditCurrencyAccountId.value = intent.accountId
+
+            WalletManageIntent.EditCurrencyCancelled ->
+                _pendingEditCurrencyAccountId.value = null
+
+            is WalletManageIntent.UpdateCurrency -> {
+                _pendingEditCurrencyAccountId.value = null
+                viewModelScope.launch {
+                    val accounts = accountRepository.observeAll().stateIn(viewModelScope).value
+                    val account =
+                        accounts.firstOrNull { it.id.value == intent.accountId } ?: return@launch
+                    accountRepository.update(account.copy(currency = CurrencyCode(intent.currency)))
                 }
             }
         }

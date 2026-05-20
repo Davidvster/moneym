@@ -48,6 +48,7 @@ fun TxRow(
     amountValue: Double,
     currency: String,
     prefs: TxDisplayPrefs,
+    paymentModeName: String? = null,
     onClick: (() -> Unit)? = null,
     divider: Boolean = true,
     modifier: Modifier = Modifier,
@@ -133,6 +134,15 @@ fun TxRow(
                         text = secondaryText,
                         style = type.caption,
                         color = colors.text2,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+                if (paymentModeName != null) {
+                    Text(
+                        text = paymentModeName,
+                        style = type.caption,
+                        color = colors.text3,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )

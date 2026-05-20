@@ -52,4 +52,5 @@ internal data class TransactionUiModel(
     val categoryIcon: Icon,
     val note: String?,
     val occurredOn: LocalDate,
+    val paymentModeName: String? = null,
 )

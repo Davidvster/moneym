@@ -132,7 +132,7 @@ internal fun TransactionEditScrollBody(
             categoryError = state.categoryError,
             onCategorySelected = { onIntent(TransactionEditIntent.CategorySelected(it)) },
         )
-        if (state.showPaymentMode && state.paymentModes.isNotEmpty()) {
+        if ((state.showPaymentMode || state.selectedPaymentModeId != null) && state.paymentModes.isNotEmpty()) {
             Spacer(Modifier.height(MM.dimen.padding_3x))
             PaymentModePicker(
                 modes = state.paymentModes.map { it.id to it.name },

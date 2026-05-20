@@ -569,6 +569,7 @@ private fun TransactionListBody(
                             amountValue = tx.amountMinorUnits / 100.0,
                             currency = tx.currency,
                             prefs = txDisplayPrefs,
+                            paymentModeName = tx.paymentModeName,
                             onClick = { onEditTransaction(tx.id) },
                             divider = tx != group.transactions.last(),
                         )

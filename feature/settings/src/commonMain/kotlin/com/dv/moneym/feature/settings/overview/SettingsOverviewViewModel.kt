@@ -23,14 +23,12 @@ class SettingsOverviewViewModel(
     val txDisplayPrefs: StateFlow<TxDisplayPrefs> = appSettingsRepository.observeTxDisplayPrefs()
         .stateIn(viewModelScope, SharingStarted.Lazily, TxDisplayPrefs())
 
-    val defaultCurrency: StateFlow<String> = appSettingsRepository.observeDefaultCurrency()
-        .stateIn(viewModelScope, SharingStarted.Lazily, "")
-
     val language: StateFlow<String> = appSettingsRepository.observeLanguage()
         .stateIn(viewModelScope, SharingStarted.Lazily, "")
 
-    val defaultTransactionType: StateFlow<TransactionType> = appSettingsRepository.observeDefaultTransactionType()
-        .stateIn(viewModelScope, SharingStarted.Lazily, TransactionType.EXPENSE)
+    val defaultTransactionType: StateFlow<TransactionType> =
+        appSettingsRepository.observeDefaultTransactionType()
+            .stateIn(viewModelScope, SharingStarted.Lazily, TransactionType.EXPENSE)
 
     val paymentModeEnabled: StateFlow<Boolean> = appSettingsRepository.observePaymentModeEnabled()
         .stateIn(viewModelScope, SharingStarted.Lazily, false)

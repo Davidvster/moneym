@@ -29,16 +29,16 @@ import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.CommonCurrencies
 import com.dv.moneym.core.model.CurrencyInfo
-import com.dv.moneym.core.model.PopularCurrencyCodes
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.model.PopularCurrencyCodes
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmRow
-import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
+import com.dv.moneym.core.ui.imageVector
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_currency_all
@@ -173,7 +173,7 @@ private fun AddWalletScreen(
 }
 
 @Composable
-private fun AddWalletCurrencyPickerScreen(
+internal fun AddWalletCurrencyPickerScreen(
     currentCurrency: String,
     onBack: () -> Unit,
     onCurrencySelected: (String) -> Unit,

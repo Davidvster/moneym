@@ -22,13 +22,11 @@ import com.dv.moneym.feature.overview.OverviewKey
 import com.dv.moneym.feature.overview.overviewEntry
 import com.dv.moneym.feature.security.setup.PinSetupKey
 import com.dv.moneym.feature.security.setup.pinSetupEntry
-import com.dv.moneym.feature.settings.overview.CurrencyPickerKey
 import com.dv.moneym.feature.settings.overview.LanguagePickerKey
 import com.dv.moneym.feature.settings.overview.PaymentModeListKey
 import com.dv.moneym.feature.settings.overview.SecuritySettingsViewModel
 import com.dv.moneym.feature.settings.overview.SettingsKey
 import com.dv.moneym.feature.settings.overview.TxListDisplayKey
-import com.dv.moneym.feature.settings.overview.currencypicker.currencyPickerEntry
 import com.dv.moneym.feature.settings.overview.export.ExportDataKey
 import com.dv.moneym.feature.settings.overview.export.exportDataEntry
 import com.dv.moneym.feature.settings.overview.importdata.CsvImportHolder
@@ -180,7 +178,6 @@ internal fun MainNav(lockController: AppLockController) {
                 onNavigateToPinSetup = { tabBackStack.push(PinSetupKey(isChangePinFlow = true)) },
                 onNavigateToCategories = { tabBackStack.push(CategoriesKey) },
                 onNavigateToTxDisplay = { tabBackStack.push(TxListDisplayKey) },
-                onNavigateToCurrency = { tabBackStack.push(CurrencyPickerKey) },
                 onNavigateToLanguage = { tabBackStack.push(LanguagePickerKey) },
                 onNavigateToExport = { tabBackStack.push(ExportDataKey) },
                 onNavigateToWallets = { tabBackStack.push(WalletManageKey) },
@@ -204,7 +201,6 @@ internal fun MainNav(lockController: AppLockController) {
                 onBack = { tabBackStack.removeLast() },
             )
             txListDisplayEntry(onBack = { tabBackStack.removeLast() })
-            currencyPickerEntry(onBack = { tabBackStack.removeLast() })
             languagePickerEntry(onBack = { tabBackStack.removeLast() })
             exportDataEntry(
                 onBack = { tabBackStack.removeLast() },

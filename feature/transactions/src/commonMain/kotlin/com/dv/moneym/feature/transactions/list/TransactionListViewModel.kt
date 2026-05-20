@@ -11,6 +11,7 @@ import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.Money
+import com.dv.moneym.core.model.PaymentMode
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
@@ -19,6 +20,7 @@ import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.model.format
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
+import com.dv.moneym.data.transactions.PaymentModeRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,6 +42,7 @@ class TransactionListViewModel(
     private val transactionRepository: TransactionRepository,
     private val categoryRepository: CategoryRepository,
     private val accountRepository: AccountRepository,
+    private val paymentModeRepository: PaymentModeRepository,
     private val appSettingsRepository: AppSettingsRepository,
     clock: AppClock,
     savedStateHandle: SavedStateHandle
@@ -94,7 +97,8 @@ class TransactionListViewModel(
             txnFlow,
             _selectedAccountId,
             accountRepository.observeAll(),
-        ) { transactions, selectedAccId, accounts ->
+            paymentModeRepository.observeAll(),
+        ) { transactions, selectedAccId, accounts, paymentModes ->
             // Filter by selected account (if one is selected and non-negative)
             val accountFilteredTxns = if (selectedAccId > 0L) {
                 transactions.filter { it.accountId.value == selectedAccId }
@@ -108,7 +112,12 @@ class TransactionListViewModel(
                     DayGroup(
                         date = date,
                         label = date.toDisplayLabel(),
-                        transactions = txns.map { it.toUiModel(catMap[it.categoryId]) },
+                        transactions = txns.map {
+                            it.toUiModel(
+                                catMap[it.categoryId],
+                                paymentModes
+                            )
+                        },
                     )
                 }
                 .sortedByDescending { it.date }
@@ -199,6 +208,7 @@ class TransactionListViewModel(
                     if (min != null && prev < min) current else prev
                 }
             }
+
             TransactionListIntent.NextMonth -> _currentMonth.update { it.next() }
             is TransactionListIntent.FilterChanged -> {
                 _filter.update { intent.filter }
@@ -215,6 +225,7 @@ class TransactionListViewModel(
                     if (min != null && intent.yearMonth < min) min else intent.yearMonth
                 }
             }
+
             is TransactionListIntent.AccountSelected -> {
                 val id = intent.accountId?.value ?: -1L
                 _selectedAccountId.value = id
@@ -226,19 +237,21 @@ class TransactionListViewModel(
     }
 }
 
-private fun Transaction.toUiModel(category: Category?) = TransactionUiModel(
-    id = id,
-    type = type,
-    amountFormatted = amount.format(),
-    amountMinorUnits = amount.minorUnits,
-    currency = amount.currency.value,
-    isExpense = type == TransactionType.EXPENSE,
-    categoryName = category?.name ?: "—",
-    categoryColorHex = category?.colorHex ?: "#8A8A8A",
-    categoryIcon = Icon.fromKeyOrDefault(category?.iconKey ?: Icon.Dots.key),
-    note = note,
-    occurredOn = occurredOn,
-)
+private fun Transaction.toUiModel(category: Category?, paymentModes: List<PaymentMode>) =
+    TransactionUiModel(
+        id = id,
+        type = type,
+        amountFormatted = amount.format(),
+        amountMinorUnits = amount.minorUnits,
+        currency = amount.currency.value,
+        isExpense = type == TransactionType.EXPENSE,
+        categoryName = category?.name ?: "—",
+        categoryColorHex = category?.colorHex ?: "#8A8A8A",
+        categoryIcon = Icon.fromKeyOrDefault(category?.iconKey ?: Icon.Dots.key),
+        note = note,
+        occurredOn = occurredOn,
+        paymentModeName = paymentModeId?.let { id -> paymentModes.firstOrNull { it.id == id }?.name },
+    )
 
 private fun buildSummary(transactions: List<Transaction>, filter: TransactionFilter): String {
     if (transactions.isEmpty()) return ""

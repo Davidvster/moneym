@@ -275,7 +275,7 @@ class TransactionEditViewModel(
         _state.update { it.copy(isSaving = true) }
         viewModelScope.launch {
             val account = s.availableAccounts.firstOrNull { it.id == accId }
-            val currency = account?.currency ?: CurrencyCode("EUR")
+            val currency = account?.currency ?: CurrencyCode("USD")
             val txn = Transaction(
                 id = s.existingId ?: UNSAVED_TRANSACTION_ID,
                 type = s.type,

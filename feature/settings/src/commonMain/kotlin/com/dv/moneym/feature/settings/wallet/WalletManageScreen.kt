@@ -1,6 +1,7 @@
 package com.dv.moneym.feature.settings.wallet
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,9 +21,9 @@ import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmRow
-import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
+import com.dv.moneym.core.ui.imageVector
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_wallet_manage_title
@@ -57,102 +58,139 @@ private fun WalletManageScreen(
     val type = MM.type
     val space = MM.dimen
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colors.bg),
-    ) {
-        ScreenHeader(
-            title = stringResource(Res.string.settings_wallet_manage_title),
-            onBack = onBack,
-            trailingContent = {
-                MmIconButton(
-                    icon = Icon.Plus.imageVector,
-                    onClick = onNavigateToAddWallet,
-                )
-            },
-        )
-
-        if (state.pendingDeleteId != null) {
-            WalletDeleteSheet(
-                onConfirm = { viewModel.onIntent(WalletManageIntent.DeleteConfirmed) },
-                onCancel = { viewModel.onIntent(WalletManageIntent.DeleteCancelled) },
-            )
-        }
-
-        LazyColumn(
-            modifier = Modifier.weight(1f),
-            contentPadding = PaddingValues(
-                horizontal = space.padding_2x,
-                vertical = space.padding_2x,
-            ),
+    Box(Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colors.bg),
         ) {
-            val activeAccounts = state.accounts.filter { !it.archived }
+            ScreenHeader(
+                title = stringResource(Res.string.settings_wallet_manage_title),
+                onBack = onBack,
+                trailingContent = {
+                    MmIconButton(
+                        icon = Icon.Plus.imageVector,
+                        onClick = onNavigateToAddWallet,
+                    )
+                },
+            )
 
-            if (activeAccounts.isEmpty()) {
-                item {
-                    Text(
-                        text = stringResource(Res.string.settings_wallet_no_wallets),
-                        style = type.body,
-                        color = colors.text3,
-                        modifier = Modifier.padding(space.padding_2x),
-                    )
-                }
-            } else {
-                item {
-                    SectionLabel(
-                        text = stringResource(Res.string.settings_wallet_section_header),
-                        modifier = Modifier.padding(bottom = space.padding_0_5x),
-                    )
-                }
-                item {
-                    MmCard(padded = false, shape = MM.dimen.radius_1_5x) {
-                        Column {
-                            activeAccounts.forEachIndexed { idx, account ->
-                                val isSelected = account.id.value == state.selectedAccountId ||
-                                        (state.selectedAccountId <= 0L && account.isDefault)
-                                MmRow(
-                                    onClick = {
-                                        viewModel.onIntent(WalletManageIntent.SelectAccount(account.id.value))
-                                    },
-                                    divider = idx < activeAccounts.lastIndex,
-                                ) {
-                                    Column(modifier = Modifier.weight(1f)) {
-                                        Text(
-                                            text = account.name,
-                                            style = type.body,
-                                            color = colors.text,
-                                        )
-                                        Text(
-                                            text = stringResource(
-                                                Res.string.settings_wallet_type_currency,
-                                                account.type.name.lowercase()
-                                                    .replaceFirstChar { it.uppercase() },
-                                                account.currency.value,
-                                            ),
-                                            style = type.caption.copy(color = colors.text2),
-                                        )
-                                    }
-                                    if (isSelected) {
-                                        Icon(
-                                            imageVector = Icon.Check.imageVector,
-                                            contentDescription = null,
-                                            tint = colors.accent,
-                                            modifier = Modifier.size(MM.dimen.icon_1x),
-                                        )
-                                    }
-                                    MmIconButton(
-                                        icon = Icon.Trash.imageVector,
+            if (state.pendingDeleteId != null) {
+                WalletDeleteSheet(
+                    onConfirm = { viewModel.onIntent(WalletManageIntent.DeleteConfirmed) },
+                    onCancel = { viewModel.onIntent(WalletManageIntent.DeleteCancelled) },
+                )
+            }
+
+            LazyColumn(
+                modifier = Modifier.weight(1f),
+                contentPadding = PaddingValues(
+                    horizontal = space.padding_2x,
+                    vertical = space.padding_2x,
+                ),
+            ) {
+                val activeAccounts = state.accounts.filter { !it.archived }
+
+                if (activeAccounts.isEmpty()) {
+                    item {
+                        Text(
+                            text = stringResource(Res.string.settings_wallet_no_wallets),
+                            style = type.body,
+                            color = colors.text3,
+                            modifier = Modifier.padding(space.padding_2x),
+                        )
+                    }
+                } else {
+                    item {
+                        SectionLabel(
+                            text = stringResource(Res.string.settings_wallet_section_header),
+                            modifier = Modifier.padding(bottom = space.padding_0_5x),
+                        )
+                    }
+                    item {
+                        MmCard(padded = false, shape = MM.dimen.radius_1_5x) {
+                            Column {
+                                activeAccounts.forEachIndexed { idx, account ->
+                                    val isSelected = account.id.value == state.selectedAccountId ||
+                                            (state.selectedAccountId <= 0L && account.isDefault)
+                                    MmRow(
                                         onClick = {
-                                            viewModel.onIntent(WalletManageIntent.DeleteRequested(account.id.value))
+                                            viewModel.onIntent(
+                                                WalletManageIntent.SelectAccount(
+                                                    account.id.value
+                                                )
+                                            )
                                         },
-                                    )
+                                        divider = idx < activeAccounts.lastIndex,
+                                    ) {
+                                        Column(modifier = Modifier.weight(1f)) {
+                                            Text(
+                                                text = account.name,
+                                                style = type.body,
+                                                color = colors.text,
+                                            )
+                                            Text(
+                                                text = stringResource(
+                                                    Res.string.settings_wallet_type_currency,
+                                                    account.type.name.lowercase()
+                                                        .replaceFirstChar { it.uppercase() },
+                                                    account.currency.value,
+                                                ),
+                                                style = type.caption.copy(color = colors.text2),
+                                            )
+                                        }
+                                        if (isSelected) {
+                                            Icon(
+                                                imageVector = Icon.Check.imageVector,
+                                                contentDescription = null,
+                                                tint = colors.accent,
+                                                modifier = Modifier.size(MM.dimen.icon_1x),
+                                            )
+                                        }
+                                        MmIconButton(
+                                            icon = Icon.Plus.imageVector,
+                                            onClick = {
+                                                viewModel.onIntent(
+                                                    WalletManageIntent.EditCurrencyRequested(
+                                                        account.id.value
+                                                    )
+                                                )
+                                            },
+                                        )
+                                        MmIconButton(
+                                            icon = Icon.Trash.imageVector,
+                                            onClick = {
+                                                viewModel.onIntent(
+                                                    WalletManageIntent.DeleteRequested(
+                                                        account.id.value
+                                                    )
+                                                )
+                                            },
+                                        )
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+        }
+
+        if (state.pendingEditCurrencyAccountId != null) {
+            val editingAccount =
+                state.accounts.firstOrNull { it.id.value == state.pendingEditCurrencyAccountId }
+            AddWalletCurrencyPickerScreen(
+                currentCurrency = editingAccount?.currency?.value ?: "",
+                onBack = { viewModel.onIntent(WalletManageIntent.EditCurrencyCancelled) },
+                onCurrencySelected = { code ->
+                    viewModel.onIntent(
+                        WalletManageIntent.UpdateCurrency(
+                            state.pendingEditCurrencyAccountId!!,
+                            code
+                        )
+                    )
+                },
+            )
         }
     }
 }

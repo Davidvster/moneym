@@ -37,6 +37,7 @@ kotlin {
             implementation(projects.core.navigation)
             implementation(projects.core.security)
             implementation(projects.data.settings)
+            implementation(projects.data.accounts)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
