@@ -16,6 +16,7 @@ import platform.Foundation.NSTemporaryDirectory
 import platform.Foundation.create
 import platform.Foundation.writeToFile
 import platform.UIKit.UIActivityViewController
+import platform.UIKit.UIModalPresentationFormSheet
 
 actual class FilePlatform {
     @OptIn(ExperimentalForeignApi::class)
@@ -35,6 +36,7 @@ actual class FilePlatform {
                     activityItems = listOf(fileUrl),
                     applicationActivities = null,
                 )
+                activityVc.modalPresentationStyle = UIModalPresentationFormSheet
                 topViewController()?.presentViewController(activityVc, animated = true, completion = null)
                 true
             }.getOrElse { false }

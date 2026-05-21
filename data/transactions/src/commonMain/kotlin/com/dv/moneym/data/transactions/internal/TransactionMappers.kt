@@ -8,21 +8,21 @@ import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
+import com.dv.moneym.data.transactions.db.TransactionEntity
 import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
-import com.dv.moneym.data.transactions.TransactionEntry as TransactionRow
 
-internal fun TransactionRow.toDomain() = Transaction(
+internal fun TransactionEntity.toDomain() = Transaction(
     id = TransactionId(id),
     type = TransactionType.valueOf(type),
-    amount = Money(amount_minor, CurrencyCode(currency)),
-    occurredOn = LocalDate.parse(occurred_on),
+    amount = Money(amountMinor, CurrencyCode(currency)),
+    occurredOn = LocalDate.parse(occurredOn),
     note = note,
-    categoryId = CategoryId(category_id),
-    accountId = AccountId(account_id),
-    createdAt = Instant.fromEpochMilliseconds(created_at),
-    updatedAt = Instant.fromEpochMilliseconds(updated_at),
-    paymentModeId = payment_mode_id?.let { PaymentModeId(it) },
+    categoryId = CategoryId(categoryId),
+    accountId = AccountId(accountId),
+    createdAt = Instant.fromEpochMilliseconds(createdAt),
+    updatedAt = Instant.fromEpochMilliseconds(updatedAt),
+    paymentModeId = paymentModeId?.let { PaymentModeId(it) },
 )
 
 internal fun yearMonthKey(year: Int, month: Int): String =

@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import platform.Foundation.NSURL
 import platform.UIKit.UIActivityViewController
+import platform.UIKit.UIModalPresentationFormSheet
 
 @Composable
 actual fun rememberFileSaver(onSaved: (String?) -> Unit): (ByteArray, String) -> Unit {
@@ -26,6 +27,7 @@ actual fun rememberFileSaver(onSaved: (String?) -> Unit): (ByteArray, String) ->
                         activityItems = listOf(fileUrl),
                         applicationActivities = null,
                     )
+                    activityVc.modalPresentationStyle = UIModalPresentationFormSheet
                     topViewController()?.presentViewController(activityVc, animated = true, completion = null)
                 }
             }

@@ -1,12 +1,12 @@
 package com.dv.moneym.data.categories.internal
 
-import com.dv.moneym.data.categories.Category
+import com.dv.moneym.data.categories.db.CategoryEntity
 import kotlinx.coroutines.flow.Flow
 
 internal interface CategoryLocalDataSource {
-    fun observeAll(): Flow<List<Category>>
-    fun observeActive(): Flow<List<Category>>
-    suspend fun getById(id: Long): Category?
+    fun observeAll(): Flow<List<CategoryEntity>>
+    fun observeActive(): Flow<List<CategoryEntity>>
+    suspend fun getById(id: Long): CategoryEntity?
     suspend fun count(): Long
     suspend fun insert(
         name: String, iconKey: String, colorHex: String,

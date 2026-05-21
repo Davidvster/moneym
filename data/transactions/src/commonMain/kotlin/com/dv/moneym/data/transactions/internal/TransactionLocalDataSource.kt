@@ -1,15 +1,15 @@
 package com.dv.moneym.data.transactions.internal
 
-import com.dv.moneym.data.transactions.TransactionEntry
+import com.dv.moneym.data.transactions.db.TransactionEntity
 import kotlinx.coroutines.flow.Flow
 
 internal interface TransactionLocalDataSource {
-    fun observeAll(): Flow<List<TransactionEntry>>
-    fun observeByMonth(yearMonth: String): Flow<List<TransactionEntry>>
-    fun observeByCategory(categoryId: Long): Flow<List<TransactionEntry>>
-    fun observeByType(type: String): Flow<List<TransactionEntry>>
-    fun observeByCategoryAndType(categoryId: Long, type: String): Flow<List<TransactionEntry>>
-    suspend fun getById(id: Long): TransactionEntry?
+    fun observeAll(): Flow<List<TransactionEntity>>
+    fun observeByMonth(yearMonth: String): Flow<List<TransactionEntity>>
+    fun observeByCategory(categoryId: Long): Flow<List<TransactionEntity>>
+    fun observeByType(type: String): Flow<List<TransactionEntity>>
+    fun observeByCategoryAndType(categoryId: Long, type: String): Flow<List<TransactionEntity>>
+    suspend fun getById(id: Long): TransactionEntity?
     suspend fun insert(
         type: String, amountMinor: Long, currency: String, occurredOn: String,
         note: String?, categoryId: Long, accountId: Long, createdAt: Long, updatedAt: Long,

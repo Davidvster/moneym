@@ -1,25 +1,27 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.sqldelight)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 kotlin {
-    // compilerOptions DSL inside androidTarget is unsupported with sqldelight 2.0.x;
-    // JVM target is controlled via android.compileOptions below.
     androidTarget()
     listOf(iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework { baseName = "DataTransactions"; isStatic = true }
     }
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.sqldelight.runtime)
-            implementation(libs.sqldelight.coroutines.extensions)
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
             implementation(projects.core.model)
             implementation(projects.core.common)
-            implementation(projects.core.database)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -28,12 +30,10 @@ kotlin {
     }
 }
 
-sqldelight {
-    databases {
-        create("TransactionsDatabase") {
-            packageName.set("com.dv.moneym.data.transactions.db")
-        }
-    }
+dependencies {
+    add("kspAndroid",           libs.room.compiler)
+    add("kspIosArm64",          libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
 }
 
 android {

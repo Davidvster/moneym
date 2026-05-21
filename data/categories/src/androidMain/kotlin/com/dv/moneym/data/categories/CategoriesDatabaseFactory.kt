@@ -1,0 +1,13 @@
+package com.dv.moneym.data.categories
+
+import android.content.Context
+import androidx.room.Room
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import com.dv.moneym.data.categories.db.CategoriesRoomDatabase
+import kotlinx.coroutines.Dispatchers
+
+fun createCategoriesDatabase(context: Context): CategoriesRoomDatabase =
+    Room.databaseBuilder<CategoriesRoomDatabase>(context = context, name = "moneym_categories.db")
+        .setDriver(BundledSQLiteDriver())
+        .setQueryCoroutineContext(Dispatchers.IO)
+        .build()

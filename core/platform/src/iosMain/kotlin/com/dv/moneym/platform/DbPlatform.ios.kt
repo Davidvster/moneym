@@ -5,12 +5,9 @@ import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import platform.Foundation.NSApplicationSupportDirectory
 import platform.Foundation.NSData
-import platform.Foundation.NSDocumentDirectory
+import platform.Foundation.NSApplicationSupportDirectory
 import platform.Foundation.NSFileManager
-import platform.Foundation.NSLibraryDirectory
-import platform.Foundation.NSSearchPathForDirectoriesInDomains
 import platform.Foundation.NSUserDomainMask
 import platform.Foundation.NSURL
 import platform.Foundation.create
@@ -19,29 +16,11 @@ import platform.posix.exit
 import platform.posix.memcpy
 
 actual class DbPlatform {
+    @OptIn(ExperimentalForeignApi::class)
     actual val dbDirectory: String
-        get() = findDbDirectory()
-
-    private fun findDbDirectory(): String {
-        val fm = NSFileManager.defaultManager
-        val probe = "moneym_categories.db"
-
-        // Probe candidate directories in priority order (sqliter uses Application Support)
-        val dirs = listOf(
-            NSApplicationSupportDirectory,
-            NSLibraryDirectory,
-            NSDocumentDirectory,
-        ).mapNotNull { domain ->
-            NSSearchPathForDirectoriesInDomains(domain, NSUserDomainMask, true)
-                .firstOrNull()?.toString()
-        }
-
-        // Return first directory that already contains the DB
-        dirs.firstOrNull { dir -> fm.fileExistsAtPath("$dir/$probe") }?.let { return it }
-
-        // Not found yet — return Application Support (sqliter will create it there)
-        return dirs.firstOrNull() ?: ""
-    }
+        get() = NSFileManager.defaultManager.URLForDirectory(
+            NSApplicationSupportDirectory, NSUserDomainMask, null, true, null
+        )?.path ?: ""
 
     @OptIn(ExperimentalForeignApi::class)
     actual suspend fun readBytes(path: String): ByteArray? = withContext(Dispatchers.Default) {
