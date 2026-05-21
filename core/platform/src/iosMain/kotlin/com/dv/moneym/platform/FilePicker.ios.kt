@@ -8,7 +8,6 @@ import platform.Foundation.NSURL
 import platform.Foundation.NSString
 import platform.Foundation.NSUTF8StringEncoding
 import platform.Foundation.stringWithContentsOfURL
-import platform.UIKit.UIApplication
 import platform.UIKit.UIDocumentPickerViewController
 import platform.UIKit.UIDocumentPickerDelegateProtocol
 import platform.UniformTypeIdentifiers.UTTypeItem
@@ -45,7 +44,6 @@ actual fun rememberFilePicker(onResult: (String?) -> Unit): () -> Unit {
         )
         picker.delegate = delegate
         picker.allowsMultipleSelection = false
-        UIApplication.sharedApplication.keyWindow?.rootViewController
-            ?.presentViewController(picker, animated = true, completion = null)
+        topViewController()?.presentViewController(picker, animated = true, completion = null)
     }
 }

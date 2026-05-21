@@ -34,6 +34,14 @@ class OnboardingSecurityViewModel(
     private val _effects = Channel<OnboardingSecurityEffect>(Channel.BUFFERED)
     internal val effects = _effects.receiveAsFlow()
 
+    init {
+        viewModelScope.launch {
+            if (pinManager.isPinSet()) {
+                _state.update { it.copy(pinEnabled = true) }
+            }
+        }
+    }
+
     fun onReturnFromPinSetup() {
         viewModelScope.launch {
             val pinSet = pinManager.isPinSet()

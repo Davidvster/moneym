@@ -9,7 +9,6 @@ import kotlinx.cinterop.usePinned
 import platform.Foundation.NSData
 import platform.Foundation.NSURL
 import platform.Foundation.create
-import platform.UIKit.UIApplication
 import platform.UIKit.UIDocumentPickerDelegateProtocol
 import platform.UIKit.UIDocumentPickerViewController
 import platform.UniformTypeIdentifiers.UTTypeItem
@@ -51,7 +50,6 @@ actual fun rememberBinaryFilePicker(onResult: (ByteArray?) -> Unit): () -> Unit 
         val picker = UIDocumentPickerViewController(forOpeningContentTypes = listOf(UTTypeItem))
         picker.delegate = delegate
         picker.allowsMultipleSelection = false
-        UIApplication.sharedApplication.keyWindow?.rootViewController
-            ?.presentViewController(picker, animated = true, completion = null)
+        topViewController()?.presentViewController(picker, animated = true, completion = null)
     }
 }

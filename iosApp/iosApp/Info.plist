@@ -8,5 +8,7 @@
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>MoneyM uses Face ID to unlock the app.</string>
 </dict>
 </plist>
