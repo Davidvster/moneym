@@ -39,6 +39,7 @@ kotlin {
             implementation(projects.data.settings)
             implementation(projects.data.accounts)
             implementation(projects.data.backup)
+            implementation(projects.core.platform)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

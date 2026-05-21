@@ -1,6 +1,6 @@
 package com.dv.moneym
 
-import com.dv.moneym.backup.DbBackupManager
+import com.dv.moneym.data.backup.DbBackupManager
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys

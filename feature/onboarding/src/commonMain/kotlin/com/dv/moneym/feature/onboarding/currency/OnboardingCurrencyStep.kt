@@ -50,6 +50,7 @@ import moneym.feature.onboarding.generated.resources.onboarding_restore_warning_
 import moneym.feature.onboarding.generated.resources.onboarding_restore_warning_title
 import moneym.feature.onboarding.generated.resources.onboarding_search_currency
 import moneym.feature.onboarding.generated.resources.onboarding_welcome
+import com.dv.moneym.platform.rememberBinaryFilePicker
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -58,16 +59,12 @@ data object OnboardingKey : NavKey
 
 fun EntryProviderScope<NavKey>.onboardingCurrencyEntry(
     onNavigateToSecurity: () -> Unit,
-    onOpenRestoreFilePicker: () -> Unit = {},
     onOpenCsvFilePicker: () -> Unit = {},
-    onRestoreReady: suspend (ByteArray) -> Unit = {},
     viewModel: OnboardingCurrencyViewModel? = null,
 ) = entry<OnboardingKey> {
     OnboardingCurrencyScreen(
         onNavigateToSecurity = onNavigateToSecurity,
-        onOpenRestoreFilePicker = onOpenRestoreFilePicker,
         onOpenCsvFilePicker = onOpenCsvFilePicker,
-        onRestoreReady = onRestoreReady,
         viewModel = viewModel ?: koinViewModel(),
     )
 }
@@ -75,18 +72,20 @@ fun EntryProviderScope<NavKey>.onboardingCurrencyEntry(
 @Composable
 private fun OnboardingCurrencyScreen(
     onNavigateToSecurity: () -> Unit,
-    onOpenRestoreFilePicker: () -> Unit,
     onOpenCsvFilePicker: () -> Unit,
-    onRestoreReady: suspend (ByteArray) -> Unit,
     viewModel: OnboardingCurrencyViewModel,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val restorePicker = rememberBinaryFilePicker { bytes ->
+        if (bytes != null) viewModel.onRestoreFileSelected(bytes)
+    }
+
     LaunchedEffect(viewModel) {
         viewModel.effects.collect { effect ->
             when (effect) {
                 OnboardingCurrencyEffect.NavigateToSecurity -> onNavigateToSecurity()
                 OnboardingCurrencyEffect.OpenCsvFilePicker -> onOpenCsvFilePicker()
-                is OnboardingCurrencyEffect.RestoreReady -> onRestoreReady(effect.content)
             }
         }
     }
@@ -97,7 +96,7 @@ private fun OnboardingCurrencyScreen(
         onSelect = { viewModel.onIntent(OnboardingCurrencyIntent.CurrencySelected(it)) },
         onSearchQueryChanged = { viewModel.onIntent(OnboardingCurrencyIntent.SearchQueryChanged(it)) },
         onContinue = { viewModel.onIntent(OnboardingCurrencyIntent.Continue) },
-        onRestoreFromBackup = { onOpenRestoreFilePicker() },
+        onRestoreFromBackup = restorePicker,
         onImportCsv = { viewModel.onIntent(OnboardingCurrencyIntent.ImportCsvTapped) },
         onRestoreConfirmed = { viewModel.onIntent(OnboardingCurrencyIntent.RestoreConfirmed) },
         onRestoreDismissed = { viewModel.onIntent(OnboardingCurrencyIntent.RestoreDismissed) },

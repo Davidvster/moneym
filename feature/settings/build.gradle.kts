@@ -38,6 +38,7 @@ kotlin {
             implementation(projects.core.navigation)
             implementation(projects.data.settings)
             implementation(projects.data.backup)
+            implementation(projects.core.platform)
             implementation(projects.data.accounts)
             implementation(projects.data.categories)
             implementation(projects.data.transactions)

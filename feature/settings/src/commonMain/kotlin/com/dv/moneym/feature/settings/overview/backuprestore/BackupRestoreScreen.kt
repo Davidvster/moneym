@@ -28,6 +28,8 @@ import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.platform.rememberBinaryFilePicker
+import com.dv.moneym.platform.rememberFileSaver
 import kotlin.time.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -52,40 +54,30 @@ data object BackupRestoreKey : NavKey
 
 fun EntryProviderScope<NavKey>.backupRestoreEntry(
     onBack: () -> Unit,
-    onDoExport: (suspend () -> Unit)? = null,
-    onDoRestore: (suspend (ByteArray) -> Unit)? = null,
-    launchRestoreFilePicker: () -> Unit = {},
-    viewModel: BackupRestoreViewModel? = null,
 ) = entry<BackupRestoreKey> {
-    BackupRestoreScreen(
-        onBack = onBack,
-        onDoExport = onDoExport,
-        onDoRestore = onDoRestore,
-        launchRestoreFilePicker = launchRestoreFilePicker,
-        viewModel = viewModel ?: koinViewModel(),
-    )
+    BackupRestoreScreen(onBack = onBack)
 }
 
 @Composable
 private fun BackupRestoreScreen(
     onBack: () -> Unit,
-    onDoExport: (suspend () -> Unit)? = null,
-    onDoRestore: (suspend (ByteArray) -> Unit)? = null,
-    launchRestoreFilePicker: () -> Unit,
-    viewModel: BackupRestoreViewModel,
+    viewModel: BackupRestoreViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val fileSaver = rememberFileSaver { path ->
+        viewModel.onIntent(BackupRestoreIntent.BackupSaveCompleted(path))
+    }
+
+    val restorePicker = rememberBinaryFilePicker { bytes ->
+        if (bytes != null) viewModel.onIntent(BackupRestoreIntent.RestoreFileSelected(bytes))
+    }
 
     LaunchedEffect(viewModel) {
         viewModel.effects.collect { effect ->
             when (effect) {
-                BackupRestoreEffect.DoExport -> {
-                    onDoExport?.invoke()
-                    // BackupSaveCompleted sent via MainNav's fileSaver callback
-                }
-                is BackupRestoreEffect.DoRestore -> {
-                    onDoRestore?.invoke(effect.content)
-                }
+                is BackupRestoreEffect.LaunchFileSaver -> fileSaver(effect.bytes, effect.fileName)
+                BackupRestoreEffect.LaunchRestorePicker -> restorePicker()
                 is BackupRestoreEffect.RestoreError -> Unit
             }
         }
@@ -113,7 +105,7 @@ private fun BackupRestoreScreen(
         state = state,
         onBack = onBack,
         onBackupTapped = { viewModel.onIntent(BackupRestoreIntent.BackupTapped) },
-        onRestoreTapped = launchRestoreFilePicker,
+        onRestoreTapped = restorePicker,
         onAutoBackupToggled = { viewModel.onIntent(BackupRestoreIntent.AutoBackupToggled(it)) },
     )
 }
@@ -141,116 +133,53 @@ private fun BackupRestoreContent(
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colors.bg),
-    ) {
-        ScreenHeader(
-            title = stringResource(Res.string.settings_backup_restore),
-            onBack = onBack,
-        )
+    Column(modifier = Modifier.fillMaxSize().background(colors.bg)) {
+        ScreenHeader(title = stringResource(Res.string.settings_backup_restore), onBack = onBack)
 
         LazyColumn {
             item(key = "section_label") {
                 SectionLabel(
                     text = stringResource(Res.string.settings_section_backup),
-                    modifier = Modifier.padding(
-                        horizontal = space.padding_2_5x,
-                        vertical = space.padding_0_5x,
-                    ),
+                    modifier = Modifier.padding(horizontal = space.padding_2_5x, vertical = space.padding_0_5x),
                 )
             }
-            item(key = "backup_restore_card") {
+            item(key = "card") {
                 MmCard(Modifier.padding(horizontal = space.padding_2x)) {
                     MmRow(onClick = onBackupTapped) {
-                        Icon(
-                            imageVector = Folder.imageVector,
-                            contentDescription = null,
-                            tint = colors.text,
-                            modifier = Modifier.size(space.icon_1x),
-                        )
+                        Icon(imageVector = Folder.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.icon_1x))
                         Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                stringResource(Res.string.settings_backup_to_file),
-                                style = type.body,
-                                color = colors.text,
-                            )
+                            Text(stringResource(Res.string.settings_backup_to_file), style = type.body, color = colors.text)
                             if (state.showBackupSuccess) {
-                                Text(
-                                    stringResource(Res.string.settings_backup_saved),
-                                    style = type.caption.copy(color = colors.accent),
-                                )
+                                Text(stringResource(Res.string.settings_backup_saved), style = type.caption.copy(color = colors.accent))
                             }
                         }
-                        Icon(
-                            imageVector = ChevronRight.imageVector,
-                            contentDescription = null,
-                            tint = colors.text3,
-                            modifier = Modifier.size(space.padding_2x),
-                        )
+                        Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
                     }
                     if (lastBackupLabel != null) {
                         Text(
                             text = stringResource(Res.string.settings_last_backup, lastBackupLabel),
                             style = type.caption.copy(color = colors.text3),
-                            modifier = Modifier.padding(
-                                start = space.padding_2x,
-                                end = space.padding_2x,
-                                bottom = space.padding_1x,
-                            ),
+                            modifier = Modifier.padding(start = space.padding_2x, end = space.padding_2x, bottom = space.padding_1x),
                         )
                         state.lastBackupPath?.let { path ->
                             Text(
                                 text = path,
                                 style = type.captionMono.copy(color = colors.text3),
-                                modifier = Modifier.padding(
-                                    start = space.padding_2x,
-                                    end = space.padding_2x,
-                                    bottom = space.padding_1x,
-                                ),
+                                modifier = Modifier.padding(start = space.padding_2x, end = space.padding_2x, bottom = space.padding_1x),
                             )
                         }
                     }
                     MmRow(onClick = onRestoreTapped) {
-                        Icon(
-                            imageVector = Download.imageVector,
-                            contentDescription = null,
-                            tint = colors.text,
-                            modifier = Modifier.size(space.icon_1x),
-                        )
-                        Text(
-                            stringResource(Res.string.settings_restore_from_file),
-                            style = type.body,
-                            color = colors.text,
-                            modifier = Modifier.weight(1f),
-                        )
-                        Icon(
-                            imageVector = ChevronRight.imageVector,
-                            contentDescription = null,
-                            tint = colors.text3,
-                            modifier = Modifier.size(space.padding_2x),
-                        )
+                        Icon(imageVector = Download.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.icon_1x))
+                        Text(stringResource(Res.string.settings_restore_from_file), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
+                        Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
                     }
-                    MmRow(
-                        onClick = { onAutoBackupToggled(!state.autoBackupEnabled) },
-                        divider = false,
-                    ) {
+                    MmRow(onClick = { onAutoBackupToggled(!state.autoBackupEnabled) }, divider = false) {
                         Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                stringResource(Res.string.settings_auto_backup),
-                                style = type.body,
-                                color = colors.text,
-                            )
-                            Text(
-                                stringResource(Res.string.settings_auto_backup_subtitle),
-                                style = type.caption.copy(color = colors.text2),
-                            )
+                            Text(stringResource(Res.string.settings_auto_backup), style = type.body, color = colors.text)
+                            Text(stringResource(Res.string.settings_auto_backup_subtitle), style = type.caption.copy(color = colors.text2))
                         }
-                        MmToggle(
-                            checked = state.autoBackupEnabled,
-                            onCheckedChange = onAutoBackupToggled,
-                        )
+                        MmToggle(checked = state.autoBackupEnabled, onCheckedChange = onAutoBackupToggled)
                     }
                 }
             }

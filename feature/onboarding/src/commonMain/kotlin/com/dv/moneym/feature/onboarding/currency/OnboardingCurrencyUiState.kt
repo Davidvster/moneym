@@ -22,5 +22,4 @@ internal sealed interface OnboardingCurrencyIntent {
 internal sealed interface OnboardingCurrencyEffect {
     data object NavigateToSecurity : OnboardingCurrencyEffect
     data object OpenCsvFilePicker : OnboardingCurrencyEffect
-    data class RestoreReady(val content: ByteArray) : OnboardingCurrencyEffect
 }

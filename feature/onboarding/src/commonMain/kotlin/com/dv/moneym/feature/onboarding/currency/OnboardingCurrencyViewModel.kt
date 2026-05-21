@@ -4,11 +4,15 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
+import com.dv.moneym.core.common.DispatcherProvider
+import com.dv.moneym.core.datastore.AppSettings
+import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.AccountType
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.data.accounts.AccountRepository
+import com.dv.moneym.data.backup.DbBackupManager
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,10 +20,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.time.Clock
 
 class OnboardingCurrencyViewModel(
     private val accountRepository: AccountRepository,
+    private val dbBackupManager: DbBackupManager,
+    private val appSettings: AppSettings,
+    private val dispatchers: DispatcherProvider,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -73,7 +81,8 @@ class OnboardingCurrencyViewModel(
                 pendingRestoreContent = null
                 _state.update { it.copy(showRestoreWarning = false) }
                 viewModelScope.launch {
-                    _effects.send(OnboardingCurrencyEffect.RestoreReady(content))
+                    appSettings.putBoolean(PrefKeys.ONBOARDING_COMPLETED, true)
+                    withContext(dispatchers.io) { dbBackupManager.restore(content) }
                 }
             }
 

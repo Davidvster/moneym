@@ -6,8 +6,8 @@ import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.security.PinHasher
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.AutoBackupManager
-import com.dv.moneym.backup.DbBackupManager
 import com.dv.moneym.data.backup.BackupExporter
+import com.dv.moneym.data.backup.DbBackupManager
 import com.dv.moneym.data.backup.BackupImporter
 import com.dv.moneym.data.backup.BackupRestorer
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
@@ -153,7 +153,9 @@ val featureSettingsModule = module {
     }
     viewModel {
         BackupRestoreViewModel(
+            dbBackupManager = get(),
             appSettings = get(),
+            dispatchers = get(),
             savedStateHandle = get(),
         )
     }
@@ -197,6 +199,9 @@ val featureOnboardingModule = module {
     viewModel {
         OnboardingCurrencyViewModel(
             accountRepository = get(),
+            dbBackupManager = get(),
+            appSettings = get(),
+            dispatchers = get(),
             savedStateHandle = get(),
         )
     }

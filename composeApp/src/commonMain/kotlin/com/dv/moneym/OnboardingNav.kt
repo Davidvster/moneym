@@ -12,9 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import com.dv.moneym.backup.DbBackupManager
-import com.dv.moneym.core.datastore.AppSettings
-import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingKey
 import com.dv.moneym.feature.onboarding.currency.onboardingCurrencyEntry
@@ -26,7 +23,6 @@ import com.dv.moneym.feature.security.setup.PinSetupScreen
 import com.dv.moneym.feature.settings.overview.importdata.CsvImportHolder
 import com.dv.moneym.feature.settings.overview.importdata.ImportDataKey
 import com.dv.moneym.feature.settings.overview.importdata.importDataEntry
-import com.dv.moneym.platform.rememberBinaryFilePicker
 import com.dv.moneym.platform.rememberFilePicker
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
@@ -37,12 +33,6 @@ internal fun OnboardingNav() {
     val securityVm = koinViewModel<OnboardingSecurityViewModel>()
     val currencyVm = koinViewModel<OnboardingCurrencyViewModel>()
     val csvImportHolder = koinInject<CsvImportHolder>()
-    val dbBackupManager = koinInject<DbBackupManager>()
-    val appSettings = koinInject<AppSettings>()
-
-    val restoreFilePicker = rememberBinaryFilePicker { bytes ->
-        if (bytes != null) currencyVm.onRestoreFileSelected(bytes)
-    }
 
     val csvFilePicker = rememberFilePicker { content ->
         if (content != null) {
@@ -78,13 +68,7 @@ internal fun OnboardingNav() {
             onboardingCurrencyEntry(
                 viewModel = currencyVm,
                 onNavigateToSecurity = { backStack.add(OnboardingSecurityKey) },
-                onOpenRestoreFilePicker = restoreFilePicker,
                 onOpenCsvFilePicker = csvFilePicker,
-                onRestoreReady = { bytes ->
-                    // Set pref BEFORE process exit so it survives restart
-                    appSettings.putBoolean(PrefKeys.ONBOARDING_COMPLETED, true)
-                    dbBackupManager.restore(bytes)
-                },
             )
             onboardingSecurityEntry(
                 viewModel = securityVm,

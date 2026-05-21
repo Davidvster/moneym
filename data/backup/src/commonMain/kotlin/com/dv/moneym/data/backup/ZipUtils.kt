@@ -1,4 +1,4 @@
-package com.dv.moneym.backup
+package com.dv.moneym.data.backup
 
 internal object Crc32 {
     private val table = IntArray(256).also { t ->
@@ -55,17 +55,17 @@ fun createZip(files: List<Pair<String, ByteArray>>): ByteArray {
         val nameBytes = name.encodeToByteArray()
         val crc = Crc32.calculate(data)
 
-        buf.writeLE32(0x04034b50)       // local file header signature
-        buf.writeLE16(20)               // version needed
-        buf.writeLE16(0)               // flags
-        buf.writeLE16(0)               // compression = STORED
-        buf.writeLE16(0)               // last mod time
-        buf.writeLE16(0)               // last mod date
+        buf.writeLE32(0x04034b50)
+        buf.writeLE16(20)
+        buf.writeLE16(0)
+        buf.writeLE16(0)
+        buf.writeLE16(0)
+        buf.writeLE16(0)
         buf.writeLE32(crc)
-        buf.writeLE32(data.size)       // compressed size
-        buf.writeLE32(data.size)       // uncompressed size
+        buf.writeLE32(data.size)
+        buf.writeLE32(data.size)
         buf.writeLE16(nameBytes.size)
-        buf.writeLE16(0)               // extra field length
+        buf.writeLE16(0)
         buf.write(nameBytes)
         buf.write(data)
     }
@@ -76,36 +76,36 @@ fun createZip(files: List<Pair<String, ByteArray>>): ByteArray {
         val nameBytes = name.encodeToByteArray()
         val crc = Crc32.calculate(data)
 
-        buf.writeLE32(0x02014b50)       // central dir signature
-        buf.writeLE16(20)               // version made by
-        buf.writeLE16(20)               // version needed
-        buf.writeLE16(0)               // flags
-        buf.writeLE16(0)               // compression = STORED
-        buf.writeLE16(0)               // last mod time
-        buf.writeLE16(0)               // last mod date
+        buf.writeLE32(0x02014b50)
+        buf.writeLE16(20)
+        buf.writeLE16(20)
+        buf.writeLE16(0)
+        buf.writeLE16(0)
+        buf.writeLE16(0)
+        buf.writeLE16(0)
         buf.writeLE32(crc)
         buf.writeLE32(data.size)
         buf.writeLE32(data.size)
         buf.writeLE16(nameBytes.size)
-        buf.writeLE16(0)               // extra field length
-        buf.writeLE16(0)               // file comment length
-        buf.writeLE16(0)               // disk number start
-        buf.writeLE16(0)               // internal attrs
-        buf.writeLE32(0)               // external attrs
+        buf.writeLE16(0)
+        buf.writeLE16(0)
+        buf.writeLE16(0)
+        buf.writeLE16(0)
+        buf.writeLE32(0)
         buf.writeLE32(offsets[i])
         buf.write(nameBytes)
     }
 
     val centralSize = buf.size() - centralStart
 
-    buf.writeLE32(0x06054b50)           // end of central dir signature
-    buf.writeLE16(0)                    // disk number
-    buf.writeLE16(0)                    // start disk
+    buf.writeLE32(0x06054b50)
+    buf.writeLE16(0)
+    buf.writeLE16(0)
     buf.writeLE16(files.size)
     buf.writeLE16(files.size)
     buf.writeLE32(centralSize)
     buf.writeLE32(centralStart)
-    buf.writeLE16(0)                    // comment length
+    buf.writeLE16(0)
 
     return buf.toByteArray()
 }

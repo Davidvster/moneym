@@ -53,6 +53,7 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.kotlinx.serialization.json)
+            implementation(projects.core.platform)
             // Logging
             implementation(libs.kermit)
             // Settings (needed for DI wiring of DefaultAppSettings)
