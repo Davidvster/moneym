@@ -138,6 +138,22 @@ fun TxRow(
                         overflow = TextOverflow.Ellipsis,
                     )
                 }
+            }
+
+            // Trailing: amount + optional payment mode
+            val amountColor = if (isExpense) colors.text else colors.accent
+            val amountWeight = if (isExpense) FontWeight.Medium else FontWeight.SemiBold
+            val sign = if (isExpense) "−" else "+"
+
+            Column(horizontalAlignment = Alignment.End) {
+                MmMoney(
+                    value = amountValue,
+                    sign = sign,
+                    size = 15.sp,
+                    weight = amountWeight,
+                    color = amountColor,
+                    currency = currency,
+                )
                 if (paymentModeName != null) {
                     Text(
                         text = paymentModeName,
@@ -148,20 +164,6 @@ fun TxRow(
                     )
                 }
             }
-
-            // Trailing: amount
-            val amountColor = if (isExpense) colors.text else colors.accent
-            val amountWeight = if (isExpense) FontWeight.Medium else FontWeight.SemiBold
-            val sign = if (isExpense) "−" else "+"
-
-            MmMoney(
-                value = amountValue,
-                sign = sign,
-                size = 15.sp,
-                weight = amountWeight,
-                color = amountColor,
-                currency = currency,
-            )
         }
     }
 }

@@ -25,6 +25,7 @@ internal interface TransactionLocalDataSource {
     suspend fun delete(id: Long)
     suspend fun deleteByAccountId(accountId: Long)
     suspend fun deleteAll()
+    suspend fun convertCurrencyForAccount(accountId: Long, currency: String, rate: Double, updatedAt: Long)
     suspend fun getEarliestDate(): String?
     suspend fun getLatestDate(): String?
     fun getDistinctTransactionDates(): Flow<List<String>>

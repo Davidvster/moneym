@@ -155,4 +155,12 @@
     <string name="settings_auto_backup_subtitle">Updates the backup file automatically on every change</string>
     <string name="settings_backup_saved">Backup saved</string>
     <string name="settings_last_backup">Last backup: %1$s</string>
+    <!-- Edit wallet currency -->
+    <string name="settings_edit_currency_title">Change Currency</string>
+    <string name="settings_edit_currency_warning">All transactions in this wallet will be converted from %1$s to %2$s.</string>
+    <string name="settings_edit_currency_rate_label">Conversion rate</string>
+    <string name="settings_edit_currency_example">1 %1$s = %2$s %3$s</string>
+    <string name="settings_edit_currency_confirm">Convert</string>
+    <string name="settings_edit_currency_cancel">Cancel</string>
+    <string name="settings_edit_currency_converting">Converting transactions…</string>
 </resources>

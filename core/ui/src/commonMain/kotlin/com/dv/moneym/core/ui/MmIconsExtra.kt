@@ -55,6 +55,39 @@ private fun buildCalculator(): ImageVector =
         )
     }.build()
 
+internal val MmIcons.edit: ImageVector
+    get() = _edit ?: buildEdit().also { _edit = it }
+
+private var _edit: ImageVector? = null
+
+private fun buildEdit(): ImageVector =
+    ImageVector.Builder(
+        name = "edit",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f,
+    ).apply {
+        addPath(
+            pathData = addPathNodes("M4 20 L8 20 L20 8 L16 4 L4 16 Z"),
+            stroke = SolidColor(Color.Black),
+            strokeLineWidth = 1.8f,
+            strokeLineCap = StrokeCap.Round,
+            strokeLineJoin = StrokeJoin.Round,
+            fill = null,
+            fillAlpha = 0f,
+        )
+        addPath(
+            pathData = addPathNodes("M16 4 L20 8"),
+            stroke = SolidColor(Color.Black),
+            strokeLineWidth = 1.8f,
+            strokeLineCap = StrokeCap.Round,
+            strokeLineJoin = StrokeJoin.Round,
+            fill = null,
+            fillAlpha = 0f,
+        )
+    }.build()
+
 internal val MmIcons.wallet: ImageVector
     get() = _wallet ?: buildWallet().also { _wallet = it }
 

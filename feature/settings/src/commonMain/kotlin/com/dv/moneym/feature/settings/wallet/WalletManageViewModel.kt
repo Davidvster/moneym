@@ -8,6 +8,7 @@ import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.AccountType
 import com.dv.moneym.core.model.CurrencyCode
+
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,19 +27,16 @@ class WalletManageViewModel(
 ) : ViewModel() {
 
     private val _pendingDeleteId = MutableStateFlow<Long?>(null)
-    private val _pendingEditCurrencyAccountId = MutableStateFlow<Long?>(null)
 
     internal val state: StateFlow<WalletManageUiState> = combine(
         accountRepository.observeAll(),
         appSettingsRepository.observeSelectedAccountId(),
         _pendingDeleteId,
-        _pendingEditCurrencyAccountId,
-    ) { accounts, selectedId, pendingDeleteId, pendingEditCurrencyAccountId ->
+    ) { accounts, selectedId, pendingDeleteId ->
         WalletManageUiState(
             accounts = accounts,
             selectedAccountId = selectedId,
             pendingDeleteId = pendingDeleteId,
-            pendingEditCurrencyAccountId = pendingEditCurrencyAccountId,
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, WalletManageUiState())
 
@@ -79,21 +77,6 @@ class WalletManageViewModel(
                 }
             }
 
-            is WalletManageIntent.EditCurrencyRequested ->
-                _pendingEditCurrencyAccountId.value = intent.accountId
-
-            WalletManageIntent.EditCurrencyCancelled ->
-                _pendingEditCurrencyAccountId.value = null
-
-            is WalletManageIntent.UpdateCurrency -> {
-                _pendingEditCurrencyAccountId.value = null
-                viewModelScope.launch {
-                    val accounts = accountRepository.observeAll().stateIn(viewModelScope).value
-                    val account =
-                        accounts.firstOrNull { it.id.value == intent.accountId } ?: return@launch
-                    accountRepository.update(account.copy(currency = CurrencyCode(intent.currency)))
-                }
-            }
         }
     }
 }

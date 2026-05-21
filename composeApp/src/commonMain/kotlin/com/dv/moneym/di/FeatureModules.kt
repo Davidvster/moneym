@@ -28,6 +28,7 @@ import com.dv.moneym.feature.settings.overview.locale.LanguagePickerViewModel
 import com.dv.moneym.feature.settings.overview.transactiondisplay.TxListDisplayViewModel
 import com.dv.moneym.feature.settings.paymentmodes.PaymentModeListViewModel
 import com.dv.moneym.feature.settings.wallet.AddWalletViewModel
+import com.dv.moneym.feature.settings.wallet.EditWalletCurrencyViewModel
 import com.dv.moneym.feature.settings.wallet.WalletManageViewModel
 import com.dv.moneym.feature.transactionedit.TransactionEditViewModel
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
@@ -185,6 +186,16 @@ val featureWalletModule = module {
     viewModel {
         AddWalletViewModel(
             accountRepository = get(),
+            savedStateHandle = get(),
+        )
+    }
+    viewModel { params ->
+        EditWalletCurrencyViewModel(
+            accountId = params.get(),
+            currentCurrency = params.get(),
+            accountRepository = get(),
+            transactionRepository = get(),
+            dispatchers = get(),
             savedStateHandle = get(),
         )
     }

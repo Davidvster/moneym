@@ -54,7 +54,7 @@ internal fun TransactionEditScrollBody(
     // Derive currency code from selected account
     val currencyCode = remember(state.selectedAccountId, state.availableAccounts) {
         state.availableAccounts.firstOrNull { it.id == state.selectedAccountId }?.currency?.value
-            ?: "EUR"
+            ?: "USD"
     }
     val todayLabel = stringResource(Res.string.edit_date_today)
     val yesterdayLabel = stringResource(Res.string.edit_date_yesterday)

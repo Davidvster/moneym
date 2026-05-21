@@ -154,4 +154,11 @@
     <string name="settings_auto_backup_subtitle">Actualiza el archivo de copia automáticamente con cada cambio</string>
     <string name="settings_backup_saved">Copia guardada</string>
     <string name="settings_last_backup">Última copia: %1$s</string>
+    <string name="settings_edit_currency_title">Cambiar moneda</string>
+    <string name="settings_edit_currency_warning">Todas las transacciones de esta cartera se convertirán de %1$s a %2$s.</string>
+    <string name="settings_edit_currency_rate_label">Tipo de cambio</string>
+    <string name="settings_edit_currency_example">1 %1$s = %2$s %3$s</string>
+    <string name="settings_edit_currency_confirm">Convertir</string>
+    <string name="settings_edit_currency_cancel">Cancelar</string>
+    <string name="settings_edit_currency_converting">Convirtiendo transacciones…</string>
 </resources>

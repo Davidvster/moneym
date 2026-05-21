@@ -1275,5 +1275,6 @@ internal object MmIcons {
         Icon.PlayCircle -> film
         Icon.Bank -> banknote
         Icon.Dots -> tag
+        Icon.Edit -> edit
     }
 }

@@ -93,6 +93,12 @@ class TransactionEditViewModel(
                     }
                 }
         }
+        if (isNewTransaction) {
+            val persistedAccId = appSettingsRepository.observeSelectedAccountId().first()
+            if (persistedAccId > 0L) {
+                _state.update { it.copy(selectedAccountId = AccountId(persistedAccId)) }
+            }
+        }
         viewModelScope.launch {
             // Load categories + accounts
             combine(
@@ -309,4 +315,4 @@ private fun Long.toAmountText(): String {
 }
 
 private fun AccountId.toCurrencyCode(accounts: List<Account>): CurrencyCode =
-    accounts.firstOrNull { it.id == this }?.currency ?: CurrencyCode("EUR")
+    accounts.firstOrNull { it.id == this }?.currency ?: CurrencyCode("USD")

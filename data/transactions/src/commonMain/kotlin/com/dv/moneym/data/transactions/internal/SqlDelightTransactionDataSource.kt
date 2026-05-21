@@ -92,6 +92,15 @@ internal class SqlDelightTransactionDataSource(
         q.deleteAll()
     }
 
+    override suspend fun convertCurrencyForAccount(
+        accountId: Long,
+        currency: String,
+        rate: Double,
+        updatedAt: Long,
+    ) = withContext(dispatchers.io) {
+        q.convertCurrencyForAccount(rate = rate, currency = currency, updatedAt = updatedAt, accountId = accountId)
+    }
+
     override suspend fun getEarliestDate(): String? = withContext(dispatchers.io) {
         q.getEarliestDate().executeAsOne().MIN
     }

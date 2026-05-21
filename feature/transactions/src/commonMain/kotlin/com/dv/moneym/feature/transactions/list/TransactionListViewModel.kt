@@ -70,6 +70,7 @@ class TransactionListViewModel(
         val searchQuery: String,
         val categories: List<Category>,
         val prefs: TxDisplayPrefs,
+        val paymentModeEnabled: Boolean,
     )
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -78,9 +79,12 @@ class TransactionListViewModel(
         _filter,
         _searchQuery,
         categoryRepository.observeAll(),
-        appSettingsRepository.observeTxDisplayPrefs(),
-    ) { month, filter, query, cats, prefs ->
-        BaseState(month, filter, query, cats, prefs)
+        combine(
+            appSettingsRepository.observeTxDisplayPrefs(),
+            appSettingsRepository.observePaymentModeEnabled(),
+        ) { prefs, pmEnabled -> prefs to pmEnabled },
+    ) { month, filter, query, cats, (prefs, pmEnabled) ->
+        BaseState(month, filter, query, cats, prefs, pmEnabled)
     }.flatMapLatest { base ->
         val catMap = base.categories.associateBy { it.id }
         val txnFlow = if (base.filter == TransactionFilter.None) {
@@ -115,7 +119,8 @@ class TransactionListViewModel(
                         transactions = txns.map {
                             it.toUiModel(
                                 catMap[it.categoryId],
-                                paymentModes
+                                paymentModes,
+                                base.paymentModeEnabled,
                             )
                         },
                     )
@@ -142,14 +147,16 @@ class TransactionListViewModel(
                 if (tx.type == TransactionType.INCOME) tx.amount.minorUnits
                 else -tx.amount.minorUnits
             }
-            val netCurrency = accountFilteredTxns.firstOrNull()?.amount?.currency?.value ?: "EUR"
-
             // Resolve selected account object
             val selectedAccount = if (selectedAccId > 0L) {
                 accounts.find { it.id.value == selectedAccId }
             } else {
                 accounts.firstOrNull { it.isDefault } ?: accounts.firstOrNull()
             }
+
+            val netCurrency = selectedAccount?.currency?.value
+                ?: accountFilteredTxns.firstOrNull()?.amount?.currency?.value
+                ?: "USD"
 
             TransactionListUiState(
                 isLoading = false,
@@ -237,21 +244,26 @@ class TransactionListViewModel(
     }
 }
 
-private fun Transaction.toUiModel(category: Category?, paymentModes: List<PaymentMode>) =
-    TransactionUiModel(
-        id = id,
-        type = type,
-        amountFormatted = amount.format(),
-        amountMinorUnits = amount.minorUnits,
-        currency = amount.currency.value,
-        isExpense = type == TransactionType.EXPENSE,
-        categoryName = category?.name ?: "—",
-        categoryColorHex = category?.colorHex ?: "#8A8A8A",
-        categoryIcon = Icon.fromKeyOrDefault(category?.iconKey ?: Icon.Dots.key),
-        note = note,
-        occurredOn = occurredOn,
-        paymentModeName = paymentModeId?.let { id -> paymentModes.firstOrNull { it.id == id }?.name },
-    )
+private fun Transaction.toUiModel(
+    category: Category?,
+    paymentModes: List<PaymentMode>,
+    paymentModeEnabled: Boolean,
+) = TransactionUiModel(
+    id = id,
+    type = type,
+    amountFormatted = amount.format(),
+    amountMinorUnits = amount.minorUnits,
+    currency = amount.currency.value,
+    isExpense = type == TransactionType.EXPENSE,
+    categoryName = category?.name ?: "—",
+    categoryColorHex = category?.colorHex ?: "#8A8A8A",
+    categoryIcon = Icon.fromKeyOrDefault(category?.iconKey ?: Icon.Dots.key),
+    note = note,
+    occurredOn = occurredOn,
+    paymentModeName = if (paymentModeEnabled) {
+        paymentModeId?.let { id -> paymentModes.firstOrNull { it.id == id }?.name }
+    } else null,
+)
 
 private fun buildSummary(transactions: List<Transaction>, filter: TransactionFilter): String {
     if (transactions.isEmpty()) return ""

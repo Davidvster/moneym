@@ -272,7 +272,7 @@ internal fun AddWalletCurrencyPickerScreen(
 }
 
 @Composable
-private fun AddWalletCurrencyRow(
+internal fun AddWalletCurrencyRow(
     currency: CurrencyInfo,
     isSelected: Boolean,
     onClick: () -> Unit,

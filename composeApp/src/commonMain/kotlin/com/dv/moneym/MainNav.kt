@@ -41,9 +41,11 @@ import com.dv.moneym.feature.settings.paymentmodes.paymentModeListEntry
 import com.dv.moneym.feature.settings.wallet.AddWalletCurrencyPickerKey
 import com.dv.moneym.feature.settings.wallet.AddWalletKey
 import com.dv.moneym.feature.settings.wallet.AddWalletViewModel
+import com.dv.moneym.feature.settings.wallet.EditWalletCurrencyKey
 import com.dv.moneym.feature.settings.wallet.WalletManageKey
 import com.dv.moneym.feature.settings.wallet.addWalletCurrencyPickerEntry
 import com.dv.moneym.feature.settings.wallet.addWalletEntry
+import com.dv.moneym.feature.settings.wallet.editWalletCurrencyEntry
 import com.dv.moneym.feature.settings.wallet.walletManageEntry
 import com.dv.moneym.feature.transactionedit.TransactionEditKey
 import com.dv.moneym.feature.transactionedit.transactionEditEntry
@@ -222,6 +224,12 @@ internal fun MainNav(lockController: AppLockController) {
             walletManageEntry(
                 onBack = { tabBackStack.removeLast() },
                 onNavigateToAddWallet = { tabBackStack.push(AddWalletKey) },
+                onNavigateToEditCurrency = { id, currency ->
+                    tabBackStack.push(EditWalletCurrencyKey(id, currency))
+                },
+            )
+            editWalletCurrencyEntry(
+                onBack = { tabBackStack.removeLast() },
             )
             addWalletEntry(
                 viewModel = addWalletViewModel,

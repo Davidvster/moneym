@@ -64,6 +64,13 @@ DELETE FROM TransactionEntry WHERE account_id = ?;
 deleteAll:
 DELETE FROM TransactionEntry;
 
+convertCurrencyForAccount:
+UPDATE TransactionEntry
+SET amount_minor = CAST(ROUND(CAST(amount_minor AS REAL) * :rate) AS INTEGER),
+    currency = :currency,
+    updated_at = :updatedAt
+WHERE account_id = :accountId;
+
 lastInsertId:
 SELECT last_insert_rowid();
 

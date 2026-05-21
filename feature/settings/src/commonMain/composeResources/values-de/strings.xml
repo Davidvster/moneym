@@ -154,4 +154,11 @@
     <string name="settings_auto_backup_subtitle">Aktualisiert die Backup-Datei automatisch bei jeder Änderung</string>
     <string name="settings_backup_saved">Backup gespeichert</string>
     <string name="settings_last_backup">Letztes Backup: %1$s</string>
+    <string name="settings_edit_currency_title">Währung ändern</string>
+    <string name="settings_edit_currency_warning">Alle Transaktionen in diesem Konto werden von %1$s in %2$s umgerechnet.</string>
+    <string name="settings_edit_currency_rate_label">Umrechnungskurs</string>
+    <string name="settings_edit_currency_example">1 %1$s = %2$s %3$s</string>
+    <string name="settings_edit_currency_confirm">Umrechnen</string>
+    <string name="settings_edit_currency_cancel">Abbrechen</string>
+    <string name="settings_edit_currency_converting">Transaktionen werden umgerechnet…</string>
 </resources>

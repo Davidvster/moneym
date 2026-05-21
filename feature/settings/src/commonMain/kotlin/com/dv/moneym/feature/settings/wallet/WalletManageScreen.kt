@@ -39,10 +39,12 @@ data object WalletManageKey : NavKey
 fun EntryProviderScope<NavKey>.walletManageEntry(
     onBack: () -> Unit,
     onNavigateToAddWallet: () -> Unit,
+    onNavigateToEditCurrency: (accountId: Long, currentCurrency: String) -> Unit,
 ) = entry<WalletManageKey> {
     WalletManageScreen(
         onBack = onBack,
         onNavigateToAddWallet = onNavigateToAddWallet,
+        onNavigateToEditCurrency = onNavigateToEditCurrency,
     )
 }
 
@@ -50,6 +52,7 @@ fun EntryProviderScope<NavKey>.walletManageEntry(
 private fun WalletManageScreen(
     onBack: () -> Unit,
     onNavigateToAddWallet: () -> Unit,
+    onNavigateToEditCurrency: (accountId: Long, currentCurrency: String) -> Unit,
     viewModel: WalletManageViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -148,12 +151,11 @@ private fun WalletManageScreen(
                                             )
                                         }
                                         MmIconButton(
-                                            icon = Icon.Plus.imageVector,
+                                            icon = Icon.Edit.imageVector,
                                             onClick = {
-                                                viewModel.onIntent(
-                                                    WalletManageIntent.EditCurrencyRequested(
-                                                        account.id.value
-                                                    )
+                                                onNavigateToEditCurrency(
+                                                    account.id.value,
+                                                    account.currency.value,
                                                 )
                                             },
                                         )
@@ -176,21 +178,5 @@ private fun WalletManageScreen(
             }
         }
 
-        if (state.pendingEditCurrencyAccountId != null) {
-            val editingAccount =
-                state.accounts.firstOrNull { it.id.value == state.pendingEditCurrencyAccountId }
-            AddWalletCurrencyPickerScreen(
-                currentCurrency = editingAccount?.currency?.value ?: "",
-                onBack = { viewModel.onIntent(WalletManageIntent.EditCurrencyCancelled) },
-                onCurrencySelected = { code ->
-                    viewModel.onIntent(
-                        WalletManageIntent.UpdateCurrency(
-                            state.pendingEditCurrencyAccountId!!,
-                            code
-                        )
-                    )
-                },
-            )
-        }
     }
 }

@@ -50,6 +50,7 @@ enum class Icon(val key: String) {
     PlayCircle("play_circle"),
     Bank("bank"),
     Dots("dots"),
+    Edit("edit"),
     ;
 
     companion object {

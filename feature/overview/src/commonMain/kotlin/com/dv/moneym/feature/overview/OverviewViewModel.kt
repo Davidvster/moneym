@@ -13,6 +13,7 @@ import com.dv.moneym.core.model.OverviewPeriodMode
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,6 +31,7 @@ import kotlinx.datetime.LocalDate
 class OverviewViewModel(
     private val transactionRepository: TransactionRepository,
     private val categoryRepository: CategoryRepository,
+    private val accountRepository: AccountRepository,
     private val appSettingsRepository: AppSettingsRepository,
     clock: AppClock,
     savedStateHandle: SavedStateHandle
@@ -85,8 +87,8 @@ class OverviewViewModel(
         _selectedCategoryId,
         transactionRepository.observeAll(),
         categoryRepository.observeAll(),
-        _selectedAccountId,
-    ) { period, selectedCatId, allTransactions, categories, selectedAccId ->
+        combine(_selectedAccountId, accountRepository.observeAll()) { id, accs -> id to accs },
+    ) { period, selectedCatId, allTransactions, categories, (selectedAccId, accounts) ->
         val catMap = categories.associateBy { it.id }
 
         // Filter by selected account
@@ -343,7 +345,9 @@ class OverviewViewModel(
             avgDailyExpense = avgDailyExpense,
             avgMonthlyExpense = avgMonthlyExpense,
             avgDailyExpenseYear = avgDailyExpenseYear,
-            currency = "EUR" // TODO figure out how to get actual currency
+            currency = (if (selectedAccId > 0L) accounts.find { it.id.value == selectedAccId }
+                else accounts.firstOrNull { it.isDefault } ?: accounts.firstOrNull())
+                ?.currency?.value ?: "USD"
         )
     }
         .combine(_selectedSliceIndex) { s, slice -> s.copy(selectedSliceIndex = slice) }

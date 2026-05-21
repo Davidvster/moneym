@@ -8,7 +8,6 @@ internal data class WalletManageUiState(
     val accounts: List<Account> = emptyList(),
     val selectedAccountId: Long = -1L,
     val pendingDeleteId: Long? = null,
-    val pendingEditCurrencyAccountId: Long? = null,
 )
 
 internal sealed interface WalletManageIntent {
@@ -17,7 +16,4 @@ internal sealed interface WalletManageIntent {
     data class DeleteRequested(val id: Long) : WalletManageIntent
     data object DeleteConfirmed : WalletManageIntent
     data object DeleteCancelled : WalletManageIntent
-    data class EditCurrencyRequested(val accountId: Long) : WalletManageIntent
-    data object EditCurrencyCancelled : WalletManageIntent
-    data class UpdateCurrency(val accountId: Long, val currency: String) : WalletManageIntent
 }
