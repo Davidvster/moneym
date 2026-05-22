@@ -58,6 +58,8 @@ kotlin {
             implementation(libs.kermit)
             // Settings (needed for DI wiring of DefaultAppSettings)
             implementation(libs.multiplatform.settings.no.arg)
+            // Room (needed to call .close() on databases in DI wiring)
+            implementation(libs.room.runtime)
             // Core modules
             implementation(projects.core.model)
             implementation(projects.core.designsystem)

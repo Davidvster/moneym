@@ -18,6 +18,7 @@ fun createTransactionsDatabase(): TransactionsRoomDatabase {
         appSupport, withIntermediateDirectories = true, attributes = null, error = null
     )
     return Room.databaseBuilder<TransactionsRoomDatabase>(name = "$appSupport/moneym_transactions.db")
+        .fallbackToDestructiveMigrationFrom(false, 1)
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.Default)
         .build()

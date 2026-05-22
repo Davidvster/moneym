@@ -18,6 +18,7 @@ fun createAccountsDatabase(): AccountsRoomDatabase {
         appSupport, withIntermediateDirectories = true, attributes = null, error = null
     )
     return Room.databaseBuilder<AccountsRoomDatabase>(name = "$appSupport/moneym_accounts.db")
+        .fallbackToDestructiveMigrationFrom(false, 1)
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.Default)
         .build()

@@ -6,10 +6,13 @@ import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.security.PinHasher
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.AutoBackupManager
+import com.dv.moneym.data.accounts.db.AccountsRoomDatabase
 import com.dv.moneym.data.backup.BackupExporter
 import com.dv.moneym.data.backup.DbBackupManager
 import com.dv.moneym.data.backup.BackupImporter
 import com.dv.moneym.data.backup.BackupRestorer
+import com.dv.moneym.data.categories.db.CategoriesRoomDatabase
+import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
 import com.dv.moneym.feature.categories.list.CategoryListViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
@@ -100,7 +103,13 @@ val dataBackupModule = module {
     single { BackupImporter(get(), get(), get()) }
     single { BackupRestorer(get(), get(), get(), get()) }
     single { CsvImportHolder() }
-    single { DbBackupManager(get()) }
+    single {
+        DbBackupManager(get()) {
+            get<CategoriesRoomDatabase>().close()
+            get<AccountsRoomDatabase>().close()
+            get<TransactionsRoomDatabase>().close()
+        }
+    }
     single { AutoBackupManager(get(), get(), get(), get(), get(), get(), get()) }
 }
 

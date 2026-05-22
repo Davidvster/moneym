@@ -22,5 +22,10 @@ actual class DbPlatform(private val context: Context) {
         }.isSuccess
     }
 
+    actual suspend fun deleteFile(path: String) = withContext(Dispatchers.IO) {
+        runCatching { File(path).delete() }.getOrDefault(false)
+        Unit
+    }
+
     actual fun terminateApp() { exitProcess(0) }
 }

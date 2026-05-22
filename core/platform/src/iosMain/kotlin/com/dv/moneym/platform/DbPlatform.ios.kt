@@ -53,5 +53,11 @@ actual class DbPlatform {
         }.getOrDefault(false)
     }
 
+    @OptIn(ExperimentalForeignApi::class)
+    actual suspend fun deleteFile(path: String) = withContext(Dispatchers.Default) {
+        NSFileManager.defaultManager.removeItemAtPath(path, error = null)
+        Unit
+    }
+
     actual fun terminateApp() = exit(0)
 }

@@ -12,13 +12,12 @@ import com.dv.moneym.data.transactions.createTransactionsDatabase
 import com.dv.moneym.locale.AndroidLocaleController
 import com.dv.moneym.platform.DbPlatform
 import com.dv.moneym.platform.FilePlatform
-import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 fun androidPlatformModule(context: Context) = module {
-    single { createCategoriesDatabase(androidContext()) }
-    single { createAccountsDatabase(androidContext()) }
-    single { createTransactionsDatabase(androidContext()) }
+    single { createCategoriesDatabase(context) }
+    single { createAccountsDatabase(context) }
+    single { createTransactionsDatabase(context) }
     single<SecureStore> { AndroidSecureStore(context) }
     single<BiometricAuthenticator> { BiometricAuthenticatorImpl() }
     single<LocaleController> { AndroidLocaleController(get()) }

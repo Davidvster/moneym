@@ -89,33 +89,41 @@ actual class FilePlatform(private val context: Context) {
             runCatching {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     val resolver = context.contentResolver
-                    // Delete any existing file with the same name to avoid (1), (2), etc.
-                    resolver.query(
+
+                    // Find existing entry URI (if any)
+                    val existingUri: Uri? = resolver.query(
                         MediaStore.Downloads.EXTERNAL_CONTENT_URI,
                         arrayOf(MediaStore.Downloads._ID),
                         "${MediaStore.Downloads.DISPLAY_NAME} = ?",
                         arrayOf(name),
                         null,
                     )?.use { cursor ->
-                        while (cursor.moveToNext()) {
-                            val id = cursor.getLong(0)
-                            resolver.delete(
-                                ContentUris.withAppendedId(MediaStore.Downloads.EXTERNAL_CONTENT_URI, id),
-                                null, null,
+                        if (cursor.moveToFirst())
+                            ContentUris.withAppendedId(
+                                MediaStore.Downloads.EXTERNAL_CONTENT_URI,
+                                cursor.getLong(0),
                             )
+                        else null
+                    }
+
+                    val uri: Uri? = if (existingUri != null) {
+                        // Overwrite in-place — no rename/suffix risk
+                        val cv = ContentValues().apply { put(MediaStore.Downloads.IS_PENDING, 1) }
+                        resolver.update(existingUri, cv, null, null)
+                        existingUri
+                    } else {
+                        val cv = ContentValues().apply {
+                            put(MediaStore.Downloads.DISPLAY_NAME, name)
+                            put(MediaStore.Downloads.MIME_TYPE, "application/zip")
+                            put(MediaStore.Downloads.IS_PENDING, 1)
                         }
+                        resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, cv)
                     }
-                    val contentValues = ContentValues().apply {
-                        put(MediaStore.Downloads.DISPLAY_NAME, name)
-                        put(MediaStore.Downloads.MIME_TYPE, "application/zip")
-                        put(MediaStore.Downloads.IS_PENDING, 1)
-                    }
-                    val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+
                     uri?.let { u ->
-                        resolver.openOutputStream(u)?.use { os -> os.write(bytes) }
-                        contentValues.clear()
-                        contentValues.put(MediaStore.Downloads.IS_PENDING, 0)
-                        resolver.update(u, contentValues, null, null)
+                        resolver.openOutputStream(u, "wt")?.use { os -> os.write(bytes) }
+                        val cv = ContentValues().apply { put(MediaStore.Downloads.IS_PENDING, 0) }
+                        resolver.update(u, cv, null, null)
                         u.toString()
                     }
                 } else {
