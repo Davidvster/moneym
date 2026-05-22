@@ -35,3 +35,9 @@ actual fun rememberFileSaver(onSaved: (String?) -> Unit): (ByteArray, String) ->
         }
     }
 }
+
+@Composable
+actual fun rememberFolderPicker(onResult: (String?) -> Unit): () -> Unit {
+    val callback = rememberUpdatedState(onResult)
+    return { callback.value("default") }
+}

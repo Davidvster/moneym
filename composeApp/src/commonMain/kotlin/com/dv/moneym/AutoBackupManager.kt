@@ -42,7 +42,12 @@ class AutoBackupManager(
                 .debounce(3_000)
                 .collect {
                     val bytes = withContext(dispatchers.io) { dbBackupManager.export() }
-                    val path = filePlatform.saveFileLocallyBinary("moneym-backup.zip", bytes)
+                    val dirUri = appSettings.getString(PrefKeys.AUTO_BACKUP_DIR_URI)
+                    val path = if (dirUri != null && dirUri != "default") {
+                        filePlatform.saveFileToDirBinary(dirUri, "moneym-backup.zip", bytes)
+                    } else {
+                        filePlatform.saveFileLocallyBinary("moneym-backup.zip", bytes)
+                    }
                     if (path != null) recordBackup(path)
                 }
         }

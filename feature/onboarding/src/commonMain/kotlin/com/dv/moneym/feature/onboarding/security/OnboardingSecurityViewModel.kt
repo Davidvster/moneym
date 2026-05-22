@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.datastore.AppSettings
-import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.core.security.BiometricAuthenticator
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.core.security.SecurityPrefs
@@ -61,8 +60,7 @@ class OnboardingSecurityViewModel(
 
             OnboardingSecurityIntent.Finish -> {
                 settings.putBoolean(SecurityPrefs.PIN_ENABLED, _state.value.pinEnabled)
-                settings.putBoolean(PrefKeys.ONBOARDING_COMPLETED, true)
-                viewModelScope.launch { _effects.send(OnboardingSecurityEffect.Complete) }
+                viewModelScope.launch { _effects.send(OnboardingSecurityEffect.NavigateToCurrency) }
             }
         }
     }

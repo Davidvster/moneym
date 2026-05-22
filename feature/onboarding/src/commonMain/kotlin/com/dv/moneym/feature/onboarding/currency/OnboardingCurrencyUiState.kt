@@ -20,6 +20,6 @@ internal sealed interface OnboardingCurrencyIntent {
 }
 
 internal sealed interface OnboardingCurrencyEffect {
-    data object NavigateToSecurity : OnboardingCurrencyEffect
+    data object NavigateComplete : OnboardingCurrencyEffect
     data object OpenCsvFilePicker : OnboardingCurrencyEffect
 }

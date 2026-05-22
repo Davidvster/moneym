@@ -45,4 +45,5 @@ object PrefKeys {
     const val AUTO_BACKUP_ENABLED = "pref.auto_backup_enabled"
     const val LAST_BACKUP_TIME_MS = "pref.last_backup_time_ms"
     const val LAST_BACKUP_PATH = "pref.last_backup_path"
+    const val AUTO_BACKUP_DIR_URI = "pref.auto_backup_dir_uri"
 }

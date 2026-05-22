@@ -17,5 +17,5 @@ internal sealed interface OnboardingSecurityIntent {
 
 internal sealed interface OnboardingSecurityEffect {
     data object NavigateToPinSetup : OnboardingSecurityEffect
-    data object Complete : OnboardingSecurityEffect
+    data object NavigateToCurrency : OnboardingSecurityEffect
 }

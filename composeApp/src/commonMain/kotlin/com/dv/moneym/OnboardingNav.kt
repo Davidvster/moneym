@@ -29,7 +29,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 internal fun OnboardingNav() {
-    val backStack = remember { mutableStateListOf<NavKey>(OnboardingKey) }
+    val backStack = remember { mutableStateListOf<NavKey>(OnboardingSecurityKey) }
     val securityVm = koinViewModel<OnboardingSecurityViewModel>()
     val currencyVm = koinViewModel<OnboardingCurrencyViewModel>()
     val csvImportHolder = koinInject<CsvImportHolder>()
@@ -65,15 +65,15 @@ internal fun OnboardingNav() {
             }
         },
         entryProvider = entryProvider {
-            onboardingCurrencyEntry(
-                viewModel = currencyVm,
-                onNavigateToSecurity = { backStack.add(OnboardingSecurityKey) },
-                onOpenCsvFilePicker = csvFilePicker,
-            )
             onboardingSecurityEntry(
                 viewModel = securityVm,
                 onNavigateToPinSetup = { backStack.add(OnboardingPinSetupKey) },
+                onNavigateToCurrency = { backStack.add(OnboardingKey) },
+            )
+            onboardingCurrencyEntry(
+                viewModel = currencyVm,
                 onComplete = { },
+                onOpenCsvFilePicker = csvFilePicker,
             )
             entry<OnboardingPinSetupKey> {
                 PinSetupScreen(

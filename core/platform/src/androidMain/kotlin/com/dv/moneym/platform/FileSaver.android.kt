@@ -1,5 +1,6 @@
 package com.dv.moneym.platform
 
+import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
@@ -34,4 +35,24 @@ actual fun rememberFileSaver(onSaved: (String?) -> Unit): (ByteArray, String) ->
         pendingBytes = bytes
         launcher.launch(fileName)
     }
+}
+
+@Composable
+actual fun rememberFolderPicker(onResult: (String?) -> Unit): () -> Unit {
+    val context = LocalContext.current
+    val callback = rememberUpdatedState(onResult)
+
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocumentTree()
+    ) { uri ->
+        if (uri != null) {
+            context.contentResolver.takePersistableUriPermission(
+                uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION,
+            )
+        }
+        callback.value(uri?.toString())
+    }
+
+    return { launcher.launch(null) }
 }

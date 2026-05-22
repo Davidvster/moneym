@@ -46,13 +46,13 @@ data object OnboardingSecurityKey : NavKey
 
 fun EntryProviderScope<NavKey>.onboardingSecurityEntry(
     onNavigateToPinSetup: () -> Unit,
-    onComplete: () -> Unit,
+    onNavigateToCurrency: () -> Unit,
     viewModel: OnboardingSecurityViewModel,
 ) = entry<OnboardingSecurityKey> {
     OnboardingSecurityScreen(
         viewModel = viewModel,
         onNavigateToPinSetup = onNavigateToPinSetup,
-        onComplete = onComplete,
+        onNavigateToCurrency = onNavigateToCurrency,
     )
 }
 
@@ -60,14 +60,14 @@ fun EntryProviderScope<NavKey>.onboardingSecurityEntry(
 private fun OnboardingSecurityScreen(
     viewModel: OnboardingSecurityViewModel,
     onNavigateToPinSetup: () -> Unit,
-    onComplete: () -> Unit,
+    onNavigateToCurrency: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(viewModel) {
         viewModel.effects.collect { effect ->
             when (effect) {
                 OnboardingSecurityEffect.NavigateToPinSetup -> onNavigateToPinSetup()
-                OnboardingSecurityEffect.Complete -> onComplete()
+                OnboardingSecurityEffect.NavigateToCurrency -> onNavigateToCurrency()
             }
         }
     }

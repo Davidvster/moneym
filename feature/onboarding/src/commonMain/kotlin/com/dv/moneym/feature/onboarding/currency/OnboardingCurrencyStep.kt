@@ -58,12 +58,12 @@ import org.koin.compose.viewmodel.koinViewModel
 data object OnboardingKey : NavKey
 
 fun EntryProviderScope<NavKey>.onboardingCurrencyEntry(
-    onNavigateToSecurity: () -> Unit,
+    onComplete: () -> Unit,
     onOpenCsvFilePicker: () -> Unit = {},
     viewModel: OnboardingCurrencyViewModel? = null,
 ) = entry<OnboardingKey> {
     OnboardingCurrencyScreen(
-        onNavigateToSecurity = onNavigateToSecurity,
+        onComplete = onComplete,
         onOpenCsvFilePicker = onOpenCsvFilePicker,
         viewModel = viewModel ?: koinViewModel(),
     )
@@ -71,7 +71,7 @@ fun EntryProviderScope<NavKey>.onboardingCurrencyEntry(
 
 @Composable
 private fun OnboardingCurrencyScreen(
-    onNavigateToSecurity: () -> Unit,
+    onComplete: () -> Unit,
     onOpenCsvFilePicker: () -> Unit,
     viewModel: OnboardingCurrencyViewModel,
 ) {
@@ -84,7 +84,7 @@ private fun OnboardingCurrencyScreen(
     LaunchedEffect(viewModel) {
         viewModel.effects.collect { effect ->
             when (effect) {
-                OnboardingCurrencyEffect.NavigateToSecurity -> onNavigateToSecurity()
+                OnboardingCurrencyEffect.NavigateComplete -> onComplete()
                 OnboardingCurrencyEffect.OpenCsvFilePicker -> onOpenCsvFilePicker()
             }
         }

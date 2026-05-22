@@ -30,6 +30,7 @@ import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.platform.rememberBinaryFilePicker
 import com.dv.moneym.platform.rememberFileSaver
+import com.dv.moneym.platform.rememberFolderPicker
 import kotlin.time.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -73,12 +74,17 @@ private fun BackupRestoreScreen(
         if (bytes != null) viewModel.onIntent(BackupRestoreIntent.RestoreFileSelected(bytes))
     }
 
+    val folderPicker = rememberFolderPicker { uri ->
+        viewModel.onIntent(BackupRestoreIntent.AutoBackupLocationSelected(uri))
+    }
+
     LaunchedEffect(viewModel) {
         viewModel.effects.collect { effect ->
             when (effect) {
                 is BackupRestoreEffect.LaunchFileSaver -> fileSaver(effect.bytes, effect.fileName)
                 BackupRestoreEffect.LaunchRestorePicker -> restorePicker()
                 is BackupRestoreEffect.RestoreError -> Unit
+                BackupRestoreEffect.LaunchFolderPicker -> folderPicker()
             }
         }
     }
@@ -155,6 +161,18 @@ private fun BackupRestoreContent(
                         }
                         Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
                     }
+                    MmRow(onClick = onRestoreTapped) {
+                        Icon(imageVector = Download.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.icon_1x))
+                        Text(stringResource(Res.string.settings_restore_from_file), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
+                        Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
+                    }
+                    MmRow(onClick = { onAutoBackupToggled(!state.autoBackupEnabled) }, divider = false) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(stringResource(Res.string.settings_auto_backup), style = type.body, color = colors.text)
+                            Text(stringResource(Res.string.settings_auto_backup_subtitle), style = type.caption.copy(color = colors.text2))
+                        }
+                        MmToggle(checked = state.autoBackupEnabled, onCheckedChange = onAutoBackupToggled)
+                    }
                     if (lastBackupLabel != null) {
                         Text(
                             text = stringResource(Res.string.settings_last_backup, lastBackupLabel),
@@ -168,18 +186,6 @@ private fun BackupRestoreContent(
                                 modifier = Modifier.padding(start = space.padding_2x, end = space.padding_2x, bottom = space.padding_1x),
                             )
                         }
-                    }
-                    MmRow(onClick = onRestoreTapped) {
-                        Icon(imageVector = Download.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.icon_1x))
-                        Text(stringResource(Res.string.settings_restore_from_file), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
-                        Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
-                    }
-                    MmRow(onClick = { onAutoBackupToggled(!state.autoBackupEnabled) }, divider = false) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(stringResource(Res.string.settings_auto_backup), style = type.body, color = colors.text)
-                            Text(stringResource(Res.string.settings_auto_backup_subtitle), style = type.caption.copy(color = colors.text2))
-                        }
-                        MmToggle(checked = state.autoBackupEnabled, onCheckedChange = onAutoBackupToggled)
                     }
                 }
             }

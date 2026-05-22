@@ -13,4 +13,6 @@ expect class FilePlatform {
     suspend fun saveFileLocallyBinary(name: String, bytes: ByteArray): String?
     /** Open a text file and return its content, or null if cancelled. */
     suspend fun openTextFile(): String?
+    /** Save binary content to a SAF directory URI. Returns the file URI string or null on failure. */
+    suspend fun saveFileToDirBinary(dirUri: String, name: String, bytes: ByteArray): String?
 }

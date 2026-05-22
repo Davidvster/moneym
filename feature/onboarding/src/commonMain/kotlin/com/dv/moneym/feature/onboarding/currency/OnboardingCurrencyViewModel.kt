@@ -67,7 +67,8 @@ class OnboardingCurrencyViewModel(
                             )
                         )
                     }
-                    _effects.send(OnboardingCurrencyEffect.NavigateToSecurity)
+                    appSettings.putBoolean(PrefKeys.ONBOARDING_COMPLETED, true)
+                    _effects.send(OnboardingCurrencyEffect.NavigateComplete)
                 }
             }
 

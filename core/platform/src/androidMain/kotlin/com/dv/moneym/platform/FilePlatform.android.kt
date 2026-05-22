@@ -137,4 +137,21 @@ actual class FilePlatform(private val context: Context) {
     }
 
     actual suspend fun openTextFile(): String? = null
+
+    actual suspend fun saveFileToDirBinary(dirUri: String, name: String, bytes: ByteArray): String? {
+        return withContext(Dispatchers.IO) {
+            runCatching {
+                val uri = Uri.parse(dirUri)
+                val dir = androidx.documentfile.provider.DocumentFile.fromTreeUri(context, uri) ?: return@runCatching null
+                val existing = dir.findFile(name)
+                val file = if (existing != null && !existing.isDirectory) {
+                    existing
+                } else {
+                    dir.createFile("application/zip", name) ?: return@runCatching null
+                }
+                context.contentResolver.openOutputStream(file.uri, "wt")?.use { os -> os.write(bytes) }
+                file.uri.toString()
+            }.getOrNull()
+        }
+    }
 }

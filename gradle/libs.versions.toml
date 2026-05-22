@@ -19,6 +19,7 @@ nav3Core = "1.1.1"
 multiplatform-nav3-ui = "1.0.0-alpha05"
 androidx-security-crypto = "1.1.0-alpha06"
 androidx-testExt = "1.3.0"
+documentfile = "1.0.1"
 
 # Compose
 composeMultiplatform = "1.10.3"
@@ -66,6 +67,7 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "androidx-biometric" }
 androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "androidx-security-crypto" }
+androidx-documentfile = { module = "androidx.documentfile:documentfile", version.ref = "documentfile" }
 
 # Compose
 compose-uiTooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "composeMultiplatform" }

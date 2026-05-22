@@ -68,13 +68,14 @@ class PinUnlockViewModel(
     }
 
     private var biometricPrompt: String = "Unlock MoneyM"
+    private var biometricDeclinedThisSession = false
 
     fun setBiometricPrompt(prompt: String) {
         biometricPrompt = prompt
     }
 
     fun onResume() {
-        if (_state.value.biometricAvailable && !_state.value.isVerifying && _state.value.backoffRemainingMs <= 0) {
+        if (_state.value.biometricAvailable && !_state.value.isVerifying && _state.value.backoffRemainingMs <= 0 && !biometricDeclinedThisSession) {
             viewModelScope.launch {
                 triggerBiometric(biometricPrompt)
             }
@@ -85,7 +86,10 @@ class PinUnlockViewModel(
         when (intent) {
             is PinUnlockIntent.DigitPressed -> onDigit(intent.digit)
             PinUnlockIntent.DeletePressed -> _state.update { it.copy(pin = it.pin.dropLast(1)) }
-            is PinUnlockIntent.BiometricRequested -> triggerBiometric(intent.prompt)
+            is PinUnlockIntent.BiometricRequested -> {
+                biometricDeclinedThisSession = false
+                triggerBiometric(intent.prompt)
+            }
         }
     }
 
@@ -143,6 +147,7 @@ class PinUnlockViewModel(
 
                 BiometricResult.UserCancelled,
                 is BiometricResult.Error -> {
+                    biometricDeclinedThisSession = true
                     // Do nothing — user can still use PIN
                 }
             }

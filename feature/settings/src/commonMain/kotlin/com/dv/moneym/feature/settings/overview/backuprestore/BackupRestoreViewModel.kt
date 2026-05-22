@@ -35,12 +35,14 @@ sealed interface BackupRestoreIntent {
     data object RestoreDismissed : BackupRestoreIntent
     data class AutoBackupToggled(val enabled: Boolean) : BackupRestoreIntent
     data class BackupSaveCompleted(val path: String?) : BackupRestoreIntent
+    data class AutoBackupLocationSelected(val uri: String?) : BackupRestoreIntent
 }
 
 sealed interface BackupRestoreEffect {
     data class LaunchFileSaver(val bytes: ByteArray, val fileName: String) : BackupRestoreEffect
     data object LaunchRestorePicker : BackupRestoreEffect
     data class RestoreError(val message: String) : BackupRestoreEffect
+    data object LaunchFolderPicker : BackupRestoreEffect
 }
 
 class BackupRestoreViewModel(
@@ -73,7 +75,6 @@ class BackupRestoreViewModel(
     val effects = _effects.receiveAsFlow()
 
     private var pendingRestoreBytes: ByteArray? = null
-    private var pendingAutoBackupEnable = false
 
     fun onIntent(intent: BackupRestoreIntent) {
         when (intent) {
@@ -112,22 +113,14 @@ class BackupRestoreViewModel(
 
             is BackupRestoreIntent.AutoBackupToggled -> {
                 if (intent.enabled) {
-                    val hasPath = appSettings.getString(PrefKeys.LAST_BACKUP_PATH) != null
-                    if (hasPath) {
+                    val hasDirUri = appSettings.getString(PrefKeys.AUTO_BACKUP_DIR_URI) != null
+                    if (hasDirUri) {
                         appSettings.putBoolean(PrefKeys.AUTO_BACKUP_ENABLED, true)
                         _base.update { it.copy(autoBackupEnabled = true) }
                     } else {
-                        // No saved location yet — export and let screen pick one
-                        pendingAutoBackupEnable = true
-                        _base.update { it.copy(isLoading = true) }
-                        viewModelScope.launch {
-                            val bytes = withContext(dispatchers.io) { dbBackupManager.export() }
-                            _base.update { it.copy(isLoading = false) }
-                            _effects.send(BackupRestoreEffect.LaunchFileSaver(bytes, "moneym-backup.zip"))
-                        }
+                        viewModelScope.launch { _effects.send(BackupRestoreEffect.LaunchFolderPicker) }
                     }
                 } else {
-                    pendingAutoBackupEnable = false
                     appSettings.putBoolean(PrefKeys.AUTO_BACKUP_ENABLED, false)
                     _base.update { it.copy(autoBackupEnabled = false) }
                 }
@@ -142,14 +135,17 @@ class BackupRestoreViewModel(
                         Clock.System.now().toEpochMilliseconds().toString(),
                     )
                     _base.update { it.copy(isLoading = false, showBackupSuccess = true) }
-                    if (pendingAutoBackupEnable) {
-                        pendingAutoBackupEnable = false
-                        appSettings.putBoolean(PrefKeys.AUTO_BACKUP_ENABLED, true)
-                        _base.update { it.copy(autoBackupEnabled = true) }
-                    }
                 } else {
-                    pendingAutoBackupEnable = false
                     _base.update { it.copy(isLoading = false) }
+                }
+            }
+
+            is BackupRestoreIntent.AutoBackupLocationSelected -> {
+                val uri = intent.uri
+                if (uri != null) {
+                    appSettings.putString(PrefKeys.AUTO_BACKUP_DIR_URI, uri)
+                    appSettings.putBoolean(PrefKeys.AUTO_BACKUP_ENABLED, true)
+                    _base.update { it.copy(autoBackupEnabled = true) }
                 }
             }
         }

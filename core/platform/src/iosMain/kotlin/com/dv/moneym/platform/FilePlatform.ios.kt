@@ -82,4 +82,6 @@ actual class FilePlatform {
     }
 
     actual suspend fun openTextFile(): String? = null
+
+    actual suspend fun saveFileToDirBinary(dirUri: String, name: String, bytes: ByteArray): String? = null
 }
