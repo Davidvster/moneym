@@ -18,7 +18,6 @@ fun createCategoriesDatabase(): CategoriesRoomDatabase {
         appSupport, withIntermediateDirectories = true, attributes = null, error = null
     )
     return Room.databaseBuilder<CategoriesRoomDatabase>(name = "$appSupport/moneym_categories.db")
-        .fallbackToDestructiveMigrationFrom(false, 1)
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.Default)
         .build()

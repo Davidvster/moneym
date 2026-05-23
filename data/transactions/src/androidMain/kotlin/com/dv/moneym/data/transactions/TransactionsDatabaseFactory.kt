@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 
 fun createTransactionsDatabase(context: Context): TransactionsRoomDatabase =
     Room.databaseBuilder<TransactionsRoomDatabase>(context = context, name = "moneym_transactions.db")
-        .fallbackToDestructiveMigrationFrom(false, 1)
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
         .build()

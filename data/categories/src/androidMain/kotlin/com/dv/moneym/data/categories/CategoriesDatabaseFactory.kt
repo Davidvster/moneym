@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 
 fun createCategoriesDatabase(context: Context): CategoriesRoomDatabase =
     Room.databaseBuilder<CategoriesRoomDatabase>(context = context, name = "moneym_categories.db")
-        .fallbackToDestructiveMigrationFrom(false, 1)
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
         .build()

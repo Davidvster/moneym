@@ -10,9 +10,11 @@ import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.core.security.SecurityPrefs
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -28,16 +30,17 @@ class OnboardingSecurityViewModel(
             OnboardingSecurityUiState(biometricAvailable = biometricAuth.isAvailable)
         )
     }
-    internal val state: StateFlow<OnboardingSecurityUiState> = _state.asStateFlow()
+    internal val state: StateFlow<OnboardingSecurityUiState> = _state
+        .onStart {
+            init()
+        }.stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
     private val _effects = Channel<OnboardingSecurityEffect>(Channel.BUFFERED)
     internal val effects = _effects.receiveAsFlow()
 
-    init {
-        viewModelScope.launch {
-            if (pinManager.isPinSet()) {
-                _state.update { it.copy(pinEnabled = true) }
-            }
+    private suspend fun init() {
+        if (pinManager.isPinSet()) {
+            _state.update { it.copy(pinEnabled = true) }
         }
     }
 
