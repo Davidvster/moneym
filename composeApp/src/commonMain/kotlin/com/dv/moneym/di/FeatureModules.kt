@@ -37,7 +37,10 @@ import com.dv.moneym.feature.transactionedit.TransactionEditViewModel
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
+import com.dv.moneym.feature.transactions.list.TransactionListEphemeralState
 import com.dv.moneym.feature.transactions.list.TransactionListViewModel
+import com.dv.moneym.feature.transactions.list.TransactionPageViewModel
+import com.dv.moneym.core.model.YearMonth
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -50,15 +53,27 @@ val coreSecurityModule = module {
 }
 
 val featureTransactionsModule = module {
+    single { TransactionListEphemeralState() }
     viewModel {
         TransactionListViewModel(
             transactionRepository = get(),
             categoryRepository = get(),
             accountRepository = get(),
-            paymentModeRepository = get(),
             appSettingsRepository = get(),
+            ephemeralState = get(),
             clock = get(),
             savedStateHandle = get(),
+        )
+    }
+    viewModel { params ->
+        TransactionPageViewModel(
+            yearMonth = params.get(),
+            transactionRepository = get(),
+            categoryRepository = get(),
+            accountRepository = get(),
+            paymentModeRepository = get(),
+            appSettingsRepository = get(),
+            ephemeralState = get(),
         )
     }
 }

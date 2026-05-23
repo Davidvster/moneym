@@ -27,6 +27,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
+import kotlinx.serialization.Serializable
+
+@Serializable
+private data class PeriodState(val period: OverviewPeriod, val offset: Int)
 
 class OverviewViewModel(
     private val transactionRepository: TransactionRepository,
@@ -34,64 +38,55 @@ class OverviewViewModel(
     private val accountRepository: AccountRepository,
     private val appSettingsRepository: AppSettingsRepository,
     clock: AppClock,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val today = clock.today()
-    private val _period by savedStateHandle.saved {
-        MutableStateFlow<OverviewPeriod>(
-            OverviewPeriod.Month(YearMonth(today.year, today.monthNumber))
-        )
+
+    private val _periodState by savedStateHandle.saved {
+        MutableStateFlow(PeriodState(OverviewPeriod.Month(YearMonth(today.year, today.monthNumber)), 0))
     }
-    private val _periodOffset by savedStateHandle.saved { MutableStateFlow(0) }
     private val _selectedCategoryId by savedStateHandle.saved { MutableStateFlow<CategoryId?>(null) }
     private val _selectedSliceIndex by savedStateHandle.saved { MutableStateFlow<Int?>(null) }
     private val _selectedAccountId by savedStateHandle.saved { MutableStateFlow<Long>(-1L) }
+    private val _spendingFilter = MutableStateFlow(SpendingFilter.Expenses)
 
-    // Holds ISO date strings for the earliest and latest transaction dates.
-    // Loaded once on init to constrain the date range picker.
-    private val _dateBounds = MutableStateFlow<Pair<String?, String?>>(null to null)
+    private val _dateBounds: StateFlow<Pair<String?, String?>> = transactionRepository
+        .getTransactionDates()
+        .map { dates -> dates.minOrNull()?.toString() to dates.maxOrNull()?.toString() }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, null to null)
 
-    // Reactive set of ISO date strings for all dates that have at least one transaction.
     private val _transactionDateIsos = transactionRepository.getTransactionDates()
         .map { dates -> dates.map { it.toString() }.toSet() }
 
     private suspend fun init() {
-        // Restore persisted overview period mode on startup
         viewModelScope.launch {
             val saved = appSettingsRepository.observeLastOverviewPeriod().first()
             when (saved) {
-                OverviewPeriodMode.Year -> _period.value = OverviewPeriod.Year(today.year)
-                OverviewPeriodMode.DateRange -> { /* stay as Month — no date range to restore */ }
-                OverviewPeriodMode.Month -> { /* default already set */ }
+                OverviewPeriodMode.Year -> _periodState.update { s ->
+                    s.copy(period = OverviewPeriod.Year(today.year))
+                }
+                OverviewPeriodMode.DateRange -> { }
+                OverviewPeriodMode.Month -> { }
             }
         }
-
-        // Observe selected account (wallet filter)
         viewModelScope.launch {
             appSettingsRepository.observeSelectedAccountId().collect { id ->
                 _selectedAccountId.value = id
             }
         }
-
-        // Fetch transaction date bounds for constraining the date range picker
-        viewModelScope.launch {
-            val earliest = transactionRepository.getEarliestTransactionDate()?.toString()
-            val latest = transactionRepository.getLatestTransactionDate()?.toString()
-            _dateBounds.value = earliest to latest
-        }
     }
 
     internal val state: StateFlow<OverviewUiState> = combine(
-        _period.onStart { init() },
+        _periodState.onStart { init() },
         _selectedCategoryId,
         transactionRepository.observeAll(),
         categoryRepository.observeAll(),
         combine(_selectedAccountId, accountRepository.observeAll()) { id, accs -> id to accs },
-    ) { period, selectedCatId, allTransactions, categories, (selectedAccId, accounts) ->
+    ) { periodState, selectedCatId, allTransactions, categories, (selectedAccId, accounts) ->
+        val period = periodState.period
         val catMap = categories.associateBy { it.id }
 
-        // Filter by selected account
         val accountFilteredTransactions = if (selectedAccId > 0L) {
             allTransactions.filter { it.accountId.value == selectedAccId }
         } else {
@@ -106,7 +101,6 @@ class OverviewViewModel(
             periodTxns
         }
 
-        // ── New Double summaries ──────────────────────────────────
         val incomeDouble = filteredTxns
             .filter { it.type == TransactionType.INCOME }
             .sumOf { it.amount.minorUnits }
@@ -117,12 +111,10 @@ class OverviewViewModel(
             .sumOf { it.amount.minorUnits }
             .toDouble() / 100.0
 
-        // ── Category breakdown (for donut + legend) ───────────────
         val totalExpenseMinor = periodTxns
             .filter { it.type == TransactionType.EXPENSE }
             .sumOf { it.amount.minorUnits }
 
-        // Preliminary CategorySpend list (without averages — added after period block)
         val prelimBreakdown = periodTxns
             .filter { it.type == TransactionType.EXPENSE }
             .groupBy { it.categoryId }
@@ -142,7 +134,6 @@ class OverviewViewModel(
             }
             .sortedByDescending { it.amount }
 
-        // ── Mode-specific data ────────────────────────────────────
         val dailyTotals: List<Double>
         val cumulativeTotals: List<Double>
         val todayIndex: Int
@@ -153,7 +144,6 @@ class OverviewViewModel(
         val avgDailyExpense: Double
         val avgMonthlyExpense: Double
         val avgDailyExpenseYear: Double
-        // For per-category averages
         var elapsedDaysForCat = 1
         var elapsedMonthsForCat = 1
 
@@ -161,38 +151,29 @@ class OverviewViewModel(
             is OverviewPeriod.Month -> {
                 val month = period.yearMonth
                 val days = daysInMonth(month.year, month.monthNumber)
-                val isCurrentMonth =
-                    month.year == today.year && month.monthNumber == today.monthNumber
+                val isCurrentMonth = month.year == today.year && month.monthNumber == today.monthNumber
 
-                // Daily expense totals (indices 0..days-1)
                 val rawDaily = (1..days).map { day ->
                     periodTxns
-                        .filter {
-                            it.type == TransactionType.EXPENSE &&
-                                    it.occurredOn.dayOfMonth == day
-                        }
+                        .filter { it.type == TransactionType.EXPENSE && it.occurredOn.dayOfMonth == day }
                         .sumOf { it.amount.minorUnits }
                         .toDouble() / 100.0
                 }
                 dailyTotals = rawDaily
 
-                // Cumulative (running sum)
                 var running = 0.0
                 cumulativeTotals = rawDaily.map { v -> running += v; running }
 
-                // todayIndex: current day - 1 if in current month, else last day - 1
                 todayIndex = if (isCurrentMonth) {
                     (today.dayOfMonth - 1).coerceIn(0, days - 1)
                 } else {
                     days - 1
                 }
 
-                // Average stats for month mode
                 val elapsed = if (isCurrentMonth) today.dayOfMonth else days
                 elapsedDaysForCat = elapsed.coerceAtLeast(1)
                 elapsedMonthsForCat = 1
 
-                // Category daily trends
                 categoryDailyTrend = buildCategoryDailyTrend(
                     periodTxns = periodTxns,
                     catMap = catMap,
@@ -201,7 +182,6 @@ class OverviewViewModel(
                     elapsedDays = elapsedDaysForCat,
                 )
 
-                // Year-mode fields — empty for month mode
                 monthlyTotals = List(12) { 0.0 }
                 categoryMonthlyTrend = emptyList()
                 currentMonthIndex = -1
@@ -212,13 +192,12 @@ class OverviewViewModel(
             }
 
             is OverviewPeriod.Year -> {
-                // Month totals for the selected year
                 monthlyTotals = (1..12).map { m ->
                     accountFilteredTransactions
                         .filter {
                             it.type == TransactionType.EXPENSE &&
-                                    it.occurredOn.year == period.year &&
-                                    it.occurredOn.monthNumber == m
+                                it.occurredOn.year == period.year &&
+                                it.occurredOn.monthNumber == m
                         }
                         .sumOf { it.amount.minorUnits }
                         .toDouble() / 100.0
@@ -226,7 +205,6 @@ class OverviewViewModel(
 
                 currentMonthIndex = if (period.year == today.year) today.monthNumber - 1 else -1
 
-                // Average stats for year mode — compute before building trends
                 val isCurrentYear = period.year == today.year
                 val elapsedMonths = if (isCurrentYear) today.monthNumber else 12
                 val elapsedDaysInYear = if (isCurrentYear) {
@@ -248,7 +226,6 @@ class OverviewViewModel(
                     elapsedDays = elapsedDaysForCat,
                 )
 
-                // Month-mode fields — empty for year mode
                 dailyTotals = emptyList()
                 cumulativeTotals = emptyList()
                 todayIndex = 0
@@ -266,7 +243,6 @@ class OverviewViewModel(
                 val rangeDays =
                     ((endDate.toEpochDays() - startDate.toEpochDays()).toInt() + 1).coerceAtLeast(1)
 
-                // Build daily series for the range
                 categoryDailyTrend = buildCategoryRangeTrend(
                     periodTxns = periodTxns,
                     catMap = catMap,
@@ -274,7 +250,6 @@ class OverviewViewModel(
                     endDate = endDate,
                 )
 
-                // Not applicable fields for range mode
                 dailyTotals = emptyList()
                 cumulativeTotals = emptyList()
                 todayIndex = 0
@@ -291,7 +266,6 @@ class OverviewViewModel(
             }
         }
 
-        // Enrich CategorySpend with per-category averages
         val isMonthMode = period is OverviewPeriod.Month
         val newBreakdown = prelimBreakdown.map { cs ->
             cs.copy(
@@ -300,7 +274,6 @@ class OverviewViewModel(
             )
         }
 
-        // Income category breakdown
         val totalIncomeMinor = periodTxns
             .filter { it.type == TransactionType.INCOME }
             .sumOf { it.amount.minorUnits }
@@ -320,7 +293,8 @@ class OverviewViewModel(
                         ((amountMinor.toDouble() / totalIncomeMinor.toDouble()) * 100).toInt()
                     else 0,
                     avgPerDay = amountMinor.toDouble() / 100.0 / elapsedDaysForCat,
-                    avgPerMonth = if (isMonthMode) 0.0 else amountMinor.toDouble() / 100.0 / elapsedMonthsForCat,
+                    avgPerMonth = if (isMonthMode) 0.0
+                    else amountMinor.toDouble() / 100.0 / elapsedMonthsForCat,
                 )
             }
             .sortedByDescending { it.amount }
@@ -329,7 +303,7 @@ class OverviewViewModel(
             isLoading = false,
             isEmpty = periodTxns.isEmpty(),
             period = period,
-            // New
+            periodOffset = periodState.offset,
             income = incomeDouble,
             expenses = expensesDouble,
             categoryBreakdown = newBreakdown,
@@ -341,17 +315,15 @@ class OverviewViewModel(
             monthlyTotals = monthlyTotals,
             categoryMonthlyTrend = categoryMonthlyTrend,
             currentMonthIndex = currentMonthIndex,
-            // Average stats
             avgDailyExpense = avgDailyExpense,
             avgMonthlyExpense = avgMonthlyExpense,
             avgDailyExpenseYear = avgDailyExpenseYear,
             currency = (if (selectedAccId > 0L) accounts.find { it.id.value == selectedAccId }
-                else accounts.firstOrNull { it.isDefault } ?: accounts.firstOrNull())
-                ?.currency?.value ?: "USD"
+            else accounts.firstOrNull { it.isDefault } ?: accounts.firstOrNull())
+                ?.currency?.value ?: "USD",
         )
     }
         .combine(_selectedSliceIndex) { s, slice -> s.copy(selectedSliceIndex = slice) }
-        .combine(_periodOffset) { s, offset -> s.copy(periodOffset = offset) }
         .combine(_dateBounds) { s, (minIso, maxIso) ->
             val canGoBack = when (val p = s.period) {
                 is OverviewPeriod.Month -> {
@@ -368,58 +340,48 @@ class OverviewViewModel(
             }
             s.copy(minSelectableDateIso = minIso, maxSelectableDateIso = maxIso, canGoBack = canGoBack)
         }
-        .combine(_transactionDateIsos) { s, isos ->
-            s.copy(transactionDateIsos = isos)
-        }
+        .combine(_transactionDateIsos) { s, isos -> s.copy(transactionDateIsos = isos) }
+        .combine(_spendingFilter) { s, f -> s.copy(spendingFilter = f) }
         .stateIn(viewModelScope, SharingStarted.Lazily, OverviewUiState())
 
     internal fun onIntent(intent: OverviewIntent) {
         when (intent) {
             OverviewIntent.PreviousPeriod -> {
-                _periodOffset.value = -1
                 val minIso = _dateBounds.value.first
-                _period.update { current ->
-                    val prev = current.previous()
-                    if (minIso != null) {
+                _periodState.update { s ->
+                    val prev = s.period.previous()
+                    val clamped = if (minIso != null) {
                         val minDate = LocalDate.parse(minIso)
                         when (prev) {
                             is OverviewPeriod.Month ->
                                 if (YearMonth(prev.yearMonth.year, prev.yearMonth.monthNumber) <
-                                    YearMonth(minDate.year, minDate.monthNumber)) current else prev
+                                    YearMonth(minDate.year, minDate.monthNumber)) s.period else prev
                             is OverviewPeriod.Year ->
-                                if (prev.year < minDate.year) current else prev
+                                if (prev.year < minDate.year) s.period else prev
                             else -> prev
                         }
                     } else prev
+                    PeriodState(clamped, -1)
                 }
             }
 
             OverviewIntent.NextPeriod -> {
-                _periodOffset.value = 1
-                _period.update { it.next() }
+                _periodState.update { s -> PeriodState(s.period.next(), 1) }
             }
 
             OverviewIntent.TogglePeriod -> {
-                _periodOffset.value = 0
-                _period.update { p ->
-                    val newPeriod = when (p) {
-                        is OverviewPeriod.Month -> OverviewPeriod.Year(p.yearMonth.year)
+                _periodState.update { s ->
+                    val newPeriod = when (s.period) {
+                        is OverviewPeriod.Month -> OverviewPeriod.Year(s.period.yearMonth.year)
                         is OverviewPeriod.Year -> OverviewPeriod.Month(
-                            YearMonth(
-                                p.year,
-                                today.monthNumber
-                            )
+                            YearMonth(s.period.year, today.monthNumber)
                         )
-
                         is OverviewPeriod.DateRange -> OverviewPeriod.Month(
-                            YearMonth(
-                                today.year,
-                                today.monthNumber
-                            )
+                            YearMonth(today.year, today.monthNumber)
                         )
                     }
                     persistPeriod(newPeriod)
-                    newPeriod
+                    PeriodState(newPeriod, 0)
                 }
             }
 
@@ -433,13 +395,11 @@ class OverviewViewModel(
             }
 
             is OverviewIntent.PeriodSelected -> {
-                _periodOffset.value = 0
-                _period.value = intent.period
+                _periodState.value = PeriodState(intent.period, 0)
                 persistPeriod(intent.period)
             }
 
             is OverviewIntent.DateRangeSelected -> {
-                _periodOffset.value = 0
                 val newPeriod = OverviewPeriod.DateRange(
                     startYear = intent.startYear,
                     startMonth = intent.startMonth,
@@ -448,8 +408,12 @@ class OverviewViewModel(
                     endMonth = intent.endMonth,
                     endDay = intent.endDay,
                 )
-                _period.value = newPeriod
+                _periodState.value = PeriodState(newPeriod, 0)
                 persistPeriod(newPeriod)
+            }
+
+            is OverviewIntent.SpendingFilterChanged -> {
+                _spendingFilter.value = intent.filter
             }
         }
     }
@@ -460,30 +424,25 @@ class OverviewViewModel(
             is OverviewPeriod.Year -> OverviewPeriodMode.Year
             is OverviewPeriod.DateRange -> OverviewPeriodMode.DateRange
         }
-        viewModelScope.launch {
-            appSettingsRepository.setLastOverviewPeriod(mode)
-        }
+        viewModelScope.launch { appSettingsRepository.setLastOverviewPeriod(mode) }
     }
-
-    // ── Period helpers ────────────────────────────────────────────
 
     private fun OverviewPeriod.previous(): OverviewPeriod = when (this) {
         is OverviewPeriod.Month -> OverviewPeriod.Month(yearMonth.previous())
         is OverviewPeriod.Year -> OverviewPeriod.Year(year - 1)
-        is OverviewPeriod.DateRange -> this  // no previous/next for date range
+        is OverviewPeriod.DateRange -> this
     }
 
     private fun OverviewPeriod.next(): OverviewPeriod = when (this) {
         is OverviewPeriod.Month -> OverviewPeriod.Month(yearMonth.next())
         is OverviewPeriod.Year -> OverviewPeriod.Year(year + 1)
-        is OverviewPeriod.DateRange -> this  // no previous/next for date range
+        is OverviewPeriod.DateRange -> this
     }
 
     private fun Transaction.matchesPeriod(period: OverviewPeriod): Boolean = when (period) {
         is OverviewPeriod.Month ->
             occurredOn.year == period.yearMonth.year &&
-                    occurredOn.monthNumber == period.yearMonth.monthNumber
-
+                occurredOn.monthNumber == period.yearMonth.monthNumber
         is OverviewPeriod.Year -> occurredOn.year == period.year
         is OverviewPeriod.DateRange -> {
             val start = LocalDate(period.startYear, period.startMonth, period.startDay)
@@ -491,7 +450,6 @@ class OverviewViewModel(
             occurredOn >= start && occurredOn <= end
         }
     }
-    // ── Category trend builders ───────────────────────────────────
 
     private fun buildCategoryDailyTrend(
         periodTxns: List<Transaction>,
@@ -581,7 +539,6 @@ class OverviewViewModel(
                             .toDouble() / 100.0
                     }
                 } else {
-                    // Group into months
                     val startEpochMonth = startDate.year * 12 + (startDate.monthNumber - 1)
                     val endEpochMonth = endDate.year * 12 + (endDate.monthNumber - 1)
                     (startEpochMonth..endEpochMonth).map { epochMonth ->
@@ -605,18 +562,12 @@ class OverviewViewModel(
     }
 }
 
-// ── Utilities ─────────────────────────────────────────────────────
-
 private fun daysInMonth(year: Int, month: Int): Int {
     val first = LocalDate(year, month, 1)
     val next = if (month == 12) LocalDate(year + 1, 1, 1) else LocalDate(year, month + 1, 1)
     return (next.toEpochDays() - first.toEpochDays()).toInt()
 }
 
-/**
- * Converts a CSS hex colour string ("#RRGGBB" or "#AARRGGBB") to an ARGB Long
- * suitable for `androidx.compose.ui.graphics.Color(long)`.
- */
 internal fun colorHexToLong(hex: String): Long {
     val stripped = hex.trimStart('#')
     return try {

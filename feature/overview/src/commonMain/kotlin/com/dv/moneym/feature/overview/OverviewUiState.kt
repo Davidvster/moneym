@@ -70,6 +70,9 @@ internal data class CategoryAvgSpend(
     val avgAmount: Double,
 )
 
+@Serializable
+internal enum class SpendingFilter { All, Expenses, Income }
+
 // ─── Main UiState ──────────────────────────────────────────────
 
 @Serializable
@@ -125,6 +128,7 @@ internal data class OverviewUiState(
     // Stored as Set<String> to avoid LocalDate serialization issues in saved state.
     // When non-empty, only these dates are selectable in the DateRangePicker.
     val transactionDateIsos: Set<String> = emptySet(),
+    val spendingFilter: SpendingFilter = SpendingFilter.Expenses,
 )
 
 internal sealed interface OverviewIntent {
@@ -142,4 +146,5 @@ internal sealed interface OverviewIntent {
         val endMonth: Int,
         val endDay: Int,
     ) : OverviewIntent
+    data class SpendingFilterChanged(val filter: SpendingFilter) : OverviewIntent
 }

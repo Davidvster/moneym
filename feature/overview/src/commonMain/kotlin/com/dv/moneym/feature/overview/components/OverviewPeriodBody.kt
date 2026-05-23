@@ -52,15 +52,13 @@ import com.dv.moneym.feature.overview.CategoryTrend
 import com.dv.moneym.feature.overview.OverviewIntent
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.OverviewUiState
+import com.dv.moneym.feature.overview.SpendingFilter
 import moneym.feature.overview.generated.resources.Res
-import moneym.feature.overview.generated.resources.overview_all
 import moneym.feature.overview.generated.resources.overview_avg_day
 import moneym.feature.overview.generated.resources.overview_avg_month
 import moneym.feature.overview.generated.resources.overview_cat_avg_day
 import moneym.feature.overview.generated.resources.overview_cat_avg_month
 import moneym.feature.overview.generated.resources.overview_daily_trend
-import moneym.feature.overview.generated.resources.overview_expenses
-import moneym.feature.overview.generated.resources.overview_income
 import moneym.feature.overview.generated.resources.overview_monthly_trend
 import moneym.feature.overview.generated.resources.overview_no_expenses
 import moneym.feature.overview.generated.resources.overview_spending_by_category
@@ -117,6 +115,7 @@ internal fun OverviewPeriodBody(
                 currencyCode = currencyCode,
                 selectedSliceIndex = state.selectedSliceIndex,
                 inYearMode = inYearMode,
+                filter = state.spendingFilter,
                 onSliceTapped = { onIntent(OverviewIntent.SliceTapped(it)) },
                 modifier = Modifier.padding(
                     horizontal = space.padding_2x,
@@ -182,8 +181,6 @@ internal fun OverviewPeriodBody(
 }
 
 
-private enum class SpendingFilter { All, Expenses, Income }
-
 @Composable
 private fun SpendingByCategoryCard(
     expenseCategories: List<CategorySpend>,
@@ -193,6 +190,7 @@ private fun SpendingByCategoryCard(
     currencyCode: String,
     selectedSliceIndex: Int?,
     inYearMode: Boolean,
+    filter: SpendingFilter,
     onSliceTapped: (Int?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -201,7 +199,6 @@ private fun SpendingByCategoryCard(
     val space = MM.dimen
 
     var showPercent by remember { mutableStateOf(true) }
-    var filter by remember { mutableStateOf(SpendingFilter.Expenses) }
 
     val total = when (filter) {
         SpendingFilter.All -> totalExpenses + totalIncome
@@ -215,33 +212,6 @@ private fun SpendingByCategoryCard(
                 text = stringResource(Res.string.overview_spending_by_category),
                 style = type.title3,
                 color = colors.text,
-            )
-
-            Spacer(Modifier.height(space.padding_1_5x))
-
-            // All / Expenses / Income toggle — equal-width full-width
-            MmSegmented(
-                options = listOf(
-                    stringResource(Res.string.overview_all),
-                    stringResource(Res.string.overview_expenses),
-                    stringResource(Res.string.overview_income),
-                ),
-                selectedIndex = when (filter) {
-                    SpendingFilter.All -> 0
-                    SpendingFilter.Expenses -> 1
-                    SpendingFilter.Income -> 2
-                },
-                onOptionSelected = {
-                    filter = when (it) {
-                        0 -> SpendingFilter.All
-                        1 -> SpendingFilter.Expenses
-                        else -> SpendingFilter.Income
-                    }
-                    onSliceTapped(null)
-                },
-                size = MmSegmentedSize.Sm,
-                fillWidth = true,
-                modifier = Modifier.fillMaxWidth(),
             )
 
             Spacer(Modifier.height(space.padding_2x))

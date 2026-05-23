@@ -118,11 +118,13 @@ private fun OverviewContent(
         OverviewHeader(
             period = state.period,
             periodLabel = periodLabel,
+            spendingFilter = state.spendingFilter,
             onTogglePeriod = { onIntent(OverviewIntent.TogglePeriod) },
             onPreviousPeriod = { onIntent(OverviewIntent.PreviousPeriod) },
             onNextPeriod = { onIntent(OverviewIntent.NextPeriod) },
             onShowPeriodPicker = { showPeriodPicker = true },
             onShowDateRangePicker = { showDateRangePicker = true },
+            onSpendingFilterChanged = { onIntent(OverviewIntent.SpendingFilterChanged(it)) },
             canGoBack = state.canGoBack,
         )
 

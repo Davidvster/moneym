@@ -47,7 +47,6 @@ import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.designsystem.categoryColor
-import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
@@ -71,8 +70,6 @@ import com.dv.moneym.feature.transactions.list.components.DayGroupHeader
 import com.dv.moneym.feature.transactions.list.components.MonthPickerDialog
 import com.dv.moneym.feature.transactions.list.components.WalletSwitcherDialog
 import com.dv.moneym.feature.transactions.list.components.monthLabel
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.todayIn
 import kotlinx.serialization.Serializable
 import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.transactions_add
@@ -90,24 +87,6 @@ import moneym.feature.transactions.generated.resources.transactions_search_place
 import moneym.feature.transactions.generated.resources.transactions_title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import kotlin.time.Clock
-
-private const val PAGE_COUNT =
-    2400 // TODO fix this, just use the available months and when user clicks next add one in the viewmodel, the user should never go before ther first transaction
-private const val PAGE_OFFSET = 1200
-
-private fun YearMonth.toPageIndex(): Int {
-    val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
-    val deltaMonths = (year - today.year) * 12 + (monthNumber - today.monthNumber)
-    return PAGE_OFFSET + deltaMonths
-}
-
-private fun pageIndexToYearMonth(page: Int): YearMonth {
-    val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
-    val deltaMonths = page - PAGE_OFFSET
-    val totalMonth0 = today.year * 12 + (today.monthNumber - 1) + deltaMonths
-    return YearMonth(totalMonth0 / 12, totalMonth0 % 12 + 1)
-}
 
 @Serializable
 data object TransactionsKey : NavKey
@@ -150,21 +129,25 @@ private fun TransactionListContent(
     onEditTransaction: (TransactionId) -> Unit,
     onTabSelected: (TabRoute) -> Unit,
 ) {
-    val colors = MM.colors
-
+    // Pure UI state — no business logic
     var isSearchActive by remember { mutableStateOf(false) }
     var showMonthPicker by remember { mutableStateOf(false) }
     var showWalletSwitcher by remember { mutableStateOf(false) }
     var showCategoryFilter by remember { mutableStateOf(false) }
-    // Local (non-persisted) category filter: set of selected category IDs
-    var selectedCategoryIds by remember { mutableStateOf(emptySet<CategoryId>()) }
+    var initialScrollDone by remember { mutableStateOf(false) }
 
     if (showMonthPicker) {
+        val minYear = if (state.firstAvailablePage < PAGE_OFFSET) {
+            pageToYearMonth(state.firstAvailablePage, state.today).year
+        } else null
+        val minMonth = if (state.firstAvailablePage < PAGE_OFFSET) {
+            pageToYearMonth(state.firstAvailablePage, state.today).monthNumber
+        } else null
         MonthPickerDialog(
             currentYear = state.currentMonth.year,
             currentMonth = state.currentMonth.monthNumber,
-            minYear = state.minYear,
-            minMonth = state.minMonth,
+            minYear = minYear,
+            minMonth = minMonth,
             onDismiss = { showMonthPicker = false },
             onConfirm = { year, month ->
                 onIntent(TransactionListIntent.MonthSelected(YearMonth(year, month)))
@@ -188,71 +171,54 @@ private fun TransactionListContent(
     if (showCategoryFilter) {
         CategoryFilterSheet(
             categories = state.availableCategories,
-            selectedCategoryIds = selectedCategoryIds,
-            onToggle = { categoryId ->
-                selectedCategoryIds = if (categoryId in selectedCategoryIds) {
-                    selectedCategoryIds - categoryId
-                } else {
-                    selectedCategoryIds + categoryId
-                }
-            },
-            onClearAll = { selectedCategoryIds = emptySet() },
+            selectedCategoryIds = state.selectedCategoryIds,
+            onToggle = { onIntent(TransactionListIntent.CategoryFilterToggled(it)) },
+            onClearAll = { onIntent(TransactionListIntent.CategoryFilterCleared) },
             onDismiss = { showCategoryFilter = false },
         )
     }
 
-    // Apply local category filter on top of the VM-provided dayGroups
-    val filteredDayGroups = remember(state.dayGroups, selectedCategoryIds) {
-        if (selectedCategoryIds.isEmpty()) {
-            state.dayGroups
-        } else {
-            state.dayGroups.mapNotNull { group ->
-                val matchingTxns = group.transactions.filter { tx ->
-                    state.availableCategories.any { cat ->
-                        cat.id in selectedCategoryIds && cat.name == tx.categoryName
-                    }
-                }
-                if (matchingTxns.isEmpty()) null
-                else group.copy(transactions = matchingTxns)
-            }
-        }
-    }
-
     val pagerState = rememberPagerState(
-        initialPage = state.currentMonth.toPageIndex(),
-        pageCount = { PAGE_COUNT },
+        initialPage = state.currentPage,
+        pageCount = { state.pageCount },
     )
 
-    var initialScrollDone by remember { mutableStateOf(false) }
-
+    // Pager settled → tell VM which month is visible
     LaunchedEffect(pagerState.currentPage) {
-        val newMonth = pageIndexToYearMonth(pagerState.currentPage)
+        val page = pagerState.currentPage
+        val newMonth = pageToYearMonth(page, state.today)
         if (newMonth != state.currentMonth) {
             onIntent(TransactionListIntent.MonthSelected(newMonth))
         }
     }
 
-    LaunchedEffect(state.currentMonth) {
-        val targetPage = state.currentMonth.toPageIndex()
-        if (pagerState.currentPage != targetPage && !pagerState.isScrollInProgress) {
+    // VM month changed → scroll pager to target (no isScrollInProgress guard — animateScrollToPage cancels ongoing)
+    LaunchedEffect(state.currentPage) {
+        if (pagerState.currentPage != state.currentPage) {
             if (initialScrollDone) {
-                pagerState.animateScrollToPage(targetPage)
+                pagerState.animateScrollToPage(state.currentPage)
             } else {
-                pagerState.scrollToPage(targetPage)
+                pagerState.scrollToPage(state.currentPage)
             }
-            initialScrollDone = true
+        }
+        initialScrollDone = true
+    }
+
+    // Clamp left-swipe: if pager settled before firstAvailablePage, snap back
+    LaunchedEffect(pagerState.currentPage) {
+        if (pagerState.currentPage < state.firstAvailablePage) {
+            pagerState.animateScrollToPage(state.firstAvailablePage)
         }
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colors.bg),
+            .background(MM.colors.bg),
     ) {
         TransactionListHeader(
             state = state,
             isSearchActive = isSearchActive,
-            hasActiveFilter = selectedCategoryIds.isNotEmpty(),
             onSearchActiveChange = { isSearchActive = it },
             onShowMonthPicker = { showMonthPicker = true },
             onShowWalletSwitcher = { showWalletSwitcher = true },
@@ -262,17 +228,14 @@ private fun TransactionListContent(
             onNextMonth = { onIntent(TransactionListIntent.NextMonth) },
         )
 
-        HorizontalPager(state = pagerState, modifier = Modifier.weight(1f)) { page ->
-            // TODO use beyondViewportPageCount to load the previous and next page - in the viewmodel preload those as well
-            val pageMonth = pageIndexToYearMonth(page)
-            val isCurrentPage = pageMonth == state.currentMonth
-            val groups = if (isCurrentPage) filteredDayGroups else emptyList()
-            TransactionListBody(
-                modifier = Modifier.fillMaxSize(),
-                dayGroups = groups,
-                txDisplayPrefs = state.txDisplayPrefs,
-                isLoading = if (isCurrentPage) state.isLoading else true,
-                isEmpty = isCurrentPage && groups.isEmpty() && !state.isLoading,
+        HorizontalPager(
+            state = pagerState,
+            beyondViewportPageCount = 1,
+            modifier = Modifier.weight(1f),
+        ) { page ->
+            val yearMonth = pageToYearMonth(page, state.today)
+            TransactionPageScreen(
+                yearMonth = yearMonth,
                 onEditTransaction = onEditTransaction,
             )
         }
@@ -280,7 +243,7 @@ private fun TransactionListContent(
         TransactionListFooter(
             onAddTransaction = onAddTransaction,
             onTabSelected = onTabSelected,
-            dividerColor = colors.border,
+            dividerColor = MM.colors.border,
         )
     }
 }
@@ -289,7 +252,6 @@ private fun TransactionListContent(
 private fun TransactionListHeader(
     state: TransactionListUiState,
     isSearchActive: Boolean,
-    hasActiveFilter: Boolean,
     onSearchActiveChange: (Boolean) -> Unit,
     onShowMonthPicker: () -> Unit,
     onShowWalletSwitcher: () -> Unit,
@@ -311,10 +273,9 @@ private fun TransactionListHeader(
             start = MM.dimen.padding_2x,
             end = MM.dimen.padding_2x,
             top = 4.dp,
-            bottom = 4.dp
+            bottom = 4.dp,
         ),
     ) {
-        // Title row — or search bar when active
         if (isSearchActive) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -351,11 +312,9 @@ private fun TransactionListHeader(
                     color = colors.text,
                     modifier = Modifier.weight(1f),
                 )
-                // Wallet chip — show current wallet name if multiple wallets exist
                 if (state.availableAccounts.size > 1) {
-                    val walletName =
-                        state.selectedAccount?.name ?: state.availableAccounts.firstOrNull()?.name
-                        ?: ""
+                    val walletName = state.selectedAccount?.name
+                        ?: state.availableAccounts.firstOrNull()?.name ?: ""
                     MmChip(
                         selected = false,
                         onClick = onShowWalletSwitcher,
@@ -368,15 +327,9 @@ private fun TransactionListHeader(
                             )
                         },
                     ) {
-                        Text(
-                            text = walletName,
-                            style = type.caption,
-                            color = colors.text,
-                            maxLines = 1,
-                        )
+                        Text(text = walletName, style = type.caption, color = colors.text, maxLines = 1)
                     }
                 }
-                // Category filter button with active badge
                 if (state.availableCategories.isNotEmpty()) {
                     Box {
                         MmIconButton(
@@ -384,7 +337,7 @@ private fun TransactionListHeader(
                             onClick = onShowCategoryFilter,
                             contentDescription = stringResource(Res.string.transactions_search_cd),
                         )
-                        if (hasActiveFilter) {
+                        if (state.selectedCategoryIds.isNotEmpty()) {
                             Box(
                                 modifier = Modifier
                                     .size(MM.dimen.padding_1x)
@@ -410,7 +363,6 @@ private fun TransactionListHeader(
             onNextMonth = onNextMonth,
         )
 
-        // Segmented type filter
         MmSegmented(
             options = listOf(
                 stringResource(Res.string.transactions_filter_all),
@@ -442,12 +394,13 @@ private fun MonthNavRow(
     val type = MM.type
     val label = monthLabel(state.currentMonth.year, state.currentMonth.monthNumber)
     val netDouble = state.netAmount / 100.0
+    val canGoBack = state.currentPage > state.firstAvailablePage
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(top = MM.dimen.padding_1_5x, bottom = 16.dp),
     ) {
-        if (state.canGoBack) {
+        if (canGoBack) {
             MmIconButton(
                 icon = Icon.ChevronLeft.imageVector,
                 onClick = onPreviousMonth,
@@ -500,7 +453,7 @@ private fun MonthNavRow(
 }
 
 @Composable
-private fun TransactionListBody(
+internal fun TransactionListBody(
     dayGroups: List<DayGroup>,
     txDisplayPrefs: TxDisplayPrefs,
     isLoading: Boolean,
@@ -513,10 +466,7 @@ private fun TransactionListBody(
 
     when {
         isLoading -> {
-            Box(
-                modifier = modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center,
-            ) {
+            Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 Text(
                     text = stringResource(Res.string.transactions_loading),
                     style = type.body,
@@ -526,10 +476,7 @@ private fun TransactionListBody(
         }
 
         isEmpty -> {
-            Box(
-                modifier = modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center,
-            ) {
+            Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
@@ -554,10 +501,7 @@ private fun TransactionListBody(
                     stickyHeader(key = "header_${group.date}") {
                         DayGroupHeader(group = group, showAmount = txDisplayPrefs.showDailySums)
                     }
-                    items(
-                        items = group.transactions,
-                        key = { it.id.value },
-                    ) { tx ->
+                    items(items = group.transactions, key = { it.id.value }) { tx ->
                         val resolvedColor = categoryColor(tx.categoryColorHex)
                         val resolvedIcon = tx.categoryIcon.imageVector
                         TxRow(
@@ -623,7 +567,7 @@ private fun TransactionListFooter(
 private fun TransactionListScreenPreview() {
     MoneyMTheme {
         TransactionListContent(
-            state = TransactionListUiState(isLoading = false, isEmpty = true),
+            state = TransactionListUiState(),
             onIntent = {},
             onAddTransaction = {},
             onEditTransaction = {},
