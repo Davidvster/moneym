@@ -9,9 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
@@ -108,6 +105,7 @@ fun SettingsScreen(
     val language by overviewViewModel.language.collectAsStateWithLifecycle()
     val defaultTransactionType by overviewViewModel.defaultTransactionType.collectAsStateWithLifecycle()
     val paymentModeEnabled by overviewViewModel.paymentModeEnabled.collectAsStateWithLifecycle()
+    val showLockPicker by overviewViewModel.showLockPicker.collectAsStateWithLifecycle()
     val securityState by securityViewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(securityViewModel) {
@@ -124,6 +122,7 @@ fun SettingsScreen(
         language = language,
         defaultTransactionType = defaultTransactionType,
         paymentModeEnabled = paymentModeEnabled,
+        showLockPicker = showLockPicker,
     )
 
     SettingsContent(
@@ -131,6 +130,7 @@ fun SettingsScreen(
         securityState = securityState,
         onThemeModeChanged = { overviewViewModel.onIntent(SettingsOverviewIntent.SetThemeMode(it)) },
         onPaymentModeEnabledChanged = { overviewViewModel.onIntent(SettingsOverviewIntent.SetPaymentModeEnabled(it)) },
+        onShowLockPicker = { overviewViewModel.onIntent(SettingsOverviewIntent.ShowLockPicker(it)) },
         onSecurityIntent = securityViewModel::onIntent,
         onNavigateToCategories = onNavigateToCategories,
         onNavigateToTxDisplay = onNavigateToTxDisplay,
@@ -149,6 +149,7 @@ private fun SettingsContent(
     securityState: SecuritySettingsUiState,
     onThemeModeChanged: (ThemeMode) -> Unit,
     onPaymentModeEnabledChanged: (Boolean) -> Unit,
+    onShowLockPicker: (Boolean) -> Unit,
     onSecurityIntent: (SecuritySettingsIntent) -> Unit,
     onNavigateToCategories: () -> Unit,
     onNavigateToTxDisplay: () -> Unit,
@@ -185,14 +186,13 @@ private fun SettingsContent(
         else -> stringResource(Res.string.settings_lang_system_default)
     }
 
-    var showLockPicker by remember { mutableStateOf(false) }
-    if (showLockPicker) {
+    if (state.showLockPicker) {
         LockTimeoutPickerDialog(
             currentSeconds = securityState.backgroundLockSeconds,
-            onDismiss = { showLockPicker = false },
+            onDismiss = { onShowLockPicker(false) },
             onConfirm = { seconds ->
                 onSecurityIntent(SecuritySettingsIntent.LockTimeoutChanged(seconds))
-                showLockPicker = false
+                onShowLockPicker(false)
             },
         )
     }
@@ -231,7 +231,7 @@ private fun SettingsContent(
             onNavigateToWallets = onNavigateToWallets,
             onNavigateToPaymentModes = onNavigateToPaymentModes,
             onNavigateToBackupRestore = onNavigateToBackupRestore,
-            onShowLockPicker = { showLockPicker = true },
+            onShowLockPicker = { onShowLockPicker(true) },
         )
         MmTabBar(activeTab = TabRoute.Settings, onTabSelected = onTabSelected)
     }
@@ -246,6 +246,7 @@ private fun SettingsScreenPreview() {
             securityState = SecuritySettingsUiState(),
             onThemeModeChanged = {},
             onPaymentModeEnabledChanged = {},
+            onShowLockPicker = {},
             onSecurityIntent = {},
             onNavigateToCategories = {},
             onNavigateToTxDisplay = {},

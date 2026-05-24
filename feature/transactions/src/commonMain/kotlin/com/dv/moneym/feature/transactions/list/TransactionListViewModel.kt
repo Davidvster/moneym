@@ -51,6 +51,15 @@ class TransactionListViewModel(
         MutableStateFlow<Long>(-1L)
     }
 
+    private data class UiBooleans(
+        val isSearchActive: Boolean = false,
+        val showMonthPicker: Boolean = false,
+        val showWalletSwitcher: Boolean = false,
+        val showCategoryFilter: Boolean = false,
+    )
+
+    private val _uiBooleans = MutableStateFlow(UiBooleans())
+
     private val _earliestMonth: StateFlow<YearMonth?> = transactionRepository
         .getTransactionDates()
         .map { dates -> dates.minOrNull()?.let { YearMonth(it.year, it.month.number) } }
@@ -116,6 +125,14 @@ class TransactionListViewModel(
         }
         .combine(ephemeralState.searchQuery) { state, q -> state.copy(searchQuery = q) }
         .combine(ephemeralState.selectedCategoryIds) { state, ids -> state.copy(selectedCategoryIds = ids) }
+        .combine(_uiBooleans) { state, ui ->
+            state.copy(
+                isSearchActive = ui.isSearchActive,
+                showMonthPicker = ui.showMonthPicker,
+                showWalletSwitcher = ui.showWalletSwitcher,
+                showCategoryFilter = ui.showCategoryFilter,
+            )
+        }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
@@ -173,6 +190,22 @@ class TransactionListViewModel(
             TransactionListIntent.CategoryFilterCleared -> {
                 ephemeralState.selectedCategoryIds.value = emptySet()
             }
+
+            is TransactionListIntent.ToggleSearch -> {
+                _uiBooleans.update { it.copy(isSearchActive = intent.active) }
+                if (!intent.active) {
+                    ephemeralState.searchQuery.value = ""
+                }
+            }
+
+            is TransactionListIntent.ShowMonthPicker ->
+                _uiBooleans.update { it.copy(showMonthPicker = intent.visible) }
+
+            is TransactionListIntent.ShowWalletSwitcher ->
+                _uiBooleans.update { it.copy(showWalletSwitcher = intent.visible) }
+
+            is TransactionListIntent.ShowCategoryFilter ->
+                _uiBooleans.update { it.copy(showCategoryFilter = intent.visible) }
         }
     }
 }

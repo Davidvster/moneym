@@ -242,6 +242,7 @@ internal fun MainNav(lockController: AppLockController) {
                 },
             )
             addWalletCurrencyPickerEntry(
+                viewModel = addWalletViewModel,
                 currentCurrency = { addWalletViewModel.selectedCurrency.value },
                 onBack = { tabBackStack.removeLast() },
                 onCurrencySelected = { code -> addWalletViewModel.setCurrency(code) },

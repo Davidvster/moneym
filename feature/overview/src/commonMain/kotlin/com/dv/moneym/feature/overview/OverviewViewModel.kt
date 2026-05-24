@@ -39,6 +39,13 @@ class OverviewViewModel(
     private val _spendingFilter = MutableStateFlow(SpendingFilter.Expenses)
     private val _selectedAccountId by savedStateHandle.saved { MutableStateFlow<Long>(-1L) }
 
+    private data class UiBooleans(
+        val showPeriodPicker: Boolean = false,
+        val showDateRangePicker: Boolean = false,
+    )
+
+    private val _uiBooleans = MutableStateFlow(UiBooleans())
+
     private val _dateBounds: StateFlow<Pair<String?, String?>> = transactionRepository
         .getTransactionDates()
         .map { dates -> dates.minOrNull()?.toString() to dates.maxOrNull()?.toString() }
@@ -127,6 +134,12 @@ class OverviewViewModel(
         )
     }
         .combine(_transactionDateIsos) { s, isos -> s.copy(transactionDateIsos = isos) }
+        .combine(_uiBooleans) { s, ui ->
+            s.copy(
+                showPeriodPicker = ui.showPeriodPicker,
+                showDateRangePicker = ui.showDateRangePicker,
+            )
+        }
         .stateIn(viewModelScope, SharingStarted.Lazily, OverviewUiState())
 
     internal fun onIntent(intent: OverviewIntent) {
@@ -194,6 +207,12 @@ class OverviewViewModel(
             is OverviewIntent.YearPagerSwiped -> {
                 _currentPeriod.update { OverviewPeriod.Year(intent.year) }
             }
+
+            is OverviewIntent.ShowPeriodPicker ->
+                _uiBooleans.update { it.copy(showPeriodPicker = intent.visible) }
+
+            is OverviewIntent.ShowDateRangePicker ->
+                _uiBooleans.update { it.copy(showDateRangePicker = intent.visible) }
         }
     }
 

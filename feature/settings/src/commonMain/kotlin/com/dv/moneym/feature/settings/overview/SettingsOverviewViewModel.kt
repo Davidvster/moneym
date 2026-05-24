@@ -7,9 +7,12 @@ import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.TxDisplayPrefs
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SettingsOverviewViewModel(
@@ -33,11 +36,15 @@ class SettingsOverviewViewModel(
     val paymentModeEnabled: StateFlow<Boolean> = appSettingsRepository.observePaymentModeEnabled()
         .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
+    private val _showLockPicker = MutableStateFlow(false)
+    val showLockPicker: StateFlow<Boolean> = _showLockPicker.asStateFlow()
+
     fun onIntent(intent: SettingsOverviewIntent) {
         when (intent) {
             is SettingsOverviewIntent.SetThemeMode -> setThemeMode(intent.mode)
             is SettingsOverviewIntent.SetDefaultTransactionType -> setDefaultTransactionType(intent.type)
             is SettingsOverviewIntent.SetPaymentModeEnabled -> setPaymentModeEnabled(intent.enabled)
+            is SettingsOverviewIntent.ShowLockPicker -> _showLockPicker.update { intent.visible }
         }
     }
 

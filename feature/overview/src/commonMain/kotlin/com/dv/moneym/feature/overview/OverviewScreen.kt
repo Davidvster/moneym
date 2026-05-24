@@ -77,8 +77,6 @@ private fun OverviewContent(
         } – ${formatShortDate(p.endYear, p.endMonth, p.endDay)}"
     }
 
-    var showPeriodPicker by remember { mutableStateOf(false) }
-    var showDateRangePicker by remember { mutableStateOf(false) }
     var initialMonthScrollDone by remember { mutableStateOf(false) }
     var initialYearScrollDone by remember { mutableStateOf(false) }
 
@@ -145,8 +143,8 @@ private fun OverviewContent(
             onTogglePeriod = { onIntent(OverviewIntent.TogglePeriod) },
             onPreviousPeriod = { onIntent(OverviewIntent.PreviousPeriod) },
             onNextPeriod = { onIntent(OverviewIntent.NextPeriod) },
-            onShowPeriodPicker = { showPeriodPicker = true },
-            onShowDateRangePicker = { showDateRangePicker = true },
+            onShowPeriodPicker = { onIntent(OverviewIntent.ShowPeriodPicker(true)) },
+            onShowDateRangePicker = { onIntent(OverviewIntent.ShowDateRangePicker(true)) },
             onSpendingFilterChanged = { onIntent(OverviewIntent.SpendingFilterChanged(it)) },
             canGoBack = state.canGoBack,
         )
@@ -187,37 +185,37 @@ private fun OverviewContent(
             onTabSelected = onTabSelected,
         )
 
-        if (showPeriodPicker) {
+        if (state.showPeriodPicker) {
             if (currentPeriod is OverviewPeriod.Month) {
                 OverviewMonthPickerDialog(
                     currentYear = currentPeriod.yearMonth.year,
                     currentMonth = currentPeriod.yearMonth.monthNumber,
                     minYear = state.minSelectableDateIso?.let { LocalDate.parse(it).year },
                     minMonth = state.minSelectableDateIso?.let { LocalDate.parse(it).monthNumber },
-                    onDismiss = { showPeriodPicker = false },
+                    onDismiss = { onIntent(OverviewIntent.ShowPeriodPicker(false)) },
                     onConfirm = { year, month ->
                         onIntent(
                             OverviewIntent.PeriodSelected(
                                 OverviewPeriod.Month(YearMonth(year, month))
                             )
                         )
-                        showPeriodPicker = false
+                        onIntent(OverviewIntent.ShowPeriodPicker(false))
                     },
                 )
             } else if (currentPeriod is OverviewPeriod.Year) {
                 OverviewYearPickerDialog(
                     currentYear = currentPeriod.year,
                     minYear = state.minSelectableDateIso?.let { LocalDate.parse(it).year },
-                    onDismiss = { showPeriodPicker = false },
+                    onDismiss = { onIntent(OverviewIntent.ShowPeriodPicker(false)) },
                     onConfirm = { year ->
                         onIntent(OverviewIntent.PeriodSelected(OverviewPeriod.Year(year)))
-                        showPeriodPicker = false
+                        onIntent(OverviewIntent.ShowPeriodPicker(false))
                     },
                 )
             }
         }
 
-        if (showDateRangePicker) {
+        if (state.showDateRangePicker) {
             val initStart = when (val p = currentPeriod) {
                 is OverviewPeriod.DateRange -> Triple(p.startYear, p.startMonth, p.startDay)
                 is OverviewPeriod.Month -> Triple(p.yearMonth.year, p.yearMonth.monthNumber, 1)
@@ -241,12 +239,12 @@ private fun OverviewContent(
                 initEndDay = initEnd.third,
                 minSelectableDateIso = state.minSelectableDateIso,
                 maxSelectableDateIso = state.maxSelectableDateIso,
-                onDismiss = { showDateRangePicker = false },
+                onDismiss = { onIntent(OverviewIntent.ShowDateRangePicker(false)) },
                 onConfirm = { sy, sm, sd, ey, em, ed ->
                     onIntent(
                         OverviewIntent.DateRangeSelected(sy, sm, sd, ey, em, ed)
                     )
-                    showDateRangePicker = false
+                    onIntent(OverviewIntent.ShowDateRangePicker(false))
                 },
             )
         }

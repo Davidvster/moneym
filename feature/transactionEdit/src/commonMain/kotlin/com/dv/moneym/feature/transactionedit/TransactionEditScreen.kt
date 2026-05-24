@@ -91,7 +91,6 @@ private fun TransactionEditContent(
 ) {
     val colors = MM.colors
 
-    var showDeleteDialog by rememberSaveable { mutableStateOf(false) }
     var showDatePicker by rememberSaveable { mutableStateOf(false) }
     var showCalculator by rememberSaveable { mutableStateOf(false) }
 
@@ -110,12 +109,13 @@ private fun TransactionEditContent(
     }
     val yesterdayDate = remember { todayDate.minus(DatePeriod(days = 1)) }
 
-    if (showDeleteDialog) {
+    if (state.showDeleteDialog) {
         TransactionDeleteSheet(
             onConfirm = {
-                onIntent(TransactionEditIntent.DeleteConfirmed); showDeleteDialog = false
+                onIntent(TransactionEditIntent.DeleteConfirmed)
+                onIntent(TransactionEditIntent.ShowDeleteDialog(false))
             },
-            onCancel = { showDeleteDialog = false },
+            onCancel = { onIntent(TransactionEditIntent.ShowDeleteDialog(false)) },
         )
     }
     if (showDatePicker) {
@@ -143,7 +143,7 @@ private fun TransactionEditContent(
         TransactionEditModalHeader(
             isEditMode = state.isEditMode,
             onDismiss = onDismiss,
-            onDeleteClick = { showDeleteDialog = true },
+            onDeleteClick = { onIntent(TransactionEditIntent.ShowDeleteDialog(true)) },
         )
         TransactionEditScrollBody(
             state = state,

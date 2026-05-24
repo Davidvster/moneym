@@ -37,12 +37,26 @@ class CategoryListViewModel(
     // TODO order should be persisted to disk - the category in the database should have an order index
     private val _manualOrder by savedStateHandle.saved { MutableStateFlow<List<Long>>(emptyList()) }
 
+    private data class EditState(
+        val showCategoryEditSheet: Boolean = false,
+        val editingCategory: Category? = null,
+        val editingName: String = "",
+        val editingIcon: Icon = Icon.Basket,
+        val editingColorHex: String = DEFAULT_COLOR_HEX,
+        val nameError: String? = null,
+        val showDeleteConfirm: Boolean = false,
+        val showColorPicker: Boolean = false,
+    )
+
+    private val _editState = MutableStateFlow(EditState())
+
     internal val state: StateFlow<CategoryListUiState> = combine(
         categoryRepository.observeAll(),
         _showArchived,
         _activeTab,
         _manualOrder,
-    ) { categories, showArchived, tab, manualOrder ->
+        _editState,
+    ) { categories, showArchived, tab, manualOrder, edit ->
         val tabType =
             if (tab == CategoryTab.Expense) TransactionType.EXPENSE else TransactionType.INCOME
         val active = categories.filter { !it.archived && it.type == tabType }
@@ -67,6 +81,14 @@ class CategoryListViewModel(
             showArchived = showArchived,
             activeTab = tab,
             orderedCategories = orderedActive,
+            showCategoryEditSheet = edit.showCategoryEditSheet,
+            editingCategory = edit.editingCategory,
+            editingName = edit.editingName,
+            editingIcon = edit.editingIcon,
+            editingColorHex = edit.editingColorHex,
+            nameError = edit.nameError,
+            showDeleteConfirm = edit.showDeleteConfirm,
+            showColorPicker = edit.showColorPicker,
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, CategoryListUiState())
 
@@ -99,6 +121,44 @@ class CategoryListViewModel(
                 updateCategory(intent.id, intent.name, intent.icon, intent.colorHex)
 
             is CategoryListIntent.DeleteCategory -> deleteCategory(intent.id)
+
+            is CategoryListIntent.ShowCategoryEditSheet -> {
+                if (intent.visible) {
+                    _editState.update {
+                        EditState(showCategoryEditSheet = true)
+                    }
+                } else {
+                    _editState.update { EditState() }
+                }
+            }
+
+            is CategoryListIntent.StartEditCategory -> _editState.update {
+                EditState(
+                    showCategoryEditSheet = true,
+                    editingCategory = intent.category,
+                    editingName = intent.category.name,
+                    editingIcon = Icon.fromKey(intent.category.iconKey) ?: Icon.Basket,
+                    editingColorHex = intent.category.colorHex,
+                )
+            }
+
+            is CategoryListIntent.EditingNameChanged -> _editState.update {
+                it.copy(editingName = intent.name, nameError = null)
+            }
+
+            is CategoryListIntent.EditingIconChanged -> _editState.update {
+                it.copy(editingIcon = intent.icon)
+            }
+
+            is CategoryListIntent.EditingColorChanged -> _editState.update {
+                it.copy(editingColorHex = intent.colorHex)
+            }
+
+            is CategoryListIntent.ShowDeleteConfirm ->
+                _editState.update { it.copy(showDeleteConfirm = intent.visible) }
+
+            is CategoryListIntent.ShowColorPicker ->
+                _editState.update { it.copy(showColorPicker = intent.visible) }
         }
     }
 
@@ -117,11 +177,18 @@ class CategoryListViewModel(
 
     private fun createCategory(name: String, icon: Icon, colorHex: String) {
         val trimmed = name.trim()
-        if (trimmed.isBlank()) return
+        if (trimmed.isBlank()) {
+            _editState.update { it.copy(nameError = "Name cannot be blank") }
+            return
+        }
         val tabType =
             if (_activeTab.value == CategoryTab.Expense) TransactionType.EXPENSE else TransactionType.INCOME
         val isDuplicate = state.value.active.any { it.name.equals(trimmed, ignoreCase = true) }
-        if (isDuplicate) return
+        if (isDuplicate) {
+            _editState.update { it.copy(nameError = "A category with this name already exists") }
+            return
+        }
+        closeSheet()
         viewModelScope.launch {
             withContext(dispatchers.io) {
                 val now = Clock.System.now()
@@ -143,11 +210,18 @@ class CategoryListViewModel(
 
     private fun updateCategory(id: CategoryId, name: String, icon: Icon, colorHex: String) {
         val trimmed = name.trim()
-        if (trimmed.isBlank()) return
+        if (trimmed.isBlank()) {
+            _editState.update { it.copy(nameError = "Name cannot be blank") }
+            return
+        }
         val isDuplicate = state.value.active.any {
             it.id != id && it.name.equals(trimmed, ignoreCase = true)
         }
-        if (isDuplicate) return
+        if (isDuplicate) {
+            _editState.update { it.copy(nameError = "A category with this name already exists") }
+            return
+        }
+        closeSheet()
         viewModelScope.launch {
             val existing =
                 withContext(dispatchers.io) { categoryRepository.getById(id) } ?: return@launch
@@ -166,8 +240,17 @@ class CategoryListViewModel(
     }
 
     private fun deleteCategory(id: CategoryId) {
+        closeSheet()
         viewModelScope.launch {
             withContext(dispatchers.io) { archiveCategory(id) }
         }
+    }
+
+    private fun closeSheet() {
+        _editState.update { EditState() }
+    }
+
+    private companion object {
+        private const val DEFAULT_COLOR_HEX = "#4A8E5C"
     }
 }

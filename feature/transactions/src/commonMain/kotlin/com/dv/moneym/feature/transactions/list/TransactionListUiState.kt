@@ -42,6 +42,10 @@ internal data class TransactionListUiState(
     val today: LocalDate? = null,
     // Category filter — managed in VM via TransactionListEphemeralState
     val selectedCategoryIds: Set<CategoryId> = emptySet(),
+    val isSearchActive: Boolean = false,
+    val showMonthPicker: Boolean = false,
+    val showWalletSwitcher: Boolean = false,
+    val showCategoryFilter: Boolean = false,
 )
 
 @Serializable

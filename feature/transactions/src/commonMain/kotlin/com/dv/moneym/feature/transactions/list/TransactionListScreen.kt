@@ -132,11 +132,6 @@ private fun TransactionListContent(
     onEditTransaction: (TransactionId) -> Unit,
     onTabSelected: (TabRoute) -> Unit,
 ) {
-    // Pure UI state — no business logic
-    var isSearchActive by remember { mutableStateOf(false) }
-    var showMonthPicker by remember { mutableStateOf(false) }
-    var showWalletSwitcher by remember { mutableStateOf(false) }
-    var showCategoryFilter by remember { mutableStateOf(false) }
     var initialScrollDone by remember { mutableStateOf(false) }
 
     val today = state.today ?: return  // wait for first VM emission
@@ -144,7 +139,7 @@ private fun TransactionListContent(
 
     val anchor = state.earliestMonth ?: YearMonth(today.year, today.month.number)
 
-    if (showMonthPicker) {
+    if (state.showMonthPicker) {
         val minYear = state.earliestMonth?.year
         val minMonth = state.earliestMonth?.monthNumber
         MonthPickerDialog(
@@ -152,33 +147,33 @@ private fun TransactionListContent(
             currentMonth = currentMonth.monthNumber,
             minYear = minYear,
             minMonth = minMonth,
-            onDismiss = { showMonthPicker = false },
+            onDismiss = { onIntent(TransactionListIntent.ShowMonthPicker(false)) },
             onConfirm = { year, month ->
                 onIntent(TransactionListIntent.MonthSelected(YearMonth(year, month)))
-                showMonthPicker = false
+                onIntent(TransactionListIntent.ShowMonthPicker(false))
             },
         )
     }
 
-    if (showWalletSwitcher && state.availableAccounts.isNotEmpty()) {
+    if (state.showWalletSwitcher && state.availableAccounts.isNotEmpty()) {
         WalletSwitcherDialog(
             accounts = state.availableAccounts,
             selectedAccountId = state.selectedAccount?.id,
-            onDismiss = { showWalletSwitcher = false },
+            onDismiss = { onIntent(TransactionListIntent.ShowWalletSwitcher(false)) },
             onSelect = { accountId ->
                 onIntent(TransactionListIntent.AccountSelected(accountId))
-                showWalletSwitcher = false
+                onIntent(TransactionListIntent.ShowWalletSwitcher(false))
             },
         )
     }
 
-    if (showCategoryFilter) {
+    if (state.showCategoryFilter) {
         CategoryFilterSheet(
             categories = state.availableCategories,
             selectedCategoryIds = state.selectedCategoryIds,
             onToggle = { onIntent(TransactionListIntent.CategoryFilterToggled(it)) },
             onClearAll = { onIntent(TransactionListIntent.CategoryFilterCleared) },
-            onDismiss = { showCategoryFilter = false },
+            onDismiss = { onIntent(TransactionListIntent.ShowCategoryFilter(false)) },
         )
     }
 
@@ -214,11 +209,11 @@ private fun TransactionListContent(
     ) {
         TransactionListHeader(
             state = state,
-            isSearchActive = isSearchActive,
-            onSearchActiveChange = { isSearchActive = it },
-            onShowMonthPicker = { showMonthPicker = true },
-            onShowWalletSwitcher = { showWalletSwitcher = true },
-            onShowCategoryFilter = { showCategoryFilter = true },
+            isSearchActive = state.isSearchActive,
+            onSearchActiveChange = { onIntent(TransactionListIntent.ToggleSearch(it)) },
+            onShowMonthPicker = { onIntent(TransactionListIntent.ShowMonthPicker(true)) },
+            onShowWalletSwitcher = { onIntent(TransactionListIntent.ShowWalletSwitcher(true)) },
+            onShowCategoryFilter = { onIntent(TransactionListIntent.ShowCategoryFilter(true)) },
             onIntent = onIntent,
             onPreviousMonth = { onIntent(TransactionListIntent.PreviousMonth) },
             onNextMonth = { onIntent(TransactionListIntent.NextMonth) },
@@ -293,10 +288,7 @@ private fun TransactionListHeader(
                 )
                 MmIconButton(
                     icon = Icon.Close.imageVector,
-                    onClick = {
-                        onSearchActiveChange(false)
-                        onIntent(TransactionListIntent.SearchQueryChanged(""))
-                    },
+                    onClick = { onSearchActiveChange(false) },
                     contentDescription = stringResource(Res.string.transactions_close_search_cd),
                 )
             }

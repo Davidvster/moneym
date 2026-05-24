@@ -14,11 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,10 +23,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
-import com.dv.moneym.core.model.CommonCurrencies
 import com.dv.moneym.core.model.CurrencyInfo
 import com.dv.moneym.core.model.Icon
-import com.dv.moneym.core.model.PopularCurrencyCodes
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
@@ -59,8 +53,6 @@ data object AddWalletKey : NavKey
 @Serializable
 data object AddWalletCurrencyPickerKey : NavKey
 
-private val popularCurrencies = CommonCurrencies.filter { it.code in PopularCurrencyCodes }
-
 fun EntryProviderScope<NavKey>.addWalletEntry(
     viewModel: AddWalletViewModel,
     onBack: () -> Unit,
@@ -76,11 +68,13 @@ fun EntryProviderScope<NavKey>.addWalletEntry(
 }
 
 fun EntryProviderScope<NavKey>.addWalletCurrencyPickerEntry(
+    viewModel: AddWalletViewModel,
     currentCurrency: () -> String,
     onBack: () -> Unit,
     onCurrencySelected: (String) -> Unit,
 ) = entry<AddWalletCurrencyPickerKey> {
     AddWalletCurrencyPickerScreen(
+        viewModel = viewModel,
         currentCurrency = currentCurrency(),
         onBack = onBack,
         onCurrencySelected = { code ->
@@ -174,6 +168,7 @@ private fun AddWalletScreen(
 
 @Composable
 internal fun AddWalletCurrencyPickerScreen(
+    viewModel: AddWalletViewModel,
     currentCurrency: String,
     onBack: () -> Unit,
     onCurrencySelected: (String) -> Unit,
@@ -181,26 +176,9 @@ internal fun AddWalletCurrencyPickerScreen(
     val colors = MM.colors
     val space = MM.dimen
 
-    var searchQuery by remember { mutableStateOf("") }
-
-    val filteredAll by remember(searchQuery) {
-        derivedStateOf {
-            if (searchQuery.isBlank()) {
-                CommonCurrencies
-            } else {
-                val q = searchQuery.trim().lowercase()
-                CommonCurrencies.filter { c ->
-                    c.code.lowercase().contains(q) || c.name.lowercase().contains(q)
-                }
-            }
-        }
-    }
-
-    val filteredPopular by remember(filteredAll) {
-        derivedStateOf {
-            popularCurrencies.filter { p -> filteredAll.any { it.code == p.code } }
-        }
-    }
+    val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
+    val filteredAll by viewModel.filteredCurrencies.collectAsStateWithLifecycle()
+    val filteredPopular by viewModel.popularFilteredCurrencies.collectAsStateWithLifecycle()
 
     Column(Modifier.fillMaxSize().background(colors.bg)) {
         ScreenHeader(
@@ -210,7 +188,7 @@ internal fun AddWalletCurrencyPickerScreen(
 
         MmField(
             value = searchQuery,
-            onValueChange = { searchQuery = it },
+            onValueChange = { viewModel.setSearchQuery(it) },
             placeholder = stringResource(Res.string.settings_search_currency),
             prefix = {
                 Icon(

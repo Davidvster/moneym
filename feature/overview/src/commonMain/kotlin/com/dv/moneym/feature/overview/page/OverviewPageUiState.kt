@@ -48,6 +48,8 @@ internal sealed interface OverviewIntent {
     data class SpendingFilterChanged(val filter: SpendingFilter) : OverviewIntent
     data class MonthPagerSwiped(val yearMonth: YearMonth) : OverviewIntent
     data class YearPagerSwiped(val year: Int) : OverviewIntent
+    data class ShowPeriodPicker(val visible: Boolean) : OverviewIntent
+    data class ShowDateRangePicker(val visible: Boolean) : OverviewIntent
 }
 
 internal sealed interface OverviewPageIntent {

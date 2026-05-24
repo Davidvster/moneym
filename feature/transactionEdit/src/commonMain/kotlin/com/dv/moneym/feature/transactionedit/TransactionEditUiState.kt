@@ -33,6 +33,7 @@ internal data class TransactionEditUiState(
     val paymentModes: List<PaymentMode> = emptyList(),
     val selectedPaymentModeId: PaymentModeId? = null,
     val showPaymentMode: Boolean = false,
+    val showDeleteDialog: Boolean = false,
 )
 
 internal sealed interface TransactionEditEffect {

@@ -65,53 +65,22 @@ fun CategoryListScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     ManageCategoriesScreen(
-        categories = state.orderedCategories,
-        activeTab = state.activeTab,
+        state = state,
         onBack = onBack,
-        onSetTab = { viewModel.onIntent(CategoryListIntent.SetTab(it)) },
-        onReorder = { from, to -> viewModel.onIntent(CategoryListIntent.Reorder(from, to)) },
-        onCreateCategory = { name, icon, colorHex ->
-            val trimmed = name.trim()
-            if (trimmed.isBlank()) {
-                false
-            } else if (state.active.any { it.name.equals(trimmed, ignoreCase = true) }) {
-                false
-            } else {
-                viewModel.onIntent(CategoryListIntent.CreateCategory(name, icon, colorHex))
-                true
-            }
-        },
-        onUpdateCategory = { id, name, icon, colorHex ->
-            val trimmed = name.trim()
-            if (trimmed.isBlank()) {
-                false
-            } else if (state.active.any { it.id != id && it.name.equals(trimmed, ignoreCase = true) }) {
-                false
-            } else {
-                viewModel.onIntent(CategoryListIntent.UpdateCategory(id, name, icon, colorHex))
-                true
-            }
-        },
-        onDeleteCategory = { id -> viewModel.onIntent(CategoryListIntent.DeleteCategory(id)) },
+        onIntent = viewModel::onIntent,
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ManageCategoriesScreen(
-    categories: List<Category>,
-    activeTab: CategoryTab,
+    state: CategoryListUiState,
     onBack: () -> Unit,
-    onSetTab: (CategoryTab) -> Unit,
-    onReorder: (Int, Int) -> Unit,
-    onCreateCategory: (String, Icon, String) -> Boolean,
-    onUpdateCategory: (CategoryId, String, Icon, String) -> Boolean,
-    onDeleteCategory: (CategoryId) -> Unit,
+    onIntent: (CategoryListIntent) -> Unit,
 ) {
     val colors = MM.colors
-
-    var showNewCategorySheet by remember { mutableStateOf(false) }
-    var categoryToEdit by remember { mutableStateOf<Category?>(null) }
+    val categories = state.orderedCategories
+    val activeTab = state.activeTab
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
@@ -124,20 +93,14 @@ private fun ManageCategoriesScreen(
             activeTab = activeTab,
             categoryCount = categories.size,
             onBack = onBack,
-            onSetTab = onSetTab,
-            onAddClick = {
-                categoryToEdit = null
-                showNewCategorySheet = true
-            },
+            onSetTab = { onIntent(CategoryListIntent.SetTab(it)) },
+            onAddClick = { onIntent(CategoryListIntent.ShowCategoryEditSheet(true)) },
         )
 
         DraggableCategoryList(
             categories = categories,
-            onReorder = onReorder,
-            onCategoryClick = { cat ->
-                categoryToEdit = cat
-                showNewCategorySheet = true
-            },
+            onReorder = { from, to -> onIntent(CategoryListIntent.Reorder(from, to)) },
+            onCategoryClick = { cat -> onIntent(CategoryListIntent.StartEditCategory(cat)) },
             modifier = Modifier.weight(1f),
         )
 
@@ -154,10 +117,7 @@ private fun ManageCategoriesScreen(
         ) {
             MmButton(
                 text = newCategoryButtonText,
-                onClick = {
-                    categoryToEdit = null
-                    showNewCategorySheet = true
-                },
+                onClick = { onIntent(CategoryListIntent.ShowCategoryEditSheet(true)) },
                 variant = MmButtonVariant.Secondary,
                 fullWidth = true,
                 leadingIcon = Icon.Plus.imageVector,
@@ -165,12 +125,9 @@ private fun ManageCategoriesScreen(
         }
     }
 
-    if (showNewCategorySheet) {
+    if (state.showCategoryEditSheet) {
         ModalBottomSheet(
-            onDismissRequest = {
-                showNewCategorySheet = false
-                categoryToEdit = null
-            },
+            onDismissRequest = { onIntent(CategoryListIntent.ShowCategoryEditSheet(false)) },
             sheetState = sheetState,
             shape = RoundedCornerShape(
                 topStart = MM.dimen.padding_2_5x,
@@ -180,30 +137,31 @@ private fun ManageCategoriesScreen(
             dragHandle = null,
         ) {
             NewCategorySheet(
-                categoryToEdit = categoryToEdit,
-                defaultTab = activeTab,
-                onDismiss = {
-                    showNewCategorySheet = false
-                    categoryToEdit = null
-                },
-                onSave = { name, icon, colorHex ->
-                    val editing = categoryToEdit
-                    val success = if (editing != null) {
-                        onUpdateCategory(editing.id, name, icon, colorHex)
+                state = state,
+                onIntent = onIntent,
+                onDismiss = { onIntent(CategoryListIntent.ShowCategoryEditSheet(false)) },
+                onSave = {
+                    val editing = state.editingCategory
+                    if (editing != null) {
+                        onIntent(
+                            CategoryListIntent.UpdateCategory(
+                                editing.id,
+                                state.editingName,
+                                state.editingIcon,
+                                state.editingColorHex,
+                            )
+                        )
                     } else {
-                        onCreateCategory(name, icon, colorHex)
+                        onIntent(
+                            CategoryListIntent.CreateCategory(
+                                state.editingName,
+                                state.editingIcon,
+                                state.editingColorHex,
+                            )
+                        )
                     }
-                    if (success) {
-                        showNewCategorySheet = false
-                        categoryToEdit = null
-                    }
-                    success
                 },
-                onDelete = { id ->
-                    onDeleteCategory(id)
-                    showNewCategorySheet = false
-                    categoryToEdit = null
-                },
+                onDelete = { id -> onIntent(CategoryListIntent.DeleteCategory(id)) },
             )
         }
     }
@@ -213,31 +171,18 @@ private fun ManageCategoriesScreen(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun NewCategorySheet(
-    categoryToEdit: Category?,
-    defaultTab: CategoryTab,
+    state: CategoryListUiState,
+    onIntent: (CategoryListIntent) -> Unit,
     onDismiss: () -> Unit,
-    onSave: (name: String, icon: Icon, colorHex: String) -> Boolean,
+    onSave: () -> Unit,
     onDelete: (CategoryId) -> Unit,
 ) {
     val colors = MM.colors
+    val categoryToEdit = state.editingCategory
     val isEditMode = categoryToEdit != null
 
-    // TODO move all of this to viewmodel
-    var name by remember(categoryToEdit?.id) { mutableStateOf(categoryToEdit?.name ?: "") }
-    var selectedIcon by remember(categoryToEdit?.id) {
-        mutableStateOf(
-            categoryToEdit?.iconKey?.let { Icon.fromKey(it) } ?: Icon.Basket
-        )
-    }
-    var selectedColor by remember(categoryToEdit?.id) {
-        mutableStateOf(
-            if (categoryToEdit != null) categoryColor(categoryToEdit.colorHex)
-            else Color(0xFF4A8E5C)
-        )
-    }
-    var nameError by remember(categoryToEdit?.id) { mutableStateOf<String?>(null) }
-    var showDeleteConfirm by remember { mutableStateOf(false) }
-    var showColorPicker by remember { mutableStateOf(false) }
+    val selectedIcon = state.editingIcon
+    val selectedColor = categoryColor(state.editingColorHex)
     // List of custom colors generated via the HSV picker — appends on each new color
     var customColors by remember(categoryToEdit?.id) { mutableStateOf(listOf<Color>()) }
 
@@ -272,56 +217,52 @@ private fun NewCategorySheet(
     Column {
         NewCategorySheetHeader(sheetTitle = sheetTitle, onDismiss = onDismiss)
         NewCategorySheetBody(
-            name = name,
+            name = state.editingName,
             palette = palette,
             iconOptions = iconOptions,
             selectedColor = selectedColor,
             selectedIcon = selectedIcon,
             customColors = customColors,
             isEditMode = isEditMode,
-            nameError = nameError,
-            onNameChange = { name = it; nameError = null },
-            onColorSelected = { selectedColor = it },
-            onCustomColorClick = { showColorPicker = true },
-            onIconSelected = { selectedIcon = it },
-            onDeleteClick = { showDeleteConfirm = true },
+            nameError = state.nameError,
+            onNameChange = { onIntent(CategoryListIntent.EditingNameChanged(it)) },
+            onColorSelected = { onIntent(CategoryListIntent.EditingColorChanged(colorToHex(it))) },
+            onCustomColorClick = { onIntent(CategoryListIntent.ShowColorPicker(true)) },
+            onIconSelected = { onIntent(CategoryListIntent.EditingIconChanged(it)) },
+            onDeleteClick = { onIntent(CategoryListIntent.ShowDeleteConfirm(true)) },
         )
         NewCategorySaveButton(
             isEditMode = isEditMode,
-            nameIsBlank = name.isBlank(),
+            nameIsBlank = state.editingName.isBlank(),
             colors = colors,
-            onSave = {
-                val ok = onSave(name, selectedIcon, colorToHex(selectedColor))
-                if (ok) nameError = null else nameError = "A category with this name already exists"
-            },
+            onSave = { onSave() },
         )
     }
 
     // Color picker dialog — extracted to HsvColorPickerDialog.kt
-    if (showColorPicker) {
+    if (state.showColorPicker) {
         HsvColorPickerDialog(
             initialColor = selectedColor,
-            onDismiss = { showColorPicker = false },
+            onDismiss = { onIntent(CategoryListIntent.ShowColorPicker(false)) },
             onColorSelected = { color ->
-                selectedColor = color
+                onIntent(CategoryListIntent.EditingColorChanged(colorToHex(color)))
                 // Append the new color to the custom list (don't replace)
                 if (color !in palette) {
                     customColors = customColors + color
                 }
-                showColorPicker = false
+                onIntent(CategoryListIntent.ShowColorPicker(false))
             },
         )
     }
 
-    val catBeingDeleted = categoryToEdit
-    if (showDeleteConfirm && catBeingDeleted != null) {
+    if (state.showDeleteConfirm && categoryToEdit != null) {
         DeleteConfirmSheet(
-            categoryName = catBeingDeleted.name,
+            categoryName = categoryToEdit.name,
             onConfirm = {
-                onDelete(catBeingDeleted.id)
-                showDeleteConfirm = false
+                onDelete(categoryToEdit.id)
+                onIntent(CategoryListIntent.ShowDeleteConfirm(false))
             },
-            onCancel = { showDeleteConfirm = false },
+            onCancel = { onIntent(CategoryListIntent.ShowDeleteConfirm(false)) },
         )
     }
 }

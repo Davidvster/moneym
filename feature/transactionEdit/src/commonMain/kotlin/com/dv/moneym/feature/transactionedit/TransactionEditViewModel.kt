@@ -214,6 +214,8 @@ class TransactionEditViewModel(
             TransactionEditIntent.DeleteRequested -> _state.update { it.copy(showDeleteConfirm = true) }
             TransactionEditIntent.DeleteConfirmed -> delete()
             TransactionEditIntent.DeleteCancelled -> _state.update { it.copy(showDeleteConfirm = false) }
+            is TransactionEditIntent.ShowDeleteDialog ->
+                _state.update { it.copy(showDeleteDialog = intent.visible) }
         }
     }
 

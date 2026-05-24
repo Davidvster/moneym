@@ -20,4 +20,5 @@ internal sealed interface TransactionEditIntent {
     data object DeleteRequested : TransactionEditIntent
     data object DeleteConfirmed : TransactionEditIntent
     data object DeleteCancelled : TransactionEditIntent
+    data class ShowDeleteDialog(val visible: Boolean) : TransactionEditIntent
 }

@@ -94,4 +94,6 @@ internal data class OverviewUiState(
     val maxSelectableDateIso: String? = null,
     val transactionDateIsos: Set<String> = emptySet(),
     val currency: String = "EUR",
+    val showPeriodPicker: Boolean = false,
+    val showDateRangePicker: Boolean = false,
 )

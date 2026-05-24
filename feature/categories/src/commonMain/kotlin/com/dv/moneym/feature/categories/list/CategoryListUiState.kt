@@ -16,6 +16,14 @@ internal data class CategoryListUiState(
     val showArchived: Boolean = false,
     val activeTab: CategoryTab = CategoryTab.Expense,
     val orderedCategories: List<Category> = emptyList(),
+    val showCategoryEditSheet: Boolean = false,
+    val editingCategory: Category? = null,
+    val editingName: String = "",
+    val editingIcon: Icon = Icon.Basket,
+    val editingColorHex: String = "#4A8E5C",
+    val nameError: String? = null,
+    val showDeleteConfirm: Boolean = false,
+    val showColorPicker: Boolean = false,
 )
 
 internal sealed interface CategoryListIntent {
@@ -38,6 +46,13 @@ internal sealed interface CategoryListIntent {
     ) : CategoryListIntent
 
     data class DeleteCategory(val id: CategoryId) : CategoryListIntent
+    data class ShowCategoryEditSheet(val visible: Boolean) : CategoryListIntent
+    data class StartEditCategory(val category: Category) : CategoryListIntent
+    data class EditingNameChanged(val name: String) : CategoryListIntent
+    data class EditingIconChanged(val icon: Icon) : CategoryListIntent
+    data class EditingColorChanged(val colorHex: String) : CategoryListIntent
+    data class ShowDeleteConfirm(val visible: Boolean) : CategoryListIntent
+    data class ShowColorPicker(val visible: Boolean) : CategoryListIntent
 }
 
 internal sealed interface CategoryListEffect

@@ -14,4 +14,8 @@ internal sealed interface TransactionListIntent {
     data class AccountSelected(val accountId: AccountId?) : TransactionListIntent
     data class CategoryFilterToggled(val categoryId: CategoryId) : TransactionListIntent
     data object CategoryFilterCleared : TransactionListIntent
+    data class ToggleSearch(val active: Boolean) : TransactionListIntent
+    data class ShowMonthPicker(val visible: Boolean) : TransactionListIntent
+    data class ShowWalletSwitcher(val visible: Boolean) : TransactionListIntent
+    data class ShowCategoryFilter(val visible: Boolean) : TransactionListIntent
 }

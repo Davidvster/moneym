@@ -16,10 +16,12 @@ data class SettingsUiState(
     val defaultTransactionType: TransactionType = TransactionType.EXPENSE,
     // payment mode toggle
     val paymentModeEnabled: Boolean = false,
+    val showLockPicker: Boolean = false,
 )
 
 sealed interface SettingsOverviewIntent {
     data class SetThemeMode(val mode: ThemeMode) : SettingsOverviewIntent
     data class SetDefaultTransactionType(val type: TransactionType) : SettingsOverviewIntent
     data class SetPaymentModeEnabled(val enabled: Boolean) : SettingsOverviewIntent
+    data class ShowLockPicker(val visible: Boolean) : SettingsOverviewIntent
 }
