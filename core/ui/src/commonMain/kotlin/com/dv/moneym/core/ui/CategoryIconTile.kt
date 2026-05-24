@@ -71,7 +71,7 @@ fun CategoryIconTile(
             val barShape = androidx.compose.foundation.shape.RoundedCornerShape(2.dp)
             Box(
                 modifier = modifier
-                    .size(width = 4.dp, height = size)
+                    .size(width = MM.dimen.padding_0_5x, height = size)
                     .clip(barShape)
                     .background(categoryColor, barShape),
             )

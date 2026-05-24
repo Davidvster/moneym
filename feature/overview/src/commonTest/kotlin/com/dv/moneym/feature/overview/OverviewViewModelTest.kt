@@ -1,6 +1,5 @@
 package com.dv.moneym.feature.overview
 
-import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
@@ -9,6 +8,8 @@ import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
+import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.core.testing.FakeAccountRepository
 import com.dv.moneym.core.testing.FakeAppSettingsRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
@@ -39,9 +40,17 @@ class OverviewViewModelTest {
     private val clock = FixedClock(Instant.parse("2026-05-10T12:00:00Z"))
     private val txnRepo = FakeTransactionRepository()
     private val catRepo = FakeCategoryRepository()
+    private val accountRepo = FakeAccountRepository()
     private val settingsRepo = FakeAppSettingsRepository()
 
-    private fun makeVm() = OverviewViewModel(txnRepo, catRepo, settingsRepo, clock, SavedStateHandle())
+    private fun makePageVm(period: OverviewPeriod) = OverviewPageViewModel(
+        period = period,
+        transactionRepository = txnRepo,
+        categoryRepository = catRepo,
+        accountRepository = accountRepo,
+        appSettingsRepository = settingsRepo,
+        clock = clock,
+    )
 
     private fun makeTxn(
         type: TransactionType,
@@ -61,7 +70,7 @@ class OverviewViewModelTest {
 
     @Test
     fun emptyMonthShowsEmptyState() = runTestWithDispatchers(testDispatcher) {
-        val vm = makeVm()
+        val vm = makePageVm(OverviewPeriod.Month(YearMonth(2026, 5)))
         vm.state.test {
             var state = awaitItem()
             while (state.isLoading) state = awaitItem()
@@ -74,12 +83,11 @@ class OverviewViewModelTest {
     fun incomeTotalsAggregatedCorrectly() = runTestWithDispatchers(testDispatcher) {
         txnRepo.upsert(makeTxn(TransactionType.INCOME, 10000))
         txnRepo.upsert(makeTxn(TransactionType.INCOME, 5000))
-        val vm = makeVm()
+        val vm = makePageVm(OverviewPeriod.Month(YearMonth(2026, 5)))
         vm.state.test {
             var state = awaitItem()
             while (state.isLoading) state = awaitItem()
             assertFalse(state.isEmpty)
-            // income is now a Double in minor units
             assertEquals(150.0, state.income)
             cancelAndIgnoreRemainingEvents()
         }
@@ -87,7 +95,7 @@ class OverviewViewModelTest {
 
     @Test
     fun monthViewHasDailyBars() = runTestWithDispatchers(testDispatcher) {
-        val vm = makeVm()
+        val vm = makePageVm(OverviewPeriod.Month(YearMonth(2026, 5)))
         vm.state.test {
             var state = awaitItem()
             while (state.isLoading) state = awaitItem()
@@ -99,8 +107,7 @@ class OverviewViewModelTest {
 
     @Test
     fun yearViewHasMonthlyBars() = runTestWithDispatchers(testDispatcher) {
-        val vm = makeVm()
-        vm.onIntent(OverviewIntent.TogglePeriod)
+        val vm = makePageVm(OverviewPeriod.Year(2026))
         vm.state.test {
             var state = awaitItem()
             while (state.isLoading) state = awaitItem()

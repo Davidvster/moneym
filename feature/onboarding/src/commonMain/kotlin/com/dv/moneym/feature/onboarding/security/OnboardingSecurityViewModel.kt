@@ -47,7 +47,12 @@ class OnboardingSecurityViewModel(
     fun onReturnFromPinSetup() {
         viewModelScope.launch {
             val pinSet = pinManager.isPinSet()
-            _state.update { it.copy(pinEnabled = pinSet) }
+            _state.update {
+                it.copy(
+                    pinEnabled = pinSet,
+                    biometricEnabled = settings.getBoolean(SecurityPrefs.BIOMETRIC_ENABLED)
+                )
+            }
         }
     }
 

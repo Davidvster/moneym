@@ -12,19 +12,14 @@ import com.dv.moneym.core.model.YearMonth
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 
-internal const val PAGE_OFFSET = 1200
+// anchor = earliest transaction month (falls back to today when no transactions)
+// page 0 = anchor month, increasing pages = later months
+internal fun yearMonthToPage(yearMonth: YearMonth, anchor: YearMonth): Int =
+    (yearMonth.year - anchor.year) * 12 + (yearMonth.monthNumber - anchor.monthNumber)
 
-internal fun yearMonthToPage(yearMonth: YearMonth, today: LocalDate): Int {
-    val deltaMonths = (yearMonth.year - today.year) * 12 + (yearMonth.monthNumber - today.monthNumber)
-    return PAGE_OFFSET + deltaMonths
-}
-
-internal fun pageToYearMonth(page: Int, today: LocalDate): YearMonth {
-    val deltaMonths = page - PAGE_OFFSET
-    val totalMonth0 = today.year * 12 + (today.monthNumber - 1) + deltaMonths
-    val year = totalMonth0 / 12
-    val month = totalMonth0 % 12 + 1
-    return YearMonth(year, month)
+internal fun pageToYearMonth(page: Int, anchor: YearMonth): YearMonth {
+    val total = anchor.year * 12 + (anchor.monthNumber - 1) + page
+    return YearMonth(total / 12, total % 12 + 1)
 }
 
 @Serializable
@@ -38,9 +33,10 @@ internal data class TransactionListUiState(
     val selectedAccount: Account? = null,
     val availableAccounts: List<Account> = emptyList(),
     // Page math — computed in VM, consumed by Screen
-    val currentPage: Int = PAGE_OFFSET,
-    val firstAvailablePage: Int = 0,
-    val pageCount: Int = PAGE_OFFSET + 1,
+    val currentPage: Int = 0,
+    val pageCount: Int = 121,
+    // null = no transactions yet → no min-date restriction in MonthPicker
+    val earliestMonth: YearMonth? = null,
     val today: LocalDate = LocalDate(2026, 1, 1),
     // Category filter — managed in VM via TransactionListEphemeralState
     val selectedCategoryIds: Set<CategoryId> = emptySet(),

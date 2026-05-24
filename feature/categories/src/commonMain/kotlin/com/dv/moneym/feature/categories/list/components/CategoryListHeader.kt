@@ -69,7 +69,7 @@ internal fun CategoryListHeader(
         modifier = Modifier.padding(
             start = MM.dimen.padding_2_5x,
             end = MM.dimen.padding_2_5x,
-            top = 4.dp,
+            top = MM.dimen.padding_0_5x,
             bottom = MM.dimen.padding_1_5x
         ),
     )

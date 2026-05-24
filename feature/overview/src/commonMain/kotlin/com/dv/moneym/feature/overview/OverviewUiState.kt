@@ -8,14 +8,10 @@ import kotlinx.serialization.Serializable
 // ─── Period / Mode ─────────────────────────────────────────────
 
 @Serializable
-internal sealed interface OverviewPeriod {
+sealed interface OverviewPeriod {
     @Serializable data class Month(val yearMonth: YearMonth) : OverviewPeriod
     @Serializable data class Year(val year: Int) : OverviewPeriod
 
-    /**
-     * Custom date range. Dates are stored as individual Int fields for KMP
-     * serialization simplicity (avoids expect/actual for LocalDate serialization).
-     */
     @Serializable
     data class DateRange(
         val startYear: Int,
@@ -27,26 +23,17 @@ internal sealed interface OverviewPeriod {
     ) : OverviewPeriod
 }
 
-/**
- * A single category's spend for the selected period,
- * used in the donut chart and legend.
- */
 @Serializable
 internal data class CategorySpend(
     val categoryName: String,
-    val categoryColor: Long,   // ARGB long — convert with Color(it)
+    val categoryColor: Long,
     val categoryIcon: Icon,
-    val amount: Double,        // major units (e.g. 12.50 EUR)
-    val percent: Int,          // 0–100
-    /** Average spend per day for this category in the current period. 0 if not applicable. */
+    val amount: Double,
+    val percent: Int,
     val avgPerDay: Double = 0.0,
-    /** Average spend per month for this category in the current period. 0 if not applicable. */
     val avgPerMonth: Double = 0.0,
 )
 
-/**
- * Per-category trend series: daily (31 elements) or monthly (12 elements).
- */
 @Serializable
 internal data class CategoryTrend(
     val categoryName: String,
@@ -54,14 +41,11 @@ internal data class CategoryTrend(
     val categoryIcon: Icon,
     val totalAmount: Double,
     val txCount: Int,
-    val series: List<Double>,  // 31 values (month mode) or 12 values (year mode)
+    val series: List<Double>,
     val avgPerDay: Double = 0.0,
     val avgPerMonth: Double = 0.0,
 )
 
-/**
- * Per-category average spend: avg per day (month mode) or avg per month (year mode).
- */
 @Serializable
 internal data class CategoryAvgSpend(
     val categoryName: String,
@@ -73,70 +57,75 @@ internal data class CategoryAvgSpend(
 @Serializable
 internal enum class SpendingFilter { All, Expenses, Income }
 
-// ─── Main UiState ──────────────────────────────────────────────
+// ─── Page math ─────────────────────────────────────────────────
+
+// anchor = earliest transaction month (falls back to today when no transactions)
+// page 0 = anchor month, increasing pages = later months
+internal fun yearMonthToPage(yearMonth: YearMonth, anchor: YearMonth): Int =
+    (yearMonth.year - anchor.year) * 12 + (yearMonth.monthNumber - anchor.monthNumber)
+
+internal fun pageToYearMonth(page: Int, anchor: YearMonth): YearMonth {
+    val total = anchor.year * 12 + (anchor.monthNumber - 1) + page
+    return YearMonth(total / 12, total % 12 + 1)
+}
+
+// anchor = earliest transaction year (falls back to today when no transactions)
+// page 0 = anchor year, increasing pages = later years
+internal fun yearToPage(year: Int, anchorYear: Int): Int = year - anchorYear
+internal fun pageToYear(page: Int, anchorYear: Int): Int = anchorYear + page
+
+// ─── Parent UiState (navigation + pager math only) ─────────────
 
 @Serializable
 internal data class OverviewUiState(
-    // Loading / empty
-    val isLoading: Boolean = true,
-    val isEmpty: Boolean = false,
-
-    // Period / mode — period encodes both month and year info
-    val period: OverviewPeriod = OverviewPeriod.Month(YearMonth(2026, 1)),
-
-    // Slide direction: +1 = forward in time, -1 = backward, 0 = no animation
-    val periodOffset: Int = 0,
-
-    // ── New Double-based summary (used by redesigned screen) ─────
-    val income: Double = 0.0,
-    val expenses: Double = 0.0,
-
-    // ── Category breakdown ───────────────────────────────────────
-    val categoryBreakdown: List<CategorySpend> = emptyList(),          // expense only
-    val categoryIncomeBreakdown: List<CategorySpend> = emptyList(),    // income only
-
-    // ── Month-view data ──────────────────────────────────────────
-    val dailyTotals: List<Double> = emptyList(),        // up to 31 values (expense amounts)
-    val cumulativeTotals: List<Double> = emptyList(),   // running prefix sum of dailyTotals
-    val todayIndex: Int = 0,                             // current day - 1 (0-indexed)
-    val categoryDailyTrend: List<CategoryTrend> = emptyList(),
-
-    // ── Year-view data ───────────────────────────────────────────
-    val monthlyTotals: List<Double> = List(12) { 0.0 }, // index 0 = Jan
-    val categoryMonthlyTrend: List<CategoryTrend> = emptyList(),
-    val currentMonthIndex: Int = -1,                    // current month - 1, or -1 if not current year
-
-    // ── Average stats ────────────────────────────────────────────
-    val avgDailyExpense: Double = 0.0,       // month view: avg expense per day (elapsed days)
-    val avgMonthlyExpense: Double = 0.0,     // year view: avg expense per month (elapsed months)
-    val avgDailyExpenseYear: Double = 0.0,   // year view: avg expense per day (elapsed days in year)
-
-    // ── Per-category average spend ───────────────────────────────
-    val categoryAvgSpend: List<CategoryAvgSpend> = emptyList(),
-
-
-    val selectedSliceIndex: Int? = null,
-    val currency: String = "EUR",
-
-    // ISO date strings (yyyy-MM-dd) for constraining the date range picker.
-    // Stored as String? to avoid LocalDate serialization issues in saved state.
+    val currentPeriod: OverviewPeriod = OverviewPeriod.Month(YearMonth(2026, 1)),
+    val canGoBack: Boolean = true,
+    val spendingFilter: SpendingFilter = SpendingFilter.Expenses,
+    // Month pager
+    val monthAnchor: YearMonth = YearMonth(2026, 1),
+    val monthCurrentPage: Int = 0,
+    val monthPageCount: Int = 121,
+    // Year pager
+    val yearAnchor: Int = 2026,
+    val yearCurrentPage: Int = 0,
+    val yearPageCount: Int = 11,
+    // Date pickers
     val minSelectableDateIso: String? = null,
     val maxSelectableDateIso: String? = null,
-    val canGoBack: Boolean = true,
-
-    // Set of ISO date strings (yyyy-MM-dd) for dates that have at least one transaction.
-    // Stored as Set<String> to avoid LocalDate serialization issues in saved state.
-    // When non-empty, only these dates are selectable in the DateRangePicker.
     val transactionDateIsos: Set<String> = emptySet(),
-    val spendingFilter: SpendingFilter = SpendingFilter.Expenses,
+    val currency: String = "EUR",
 )
+
+// ─── Page UiState (per-period chart data) ──────────────────────
+
+internal data class OverviewPageUiState(
+    val isLoading: Boolean = true,
+    val isEmpty: Boolean = false,
+    val period: OverviewPeriod = OverviewPeriod.Month(YearMonth(2026, 1)),
+    val income: Double = 0.0,
+    val expenses: Double = 0.0,
+    val categoryBreakdown: List<CategorySpend> = emptyList(),
+    val categoryIncomeBreakdown: List<CategorySpend> = emptyList(),
+    val dailyTotals: List<Double> = emptyList(),
+    val cumulativeTotals: List<Double> = emptyList(),
+    val todayIndex: Int = 0,
+    val categoryDailyTrend: List<CategoryTrend> = emptyList(),
+    val monthlyTotals: List<Double> = List(12) { 0.0 },
+    val categoryMonthlyTrend: List<CategoryTrend> = emptyList(),
+    val currentMonthIndex: Int = -1,
+    val avgDailyExpense: Double = 0.0,
+    val avgMonthlyExpense: Double = 0.0,
+    val avgDailyExpenseYear: Double = 0.0,
+    val categoryAvgSpend: List<CategoryAvgSpend> = emptyList(),
+    val selectedSliceIndex: Int? = null,
+)
+
+// ─── Intents ────────────────────────────────────────────────────
 
 internal sealed interface OverviewIntent {
     data object PreviousPeriod : OverviewIntent
     data object NextPeriod : OverviewIntent
     data object TogglePeriod : OverviewIntent
-    data class CategoryFilterSelected(val id: CategoryId?) : OverviewIntent
-    data class SliceTapped(val index: Int?) : OverviewIntent
     data class PeriodSelected(val period: OverviewPeriod) : OverviewIntent
     data class DateRangeSelected(
         val startYear: Int,
@@ -147,4 +136,11 @@ internal sealed interface OverviewIntent {
         val endDay: Int,
     ) : OverviewIntent
     data class SpendingFilterChanged(val filter: SpendingFilter) : OverviewIntent
+    data class MonthPagerSwiped(val yearMonth: YearMonth) : OverviewIntent
+    data class YearPagerSwiped(val year: Int) : OverviewIntent
+}
+
+internal sealed interface OverviewPageIntent {
+    data class SliceTapped(val index: Int?) : OverviewPageIntent
+    data class CategoryFilterSelected(val id: CategoryId?) : OverviewPageIntent
 }

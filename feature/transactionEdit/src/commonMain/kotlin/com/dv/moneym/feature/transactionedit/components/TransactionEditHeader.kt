@@ -37,7 +37,7 @@ internal fun TransactionEditModalHeader(
             .fillMaxWidth()
             .statusBarsPadding()
             .height(52.dp)
-            .padding(horizontal = MM.dimen.padding_1_5x, vertical = 4.dp),
+            .padding(horizontal = MM.dimen.padding_1_5x, vertical = MM.dimen.padding_0_5x),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         MmIconButton(

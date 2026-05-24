@@ -252,7 +252,7 @@ private fun PinSetupBody(
             color = colors.text,
         )
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(MM.dimen.padding_0_5x))
 
         if (errorText != null) {
             Spacer(modifier = Modifier.height(MM.dimen.padding_1x))

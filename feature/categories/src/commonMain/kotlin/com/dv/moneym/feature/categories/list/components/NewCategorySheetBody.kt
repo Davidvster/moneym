@@ -89,7 +89,7 @@ internal fun NewCategorySheetBody(
             modifier = Modifier.fillMaxWidth(),
         )
         if (nameError != null) {
-            Spacer(Modifier.height(4.dp))
+            Spacer(Modifier.height(MM.dimen.padding_0_5x))
             Text(
                 text = nameError,
                 style = MM.type.caption,

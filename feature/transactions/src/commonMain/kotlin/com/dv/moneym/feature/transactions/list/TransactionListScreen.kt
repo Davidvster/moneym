@@ -70,6 +70,7 @@ import com.dv.moneym.feature.transactions.list.components.DayGroupHeader
 import com.dv.moneym.feature.transactions.list.components.MonthPickerDialog
 import com.dv.moneym.feature.transactions.list.components.WalletSwitcherDialog
 import com.dv.moneym.feature.transactions.list.components.monthLabel
+import kotlinx.datetime.number
 import kotlinx.serialization.Serializable
 import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.transactions_add
@@ -136,13 +137,11 @@ private fun TransactionListContent(
     var showCategoryFilter by remember { mutableStateOf(false) }
     var initialScrollDone by remember { mutableStateOf(false) }
 
+    val anchor = state.earliestMonth ?: YearMonth(state.today.year, state.today.month.number)
+
     if (showMonthPicker) {
-        val minYear = if (state.firstAvailablePage < PAGE_OFFSET) {
-            pageToYearMonth(state.firstAvailablePage, state.today).year
-        } else null
-        val minMonth = if (state.firstAvailablePage < PAGE_OFFSET) {
-            pageToYearMonth(state.firstAvailablePage, state.today).monthNumber
-        } else null
+        val minYear = state.earliestMonth?.year
+        val minMonth = state.earliestMonth?.monthNumber
         MonthPickerDialog(
             currentYear = state.currentMonth.year,
             currentMonth = state.currentMonth.monthNumber,
@@ -183,16 +182,15 @@ private fun TransactionListContent(
         pageCount = { state.pageCount },
     )
 
-    // Pager settled → tell VM which month is visible
-    LaunchedEffect(pagerState.currentPage) {
-        val page = pagerState.currentPage
-        val newMonth = pageToYearMonth(page, state.today)
+    // Pager fully settled → tell VM which month is visible
+    LaunchedEffect(pagerState.settledPage) {
+        val newMonth = pageToYearMonth(pagerState.settledPage, anchor)
         if (newMonth != state.currentMonth) {
             onIntent(TransactionListIntent.MonthSelected(newMonth))
         }
     }
 
-    // VM month changed → scroll pager to target (no isScrollInProgress guard — animateScrollToPage cancels ongoing)
+    // VM month changed (arrows / dialog) → scroll pager to match
     LaunchedEffect(state.currentPage) {
         if (pagerState.currentPage != state.currentPage) {
             if (initialScrollDone) {
@@ -202,13 +200,6 @@ private fun TransactionListContent(
             }
         }
         initialScrollDone = true
-    }
-
-    // Clamp left-swipe: if pager settled before firstAvailablePage, snap back
-    LaunchedEffect(pagerState.currentPage) {
-        if (pagerState.currentPage < state.firstAvailablePage) {
-            pagerState.animateScrollToPage(state.firstAvailablePage)
-        }
     }
 
     Column(
@@ -233,7 +224,7 @@ private fun TransactionListContent(
             beyondViewportPageCount = 1,
             modifier = Modifier.weight(1f),
         ) { page ->
-            val yearMonth = pageToYearMonth(page, state.today)
+            val yearMonth = pageToYearMonth(page, anchor)
             TransactionPageScreen(
                 yearMonth = yearMonth,
                 onEditTransaction = onEditTransaction,
@@ -356,13 +347,6 @@ private fun TransactionListHeader(
             }
         }
 
-        MonthNavRow(
-            state = state,
-            onShowMonthPicker = onShowMonthPicker,
-            onPreviousMonth = onPreviousMonth,
-            onNextMonth = onNextMonth,
-        )
-
         MmSegmented(
             options = listOf(
                 stringResource(Res.string.transactions_filter_all),
@@ -380,6 +364,13 @@ private fun TransactionListHeader(
             },
             fillWidth = true,
         )
+
+        MonthNavRow(
+            state = state,
+            onShowMonthPicker = onShowMonthPicker,
+            onPreviousMonth = onPreviousMonth,
+            onNextMonth = onNextMonth,
+        )
     }
 }
 
@@ -394,7 +385,7 @@ private fun MonthNavRow(
     val type = MM.type
     val label = monthLabel(state.currentMonth.year, state.currentMonth.monthNumber)
     val netDouble = state.netAmount / 100.0
-    val canGoBack = state.currentPage > state.firstAvailablePage
+    val canGoBack = state.currentPage > 0
 
     Row(
         verticalAlignment = Alignment.CenterVertically,

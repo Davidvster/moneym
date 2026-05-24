@@ -114,7 +114,7 @@ internal fun SecurityStep(
                 style = type.title1,
                 color = colors.text,
             )
-            Spacer(Modifier.height(4.dp))
+            Spacer(Modifier.height(MM.dimen.padding_0_5x))
             Text(
                 text = stringResource(Res.string.onboarding_security_subtitle),
                 style = type.body.copy(color = colors.text2),

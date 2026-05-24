@@ -52,7 +52,7 @@ class TransactionListViewModel(
 
     private val _earliestMonth: StateFlow<YearMonth?> = transactionRepository
         .getTransactionDates()
-        .map { dates -> dates.minOrNull()?.let { YearMonth(it.year, it.monthNumber) } }
+        .map { dates -> dates.minOrNull()?.let { YearMonth(it.year, it.month.number) } }
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     private data class BaseState(val month: YearMonth, val categories: List<Category>)
@@ -84,9 +84,6 @@ class TransactionListViewModel(
                     ?: accountFilteredTxns.firstOrNull()?.amount?.currency?.value
                     ?: "USD"
 
-                val currentPage = yearMonthToPage(base.month, today)
-                val lastPage = yearMonthToPage(YearMonth(today.year, today.monthNumber), today)
-
                 TransactionListUiState(
                     currentMonth = base.month,
                     availableCategories = base.categories,
@@ -94,16 +91,20 @@ class TransactionListViewModel(
                     netCurrency = netCurrency,
                     selectedAccount = selectedAccount,
                     availableAccounts = accounts.filter { !it.archived },
-                    currentPage = currentPage,
-                    pageCount = lastPage + 1,
                     today = today,
                 )
             }
         }
         .combine(_filter) { state, filter -> state.copy(activeFilter = filter) }
         .combine(_earliestMonth) { state, earliestMonth ->
-            val firstPage = earliestMonth?.let { yearMonthToPage(it, today) }?.coerceAtLeast(0) ?: 0
-            state.copy(firstAvailablePage = firstPage)
+            val anchor = earliestMonth ?: YearMonth(today.year, today.month.number)
+            val currentPage = yearMonthToPage(state.currentMonth, anchor)
+            val todayPage = yearMonthToPage(YearMonth(today.year, today.month.number), anchor)
+            state.copy(
+                earliestMonth = earliestMonth,
+                currentPage = currentPage,
+                pageCount = todayPage + 1 + 120,
+            )
         }
         .combine(ephemeralState.searchQuery) { state, q -> state.copy(searchQuery = q) }
         .combine(ephemeralState.selectedCategoryIds) { state, ids -> state.copy(selectedCategoryIds = ids) }

@@ -231,7 +231,7 @@ private fun CurrencyConversionSheet(
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(width = 36.dp, height = 4.dp)
+                            .size(width = 36.dp, height = MM.dimen.padding_0_5x)
                             .clip(RoundedCornerShape(50))
                             .background(colors.borderStrong),
                     )

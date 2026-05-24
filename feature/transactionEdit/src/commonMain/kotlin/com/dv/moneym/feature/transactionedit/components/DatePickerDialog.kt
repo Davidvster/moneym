@@ -67,7 +67,7 @@ internal fun TransactionDatePickerDialog(
         confirmButton = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_0_5x),
             ) {
                 // Yesterday quick button
                 TextButton(onClick = {

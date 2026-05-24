@@ -1,7 +1,9 @@
 package com.dv.moneym.feature.transactions.list
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.YearMonth
@@ -24,5 +26,6 @@ internal fun TransactionPageScreen(
         isLoading = state.isLoading,
         isEmpty = state.isEmpty,
         onEditTransaction = onEditTransaction,
+        modifier = Modifier.fillMaxSize(),
     )
 }

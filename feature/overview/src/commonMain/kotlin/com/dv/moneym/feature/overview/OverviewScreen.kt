@@ -1,18 +1,17 @@
 package com.dv.moneym.feature.overview
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
@@ -25,7 +24,6 @@ import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.feature.overview.components.DateRangePickerDialog
 import com.dv.moneym.feature.overview.components.OverviewHeader
 import com.dv.moneym.feature.overview.components.OverviewMonthPickerDialog
-import com.dv.moneym.feature.overview.components.OverviewPeriodBody
 import com.dv.moneym.feature.overview.components.OverviewYearPickerDialog
 import com.dv.moneym.feature.overview.components.daysInMonthUi
 import com.dv.moneym.feature.overview.components.formatShortDate
@@ -56,33 +54,6 @@ private fun OverviewScreen(
     )
 }
 
-// ─── Swipe-to-navigate modifier ───────────────────────────────────────────────
-
-private fun Modifier.onHorizontalSwipe(
-    thresholdDp: Float = 60f,
-    onSwipeLeft: () -> Unit,
-    onSwipeRight: () -> Unit,
-): Modifier = this.pointerInput(Unit) {
-    val thresholdPx = thresholdDp * density
-    var totalX = 0f
-    detectHorizontalDragGestures(
-        onDragStart = { totalX = 0f },
-        onDragEnd = {
-            when {
-                totalX > thresholdPx -> onSwipeRight()
-                totalX < -thresholdPx -> onSwipeLeft()
-            }
-            totalX = 0f
-        },
-        onHorizontalDrag = { change, delta ->
-            change.consume()
-            totalX += delta
-        },
-    )
-}
-
-// ─── Root content ─────────────────────────────────────────────────────────────
-
 @Composable
 private fun OverviewContent(
     state: OverviewUiState,
@@ -90,33 +61,80 @@ private fun OverviewContent(
     onTabSelected: (TabRoute) -> Unit,
 ) {
     val colors = MM.colors
-    val space = MM.dimen
     val monthNames = localizedMonthNames()
-    val isMonthMode = state.period is OverviewPeriod.Month
-    val periodLabel = when (val p = state.period) {
+    val isMonthMode = state.currentPeriod is OverviewPeriod.Month
+    val isYearMode = state.currentPeriod is OverviewPeriod.Year
+    val periodLabel = when (val p = state.currentPeriod) {
         is OverviewPeriod.Month -> "${monthNames[p.yearMonth.monthNumber - 1]} ${p.yearMonth.year}"
         is OverviewPeriod.Year -> p.year.toString()
         is OverviewPeriod.DateRange -> "${
-            formatShortDate(
-                p.startYear,
-                p.startMonth,
-                p.startDay
-            )
+            formatShortDate(p.startYear, p.startMonth, p.startDay)
         } – ${formatShortDate(p.endYear, p.endMonth, p.endDay)}"
     }
-    val currencyCode = state.currency
 
     var showPeriodPicker by remember { mutableStateOf(false) }
     var showDateRangePicker by remember { mutableStateOf(false) }
+    var initialMonthScrollDone by remember { mutableStateOf(false) }
+    var initialYearScrollDone by remember { mutableStateOf(false) }
+
+    val monthPagerState = rememberPagerState(
+        initialPage = state.monthCurrentPage,
+        pageCount = { state.monthPageCount },
+    )
+    val yearPagerState = rememberPagerState(
+        initialPage = state.yearCurrentPage,
+        pageCount = { state.yearPageCount },
+    )
+
+    // Month pager fully settled → tell VM which month is visible
+    LaunchedEffect(monthPagerState.settledPage) {
+        if (!isMonthMode) return@LaunchedEffect
+        val newMonth = pageToYearMonth(monthPagerState.settledPage, state.monthAnchor)
+        if (OverviewPeriod.Month(newMonth) != state.currentPeriod) {
+            onIntent(OverviewIntent.MonthPagerSwiped(newMonth))
+        }
+    }
+
+    // VM month changed (arrows / dialog) → scroll month pager to match
+    LaunchedEffect(state.monthCurrentPage) {
+        if (monthPagerState.currentPage != state.monthCurrentPage) {
+            if (initialMonthScrollDone) {
+                monthPagerState.animateScrollToPage(state.monthCurrentPage)
+            } else {
+                monthPagerState.scrollToPage(state.monthCurrentPage)
+            }
+        }
+        initialMonthScrollDone = true
+    }
+
+    // Year pager fully settled → tell VM which year is visible
+    LaunchedEffect(yearPagerState.settledPage) {
+        if (!isYearMode) return@LaunchedEffect
+        val newYear = pageToYear(yearPagerState.settledPage, state.yearAnchor)
+        if (OverviewPeriod.Year(newYear) != state.currentPeriod) {
+            onIntent(OverviewIntent.YearPagerSwiped(newYear))
+        }
+    }
+
+    // VM year changed (arrows / dialog) → scroll year pager to match
+    LaunchedEffect(state.yearCurrentPage) {
+        if (yearPagerState.currentPage != state.yearCurrentPage) {
+            if (initialYearScrollDone) {
+                yearPagerState.animateScrollToPage(state.yearCurrentPage)
+            } else {
+                yearPagerState.scrollToPage(state.yearCurrentPage)
+            }
+        }
+        initialYearScrollDone = true
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(colors.bg),
     ) {
-        // Fixed header — stays pinned at top during scroll
         OverviewHeader(
-            period = state.period,
+            period = state.currentPeriod,
             periodLabel = periodLabel,
             spendingFilter = state.spendingFilter,
             onTogglePeriod = { onIntent(OverviewIntent.TogglePeriod) },
@@ -128,23 +146,35 @@ private fun OverviewContent(
             canGoBack = state.canGoBack,
         )
 
-        // Scrollable body with swipe gesture
-        LazyColumn(
-            modifier = Modifier
-                .weight(1f)
-                .onHorizontalSwipe(
-                    onSwipeLeft = { onIntent(OverviewIntent.NextPeriod) },
-                    onSwipeRight = { onIntent(OverviewIntent.PreviousPeriod) },
-                ),
-            contentPadding = PaddingValues(bottom = space.padding_2x),
-        ) {
-            item {
-                OverviewPeriodBody(
-                    state = state,
-                    currencyCode = currencyCode,
-                    onIntent = onIntent,
+        when {
+            isMonthMode -> HorizontalPager(
+                state = monthPagerState,
+                beyondViewportPageCount = 1,
+                modifier = Modifier.weight(1f),
+            ) { page ->
+                OverviewPageScreen(
+                    period = OverviewPeriod.Month(pageToYearMonth(page, state.monthAnchor)),
+                    spendingFilter = state.spendingFilter,
+                    currencyCode = state.currency,
                 )
             }
+            isYearMode -> HorizontalPager(
+                state = yearPagerState,
+                beyondViewportPageCount = 1,
+                modifier = Modifier.weight(1f),
+            ) { page ->
+                OverviewPageScreen(
+                    period = OverviewPeriod.Year(pageToYear(page, state.yearAnchor)),
+                    spendingFilter = state.spendingFilter,
+                    currencyCode = state.currency,
+                )
+            }
+            else -> OverviewPageScreen(
+                period = state.currentPeriod,
+                spendingFilter = state.spendingFilter,
+                currencyCode = state.currency,
+                modifier = Modifier.weight(1f),
+            )
         }
 
         MmTabBar(
@@ -154,7 +184,7 @@ private fun OverviewContent(
 
         if (showPeriodPicker) {
             if (isMonthMode) {
-                val currentPeriod = state.period
+                val currentPeriod = state.currentPeriod
                 OverviewMonthPickerDialog(
                     currentYear = currentPeriod.yearMonth.year,
                     currentMonth = currentPeriod.yearMonth.monthNumber,
@@ -164,19 +194,14 @@ private fun OverviewContent(
                     onConfirm = { year, month ->
                         onIntent(
                             OverviewIntent.PeriodSelected(
-                                OverviewPeriod.Month(
-                                    YearMonth(
-                                        year,
-                                        month
-                                    )
-                                )
+                                OverviewPeriod.Month(YearMonth(year, month))
                             )
                         )
                         showPeriodPicker = false
                     },
                 )
-            } else if (state.period is OverviewPeriod.Year) {
-                val currentPeriod = state.period
+            } else if (state.currentPeriod is OverviewPeriod.Year) {
+                val currentPeriod = state.currentPeriod
                 OverviewYearPickerDialog(
                     currentYear = currentPeriod.year,
                     minYear = state.minSelectableDateIso?.let { LocalDate.parse(it).year },
@@ -190,19 +215,18 @@ private fun OverviewContent(
         }
 
         if (showDateRangePicker) {
-            val initStart = when (val p = state.period) {
+            val initStart = when (val p = state.currentPeriod) {
                 is OverviewPeriod.DateRange -> Triple(p.startYear, p.startMonth, p.startDay)
                 is OverviewPeriod.Month -> Triple(p.yearMonth.year, p.yearMonth.monthNumber, 1)
                 is OverviewPeriod.Year -> Triple(p.year, 1, 1)
             }
-            val initEnd = when (val p = state.period) {
+            val initEnd = when (val p = state.currentPeriod) {
                 is OverviewPeriod.DateRange -> Triple(p.endYear, p.endMonth, p.endDay)
                 is OverviewPeriod.Month -> Triple(
                     p.yearMonth.year,
                     p.yearMonth.monthNumber,
                     daysInMonthUi(p.yearMonth.year, p.yearMonth.monthNumber),
                 )
-
                 is OverviewPeriod.Year -> Triple(p.year, 12, 31)
             }
             DateRangePickerDialog(
@@ -231,7 +255,7 @@ private fun OverviewContent(
 private fun OverviewScreenPreview() {
     MoneyMTheme {
         OverviewContent(
-            state = OverviewUiState(isLoading = false, isEmpty = true),
+            state = OverviewUiState(),
             onIntent = {},
             onTabSelected = {},
         )

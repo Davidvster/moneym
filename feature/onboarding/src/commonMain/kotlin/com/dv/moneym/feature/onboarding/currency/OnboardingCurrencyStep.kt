@@ -170,7 +170,7 @@ internal fun CurrencyStep(
                 style = type.title1,
                 color = colors.text,
             )
-            Spacer(Modifier.height(4.dp))
+            Spacer(Modifier.height(MM.dimen.padding_0_5x))
             Text(
                 text = stringResource(Res.string.onboarding_currency_title),
                 style = type.body.copy(color = colors.text2),
@@ -203,7 +203,7 @@ internal fun CurrencyStep(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(colors.bg)
-                            .padding(horizontal = MM.dimen.padding_2_5x, vertical = 4.dp),
+                            .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_0_5x),
                     )
                 }
                 items(filteredItems, key = { it.code }) { currency ->

@@ -72,6 +72,30 @@ internal fun OverviewHeader(
             bottom = space.padding_1x,
         ),
     ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = stringResource(Res.string.overview_title),
+                style = type.title1,
+                color = colors.text,
+                modifier = Modifier.weight(1f),
+            )
+            MmSegmented(
+                options = listOf(
+                    stringResource(Res.string.overview_period_month),
+                    stringResource(Res.string.overview_period_year),
+                    stringResource(Res.string.overview_period_custom),
+                ),
+                selectedIndex = segmentIndex,
+                onOptionSelected = { idx ->
+                    when (idx) {
+                        0 -> { if (!isMonthMode) onTogglePeriod() }
+                        1 -> { if (!isYearMode) onTogglePeriod() }
+                        2 -> { onShowDateRangePicker() }
+                    }
+                },
+            )
+        }
+
         // All / Expenses / Income filter — top of screen
         MmSegmented(
             options = listOf(
@@ -98,29 +122,6 @@ internal fun OverviewHeader(
             modifier = Modifier.fillMaxWidth().padding(bottom = space.padding_1x),
         )
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                text = stringResource(Res.string.overview_title),
-                style = type.title1,
-                color = colors.text,
-                modifier = Modifier.weight(1f),
-            )
-            MmSegmented(
-                options = listOf(
-                    stringResource(Res.string.overview_period_month),
-                    stringResource(Res.string.overview_period_year),
-                    stringResource(Res.string.overview_period_custom),
-                ),
-                selectedIndex = segmentIndex,
-                onOptionSelected = { idx ->
-                    when (idx) {
-                        0 -> { if (!isMonthMode) onTogglePeriod() }
-                        1 -> { if (!isYearMode) onTogglePeriod() }
-                        2 -> { onShowDateRangePicker() }
-                    }
-                },
-            )
-        }
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(top = space.padding_2x),
