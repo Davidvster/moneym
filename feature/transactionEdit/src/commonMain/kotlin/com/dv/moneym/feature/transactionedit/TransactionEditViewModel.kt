@@ -10,11 +10,7 @@ import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CurrencyCode
-import com.dv.moneym.core.model.Money
-import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionId
-import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
-import com.dv.moneym.core.model.toMinorUnits
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.transactions.PaymentModeRepository
@@ -22,6 +18,8 @@ import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
+import com.dv.moneym.feature.transactionedit.usecase.ValidateAndBuildTransactionUseCase
+import com.dv.moneym.feature.transactionedit.usecase.ValidationOutcome
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -42,6 +40,7 @@ class TransactionEditViewModel(
     private val getTransaction: GetTransactionUseCase,
     private val upsertTransaction: UpsertTransactionUseCase,
     private val deleteTransaction: DeleteTransactionUseCase,
+    private val validateAndBuildTransaction: ValidateAndBuildTransactionUseCase,
     private val categoryRepository: CategoryRepository,
     private val accountRepository: AccountRepository,
     private val transactionRepository: TransactionRepository,
@@ -267,37 +266,34 @@ class TransactionEditViewModel(
 
     private fun save() {
         val s = _state.value
-        val minorUnits = s.amountText.toMinorUnits()
-        val catId = s.selectedCategoryId
-        val accId = s.selectedAccountId
-        val date = s.date
-
-        if (minorUnits == null || minorUnits <= 0) {
-            _state.update { it.copy(amountError = true) }; return
-        }
-        if (catId == null) {
-            _state.update { it.copy(categoryError = true) }; return
-        }
-        if (date == null || accId == null) return
-
-        _state.update { it.copy(isSaving = true) }
-        viewModelScope.launch {
-            val account = s.availableAccounts.firstOrNull { it.id == accId }
-            val currency = account?.currency ?: CurrencyCode("USD")
-            val txn = Transaction(
-                id = s.existingId ?: UNSAVED_TRANSACTION_ID,
-                type = s.type,
-                amount = Money(minorUnits, currency),
-                occurredOn = date,
-                note = s.note.trim().ifEmpty { null },
-                categoryId = catId,
-                accountId = accId,
-                createdAt = clock.now(),
-                updatedAt = clock.now(),
-                paymentModeId = if (s.showPaymentMode) s.selectedPaymentModeId else null,
-            )
-            withContext(dispatchers.io) { upsertTransaction(txn) }
-            _effects.send(TransactionEditEffect.Saved)
+        val outcome = validateAndBuildTransaction(
+            existingId = s.existingId,
+            type = s.type,
+            amountText = s.amountText,
+            date = s.date,
+            selectedCategoryId = s.selectedCategoryId,
+            selectedAccountId = s.selectedAccountId,
+            note = s.note,
+            availableAccounts = s.availableAccounts,
+            showPaymentMode = s.showPaymentMode,
+            selectedPaymentModeId = s.selectedPaymentModeId,
+            now = clock.now(),
+        )
+        when (outcome) {
+            is ValidationOutcome.Invalid -> when (outcome.reason) {
+                ValidationOutcome.Reason.InvalidAmount ->
+                    _state.update { it.copy(amountError = true) }
+                ValidationOutcome.Reason.MissingCategory ->
+                    _state.update { it.copy(categoryError = true) }
+                ValidationOutcome.Reason.MissingDateOrAccount -> Unit
+            }
+            is ValidationOutcome.Ok -> {
+                _state.update { it.copy(isSaving = true) }
+                viewModelScope.launch {
+                    withContext(dispatchers.io) { upsertTransaction(outcome.transaction) }
+                    _effects.send(TransactionEditEffect.Saved)
+                }
+            }
         }
     }
 

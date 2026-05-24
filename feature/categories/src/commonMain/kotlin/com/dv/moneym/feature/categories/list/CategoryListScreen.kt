@@ -186,29 +186,6 @@ private fun NewCategorySheet(
     // List of custom colors generated via the HSV picker — appends on each new color
     var customColors by remember(categoryToEdit?.id) { mutableStateOf(listOf<Color>()) }
 
-    // TODO this should come from viewmodel
-    val palette = listOf(
-        Color(0xFFC2566B),
-        Color(0xFF8B6FB0),
-        Color(0xFF4A8E5C),
-        Color(0xFF4F8694),
-        Color(0xFFB89148),
-        Color(0xFF7A9572),
-        Color(0xFFC97A4F),
-        Color(0xFF5A7BA8),
-        Color(0xFFB07089),
-        Color(0xFF8A8A8A),
-        Color(0xFFD14C7A),
-        Color(0xFF6B5BC4),
-        Color(0xFF3F9E70),
-        Color(0xFF3A82A5),
-        Color(0xFFD88B33),
-    )
-    val iconOptions = listOf(
-        Icon.Heart, Icon.Film, Icon.Car, Icon.Bolt, Icon.Basket, Icon.Utensils,
-        Icon.Home, Icon.Bag, Icon.Tag, Icon.Banknote, Icon.Gift, Icon.Sun, Icon.Moon, Icon.Globe, Icon.Folder,
-    )
-
     val sheetTitle = if (isEditMode)
         stringResource(Res.string.categories_edit_sheet_title)
     else
@@ -218,8 +195,8 @@ private fun NewCategorySheet(
         NewCategorySheetHeader(sheetTitle = sheetTitle, onDismiss = onDismiss)
         NewCategorySheetBody(
             name = state.editingName,
-            palette = palette,
-            iconOptions = iconOptions,
+            palette = CATEGORY_PALETTE,
+            iconOptions = CATEGORY_ICON_OPTIONS,
             selectedColor = selectedColor,
             selectedIcon = selectedIcon,
             customColors = customColors,
@@ -246,8 +223,7 @@ private fun NewCategorySheet(
             onDismiss = { onIntent(CategoryListIntent.ShowColorPicker(false)) },
             onColorSelected = { color ->
                 onIntent(CategoryListIntent.EditingColorChanged(colorToHex(color)))
-                // Append the new color to the custom list (don't replace)
-                if (color !in palette) {
+                if (color !in CATEGORY_PALETTE) {
                     customColors = customColors + color
                 }
                 onIntent(CategoryListIntent.ShowColorPicker(false))
@@ -266,6 +242,29 @@ private fun NewCategorySheet(
         )
     }
 }
+
+private val CATEGORY_PALETTE = listOf(
+    Color(0xFFC2566B),
+    Color(0xFF8B6FB0),
+    Color(0xFF4A8E5C),
+    Color(0xFF4F8694),
+    Color(0xFFB89148),
+    Color(0xFF7A9572),
+    Color(0xFFC97A4F),
+    Color(0xFF5A7BA8),
+    Color(0xFFB07089),
+    Color(0xFF8A8A8A),
+    Color(0xFFD14C7A),
+    Color(0xFF6B5BC4),
+    Color(0xFF3F9E70),
+    Color(0xFF3A82A5),
+    Color(0xFFD88B33),
+)
+
+private val CATEGORY_ICON_OPTIONS = listOf(
+    Icon.Heart, Icon.Film, Icon.Car, Icon.Bolt, Icon.Basket, Icon.Utensils,
+    Icon.Home, Icon.Bag, Icon.Tag, Icon.Banknote, Icon.Gift, Icon.Sun, Icon.Moon, Icon.Globe, Icon.Folder,
+)
 
 private fun colorToHex(color: Color): String {
     fun Int.hex2() = toString(16).padStart(2, '0').uppercase()

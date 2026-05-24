@@ -12,12 +12,11 @@ import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.Transaction
-import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
-import com.dv.moneym.data.backup.CsvParser
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.transactions.TransactionRepository
+import com.dv.moneym.feature.settings.overview.importdata.usecase.PrepareImportPreviewUseCase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,6 +34,7 @@ class ImportDataViewModel(
     private val categoryRepository: CategoryRepository,
     private val accountRepository: AccountRepository,
     private val transactionRepository: TransactionRepository,
+    private val prepareImportPreview: PrepareImportPreviewUseCase,
     private val dispatchers: DispatcherProvider,
     private val clock: AppClock,
     savedStateHandle: SavedStateHandle,
@@ -56,42 +56,20 @@ class ImportDataViewModel(
         viewModelScope.launch {
             val content = holder.content
             val format = holder.format
-            if (content.isBlank()) {
-                _state.update { it.copy(isParsing = false, parseError = "No file content") }
-                return@launch
-            }
 
             val accountsDeferred = async(dispatchers.io) { accountRepository.observeAll().first() }
             val categoriesDeferred = async(dispatchers.io) { categoryRepository.observeAll().first() }
-            val parsedDeferred = async(dispatchers.io) {
-                when (format) {
-                    CsvSourceFormat.MONEYM -> CsvParser.parseMoneyM(content)
-                    CsvSourceFormat.EASY_HOME_FINANCE -> CsvParser.parseEasyHomeFinance(content)
-                }
-            }
 
             val accounts = accountsDeferred.await()
             val existingCategories = categoriesDeferred.await()
-            val parsed = parsedDeferred.await()
 
-            if (parsed.parseError != null) {
-                _state.update { it.copy(isParsing = false, parseError = parsed.parseError) }
-                return@launch
+            val preview = withContext(dispatchers.io) {
+                prepareImportPreview(content, format, accounts, existingCategories)
             }
 
-            val defaultAccount = accounts.firstOrNull { it.isDefault } ?: accounts.firstOrNull()
-            val mappings = buildCategoryMappings(parsed.uniqueCategoryNames, existingCategories)
-            val txItems = parsed.transactions.mapIndexed { i, t ->
-                val currency = t.currencyCode.ifEmpty { defaultAccount?.currency?.value ?: "EUR" }
-                ImportTransactionUiItem(
-                    id = "$i",
-                    date = t.date,
-                    type = if (t.type == "INCOME") TransactionType.INCOME else TransactionType.EXPENSE,
-                    amountMinorUnits = t.amountMinorUnits,
-                    currencyCode = currency,
-                    categoryName = t.categoryName,
-                    note = t.note,
-                )
+            if (preview.parseError != null) {
+                _state.update { it.copy(isParsing = false, parseError = preview.parseError) }
+                return@launch
             }
 
             _state.update {
@@ -99,9 +77,9 @@ class ImportDataViewModel(
                     isParsing = false,
                     availableAccounts = accounts,
                     availableCategories = existingCategories,
-                    selectedAccountId = defaultAccount?.id,
-                    categoryMappings = mappings,
-                    transactions = txItems,
+                    selectedAccountId = preview.selectedAccountId,
+                    categoryMappings = preview.categoryMappings,
+                    transactions = preview.transactions,
                 )
             }
         }
@@ -224,18 +202,4 @@ class ImportDataViewModel(
         }
     }
 
-    private fun buildCategoryMappings(
-        csvNames: List<String>,
-        existing: List<Category>,
-    ): List<CategoryMappingUiItem> {
-        val byNameLower = existing.associateBy { it.name.lowercase() }
-        return csvNames.map { csvName ->
-            val match = byNameLower[csvName.lowercase()]
-            CategoryMappingUiItem(
-                csvName = csvName,
-                mappedToCategoryId = match?.id,
-                mappedToCategoryName = match?.name,
-            )
-        }
-    }
 }

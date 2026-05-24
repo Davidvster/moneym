@@ -144,59 +144,16 @@ class OverviewViewModel(
 
     internal fun onIntent(intent: OverviewIntent) {
         when (intent) {
-            OverviewIntent.PreviousPeriod -> {
-                val minIso = _dateBounds.value.first
-                _currentPeriod.update { period ->
-                    val prev = period.previous()
-                    if (minIso != null) {
-                        val minDate = LocalDate.parse(minIso)
-                        when (prev) {
-                            is OverviewPeriod.Month ->
-                                if (YearMonth(prev.yearMonth.year, prev.yearMonth.monthNumber) <
-                                    YearMonth(minDate.year, minDate.monthNumber)) period else prev
-                            is OverviewPeriod.Year ->
-                                if (prev.year < minDate.year) period else prev
-                            else -> prev
-                        }
-                    } else prev
-                }
-            }
-
+            OverviewIntent.PreviousPeriod -> goPrevious()
             OverviewIntent.NextPeriod -> _currentPeriod.update { it.next() }
-
-            OverviewIntent.TogglePeriod -> {
-                _currentPeriod.update { period ->
-                    val newPeriod = when (period) {
-                        is OverviewPeriod.Month -> OverviewPeriod.Year(period.yearMonth.year)
-                        is OverviewPeriod.Year -> OverviewPeriod.Month(
-                            YearMonth(period.year, today.monthNumber)
-                        )
-                        is OverviewPeriod.DateRange -> OverviewPeriod.Month(
-                            YearMonth(today.year, today.monthNumber)
-                        )
-                    }
-                    persistPeriod(newPeriod)
-                    newPeriod
-                }
-            }
+            OverviewIntent.TogglePeriod -> toggleMode()
 
             is OverviewIntent.PeriodSelected -> {
                 _currentPeriod.value = intent.period
                 persistPeriod(intent.period)
             }
 
-            is OverviewIntent.DateRangeSelected -> {
-                val newPeriod = OverviewPeriod.DateRange(
-                    startYear = intent.startYear,
-                    startMonth = intent.startMonth,
-                    startDay = intent.startDay,
-                    endYear = intent.endYear,
-                    endMonth = intent.endMonth,
-                    endDay = intent.endDay,
-                )
-                _currentPeriod.value = newPeriod
-                persistPeriod(newPeriod)
-            }
+            is OverviewIntent.DateRangeSelected -> selectDateRange(intent)
 
             is OverviewIntent.SpendingFilterChanged -> _spendingFilter.value = intent.filter
 
@@ -214,6 +171,53 @@ class OverviewViewModel(
             is OverviewIntent.ShowDateRangePicker ->
                 _uiBooleans.update { it.copy(showDateRangePicker = intent.visible) }
         }
+    }
+
+    private fun goPrevious() {
+        val minIso = _dateBounds.value.first
+        _currentPeriod.update { period ->
+            val prev = period.previous()
+            if (minIso != null) {
+                val minDate = LocalDate.parse(minIso)
+                when (prev) {
+                    is OverviewPeriod.Month ->
+                        if (YearMonth(prev.yearMonth.year, prev.yearMonth.monthNumber) <
+                            YearMonth(minDate.year, minDate.monthNumber)) period else prev
+                    is OverviewPeriod.Year ->
+                        if (prev.year < minDate.year) period else prev
+                    else -> prev
+                }
+            } else prev
+        }
+    }
+
+    private fun toggleMode() {
+        _currentPeriod.update { period ->
+            val newPeriod = when (period) {
+                is OverviewPeriod.Month -> OverviewPeriod.Year(period.yearMonth.year)
+                is OverviewPeriod.Year -> OverviewPeriod.Month(
+                    YearMonth(period.year, today.monthNumber)
+                )
+                is OverviewPeriod.DateRange -> OverviewPeriod.Month(
+                    YearMonth(today.year, today.monthNumber)
+                )
+            }
+            persistPeriod(newPeriod)
+            newPeriod
+        }
+    }
+
+    private fun selectDateRange(intent: OverviewIntent.DateRangeSelected) {
+        val newPeriod = OverviewPeriod.DateRange(
+            startYear = intent.startYear,
+            startMonth = intent.startMonth,
+            startDay = intent.startDay,
+            endYear = intent.endYear,
+            endMonth = intent.endMonth,
+            endDay = intent.endDay,
+        )
+        _currentPeriod.value = newPeriod
+        persistPeriod(newPeriod)
     }
 
     private fun persistPeriod(period: OverviewPeriod) {

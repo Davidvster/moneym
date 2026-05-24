@@ -20,6 +20,10 @@ import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
 import com.dv.moneym.feature.overview.page.OverviewPageViewModel
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.OverviewViewModel
+import com.dv.moneym.feature.overview.usecase.BuildCategoryBreakdownUseCase
+import com.dv.moneym.feature.overview.usecase.BuildCategoryTrendsUseCase
+import com.dv.moneym.feature.overview.usecase.BuildCumulativeSeriesUseCase
+import com.dv.moneym.feature.overview.usecase.ResolvePeriodRangeUseCase
 import com.dv.moneym.feature.security.setup.PinSetupViewModel
 import com.dv.moneym.feature.security.unlock.PinUnlockViewModel
 import com.dv.moneym.feature.settings.overview.SecuritySettingsViewModel
@@ -29,6 +33,7 @@ import com.dv.moneym.feature.settings.overview.currencypicker.CurrencyPickerView
 import com.dv.moneym.feature.settings.overview.export.ExportViewModel
 import com.dv.moneym.feature.settings.overview.importdata.CsvImportHolder
 import com.dv.moneym.feature.settings.overview.importdata.ImportDataViewModel
+import com.dv.moneym.feature.settings.overview.importdata.usecase.PrepareImportPreviewUseCase
 import com.dv.moneym.feature.settings.overview.locale.LanguagePickerViewModel
 import com.dv.moneym.feature.settings.overview.transactiondisplay.TxListDisplayViewModel
 import com.dv.moneym.feature.settings.paymentmodes.PaymentModeListViewModel
@@ -39,6 +44,7 @@ import com.dv.moneym.feature.transactionedit.TransactionEditViewModel
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
+import com.dv.moneym.feature.transactionedit.usecase.ValidateAndBuildTransactionUseCase
 import com.dv.moneym.feature.transactions.list.TransactionListEphemeralState
 import com.dv.moneym.feature.transactions.list.TransactionListViewModel
 import com.dv.moneym.feature.transactions.list.page.TransactionPageViewModel
@@ -83,12 +89,14 @@ val featureTransactionEditModule = module {
     single { UpsertTransactionUseCase(get()) }
     single { DeleteTransactionUseCase(get()) }
     single { GetTransactionUseCase(get()) }
+    single { ValidateAndBuildTransactionUseCase() }
     viewModel { params ->
         TransactionEditViewModel(
             editingId = params.getOrNull<TransactionId>(),
             getTransaction = get(),
             upsertTransaction = get(),
             deleteTransaction = get(),
+            validateAndBuildTransaction = get(),
             categoryRepository = get(),
             accountRepository = get(),
             transactionRepository = get(),
@@ -166,12 +174,14 @@ val featureSettingsModule = module {
             savedStateHandle = get(),
         )
     }
+    single { PrepareImportPreviewUseCase() }
     viewModel {
         ImportDataViewModel(
             holder = get(),
             categoryRepository = get(),
             accountRepository = get(),
             transactionRepository = get(),
+            prepareImportPreview = get(),
             dispatchers = get(),
             clock = get(),
             savedStateHandle = get(),
@@ -252,6 +262,10 @@ val featureOnboardingModule = module {
 }
 
 val featureOverviewModule = module {
+    single { ResolvePeriodRangeUseCase() }
+    single { BuildCategoryBreakdownUseCase() }
+    single { BuildCategoryTrendsUseCase() }
+    single { BuildCumulativeSeriesUseCase() }
     viewModelOf(::OverviewViewModel)
     viewModel { params ->
         OverviewPageViewModel(
@@ -260,6 +274,10 @@ val featureOverviewModule = module {
             categoryRepository = get(),
             accountRepository = get(),
             appSettingsRepository = get(),
+            resolvePeriodRange = get(),
+            buildCategoryBreakdown = get(),
+            buildCategoryTrends = get(),
+            buildCumulativeSeries = get(),
             clock = get(),
         )
     }

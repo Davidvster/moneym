@@ -16,6 +16,10 @@ import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.FixedClock
 import com.dv.moneym.core.testing.runTestWithDispatchers
 import com.dv.moneym.feature.overview.page.OverviewPageViewModel
+import com.dv.moneym.feature.overview.usecase.BuildCategoryBreakdownUseCase
+import com.dv.moneym.feature.overview.usecase.BuildCategoryTrendsUseCase
+import com.dv.moneym.feature.overview.usecase.BuildCumulativeSeriesUseCase
+import com.dv.moneym.feature.overview.usecase.ResolvePeriodRangeUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -50,6 +54,10 @@ class OverviewViewModelTest {
         categoryRepository = catRepo,
         accountRepository = accountRepo,
         appSettingsRepository = settingsRepo,
+        resolvePeriodRange = ResolvePeriodRangeUseCase(),
+        buildCategoryBreakdown = BuildCategoryBreakdownUseCase(),
+        buildCategoryTrends = BuildCategoryTrendsUseCase(),
+        buildCumulativeSeries = BuildCumulativeSeriesUseCase(),
         clock = clock,
     )
 
