@@ -28,6 +28,8 @@ internal data class TransactionListUiState(
     val activeFilter: TransactionFilter = TransactionFilter.None,
     val availableCategories: List<Category> = emptyList(),
     val netAmount: Long = 0L,
+    val totalIncome: Long = 0L,
+    val totalExpenses: Long = 0L,
     val netCurrency: String = "EUR",
     val searchQuery: String = "",
     val selectedAccount: Account? = null,

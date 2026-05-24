@@ -2,6 +2,7 @@ package com.dv.moneym.feature.overview.components
 
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.feature.overview.SpendingFilter
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,6 +32,7 @@ internal fun IncomeExpensesCard(
     income: Double,
     expenses: Double,
     currencyCode: String,
+    filter: SpendingFilter = SpendingFilter.All,
     modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
@@ -40,75 +42,128 @@ internal fun IncomeExpensesCard(
         padded = true,
         shape = MM.dimen.radius_1_5x,
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
-        ) {
-            Icon(
-                imageVector = Icon.ArrowDown.imageVector,
-                contentDescription = null,
-                tint = colors.accent,
-                modifier = Modifier.size(MM.dimen.padding_1_5x),
-            )
-            SectionLabel(
-                text = stringResource(Res.string.overview_label_income),
-                modifier = Modifier.weight(1f),
-            )
-            MmMoney(
-                value = income,
-                size = 17.sp,
-                weight = FontWeight.SemiBold,
-                color = colors.accent,
-                currency = currencyCode,
-            )
-        }
-        Spacer(Modifier.height(space.padding_1_25x))
-        HorizontalDivider(color = colors.divider, thickness = 1.dp)
-        Spacer(Modifier.height(space.padding_1_25x))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
-        ) {
-            Icon(
-                imageVector = Icon.ArrowUp.imageVector,
-                contentDescription = null,
-                tint = colors.text,
-                modifier = Modifier.size(MM.dimen.padding_1_5x),
-            )
-            SectionLabel(
-                text = stringResource(Res.string.overview_label_expenses),
-                modifier = Modifier.weight(1f),
-            )
-            MmMoney(
-                value = expenses,
-                size = 17.sp,
-                weight = FontWeight.SemiBold,
-                currency = currencyCode,
-            )
-        }
-        Spacer(Modifier.height(space.padding_1_25x))
-        HorizontalDivider(color = colors.divider, thickness = 1.dp)
-        Spacer(Modifier.height(space.padding_1_25x))
-        val balance = income - expenses
-        val balanceColor = if (balance >= 0) colors.accent else colors.danger
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
-        ) {
-            SectionLabel(
-                text = stringResource(Res.string.overview_label_balance),
-                modifier = Modifier.weight(1f),
-            )
-            MmMoney(
-                value = kotlin.math.abs(balance),
-                size = 17.sp,
-                weight = FontWeight.SemiBold,
-                color = balanceColor,
-                currency = currencyCode,
-            )
+        when (filter) {
+            SpendingFilter.Income -> {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    Icon(
+                        imageVector = Icon.ArrowDown.imageVector,
+                        contentDescription = null,
+                        tint = colors.accent,
+                        modifier = Modifier.size(MM.dimen.padding_1_5x),
+                    )
+                    SectionLabel(
+                        text = stringResource(Res.string.overview_label_income),
+                        modifier = Modifier.weight(1f),
+                    )
+                    MmMoney(
+                        value = income,
+                        size = 17.sp,
+                        weight = FontWeight.SemiBold,
+                        color = colors.accent,
+                        currency = currencyCode,
+                    )
+                }
+            }
+            SpendingFilter.Expenses -> {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    Icon(
+                        imageVector = Icon.ArrowUp.imageVector,
+                        contentDescription = null,
+                        tint = colors.text,
+                        modifier = Modifier.size(MM.dimen.padding_1_5x),
+                    )
+                    SectionLabel(
+                        text = stringResource(Res.string.overview_label_expenses),
+                        modifier = Modifier.weight(1f),
+                    )
+                    MmMoney(
+                        value = expenses,
+                        size = 17.sp,
+                        weight = FontWeight.SemiBold,
+                        currency = currencyCode,
+                    )
+                }
+            }
+            SpendingFilter.All -> {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    Icon(
+                        imageVector = Icon.ArrowDown.imageVector,
+                        contentDescription = null,
+                        tint = colors.accent,
+                        modifier = Modifier.size(MM.dimen.padding_1_5x),
+                    )
+                    SectionLabel(
+                        text = stringResource(Res.string.overview_label_income),
+                        modifier = Modifier.weight(1f),
+                    )
+                    MmMoney(
+                        value = income,
+                        size = 17.sp,
+                        weight = FontWeight.SemiBold,
+                        color = colors.accent,
+                        currency = currencyCode,
+                    )
+                }
+                Spacer(Modifier.height(space.padding_1_25x))
+                HorizontalDivider(color = colors.divider, thickness = 1.dp)
+                Spacer(Modifier.height(space.padding_1_25x))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    Icon(
+                        imageVector = Icon.ArrowUp.imageVector,
+                        contentDescription = null,
+                        tint = colors.text,
+                        modifier = Modifier.size(MM.dimen.padding_1_5x),
+                    )
+                    SectionLabel(
+                        text = stringResource(Res.string.overview_label_expenses),
+                        modifier = Modifier.weight(1f),
+                    )
+                    MmMoney(
+                        value = expenses,
+                        size = 17.sp,
+                        weight = FontWeight.SemiBold,
+                        currency = currencyCode,
+                    )
+                }
+                Spacer(Modifier.height(space.padding_1_25x))
+                HorizontalDivider(color = colors.divider, thickness = 1.dp)
+                Spacer(Modifier.height(space.padding_1_25x))
+                val balance = income - expenses
+                val balanceColor = if (balance >= 0) colors.accent else colors.danger
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    SectionLabel(
+                        text = stringResource(Res.string.overview_label_balance),
+                        modifier = Modifier.weight(1f),
+                    )
+                    MmMoney(
+                        value = kotlin.math.abs(balance),
+                        size = 17.sp,
+                        weight = FontWeight.SemiBold,
+                        color = balanceColor,
+                        currency = currencyCode,
+                    )
+                }
+            }
         }
     }
 }

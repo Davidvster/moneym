@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.LocalDate
 
-class OverviewPageViewModel(
+internal class OverviewPageViewModel(
     private val period: OverviewPeriod,
     private val transactionRepository: TransactionRepository,
     private val categoryRepository: CategoryRepository,

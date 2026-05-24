@@ -347,6 +347,13 @@ private fun TransactionListHeader(
             }
         }
 
+        MonthNavRow(
+            state = state,
+            onShowMonthPicker = onShowMonthPicker,
+            onPreviousMonth = onPreviousMonth,
+            onNextMonth = onNextMonth,
+        )
+
         MmSegmented(
             options = listOf(
                 stringResource(Res.string.transactions_filter_all),
@@ -364,13 +371,6 @@ private fun TransactionListHeader(
             },
             fillWidth = true,
         )
-
-        MonthNavRow(
-            state = state,
-            onShowMonthPicker = onShowMonthPicker,
-            onPreviousMonth = onPreviousMonth,
-            onNextMonth = onNextMonth,
-        )
     }
 }
 
@@ -384,8 +384,31 @@ private fun MonthNavRow(
     val colors = MM.colors
     val type = MM.type
     val label = monthLabel(state.currentMonth.year, state.currentMonth.monthNumber)
-    val netDouble = state.netAmount / 100.0
     val canGoBack = state.currentPage > 0
+
+    val displayAmount: Double
+    val displayLabel: String
+    val displayColor: androidx.compose.ui.graphics.Color
+    val displaySign: String
+    when (val f = state.activeFilter) {
+        is TransactionFilter.ByType -> if (f.type == TransactionType.EXPENSE) {
+            displayAmount = state.totalExpenses / 100.0
+            displayLabel = stringResource(Res.string.transactions_filter_expenses)
+            displayColor = colors.text
+            displaySign = ""
+        } else {
+            displayAmount = state.totalIncome / 100.0
+            displayLabel = stringResource(Res.string.transactions_filter_income)
+            displayColor = colors.accent
+            displaySign = ""
+        }
+        else -> {
+            displayAmount = state.netAmount / 100.0
+            displayLabel = stringResource(Res.string.transactions_net_label)
+            displayColor = if (state.netAmount >= 0) colors.accent else colors.text
+            displaySign = if (state.netAmount >= 0) "+" else "−"
+        }
+    }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -428,15 +451,15 @@ private fun MonthNavRow(
         Spacer(modifier = Modifier.weight(1f))
         Column(horizontalAlignment = Alignment.End) {
             Text(
-                text = stringResource(Res.string.transactions_net_label),
+                text = displayLabel,
                 style = type.micro.copy(color = colors.text3),
             )
             MmMoney(
-                value = netDouble,
-                sign = if (state.netAmount >= 0) "+" else "−",
+                value = displayAmount,
+                sign = displaySign,
                 size = 17.sp,
                 weight = FontWeight.SemiBold,
-                color = if (state.netAmount >= 0) colors.accent else colors.text,
+                color = displayColor,
                 currency = state.netCurrency,
             )
         }

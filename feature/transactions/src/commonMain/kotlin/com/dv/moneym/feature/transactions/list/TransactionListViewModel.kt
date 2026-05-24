@@ -72,9 +72,13 @@ class TransactionListViewModel(
                     transactions.filter { it.accountId.value == selectedAccId }
                 } else transactions
 
-                val netMinor = accountFilteredTxns.sumOf { tx ->
-                    if (tx.type == TransactionType.INCOME) tx.amount.minorUnits else -tx.amount.minorUnits
-                }
+                val incomeMinor = accountFilteredTxns
+                    .filter { it.type == TransactionType.INCOME }
+                    .sumOf { it.amount.minorUnits }
+                val expenseMinor = accountFilteredTxns
+                    .filter { it.type == TransactionType.EXPENSE }
+                    .sumOf { it.amount.minorUnits }
+                val netMinor = incomeMinor - expenseMinor
                 val selectedAccount = if (selectedAccId > 0L) {
                     accounts.find { it.id.value == selectedAccId }
                 } else {
@@ -88,6 +92,8 @@ class TransactionListViewModel(
                     currentMonth = base.month,
                     availableCategories = base.categories,
                     netAmount = netMinor,
+                    totalIncome = incomeMinor,
+                    totalExpenses = expenseMinor,
                     netCurrency = netCurrency,
                     selectedAccount = selectedAccount,
                     availableAccounts = accounts.filter { !it.archived },
