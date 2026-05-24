@@ -6,7 +6,7 @@ Tracks the 6-phase quality refactor described in `/Users/davidvalic/.claude/plan
 |------:|-------|------|--------|-------|
 | 1 | done | 2026-05-24 | 8e91da5 | Seed/UiState/xLabels hardcoded values removed; null-safe UiState; fakes fixed; OverviewPageViewModel opened |
 | 2 | done | 2026-05-24 | 08e8ef9 | All 11 VMs intent-only; new Intent sealed for Settings/Currency/Language/TxListDisplay |
-| 3 | pending |  |  | Move remember-state into VMs |
+| 3 | done | 2026-05-24 | 77c0603 | Lifted 6 screens' domain remember-state into VM + Intent; validation moved back to VM |
 | 4 | pending |  |  | Split long functions, extract use cases |
 | 5 | pending |  |  | Fix + add unit tests |
 | 6 | pending |  |  | Android + iOS final build verify |
