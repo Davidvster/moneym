@@ -28,4 +28,10 @@ class FakeAccountRepository : AccountRepository {
     override suspend fun update(account: Account) {
         _accounts.update { list -> list.map { if (it.id == account.id) account else it } }
     }
+    override suspend fun delete(id: AccountId) {
+        _accounts.update { list -> list.filter { it.id != id } }
+    }
+    override suspend fun deleteAll() {
+        _accounts.value = emptyList()
+    }
 }

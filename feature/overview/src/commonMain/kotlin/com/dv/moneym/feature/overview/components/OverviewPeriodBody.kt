@@ -56,11 +56,14 @@ import moneym.feature.overview.generated.resources.overview_avg_month
 import moneym.feature.overview.generated.resources.overview_cat_avg_day
 import moneym.feature.overview.generated.resources.overview_cat_avg_month
 import moneym.feature.overview.generated.resources.overview_daily_trend
+import moneym.feature.overview.generated.resources.overview_month_x_labels
 import moneym.feature.overview.generated.resources.overview_monthly_trend
 import moneym.feature.overview.generated.resources.overview_no_expenses
 import moneym.feature.overview.generated.resources.overview_spending_by_category
 import moneym.feature.overview.generated.resources.overview_tx_count_plural
 import moneym.feature.overview.generated.resources.overview_tx_count_singular
+import moneym.feature.overview.generated.resources.overview_year_x_labels
+import org.jetbrains.compose.resources.stringArrayResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -117,7 +120,7 @@ internal fun OverviewPeriodBody(
                 CategoryTrendsCard(
                     trends = state.categoryDailyTrend,
                     highlightIndex = state.todayIndex,
-                    xLabels = listOf("1", "8", "15", "22", "31"),
+                    xLabels = stringArrayResource(Res.array.overview_month_x_labels),
                     title = stringResource(Res.string.overview_daily_trend),
                     showBars = false,
                     currencyCode = currencyCode,
@@ -135,7 +138,7 @@ internal fun OverviewPeriodBody(
                 CategoryTrendsCard(
                     trends = state.categoryMonthlyTrend,
                     highlightIndex = state.currentMonthIndex,
-                    xLabels = listOf("Jan", "Apr", "Jul", "Oct", "Dec"),
+                    xLabels = stringArrayResource(Res.array.overview_year_x_labels),
                     title = stringResource(Res.string.overview_monthly_trend),
                     showBars = true,
                     currencyCode = currencyCode,

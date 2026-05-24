@@ -23,7 +23,8 @@ val dataCategoriesModule = module {
 
 val dataAccountsModule = module {
     single<AccountRepository> { createAccountRepository(get<AccountsRoomDatabase>()) }
-    single { SeedAccountsUseCase(get(), get()) }
+    // TODO: localize via composeResources once a shared resource loader exists
+    single { SeedAccountsUseCase(get(), get(), get(), "Main") }
 }
 
 val dataTransactionsModule = module {

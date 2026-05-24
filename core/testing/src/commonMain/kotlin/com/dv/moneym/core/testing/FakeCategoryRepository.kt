@@ -31,4 +31,7 @@ class FakeCategoryRepository : CategoryRepository {
     override suspend fun delete(id: CategoryId) {
         _categories.update { list -> list.filter { it.id != id } }
     }
+    override suspend fun deleteAll() {
+        _categories.value = emptyList()
+    }
 }

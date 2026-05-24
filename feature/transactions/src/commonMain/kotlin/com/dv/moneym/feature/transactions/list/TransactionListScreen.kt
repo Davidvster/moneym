@@ -70,6 +70,8 @@ import com.dv.moneym.feature.transactions.list.components.DayGroupHeader
 import com.dv.moneym.feature.transactions.list.components.MonthPickerDialog
 import com.dv.moneym.feature.transactions.list.components.WalletSwitcherDialog
 import com.dv.moneym.feature.transactions.list.components.monthLabel
+import com.dv.moneym.feature.transactions.list.page.TransactionPageScreen
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.number
 import kotlinx.serialization.Serializable
 import moneym.feature.transactions.generated.resources.Res
@@ -137,14 +139,17 @@ private fun TransactionListContent(
     var showCategoryFilter by remember { mutableStateOf(false) }
     var initialScrollDone by remember { mutableStateOf(false) }
 
-    val anchor = state.earliestMonth ?: YearMonth(state.today.year, state.today.month.number)
+    val today = state.today ?: return  // wait for first VM emission
+    val currentMonth = state.currentMonth ?: return
+
+    val anchor = state.earliestMonth ?: YearMonth(today.year, today.month.number)
 
     if (showMonthPicker) {
         val minYear = state.earliestMonth?.year
         val minMonth = state.earliestMonth?.monthNumber
         MonthPickerDialog(
-            currentYear = state.currentMonth.year,
-            currentMonth = state.currentMonth.monthNumber,
+            currentYear = currentMonth.year,
+            currentMonth = currentMonth.monthNumber,
             minYear = minYear,
             minMonth = minMonth,
             onDismiss = { showMonthPicker = false },
@@ -185,7 +190,7 @@ private fun TransactionListContent(
     // Pager fully settled → tell VM which month is visible
     LaunchedEffect(pagerState.settledPage) {
         val newMonth = pageToYearMonth(pagerState.settledPage, anchor)
-        if (newMonth != state.currentMonth) {
+        if (newMonth != currentMonth) {
             onIntent(TransactionListIntent.MonthSelected(newMonth))
         }
     }
@@ -383,7 +388,8 @@ private fun MonthNavRow(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val label = monthLabel(state.currentMonth.year, state.currentMonth.monthNumber)
+    val currentMonth = state.currentMonth ?: return
+    val label = monthLabel(currentMonth.year, currentMonth.monthNumber)
     val canGoBack = state.currentPage > 0
 
     val displayAmount: Double
@@ -581,7 +587,10 @@ private fun TransactionListFooter(
 private fun TransactionListScreenPreview() {
     MoneyMTheme {
         TransactionListContent(
-            state = TransactionListUiState(),
+            state = TransactionListUiState(
+                currentMonth = YearMonth(2026, 1),
+                today = LocalDate(2026, 1, 1),
+            ),
             onIntent = {},
             onAddTransaction = {},
             onEditTransaction = {},

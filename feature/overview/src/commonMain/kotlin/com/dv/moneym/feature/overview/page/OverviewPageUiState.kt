@@ -11,7 +11,7 @@ import com.dv.moneym.feature.overview.SpendingFilter
 internal data class OverviewPageUiState(
     val isLoading: Boolean = true,
     val isEmpty: Boolean = false,
-    val period: OverviewPeriod = OverviewPeriod.Month(YearMonth(2026, 1)),
+    val period: OverviewPeriod? = null,
     val income: Double = 0.0,
     val expenses: Double = 0.0,
     val categoryBreakdown: List<CategorySpend> = emptyList(),

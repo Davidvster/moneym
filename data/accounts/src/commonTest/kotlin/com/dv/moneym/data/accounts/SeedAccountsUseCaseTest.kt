@@ -2,20 +2,27 @@ package com.dv.moneym.data.accounts
 
 import com.dv.moneym.core.testing.FakeAccountRepository
 import com.dv.moneym.core.testing.FakeAppSettings
+import com.dv.moneym.core.testing.FixedClock
 import com.dv.moneym.core.testing.runTestWithDispatchers
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlin.time.Instant
 
 class SeedAccountsUseCaseTest {
 
-    private fun makeUseCase(settings: FakeAppSettings = FakeAppSettings()) =
-        SeedAccountsUseCase(FakeAccountRepository(), settings)
+    private val fakeClock = FixedClock(Instant.fromEpochMilliseconds(1_700_000_000_000))
+
+    private fun makeUseCase(
+        repo: FakeAccountRepository = FakeAccountRepository(),
+        settings: FakeAppSettings = FakeAppSettings(),
+        name: String = "Main",
+    ) = SeedAccountsUseCase(repo, settings, fakeClock, name)
 
     @Test
     fun seedsOneDefaultAccountOnFirstRun() = runTestWithDispatchers {
         val repo = FakeAccountRepository()
-        val useCase = SeedAccountsUseCase(repo, FakeAppSettings())
+        val useCase = SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, "Main")
 
         useCase()
 
@@ -26,7 +33,7 @@ class SeedAccountsUseCaseTest {
     @Test
     fun doesNotSeedWhenAccountAlreadyExists() = runTestWithDispatchers {
         val repo = FakeAccountRepository()
-        val useCase = SeedAccountsUseCase(repo, FakeAppSettings())
+        val useCase = SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, "Main")
 
         useCase()
         useCase()
@@ -39,7 +46,7 @@ class SeedAccountsUseCaseTest {
         val repo = FakeAccountRepository()
         val settings = FakeAppSettings()
         settings.putString("pref.default_currency", "USD")
-        val useCase = SeedAccountsUseCase(repo, settings)
+        val useCase = SeedAccountsUseCase(repo, settings, fakeClock, "Main")
 
         useCase()
 
@@ -49,10 +56,18 @@ class SeedAccountsUseCaseTest {
     @Test
     fun fallsBackToEurWhenNoCurrencySet() = runTestWithDispatchers {
         val repo = FakeAccountRepository()
-        val useCase = SeedAccountsUseCase(repo, FakeAppSettings())
+        val useCase = SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, "Main")
 
         useCase()
 
         assertEquals("EUR", repo.accounts.first().currency.value)
+    }
+
+    @Test
+    fun usesProvidedDefaultName() = runTestWithDispatchers {
+        val repo = FakeAccountRepository()
+        val useCase = SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, "Wallet")
+        useCase()
+        assertEquals("Wallet", repo.accounts.first().name)
     }
 }

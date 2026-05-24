@@ -24,7 +24,7 @@ internal fun pageToYearMonth(page: Int, anchor: YearMonth): YearMonth {
 
 @Serializable
 internal data class TransactionListUiState(
-    val currentMonth: YearMonth = YearMonth(2026, 1),
+    val currentMonth: YearMonth? = null,
     val activeFilter: TransactionFilter = TransactionFilter.None,
     val availableCategories: List<Category> = emptyList(),
     val netAmount: Long = 0L,
@@ -39,7 +39,7 @@ internal data class TransactionListUiState(
     val pageCount: Int = 121,
     // null = no transactions yet → no min-date restriction in MonthPicker
     val earliestMonth: YearMonth? = null,
-    val today: LocalDate = LocalDate(2026, 1, 1),
+    val today: LocalDate? = null,
     // Category filter — managed in VM via TransactionListEphemeralState
     val selectedCategoryIds: Set<CategoryId> = emptySet(),
 )

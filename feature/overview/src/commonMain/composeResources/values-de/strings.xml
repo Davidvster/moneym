@@ -60,4 +60,18 @@
     <string name="overview_date_range_title">Zeitraum wählen</string>
     <string name="overview_date_range_from">VON</string>
     <string name="overview_date_range_to">BIS</string>
+    <string-array name="overview_year_x_labels">
+        <item>Jan</item>
+        <item>Apr</item>
+        <item>Jul</item>
+        <item>Okt</item>
+        <item>Dez</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
 </resources>

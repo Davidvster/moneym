@@ -38,6 +38,9 @@ object PrefKeys {
     // Default transaction type for new transactions
     const val DEFAULT_TX_TYPE = "pref.default_tx_type"
 
+    // User default currency for new accounts
+    const val DEFAULT_CURRENCY = "pref.default_currency"
+
     // Payment mode feature toggle
     const val PAYMENT_MODE_ENABLED = "pref.payment_mode_enabled"
 

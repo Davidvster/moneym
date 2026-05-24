@@ -105,7 +105,8 @@ class TransactionListViewModel(
         .combine(_filter) { state, filter -> state.copy(activeFilter = filter) }
         .combine(_earliestMonth) { state, earliestMonth ->
             val anchor = earliestMonth ?: YearMonth(today.year, today.month.number)
-            val currentPage = yearMonthToPage(state.currentMonth, anchor)
+            val currentMonth = state.currentMonth ?: YearMonth(today.year, today.month.number)
+            val currentPage = yearMonthToPage(currentMonth, anchor)
             val todayPage = yearMonthToPage(YearMonth(today.year, today.month.number), anchor)
             state.copy(
                 earliestMonth = earliestMonth,
@@ -118,7 +119,7 @@ class TransactionListViewModel(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = TransactionListUiState(today = today),
+            initialValue = TransactionListUiState(),
         )
 
     private fun init() {

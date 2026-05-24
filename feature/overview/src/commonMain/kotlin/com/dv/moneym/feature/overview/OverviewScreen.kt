@@ -64,9 +64,12 @@ private fun OverviewContent(
 ) {
     val colors = MM.colors
     val monthNames = localizedMonthNames()
-    val isMonthMode = state.currentPeriod is OverviewPeriod.Month
-    val isYearMode = state.currentPeriod is OverviewPeriod.Year
-    val periodLabel = when (val p = state.currentPeriod) {
+    val currentPeriod = state.currentPeriod ?: return
+    val monthAnchor = state.monthAnchor ?: return
+    val yearAnchor = state.yearAnchor ?: return
+    val isMonthMode = currentPeriod is OverviewPeriod.Month
+    val isYearMode = currentPeriod is OverviewPeriod.Year
+    val periodLabel = when (val p = currentPeriod) {
         is OverviewPeriod.Month -> "${monthNames[p.yearMonth.monthNumber - 1]} ${p.yearMonth.year}"
         is OverviewPeriod.Year -> p.year.toString()
         is OverviewPeriod.DateRange -> "${
@@ -91,8 +94,8 @@ private fun OverviewContent(
     // Month pager fully settled → tell VM which month is visible
     LaunchedEffect(monthPagerState.settledPage) {
         if (!isMonthMode) return@LaunchedEffect
-        val newMonth = pageToYearMonth(monthPagerState.settledPage, state.monthAnchor)
-        if (OverviewPeriod.Month(newMonth) != state.currentPeriod) {
+        val newMonth = pageToYearMonth(monthPagerState.settledPage, monthAnchor)
+        if (OverviewPeriod.Month(newMonth) != currentPeriod) {
             onIntent(OverviewIntent.MonthPagerSwiped(newMonth))
         }
     }
@@ -112,8 +115,8 @@ private fun OverviewContent(
     // Year pager fully settled → tell VM which year is visible
     LaunchedEffect(yearPagerState.settledPage) {
         if (!isYearMode) return@LaunchedEffect
-        val newYear = pageToYear(yearPagerState.settledPage, state.yearAnchor)
-        if (OverviewPeriod.Year(newYear) != state.currentPeriod) {
+        val newYear = pageToYear(yearPagerState.settledPage, yearAnchor)
+        if (OverviewPeriod.Year(newYear) != currentPeriod) {
             onIntent(OverviewIntent.YearPagerSwiped(newYear))
         }
     }
@@ -136,7 +139,7 @@ private fun OverviewContent(
             .background(colors.bg),
     ) {
         OverviewHeader(
-            period = state.currentPeriod,
+            period = currentPeriod,
             periodLabel = periodLabel,
             spendingFilter = state.spendingFilter,
             onTogglePeriod = { onIntent(OverviewIntent.TogglePeriod) },
@@ -155,7 +158,7 @@ private fun OverviewContent(
                 modifier = Modifier.weight(1f),
             ) { page ->
                 OverviewPageScreen(
-                    period = OverviewPeriod.Month(pageToYearMonth(page, state.monthAnchor)),
+                    period = OverviewPeriod.Month(pageToYearMonth(page, monthAnchor)),
                     spendingFilter = state.spendingFilter,
                     currencyCode = state.currency,
                 )
@@ -166,13 +169,13 @@ private fun OverviewContent(
                 modifier = Modifier.weight(1f),
             ) { page ->
                 OverviewPageScreen(
-                    period = OverviewPeriod.Year(pageToYear(page, state.yearAnchor)),
+                    period = OverviewPeriod.Year(pageToYear(page, yearAnchor)),
                     spendingFilter = state.spendingFilter,
                     currencyCode = state.currency,
                 )
             }
             else -> OverviewPageScreen(
-                period = state.currentPeriod,
+                period = currentPeriod,
                 spendingFilter = state.spendingFilter,
                 currencyCode = state.currency,
                 modifier = Modifier.weight(1f),
@@ -185,8 +188,7 @@ private fun OverviewContent(
         )
 
         if (showPeriodPicker) {
-            if (isMonthMode) {
-                val currentPeriod = state.currentPeriod
+            if (currentPeriod is OverviewPeriod.Month) {
                 OverviewMonthPickerDialog(
                     currentYear = currentPeriod.yearMonth.year,
                     currentMonth = currentPeriod.yearMonth.monthNumber,
@@ -202,8 +204,7 @@ private fun OverviewContent(
                         showPeriodPicker = false
                     },
                 )
-            } else if (state.currentPeriod is OverviewPeriod.Year) {
-                val currentPeriod = state.currentPeriod
+            } else if (currentPeriod is OverviewPeriod.Year) {
                 OverviewYearPickerDialog(
                     currentYear = currentPeriod.year,
                     minYear = state.minSelectableDateIso?.let { LocalDate.parse(it).year },
@@ -217,12 +218,12 @@ private fun OverviewContent(
         }
 
         if (showDateRangePicker) {
-            val initStart = when (val p = state.currentPeriod) {
+            val initStart = when (val p = currentPeriod) {
                 is OverviewPeriod.DateRange -> Triple(p.startYear, p.startMonth, p.startDay)
                 is OverviewPeriod.Month -> Triple(p.yearMonth.year, p.yearMonth.monthNumber, 1)
                 is OverviewPeriod.Year -> Triple(p.year, 1, 1)
             }
-            val initEnd = when (val p = state.currentPeriod) {
+            val initEnd = when (val p = currentPeriod) {
                 is OverviewPeriod.DateRange -> Triple(p.endYear, p.endMonth, p.endDay)
                 is OverviewPeriod.Month -> Triple(
                     p.yearMonth.year,

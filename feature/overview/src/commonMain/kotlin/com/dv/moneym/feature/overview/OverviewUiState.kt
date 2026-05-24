@@ -78,15 +78,15 @@ internal fun pageToYear(page: Int, anchorYear: Int): Int = anchorYear + page
 
 @Serializable
 internal data class OverviewUiState(
-    val currentPeriod: OverviewPeriod = OverviewPeriod.Month(YearMonth(2026, 1)),
+    val currentPeriod: OverviewPeriod? = null,
     val canGoBack: Boolean = true,
     val spendingFilter: SpendingFilter = SpendingFilter.Expenses,
     // Month pager
-    val monthAnchor: YearMonth = YearMonth(2026, 1),
+    val monthAnchor: YearMonth? = null,
     val monthCurrentPage: Int = 0,
     val monthPageCount: Int = 121,
     // Year pager
-    val yearAnchor: Int = 2026,
+    val yearAnchor: Int? = null,
     val yearCurrentPage: Int = 0,
     val yearPageCount: Int = 11,
     // Date pickers

@@ -60,4 +60,18 @@
     <string name="overview_date_range_title">Seleziona intervallo</string>
     <string name="overview_date_range_from">DA</string>
     <string name="overview_date_range_to">A</string>
+    <string-array name="overview_year_x_labels">
+        <item>Gen</item>
+        <item>Apr</item>
+        <item>Lug</item>
+        <item>Ott</item>
+        <item>Dic</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
 </resources>
