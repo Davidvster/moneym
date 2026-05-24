@@ -9,4 +9,4 @@ Tracks the 6-phase quality refactor described in `/Users/davidvalic/.claude/plan
 | 3 | done | 2026-05-24 | 77c0603 | Lifted 6 screens' domain remember-state into VM + Intent; validation moved back to VM |
 | 4 | done | 2026-05-24 | b0697fb | 6 use cases extracted; big composables split; OverviewPageVM 435->226 |
 | 5 | done | 2026-05-24 | 3be8a33 | Fixed 3 broken tests + 1 new usecase test; testDebugUnitTest green; broad coverage deferred |
-| 6 | pending |  |  | Android + iOS final build verify |
+| 6 | done | 2026-05-24 | (this commit) | Clean Android assembleDebug + iOS framework link + iosSimulatorArm64Test + xcodebuild iosApp all green |
