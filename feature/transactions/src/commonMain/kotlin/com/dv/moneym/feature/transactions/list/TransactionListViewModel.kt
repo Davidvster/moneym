@@ -34,11 +34,12 @@ class TransactionListViewModel(
     private val accountRepository: AccountRepository,
     private val appSettingsRepository: AppSettingsRepository,
     private val ephemeralState: TransactionListEphemeralState,
-    clock: AppClock,
+    private val clock: AppClock,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    internal val today = clock.today()
+    internal val today
+        get() = clock.today()
 
     private val _currentMonth by savedStateHandle.saved {
         MutableStateFlow(YearMonth(today.year, today.month.number))
