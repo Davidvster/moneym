@@ -104,6 +104,10 @@ Default categories (groceries, eating out, rent, transport, etc.) are seeded by 
 - DB-level failures bubble up as `SqlException` — let them propagate; we catch and log at the app shell, then show a generic error state.
 - Validation belongs to UseCases / domain (e.g. "amount must be > 0"), not to the repository.
 
+## Fakes (in `core:testing`) must mirror the interface
+
+Every `*Repository` interface in `data/` has a hand-written `Fake*Repository` in `core/testing/src/commonMain/.../`. Whenever you add or remove a method on the interface, update the fake in the **same change** — otherwise every consuming module's `:*:compileDebugUnitTestKotlinAndroid` task fails with `Class 'FakeXRepository' is not abstract and does not implement abstract members`. Same applies to `AppSettingsRepository` ↔ `FakeAppSettingsRepository`. There is no codegen — it's manual.
+
 ## What NOT to put in a data module
 
 - Compose dependencies (UI is upstream)

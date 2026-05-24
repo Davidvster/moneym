@@ -9,7 +9,9 @@ Every screen's presentation logic lives in a ViewModel. We use the multiplatform
 
 ## State shape
 
-UI state is **one immutable data class per screen**, exposed as `StateFlow<UiState>`:
+UI state is **one immutable data class per screen**, exposed as `StateFlow<UiState>`.
+
+**No hardcoded date or year defaults.** Fields like `currentMonth: YearMonth?` and `today: LocalDate?` must be nullable with `null` defaults, populated by the VM from an injected `AppClock` on first emit. Compose screens guard with `?: return` until the first real emission. A literal `YearMonth(2026, 1)` as a state default is a bug — it freezes the UI to that month if the flow stalls. Preview-only defaults inside `@Preview` composables are fine.
 
 ```kotlin
 @Serializable
@@ -45,7 +47,7 @@ class TransactionListViewModel(
     private val _state by savedStateHandle.saved {
         MutableStateFlow(TransactionListUiState())
     }
-    internal val state: StateFlow<SettingsUiState> = _state
+    internal val state: StateFlow<TransactionListUiState> = _state
         .onStart { init() }
         .stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
@@ -93,6 +95,7 @@ The screen collects effects in a `LaunchedEffect` and dispatches them to the nav
 - ViewModels are provided by Koin: `viewModel { TransactionListViewModel(get(), get()) }`.
 - In the screen: `koinViewModel<TransactionListViewModel>()` (from `koin-compose-viewmodel`).
 - Do not put ViewModels in the DI graph manually — always through the Koin `viewModel` DSL so lifecycle is handled.
+- **The VM class must be `public`** (the Kotlin default — do not mark with `internal`) if it is registered in `composeApp/src/commonMain/.../di/FeatureModules.kt`. `composeApp` cannot see an `internal` class declared in a sibling module. Same applies to UseCases registered there.
 
 ## Business logic belongs in the ViewModel — never in the UI
 

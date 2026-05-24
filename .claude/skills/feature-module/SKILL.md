@@ -81,20 +81,16 @@ include(":<kind>:<name>")
 
 We use `enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")`, so the include name is what becomes `projects.<kind>.<name>` in other modules.
 
-## 5. Create a Koin module
+## 5. Koin wiring
 
-Every module that produces injectables exposes a single Koin module:
+This project does **not** use per-module Koin module files. All wiring lives in `composeApp`:
 
-```kotlin
-// commonMain/.../di/<Name>Module.kt
-val <name>Module = module {
-    viewModelOf(::<Name>ViewModel)
-    factoryOf(::<Name>UseCase)
-    // repositories: singleOf(::<Name>RepositoryImpl) bind <Name>Repository::class
-}
-```
+- `composeApp/src/commonMain/.../di/DataModules.kt` — repositories, seeders, `AppClock` (in `coreCommonModule`).
+- `composeApp/src/commonMain/.../di/FeatureModules.kt` — every ViewModel and every UseCase (`viewModel { <Name>ViewModel(get(), get(), ...) }`, `single { <Name>UseCase() }`).
 
-Add the module to `composeApp/.../di/AppModules.kt`. There is one source of truth for the list of modules.
+If you introduce a new feature/data module that exposes injectables, add the registration lines to the appropriate file in `composeApp`. Don't create a `<name>Module.kt` inside the feature module — that's not the convention here.
+
+**ViewModels and UseCases registered in `composeApp` must be `public`.** `composeApp` can't reference an `internal` class across a module boundary; the build fails with `Cannot access 'class X': it is internal in file`. Drop `internal` from any class wired in `FeatureModules.kt`.
 
 ## 6. Wire navigation (feature modules only)
 
@@ -128,15 +124,24 @@ Add a `commonTest` source set with at least one ViewModel test (see the `testing
 
 ```bash
 ./gradlew :<kind>:<name>:compileKotlinMetadata
-./gradlew :<kind>:<name>:allTests
+./gradlew :<kind>:<name>:testDebugUnitTest          # not :allTests by default — slow
 ./gradlew :composeApp:assembleDebug
 ```
 
+The unqualified `compileKotlinAndroid` task is ambiguous between debug/release in KMP — always use `compileDebugKotlinAndroid` / `compileReleaseKotlinAndroid`.
+
 If `assembleDebug` fails after the module is added, the wiring is wrong — usually missing Koin module registration or a missing `include` in `settings.gradle.kts`. Fix immediately; don't move on.
+
+## Use case package convention
+
+Pure logic extracted from a ViewModel lives under `feature/<name>/src/commonMain/kotlin/com/dv/moneym/feature/<name>/usecase/`. Use cases are plain classes constructed by Koin, with `operator fun invoke(...)` (suspending if needed). No Compose / Flow / Coroutine dependencies inside the body — constructor-injected dependencies only. Example: `feature/overview/.../usecase/ResolvePeriodRangeUseCase.kt`.
+
+Register the use case in `composeApp/.../di/FeatureModules.kt` (`single { ResolvePeriodRangeUseCase() }`) and inject it into the consuming VM's constructor.
 
 ## Anti-patterns
 
 - Adding the new module's deps to `composeApp` "to make it work" — `composeApp` only depends on `feature:*` and bootstrap `core:*` modules.
 - Sharing code by importing `feature:a` from `feature:b`. Extract to `core:*` instead.
 - Putting Compose deps in a `data:*` or `core:model` module.
-- Skipping the Koin module and `@Composable`-instantiating a ViewModel.
+- Marking a Koin-registered VM or UseCase `internal` — composeApp can't see it.
+- Declaring a per-module `<name>Module.kt` Koin module — wiring lives in composeApp.

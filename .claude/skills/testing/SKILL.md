@@ -34,6 +34,16 @@ A test goes into `commonTest` by default. Only push it down to a platform source
 
 **MockK is not used** — it does not work on iOS native targets. If a test needs a mock, use Mockative; otherwise write a fake.
 
+## Fake-repository parity rule
+
+When a method is added to a `*Repository` interface under `data/`, the matching override **must** be added to the corresponding fake under `core/testing/Fake*Repository`. Otherwise every consumer's `:*:compileDebugUnitTestKotlinAndroid` task breaks with `Class 'FakeXRepository' is not abstract and does not implement abstract members`. Same applies to `AppSettingsRepository` ↔ `FakeAppSettingsRepository`. CI catches this but it's faster to fix it as part of the same PR that added the method.
+
+## `expect class` blocks `commonTest` faking
+
+If a class is declared `expect class` in `commonMain` (e.g. `core/platform/.../DbPlatform.kt`), it cannot be constructed from `commonTest` — there is no `actual` available in that source set. Anything that depends on such a class transitively (e.g. `DbBackupManager` takes `DbPlatform`) is therefore not unit-testable from common code.
+
+To unblock: redeclare the type as a plain `interface` in `commonMain` and have the platform module provide the implementation. Then a fake works trivially. Use `expect class` only for true expect/actual platform glue that genuinely has no shared shape.
+
 ## Fakes first, mocks second
 
 A fake is a hand-written test double that satisfies the interface and stores state in memory. Prefer fakes when:
