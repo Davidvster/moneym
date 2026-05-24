@@ -61,6 +61,7 @@ import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmSegmented
+import com.dv.moneym.core.ui.MmSegmentedSize
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.core.ui.TxRow
@@ -263,14 +264,14 @@ private fun TransactionListHeader(
         modifier = Modifier.statusBarsPadding().padding(
             start = MM.dimen.padding_2x,
             end = MM.dimen.padding_2x,
-            top = 4.dp,
-            bottom = 4.dp,
+            top = MM.dimen.padding_0_5x,
+            bottom = MM.dimen.padding_0_5x,
         ),
     ) {
         if (isSearchActive) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = 4.dp),
+                modifier = Modifier.padding(bottom = MM.dimen.padding_0_5x),
             ) {
                 MmField(
                     value = state.searchQuery,
@@ -344,13 +345,6 @@ private fun TransactionListHeader(
             }
         }
 
-        MonthNavRow(
-            state = state,
-            onShowMonthPicker = onShowMonthPicker,
-            onPreviousMonth = onPreviousMonth,
-            onNextMonth = onNextMonth,
-        )
-
         MmSegmented(
             options = listOf(
                 stringResource(Res.string.transactions_filter_all),
@@ -367,6 +361,15 @@ private fun TransactionListHeader(
                 onIntent(TransactionListIntent.FilterChanged(filter))
             },
             fillWidth = true,
+            size = MmSegmentedSize.Md,
+            modifier = Modifier.fillMaxWidth().padding(top = MM.dimen.padding_0_5x),
+        )
+
+        MonthNavRow(
+            state = state,
+            onShowMonthPicker = onShowMonthPicker,
+            onPreviousMonth = onPreviousMonth,
+            onNextMonth = onNextMonth,
         )
     }
 }
@@ -386,7 +389,7 @@ private fun MonthNavRow(
 
     val displayAmount: Double
     val displayLabel: String
-    val displayColor: androidx.compose.ui.graphics.Color
+    val displayColor: Color
     val displaySign: String
     when (val f = state.activeFilter) {
         is TransactionFilter.ByType -> if (f.type == TransactionType.EXPENSE) {
@@ -430,7 +433,7 @@ private fun MonthNavRow(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() },
                 ) { onShowMonthPicker() }
-                .padding(horizontal = 4.dp, vertical = 2.dp),
+                .padding(horizontal = MM.dimen.padding_0_5x, vertical = MM.dimen.padding_0_25x),
             contentAlignment = Alignment.Center,
         ) {
             Text(

@@ -106,7 +106,9 @@ internal fun OverviewPeriodBody(
                 inYearMode = inYearMode,
                 filter = spendingFilter,
                 onSliceTapped = { onIntent(OverviewPageIntent.SliceTapped(it)) },
-                modifier = Modifier.padding(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
                     horizontal = space.padding_2x,
                     vertical = space.padding_1_5x
                 ),

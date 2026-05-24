@@ -19,8 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
@@ -52,7 +55,6 @@ internal fun OverviewHeader(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val space = MM.dimen
 
     val isMonthMode = period is OverviewPeriod.Month
     val isYearMode = period is OverviewPeriod.Year
@@ -66,10 +68,10 @@ internal fun OverviewHeader(
 
     Column(
         Modifier.statusBarsPadding().padding(
-            start = space.padding_2x,
-            end = space.padding_2x,
-            top = space.padding_0_5x,
-            bottom = space.padding_1x,
+            start = MM.dimen.padding_2x,
+            end = MM.dimen.padding_2x,
+            top = MM.dimen.padding_0_5x,
+            bottom = MM.dimen.padding_1x,
         ),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -117,35 +119,35 @@ internal fun OverviewHeader(
                     }
                 )
             },
-            size = MmSegmentedSize.Sm,
+            size = MmSegmentedSize.Md,
             fillWidth = true,
-            modifier = Modifier.fillMaxWidth().padding(bottom = space.padding_1x),
+            modifier = Modifier.fillMaxWidth().padding(top = MM.dimen.padding_1x, bottom = MM.dimen.padding_0_5x),
         )
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(top = space.padding_2x),
+            modifier = Modifier.padding(top = MM.dimen.padding_1x),
         ) {
             if (!isRangeMode && canGoBack) {
                 MmIconButton(
                     icon = Icon.ChevronLeft.imageVector,
-                    size = space.padding_4x,
+                    size = MM.dimen.padding_4x,
                     onClick = onPreviousPeriod,
                 )
             } else {
-                Spacer(Modifier.width(space.padding_4x))
+                Spacer(Modifier.width(MM.dimen.padding_4x))
             }
             Box(
                 modifier = Modifier
                     .widthIn(min = 96.dp)
-                    .clip(space.radius_1x)
+                    .clip(MM.dimen.radius_1x)
                     .clickable(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() },
                     ) {
                         if (isRangeMode) onShowDateRangePicker() else onShowPeriodPicker()
                     }
-                    .padding(horizontal = space.padding_0_5x, vertical = space.padding_0_25x),
+                    .padding(horizontal = MM.dimen.padding_0_5x, vertical = MM.dimen.padding_0_25x),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
@@ -158,12 +160,30 @@ internal fun OverviewHeader(
             if (!isRangeMode) {
                 MmIconButton(
                     icon = Icon.ChevronRight.imageVector,
-                    size = space.padding_4x,
+                    size = MM.dimen.padding_4x,
                     onClick = onNextPeriod,
                 )
             } else {
-                Spacer(Modifier.width(space.padding_4x))
+                Spacer(Modifier.width(MM.dimen.padding_4x))
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun OverviewHeaderPreview() {
+    MoneyMTheme {
+        OverviewHeader(
+            period = OverviewPeriod.Month(YearMonth(2024, 3)),
+            periodLabel = "March 2024",
+            spendingFilter = SpendingFilter.Expenses,
+            onTogglePeriod = {},
+            onPreviousPeriod = {},
+            onNextPeriod = {},
+            onShowPeriodPicker = {},
+            onShowDateRangePicker = {},
+            onSpendingFilterChanged = {},
+        )
     }
 }
