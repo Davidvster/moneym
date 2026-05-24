@@ -17,7 +17,7 @@ import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
 import com.dv.moneym.feature.categories.list.CategoryListViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
-import com.dv.moneym.feature.overview.OverviewPageViewModel
+import com.dv.moneym.feature.overview.page.OverviewPageViewModel
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.OverviewViewModel
 import com.dv.moneym.feature.security.setup.PinSetupViewModel
@@ -41,8 +41,7 @@ import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
 import com.dv.moneym.feature.transactions.list.TransactionListEphemeralState
 import com.dv.moneym.feature.transactions.list.TransactionListViewModel
-import com.dv.moneym.feature.transactions.list.TransactionPageViewModel
-import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.feature.transactions.list.page.TransactionPageViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module

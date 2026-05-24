@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.transactions.list
+package com.dv.moneym.feature.transactions.list.page
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,14 +25,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.datetime.LocalDate
-
-internal data class TransactionPageUiState(
-    val isLoading: Boolean = true,
-    val dayGroups: List<DayGroup> = emptyList(),
-    val isEmpty: Boolean = false,
-    val txDisplayPrefs: TxDisplayPrefs = TxDisplayPrefs(),
-)
 
 class TransactionPageViewModel(
     private val yearMonth: YearMonth,
@@ -41,7 +33,7 @@ class TransactionPageViewModel(
     private val accountRepository: AccountRepository,
     private val paymentModeRepository: PaymentModeRepository,
     private val appSettingsRepository: AppSettingsRepository,
-    private val ephemeralState: TransactionListEphemeralState,
+    private val ephemeralState: com.dv.moneym.feature.transactions.list.TransactionListEphemeralState,
 ) : ViewModel() {
 
     private val ephemeralFilters = combine(
@@ -71,7 +63,7 @@ class TransactionPageViewModel(
             transactionRepository.observeFiltered(base.filter).map { all ->
                 all.filter {
                     it.occurredOn.year == yearMonth.year &&
-                        it.occurredOn.monthNumber == yearMonth.monthNumber
+                            it.occurredOn.monthNumber == yearMonth.monthNumber
                 }
             }
         }
@@ -102,7 +94,7 @@ class TransactionPageViewModel(
             val dayGroups = filtered
                 .groupBy { it.occurredOn }
                 .map { (date, txns) ->
-                    DayGroup(
+                    _root_ide_package_.com.dv.moneym.feature.transactions.list.DayGroup(
                         date = date,
                         label = formatDate(date, DateStyle.Full),
                         transactions = txns.map {
@@ -130,7 +122,7 @@ private fun Transaction.toUiModel(
     category: Category?,
     paymentModes: List<PaymentMode>,
     paymentModeEnabled: Boolean,
-) = TransactionUiModel(
+) = _root_ide_package_.com.dv.moneym.feature.transactions.list.TransactionUiModel(
     id = id,
     type = type,
     amountFormatted = amount.format(),

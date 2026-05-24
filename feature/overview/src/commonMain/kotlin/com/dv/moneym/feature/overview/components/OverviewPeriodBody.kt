@@ -46,8 +46,8 @@ import com.dv.moneym.core.ui.MmSegmentedSize
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.overview.CategorySpend
 import com.dv.moneym.feature.overview.CategoryTrend
-import com.dv.moneym.feature.overview.OverviewPageIntent
-import com.dv.moneym.feature.overview.OverviewPageUiState
+import com.dv.moneym.feature.overview.page.OverviewPageIntent
+import com.dv.moneym.feature.overview.page.OverviewPageUiState
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.SpendingFilter
 import moneym.feature.overview.generated.resources.Res

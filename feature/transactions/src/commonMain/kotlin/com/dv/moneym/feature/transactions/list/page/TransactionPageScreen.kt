@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.transactions.list
+package com.dv.moneym.feature.transactions.list.page
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.feature.transactions.list.TransactionListBody
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
