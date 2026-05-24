@@ -1,5 +1,6 @@
 package com.dv.moneym.feature.transactions
 
+import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
@@ -9,13 +10,13 @@ import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
-import androidx.lifecycle.SavedStateHandle
 import com.dv.moneym.core.testing.FakeAccountRepository
 import com.dv.moneym.core.testing.FakeAppSettingsRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.FixedClock
 import com.dv.moneym.core.testing.runTestWithDispatchers
+import com.dv.moneym.feature.transactions.list.TransactionListEphemeralState
 import com.dv.moneym.feature.transactions.list.TransactionListIntent
 import com.dv.moneym.feature.transactions.list.TransactionListViewModel
 import kotlinx.coroutines.Dispatchers
@@ -27,31 +28,31 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import kotlin.test.assertNull
 import kotlin.time.Instant
 
 class TransactionListViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    @BeforeTest
-    fun setUp() { Dispatchers.setMain(testDispatcher) }
-
-    @AfterTest
-    fun tearDown() { Dispatchers.resetMain() }
+    @BeforeTest fun setUp() { Dispatchers.setMain(testDispatcher) }
+    @AfterTest fun tearDown() { Dispatchers.resetMain() }
 
     private val eur = CurrencyCode("EUR")
-    // Use a non-epoch instant so clock.today() returns a real recent date
     private val clockInstant = Instant.parse("2026-05-10T12:00:00Z")
     private val clock = FixedClock(clockInstant)
-    private val today = clock.today()   // derived from clock — always in sync with ViewModel's month
+    private val today = clock.today()
     private val epoch = Instant.fromEpochMilliseconds(0)
     private val catId = CategoryId(1)
     private val accId = AccountId(1)
 
-    private fun makeTxn(date: LocalDate = today, amount: Long = 500) = Transaction(
+    private fun makeTxn(
+        date: LocalDate = today,
+        amount: Long = 500,
+        type: TransactionType = TransactionType.EXPENSE,
+    ) = Transaction(
         id = UNSAVED_TRANSACTION_ID,
-        type = TransactionType.EXPENSE,
+        type = type,
         amount = Money(amount, eur),
         occurredOn = date,
         note = null,
@@ -61,67 +62,83 @@ class TransactionListViewModelTest {
         updatedAt = epoch,
     )
 
+    private fun makeVm(
+        txnRepo: FakeTransactionRepository = FakeTransactionRepository(),
+        catRepo: FakeCategoryRepository = FakeCategoryRepository(),
+        accRepo: FakeAccountRepository = FakeAccountRepository(),
+        settings: FakeAppSettingsRepository = FakeAppSettingsRepository(),
+    ) = TransactionListViewModel(
+        transactionRepository = txnRepo,
+        categoryRepository = catRepo,
+        accountRepository = accRepo,
+        appSettingsRepository = settings,
+        ephemeralState = TransactionListEphemeralState(),
+        clock = clock,
+        savedStateHandle = SavedStateHandle(),
+    )
+
     @Test
-    fun initialStateIsLoading() {
-        val vm = TransactionListViewModel(
-            transactionRepository = FakeTransactionRepository(),
-            categoryRepository = FakeCategoryRepository(),
-            accountRepository = FakeAccountRepository(),
-            appSettingsRepository = FakeAppSettingsRepository(),
-            clock = clock,
-            savedStateHandle = SavedStateHandle(),
-        )
-        assertTrue(vm.state.value.isLoading)
+    fun initialStateHasNullCurrentMonth() {
+        val vm = makeVm()
+        assertNull(vm.state.value.currentMonth)
     }
 
     @Test
-    fun transactionsForCurrentMonthAppearInState() = runTestWithDispatchers {
-        val txnRepo = FakeTransactionRepository()
-        val catRepo = FakeCategoryRepository()
-        val vm = TransactionListViewModel(txnRepo, catRepo, FakeAccountRepository(), FakeAppSettingsRepository(), clock, SavedStateHandle())
-
-        val id = txnRepo.upsert(makeTxn(today))
-
+    fun loadedStateUsesClockMonth() = runTestWithDispatchers {
+        val vm = makeVm()
         vm.state.test {
-            // skip loading state
-            val loaded = awaitItem().takeIf { !it.isLoading } ?: awaitItem()
-            assertEquals(1, loaded.dayGroups.sumOf { it.transactions.size })
+            var s = awaitItem()
+            while (s.currentMonth == null) s = awaitItem()
+            assertEquals(today.year, s.currentMonth!!.year)
+            assertEquals(today.month.ordinal + 1, s.currentMonth!!.monthNumber)
             cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
-    fun filterByTypeRemovesNonMatchingTransactions() = runTestWithDispatchers {
+    fun totalsSplitIncomeAndExpense() = runTestWithDispatchers {
         val txnRepo = FakeTransactionRepository()
-        val catRepo = FakeCategoryRepository()
-        val vm = TransactionListViewModel(txnRepo, catRepo, FakeAccountRepository(), FakeAppSettingsRepository(), clock, SavedStateHandle())
+        val vm = makeVm(txnRepo = txnRepo)
 
-        txnRepo.upsert(makeTxn())
-        txnRepo.upsert(makeTxn().copy(type = TransactionType.INCOME))
+        txnRepo.upsert(makeTxn(amount = 300, type = TransactionType.EXPENSE))
+        txnRepo.upsert(makeTxn(amount = 700, type = TransactionType.INCOME))
 
         vm.state.test {
-            // skip to loaded state
-            var state = awaitItem()
-            while (state.isLoading) state = awaitItem()
+            var s = awaitItem()
+            while (s.currentMonth == null || (s.totalExpenses == 0L && s.totalIncome == 0L)) {
+                s = awaitItem()
+            }
+            assertEquals(300L, s.totalExpenses)
+            assertEquals(700L, s.totalIncome)
+            assertEquals(400L, s.netAmount)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
 
-            // apply expense filter
+    @Test
+    fun filterChangedUpdatesActiveFilter() = runTestWithDispatchers {
+        val vm = makeVm()
+        vm.state.test {
+            var s = awaitItem()
+            while (s.currentMonth == null) s = awaitItem()
             vm.onIntent(TransactionListIntent.FilterChanged(TransactionFilter.ByType(TransactionType.EXPENSE)))
-            val filtered = awaitItem()
-            val txns = filtered.dayGroups.flatMap { it.transactions }
-            assertTrue(txns.all { it.isExpense })
+            var after = awaitItem()
+            while (after.activeFilter !is TransactionFilter.ByType) after = awaitItem()
+            assertEquals(TransactionFilter.ByType(TransactionType.EXPENSE), after.activeFilter)
             cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
-    fun previousMonthNavigationDecreasesMonth() = runTestWithDispatchers {
-        val vm = TransactionListViewModel(FakeTransactionRepository(), FakeCategoryRepository(), FakeAccountRepository(), FakeAppSettingsRepository(), clock, SavedStateHandle())
+    fun previousMonthDecreasesCurrentMonth() = runTestWithDispatchers {
+        val vm = makeVm()
         vm.state.test {
-            var state = awaitItem()
-            while (state.isLoading) state = awaitItem()
-            val before = state.currentMonth
+            var s = awaitItem()
+            while (s.currentMonth == null) s = awaitItem()
+            val before = s.currentMonth!!
             vm.onIntent(TransactionListIntent.PreviousMonth)
-            val after = awaitItem()
+            var after = awaitItem()
+            while (after.currentMonth == before) after = awaitItem()
             assertEquals(before.previous(), after.currentMonth)
             cancelAndIgnoreRemainingEvents()
         }
