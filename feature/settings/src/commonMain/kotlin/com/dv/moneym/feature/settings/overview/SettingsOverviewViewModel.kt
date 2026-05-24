@@ -33,15 +33,23 @@ class SettingsOverviewViewModel(
     val paymentModeEnabled: StateFlow<Boolean> = appSettingsRepository.observePaymentModeEnabled()
         .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
-    fun setThemeMode(mode: ThemeMode) {
+    fun onIntent(intent: SettingsOverviewIntent) {
+        when (intent) {
+            is SettingsOverviewIntent.SetThemeMode -> setThemeMode(intent.mode)
+            is SettingsOverviewIntent.SetDefaultTransactionType -> setDefaultTransactionType(intent.type)
+            is SettingsOverviewIntent.SetPaymentModeEnabled -> setPaymentModeEnabled(intent.enabled)
+        }
+    }
+
+    private fun setThemeMode(mode: ThemeMode) {
         viewModelScope.launch { appSettingsRepository.setThemeMode(mode) }
     }
 
-    fun setDefaultTransactionType(type: TransactionType) {
+    private fun setDefaultTransactionType(type: TransactionType) {
         viewModelScope.launch { appSettingsRepository.setDefaultTransactionType(type) }
     }
 
-    fun setPaymentModeEnabled(enabled: Boolean) {
+    private fun setPaymentModeEnabled(enabled: Boolean) {
         viewModelScope.launch { appSettingsRepository.setPaymentModeEnabled(enabled) }
     }
 }

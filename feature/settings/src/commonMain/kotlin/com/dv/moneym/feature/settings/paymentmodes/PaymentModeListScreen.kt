@@ -60,13 +60,13 @@ internal fun PaymentModeListScreen(
     PaymentModeListContent(
         state = state,
         onBack = onBack,
-        onAddClick = { viewModel.showAddDialog() },
-        onRenameClick = { mode -> viewModel.showRenameDialog(mode.id, mode.name) },
-        onDeleteClick = { mode -> viewModel.showDeleteConfirm(mode.id, mode.name) },
-        onDismissDialog = { viewModel.dismissDialog() },
-        onConfirmCreate = { name -> viewModel.createMode(name) },
-        onConfirmRename = { id, name -> viewModel.renameMode(id, name) },
-        onConfirmDelete = { id -> viewModel.deleteMode(id) },
+        onAddClick = { viewModel.onIntent(PaymentModeListIntent.ShowAdd) },
+        onRenameClick = { mode -> viewModel.onIntent(PaymentModeListIntent.ShowRename(mode.id, mode.name)) },
+        onDeleteClick = { mode -> viewModel.onIntent(PaymentModeListIntent.ShowDelete(mode.id, mode.name)) },
+        onDismissDialog = { viewModel.onIntent(PaymentModeListIntent.Dismiss) },
+        onConfirmCreate = { name -> viewModel.onIntent(PaymentModeListIntent.Create(name)) },
+        onConfirmRename = { id, name -> viewModel.onIntent(PaymentModeListIntent.Rename(id, name)) },
+        onConfirmDelete = { id -> viewModel.onIntent(PaymentModeListIntent.Delete(id)) },
     )
 }
 

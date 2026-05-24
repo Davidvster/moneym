@@ -68,15 +68,31 @@ fun CategoryListScreen(
         categories = state.orderedCategories,
         activeTab = state.activeTab,
         onBack = onBack,
-        onSetTab = { viewModel.setTab(it) },
-        onReorder = { from, to -> viewModel.reorder(from, to) },
+        onSetTab = { viewModel.onIntent(CategoryListIntent.SetTab(it)) },
+        onReorder = { from, to -> viewModel.onIntent(CategoryListIntent.Reorder(from, to)) },
         onCreateCategory = { name, icon, colorHex ->
-            viewModel.createCategory(name, icon, colorHex)
+            val trimmed = name.trim()
+            if (trimmed.isBlank()) {
+                false
+            } else if (state.active.any { it.name.equals(trimmed, ignoreCase = true) }) {
+                false
+            } else {
+                viewModel.onIntent(CategoryListIntent.CreateCategory(name, icon, colorHex))
+                true
+            }
         },
         onUpdateCategory = { id, name, icon, colorHex ->
-            viewModel.updateCategory(id, name, icon, colorHex)
+            val trimmed = name.trim()
+            if (trimmed.isBlank()) {
+                false
+            } else if (state.active.any { it.id != id && it.name.equals(trimmed, ignoreCase = true) }) {
+                false
+            } else {
+                viewModel.onIntent(CategoryListIntent.UpdateCategory(id, name, icon, colorHex))
+                true
+            }
         },
-        onDeleteCategory = { id -> viewModel.deleteCategory(id) },
+        onDeleteCategory = { id -> viewModel.onIntent(CategoryListIntent.DeleteCategory(id)) },
     )
 }
 

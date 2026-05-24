@@ -16,6 +16,7 @@ import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingKey
 import com.dv.moneym.feature.onboarding.currency.onboardingCurrencyEntry
 import com.dv.moneym.feature.onboarding.pin.OnboardingPinSetupKey
+import com.dv.moneym.feature.onboarding.security.OnboardingSecurityIntent
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityKey
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
 import com.dv.moneym.feature.onboarding.security.onboardingSecurityEntry
@@ -78,7 +79,7 @@ internal fun OnboardingNav() {
             entry<OnboardingPinSetupKey> {
                 PinSetupScreen(
                     onDone = {
-                        securityVm.onReturnFromPinSetup()
+                        securityVm.onIntent(OnboardingSecurityIntent.ReturnFromPinSetup)
                         backStack.removeLastOrNull()
                     },
                 )

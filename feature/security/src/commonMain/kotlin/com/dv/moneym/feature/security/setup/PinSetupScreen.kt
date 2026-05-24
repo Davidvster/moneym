@@ -75,7 +75,7 @@ fun PinSetupScreen(
     var showBiometricOffer by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        viewModel.reset()
+        viewModel.onIntent(PinSetupIntent.Reset)
         viewModel.effects.collect { effect ->
             when (effect) {
                 PinSetupEffect.Done -> onDone()

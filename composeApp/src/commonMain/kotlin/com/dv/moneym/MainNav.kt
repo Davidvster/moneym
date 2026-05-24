@@ -24,6 +24,7 @@ import com.dv.moneym.feature.security.setup.PinSetupKey
 import com.dv.moneym.feature.security.setup.pinSetupEntry
 import com.dv.moneym.feature.settings.overview.LanguagePickerKey
 import com.dv.moneym.feature.settings.overview.PaymentModeListKey
+import com.dv.moneym.feature.settings.overview.SecuritySettingsIntent
 import com.dv.moneym.feature.settings.overview.SecuritySettingsViewModel
 import com.dv.moneym.feature.settings.overview.SettingsKey
 import com.dv.moneym.feature.settings.overview.TxListDisplayKey
@@ -200,7 +201,7 @@ internal fun MainNav(lockController: AppLockController) {
             pinSetupEntry(onDone = {
                 lockController.init()
                 // Refresh pin state in settings so toggles reflect actual storage truth
-                securitySettingsViewModel.refreshPinState()
+                securitySettingsViewModel.onIntent(SecuritySettingsIntent.RefreshPinState)
                 tabBackStack.removeLast()
             })
             categoriesEntry(

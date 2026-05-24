@@ -44,7 +44,7 @@ class OnboardingSecurityViewModel(
         }
     }
 
-    fun onReturnFromPinSetup() {
+    private fun onReturnFromPinSetup() {
         viewModelScope.launch {
             val pinSet = pinManager.isPinSet()
             _state.update {
@@ -56,7 +56,7 @@ class OnboardingSecurityViewModel(
         }
     }
 
-    internal fun onIntent(intent: OnboardingSecurityIntent) {
+    fun onIntent(intent: OnboardingSecurityIntent) {
         when (intent) {
             OnboardingSecurityIntent.SetupPinRequested ->
                 viewModelScope.launch { _effects.send(OnboardingSecurityEffect.NavigateToPinSetup) }
@@ -70,6 +70,8 @@ class OnboardingSecurityViewModel(
                 settings.putBoolean(SecurityPrefs.PIN_ENABLED, _state.value.pinEnabled)
                 viewModelScope.launch { _effects.send(OnboardingSecurityEffect.NavigateToCurrency) }
             }
+
+            OnboardingSecurityIntent.ReturnFromPinSetup -> onReturnFromPinSetup()
         }
     }
 }

@@ -46,12 +46,12 @@ fun PinUnlockScreen(
     val biometricPrompt = stringResource(Res.string.security_biometric_unlock_prompt)
 
     LaunchedEffect(viewModel) {
-        viewModel.setBiometricPrompt(biometricPrompt)
+        viewModel.onIntent(PinUnlockIntent.SetBiometricPrompt(biometricPrompt))
         viewModel.effects.collect { if (it == PinUnlockEffect.Unlocked) onUnlocked() }
     }
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
-        viewModel.onResume()
+        viewModel.onIntent(PinUnlockIntent.Resume)
     }
 
     PinUnlockContent(

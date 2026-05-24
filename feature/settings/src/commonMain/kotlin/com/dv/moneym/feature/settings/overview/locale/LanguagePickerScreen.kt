@@ -75,11 +75,11 @@ private fun LanguagePickerScreen(
         onUseDeviceChanged = { use ->
             useDeviceLanguage = use
             if (use) {
-                viewModel.setLanguage("")
+                viewModel.onIntent(LanguagePickerIntent.SetLanguage(""))
             }
         },
         onLanguageSelected = { code ->
-            viewModel.setLanguage(code)
+            viewModel.onIntent(LanguagePickerIntent.SetLanguage(code))
             onBack()
         },
         onBack = onBack,

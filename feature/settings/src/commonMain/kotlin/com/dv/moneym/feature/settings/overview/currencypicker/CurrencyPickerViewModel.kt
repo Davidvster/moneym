@@ -11,5 +11,12 @@ class CurrencyPickerViewModel(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     val selectedCurrency: StateFlow<String> = MutableStateFlow("")
-    fun setDefaultCurrency(code: String) {}
+
+    fun onIntent(intent: CurrencyPickerIntent) {
+        when (intent) {
+            is CurrencyPickerIntent.SetDefaultCurrency -> setDefaultCurrency(intent.code)
+        }
+    }
+
+    private fun setDefaultCurrency(code: String) {}
 }

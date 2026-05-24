@@ -9,10 +9,11 @@ internal data class OnboardingSecurityUiState(
     val biometricEnabled: Boolean = false,
 )
 
-internal sealed interface OnboardingSecurityIntent {
+sealed interface OnboardingSecurityIntent {
     data object SetupPinRequested : OnboardingSecurityIntent
     data class BiometricToggled(val enabled: Boolean) : OnboardingSecurityIntent
     data object Finish : OnboardingSecurityIntent
+    data object ReturnFromPinSetup : OnboardingSecurityIntent
 }
 
 internal sealed interface OnboardingSecurityEffect {

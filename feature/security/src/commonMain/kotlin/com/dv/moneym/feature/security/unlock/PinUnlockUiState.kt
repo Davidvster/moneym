@@ -23,4 +23,6 @@ internal sealed interface PinUnlockIntent {
     data class DigitPressed(val digit: Int) : PinUnlockIntent
     data object DeletePressed : PinUnlockIntent
     data class BiometricRequested(val prompt: String) : PinUnlockIntent
+    data class SetBiometricPrompt(val prompt: String) : PinUnlockIntent
+    data object Resume : PinUnlockIntent
 }

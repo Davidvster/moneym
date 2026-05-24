@@ -23,11 +23,18 @@ class TxListDisplayViewModel(
         appSettingsRepository.observeDefaultTransactionType()
             .stateIn(viewModelScope, SharingStarted.Lazily, TransactionType.EXPENSE)
 
-    fun setTxDisplayPrefs(prefs: TxDisplayPrefs) {
+    fun onIntent(intent: TxListDisplayIntent) {
+        when (intent) {
+            is TxListDisplayIntent.SetTxDisplayPrefs -> setTxDisplayPrefs(intent.prefs)
+            is TxListDisplayIntent.SetDefaultTransactionType -> setDefaultTransactionType(intent.type)
+        }
+    }
+
+    private fun setTxDisplayPrefs(prefs: TxDisplayPrefs) {
         viewModelScope.launch { appSettingsRepository.setTxDisplayPrefs(prefs) }
     }
 
-    fun setDefaultTransactionType(type: TransactionType) {
+    private fun setDefaultTransactionType(type: TransactionType) {
         viewModelScope.launch { appSettingsRepository.setDefaultTransactionType(type) }
     }
 }

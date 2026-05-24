@@ -39,10 +39,6 @@ class OnboardingCurrencyViewModel(
 
     private var pendingRestoreContent: ByteArray? = null
 
-    fun onRestoreFileSelected(content: ByteArray) {
-        onIntent(OnboardingCurrencyIntent.RestoreFileSelected(content))
-    }
-
     internal fun onIntent(intent: OnboardingCurrencyIntent) {
         when (intent) {
             is OnboardingCurrencyIntent.CurrencySelected ->

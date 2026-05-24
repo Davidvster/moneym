@@ -54,6 +54,8 @@ class PinSetupViewModel(
             PinSetupIntent.BiometricOfferDeclined -> {
                 viewModelScope.launch { _effects.send(PinSetupEffect.Done) }
             }
+
+            PinSetupIntent.Reset -> reset()
         }
     }
 
@@ -122,7 +124,7 @@ class PinSetupViewModel(
         }
     }
 
-    fun reset() {
+    private fun reset() {
         _state.value = PinSetupUiState(
             biometryType = if (biometricAuth.isAvailable) biometricAuth.biometryType else BiometryType.None,
         )

@@ -18,7 +18,8 @@ data class SettingsUiState(
     val paymentModeEnabled: Boolean = false,
 )
 
-sealed interface SettingsIntent {
-    // appearance
-    data class ThemeModeChanged(val mode: ThemeMode) : SettingsIntent
+sealed interface SettingsOverviewIntent {
+    data class SetThemeMode(val mode: ThemeMode) : SettingsOverviewIntent
+    data class SetDefaultTransactionType(val type: TransactionType) : SettingsOverviewIntent
+    data class SetPaymentModeEnabled(val enabled: Boolean) : SettingsOverviewIntent
 }

@@ -26,4 +26,5 @@ internal sealed interface PinSetupIntent {
     data object DeletePressed : PinSetupIntent
     data object BiometricOfferAccepted : PinSetupIntent
     data object BiometricOfferDeclined : PinSetupIntent
+    data object Reset : PinSetupIntent
 }

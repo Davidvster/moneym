@@ -86,7 +86,7 @@ private fun CurrencyPickerScreen(
         filteredAll = filteredAll,
         selectedCurrencyCode = selectedCurrencyCode,
         onCurrencySelected = { code ->
-            viewModel.setDefaultCurrency(code)
+            viewModel.onIntent(CurrencyPickerIntent.SetDefaultCurrency(code))
             onBack()
         },
         onBack = onBack,

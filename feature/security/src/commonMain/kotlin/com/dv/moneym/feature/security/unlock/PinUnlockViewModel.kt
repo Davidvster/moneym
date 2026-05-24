@@ -70,11 +70,11 @@ class PinUnlockViewModel(
     private var biometricPrompt: String = "Unlock MoneyM"
     private var biometricDeclinedThisSession = false
 
-    fun setBiometricPrompt(prompt: String) {
+    private fun setBiometricPrompt(prompt: String) {
         biometricPrompt = prompt
     }
 
-    fun onResume() {
+    private fun onResume() {
         if (_state.value.biometricAvailable && !_state.value.isVerifying && _state.value.backoffRemainingMs <= 0 && !biometricDeclinedThisSession) {
             viewModelScope.launch {
                 triggerBiometric(biometricPrompt)
@@ -90,6 +90,9 @@ class PinUnlockViewModel(
                 biometricDeclinedThisSession = false
                 triggerBiometric(intent.prompt)
             }
+
+            is PinUnlockIntent.SetBiometricPrompt -> setBiometricPrompt(intent.prompt)
+            PinUnlockIntent.Resume -> onResume()
         }
     }
 

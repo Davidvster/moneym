@@ -25,3 +25,13 @@ internal sealed interface PaymentModeDialogState {
     @Serializable
     data class DeleteConfirm(val id: PaymentModeId, val name: String) : PaymentModeDialogState
 }
+
+internal sealed interface PaymentModeListIntent {
+    data object ShowAdd : PaymentModeListIntent
+    data class ShowRename(val id: PaymentModeId, val currentName: String) : PaymentModeListIntent
+    data class ShowDelete(val id: PaymentModeId, val name: String) : PaymentModeListIntent
+    data object Dismiss : PaymentModeListIntent
+    data class Create(val name: String) : PaymentModeListIntent
+    data class Rename(val id: PaymentModeId, val name: String) : PaymentModeListIntent
+    data class Delete(val id: PaymentModeId) : PaymentModeListIntent
+}

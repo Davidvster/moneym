@@ -108,9 +108,9 @@ private fun TxListDisplayScreen(
 
     TxListDisplayContent(
         currentPrefs = currentPrefs,
-        onPrefsChanged = { viewModel.setTxDisplayPrefs(it) },
+        onPrefsChanged = { viewModel.onIntent(TxListDisplayIntent.SetTxDisplayPrefs(it)) },
         defaultTransactionType = defaultTransactionType,
-        onDefaultTransactionTypeChanged = { viewModel.setDefaultTransactionType(it) },
+        onDefaultTransactionTypeChanged = { viewModel.onIntent(TxListDisplayIntent.SetDefaultTransactionType(it)) },
         onBack = onBack,
     )
 }

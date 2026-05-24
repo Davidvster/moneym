@@ -78,7 +78,7 @@ private fun OnboardingCurrencyScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val restorePicker = rememberBinaryFilePicker { bytes ->
-        if (bytes != null) viewModel.onRestoreFileSelected(bytes)
+        if (bytes != null) viewModel.onIntent(OnboardingCurrencyIntent.RestoreFileSelected(bytes))
     }
 
     LaunchedEffect(viewModel) {

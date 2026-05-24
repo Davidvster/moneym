@@ -129,8 +129,8 @@ fun SettingsScreen(
     SettingsContent(
         state = state,
         securityState = securityState,
-        onThemeModeChanged = { overviewViewModel.setThemeMode(it) },
-        onPaymentModeEnabledChanged = { overviewViewModel.setPaymentModeEnabled(it) },
+        onThemeModeChanged = { overviewViewModel.onIntent(SettingsOverviewIntent.SetThemeMode(it)) },
+        onPaymentModeEnabledChanged = { overviewViewModel.onIntent(SettingsOverviewIntent.SetPaymentModeEnabled(it)) },
         onSecurityIntent = securityViewModel::onIntent,
         onNavigateToCategories = onNavigateToCategories,
         onNavigateToTxDisplay = onNavigateToTxDisplay,

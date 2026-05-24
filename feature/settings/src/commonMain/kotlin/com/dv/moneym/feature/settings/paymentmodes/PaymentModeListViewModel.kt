@@ -34,23 +34,35 @@ class PaymentModeListViewModel(
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, PaymentModeListUiState())
 
-    internal fun showAddDialog() {
+    internal fun onIntent(intent: PaymentModeListIntent) {
+        when (intent) {
+            PaymentModeListIntent.ShowAdd -> showAddDialog()
+            is PaymentModeListIntent.ShowRename -> showRenameDialog(intent.id, intent.currentName)
+            is PaymentModeListIntent.ShowDelete -> showDeleteConfirm(intent.id, intent.name)
+            PaymentModeListIntent.Dismiss -> dismissDialog()
+            is PaymentModeListIntent.Create -> createMode(intent.name)
+            is PaymentModeListIntent.Rename -> renameMode(intent.id, intent.name)
+            is PaymentModeListIntent.Delete -> deleteMode(intent.id)
+        }
+    }
+
+    private fun showAddDialog() {
         _dialogState.update { PaymentModeDialogState.Add }
     }
 
-    internal fun showRenameDialog(id: PaymentModeId, currentName: String) {
+    private fun showRenameDialog(id: PaymentModeId, currentName: String) {
         _dialogState.update { PaymentModeDialogState.Rename(id, currentName) }
     }
 
-    internal fun showDeleteConfirm(id: PaymentModeId, name: String) {
+    private fun showDeleteConfirm(id: PaymentModeId, name: String) {
         _dialogState.update { PaymentModeDialogState.DeleteConfirm(id, name) }
     }
 
-    internal fun dismissDialog() {
+    private fun dismissDialog() {
         _dialogState.update { PaymentModeDialogState.None }
     }
 
-    internal fun createMode(name: String) {
+    private fun createMode(name: String) {
         if (name.isBlank()) return
         viewModelScope.launch {
             paymentModeRepository.create(name.trim())
@@ -58,7 +70,7 @@ class PaymentModeListViewModel(
         }
     }
 
-    internal fun renameMode(id: PaymentModeId, name: String) {
+    private fun renameMode(id: PaymentModeId, name: String) {
         if (name.isBlank()) return
         viewModelScope.launch {
             paymentModeRepository.rename(id, name.trim())
@@ -66,7 +78,7 @@ class PaymentModeListViewModel(
         }
     }
 
-    internal fun deleteMode(id: PaymentModeId) {
+    private fun deleteMode(id: PaymentModeId) {
         viewModelScope.launch {
             paymentModeRepository.delete(id)
             _dialogState.update { PaymentModeDialogState.None }

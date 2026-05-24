@@ -89,15 +89,24 @@ class CategoryListViewModel(
                     withContext(dispatchers.io) { categoryRepository.update(cat.copy(archived = false)) }
                 }
             }
+
+            is CategoryListIntent.SetTab -> setTab(intent.tab)
+            is CategoryListIntent.Reorder -> reorder(intent.fromIndex, intent.toIndex)
+            is CategoryListIntent.CreateCategory ->
+                createCategory(intent.name, intent.icon, intent.colorHex)
+
+            is CategoryListIntent.UpdateCategory ->
+                updateCategory(intent.id, intent.name, intent.icon, intent.colorHex)
+
+            is CategoryListIntent.DeleteCategory -> deleteCategory(intent.id)
         }
     }
 
-    // TODO use onIntent to communicate with the viewmodel instead of public functions
-    internal fun setTab(tab: CategoryTab) {
+    private fun setTab(tab: CategoryTab) {
         _activeTab.update { tab }
     }
 
-    fun reorder(fromIndex: Int, toIndex: Int) {
+    private fun reorder(fromIndex: Int, toIndex: Int) {
         val current = state.value.orderedCategories
         if (fromIndex < 0 || toIndex < 0 || fromIndex >= current.size || toIndex >= current.size) return
         val mutable = current.toMutableList()
@@ -106,13 +115,13 @@ class CategoryListViewModel(
         _manualOrder.update { mutable.map { it.id.value } }
     }
 
-    fun createCategory(name: String, icon: Icon, colorHex: String): Boolean {
+    private fun createCategory(name: String, icon: Icon, colorHex: String) {
         val trimmed = name.trim()
-        if (trimmed.isBlank()) return false
+        if (trimmed.isBlank()) return
         val tabType =
             if (_activeTab.value == CategoryTab.Expense) TransactionType.EXPENSE else TransactionType.INCOME
         val isDuplicate = state.value.active.any { it.name.equals(trimmed, ignoreCase = true) }
-        if (isDuplicate) return false
+        if (isDuplicate) return
         viewModelScope.launch {
             withContext(dispatchers.io) {
                 val now = Clock.System.now()
@@ -130,16 +139,15 @@ class CategoryListViewModel(
                 categoryRepository.insert(category)
             }
         }
-        return true
     }
 
-    fun updateCategory(id: CategoryId, name: String, icon: Icon, colorHex: String): Boolean {
+    private fun updateCategory(id: CategoryId, name: String, icon: Icon, colorHex: String) {
         val trimmed = name.trim()
-        if (trimmed.isBlank()) return false
+        if (trimmed.isBlank()) return
         val isDuplicate = state.value.active.any {
             it.id != id && it.name.equals(trimmed, ignoreCase = true)
         }
-        if (isDuplicate) return false
+        if (isDuplicate) return
         viewModelScope.launch {
             val existing =
                 withContext(dispatchers.io) { categoryRepository.getById(id) } ?: return@launch
@@ -155,10 +163,9 @@ class CategoryListViewModel(
                 )
             }
         }
-        return true
     }
 
-    fun deleteCategory(id: CategoryId) {
+    private fun deleteCategory(id: CategoryId) {
         viewModelScope.launch {
             withContext(dispatchers.io) { archiveCategory(id) }
         }

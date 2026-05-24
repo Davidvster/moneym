@@ -16,6 +16,7 @@ sealed interface SecuritySettingsIntent {
     data class BiometricToggled(val enable: Boolean) : SecuritySettingsIntent
     data class LockTimeoutChanged(val seconds: Int) : SecuritySettingsIntent
     data object ChangePinRequested : SecuritySettingsIntent
+    data object RefreshPinState : SecuritySettingsIntent
 }
 
 sealed interface SecuritySettingsEffect {

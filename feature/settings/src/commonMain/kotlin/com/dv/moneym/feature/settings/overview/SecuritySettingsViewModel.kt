@@ -75,10 +75,12 @@ class SecuritySettingsViewModel(
 
             SecuritySettingsIntent.ChangePinRequested ->
                 viewModelScope.launch { _effects.send(SecuritySettingsEffect.NavigateToPinSetup) }
+
+            SecuritySettingsIntent.RefreshPinState -> refreshPinState()
         }
     }
 
-    fun refreshPinState() {
+    private fun refreshPinState() {
         _state.update {
             it.copy(
                 pinEnabled = settings.getBoolean(SecurityPrefs.PIN_ENABLED),
