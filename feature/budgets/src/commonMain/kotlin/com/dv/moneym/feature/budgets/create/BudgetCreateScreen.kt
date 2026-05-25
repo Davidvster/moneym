@@ -15,8 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -29,6 +31,7 @@ import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.CategoryChip
+import com.dv.moneym.core.ui.MmAmountInput
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmChip
@@ -99,6 +102,7 @@ private fun BudgetCreateContent(
     val title = if (state.isEditMode) stringResource(Res.string.budgets_edit_title)
     else stringResource(Res.string.budgets_new_title)
     val allCategoriesLabel = stringResource(Res.string.budgets_all_categories)
+    val amountFocusRequester = remember { FocusRequester() }
 
     Column(
         modifier = Modifier
@@ -126,13 +130,17 @@ private fun BudgetCreateContent(
                 }
             }
             item {
-                MmField(
-                    value = state.amountText,
-                    onValueChange = { onIntent(BudgetCreateIntent.AmountChanged(it)) },
-                    label = stringResource(Res.string.budgets_amount_label),
-                    placeholder = "0.00",
-                    keyboardType = KeyboardType.Decimal,
-                    prefix = { Text(state.currency, style = type.body, color = colors.text2) },
+                Text(
+                    stringResource(Res.string.budgets_amount_label).uppercase(),
+                    style = type.micro,
+                    color = colors.text2,
+                    modifier = Modifier.padding(bottom = 4.dp),
+                )
+                MmAmountInput(
+                    amountText = state.amountText,
+                    currencyCode = state.currency,
+                    focusRequester = amountFocusRequester,
+                    onAmountChanged = { onIntent(BudgetCreateIntent.AmountChanged(it)) },
                 )
                 if (state.amountError) {
                     Text("Enter an amount > 0", style = type.caption.copy(color = colors.danger), modifier = Modifier.padding(top = 4.dp))

@@ -3,4 +3,5 @@
     <string name="tab_transactions">Transazioni</string>
     <string name="tab_overview">Panoramica</string>
     <string name="tab_settings">Impostazioni</string>
+    <string name="amount_input_calculator_desc">Apri la calcolatrice</string>
 </resources>
