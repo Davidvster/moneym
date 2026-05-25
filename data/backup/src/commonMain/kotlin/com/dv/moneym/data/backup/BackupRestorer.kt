@@ -2,10 +2,12 @@ package com.dv.moneym.data.backup
 
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.model.AccountId
+import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.core.security.SecurityPrefs
 import com.dv.moneym.data.accounts.AccountRepository
+import com.dv.moneym.data.budgets.BudgetRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlinx.serialization.json.Json
@@ -14,6 +16,7 @@ class BackupRestorer(
     private val categoryRepository: CategoryRepository,
     private val accountRepository: AccountRepository,
     private val transactionRepository: TransactionRepository,
+    private val budgetRepository: BudgetRepository,
     private val appSettings: AppSettings,
 ) {
     private val json = Json { ignoreUnknownKeys = true }
@@ -45,6 +48,11 @@ class BackupRestorer(
                     accIdOverride = accId,
                 )
             )
+        }
+
+        backup.budgets.forEach { dto ->
+            val accId = accIdMap[dto.accountId] ?: AccountId(0)
+            budgetRepository.insert(dto.toDomain(idOverride = BudgetId(0), accIdOverride = accId))
         }
 
         backup.settings.let { settings ->

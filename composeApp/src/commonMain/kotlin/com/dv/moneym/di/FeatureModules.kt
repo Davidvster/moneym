@@ -12,6 +12,7 @@ import com.dv.moneym.data.backup.BackupExporter
 import com.dv.moneym.data.backup.BackupImporter
 import com.dv.moneym.data.backup.BackupRestorer
 import com.dv.moneym.data.backup.DbBackupManager
+import com.dv.moneym.data.budgets.db.BudgetsRoomDatabase
 import com.dv.moneym.data.categories.db.CategoriesRoomDatabase
 import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
 import com.dv.moneym.feature.budgets.create.BudgetCreateViewModel
@@ -131,15 +132,16 @@ val featureSecurityModule = module {
 }
 
 val dataBackupModule = module {
-    single { BackupExporter(get(), get(), get(), get()) }
+    single { BackupExporter(get(), get(), get(), get(), get()) }
     single { BackupImporter(get(), get(), get()) }
-    single { BackupRestorer(get(), get(), get(), get()) }
+    single { BackupRestorer(get(), get(), get(), get(), get()) }
     single { CsvImportHolder() }
     single {
         DbBackupManager(get()) {
             get<CategoriesRoomDatabase>().close()
             get<AccountsRoomDatabase>().close()
             get<TransactionsRoomDatabase>().close()
+            get<BudgetsRoomDatabase>().close()
         }
     }
     single { AutoBackupManager(get(), get(), get(), get(), get(), get(), get()) }

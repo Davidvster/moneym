@@ -14,6 +14,7 @@ import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.core.testing.FakeAccountRepository
 import com.dv.moneym.core.testing.FakeAppSettings
+import com.dv.moneym.core.testing.FakeBudgetRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.runTestWithDispatchers
@@ -55,7 +56,8 @@ class BackupRoundTripTest {
         txnRepo.upsert(makeTxn(catId = 1, accId = 1, amount = 1000))
         txnRepo.upsert(makeTxn(catId = 2, accId = 1, amount = 2500))
 
-        val exporter = BackupExporter(catRepo, accRepo, txnRepo, settings)
+        val budgetRepo = FakeBudgetRepository()
+        val exporter = BackupExporter(catRepo, accRepo, txnRepo, budgetRepo, settings)
         val json = exporter.exportToJson()
         assertTrue(json.contains("\"version\":1"))
         assertTrue(json.contains("Cat1"))
@@ -89,7 +91,8 @@ class BackupRoundTripTest {
         accRepo.addAll(listOf(makeAccount(1)))
         txnRepo.upsert(makeTxn(catId = 1, accId = 1, amount = 1000))
 
-        val exporter = BackupExporter(catRepo, accRepo, txnRepo, settings)
+        val budgetRepo = FakeBudgetRepository()
+        val exporter = BackupExporter(catRepo, accRepo, txnRepo, budgetRepo, settings)
         val json = exporter.exportToJson()
 
         // Import into repos that already have the same data

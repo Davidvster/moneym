@@ -8,6 +8,7 @@ data class BackupDto(
     val accounts: List<AccountDto> = emptyList(),
     val categories: List<CategoryDto> = emptyList(),
     val transactions: List<TransactionDto> = emptyList(),
+    val budgets: List<BudgetDto> = emptyList(),
     val settings: BackupSettingsDto = BackupSettingsDto(),
 )
 
@@ -52,6 +53,21 @@ data class TransactionDto(
     val note: String? = null,
     val categoryId: Long,
     val accountId: Long,
+    val createdAt: Long,
+    val updatedAt: Long,
+)
+
+@Serializable
+data class BudgetDto(
+    val id: Long,
+    val name: String,
+    val amountMinor: Long,
+    val currency: String,
+    val categoryId: Long?,
+    val accountId: Long,
+    val periodType: String,
+    val startYearMonth: String,
+    val recurringMonths: Int?,
     val createdAt: Long,
     val updatedAt: Long,
 )

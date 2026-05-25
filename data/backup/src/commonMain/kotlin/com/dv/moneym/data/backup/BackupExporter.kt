@@ -3,6 +3,7 @@ package com.dv.moneym.data.backup
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.security.SecurityPrefs
 import com.dv.moneym.data.accounts.AccountRepository
+import com.dv.moneym.data.budgets.BudgetRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlinx.coroutines.flow.first
@@ -13,6 +14,7 @@ class BackupExporter(
     private val categoryRepository: CategoryRepository,
     private val accountRepository: AccountRepository,
     private val transactionRepository: TransactionRepository,
+    private val budgetRepository: BudgetRepository,
     private val appSettings: AppSettings,
 ) {
     private val json = Json { prettyPrint = false; encodeDefaults = true }
@@ -21,6 +23,7 @@ class BackupExporter(
         val categories = categoryRepository.observeAll().first()
         val accounts = accountRepository.observeAll().first()
         val transactions = transactionRepository.observeAll().first()
+        val budgets = budgetRepository.observeAll().first()
         val currency = accounts.firstOrNull { it.isDefault }?.currency?.value ?: "USD"
         val lockSeconds = appSettings.getInt(
             SecurityPrefs.BACKGROUND_LOCK_SECONDS,
@@ -35,6 +38,7 @@ class BackupExporter(
             categories = categories.map { it.toDto() },
             accounts = accounts.map { it.toDto() },
             transactions = transactions.map { it.toDto() },
+            budgets = budgets.map { it.toDto() },
             settings = BackupSettingsDto(
                 backgroundLockSeconds = lockSeconds,
                 defaultCurrency = currency,

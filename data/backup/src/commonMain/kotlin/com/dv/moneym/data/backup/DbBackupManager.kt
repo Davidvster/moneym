@@ -2,7 +2,7 @@ package com.dv.moneym.data.backup
 
 import com.dv.moneym.platform.DbPlatform
 
-private val DB_NAMES = listOf("moneym_categories.db", "moneym_accounts.db", "moneym_transactions.db")
+private val DB_NAMES = listOf("moneym_categories.db", "moneym_accounts.db", "moneym_transactions.db", "moneym_budgets.db")
 private val DB_SUFFIXES = listOf("", "-wal", "-shm")
 
 class DbBackupManager(
