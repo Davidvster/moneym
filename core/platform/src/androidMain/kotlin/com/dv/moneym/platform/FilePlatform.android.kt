@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import kotlinx.coroutines.Dispatchers
@@ -124,7 +125,17 @@ actual class FilePlatform(private val context: Context) {
                         resolver.openOutputStream(u, "wt")?.use { os -> os.write(bytes) }
                         val cv = ContentValues().apply { put(MediaStore.Downloads.IS_PENDING, 0) }
                         resolver.update(u, cv, null, null)
-                        u.toString()
+                        resolver.query(
+                            u,
+                            arrayOf(MediaStore.Downloads.RELATIVE_PATH, MediaStore.Downloads.DISPLAY_NAME),
+                            null, null, null,
+                        )?.use { cursor ->
+                            if (cursor.moveToFirst()) {
+                                val rel = cursor.getString(0)?.trimEnd('/') ?: "Download"
+                                val fname = cursor.getString(1) ?: name
+                                "/storage/emulated/0/$rel/$fname"
+                            } else null
+                        } ?: "/storage/emulated/0/Download/$name"
                     }
                 } else {
                     val dir = context.getExternalFilesDir(null) ?: context.filesDir
@@ -150,7 +161,14 @@ actual class FilePlatform(private val context: Context) {
                     dir.createFile("application/zip", name) ?: return@runCatching null
                 }
                 context.contentResolver.openOutputStream(file.uri, "wt")?.use { os -> os.write(bytes) }
-                file.uri.toString()
+                val docId = DocumentsContract.getDocumentId(file.uri)
+                val parts = docId.split(":", limit = 2)
+                if (parts.size == 2) {
+                    val root = if (parts[0] == "primary") "/storage/emulated/0" else "/storage/${parts[0]}"
+                    "$root/${parts[1]}"
+                } else {
+                    file.uri.toString()
+                }
             }.getOrNull()
         }
     }
