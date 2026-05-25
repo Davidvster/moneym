@@ -9,6 +9,7 @@ data class Budget(
     val name: String,
     val amount: Money,
     val categoryId: CategoryId?,
+    val accountId: AccountId,
     val periodType: BudgetPeriodType,
     val startYearMonth: YearMonth,
     val recurringMonths: Int?,

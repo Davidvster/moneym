@@ -4,16 +4,20 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.DispatcherProvider
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Budget
 import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.budgets.BudgetRepository
 import com.dv.moneym.data.categories.CategoryRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -22,30 +26,54 @@ import kotlinx.coroutines.withContext
 class BudgetListViewModel(
     private val budgetRepository: BudgetRepository,
     private val categoryRepository: CategoryRepository,
+    private val accountRepository: AccountRepository,
     private val dispatchers: DispatcherProvider,
     @Suppress("UNUSED_PARAMETER") savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _deleteRequestId = MutableStateFlow<BudgetId?>(null)
+    private val _selectedAccountId = MutableStateFlow<AccountId?>(null)
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val budgets = _selectedAccountId.flatMapLatest { id ->
+        if (id != null) budgetRepository.observeByAccount(id)
+        else budgetRepository.observeAll()
+    }
 
     internal val state: StateFlow<BudgetListUiState> = combine(
-        budgetRepository.observeAll(),
+        budgets,
         categoryRepository.observeAll(),
+        accountRepository.observeAll(),
+        _selectedAccountId,
         _deleteRequestId,
-    ) { budgets, categories, deleteId ->
+    ) { budgetList, categories, accounts, selectedId, deleteId ->
         val catMap: Map<CategoryId, Category> = categories.associateBy { it.id }
-        val rows = budgets.map { it.toRow(catMap) }
+        val rows = budgetList.map { it.toRow(catMap) }
         val deleted = deleteId?.let { id -> rows.firstOrNull { it.id == id } }
         BudgetListUiState(
             isLoading = false,
             rows = rows,
+            accounts = accounts,
+            selectedAccountId = selectedId,
             deleteRequestId = deleteId,
             deleteRequestName = deleted?.name,
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, BudgetListUiState())
 
+    init {
+        viewModelScope.launch {
+            accountRepository.observeAll().collect { accounts ->
+                if (_selectedAccountId.value == null && accounts.isNotEmpty()) {
+                    val default = accounts.firstOrNull { it.isDefault } ?: accounts.first()
+                    _selectedAccountId.value = default.id
+                }
+            }
+        }
+    }
+
     internal fun onIntent(intent: BudgetListIntent) {
         when (intent) {
+            is BudgetListIntent.AccountSelected -> _selectedAccountId.update { intent.id }
             is BudgetListIntent.DeleteRequested -> _deleteRequestId.update { intent.id }
             BudgetListIntent.DismissDelete -> _deleteRequestId.update { null }
             BudgetListIntent.ConfirmDelete -> {

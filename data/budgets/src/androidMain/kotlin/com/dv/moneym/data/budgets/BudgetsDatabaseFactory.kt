@@ -10,4 +10,5 @@ fun createBudgetsDatabase(context: Context): BudgetsRoomDatabase =
     Room.databaseBuilder<BudgetsRoomDatabase>(context = context, name = "moneym_budgets.db")
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
+        .addMigrations(BudgetsRoomDatabase.MIGRATION_1_2)
         .build()

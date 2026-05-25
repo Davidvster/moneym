@@ -1,10 +1,12 @@
 package com.dv.moneym.core.testing
 
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Budget
 import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.data.budgets.BudgetRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
 class FakeBudgetRepository : BudgetRepository {
@@ -16,6 +18,9 @@ class FakeBudgetRepository : BudgetRepository {
     fun addAll(budgets: List<Budget>) = _budgets.update { it + budgets }
 
     override fun observeAll(): Flow<List<Budget>> = _budgets
+
+    override fun observeByAccount(accountId: AccountId): Flow<List<Budget>> =
+        _budgets.map { list -> list.filter { it.accountId == accountId || it.accountId.value == 0L } }
 
     override suspend fun getById(id: BudgetId): Budget? = _budgets.value.find { it.id == id }
 

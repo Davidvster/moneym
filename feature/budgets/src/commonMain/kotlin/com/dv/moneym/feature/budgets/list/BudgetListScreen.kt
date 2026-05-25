@@ -1,13 +1,16 @@
 package com.dv.moneym.feature.budgets.list
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,12 +30,14 @@ import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
+import com.dv.moneym.core.ui.MmChip
 import com.dv.moneym.core.ui.MmDeleteSheet
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.budgets.list.components.BudgetRow
 import kotlinx.serialization.Serializable
 import moneym.feature.budgets.generated.resources.Res
+import moneym.feature.budgets.generated.resources.budgets_account_filter_label
 import moneym.feature.budgets.generated.resources.budgets_all_categories
 import moneym.feature.budgets.generated.resources.budgets_cancel
 import moneym.feature.budgets.generated.resources.budgets_delete
@@ -94,6 +99,28 @@ private fun BudgetListContent(
             .background(colors.bg),
     ) {
         ScreenHeader(title = stringResource(Res.string.budgets_title), onBack = onBack)
+
+        if (state.accounts.size > 1) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+                modifier = Modifier
+                    .horizontalScroll(rememberScrollState())
+                    .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_1x),
+            ) {
+                state.accounts.forEach { account ->
+                    MmChip(
+                        selected = state.selectedAccountId == account.id,
+                        onClick = { onIntent(BudgetListIntent.AccountSelected(account.id)) },
+                    ) {
+                        Text(
+                            account.name,
+                            style = type.caption,
+                            color = if (state.selectedAccountId == account.id) colors.bg else colors.text,
+                        )
+                    }
+                }
+            }
+        }
 
         if (state.rows.isEmpty() && !state.isLoading) {
             Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {

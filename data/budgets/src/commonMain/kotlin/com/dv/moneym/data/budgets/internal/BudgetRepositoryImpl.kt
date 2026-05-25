@@ -1,5 +1,6 @@
 package com.dv.moneym.data.budgets.internal
 
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Budget
 import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.data.budgets.BudgetRepository
@@ -14,6 +15,9 @@ internal class BudgetRepositoryImpl(
     override fun observeAll(): Flow<List<Budget>> =
         dataSource.observeAll().map { rows -> rows.map { it.toDomain() } }
 
+    override fun observeByAccount(accountId: AccountId): Flow<List<Budget>> =
+        dataSource.observeByAccount(accountId.value).map { rows -> rows.map { it.toDomain() } }
+
     override suspend fun getById(id: BudgetId): Budget? =
         dataSource.getById(id.value)?.toDomain()
 
@@ -24,6 +28,7 @@ internal class BudgetRepositoryImpl(
             amountMinor = budget.amount.minorUnits,
             currency = budget.amount.currency.value,
             categoryId = budget.categoryId?.value,
+            accountId = budget.accountId.value,
             periodType = budget.periodType.name,
             startYearMonth = budget.startYearMonth.toString(),
             recurringMonths = budget.recurringMonths,
@@ -41,6 +46,7 @@ internal class BudgetRepositoryImpl(
             amountMinor = budget.amount.minorUnits,
             currency = budget.amount.currency.value,
             categoryId = budget.categoryId?.value,
+            accountId = budget.accountId.value,
             periodType = budget.periodType.name,
             startYearMonth = budget.startYearMonth.toString(),
             recurringMonths = budget.recurringMonths,

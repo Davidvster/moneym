@@ -7,6 +7,7 @@ import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.common.DefaultSingleUiEvent
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.common.SingleUiEvent
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Budget
 import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.core.model.BudgetPeriodType
@@ -51,6 +52,9 @@ class BudgetCreateViewModel(
             val categories = withContext(dispatchers.io) {
                 categoryRepository.observeAll().first()
             }
+            val accounts = withContext(dispatchers.io) {
+                accountRepository.observeAll().first()
+            }
             val existing = budgetId?.let {
                 withContext(dispatchers.io) { budgetRepository.getById(it) }
             }
@@ -59,6 +63,8 @@ class BudgetCreateViewModel(
                     BudgetCreateUiState(
                         isEditMode = true,
                         isLoading = false,
+                        availableAccounts = accounts,
+                        selectedAccountId = existing.accountId,
                         availableCategories = categories,
                         name = existing.name,
                         amountText = minorToDecimalText(existing.amount.minorUnits),
@@ -71,9 +77,10 @@ class BudgetCreateViewModel(
                     )
                 }
             } else {
-                val defaultCurrency = withContext(dispatchers.io) {
-                    accountRepository.observeDefault().first()?.currency?.value ?: "EUR"
+                val defaultAccount = withContext(dispatchers.io) {
+                    accountRepository.observeDefault().first()
                 }
+                val defaultCurrency = defaultAccount?.currency?.value ?: "EUR"
                 val today = clock.today()
                 @Suppress("DEPRECATION")
                 val startYm = YearMonth(today.year, today.monthNumber)
@@ -81,6 +88,8 @@ class BudgetCreateViewModel(
                     BudgetCreateUiState(
                         isEditMode = false,
                         isLoading = false,
+                        availableAccounts = accounts,
+                        selectedAccountId = defaultAccount?.id,
                         availableCategories = categories,
                         currency = defaultCurrency,
                         startYearMonth = startYm,
@@ -96,6 +105,7 @@ class BudgetCreateViewModel(
             is BudgetCreateIntent.AmountChanged -> _state.update {
                 it.copy(amountText = sanitizeAmount(intent.text), amountError = false)
             }
+            is BudgetCreateIntent.AccountSelected -> _state.update { it.copy(selectedAccountId = intent.id) }
             is BudgetCreateIntent.CategorySelected -> _state.update { it.copy(selectedCategoryId = intent.id) }
             is BudgetCreateIntent.StartMonthChanged -> _state.update { it.copy(startYearMonth = intent.ym) }
             is BudgetCreateIntent.RecurringKindChanged -> _state.update {
@@ -113,12 +123,13 @@ class BudgetCreateViewModel(
         val name = s.name.trim()
         val minor = parseAmountToMinor(s.amountText)
         val startYm = s.startYearMonth
+        val accountId = s.selectedAccountId
         val recurringValid = s.recurringKind != RecurringKind.NMonths || s.recurringNMonths > 0
 
         val nameErr = name.isBlank()
         val amountErr = minor == null || minor <= 0
         val recurringErr = !recurringValid
-        if (nameErr || amountErr || recurringErr || startYm == null) {
+        if (nameErr || amountErr || recurringErr || startYm == null || accountId == null) {
             _state.update {
                 it.copy(
                     nameError = nameErr,
@@ -142,6 +153,7 @@ class BudgetCreateViewModel(
                     name = name,
                     amount = Money(minor, CurrencyCode(s.currency)),
                     categoryId = s.selectedCategoryId,
+                    accountId = accountId,
                     periodType = s.periodType,
                     startYearMonth = startYm,
                     recurringMonths = recurringMonths,

@@ -140,6 +140,20 @@ class BudgetCreateViewModelTest {
 
     @Test
     fun valid_save_inserts_budget_with_unlimited() = runTestWithDispatchers(testDispatcher) {
+        accountRepo.addAll(
+            listOf(
+                Account(
+                    id = AccountId(1),
+                    name = "Main",
+                    type = AccountType.CASH,
+                    currency = CurrencyCode("EUR"),
+                    isDefault = true,
+                    archived = false,
+                    createdAt = epoch,
+                    updatedAt = epoch,
+                ),
+            ),
+        )
         val vm = newViewModel()
         vm.state.test {
             var s = awaitItem()
@@ -179,6 +193,7 @@ class BudgetCreateViewModelTest {
                 name = "Rent",
                 amount = Money(120000L, CurrencyCode("EUR")),
                 categoryId = CategoryId(3),
+                accountId = AccountId(1),
                 periodType = BudgetPeriodType.MONTHLY,
                 startYearMonth = YearMonth(2026, 4),
                 recurringMonths = 6,

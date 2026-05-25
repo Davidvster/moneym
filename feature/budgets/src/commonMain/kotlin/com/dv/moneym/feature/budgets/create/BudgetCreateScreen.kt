@@ -42,6 +42,7 @@ import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.imageVector
 import kotlinx.serialization.Serializable
 import moneym.feature.budgets.generated.resources.Res
+import moneym.feature.budgets.generated.resources.budgets_account_label
 import moneym.feature.budgets.generated.resources.budgets_all_categories
 import moneym.feature.budgets.generated.resources.budgets_amount_label
 import moneym.feature.budgets.generated.resources.budgets_category_label
@@ -152,6 +153,31 @@ private fun BudgetCreateContent(
                 )
                 if (state.amountError) {
                     Text(stringResource(Res.string.budgets_error_amount), style = type.caption.copy(color = colors.danger), modifier = Modifier.padding(top = 4.dp))
+                }
+            }
+            item {
+                Text(
+                    stringResource(Res.string.budgets_account_label).uppercase(),
+                    style = type.micro,
+                    color = colors.text2,
+                    modifier = Modifier.padding(bottom = 4.dp),
+                )
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+                    verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+                ) {
+                    state.availableAccounts.forEach { account ->
+                        MmChip(
+                            selected = state.selectedAccountId == account.id,
+                            onClick = { onIntent(BudgetCreateIntent.AccountSelected(account.id)) },
+                        ) {
+                            Text(
+                                account.name,
+                                style = type.caption,
+                                color = if (state.selectedAccountId == account.id) colors.bg else colors.text,
+                            )
+                        }
+                    }
                 }
             }
             item {

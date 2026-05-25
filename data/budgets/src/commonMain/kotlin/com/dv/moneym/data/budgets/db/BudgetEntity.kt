@@ -11,6 +11,7 @@ data class BudgetEntity(
     @ColumnInfo(name = "amount_minor")      val amountMinor: Long,
     val currency: String,
     @ColumnInfo(name = "category_id")       val categoryId: Long?,
+    @ColumnInfo(name = "account_id")        val accountId: Long,
     @ColumnInfo(name = "period_type")       val periodType: String,
     @ColumnInfo(name = "start_year_month")  val startYearMonth: String,
     @ColumnInfo(name = "recurring_months")  val recurringMonths: Int?,

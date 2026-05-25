@@ -11,6 +11,9 @@ interface BudgetDao {
     @Query("SELECT * FROM Budget ORDER BY created_at DESC")
     fun selectAll(): Flow<List<BudgetEntity>>
 
+    @Query("SELECT * FROM Budget WHERE account_id = :accountId OR account_id = 0 ORDER BY created_at DESC")
+    fun selectByAccount(accountId: Long): Flow<List<BudgetEntity>>
+
     @Query("SELECT * FROM Budget WHERE id = :id")
     suspend fun selectById(id: Long): BudgetEntity?
 

@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.budgets.list
 
+import com.dv.moneym.core.model.Account
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.core.model.Money
 import kotlinx.serialization.Serializable
@@ -8,6 +10,8 @@ import kotlinx.serialization.Serializable
 internal data class BudgetListUiState(
     val isLoading: Boolean = true,
     val rows: List<BudgetRowVm> = emptyList(),
+    val accounts: List<Account> = emptyList(),
+    val selectedAccountId: AccountId? = null,
     val deleteRequestId: BudgetId? = null,
     val deleteRequestName: String? = null,
 )
@@ -22,6 +26,7 @@ internal data class BudgetRowVm(
 )
 
 internal sealed interface BudgetListIntent {
+    data class AccountSelected(val id: AccountId) : BudgetListIntent
     data class DeleteRequested(val id: BudgetId) : BudgetListIntent
     data object ConfirmDelete : BudgetListIntent
     data object DismissDelete : BudgetListIntent

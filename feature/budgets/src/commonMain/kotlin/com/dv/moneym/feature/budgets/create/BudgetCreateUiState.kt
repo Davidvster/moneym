@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.budgets.create
 
+import com.dv.moneym.core.model.Account
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.BudgetPeriodType
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
@@ -17,6 +19,8 @@ internal data class BudgetCreateUiState(
     val name: String = "",
     val amountText: String = "",
     val currency: String = "EUR",
+    val availableAccounts: List<Account> = emptyList(),
+    val selectedAccountId: AccountId? = null,
     val availableCategories: List<Category> = emptyList(),
     val selectedCategoryId: CategoryId? = null,
     val periodType: BudgetPeriodType = BudgetPeriodType.MONTHLY,
@@ -31,6 +35,7 @@ internal data class BudgetCreateUiState(
 internal sealed interface BudgetCreateIntent {
     data class NameChanged(val text: String) : BudgetCreateIntent
     data class AmountChanged(val text: String) : BudgetCreateIntent
+    data class AccountSelected(val id: AccountId) : BudgetCreateIntent
     data class CategorySelected(val id: CategoryId?) : BudgetCreateIntent
     data class StartMonthChanged(val ym: YearMonth) : BudgetCreateIntent
     data class RecurringKindChanged(val kind: RecurringKind) : BudgetCreateIntent

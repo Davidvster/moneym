@@ -5,12 +5,14 @@ import kotlinx.coroutines.flow.Flow
 
 internal interface BudgetLocalDataSource {
     fun observeAll(): Flow<List<BudgetEntity>>
+    fun observeByAccount(accountId: Long): Flow<List<BudgetEntity>>
     suspend fun getById(id: Long): BudgetEntity?
     suspend fun insert(
         name: String,
         amountMinor: Long,
         currency: String,
         categoryId: Long?,
+        accountId: Long,
         periodType: String,
         startYearMonth: String,
         recurringMonths: Int?,
@@ -24,6 +26,7 @@ internal interface BudgetLocalDataSource {
         amountMinor: Long,
         currency: String,
         categoryId: Long?,
+        accountId: Long,
         periodType: String,
         startYearMonth: String,
         recurringMonths: Int?,

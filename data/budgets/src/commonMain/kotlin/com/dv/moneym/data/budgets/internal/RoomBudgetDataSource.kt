@@ -12,6 +12,9 @@ internal class RoomBudgetDataSource(
 
     override fun observeAll(): Flow<List<BudgetEntity>> = dao.selectAll()
 
+    override fun observeByAccount(accountId: Long): Flow<List<BudgetEntity>> =
+        dao.selectByAccount(accountId)
+
     override suspend fun getById(id: Long): BudgetEntity? = dao.selectById(id)
 
     override suspend fun insert(
@@ -19,6 +22,7 @@ internal class RoomBudgetDataSource(
         amountMinor: Long,
         currency: String,
         categoryId: Long?,
+        accountId: Long,
         periodType: String,
         startYearMonth: String,
         recurringMonths: Int?,
@@ -30,6 +34,7 @@ internal class RoomBudgetDataSource(
             amountMinor = amountMinor,
             currency = currency,
             categoryId = categoryId,
+            accountId = accountId,
             periodType = periodType,
             startYearMonth = startYearMonth,
             recurringMonths = recurringMonths,
@@ -44,6 +49,7 @@ internal class RoomBudgetDataSource(
         amountMinor: Long,
         currency: String,
         categoryId: Long?,
+        accountId: Long,
         periodType: String,
         startYearMonth: String,
         recurringMonths: Int?,
@@ -56,6 +62,7 @@ internal class RoomBudgetDataSource(
                 amountMinor = amountMinor,
                 currency = currency,
                 categoryId = categoryId,
+                accountId = accountId,
                 periodType = periodType,
                 startYearMonth = startYearMonth,
                 recurringMonths = recurringMonths,

@@ -40,6 +40,7 @@ class ComputeCategoryBudgetRemainingUseCaseTest {
         name = name,
         amount = Money(amountMinor, CurrencyCode("EUR")),
         categoryId = categoryId,
+        accountId = AccountId(0),
         periodType = BudgetPeriodType.MONTHLY,
         startYearMonth = startYm,
         recurringMonths = Budget.UNLIMITED,

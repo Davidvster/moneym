@@ -7,6 +7,8 @@
     <string name="budgets_edit_title">Budget bearbeiten</string>
     <string name="budgets_name_label">Name</string>
     <string name="budgets_amount_label">Betrag</string>
+    <string name="budgets_account_label">Konto</string>
+    <string name="budgets_account_filter_label">Konto</string>
     <string name="budgets_category_label">Kategorie</string>
     <string name="budgets_all_categories">Alle Kategorien</string>
     <string name="budgets_start_month">Startmonat</string>

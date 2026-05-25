@@ -153,7 +153,7 @@ class TransactionEditViewModel(
                     val newRemaining =
                         if (type == com.dv.moneym.core.model.TransactionType.EXPENSE && catId != null && date != null) {
                             withContext(dispatchers.io) {
-                                computeBudgetRemaining(catId, date, _state.value.existingId)
+                                computeBudgetRemaining(catId, date, _state.value.existingId, _state.value.selectedAccountId)
                             }
                         } else null
                     _state.update { it.copy(budgetRemaining = newRemaining) }

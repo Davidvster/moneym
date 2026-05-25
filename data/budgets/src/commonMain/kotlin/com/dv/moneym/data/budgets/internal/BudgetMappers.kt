@@ -1,5 +1,6 @@
 package com.dv.moneym.data.budgets.internal
 
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Budget
 import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.core.model.BudgetPeriodType
@@ -15,6 +16,7 @@ internal fun BudgetEntity.toDomain(): Budget = Budget(
     name = name,
     amount = Money(amountMinor, CurrencyCode(currency)),
     categoryId = categoryId?.let(::CategoryId),
+    accountId = AccountId(accountId),
     periodType = parsePeriodType(periodType),
     startYearMonth = parseYearMonth(startYearMonth),
     recurringMonths = recurringMonths,
