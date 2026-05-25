@@ -12,9 +12,11 @@ import com.dv.moneym.data.categories.SeedCategoriesUseCase
 import com.dv.moneym.data.categories.createCategoryRepository
 import com.dv.moneym.data.categories.db.CategoriesRoomDatabase
 import com.dv.moneym.data.transactions.PaymentModeRepository
+import com.dv.moneym.data.transactions.RecurringTransactionRepository
 import com.dv.moneym.data.transactions.SeedPaymentModesUseCase
 import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.data.transactions.createPaymentModeRepository
+import com.dv.moneym.data.transactions.createRecurringTransactionRepository
 import com.dv.moneym.data.transactions.createTransactionRepository
 import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
 import org.koin.dsl.module
@@ -33,6 +35,7 @@ val dataAccountsModule = module {
 val dataTransactionsModule = module {
     single<TransactionRepository> { createTransactionRepository(get<TransactionsRoomDatabase>()) }
     single<PaymentModeRepository> { createPaymentModeRepository(get<TransactionsRoomDatabase>()) }
+    single<RecurringTransactionRepository> { createRecurringTransactionRepository(get<TransactionsRoomDatabase>()) }
     single { SeedPaymentModesUseCase(get()) }
 }
 

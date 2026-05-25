@@ -13,13 +13,13 @@ internal interface TransactionLocalDataSource {
     suspend fun insert(
         type: String, amountMinor: Long, currency: String, occurredOn: String,
         note: String?, categoryId: Long, accountId: Long, createdAt: Long, updatedAt: Long,
-        paymentModeId: Long? = null,
+        paymentModeId: Long? = null, recurringId: Long? = null,
     ): Long
 
     suspend fun update(
         id: Long, type: String, amountMinor: Long, currency: String,
         occurredOn: String, note: String?, categoryId: Long, accountId: Long, updatedAt: Long,
-        paymentModeId: Long? = null,
+        paymentModeId: Long? = null, recurringId: Long? = null,
     )
 
     suspend fun delete(id: Long)

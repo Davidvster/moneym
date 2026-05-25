@@ -5,6 +5,7 @@ import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.PaymentModeId
+import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
@@ -23,6 +24,7 @@ internal fun TransactionEntity.toDomain() = Transaction(
     createdAt = Instant.fromEpochMilliseconds(createdAt),
     updatedAt = Instant.fromEpochMilliseconds(updatedAt),
     paymentModeId = paymentModeId?.let { PaymentModeId(it) },
+    recurringId = recurringId?.let { RecurringTransactionId(it) },
 )
 
 internal fun yearMonthKey(year: Int, month: Int): String =

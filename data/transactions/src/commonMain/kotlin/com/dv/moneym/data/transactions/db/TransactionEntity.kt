@@ -11,6 +11,7 @@ import androidx.room.PrimaryKey
         Index(value = ["occurred_on"],  name = "idx_te_date"),
         Index(value = ["category_id"],  name = "idx_te_category"),
         Index(value = ["account_id"],   name = "idx_te_account"),
+        Index(value = ["recurring_id"], name = "idx_te_recurring"),
     ],
 )
 data class TransactionEntity(
@@ -22,8 +23,9 @@ data class TransactionEntity(
     val note: String? = null,
     @ColumnInfo(name = "category_id")     val categoryId: Long,
     @ColumnInfo(name = "account_id")      val accountId: Long,
-    @ColumnInfo(name = "recurrence_rule") val recurrenceRule: String? = null,
+    @ColumnInfo(name = "recurrence_rule") val recurrenceRule: String? = null, // legacy, unused
     @ColumnInfo(name = "created_at")      val createdAt: Long,
     @ColumnInfo(name = "updated_at")      val updatedAt: Long,
     @ColumnInfo(name = "payment_mode_id") val paymentModeId: Long? = null,
+    @ColumnInfo(name = "recurring_id")    val recurringId: Long? = null,
 )

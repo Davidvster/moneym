@@ -29,7 +29,7 @@ internal class SqlDelightTransactionDataSource(
     override suspend fun insert(
         type: String, amountMinor: Long, currency: String, occurredOn: String,
         note: String?, categoryId: Long, accountId: Long, createdAt: Long, updatedAt: Long,
-        paymentModeId: Long?,
+        paymentModeId: Long?, recurringId: Long?,
     ): Long = dao.insert(
         TransactionEntity(
             type = type,
@@ -42,13 +42,14 @@ internal class SqlDelightTransactionDataSource(
             createdAt = createdAt,
             updatedAt = updatedAt,
             paymentModeId = paymentModeId,
+            recurringId = recurringId,
         )
     )
 
     override suspend fun update(
         id: Long, type: String, amountMinor: Long, currency: String,
         occurredOn: String, note: String?, categoryId: Long, accountId: Long, updatedAt: Long,
-        paymentModeId: Long?,
+        paymentModeId: Long?, recurringId: Long?,
     ) {
         val existing = dao.selectById(id) ?: return
         dao.update(
@@ -62,6 +63,7 @@ internal class SqlDelightTransactionDataSource(
                 accountId = accountId,
                 updatedAt = updatedAt,
                 paymentModeId = paymentModeId,
+                recurringId = recurringId,
             )
         )
     }

@@ -9,3 +9,4 @@ import kotlinx.serialization.Serializable
 @Serializable data class CategoryId(val value: Long)
 @Serializable data class AccountId(val value: Long)
 @Serializable data class BudgetId(val value: Long)
+@Serializable data class RecurringTransactionId(val value: Long)

@@ -14,6 +14,7 @@ data class Transaction(
     val createdAt: Instant,
     val updatedAt: Instant,
     val paymentModeId: PaymentModeId? = null,
+    val recurringId: RecurringTransactionId? = null,
 )
 
 val UNSAVED_TRANSACTION_ID = TransactionId(0L)

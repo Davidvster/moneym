@@ -55,6 +55,7 @@ internal class TransactionRepositoryImpl(
                 createdAt = now,
                 updatedAt = now,
                 paymentModeId = transaction.paymentModeId?.value,
+                recurringId = transaction.recurringId?.value,
             )
             TransactionId(newId)
         } else {
@@ -69,6 +70,7 @@ internal class TransactionRepositoryImpl(
                 accountId = transaction.accountId.value,
                 updatedAt = now,
                 paymentModeId = transaction.paymentModeId?.value,
+                recurringId = transaction.recurringId?.value,
             )
             transaction.id
         }
