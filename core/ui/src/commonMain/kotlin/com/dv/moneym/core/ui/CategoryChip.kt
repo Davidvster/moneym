@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.transactionedit.components
+package com.dv.moneym.core.ui
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -7,13 +7,10 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.categoryColor
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.Icon
-import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.model.IndicatorStyle
-import com.dv.moneym.core.ui.CategoryIconTile
-import com.dv.moneym.core.ui.MmChip
 
 @Composable
-internal fun CategoryChip(
+fun CategoryChip(
     category: Category,
     isSelected: Boolean,
     onClick: () -> Unit,

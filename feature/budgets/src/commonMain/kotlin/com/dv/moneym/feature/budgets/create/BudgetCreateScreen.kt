@@ -28,6 +28,7 @@ import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.navigation.ModalKey
+import com.dv.moneym.core.ui.CategoryChip
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmChip
@@ -155,13 +156,11 @@ private fun BudgetCreateContent(
                         )
                     }
                     state.availableCategories.filter { !it.archived }.forEach { cat ->
-                        val selected = state.selectedCategoryId == cat.id
-                        MmChip(
-                            selected = selected,
+                        CategoryChip(
+                            category = cat,
+                            isSelected = state.selectedCategoryId == cat.id,
                             onClick = { onIntent(BudgetCreateIntent.CategorySelected(cat.id)) },
-                        ) {
-                            Text(cat.name, style = type.caption, color = if (selected) colors.bg else colors.text)
-                        }
+                        )
                     }
                 }
             }

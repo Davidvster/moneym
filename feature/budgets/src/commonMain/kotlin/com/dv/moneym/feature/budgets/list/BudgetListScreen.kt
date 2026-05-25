@@ -8,23 +8,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.BudgetId
+import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.MmButton
-import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
+import com.dv.moneym.core.ui.MmDeleteSheet
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.budgets.list.components.BudgetRow
@@ -149,41 +152,16 @@ private fun BudgetListContent(
     }
 
     if (state.deleteRequestId != null) {
-        AlertDialog(
-            onDismissRequest = { onIntent(BudgetListIntent.DismissDelete) },
-            containerColor = colors.surface,
-            title = {
-                Text(
-                    text = stringResource(
-                        Res.string.budgets_delete_confirm_title,
-                        state.deleteRequestName.orEmpty(),
-                    ),
-                    style = type.title2,
-                    color = colors.text,
-                )
-            },
-            text = {
-                Text(
-                    text = stringResource(Res.string.budgets_delete_confirm_body),
-                    style = type.body.copy(color = colors.text2),
-                )
-            },
-            confirmButton = {
-                MmButton(
-                    text = stringResource(Res.string.budgets_delete),
-                    onClick = { onIntent(BudgetListIntent.ConfirmDelete) },
-                    variant = MmButtonVariant.Primary,
-                    size = MmButtonSize.Md,
-                )
-            },
-            dismissButton = {
-                MmButton(
-                    text = stringResource(Res.string.budgets_cancel),
-                    onClick = { onIntent(BudgetListIntent.DismissDelete) },
-                    variant = MmButtonVariant.Ghost,
-                    size = MmButtonSize.Md,
-                )
-            },
+        MmDeleteSheet(
+            title = stringResource(
+                Res.string.budgets_delete_confirm_title,
+                state.deleteRequestName.orEmpty(),
+            ),
+            body = stringResource(Res.string.budgets_delete_confirm_body),
+            cancelText = stringResource(Res.string.budgets_cancel),
+            confirmText = stringResource(Res.string.budgets_delete),
+            onConfirm = { onIntent(BudgetListIntent.ConfirmDelete) },
+            onCancel = { onIntent(BudgetListIntent.DismissDelete) },
         )
     }
 }
@@ -191,3 +169,42 @@ private fun BudgetListContent(
 @Composable
 private fun recurringNMonthsString(n: Int): String =
     stringResource(Res.string.budgets_recurring_badge_n_months, n)
+
+@Preview
+@Composable
+private fun BudgetListContentPreview() {
+    MoneyMTheme {
+        BudgetListContent(
+            state = BudgetListUiState(
+                isLoading = false,
+                rows = listOf(
+                    BudgetRowVm(
+                        id = BudgetId(1),
+                        name = "Groceries",
+                        amount = Money(50000, CurrencyCode("EUR")),
+                        scopeLabel = "Food",
+                        recurringLabel = "1",
+                    ),
+                    BudgetRowVm(
+                        id = BudgetId(2),
+                        name = "Subscription",
+                        amount = Money(1500, CurrencyCode("EUR")),
+                        scopeLabel = BudgetListViewModel.ALL_CATEGORIES_SENTINEL,
+                        recurringLabel = BudgetListViewModel.RECURRING_UNLIMITED_SENTINEL,
+                    ),
+                    BudgetRowVm(
+                        id = BudgetId(3),
+                        name = "One-time",
+                        amount = Money(100000, CurrencyCode("EUR")),
+                        scopeLabel = "Electronics",
+                        recurringLabel = null,
+                    ),
+                ),
+            ),
+            onBack = {},
+            onCreate = {},
+            onEdit = {},
+            onIntent = {},
+        )
+    }
+}
