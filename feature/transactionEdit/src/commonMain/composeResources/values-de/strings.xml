@@ -26,4 +26,27 @@
     <string name="edit_calculator_title">Rechner</string>
     <string name="edit_payment_mode_label">Zahlungsart</string>
     <string name="edit_budget_after_label">Nach dieser Transaktion</string>
+    <string name="tx_edit_make_recurring">Wiederkehrend</string>
+    <string name="tx_edit_recurring_every">Alle</string>
+    <string name="tx_edit_recurring_days">Tage</string>
+    <string name="tx_edit_recurring_weeks">Wochen</string>
+    <string name="tx_edit_recurring_months">Monate</string>
+    <string name="tx_edit_recurring_on_dow_label">Am</string>
+    <string name="tx_edit_recurring_on_day_label">Tag im Monat</string>
+    <string name="tx_edit_recurring_last_day">Letzter Tag</string>
+    <string name="tx_edit_recurring_end_label">Endet</string>
+    <string name="tx_edit_recurring_end_unlimited">Unbegrenzt</string>
+    <string name="tx_edit_recurring_end_count">Nach N Mal</string>
+    <string name="tx_edit_recurring_end_count_label">N</string>
+    <string name="tx_edit_recurring_end_until">Bis Datum</string>
+    <string name="tx_edit_recurring_end_until_pick">Datum wählen</string>
+    <string name="tx_edit_recurring_error">Wiederholungseinstellungen prüfen</string>
+    <string name="tx_edit_recurring_weekday_monday">Mo</string>
+    <string name="tx_edit_recurring_weekday_tuesday">Di</string>
+    <string name="tx_edit_recurring_weekday_wednesday">Mi</string>
+    <string name="tx_edit_recurring_weekday_thursday">Do</string>
+    <string name="tx_edit_recurring_weekday_friday">Fr</string>
+    <string name="tx_edit_recurring_weekday_saturday">Sa</string>
+    <string name="tx_edit_recurring_weekday_sunday">So</string>
+    <string name="tx_recurring_update_button">Wiederholung aktualisieren</string>
 </resources>

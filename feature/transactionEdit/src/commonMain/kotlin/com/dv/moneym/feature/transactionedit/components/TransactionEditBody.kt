@@ -156,6 +156,10 @@ internal fun TransactionEditScrollBody(
                 onSelected = { onIntent(TransactionEditIntent.PaymentModeSelected(it)) },
             )
         }
+        if (!state.isEditMode) {
+            Spacer(Modifier.height(MM.dimen.padding_3x))
+            RecurrenceSection(state = state, onIntent = onIntent)
+        }
     }
 }
 

@@ -10,17 +10,22 @@ import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CurrencyCode
+import com.dv.moneym.core.model.MonthlyDayKind
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.transactions.PaymentModeRepository
+import com.dv.moneym.data.transactions.RecurringTransactionRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
+import com.dv.moneym.feature.transactionedit.usecase.RecurrenceInput
 import com.dv.moneym.feature.transactionedit.usecase.ValidateAndBuildTransactionUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ValidationOutcome
 import com.dv.moneym.feature.transactionedit.usecase.ComputeCategoryBudgetRemainingUseCase
+import kotlinx.datetime.isoDayNumber
+import kotlinx.datetime.plus
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -47,6 +52,7 @@ class TransactionEditViewModel(
     private val categoryRepository: CategoryRepository,
     private val accountRepository: AccountRepository,
     private val transactionRepository: TransactionRepository,
+    private val recurringTransactionRepository: RecurringTransactionRepository,
     private val appSettingsRepository: AppSettingsRepository,
     private val paymentModeRepository: PaymentModeRepository,
     private val computeBudgetRemaining: ComputeCategoryBudgetRemainingUseCase,
@@ -251,6 +257,65 @@ class TransactionEditViewModel(
             TransactionEditIntent.DeleteCancelled -> _state.update { it.copy(showDeleteConfirm = false) }
             is TransactionEditIntent.ShowDeleteDialog ->
                 _state.update { it.copy(showDeleteDialog = intent.visible) }
+
+            is TransactionEditIntent.RecurringToggled -> _state.update { s ->
+                val startDate = s.date ?: today
+                if (!intent.on) {
+                    s.copy(isRecurring = false, recurrenceError = false)
+                } else {
+                    s.copy(
+                        isRecurring = true,
+                        recurrenceError = false,
+                        weekDay = startDate.dayOfWeek.isoDayNumber,
+                        monthDayKind = MonthlyDayKind.OnDay(minOf(startDate.day, 28).coerceAtLeast(1)),
+                    )
+                }
+            }
+
+            is TransactionEditIntent.FreqUnitChanged -> _state.update { s ->
+                val startDate = s.date ?: today
+                when (intent.unit) {
+                    FreqUnit.WEEKS -> s.copy(
+                        freqUnit = intent.unit,
+                        weekDay = startDate.dayOfWeek.isoDayNumber,
+                        recurrenceError = false,
+                    )
+                    FreqUnit.MONTHS -> s.copy(
+                        freqUnit = intent.unit,
+                        monthDayKind = MonthlyDayKind.OnDay(minOf(startDate.day, 28).coerceAtLeast(1)),
+                        recurrenceError = false,
+                    )
+                    FreqUnit.DAYS -> s.copy(freqUnit = intent.unit, recurrenceError = false)
+                }
+            }
+
+            is TransactionEditIntent.FreqIntervalChanged -> _state.update {
+                it.copy(freqInterval = intent.value.coerceIn(1, 30), recurrenceError = false)
+            }
+
+            is TransactionEditIntent.WeekDayChanged -> _state.update {
+                it.copy(weekDay = intent.day.coerceIn(1, 7), recurrenceError = false)
+            }
+
+            is TransactionEditIntent.MonthDayChanged -> _state.update {
+                it.copy(monthDayKind = intent.kind, recurrenceError = false)
+            }
+
+            is TransactionEditIntent.EndKindChanged -> _state.update { s ->
+                val startDate = s.date ?: today
+                val defaultedEnd = if (intent.kind == EndKind.UNTIL && s.endDate == null) {
+                    startDate.plus(kotlinx.datetime.DatePeriod(months = 1))
+                } else s.endDate
+                s.copy(endKind = intent.kind, endDate = defaultedEnd, recurrenceError = false)
+            }
+
+            is TransactionEditIntent.EndCountChanged -> _state.update {
+                it.copy(endCount = intent.value.coerceAtLeast(1), recurrenceError = false)
+            }
+
+            is TransactionEditIntent.EndDateChanged -> _state.update {
+                it.copy(endDate = intent.date, recurrenceError = false)
+            }
         }
     }
 
@@ -314,6 +379,16 @@ class TransactionEditViewModel(
             showPaymentMode = s.showPaymentMode,
             selectedPaymentModeId = s.selectedPaymentModeId,
             now = clock.now(),
+            recurrence = RecurrenceInput(
+                isRecurring = s.isRecurring,
+                freqUnit = s.freqUnit,
+                freqInterval = s.freqInterval,
+                weekDay = s.weekDay,
+                monthDayKind = s.monthDayKind,
+                endKind = s.endKind,
+                endCount = s.endCount,
+                endDate = s.endDate,
+            ),
         )
         when (outcome) {
             is ValidationOutcome.Invalid -> when (outcome.reason) {
@@ -322,11 +397,25 @@ class TransactionEditViewModel(
                 ValidationOutcome.Reason.MissingCategory ->
                     _state.update { it.copy(categoryError = true) }
                 ValidationOutcome.Reason.MissingDateOrAccount -> Unit
+                ValidationOutcome.Reason.InvalidRecurrence ->
+                    _state.update { it.copy(recurrenceError = true) }
             }
             is ValidationOutcome.Ok -> {
                 _state.update { it.copy(isSaving = true) }
                 viewModelScope.launch {
-                    withContext(dispatchers.io) { upsertTransaction(outcome.transaction) }
+                    withContext(dispatchers.io) {
+                        val rule = outcome.rule
+                        if (rule == null) {
+                            upsertTransaction(outcome.transaction)
+                        } else {
+                            val ruleId = recurringTransactionRepository.upsert(rule)
+                            val startDate = rule.startDate
+                            if (startDate <= today) {
+                                upsertTransaction(outcome.transaction.copy(recurringId = ruleId))
+                                recurringTransactionRepository.updateCursor(ruleId, startDate)
+                            }
+                        }
+                    }
                     _effects.send(TransactionEditEffect.Saved)
                 }
             }

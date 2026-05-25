@@ -4,6 +4,7 @@ import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.MonthlyDayKind
 import com.dv.moneym.core.model.PaymentMode
 import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.TransactionId
@@ -35,9 +36,21 @@ internal data class TransactionEditUiState(
     val selectedPaymentModeId: PaymentModeId? = null,
     val showPaymentMode: Boolean = false,
     val showDeleteDialog: Boolean = false,
+    val isRecurring: Boolean = false,
+    val freqUnit: FreqUnit = FreqUnit.MONTHS,
+    val freqInterval: Int = 1,
+    val weekDay: Int = 1,
+    val monthDayKind: MonthlyDayKind = MonthlyDayKind.OnDay(1),
+    val endKind: EndKind = EndKind.UNLIMITED,
+    val endCount: Int = 12,
+    val endDate: LocalDate? = null,
+    val recurrenceError: Boolean = false,
     @kotlinx.serialization.Transient val budgetRemaining: CategoryBudgetRemaining? = null,
     @kotlinx.serialization.Transient val budgetProjected: CategoryBudgetRemaining? = null,
 )
+
+enum class FreqUnit { DAYS, WEEKS, MONTHS }
+enum class EndKind { UNLIMITED, COUNT, UNTIL }
 
 internal sealed interface TransactionEditEffect {
     data object Saved : TransactionEditEffect

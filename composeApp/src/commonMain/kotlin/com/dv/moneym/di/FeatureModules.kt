@@ -108,6 +108,7 @@ val featureTransactionEditModule = module {
             categoryRepository = get(),
             accountRepository = get(),
             transactionRepository = get(),
+            recurringTransactionRepository = get(),
             appSettingsRepository = get(),
             paymentModeRepository = get(),
             computeBudgetRemaining = get(),

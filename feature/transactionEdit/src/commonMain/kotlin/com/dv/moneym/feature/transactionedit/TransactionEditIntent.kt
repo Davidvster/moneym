@@ -2,6 +2,7 @@ package com.dv.moneym.feature.transactionedit
 
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.MonthlyDayKind
 import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.TransactionType
 import kotlinx.datetime.LocalDate
@@ -21,4 +22,12 @@ internal sealed interface TransactionEditIntent {
     data object DeleteConfirmed : TransactionEditIntent
     data object DeleteCancelled : TransactionEditIntent
     data class ShowDeleteDialog(val visible: Boolean) : TransactionEditIntent
+    data class RecurringToggled(val on: Boolean) : TransactionEditIntent
+    data class FreqUnitChanged(val unit: FreqUnit) : TransactionEditIntent
+    data class FreqIntervalChanged(val value: Int) : TransactionEditIntent
+    data class WeekDayChanged(val day: Int) : TransactionEditIntent
+    data class MonthDayChanged(val kind: MonthlyDayKind) : TransactionEditIntent
+    data class EndKindChanged(val kind: EndKind) : TransactionEditIntent
+    data class EndCountChanged(val value: Int) : TransactionEditIntent
+    data class EndDateChanged(val date: LocalDate) : TransactionEditIntent
 }
