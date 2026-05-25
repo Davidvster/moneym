@@ -22,12 +22,15 @@ import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
+import com.dv.moneym.feature.transactionedit.usecase.ComputeCategoryBudgetRemainingUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -47,6 +50,7 @@ class TransactionEditViewModel(
     private val transactionRepository: TransactionRepository,
     private val appSettingsRepository: AppSettingsRepository,
     private val paymentModeRepository: PaymentModeRepository,
+    private val computeBudgetRemaining: ComputeCategoryBudgetRemainingUseCase,
     private val dispatchers: DispatcherProvider,
     private val clock: AppClock,
     savedStateHandle: SavedStateHandle
@@ -141,6 +145,20 @@ class TransactionEditViewModel(
                     }
                 }
             }
+        }
+        viewModelScope.launch {
+            _state
+                .map { Triple(it.type, it.selectedCategoryId, it.date) }
+                .distinctUntilChanged()
+                .collect { (type, catId, date) ->
+                    val newRemaining =
+                        if (type == com.dv.moneym.core.model.TransactionType.EXPENSE && catId != null && date != null) {
+                            withContext(dispatchers.io) {
+                                computeBudgetRemaining(catId, date, _state.value.existingId)
+                            }
+                        } else null
+                    _state.update { it.copy(budgetRemaining = newRemaining) }
+                }
         }
     }
 

@@ -132,6 +132,10 @@ internal fun TransactionEditScrollBody(
             categoryError = state.categoryError,
             onCategorySelected = { onIntent(TransactionEditIntent.CategorySelected(it)) },
         )
+        state.budgetRemaining?.let {
+            Spacer(Modifier.height(MM.dimen.padding_1_5x))
+            BudgetRemainingChip(remaining = it, modifier = Modifier.fillMaxWidth())
+        }
         if ((state.showPaymentMode || state.selectedPaymentModeId != null) && state.paymentModes.isNotEmpty()) {
             Spacer(Modifier.height(MM.dimen.padding_3x))
             PaymentModePicker(

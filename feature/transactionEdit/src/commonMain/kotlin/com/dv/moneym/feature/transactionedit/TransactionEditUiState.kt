@@ -8,6 +8,7 @@ import com.dv.moneym.core.model.PaymentMode
 import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
+import com.dv.moneym.feature.transactionedit.usecase.CategoryBudgetRemaining
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 
@@ -33,6 +34,7 @@ internal data class TransactionEditUiState(
     val paymentModes: List<PaymentMode> = emptyList(),
     val selectedPaymentModeId: PaymentModeId? = null,
     val showPaymentMode: Boolean = false,
+    @kotlinx.serialization.Transient val budgetRemaining: CategoryBudgetRemaining? = null,
 )
 
 internal sealed interface TransactionEditEffect {
