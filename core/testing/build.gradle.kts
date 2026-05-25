@@ -23,6 +23,7 @@ kotlin {
             api(projects.data.categories)
             api(projects.data.accounts)
             api(projects.data.transactions)
+            api(projects.data.budgets)
             api(libs.kotlin.test)
             api(libs.kotlinx.coroutines.test)
             api(libs.kotlinx.datetime)

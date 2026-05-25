@@ -13,6 +13,9 @@ import com.dv.moneym.data.backup.BackupImporter
 import com.dv.moneym.data.backup.BackupRestorer
 import com.dv.moneym.data.categories.db.CategoriesRoomDatabase
 import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
+import com.dv.moneym.core.model.BudgetId
+import com.dv.moneym.feature.budgets.create.BudgetCreateViewModel
+import com.dv.moneym.feature.budgets.list.BudgetListViewModel
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
 import com.dv.moneym.feature.categories.list.CategoryListViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
@@ -20,6 +23,7 @@ import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
 import com.dv.moneym.feature.overview.OverviewPageViewModel
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.OverviewViewModel
+import com.dv.moneym.feature.overview.usecase.BuildBudgetProgressUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCategoryBreakdownUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCategoryTrendsUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCumulativeSeriesUseCase
@@ -44,6 +48,7 @@ import com.dv.moneym.feature.transactionedit.TransactionEditViewModel
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
+import com.dv.moneym.feature.transactionedit.usecase.ComputeCategoryBudgetRemainingUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ValidateAndBuildTransactionUseCase
 import com.dv.moneym.feature.transactions.list.TransactionListEphemeralState
 import com.dv.moneym.feature.transactions.list.TransactionListViewModel
@@ -89,6 +94,7 @@ val featureTransactionEditModule = module {
     single { UpsertTransactionUseCase(get()) }
     single { DeleteTransactionUseCase(get()) }
     single { GetTransactionUseCase(get()) }
+    single { ComputeCategoryBudgetRemainingUseCase(get(), get()) }
     single { ValidateAndBuildTransactionUseCase() }
     viewModel { params ->
         TransactionEditViewModel(
@@ -102,6 +108,7 @@ val featureTransactionEditModule = module {
             transactionRepository = get(),
             appSettingsRepository = get(),
             paymentModeRepository = get(),
+            computeBudgetRemaining = get(),
             dispatchers = get(),
             clock = get(),
             savedStateHandle = get(),
@@ -241,6 +248,21 @@ val featureCategoriesModule = module {
     viewModelOf(::CategoryListViewModel)
 }
 
+val featureBudgetsModule = module {
+    viewModelOf(::BudgetListViewModel)
+    viewModel { params ->
+        BudgetCreateViewModel(
+            budgetId = params.getOrNull<BudgetId>(),
+            budgetRepository = get(),
+            categoryRepository = get(),
+            accountRepository = get(),
+            clock = get(),
+            dispatchers = get(),
+            savedStateHandle = get(),
+        )
+    }
+}
+
 val featureOnboardingModule = module {
     viewModel {
         OnboardingCurrencyViewModel(
@@ -262,6 +284,7 @@ val featureOnboardingModule = module {
 }
 
 val featureOverviewModule = module {
+    single { BuildBudgetProgressUseCase() }
     single { ResolvePeriodRangeUseCase() }
     single { BuildCategoryBreakdownUseCase() }
     single { BuildCategoryTrendsUseCase() }
@@ -274,6 +297,8 @@ val featureOverviewModule = module {
             categoryRepository = get(),
             accountRepository = get(),
             appSettingsRepository = get(),
+            budgetRepository = get(),
+            buildBudgetProgress = get(),
             resolvePeriodRange = get(),
             buildCategoryBreakdown = get(),
             buildCategoryTrends = get(),

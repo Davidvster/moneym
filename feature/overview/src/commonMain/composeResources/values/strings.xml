@@ -60,6 +60,10 @@
     <string name="overview_date_range_title">Select Date Range</string>
     <string name="overview_date_range_from">FROM</string>
     <string name="overview_date_range_to">TO</string>
+    <string name="overview_budgets_title">Budgets</string>
+    <string name="overview_budgets_all_categories">All categories</string>
+    <string name="overview_budgets_remaining_suffix">%1$.2f left</string>
+    <string name="overview_budgets_overrun_suffix">%1$.2f over</string>
     <string-array name="overview_year_x_labels">
         <item>Jan</item>
         <item>Apr</item>

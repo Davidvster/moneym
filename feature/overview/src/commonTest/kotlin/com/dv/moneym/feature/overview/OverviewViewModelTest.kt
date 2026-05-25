@@ -46,6 +46,8 @@ class OverviewViewModelTest {
     private val catRepo = FakeCategoryRepository()
     private val accountRepo = FakeAccountRepository()
     private val settingsRepo = FakeAppSettingsRepository()
+    private val budgetRepo = FakeBudgetRepository()
+    private val buildBudgetProgress = BuildBudgetProgressUseCase()
 
     private fun makePageVm(period: OverviewPeriod) = OverviewPageViewModel(
         period = period,
@@ -53,6 +55,8 @@ class OverviewViewModelTest {
         categoryRepository = catRepo,
         accountRepository = accountRepo,
         appSettingsRepository = settingsRepo,
+        budgetRepository = budgetRepo,
+        buildBudgetProgress = buildBudgetProgress,
         resolvePeriodRange = ResolvePeriodRangeUseCase(),
         buildCategoryBreakdown = BuildCategoryBreakdownUseCase(),
         buildCategoryTrends = BuildCategoryTrendsUseCase(),

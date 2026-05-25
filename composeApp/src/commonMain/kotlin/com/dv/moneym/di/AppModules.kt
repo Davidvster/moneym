@@ -30,6 +30,7 @@ val appModules: List<Module> = listOf(
     dataCategoriesModule,
     dataAccountsModule,
     dataTransactionsModule,
+    dataBudgetsModule,
     dataBackupModule,
     featureTransactionsModule,
     featureTransactionEditModule,
@@ -37,6 +38,7 @@ val appModules: List<Module> = listOf(
     featureSettingsModule,
     featureWalletModule,
     featureCategoriesModule,
+    featureBudgetsModule,
     featureOnboardingModule,
     featureOverviewModule,
 )

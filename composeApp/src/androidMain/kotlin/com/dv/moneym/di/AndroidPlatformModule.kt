@@ -7,6 +7,7 @@ import com.dv.moneym.core.security.BiometricAuthenticator
 import com.dv.moneym.core.security.BiometricAuthenticatorImpl
 import com.dv.moneym.core.security.SecureStore
 import com.dv.moneym.data.accounts.createAccountsDatabase
+import com.dv.moneym.data.budgets.createBudgetsDatabase
 import com.dv.moneym.data.categories.createCategoriesDatabase
 import com.dv.moneym.data.transactions.createTransactionsDatabase
 import com.dv.moneym.locale.AndroidLocaleController
@@ -18,6 +19,7 @@ fun androidPlatformModule(context: Context) = module {
     single { createCategoriesDatabase(context) }
     single { createAccountsDatabase(context) }
     single { createTransactionsDatabase(context) }
+    single { createBudgetsDatabase(context) }
     single<SecureStore> { AndroidSecureStore(context) }
     single<BiometricAuthenticator> { BiometricAuthenticatorImpl() }
     single<LocaleController> { AndroidLocaleController(get()) }

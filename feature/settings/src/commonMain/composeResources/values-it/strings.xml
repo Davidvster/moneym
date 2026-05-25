@@ -16,6 +16,7 @@
     <string name="settings_cancel">Annulla</string>
     <string name="settings_data">Dati</string>
     <string name="settings_categories">Gestisci categorie</string>
+    <string name="settings_budgets">Budget</string>
     <string name="settings_language_section">Lingua</string>
     <string name="settings_language_label">Lingua dell\'app</string>
     <string name="settings_language_dialog_title">Seleziona lingua</string>

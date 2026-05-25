@@ -1,6 +1,5 @@
 package com.dv.moneym.feature.overview
 
-import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.YearMonth
 import kotlinx.serialization.Serializable

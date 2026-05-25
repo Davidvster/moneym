@@ -37,9 +37,11 @@ kotlin {
             implementation(projects.data.transactions)
             implementation(projects.data.categories)
             implementation(projects.data.accounts)
+            implementation(projects.data.budgets)
             implementation(projects.core.datastore)
         }
         commonTest.dependencies {
+            implementation(libs.kotlin.test)
             implementation(projects.core.testing)
         }
     }

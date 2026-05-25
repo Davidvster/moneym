@@ -3,6 +3,8 @@ package com.dv.moneym.core.testing
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Money
+import com.dv.moneym.core.model.AccountId
+import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
@@ -75,10 +77,10 @@ class FakeTransactionRepository : TransactionRepository {
             list.map { tx ->
                 if (tx.accountId != accountId) tx
                 else tx.copy(
-                    amount = Money(
+                    amount = tx.amount.copy(
                         minorUnits = (tx.amount.minorUnits * rate).toLong(),
                         currency = newCurrency,
-                    ),
+                    )
                 )
             }
         }

@@ -16,6 +16,10 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.TabRoute
+import com.dv.moneym.feature.budgets.create.BudgetCreateKey
+import com.dv.moneym.feature.budgets.create.budgetCreateEntry
+import com.dv.moneym.feature.budgets.list.BudgetListKey
+import com.dv.moneym.feature.budgets.list.budgetListEntry
 import com.dv.moneym.feature.categories.list.CategoriesKey
 import com.dv.moneym.feature.categories.list.categoriesEntry
 import com.dv.moneym.feature.overview.OverviewKey
@@ -183,6 +187,7 @@ internal fun MainNav(lockController: AppLockController) {
                 // From settings, we push PinSetupKey(isChangePinFlow = true) for change PIN
                 onNavigateToPinSetup = { tabBackStack.push(PinSetupKey(isChangePinFlow = true)) },
                 onNavigateToCategories = { tabBackStack.push(CategoriesKey) },
+                onNavigateToBudgets = { tabBackStack.push(BudgetListKey) },
                 onNavigateToTxDisplay = { tabBackStack.push(TxListDisplayKey) },
                 onNavigateToLanguage = { tabBackStack.push(LanguagePickerKey) },
                 onNavigateToExport = { tabBackStack.push(ExportDataKey) },
@@ -205,6 +210,14 @@ internal fun MainNav(lockController: AppLockController) {
                 tabBackStack.removeLast()
             })
             categoriesEntry(
+                onBack = { tabBackStack.removeLast() },
+            )
+            budgetListEntry(
+                onBack = { tabBackStack.removeLast() },
+                onCreate = { tabBackStack.push(BudgetCreateKey()) },
+                onEdit = { id -> tabBackStack.push(BudgetCreateKey(id.value)) },
+            )
+            budgetCreateEntry(
                 onBack = { tabBackStack.removeLast() },
             )
             txListDisplayEntry(onBack = { tabBackStack.removeLast() })
