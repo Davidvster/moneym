@@ -44,6 +44,9 @@ composeCharts = "0.1.4"
 # Icons
 composeIconsCore = "1.7.3"
 
+# Crypto (KMP)
+cryptographyKotlin = "0.5.0"
+
 # Logging
 kermit = "2.0.5"
 
@@ -112,6 +115,11 @@ compose-charts = { module = "io.github.ehsannarmani:compose-charts", version.ref
 # Icons
 compose-material-icons-core = { module = "org.jetbrains.compose.material:material-icons-core", version.ref = "composeIconsCore" }
 compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "composeIconsCore" }
+
+# Crypto (KMP) — used for AES-GCM + PBKDF2 in remote backup encryption
+cryptography-core = { module = "dev.whyoleg.cryptography:cryptography-core", version.ref = "cryptographyKotlin" }
+cryptography-provider-jdk = { module = "dev.whyoleg.cryptography:cryptography-provider-jdk", version.ref = "cryptographyKotlin" }
+cryptography-provider-apple = { module = "dev.whyoleg.cryptography:cryptography-provider-apple", version.ref = "cryptographyKotlin" }
 
 # Logging
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
