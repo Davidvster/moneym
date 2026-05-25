@@ -30,6 +30,7 @@ class ComputeCategoryBudgetRemainingUseCase(
         date: LocalDate,
         excludingTransactionId: TransactionId? = null,
         accountId: AccountId? = null,
+        additionalExpenseMinor: Long = 0,
     ): CategoryBudgetRemaining? {
         @Suppress("DEPRECATION")
         val ym = YearMonth(date.year, date.monthNumber)
@@ -48,7 +49,7 @@ class ComputeCategoryBudgetRemainingUseCase(
             .filter { excludingTransactionId == null || it.id != excludingTransactionId }
             .filter { matching.categoryId == null || it.categoryId == matching.categoryId }
 
-        val spentMinor = monthTxns.sumOf { it.amount.minorUnits }
+        val spentMinor = monthTxns.sumOf { it.amount.minorUnits } + additionalExpenseMinor
         val cap = matching.amount.minorUnits
         val rawFraction = if (cap > 0) spentMinor.toFloat() / cap.toFloat() else 0f
         return CategoryBudgetRemaining(

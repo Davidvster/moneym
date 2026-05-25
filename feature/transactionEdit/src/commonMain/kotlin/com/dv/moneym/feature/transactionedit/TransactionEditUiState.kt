@@ -36,6 +36,7 @@ internal data class TransactionEditUiState(
     val showPaymentMode: Boolean = false,
     val showDeleteDialog: Boolean = false,
     @kotlinx.serialization.Transient val budgetRemaining: CategoryBudgetRemaining? = null,
+    @kotlinx.serialization.Transient val budgetProjected: CategoryBudgetRemaining? = null,
 )
 
 internal sealed interface TransactionEditEffect {

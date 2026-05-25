@@ -33,6 +33,7 @@ import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.transactionedit.TransactionEditIntent
 import com.dv.moneym.feature.transactionedit.TransactionEditUiState
 import moneym.feature.transactionedit.generated.resources.Res
+import moneym.feature.transactionedit.generated.resources.edit_budget_after_label
 import moneym.feature.transactionedit.generated.resources.edit_date_today
 import moneym.feature.transactionedit.generated.resources.edit_date_yesterday
 import moneym.feature.transactionedit.generated.resources.edit_note_placeholder
@@ -134,6 +135,17 @@ internal fun TransactionEditScrollBody(
         )
         state.budgetRemaining?.let {
             Spacer(Modifier.height(MM.dimen.padding_1_5x))
+            BudgetRemainingChip(remaining = it, modifier = Modifier.fillMaxWidth())
+        }
+        state.budgetProjected?.let {
+            Spacer(Modifier.height(MM.dimen.padding_1x))
+            Text(
+                text = stringResource(Res.string.edit_budget_after_label),
+                style = MM.type.micro,
+                color = MM.colors.text3,
+                modifier = Modifier.padding(start = 2.dp),
+            )
+            Spacer(Modifier.height(2.dp))
             BudgetRemainingChip(remaining = it, modifier = Modifier.fillMaxWidth())
         }
         if ((state.showPaymentMode || state.selectedPaymentModeId != null) && state.paymentModes.isNotEmpty()) {

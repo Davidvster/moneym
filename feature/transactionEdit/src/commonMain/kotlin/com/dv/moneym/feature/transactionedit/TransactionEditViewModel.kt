@@ -147,16 +147,34 @@ class TransactionEditViewModel(
         }
         viewModelScope.launch {
             _state
-                .map { Triple(it.type, it.selectedCategoryId, it.date) }
+                .map { s ->
+                    listOf(
+                        s.type.name,
+                        s.selectedCategoryId?.value?.toString().orEmpty(),
+                        s.date?.toString().orEmpty(),
+                        s.amountText,
+                        s.selectedAccountId?.value?.toString().orEmpty(),
+                    )
+                }
                 .distinctUntilChanged()
-                .collect { (type, catId, date) ->
-                    val newRemaining =
-                        if (type == com.dv.moneym.core.model.TransactionType.EXPENSE && catId != null && date != null) {
-                            withContext(dispatchers.io) {
-                                computeBudgetRemaining(catId, date, _state.value.existingId, _state.value.selectedAccountId)
-                            }
+                .collect {
+                    val s = _state.value
+                    val type = s.type
+                    val catId = s.selectedCategoryId
+                    val date = s.date
+                    val accountId = s.selectedAccountId
+                    if (type == com.dv.moneym.core.model.TransactionType.EXPENSE && catId != null && date != null) {
+                        val remaining = withContext(dispatchers.io) {
+                            computeBudgetRemaining(catId, date, s.existingId, accountId)
+                        }
+                        val parsedAmount = parseMinorFromText(s.amountText)
+                        val projected = if (parsedAmount > 0L) withContext(dispatchers.io) {
+                            computeBudgetRemaining(catId, date, s.existingId, accountId, additionalExpenseMinor = parsedAmount)
                         } else null
-                    _state.update { it.copy(budgetRemaining = newRemaining) }
+                        _state.update { it.copy(budgetRemaining = remaining, budgetProjected = projected) }
+                    } else {
+                        _state.update { it.copy(budgetRemaining = null, budgetProjected = null) }
+                    }
                 }
         }
     }
@@ -322,6 +340,14 @@ class TransactionEditViewModel(
             _effects.send(TransactionEditEffect.Deleted)
         }
     }
+}
+
+private fun parseMinorFromText(text: String): Long {
+    if (text.isBlank()) return 0L
+    val normalized = text.replace(',', '.')
+    val value = normalized.toDoubleOrNull() ?: return 0L
+    if (value.isNaN() || value < 0) return 0L
+    return (value * 100).toLong()
 }
 
 private fun Long.toAmountText(): String {

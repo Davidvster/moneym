@@ -37,6 +37,7 @@ class BuildBudgetProgressUseCaseTest {
         name = "B$id",
         amount = Money(amountMinor, CurrencyCode("EUR")),
         categoryId = categoryId,
+        accountId = AccountId(0),
         periodType = BudgetPeriodType.MONTHLY,
         startYearMonth = startYm,
         recurringMonths = recurringMonths,

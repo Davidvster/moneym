@@ -25,4 +25,5 @@
     <string name="edit_delete_confirm_cancel">Annulla</string>
     <string name="edit_calculator_title">Calcolatrice</string>
     <string name="edit_payment_mode_label">Modalità di pagamento</string>
+    <string name="edit_budget_after_label">Dopo questa transazione</string>
 </resources>

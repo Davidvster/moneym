@@ -25,4 +25,5 @@
     <string name="edit_delete_confirm_cancel">Cancel</string>
     <string name="edit_calculator_title">Calculator</string>
     <string name="edit_payment_mode_label">Payment mode</string>
+    <string name="edit_budget_after_label">After this transaction</string>
 </resources>

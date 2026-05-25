@@ -20,8 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.common.formatNumber
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.ui.MmBudgetProgressBar
 import com.dv.moneym.core.ui.MmCard
-import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.feature.overview.usecase.BudgetProgress
 import moneym.feature.overview.generated.resources.Res
 import moneym.feature.overview.generated.resources.overview_budgets_all_categories
@@ -58,13 +58,17 @@ private fun BudgetProgressRow(p: BudgetProgress) {
     val colors = MM.colors
     val type = MM.type
     val allCategoriesLabel = stringResource(Res.string.overview_budgets_all_categories)
-    val barColor = if (p.isOverrun) colors.danger
-    else p.categoryColor?.let { Color(it) } ?: colors.accent
-    val trackColor = colors.divider
+    val remainingLabel = if (p.remaining.minorUnits == 0L) ""
+    else if (p.isOverrun)
+        stringResource(Res.string.overview_budgets_overrun_suffix, formatNumber(-p.remaining.minorUnits / 100.0, 2))
+    else
+        stringResource(Res.string.overview_budgets_remaining_suffix, formatNumber(p.remaining.minorUnits / 100.0, 2))
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = MM.dimen.padding_0_5x),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
         ) {
@@ -74,61 +78,24 @@ private fun BudgetProgressRow(p: BudgetProgress) {
                     .clip(RoundedCornerShape(MM.dimen.padding_0_5x))
                     .background(p.categoryColor?.let { Color(it) } ?: colors.text3),
             )
-            Column(modifier = Modifier.weight(1f)) {
-                Text(p.name, style = type.body, color = colors.text)
-                Text(
-                    text = p.categoryName ?: allCategoriesLabel,
-                    style = type.caption.copy(color = colors.text2),
-                )
-            }
-            MmMoney(
-                value = p.spent.minorUnits / 100.0,
-                currency = p.spent.currency.value,
-                color = if (p.isOverrun) colors.danger else colors.text,
-            )
             Text(
-                text = " / ",
-                style = type.captionMono.copy(color = colors.text3),
-            )
-            MmMoney(
-                value = p.amount.minorUnits / 100.0,
-                currency = "",
-                color = colors.text2,
+                text = p.categoryName ?: allCategoriesLabel,
+                style = type.caption.copy(color = colors.text2),
+                modifier = Modifier.weight(1f),
             )
         }
-        Spacer(Modifier.height(MM.dimen.padding_1x))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(6.dp)
-                .clip(RoundedCornerShape(3.dp))
-                .background(trackColor),
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(p.fraction)
-                    .height(6.dp)
-                    .clip(RoundedCornerShape(3.dp))
-                    .background(barColor),
-            )
-        }
-        if (p.remaining.minorUnits != 0L) {
-            Text(
-                text = if (p.isOverrun)
-                    stringResource(
-                        Res.string.overview_budgets_overrun_suffix,
-                        formatNumber(-p.remaining.minorUnits / 100.0, 2),
-                    )
-                else
-                    stringResource(
-                        Res.string.overview_budgets_remaining_suffix,
-                        formatNumber(p.remaining.minorUnits / 100.0, 2),
-                    ),
-                style = type.caption.copy(
-                    color = if (p.isOverrun) colors.danger else colors.text2,
-                ),
-                modifier = Modifier.padding(top = MM.dimen.padding_0_5x),
-            )
-        }
+        MmBudgetProgressBar(
+            budgetName = p.name,
+            spentLabel = formatBudgetAmount(p.spent.minorUnits / 100.0, p.spent.currency.value),
+            limitLabel = formatBudgetAmount(p.amount.minorUnits / 100.0, ""),
+            remainingLabel = remainingLabel,
+            fraction = p.fraction,
+            isOverrun = p.isOverrun,
+        )
     }
+}
+
+private fun formatBudgetAmount(v: Double, currency: String): String {
+    val formatted = formatNumber(v, 2)
+    return if (currency.isNotEmpty()) "$currency $formatted" else formatted
 }
