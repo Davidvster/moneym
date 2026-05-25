@@ -2,12 +2,13 @@ package com.dv.moneym.core.common
 
 import android.text.format.DateFormat
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.number
 import java.util.Calendar
 import java.util.Locale
 
 actual fun formatDate(date: LocalDate, style: DateStyle): String {
     val cal = Calendar.getInstance().apply {
-        set(date.year, date.monthNumber - 1, date.dayOfMonth)
+        set(date.year, date.month.number - 1, date.day)
     }
     val locale = Locale.getDefault()
     return when (style) {
@@ -16,9 +17,11 @@ actual fun formatDate(date: LocalDate, style: DateStyle): String {
             val monthDay = java.text.SimpleDateFormat("d MMMM", locale).format(cal.time)
             "$dayName, $monthDay"
         }
+
         DateStyle.Medium -> {
             java.text.SimpleDateFormat("MMM d, yyyy", locale).format(cal.time)
         }
+
         DateStyle.Short -> {
             val pattern = DateFormat.getBestDateTimePattern(locale, "ddMMyyyy")
             java.text.SimpleDateFormat(pattern, locale).format(cal.time)

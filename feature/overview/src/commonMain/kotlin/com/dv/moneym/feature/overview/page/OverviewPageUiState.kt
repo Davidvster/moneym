@@ -1,7 +1,13 @@
-package com.dv.moneym.feature.overview
+package com.dv.moneym.feature.overview.page
 
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.feature.overview.CategoryAvgSpend
+import com.dv.moneym.feature.overview.CategorySpend
+import com.dv.moneym.feature.overview.CategoryTrend
+import com.dv.moneym.feature.overview.OverviewPeriod
+import com.dv.moneym.feature.overview.SpendingFilter
+import com.dv.moneym.feature.overview.usecase.BudgetProgress
 
 internal data class OverviewPageUiState(
     val isLoading: Boolean = true,
@@ -23,6 +29,7 @@ internal data class OverviewPageUiState(
     val avgDailyExpenseYear: Double = 0.0,
     val categoryAvgSpend: List<CategoryAvgSpend> = emptyList(),
     val selectedSliceIndex: Int? = null,
+    val budgetProgress: List<BudgetProgress> = emptyList(),
 )
 
 // ─── Intents ────────────────────────────────────────────────────
@@ -40,6 +47,7 @@ internal sealed interface OverviewIntent {
         val endMonth: Int,
         val endDay: Int,
     ) : OverviewIntent
+
     data class SpendingFilterChanged(val filter: SpendingFilter) : OverviewIntent
     data class MonthPagerSwiped(val yearMonth: YearMonth) : OverviewIntent
     data class YearPagerSwiped(val year: Int) : OverviewIntent

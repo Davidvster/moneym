@@ -6,7 +6,7 @@ import platform.UIKit.UIViewController
 internal fun topViewController(): UIViewController? {
     var vc: UIViewController? = UIApplication.sharedApplication.keyWindow?.rootViewController
     while (vc?.presentedViewController != null) {
-        vc = vc!!.presentedViewController
+        vc = vc.presentedViewController
     }
     return vc
 }

@@ -82,9 +82,9 @@ internal fun MonthlySpendingBarChart(
             }
 
             // Show selected bar amount prominently
-            if (selectedBarIndex != null) {
-                val selVal = monthlyTotals.getOrElse(selectedBarIndex!!) { 0.0 }
-                val selName = monthNames.getOrElse(selectedBarIndex!!) { "" }
+            selectedBarIndex?.let { barIndex ->
+                val selVal = monthlyTotals.getOrElse(barIndex) { 0.0 }
+                val selName = monthNames.getOrElse(barIndex) { "" }
                 Spacer(Modifier.height(MM.dimen.padding_0_5x))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -259,8 +259,8 @@ internal fun CategoryBarChart(
 
     Column(modifier = modifier) {
         // Show selected bar amount prominently
-        if (selectedBarIndex != null) {
-            val selVal = monthlyTotals.getOrElse(selectedBarIndex!!) { 0.0 }
+        selectedBarIndex?.let { barIndex ->
+            val selVal = monthlyTotals.getOrElse(barIndex) { 0.0 }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -268,7 +268,7 @@ internal fun CategoryBarChart(
             ) {
                 val monthNames = localizedMonthNames().map { it.take(3) }
                 Text(
-                    text = monthNames.getOrElse(selectedBarIndex!!) { "" },
+                    text = monthNames.getOrElse(barIndex) { "" },
                     style = type.caption.copy(color = colors.text2),
                 )
                 MmMoney(

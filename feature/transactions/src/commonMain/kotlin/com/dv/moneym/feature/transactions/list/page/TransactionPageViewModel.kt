@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.datetime.number
 
 class TransactionPageViewModel(
     private val yearMonth: YearMonth,
@@ -63,7 +64,7 @@ class TransactionPageViewModel(
             transactionRepository.observeFiltered(base.filter).map { all ->
                 all.filter {
                     it.occurredOn.year == yearMonth.year &&
-                            it.occurredOn.monthNumber == yearMonth.monthNumber
+                            it.occurredOn.month.number == yearMonth.monthNumber
                 }
             }
         }

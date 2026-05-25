@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.overview
+package com.dv.moneym.feature.overview.page
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,6 +8,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.feature.overview.OverviewPeriod
+import com.dv.moneym.feature.overview.SpendingFilter
 import com.dv.moneym.feature.overview.components.OverviewPeriodBody
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf

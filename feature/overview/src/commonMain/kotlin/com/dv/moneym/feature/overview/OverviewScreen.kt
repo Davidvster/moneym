@@ -28,7 +28,10 @@ import com.dv.moneym.feature.overview.components.OverviewYearPickerDialog
 import com.dv.moneym.feature.overview.components.daysInMonthUi
 import com.dv.moneym.feature.overview.components.formatShortDate
 import com.dv.moneym.feature.overview.components.localizedMonthNames
+import com.dv.moneym.feature.overview.page.OverviewIntent
+import com.dv.moneym.feature.overview.page.OverviewPageScreen
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.number
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -159,6 +162,7 @@ private fun OverviewContent(
                     currencyCode = state.currency,
                 )
             }
+
             isYearMode -> HorizontalPager(
                 state = yearPagerState,
                 beyondViewportPageCount = 1,
@@ -170,6 +174,7 @@ private fun OverviewContent(
                     currencyCode = state.currency,
                 )
             }
+
             else -> OverviewPageScreen(
                 period = currentPeriod,
                 spendingFilter = state.spendingFilter,
@@ -189,7 +194,7 @@ private fun OverviewContent(
                     currentYear = currentPeriod.yearMonth.year,
                     currentMonth = currentPeriod.yearMonth.monthNumber,
                     minYear = state.minSelectableDateIso?.let { LocalDate.parse(it).year },
-                    minMonth = state.minSelectableDateIso?.let { LocalDate.parse(it).monthNumber },
+                    minMonth = state.minSelectableDateIso?.let { LocalDate.parse(it).month.number },
                     onDismiss = { onIntent(OverviewIntent.ShowPeriodPicker(false)) },
                     onConfirm = { year, month ->
                         onIntent(
@@ -226,6 +231,7 @@ private fun OverviewContent(
                     p.yearMonth.monthNumber,
                     daysInMonthUi(p.yearMonth.year, p.yearMonth.monthNumber),
                 )
+
                 is OverviewPeriod.Year -> Triple(p.year, 12, 31)
             }
             DateRangePickerDialog(

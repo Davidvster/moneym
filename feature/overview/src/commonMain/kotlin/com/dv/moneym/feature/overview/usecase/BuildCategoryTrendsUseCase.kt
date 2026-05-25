@@ -7,6 +7,7 @@ import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.feature.overview.CategoryTrend
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.number
 
 class BuildCategoryTrendsUseCase {
 
@@ -22,7 +23,7 @@ class BuildCategoryTrendsUseCase {
             .map { (catId, txns) ->
                 val cat = catMap[catId]
                 val series = (1..days).map { day ->
-                    txns.filter { it.occurredOn.dayOfMonth == day }
+                    txns.filter { it.occurredOn.day == day }
                         .sumOf { it.amount.minorUnits }
                         .toDouble() / 100.0
                 }
@@ -55,7 +56,7 @@ class BuildCategoryTrendsUseCase {
             .map { (catId, txns) ->
                 val cat = catMap[catId]
                 val series = (1..12).map { m ->
-                    txns.filter { it.occurredOn.monthNumber == m }
+                    txns.filter { it.occurredOn.month.number == m }
                         .sumOf { it.amount.minorUnits }
                         .toDouble() / 100.0
                 }
@@ -87,7 +88,17 @@ class BuildCategoryTrendsUseCase {
 
         return expenseTxns
             .groupBy { it.categoryId }
-            .map { (catId, txns) -> buildRangeTrend(catId, txns, catMap, startDate, totalDays, useDayBuckets, endDate) }
+            .map { (catId, txns) ->
+                buildRangeTrend(
+                    catId,
+                    txns,
+                    catMap,
+                    startDate,
+                    totalDays,
+                    useDayBuckets,
+                    endDate
+                )
+            }
             .sortedByDescending { it.totalAmount }
     }
 
@@ -109,12 +120,12 @@ class BuildCategoryTrendsUseCase {
                     .toDouble() / 100.0
             }
         } else {
-            val startEpochMonth = startDate.year * 12 + (startDate.monthNumber - 1)
-            val endEpochMonth = endDate.year * 12 + (endDate.monthNumber - 1)
+            val startEpochMonth = startDate.year * 12 + (startDate.month.number - 1)
+            val endEpochMonth = endDate.year * 12 + (endDate.month.number - 1)
             (startEpochMonth..endEpochMonth).map { epochMonth ->
                 val y = epochMonth / 12
                 val m = epochMonth % 12 + 1
-                txns.filter { it.occurredOn.year == y && it.occurredOn.monthNumber == m }
+                txns.filter { it.occurredOn.year == y && it.occurredOn.month.number == m }
                     .sumOf { it.amount.minorUnits }
                     .toDouble() / 100.0
             }

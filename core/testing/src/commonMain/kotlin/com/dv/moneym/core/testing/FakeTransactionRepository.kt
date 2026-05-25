@@ -2,9 +2,6 @@ package com.dv.moneym.core.testing
 
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CurrencyCode
-import com.dv.moneym.core.model.Money
-import com.dv.moneym.core.model.AccountId
-import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
@@ -15,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.number
 
 class FakeTransactionRepository : TransactionRepository {
     private val _transactions = MutableStateFlow<List<Transaction>>(emptyList())
@@ -28,7 +26,7 @@ class FakeTransactionRepository : TransactionRepository {
 
     override fun observeByMonth(year: Int, month: Int): Flow<List<Transaction>> =
         _transactions.map { list ->
-            list.filter { it.occurredOn.year == year && it.occurredOn.monthNumber == month }
+            list.filter { it.occurredOn.year == year && it.occurredOn.month.number == month }
         }
 
     override fun observeFiltered(filter: TransactionFilter): Flow<List<Transaction>> =

@@ -10,6 +10,7 @@ import com.dv.moneym.core.model.OverviewPeriodMode
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.transactions.TransactionRepository
+import com.dv.moneym.feature.overview.page.OverviewIntent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,6 +22,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.number
 
 class OverviewViewModel(
     private val transactionRepository: TransactionRepository,
@@ -33,7 +35,14 @@ class OverviewViewModel(
     private val today get() = clock.today()
 
     private val _currentPeriod by savedStateHandle.saved {
-        MutableStateFlow<OverviewPeriod>(OverviewPeriod.Month(YearMonth(today.year, today.monthNumber)))
+        MutableStateFlow<OverviewPeriod>(
+            OverviewPeriod.Month(
+                YearMonth(
+                    today.year,
+                    today.month.number
+                )
+            )
+        )
     }
     private val _spendingFilter = MutableStateFlow(SpendingFilter.Expenses)
     private val _selectedAccountId by savedStateHandle.saved { MutableStateFlow<Long>(-1L) }
@@ -55,7 +64,7 @@ class OverviewViewModel(
 
     private val _earliestMonth: StateFlow<YearMonth?> = transactionRepository
         .getTransactionDates()
-        .map { dates -> dates.minOrNull()?.let { YearMonth(it.year, it.monthNumber) } }
+        .map { dates -> dates.minOrNull()?.let { YearMonth(it.year, it.month.number) } }
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     private fun init() {
@@ -65,6 +74,7 @@ class OverviewViewModel(
                 OverviewPeriodMode.Year -> _currentPeriod.update {
                     OverviewPeriod.Year(today.year)
                 }
+
                 OverviewPeriodMode.DateRange -> {}
                 OverviewPeriodMode.Month -> {}
             }
@@ -83,7 +93,7 @@ class OverviewViewModel(
         _dateBounds,
         combine(_selectedAccountId, accountRepository.observeAll()) { id, accs -> id to accs },
     ) { period, spendingFilter, earliestMonth, (minIso, maxIso), (selectedAccId, accounts) ->
-        val todayYearMonth = YearMonth(today.year, today.monthNumber)
+        val todayYearMonth = YearMonth(today.year, today.month.number)
         val monthAnchor = earliestMonth ?: todayYearMonth
         val yearAnchor = earliestMonth?.year ?: today.year
 
@@ -104,17 +114,19 @@ class OverviewViewModel(
                 val minDate = minIso?.let { LocalDate.parse(it) }
                 if (minDate == null) true
                 else YearMonth(p.yearMonth.year, p.yearMonth.monthNumber) >
-                    YearMonth(minDate.year, minDate.monthNumber)
+                        YearMonth(minDate.year, minDate.month.number)
             }
+
             is OverviewPeriod.Year -> {
                 val minYear = minIso?.let { LocalDate.parse(it).year }
                 minYear == null || p.year > minYear
             }
+
             is OverviewPeriod.DateRange -> false
         }
 
         val currency = (if (selectedAccId > 0L) accounts.find { it.id.value == selectedAccId }
-            else accounts.firstOrNull { it.isDefault } ?: accounts.firstOrNull())
+        else accounts.firstOrNull { it.isDefault } ?: accounts.firstOrNull())
             ?.currency?.value ?: "USD"
 
         OverviewUiState(
@@ -181,9 +193,12 @@ class OverviewViewModel(
                 when (prev) {
                     is OverviewPeriod.Month ->
                         if (YearMonth(prev.yearMonth.year, prev.yearMonth.monthNumber) <
-                            YearMonth(minDate.year, minDate.monthNumber)) period else prev
+                            YearMonth(minDate.year, minDate.month.number)
+                        ) period else prev
+
                     is OverviewPeriod.Year ->
                         if (prev.year < minDate.year) period else prev
+
                     else -> prev
                 }
             } else prev
@@ -195,10 +210,11 @@ class OverviewViewModel(
             val newPeriod = when (period) {
                 is OverviewPeriod.Month -> OverviewPeriod.Year(period.yearMonth.year)
                 is OverviewPeriod.Year -> OverviewPeriod.Month(
-                    YearMonth(period.year, today.monthNumber)
+                    YearMonth(period.year, today.month.number)
                 )
+
                 is OverviewPeriod.DateRange -> OverviewPeriod.Month(
-                    YearMonth(today.year, today.monthNumber)
+                    YearMonth(today.year, today.month.number)
                 )
             }
             persistPeriod(newPeriod)

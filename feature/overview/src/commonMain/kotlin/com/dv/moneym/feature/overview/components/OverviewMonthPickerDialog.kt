@@ -1,7 +1,5 @@
 package com.dv.moneym.feature.overview.components
 
-import com.dv.moneym.core.ui.imageVector
-import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -30,8 +28,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmIconButton
+import com.dv.moneym.core.ui.imageVector
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
 import moneym.feature.overview.generated.resources.Res
 import moneym.feature.overview.generated.resources.overview_cancel
@@ -64,7 +65,7 @@ internal fun OverviewMonthPickerDialog(
             .toLocalDateTime(TimeZone.currentSystemDefault()).date
     }
     val nowYear = todayDate.year
-    val nowMonth = todayDate.monthNumber
+    val nowMonth = todayDate.month.number
 
     val monthNames = localizedMonthNames().map { it.take(3) }
 
@@ -174,7 +175,8 @@ private fun OverviewMonthPickerContent(
                         val m = row * 3 + col + 1
                         val isSelected = m == selectedMonth
                         val isNow = m == nowMonth && selectedYear == nowYear
-                        val isDisabled = minYear != null && selectedYear == minYear && minMonth != null && m < minMonth
+                        val isDisabled =
+                            minYear != null && selectedYear == minYear && minMonth != null && m < minMonth
                         Box(
                             modifier = Modifier
                                 .clip(radius.radius_1x)

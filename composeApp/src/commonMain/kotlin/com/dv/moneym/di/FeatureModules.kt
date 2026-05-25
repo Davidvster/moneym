@@ -2,31 +2,32 @@ package com.dv.moneym.di
 
 import com.dv.moneym.AppInitializer
 import com.dv.moneym.AppLockController
+import com.dv.moneym.AutoBackupManager
+import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.security.PinHasher
 import com.dv.moneym.core.security.PinManager
-import com.dv.moneym.AutoBackupManager
 import com.dv.moneym.data.accounts.db.AccountsRoomDatabase
 import com.dv.moneym.data.backup.BackupExporter
-import com.dv.moneym.data.backup.DbBackupManager
 import com.dv.moneym.data.backup.BackupImporter
 import com.dv.moneym.data.backup.BackupRestorer
+import com.dv.moneym.data.backup.DbBackupManager
 import com.dv.moneym.data.categories.db.CategoriesRoomDatabase
 import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
-import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.feature.budgets.create.BudgetCreateViewModel
 import com.dv.moneym.feature.budgets.list.BudgetListViewModel
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
 import com.dv.moneym.feature.categories.list.CategoryListViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
-import com.dv.moneym.feature.overview.OverviewPageViewModel
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.OverviewViewModel
+import com.dv.moneym.feature.overview.page.OverviewPageViewModel
 import com.dv.moneym.feature.overview.usecase.BuildBudgetProgressUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCategoryBreakdownUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCategoryTrendsUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCumulativeSeriesUseCase
+import com.dv.moneym.feature.overview.usecase.BuildOverviewPageStateUseCase
 import com.dv.moneym.feature.overview.usecase.ResolvePeriodRangeUseCase
 import com.dv.moneym.feature.security.setup.PinSetupViewModel
 import com.dv.moneym.feature.security.unlock.PinUnlockViewModel
@@ -289,6 +290,7 @@ val featureOverviewModule = module {
     single { BuildCategoryBreakdownUseCase() }
     single { BuildCategoryTrendsUseCase() }
     single { BuildCumulativeSeriesUseCase() }
+    single { BuildOverviewPageStateUseCase(get(), get(), get(), get(), get()) }
     viewModelOf(::OverviewViewModel)
     viewModel { params ->
         OverviewPageViewModel(
@@ -298,11 +300,7 @@ val featureOverviewModule = module {
             accountRepository = get(),
             appSettingsRepository = get(),
             budgetRepository = get(),
-            buildBudgetProgress = get(),
-            resolvePeriodRange = get(),
-            buildCategoryBreakdown = get(),
-            buildCategoryTrends = get(),
-            buildCumulativeSeries = get(),
+            buildOverviewPageState = get(),
             clock = get(),
         )
     }

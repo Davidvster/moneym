@@ -35,8 +35,15 @@ class TransactionListViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    @BeforeTest fun setUp() { Dispatchers.setMain(testDispatcher) }
-    @AfterTest fun tearDown() { Dispatchers.resetMain() }
+    @BeforeTest
+    fun setUp() {
+        Dispatchers.setMain(testDispatcher)
+    }
+
+    @AfterTest
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
 
     private val eur = CurrencyCode("EUR")
     private val clockInstant = Instant.parse("2026-05-10T12:00:00Z")
@@ -89,8 +96,8 @@ class TransactionListViewModelTest {
         vm.state.test {
             var s = awaitItem()
             while (s.currentMonth == null) s = awaitItem()
-            assertEquals(today.year, s.currentMonth!!.year)
-            assertEquals(today.month.ordinal + 1, s.currentMonth!!.monthNumber)
+            assertEquals(today.year, s.currentMonth.year)
+            assertEquals(today.month.ordinal + 1, s.currentMonth.monthNumber)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -135,7 +142,7 @@ class TransactionListViewModelTest {
         vm.state.test {
             var s = awaitItem()
             while (s.currentMonth == null) s = awaitItem()
-            val before = s.currentMonth!!
+            val before = s.currentMonth
             vm.onIntent(TransactionListIntent.PreviousMonth)
             var after = awaitItem()
             while (after.currentMonth == before) after = awaitItem()

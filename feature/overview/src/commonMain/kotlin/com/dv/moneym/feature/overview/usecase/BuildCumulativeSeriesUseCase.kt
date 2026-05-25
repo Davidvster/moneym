@@ -3,6 +3,7 @@ package com.dv.moneym.feature.overview.usecase
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionType
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.number
 
 internal data class CumulativeSeries(
     val dailyTotals: List<Double>,
@@ -18,11 +19,11 @@ class BuildCumulativeSeriesUseCase {
         today: LocalDate,
     ): CumulativeSeries {
         val days = daysInMonth(year, month)
-        val isCurrentMonth = year == today.year && month == today.monthNumber
+        val isCurrentMonth = year == today.year && month == today.month.number
 
         val rawDaily = (1..days).map { day ->
             periodTxns
-                .filter { it.type == TransactionType.EXPENSE && it.occurredOn.dayOfMonth == day }
+                .filter { it.type == TransactionType.EXPENSE && it.occurredOn.day == day }
                 .sumOf { it.amount.minorUnits }
                 .toDouble() / 100.0
         }
@@ -31,7 +32,7 @@ class BuildCumulativeSeriesUseCase {
         val cumulative = rawDaily.map { v -> running += v; running }
 
         val todayIndex = if (isCurrentMonth) {
-            (today.dayOfMonth - 1).coerceIn(0, days - 1)
+            (today.day - 1).coerceIn(0, days - 1)
         } else {
             days - 1
         }
@@ -51,7 +52,7 @@ class BuildCumulativeSeriesUseCase {
             .filter {
                 it.type == TransactionType.EXPENSE &&
                         it.occurredOn.year == year &&
-                        it.occurredOn.monthNumber == m
+                        it.occurredOn.month.number == m
             }
             .sumOf { it.amount.minorUnits }
             .toDouble() / 100.0

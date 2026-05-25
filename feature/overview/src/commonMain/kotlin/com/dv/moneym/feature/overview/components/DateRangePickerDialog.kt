@@ -18,6 +18,7 @@ import com.dv.moneym.core.designsystem.MM
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
 import moneym.feature.overview.generated.resources.Res
 import moneym.feature.overview.generated.resources.overview_cancel
@@ -112,8 +113,8 @@ internal fun DateRangePickerDialog(
                     val end = Instant.fromEpochMilliseconds(endMs)
                         .toLocalDateTime(TimeZone.UTC).date
                     onConfirm(
-                        start.year, start.monthNumber, start.dayOfMonth,
-                        end.year, end.monthNumber, end.dayOfMonth,
+                        start.year, start.month.number, start.day,
+                        end.year, end.month.number, end.day,
                     )
                 } else {
                     onDismiss()
@@ -164,13 +165,13 @@ internal fun DateRangePickerDialog(
                     horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
                 ) {
                     Text(
-                        text = if (start != null) "${start.dayOfMonth}.${start.monthNumber}.${start.year}" else fromLabel,
+                        text = if (start != null) "${start.day}.${start.month.number}.${start.year}" else fromLabel,
                         style = MM.type.body,
                         color = if (start != null) colors.text else colors.text3,
                     )
                     Text(" – ", style = MM.type.body, color = colors.text2)
                     Text(
-                        text = if (end != null) "${end.dayOfMonth}.${end.monthNumber}.${end.year}" else toLabel,
+                        text = if (end != null) "${end.day}.${end.month.number}.${end.year}" else toLabel,
                         style = MM.type.body,
                         color = if (end != null) colors.text else colors.text3,
                     )

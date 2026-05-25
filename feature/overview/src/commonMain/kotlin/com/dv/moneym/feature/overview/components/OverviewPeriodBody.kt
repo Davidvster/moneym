@@ -46,10 +46,10 @@ import com.dv.moneym.core.ui.MmSegmentedSize
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.overview.CategorySpend
 import com.dv.moneym.feature.overview.CategoryTrend
-import com.dv.moneym.feature.overview.OverviewPageIntent
-import com.dv.moneym.feature.overview.OverviewPageUiState
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.SpendingFilter
+import com.dv.moneym.feature.overview.page.OverviewPageIntent
+import com.dv.moneym.feature.overview.page.OverviewPageUiState
 import moneym.feature.overview.generated.resources.Res
 import moneym.feature.overview.generated.resources.overview_avg_day
 import moneym.feature.overview.generated.resources.overview_avg_month
@@ -80,76 +80,91 @@ internal fun OverviewPeriodBody(
     val avgDayLabel = stringResource(Res.string.overview_avg_day)
     val avgMonthLabel = stringResource(Res.string.overview_avg_month)
     Column(modifier = Modifier.fillMaxWidth()) {
-            IncomeExpensesCard(
-                income = state.income,
-                expenses = state.expenses,
-                currencyCode = currencyCode,
-                filter = spendingFilter,
-                modifier = Modifier.fillMaxWidth().padding(horizontal = space.padding_2x),
-            )
-            if (state.budgetProgress.isNotEmpty()) {
-                BudgetBreakdownCard(
-                    progress = state.budgetProgress,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = space.padding_2x, vertical = space.padding_1_5x),
-                )
-            }
-            AvgStatsCard(
-                inMonthMode = inMonthMode,
-                avgDailyExpense = state.avgDailyExpense,
-                avgMonthlyExpense = state.avgMonthlyExpense,
-                avgDailyExpenseYear = state.avgDailyExpenseYear,
-                avgDayLabel = avgDayLabel,
-                avgMonthLabel = avgMonthLabel,
-                currencyCode = currencyCode,
-            )
-            SpendingByCategoryCard(
-                expenseCategories = state.categoryBreakdown,
-                incomeCategories = state.categoryIncomeBreakdown,
-                totalExpenses = state.expenses,
-                totalIncome = state.income,
-                currencyCode = currencyCode,
-                selectedSliceIndex = state.selectedSliceIndex,
-                inYearMode = inYearMode,
-                filter = spendingFilter,
-                onSliceTapped = { onIntent(OverviewPageIntent.SliceTapped(it)) },
+        IncomeExpensesCard(
+            income = state.income,
+            expenses = state.expenses,
+            currencyCode = currencyCode,
+            filter = spendingFilter,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = space.padding_2x),
+        )
+        if (state.budgetProgress.isNotEmpty()) {
+            BudgetBreakdownCard(
+                progress = state.budgetProgress,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(
+                    .padding(horizontal = space.padding_2x, vertical = space.padding_1_5x),
+            )
+        }
+        AvgStatsCard(
+            inMonthMode = inMonthMode,
+            avgDailyExpense = state.avgDailyExpense,
+            avgMonthlyExpense = state.avgMonthlyExpense,
+            avgDailyExpenseYear = state.avgDailyExpenseYear,
+            avgDayLabel = avgDayLabel,
+            avgMonthLabel = avgMonthLabel,
+            currencyCode = currencyCode,
+        )
+        SpendingByCategoryCard(
+            expenseCategories = state.categoryBreakdown,
+            incomeCategories = state.categoryIncomeBreakdown,
+            totalExpenses = state.expenses,
+            totalIncome = state.income,
+            currencyCode = currencyCode,
+            selectedSliceIndex = state.selectedSliceIndex,
+            inYearMode = inYearMode,
+            filter = spendingFilter,
+            onSliceTapped = { onIntent(OverviewPageIntent.SliceTapped(it)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
                     horizontal = space.padding_2x,
                     vertical = space.padding_1_5x
                 ),
+        )
+        if (inMonthMode) {
+            CumulativeSpendCard(
+                cumulativeTotals = state.cumulativeTotals,
+                todayIndex = state.todayIndex,
+                currencyCode = currencyCode,
             )
-            if (inMonthMode) {
-                CumulativeSpendCard(
-                    cumulativeTotals = state.cumulativeTotals,
-                    todayIndex = state.todayIndex,
-                    currencyCode = currencyCode,
-                )
+            CategoryTrendsCard(
+                trends = state.categoryDailyTrend,
+                highlightIndex = state.todayIndex,
+                xLabels = stringArrayResource(Res.array.overview_month_x_labels),
+                title = stringResource(Res.string.overview_daily_trend),
+                showBars = false,
+                currencyCode = currencyCode,
+                modifier = Modifier.padding(
+                    horizontal = space.padding_2x,
+                    vertical = space.padding_0_5x
+                ),
+            )
+        } else if (inYearMode) {
+            MonthlySpendingBarChart(
+                monthlyTotals = state.monthlyTotals,
+                currentMonthIndex = state.currentMonthIndex,
+                currencyCode = currencyCode,
+            )
+            CategoryTrendsCard(
+                trends = state.categoryMonthlyTrend,
+                highlightIndex = state.currentMonthIndex,
+                xLabels = stringArrayResource(Res.array.overview_year_x_labels),
+                title = stringResource(Res.string.overview_monthly_trend),
+                showBars = true,
+                currencyCode = currencyCode,
+                modifier = Modifier.padding(
+                    horizontal = space.padding_2x,
+                    vertical = space.padding_0_5x
+                ),
+            )
+        } else {
+            // DateRange mode — show category breakdown only, no time-series charts
+            if (state.categoryDailyTrend.isNotEmpty()) {
                 CategoryTrendsCard(
                     trends = state.categoryDailyTrend,
-                    highlightIndex = state.todayIndex,
-                    xLabels = stringArrayResource(Res.array.overview_month_x_labels),
+                    highlightIndex = -1,
+                    xLabels = emptyList(),
                     title = stringResource(Res.string.overview_daily_trend),
-                    showBars = false,
-                    currencyCode = currencyCode,
-                    modifier = Modifier.padding(
-                        horizontal = space.padding_2x,
-                        vertical = space.padding_0_5x
-                    ),
-                )
-            } else if (inYearMode) {
-                MonthlySpendingBarChart(
-                    monthlyTotals = state.monthlyTotals,
-                    currentMonthIndex = state.currentMonthIndex,
-                    currencyCode = currencyCode,
-                )
-                CategoryTrendsCard(
-                    trends = state.categoryMonthlyTrend,
-                    highlightIndex = state.currentMonthIndex,
-                    xLabels = stringArrayResource(Res.array.overview_year_x_labels),
-                    title = stringResource(Res.string.overview_monthly_trend),
                     showBars = true,
                     currencyCode = currencyCode,
                     modifier = Modifier.padding(
@@ -157,23 +172,8 @@ internal fun OverviewPeriodBody(
                         vertical = space.padding_0_5x
                     ),
                 )
-            } else {
-                // DateRange mode — show category breakdown only, no time-series charts
-                if (state.categoryDailyTrend.isNotEmpty()) {
-                    CategoryTrendsCard(
-                        trends = state.categoryDailyTrend,
-                        highlightIndex = -1,
-                        xLabels = emptyList(),
-                        title = stringResource(Res.string.overview_daily_trend),
-                        showBars = true,
-                        currencyCode = currencyCode,
-                        modifier = Modifier.padding(
-                            horizontal = space.padding_2x,
-                            vertical = space.padding_0_5x
-                        ),
-                    )
-                }
             }
+        }
         Spacer(Modifier.height(space.padding_2x))
     }
 }
@@ -219,7 +219,8 @@ private fun SpendingByCategoryCard(
                 transitionSpec = { fadeIn(tween(220)) togetherWith fadeOut(tween(180)) },
                 label = "spending_filter",
             ) { activeFilter ->
-                val animCats = resolveAnimCats(activeFilter, expenseCategories, incomeCategories, total)
+                val animCats =
+                    resolveAnimCats(activeFilter, expenseCategories, incomeCategories, total)
                 SpendingByCategoryCardBody(
                     animCats = animCats,
                     total = total,
@@ -245,6 +246,7 @@ private fun resolveAnimCats(
         val combined = expenseCategories + incomeCategories
         if (total > 0) combined.map { it.copy(percent = ((it.amount / total) * 100).toInt()) } else combined
     }
+
     SpendingFilter.Expenses -> expenseCategories
     SpendingFilter.Income -> incomeCategories
 }
@@ -707,7 +709,9 @@ private fun TrendsCumulativeSection(
         .drop(1)
     CumulativeChart(
         values = cumulativeData,
-        todayIndex = if (highlightIndex >= 0) highlightIndex else cumulativeData.lastIndex.coerceAtLeast(0),
+        todayIndex = if (highlightIndex >= 0) highlightIndex else cumulativeData.lastIndex.coerceAtLeast(
+            0
+        ),
         xLabels = xLabels,
         modifier = Modifier
             .fillMaxWidth()

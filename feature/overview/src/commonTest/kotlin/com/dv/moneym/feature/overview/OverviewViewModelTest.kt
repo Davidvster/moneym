@@ -11,13 +11,17 @@ import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.testing.FakeAccountRepository
 import com.dv.moneym.core.testing.FakeAppSettingsRepository
+import com.dv.moneym.core.testing.FakeBudgetRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.FixedClock
 import com.dv.moneym.core.testing.runTestWithDispatchers
+import com.dv.moneym.feature.overview.page.OverviewPageViewModel
+import com.dv.moneym.feature.overview.usecase.BuildBudgetProgressUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCategoryBreakdownUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCategoryTrendsUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCumulativeSeriesUseCase
+import com.dv.moneym.feature.overview.usecase.BuildOverviewPageStateUseCase
 import com.dv.moneym.feature.overview.usecase.ResolvePeriodRangeUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -37,8 +41,15 @@ class OverviewViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    @BeforeTest fun setUp() { Dispatchers.setMain(testDispatcher) }
-    @AfterTest fun tearDown() { Dispatchers.resetMain() }
+    @BeforeTest
+    fun setUp() {
+        Dispatchers.setMain(testDispatcher)
+    }
+
+    @AfterTest
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
 
     private val epoch = Instant.fromEpochMilliseconds(0)
     private val clock = FixedClock(Instant.parse("2026-05-10T12:00:00Z"))
@@ -47,7 +58,13 @@ class OverviewViewModelTest {
     private val accountRepo = FakeAccountRepository()
     private val settingsRepo = FakeAppSettingsRepository()
     private val budgetRepo = FakeBudgetRepository()
-    private val buildBudgetProgress = BuildBudgetProgressUseCase()
+    private val buildOverviewPageState = BuildOverviewPageStateUseCase(
+        resolvePeriodRange = ResolvePeriodRangeUseCase(),
+        buildCategoryBreakdown = BuildCategoryBreakdownUseCase(),
+        buildCategoryTrends = BuildCategoryTrendsUseCase(),
+        buildCumulativeSeries = BuildCumulativeSeriesUseCase(),
+        buildBudgetProgress = BuildBudgetProgressUseCase(),
+    )
 
     private fun makePageVm(period: OverviewPeriod) = OverviewPageViewModel(
         period = period,
@@ -56,11 +73,7 @@ class OverviewViewModelTest {
         accountRepository = accountRepo,
         appSettingsRepository = settingsRepo,
         budgetRepository = budgetRepo,
-        buildBudgetProgress = buildBudgetProgress,
-        resolvePeriodRange = ResolvePeriodRangeUseCase(),
-        buildCategoryBreakdown = BuildCategoryBreakdownUseCase(),
-        buildCategoryTrends = BuildCategoryTrendsUseCase(),
-        buildCumulativeSeries = BuildCumulativeSeriesUseCase(),
+        buildOverviewPageState = buildOverviewPageState,
         clock = clock,
     )
 
