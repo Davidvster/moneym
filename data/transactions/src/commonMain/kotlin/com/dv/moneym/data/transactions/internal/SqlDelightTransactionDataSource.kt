@@ -83,4 +83,6 @@ internal class SqlDelightTransactionDataSource(
     override suspend fun getLatestDate(): String? = dao.getLatestDate()
 
     override fun getDistinctTransactionDates(): Flow<List<String>> = dao.selectDistinctDates()
+
+    override suspend fun countByRecurringId(recurringId: Long): Int = dao.countByRecurringId(recurringId)
 }

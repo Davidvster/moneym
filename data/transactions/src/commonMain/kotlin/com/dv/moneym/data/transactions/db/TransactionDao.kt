@@ -58,4 +58,7 @@ interface TransactionDao {
 
     @Query("SELECT DISTINCT occurred_on FROM TransactionEntry ORDER BY occurred_on")
     fun selectDistinctDates(): Flow<List<String>>
+
+    @Query("SELECT COUNT(*) FROM TransactionEntry WHERE recurring_id = :recurringId")
+    suspend fun countByRecurringId(recurringId: Long): Int
 }

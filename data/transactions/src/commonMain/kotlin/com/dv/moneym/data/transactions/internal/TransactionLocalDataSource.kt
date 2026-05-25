@@ -29,4 +29,5 @@ internal interface TransactionLocalDataSource {
     suspend fun getEarliestDate(): String?
     suspend fun getLatestDate(): String?
     fun getDistinctTransactionDates(): Flow<List<String>>
+    suspend fun countByRecurringId(recurringId: Long): Int
 }

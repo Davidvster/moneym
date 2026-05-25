@@ -11,6 +11,7 @@ import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.categories.SeedCategoriesUseCase
 import com.dv.moneym.data.categories.createCategoryRepository
 import com.dv.moneym.data.categories.db.CategoriesRoomDatabase
+import com.dv.moneym.data.transactions.MaterializeRecurringTransactionsUseCase
 import com.dv.moneym.data.transactions.PaymentModeRepository
 import com.dv.moneym.data.transactions.RecurringTransactionRepository
 import com.dv.moneym.data.transactions.SeedPaymentModesUseCase
@@ -37,6 +38,7 @@ val dataTransactionsModule = module {
     single<PaymentModeRepository> { createPaymentModeRepository(get<TransactionsRoomDatabase>()) }
     single<RecurringTransactionRepository> { createRecurringTransactionRepository(get<TransactionsRoomDatabase>()) }
     single { SeedPaymentModesUseCase(get()) }
+    single { MaterializeRecurringTransactionsUseCase(get(), get(), get()) }
 }
 
 val dataBudgetsModule = module {

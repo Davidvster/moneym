@@ -183,4 +183,11 @@ class DefaultAppSettingsRepository(
     override suspend fun setPaymentModeEnabled(enabled: Boolean) {
         appSettings.putBoolean(PrefKeys.PAYMENT_MODE_ENABLED, enabled)
     }
+
+    override fun observeShowPendingRecurring(): Flow<Boolean> =
+        appSettings.observeBoolean(PrefKeys.SHOW_PENDING_RECURRING_TX, true)
+
+    override suspend fun setShowPendingRecurring(enabled: Boolean) {
+        appSettings.putBoolean(PrefKeys.SHOW_PENDING_RECURRING_TX, enabled)
+    }
 }

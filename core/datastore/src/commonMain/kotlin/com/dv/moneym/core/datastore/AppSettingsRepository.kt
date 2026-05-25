@@ -35,4 +35,8 @@ interface AppSettingsRepository {
     // Payment mode feature toggle
     fun observePaymentModeEnabled(): Flow<Boolean>
     suspend fun setPaymentModeEnabled(enabled: Boolean)
+
+    // Pending recurring transactions visibility in tx list (default true)
+    fun observeShowPendingRecurring(): Flow<Boolean>
+    suspend fun setShowPendingRecurring(enabled: Boolean)
 }

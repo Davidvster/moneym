@@ -2,6 +2,7 @@ package com.dv.moneym.core.testing
 
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CurrencyCode
+import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
@@ -90,4 +91,7 @@ class FakeTransactionRepository : TransactionRepository {
 
     override fun getTransactionDates(): Flow<Set<LocalDate>> =
         _transactions.map { list -> list.map { it.occurredOn }.toSet() }
+
+    override suspend fun countByRecurringId(id: RecurringTransactionId): Int =
+        _transactions.value.count { it.recurringId == id }
 }

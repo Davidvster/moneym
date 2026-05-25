@@ -2,6 +2,7 @@ package com.dv.moneym.data.transactions.internal
 
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CurrencyCode
+import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
@@ -103,4 +104,7 @@ internal class TransactionRepositoryImpl(
                     runCatching { LocalDate.parse(s) }.getOrNull()
                 }
             }
+
+    override suspend fun countByRecurringId(id: RecurringTransactionId): Int =
+        dataSource.countByRecurringId(id.value)
 }

@@ -45,6 +45,9 @@ object PrefKeys {
     // Payment mode feature toggle
     const val PAYMENT_MODE_ENABLED = "pref.payment_mode_enabled"
 
+    // Show upcoming (grayed) recurring transaction occurrences in tx list
+    const val SHOW_PENDING_RECURRING_TX = "pref.show_pending_recurring_tx"
+
     // Auto-backup
     const val AUTO_BACKUP_ENABLED = "pref.auto_backup_enabled"
     const val LAST_BACKUP_TIME_MS = "pref.last_backup_time_ms"

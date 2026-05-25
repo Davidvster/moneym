@@ -2,6 +2,7 @@ package com.dv.moneym.data.transactions
 
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CurrencyCode
+import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
@@ -21,4 +22,5 @@ interface TransactionRepository {
     suspend fun getEarliestTransactionDate(): LocalDate?
     suspend fun getLatestTransactionDate(): LocalDate?
     fun getTransactionDates(): Flow<Set<LocalDate>>
+    suspend fun countByRecurringId(id: RecurringTransactionId): Int
 }
