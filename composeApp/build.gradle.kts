@@ -80,6 +80,7 @@ kotlin {
             implementation(projects.feature.security)
             implementation(projects.feature.settings)
             implementation(projects.feature.categories)
+            implementation(projects.feature.budgets)
             implementation(projects.feature.onboarding)
             implementation(projects.feature.overview)
         }

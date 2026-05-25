@@ -1,0 +1,56 @@
+package com.dv.moneym.feature.budgets.list.components
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Icon as M3Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.ui.MmMoney
+import com.dv.moneym.core.ui.MmRow
+import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.feature.budgets.list.BudgetRowVm
+
+@Composable
+internal fun BudgetRow(
+    row: BudgetRowVm,
+    scopeLabel: String,
+    recurringLabel: String?,
+    onClick: () -> Unit,
+    onDelete: () -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    MmRow(onClick = onClick) {
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(row.name, style = type.body, color = colors.text)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(scopeLabel, style = type.caption.copy(color = colors.text2))
+                if (recurringLabel != null) {
+                    Text("· $recurringLabel", style = type.caption.copy(color = colors.text2))
+                }
+            }
+        }
+        MmMoney(
+            value = row.amount.minorUnits / 100.0,
+            currency = row.amount.currency.value,
+            color = colors.text,
+        )
+        IconButton(onClick = onDelete) {
+            M3Icon(
+                imageVector = Icon.Trash.imageVector,
+                contentDescription = "Delete",
+                tint = colors.text3,
+            )
+        }
+    }
+}

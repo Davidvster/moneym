@@ -14,6 +14,7 @@ import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.imageVector
 import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.settings_budgets
 import moneym.feature.settings.generated.resources.settings_categories
 import moneym.feature.settings.generated.resources.settings_language
 import moneym.feature.settings.generated.resources.settings_payment_mode_enabled
@@ -27,6 +28,7 @@ internal fun PreferencesSection(
     paymentModeEnabled: Boolean,
     onNavigateToLanguage: () -> Unit,
     onNavigateToCategories: () -> Unit,
+    onNavigateToBudgets: () -> Unit,
     onNavigateToWallets: () -> Unit,
     onNavigateToPaymentModes: () -> Unit,
     onPaymentModeEnabledChanged: (Boolean) -> Unit,
@@ -66,6 +68,26 @@ internal fun PreferencesSection(
             )
             Text(
                 stringResource(Res.string.settings_categories),
+                style = type.body,
+                color = colors.text,
+                modifier = Modifier.weight(1f),
+            )
+            Icon(
+                imageVector = Icon.ChevronRight.imageVector,
+                contentDescription = null,
+                tint = colors.text3,
+                modifier = Modifier.size(MM.dimen.padding_2x),
+            )
+        }
+        MmRow(onClick = onNavigateToBudgets) {
+            Icon(
+                imageVector = Icon.Chart.imageVector,
+                contentDescription = null,
+                tint = colors.text,
+                modifier = Modifier.size(MM.dimen.icon_1x),
+            )
+            Text(
+                stringResource(Res.string.settings_budgets),
                 style = type.body,
                 color = colors.text,
                 modifier = Modifier.weight(1f),

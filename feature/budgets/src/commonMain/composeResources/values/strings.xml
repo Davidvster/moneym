@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Budgets</string>
+    <string name="budgets_empty">No budgets yet</string>
+    <string name="budgets_new">New budget</string>
+    <string name="budgets_new_title">New Budget</string>
+    <string name="budgets_edit_title">Edit Budget</string>
+    <string name="budgets_name_label">Name</string>
+    <string name="budgets_amount_label">Amount</string>
+    <string name="budgets_category_label">Category</string>
+    <string name="budgets_all_categories">All categories</string>
+    <string name="budgets_start_month">Start month</string>
+    <string name="budgets_recurring">Recurring</string>
+    <string name="budgets_recurring_single">Single</string>
+    <string name="budgets_recurring_unlimited">Unlimited</string>
+    <string name="budgets_recurring_n_months">N months</string>
+    <string name="budgets_recurring_count_label">Number of months</string>
+    <string name="budgets_recurring_badge_unlimited">Recurring</string>
+    <string name="budgets_recurring_badge_n_months">%1$d months</string>
+    <string name="budgets_save">Save</string>
+    <string name="budgets_cancel">Cancel</string>
+    <string name="budgets_delete">Delete</string>
+    <string name="budgets_delete_confirm_title">Delete "%1$s"?</string>
+    <string name="budgets_delete_confirm_body">This will remove the budget. Transactions are unaffected.</string>
+</resources>

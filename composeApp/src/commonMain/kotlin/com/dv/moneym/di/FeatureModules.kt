@@ -13,6 +13,9 @@ import com.dv.moneym.data.backup.BackupImporter
 import com.dv.moneym.data.backup.BackupRestorer
 import com.dv.moneym.data.categories.db.CategoriesRoomDatabase
 import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
+import com.dv.moneym.core.model.BudgetId
+import com.dv.moneym.feature.budgets.create.BudgetCreateViewModel
+import com.dv.moneym.feature.budgets.list.BudgetListViewModel
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
 import com.dv.moneym.feature.categories.list.CategoryListViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
@@ -230,6 +233,21 @@ val featureWalletModule = module {
 val featureCategoriesModule = module {
     single { ArchiveCategoryUseCase(get(), get()) }
     viewModelOf(::CategoryListViewModel)
+}
+
+val featureBudgetsModule = module {
+    viewModelOf(::BudgetListViewModel)
+    viewModel { params ->
+        BudgetCreateViewModel(
+            budgetId = params.getOrNull<BudgetId>(),
+            budgetRepository = get(),
+            categoryRepository = get(),
+            accountRepository = get(),
+            clock = get(),
+            dispatchers = get(),
+            savedStateHandle = get(),
+        )
+    }
 }
 
 val featureOnboardingModule = module {

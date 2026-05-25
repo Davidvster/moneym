@@ -16,6 +16,7 @@
     <string name="settings_cancel">Abbrechen</string>
     <string name="settings_data">Daten</string>
     <string name="settings_categories">Kategorien verwalten</string>
+    <string name="settings_budgets">Budgets</string>
     <string name="settings_language_section">Sprache</string>
     <string name="settings_language_label">App-Sprache</string>
     <string name="settings_language_dialog_title">Sprache wählen</string>
