@@ -14,7 +14,6 @@ class FakeAppSettingsRepository : AppSettingsRepository {
 
     private val _themeMode = MutableStateFlow(ThemeMode.Auto)
     private val _txDisplayPrefs = MutableStateFlow(TxDisplayPrefs())
-    private val _defaultCurrency = MutableStateFlow("EUR")
     private val _language = MutableStateFlow("")
     private val _lastTransactionFilter = MutableStateFlow<TransactionFilter>(TransactionFilter.None)
     private val _lastOverviewPeriod = MutableStateFlow(OverviewPeriodMode.Month)
@@ -32,12 +31,6 @@ class FakeAppSettingsRepository : AppSettingsRepository {
 
     override suspend fun setTxDisplayPrefs(prefs: TxDisplayPrefs) {
         _txDisplayPrefs.value = prefs
-    }
-
-    override fun observeDefaultCurrency(): Flow<String> = _defaultCurrency.asStateFlow()
-
-    override suspend fun setDefaultCurrency(currency: String) {
-        _defaultCurrency.value = currency
     }
 
     override fun observeLanguage(): Flow<String> = _language.asStateFlow()

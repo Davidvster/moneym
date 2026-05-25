@@ -47,6 +47,7 @@ include(":data:categories")
 include(":data:accounts")
 include(":data:settings")
 include(":data:backup")
+include(":data:budgets")
 
 // Features
 include(":feature:transactions")

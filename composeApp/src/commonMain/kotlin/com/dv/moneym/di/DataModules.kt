@@ -4,6 +4,9 @@ import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.accounts.SeedAccountsUseCase
 import com.dv.moneym.data.accounts.createAccountRepository
 import com.dv.moneym.data.accounts.db.AccountsRoomDatabase
+import com.dv.moneym.data.budgets.BudgetRepository
+import com.dv.moneym.data.budgets.createBudgetRepository
+import com.dv.moneym.data.budgets.db.BudgetsRoomDatabase
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.categories.SeedCategoriesUseCase
 import com.dv.moneym.data.categories.createCategoryRepository
@@ -30,4 +33,8 @@ val dataTransactionsModule = module {
     single<TransactionRepository> { createTransactionRepository(get<TransactionsRoomDatabase>()) }
     single<PaymentModeRepository> { createPaymentModeRepository(get<TransactionsRoomDatabase>()) }
     single { SeedPaymentModesUseCase(get()) }
+}
+
+val dataBudgetsModule = module {
+    single<BudgetRepository> { createBudgetRepository(get<BudgetsRoomDatabase>()) }
 }

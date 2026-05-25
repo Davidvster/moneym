@@ -29,17 +29,6 @@ class DefaultAppSettingsRepositoryTest {
     }
 
     @Test
-    fun `observeDefaultCurrency emits updated value after setDefaultCurrency`() = runTest {
-        val repo = createRepo()
-        repo.observeDefaultCurrency().test {
-            assertEquals("USD", awaitItem()) // initial default
-            repo.setDefaultCurrency("EUR")
-            assertEquals("EUR", awaitItem()) // updated
-            cancelAndIgnoreRemainingEvents()
-        }
-    }
-
-    @Test
     fun `observeTxDisplayPrefs emits updated value after setTxDisplayPrefs`() = runTest {
         val repo = createRepo()
         val newPrefs = TxDisplayPrefs(

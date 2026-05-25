@@ -1,5 +1,7 @@
 package com.dv.moneym.core.testing
 
+import com.dv.moneym.core.model.AccountId
+import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
@@ -53,6 +55,32 @@ class FakeTransactionRepository : TransactionRepository {
 
     override suspend fun delete(id: TransactionId) {
         _transactions.update { list -> list.filter { it.id != id } }
+    }
+
+    override suspend fun deleteByAccountId(id: AccountId) {
+        _transactions.update { list -> list.filter { it.accountId != id } }
+    }
+
+    override suspend fun deleteAll() {
+        _transactions.value = emptyList()
+    }
+
+    override suspend fun convertCurrencyForAccount(
+        accountId: AccountId,
+        newCurrency: CurrencyCode,
+        rate: Double,
+    ) {
+        _transactions.update { list ->
+            list.map { tx ->
+                if (tx.accountId != accountId) tx
+                else tx.copy(
+                    amount = tx.amount.copy(
+                        minorUnits = (tx.amount.minorUnits * rate).toLong(),
+                        currency = newCurrency,
+                    )
+                )
+            }
+        }
     }
 
     override suspend fun getEarliestTransactionDate(): LocalDate? = null

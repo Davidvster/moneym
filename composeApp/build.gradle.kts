@@ -73,6 +73,7 @@ kotlin {
             implementation(projects.data.accounts)
             implementation(projects.data.transactions)
             implementation(projects.data.backup)
+            implementation(projects.data.budgets)
             // Feature modules
             implementation(projects.feature.transactions)
             implementation(projects.feature.transactionEdit)

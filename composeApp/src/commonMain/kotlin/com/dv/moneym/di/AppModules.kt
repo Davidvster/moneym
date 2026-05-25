@@ -30,6 +30,7 @@ val appModules: List<Module> = listOf(
     dataCategoriesModule,
     dataAccountsModule,
     dataTransactionsModule,
+    dataBudgetsModule,
     dataBackupModule,
     featureTransactionsModule,
     featureTransactionEditModule,
