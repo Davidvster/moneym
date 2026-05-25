@@ -27,7 +27,7 @@ import com.dv.moneym.feature.overview.components.OverviewMonthPickerDialog
 import com.dv.moneym.feature.overview.components.OverviewYearPickerDialog
 import com.dv.moneym.feature.overview.components.daysInMonthUi
 import com.dv.moneym.feature.overview.components.formatShortDate
-import com.dv.moneym.feature.overview.components.localizedMonthNames
+import com.dv.moneym.core.ui.localizedMonthNames
 import com.dv.moneym.feature.overview.page.OverviewIntent
 import com.dv.moneym.feature.overview.page.OverviewPageScreen
 import kotlinx.datetime.LocalDate

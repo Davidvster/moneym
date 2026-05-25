@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmIconButton
+import com.dv.moneym.core.ui.localizedMonthAbbreviations
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import moneym.feature.transactions.generated.resources.Res

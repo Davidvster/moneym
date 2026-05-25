@@ -32,6 +32,7 @@ import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.CategoryChip
 import com.dv.moneym.core.ui.MmAmountInput
+import com.dv.moneym.core.ui.monthLabel
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmChip
@@ -45,8 +46,15 @@ import moneym.feature.budgets.generated.resources.budgets_all_categories
 import moneym.feature.budgets.generated.resources.budgets_amount_label
 import moneym.feature.budgets.generated.resources.budgets_category_label
 import moneym.feature.budgets.generated.resources.budgets_edit_title
+import moneym.feature.budgets.generated.resources.budgets_error_amount
+import moneym.feature.budgets.generated.resources.budgets_error_count
+import moneym.feature.budgets.generated.resources.budgets_error_required
 import moneym.feature.budgets.generated.resources.budgets_name_label
 import moneym.feature.budgets.generated.resources.budgets_new_title
+import moneym.feature.budgets.generated.resources.budgets_next_month
+import moneym.feature.budgets.generated.resources.budgets_no_month
+import moneym.feature.budgets.generated.resources.budgets_placeholder_name
+import moneym.feature.budgets.generated.resources.budgets_prev_month
 import moneym.feature.budgets.generated.resources.budgets_recurring
 import moneym.feature.budgets.generated.resources.budgets_recurring_count_label
 import moneym.feature.budgets.generated.resources.budgets_recurring_single
@@ -123,10 +131,10 @@ private fun BudgetCreateContent(
                     value = state.name,
                     onValueChange = { onIntent(BudgetCreateIntent.NameChanged(it)) },
                     label = stringResource(Res.string.budgets_name_label),
-                    placeholder = "Groceries",
+                    placeholder = stringResource(Res.string.budgets_placeholder_name),
                 )
                 if (state.nameError) {
-                    Text("Required", style = type.caption.copy(color = colors.danger), modifier = Modifier.padding(top = 4.dp))
+                    Text(stringResource(Res.string.budgets_error_required), style = type.caption.copy(color = colors.danger), modifier = Modifier.padding(top = 4.dp))
                 }
             }
             item {
@@ -143,7 +151,7 @@ private fun BudgetCreateContent(
                     onAmountChanged = { onIntent(BudgetCreateIntent.AmountChanged(it)) },
                 )
                 if (state.amountError) {
-                    Text("Enter an amount > 0", style = type.caption.copy(color = colors.danger), modifier = Modifier.padding(top = 4.dp))
+                    Text(stringResource(Res.string.budgets_error_amount), style = type.caption.copy(color = colors.danger), modifier = Modifier.padding(top = 4.dp))
                 }
             }
             item {
@@ -231,15 +239,15 @@ private fun StartMonthRow(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.padding(vertical = MM.dimen.padding_1x),
         ) {
-            MmIconButton(icon = Icon.ChevronLeft.imageVector, onClick = onPrev, contentDescription = "Previous month")
+            MmIconButton(icon = Icon.ChevronLeft.imageVector, onClick = onPrev, contentDescription = stringResource(Res.string.budgets_prev_month))
             Text(
-                text = ym?.let { monthLabel(it) } ?: "—",
+                text = ym?.let { monthLabel(it) } ?: stringResource(Res.string.budgets_no_month),
                 style = type.body,
                 color = colors.text,
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center,
             )
-            MmIconButton(icon = Icon.ChevronRight.imageVector, onClick = onNext, contentDescription = "Next month")
+            MmIconButton(icon = Icon.ChevronRight.imageVector, onClick = onNext, contentDescription = stringResource(Res.string.budgets_next_month))
         }
     }
 }
@@ -279,7 +287,7 @@ private fun RecurringRow(
                 keyboardType = KeyboardType.Number,
             )
             if (showCountError) {
-                Text("Must be > 0", style = type.caption.copy(color = colors.danger))
+                Text(stringResource(Res.string.budgets_error_count), style = type.caption.copy(color = colors.danger))
             }
         }
     }
@@ -294,11 +302,4 @@ private fun RecurringChip(text: String, selected: Boolean, onClick: () -> Unit) 
     }
 }
 
-private fun monthLabel(ym: YearMonth): String {
-    val month = listOf(
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December",
-    )[ym.monthNumber - 1]
-    return "$month ${ym.year}"
-}
 

@@ -22,4 +22,11 @@
     <string name="budgets_delete">Löschen</string>
     <string name="budgets_delete_confirm_title">"%1$s" löschen?</string>
     <string name="budgets_delete_confirm_body">Das Budget wird entfernt. Transaktionen bleiben erhalten.</string>
+    <string name="budgets_placeholder_name">Lebensmittel</string>
+    <string name="budgets_error_required">Pflichtfeld</string>
+    <string name="budgets_error_amount">Betrag muss größer als 0 sein</string>
+    <string name="budgets_error_count">Muss größer als 0 sein</string>
+    <string name="budgets_prev_month">Vorheriger Monat</string>
+    <string name="budgets_next_month">Nächster Monat</string>
+    <string name="budgets_no_month">—</string>
 </resources>

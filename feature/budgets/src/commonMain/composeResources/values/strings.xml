@@ -22,4 +22,11 @@
     <string name="budgets_delete">Delete</string>
     <string name="budgets_delete_confirm_title">Delete "%1$s"?</string>
     <string name="budgets_delete_confirm_body">This will remove the budget. Transactions are unaffected.</string>
+    <string name="budgets_placeholder_name">Groceries</string>
+    <string name="budgets_error_required">Required</string>
+    <string name="budgets_error_amount">Enter an amount > 0</string>
+    <string name="budgets_error_count">Must be > 0</string>
+    <string name="budgets_prev_month">Previous month</string>
+    <string name="budgets_next_month">Next month</string>
+    <string name="budgets_no_month">—</string>
 </resources>

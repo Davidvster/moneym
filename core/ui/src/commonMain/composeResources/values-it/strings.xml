@@ -4,4 +4,16 @@
     <string name="tab_overview">Panoramica</string>
     <string name="tab_settings">Impostazioni</string>
     <string name="amount_input_calculator_desc">Apri la calcolatrice</string>
+    <string name="month_jan">Gennaio</string>
+    <string name="month_feb">Febbraio</string>
+    <string name="month_mar">Marzo</string>
+    <string name="month_apr">Aprile</string>
+    <string name="month_may">Maggio</string>
+    <string name="month_jun">Giugno</string>
+    <string name="month_jul">Luglio</string>
+    <string name="month_aug">Agosto</string>
+    <string name="month_sep">Settembre</string>
+    <string name="month_oct">Ottobre</string>
+    <string name="month_nov">Novembre</string>
+    <string name="month_dec">Dicembre</string>
 </resources>

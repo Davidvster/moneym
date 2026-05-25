@@ -70,7 +70,7 @@ import com.dv.moneym.feature.transactions.list.components.CategoryFilterSheet
 import com.dv.moneym.feature.transactions.list.components.DayGroupHeader
 import com.dv.moneym.feature.transactions.list.components.MonthPickerDialog
 import com.dv.moneym.feature.transactions.list.components.WalletSwitcherDialog
-import com.dv.moneym.feature.transactions.list.components.monthLabel
+import com.dv.moneym.core.ui.monthLabel
 import com.dv.moneym.feature.transactions.list.page.TransactionPageScreen
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.number

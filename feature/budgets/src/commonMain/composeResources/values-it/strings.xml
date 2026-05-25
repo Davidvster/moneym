@@ -22,4 +22,11 @@
     <string name="budgets_delete">Elimina</string>
     <string name="budgets_delete_confirm_title">Eliminare "%1$s"?</string>
     <string name="budgets_delete_confirm_body">Il budget verrà rimosso. Le transazioni non vengono modificate.</string>
+    <string name="budgets_placeholder_name">Spesa</string>
+    <string name="budgets_error_required">Obbligatorio</string>
+    <string name="budgets_error_amount">Inserisci un importo maggiore di 0</string>
+    <string name="budgets_error_count">Deve essere maggiore di 0</string>
+    <string name="budgets_prev_month">Mese precedente</string>
+    <string name="budgets_next_month">Mese successivo</string>
+    <string name="budgets_no_month">—</string>
 </resources>

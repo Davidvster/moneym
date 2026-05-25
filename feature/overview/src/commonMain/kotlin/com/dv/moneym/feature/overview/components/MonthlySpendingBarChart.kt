@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmCard
+import com.dv.moneym.core.ui.localizedMonthNames
 import com.dv.moneym.core.ui.MmMoney
 import moneym.feature.overview.generated.resources.Res
 import moneym.feature.overview.generated.resources.overview_monthly_spending
