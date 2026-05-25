@@ -42,6 +42,8 @@ class OverviewViewModelTest {
     private val catRepo = FakeCategoryRepository()
     private val accountRepo = FakeAccountRepository()
     private val settingsRepo = FakeAppSettingsRepository()
+    private val budgetRepo = com.dv.moneym.core.testing.FakeBudgetRepository()
+    private val buildBudgetProgress = com.dv.moneym.feature.overview.usecase.BuildBudgetProgressUseCase()
 
     private fun makePageVm(period: OverviewPeriod) = OverviewPageViewModel(
         period = period,
@@ -49,6 +51,8 @@ class OverviewViewModelTest {
         categoryRepository = catRepo,
         accountRepository = accountRepo,
         appSettingsRepository = settingsRepo,
+        budgetRepository = budgetRepo,
+        buildBudgetProgress = buildBudgetProgress,
         clock = clock,
     )
 

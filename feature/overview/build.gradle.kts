@@ -38,6 +38,7 @@ kotlin {
             implementation(projects.data.transactions)
             implementation(projects.data.categories)
             implementation(projects.data.accounts)
+            implementation(projects.data.budgets)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -10,8 +10,10 @@ import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.data.accounts.AccountRepository
+import com.dv.moneym.data.budgets.BudgetRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.transactions.TransactionRepository
+import com.dv.moneym.feature.overview.usecase.BuildBudgetProgressUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -25,6 +27,8 @@ class OverviewPageViewModel(
     private val categoryRepository: CategoryRepository,
     private val accountRepository: AccountRepository,
     private val appSettingsRepository: AppSettingsRepository,
+    private val budgetRepository: BudgetRepository,
+    private val buildBudgetProgress: BuildBudgetProgressUseCase,
     clock: AppClock,
 ) : ViewModel() {
 
@@ -41,7 +45,8 @@ class OverviewPageViewModel(
             accountRepository.observeAll(),
         ) { id, accs -> id to accs },
         _selectedCategoryId,
-    ) { allTransactions, categories, (selectedAccId, accounts), selectedCatId ->
+        budgetRepository.observeAll(),
+    ) { allTransactions, categories, (selectedAccId, accounts), selectedCatId, budgets ->
         val catMap = categories.associateBy { it.id }
 
         val accountFilteredTransactions = if (selectedAccId > 0L) {
@@ -250,6 +255,13 @@ class OverviewPageViewModel(
             }
             .sortedByDescending { it.amount }
 
+        val budgetProgress = buildBudgetProgress(
+            budgets = budgets,
+            periodTxns = periodTxns,
+            period = period,
+            catMap = catMap,
+        )
+
         OverviewPageUiState(
             isLoading = false,
             isEmpty = periodTxns.isEmpty(),
@@ -268,6 +280,7 @@ class OverviewPageViewModel(
             avgDailyExpense = avgDailyExpense,
             avgMonthlyExpense = avgMonthlyExpense,
             avgDailyExpenseYear = avgDailyExpenseYear,
+            budgetProgress = budgetProgress,
         )
     }
         .combine(_selectedSliceIndex) { s, slice -> s.copy(selectedSliceIndex = slice) }

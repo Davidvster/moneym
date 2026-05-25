@@ -23,6 +23,7 @@ import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
 import com.dv.moneym.feature.overview.OverviewPageViewModel
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.OverviewViewModel
+import com.dv.moneym.feature.overview.usecase.BuildBudgetProgressUseCase
 import com.dv.moneym.feature.security.setup.PinSetupViewModel
 import com.dv.moneym.feature.security.unlock.PinUnlockViewModel
 import com.dv.moneym.feature.settings.overview.SecuritySettingsViewModel
@@ -271,6 +272,7 @@ val featureOnboardingModule = module {
 }
 
 val featureOverviewModule = module {
+    single { BuildBudgetProgressUseCase() }
     viewModelOf(::OverviewViewModel)
     viewModel { params ->
         OverviewPageViewModel(
@@ -279,6 +281,8 @@ val featureOverviewModule = module {
             categoryRepository = get(),
             accountRepository = get(),
             appSettingsRepository = get(),
+            budgetRepository = get(),
+            buildBudgetProgress = get(),
             clock = get(),
         )
     }

@@ -3,6 +3,7 @@ package com.dv.moneym.feature.overview
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.feature.overview.usecase.BudgetProgress
 import kotlinx.serialization.Serializable
 
 // ─── Period / Mode ─────────────────────────────────────────────
@@ -118,6 +119,7 @@ internal data class OverviewPageUiState(
     val avgDailyExpenseYear: Double = 0.0,
     val categoryAvgSpend: List<CategoryAvgSpend> = emptyList(),
     val selectedSliceIndex: Int? = null,
+    val budgetProgress: List<BudgetProgress> = emptyList(),
 )
 
 // ─── Intents ────────────────────────────────────────────────────

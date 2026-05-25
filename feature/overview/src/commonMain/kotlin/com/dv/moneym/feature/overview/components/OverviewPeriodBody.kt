@@ -84,6 +84,14 @@ internal fun OverviewPeriodBody(
                 filter = spendingFilter,
                 modifier = Modifier.fillMaxWidth().padding(horizontal = space.padding_2x),
             )
+            if (state.budgetProgress.isNotEmpty()) {
+                BudgetBreakdownCard(
+                    progress = state.budgetProgress,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = space.padding_2x, vertical = space.padding_1_5x),
+                )
+            }
             AvgStatsCard(
                 inMonthMode = inMonthMode,
                 avgDailyExpense = state.avgDailyExpense,
