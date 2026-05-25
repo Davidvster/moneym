@@ -1,12 +1,7 @@
-package com.dv.moneym.feature.overview.page
+package com.dv.moneym.feature.overview
 
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.YearMonth
-import com.dv.moneym.feature.overview.CategoryAvgSpend
-import com.dv.moneym.feature.overview.CategorySpend
-import com.dv.moneym.feature.overview.CategoryTrend
-import com.dv.moneym.feature.overview.OverviewPeriod
-import com.dv.moneym.feature.overview.SpendingFilter
 
 internal data class OverviewPageUiState(
     val isLoading: Boolean = true,

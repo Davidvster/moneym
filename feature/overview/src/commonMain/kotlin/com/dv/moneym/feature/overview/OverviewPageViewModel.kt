@@ -1,18 +1,20 @@
-package com.dv.moneym.feature.overview.page
+package com.dv.moneym.feature.overview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.datastore.AppSettingsRepository
+import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.transactions.TransactionRepository
-import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.usecase.BuildCategoryBreakdownUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCategoryTrendsUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCumulativeSeriesUseCase
+import com.dv.moneym.feature.overview.usecase.PeriodRange
 import com.dv.moneym.feature.overview.usecase.ResolvePeriodRangeUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -124,9 +126,9 @@ class OverviewPageViewModel(
         val dailyTotals: List<Double>,
         val cumulativeTotals: List<Double>,
         val todayIndex: Int,
-        val categoryDailyTrend: List<com.dv.moneym.feature.overview.CategoryTrend>,
+        val categoryDailyTrend: List<CategoryTrend>,
         val monthlyTotals: List<Double>,
-        val categoryMonthlyTrend: List<com.dv.moneym.feature.overview.CategoryTrend>,
+        val categoryMonthlyTrend: List<CategoryTrend>,
         val currentMonthIndex: Int,
         val avgDailyExpense: Double,
         val avgMonthlyExpense: Double,
@@ -135,10 +137,10 @@ class OverviewPageViewModel(
 
     private fun buildPeriodSeries(
         period: OverviewPeriod,
-        range: com.dv.moneym.feature.overview.usecase.PeriodRange,
-        periodTxns: List<com.dv.moneym.core.model.Transaction>,
-        accountFilteredTransactions: List<com.dv.moneym.core.model.Transaction>,
-        catMap: Map<CategoryId, com.dv.moneym.core.model.Category>,
+        range: PeriodRange,
+        periodTxns: List<Transaction>,
+        accountFilteredTransactions: List<Transaction>,
+        catMap: Map<CategoryId, Category>,
         expensesDouble: Double,
     ): PeriodSeriesBundle = when (period) {
         is OverviewPeriod.Month -> {
