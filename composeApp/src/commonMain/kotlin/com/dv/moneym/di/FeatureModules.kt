@@ -152,8 +152,8 @@ val featureSecurityModule = module {
 }
 
 val dataBackupModule = module {
-    single { BackupExporter(get(), get(), get(), get(), get()) }
-    single { BackupImporter(get(), get(), get()) }
+    single { BackupExporter(get(), get(), get(), get(), get(), get()) }
+    single { BackupImporter(get(), get(), get(), get()) }
     single { BackupRestorer(get(), get(), get(), get(), get()) }
     single { CsvImportHolder() }
     single {

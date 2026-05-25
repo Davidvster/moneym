@@ -3,9 +3,12 @@ package com.dv.moneym.data.backup
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.ImportMode
+import com.dv.moneym.core.model.RecurringTransactionId
+import com.dv.moneym.core.model.UNSAVED_RECURRING_ID
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
+import com.dv.moneym.data.transactions.RecurringTransactionRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.Json
@@ -14,6 +17,7 @@ class BackupImporter(
     private val categoryRepository: CategoryRepository,
     private val accountRepository: AccountRepository,
     private val transactionRepository: TransactionRepository,
+    private val recurringTransactionRepository: RecurringTransactionRepository,
 ) {
     private val json = Json { ignoreUnknownKeys = true }
 
@@ -76,6 +80,7 @@ class BackupImporter(
         // Build ID remapping tables (import IDs → new IDs assigned by DB)
         val catIdMap = mutableMapOf<Long, CategoryId>()
         val accIdMap = mutableMapOf<Long, AccountId>()
+        val ruleIdMap = mutableMapOf<Long, RecurringTransactionId>()
 
         backup.categories.forEach { dto ->
             val existing = categoryRepository.observeAll().first()
@@ -109,6 +114,21 @@ class BackupImporter(
             txnMatchKey(t.occurredOn.toString(), t.amount.minorUnits, t.amount.currency.value, cn, an, t.note)
         }.toSet()
 
+        // Insert recurring rules first so their new IDs are available when
+        // remapping the recurring_id FK on materialized transactions.
+        backup.recurringTransactions.forEach { dto ->
+            val catId = catIdMap[dto.categoryId] ?: return@forEach
+            val accId = accIdMap[dto.accountId] ?: return@forEach
+            val newId = recurringTransactionRepository.upsert(
+                dto.toDomain(
+                    idOverride = UNSAVED_RECURRING_ID,
+                    catIdOverride = catId,
+                    accIdOverride = accId,
+                )
+            )
+            ruleIdMap[dto.id] = newId
+        }
+
         backup.transactions.forEach { dto ->
             val catName = backup.categories.firstOrNull { it.id == dto.categoryId }?.name ?: ""
             val accName = backup.accounts.firstOrNull { it.id == dto.accountId }?.name ?: ""
@@ -120,6 +140,7 @@ class BackupImporter(
                     idOverride = UNSAVED_TRANSACTION_ID,
                     catIdOverride = catId,
                     accIdOverride = accId,
+                    recurringIdOverride = dto.recurringId?.let { ruleIdMap[it] },
                 ))
             }
         }
