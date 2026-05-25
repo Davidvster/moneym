@@ -19,6 +19,7 @@ import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmCard
+import com.dv.moneym.core.ui.MmDeleteSheet
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.ScreenHeader
@@ -26,6 +27,10 @@ import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.imageVector
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.settings_wallet_delete_confirm_body
+import moneym.feature.settings.generated.resources.settings_wallet_delete_confirm_cancel
+import moneym.feature.settings.generated.resources.settings_wallet_delete_confirm_ok
+import moneym.feature.settings.generated.resources.settings_wallet_delete_confirm_title
 import moneym.feature.settings.generated.resources.settings_wallet_manage_title
 import moneym.feature.settings.generated.resources.settings_wallet_no_wallets
 import moneym.feature.settings.generated.resources.settings_wallet_section_header
@@ -79,7 +84,11 @@ private fun WalletManageScreen(
             )
 
             if (state.pendingDeleteId != null) {
-                WalletDeleteSheet(
+                MmDeleteSheet(
+                    title = stringResource(Res.string.settings_wallet_delete_confirm_title),
+                    body = stringResource(Res.string.settings_wallet_delete_confirm_body),
+                    cancelText = stringResource(Res.string.settings_wallet_delete_confirm_cancel),
+                    confirmText = stringResource(Res.string.settings_wallet_delete_confirm_ok),
                     onConfirm = { viewModel.onIntent(WalletManageIntent.DeleteConfirmed) },
                     onCancel = { viewModel.onIntent(WalletManageIntent.DeleteCancelled) },
                 )
