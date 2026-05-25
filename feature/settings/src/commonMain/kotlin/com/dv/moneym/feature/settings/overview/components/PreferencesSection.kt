@@ -19,6 +19,7 @@ import moneym.feature.settings.generated.resources.settings_categories
 import moneym.feature.settings.generated.resources.settings_language
 import moneym.feature.settings.generated.resources.settings_payment_mode_enabled
 import moneym.feature.settings.generated.resources.settings_payment_modes
+import moneym.feature.settings.generated.resources.settings_recurring_nav
 import moneym.feature.settings.generated.resources.settings_wallets
 import org.jetbrains.compose.resources.stringResource
 
@@ -29,6 +30,7 @@ internal fun PreferencesSection(
     onNavigateToLanguage: () -> Unit,
     onNavigateToCategories: () -> Unit,
     onNavigateToBudgets: () -> Unit,
+    onNavigateToRecurring: () -> Unit,
     onNavigateToWallets: () -> Unit,
     onNavigateToPaymentModes: () -> Unit,
     onPaymentModeEnabledChanged: (Boolean) -> Unit,
@@ -88,6 +90,26 @@ internal fun PreferencesSection(
             )
             Text(
                 stringResource(Res.string.settings_budgets),
+                style = type.body,
+                color = colors.text,
+                modifier = Modifier.weight(1f),
+            )
+            Icon(
+                imageVector = Icon.ChevronRight.imageVector,
+                contentDescription = null,
+                tint = colors.text3,
+                modifier = Modifier.size(MM.dimen.padding_2x),
+            )
+        }
+        MmRow(onClick = onNavigateToRecurring) {
+            Icon(
+                imageVector = Icon.Calendar.imageVector,
+                contentDescription = null,
+                tint = colors.text,
+                modifier = Modifier.size(MM.dimen.icon_1x),
+            )
+            Text(
+                stringResource(Res.string.settings_recurring_nav),
                 style = type.body,
                 color = colors.text,
                 modifier = Modifier.weight(1f),

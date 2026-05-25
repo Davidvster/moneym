@@ -42,6 +42,10 @@ import com.dv.moneym.feature.settings.overview.importdata.importDataEntry
 import com.dv.moneym.feature.settings.overview.locale.languagePickerEntry
 import com.dv.moneym.feature.settings.overview.settingsEntry
 import com.dv.moneym.feature.settings.overview.transactiondisplay.txListDisplayEntry
+import com.dv.moneym.feature.settings.recurring.RecurringListKey
+import com.dv.moneym.feature.settings.recurring.recurringListEntry
+import com.dv.moneym.feature.transactionedit.RecurringEditKey
+import com.dv.moneym.feature.transactionedit.recurringEditEntry
 import com.dv.moneym.feature.settings.paymentmodes.paymentModeListEntry
 import com.dv.moneym.feature.settings.wallet.AddWalletCurrencyPickerKey
 import com.dv.moneym.feature.settings.wallet.AddWalletKey
@@ -164,6 +168,7 @@ internal fun MainNav(lockController: AppLockController) {
             transactionsEntry(
                 onAddTransaction = { tabBackStack.push(TransactionEditKey()) },
                 onEditTransaction = { id -> tabBackStack.push(TransactionEditKey(id.value)) },
+                onEditRecurring = { id -> tabBackStack.push(RecurringEditKey(id.value)) },
                 onTabSelected = { route ->
                     when (route) {
                         TabRoute.Transactions -> tabBackStack.switchTab(TransactionsKey)
@@ -173,6 +178,11 @@ internal fun MainNav(lockController: AppLockController) {
                 },
             )
             transactionEditEntry(onDismiss = { tabBackStack.removeLast() })
+            recurringEditEntry(onDismiss = { tabBackStack.removeLast() })
+            recurringListEntry(
+                onBack = { tabBackStack.removeLast() },
+                onEdit = { id -> tabBackStack.push(RecurringEditKey(id.value)) },
+            )
             overviewEntry(
                 onTabSelected = { route ->
                     when (route) {
@@ -188,6 +198,7 @@ internal fun MainNav(lockController: AppLockController) {
                 onNavigateToPinSetup = { tabBackStack.push(PinSetupKey(isChangePinFlow = true)) },
                 onNavigateToCategories = { tabBackStack.push(CategoriesKey) },
                 onNavigateToBudgets = { tabBackStack.push(BudgetListKey) },
+                onNavigateToRecurring = { tabBackStack.push(RecurringListKey) },
                 onNavigateToTxDisplay = { tabBackStack.push(TxListDisplayKey) },
                 onNavigateToLanguage = { tabBackStack.push(LanguagePickerKey) },
                 onNavigateToExport = { tabBackStack.push(ExportDataKey) },

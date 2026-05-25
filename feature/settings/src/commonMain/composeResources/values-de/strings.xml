@@ -46,6 +46,9 @@
     <string name="settings_txdisplay_note">Notiz / Beschreibung</string>
     <string name="settings_txdisplay_daily_sums">Tagessummen</string>
     <string name="settings_txdisplay_pending_recurring">Anstehende Wiederholungen anzeigen</string>
+    <string name="settings_recurring_title">Wiederkehrende Transaktionen</string>
+    <string name="settings_recurring_empty">Noch keine wiederkehrenden Transaktionen</string>
+    <string name="settings_recurring_nav">Wiederkehrende Transaktionen</string>
     <string name="settings_txdisplay_density">DICHTE</string>
     <string name="settings_txdisplay_row_size">Zeilengröße</string>
     <string name="settings_txdisplay_compact">Kompakt</string>

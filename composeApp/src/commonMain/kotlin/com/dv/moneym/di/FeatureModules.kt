@@ -4,6 +4,7 @@ import com.dv.moneym.AppInitializer
 import com.dv.moneym.AppLockController
 import com.dv.moneym.AutoBackupManager
 import com.dv.moneym.core.model.BudgetId
+import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.security.PinHasher
 import com.dv.moneym.core.security.PinManager
@@ -46,7 +47,9 @@ import com.dv.moneym.feature.settings.paymentmodes.PaymentModeListViewModel
 import com.dv.moneym.feature.settings.wallet.AddWalletViewModel
 import com.dv.moneym.feature.settings.wallet.EditWalletCurrencyViewModel
 import com.dv.moneym.feature.settings.wallet.WalletManageViewModel
+import com.dv.moneym.feature.transactionedit.RecurringEditViewModel
 import com.dv.moneym.feature.transactionedit.TransactionEditViewModel
+import com.dv.moneym.feature.settings.recurring.RecurringListViewModel
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
@@ -119,6 +122,20 @@ val featureTransactionEditModule = module {
             savedStateHandle = get(),
         )
     }
+    viewModel { params ->
+        RecurringEditViewModel(
+            ruleId = params.get<RecurringTransactionId>(),
+            recurringRepo = get(),
+            categoryRepository = get(),
+            accountRepository = get(),
+            paymentModeRepository = get(),
+            appSettingsRepository = get(),
+            dispatchers = get(),
+            clock = get(),
+            savedStateHandle = get(),
+        )
+    }
+    viewModel { RecurringListViewModel(recurringRepo = get(), categoryRepository = get()) }
 }
 
 val featureSecurityModule = module {

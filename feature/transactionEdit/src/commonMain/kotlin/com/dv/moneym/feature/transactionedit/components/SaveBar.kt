@@ -25,6 +25,7 @@ internal fun TransactionEditSaveBar(
     isEditMode: Boolean,
     isSaving: Boolean,
     onSave: () -> Unit,
+    saveLabel: String? = null,
 ) {
     val colors = MM.colors
     val dividerColor = colors.divider
@@ -48,7 +49,7 @@ internal fun TransactionEditSaveBar(
             ),
     ) {
         MmButton(
-            text = if (isEditMode) stringResource(Res.string.edit_save_changes) else stringResource(
+            text = saveLabel ?: if (isEditMode) stringResource(Res.string.edit_save_changes) else stringResource(
                 Res.string.edit_add_transaction
             ),
             onClick = onSave,

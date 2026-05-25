@@ -48,6 +48,7 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.designsystem.categoryColor
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
@@ -98,11 +99,13 @@ data object TransactionsKey : NavKey
 fun EntryProviderScope<NavKey>.transactionsEntry(
     onAddTransaction: () -> Unit,
     onEditTransaction: (TransactionId) -> Unit,
+    onEditRecurring: (RecurringTransactionId) -> Unit,
     onTabSelected: (TabRoute) -> Unit = {},
 ) = entry<TransactionsKey> {
     TransactionListScreen(
         onAddTransaction = onAddTransaction,
         onEditTransaction = onEditTransaction,
+        onEditRecurring = onEditRecurring,
         onTabSelected = onTabSelected,
     )
 }
@@ -111,6 +114,7 @@ fun EntryProviderScope<NavKey>.transactionsEntry(
 private fun TransactionListScreen(
     onAddTransaction: () -> Unit,
     onEditTransaction: (TransactionId) -> Unit,
+    onEditRecurring: (RecurringTransactionId) -> Unit,
     onTabSelected: (TabRoute) -> Unit = {},
     viewModel: TransactionListViewModel = koinViewModel(),
 ) {
@@ -120,6 +124,7 @@ private fun TransactionListScreen(
         onIntent = viewModel::onIntent,
         onAddTransaction = onAddTransaction,
         onEditTransaction = onEditTransaction,
+        onEditRecurring = onEditRecurring,
         onTabSelected = onTabSelected,
     )
 }
@@ -131,6 +136,7 @@ private fun TransactionListContent(
     onIntent: (TransactionListIntent) -> Unit,
     onAddTransaction: () -> Unit,
     onEditTransaction: (TransactionId) -> Unit,
+    onEditRecurring: (RecurringTransactionId) -> Unit,
     onTabSelected: (TabRoute) -> Unit,
 ) {
     var initialScrollDone by remember { mutableStateOf(false) }
@@ -229,6 +235,7 @@ private fun TransactionListContent(
             TransactionPageScreen(
                 yearMonth = yearMonth,
                 onEditTransaction = onEditTransaction,
+                onEditRecurring = onEditRecurring,
             )
         }
 
@@ -474,6 +481,7 @@ internal fun TransactionListBody(
     isLoading: Boolean,
     isEmpty: Boolean,
     onEditTransaction: (TransactionId) -> Unit,
+    onEditRecurring: (RecurringTransactionId) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
@@ -529,7 +537,9 @@ internal fun TransactionListBody(
                             currency = tx.currency,
                             prefs = txDisplayPrefs,
                             paymentModeName = tx.paymentModeName,
-                            onClick = if (tx.isPending) null else ({ onEditTransaction(tx.id) }),
+                            onClick = if (tx.isPending) {
+                                tx.recurringId?.let { rid -> ({ onEditRecurring(rid) }) }
+                            } else ({ onEditTransaction(tx.id) }),
                             divider = tx != group.transactions.last(),
                             isPending = tx.isPending,
                         )
@@ -590,6 +600,7 @@ private fun TransactionListScreenPreview() {
             onIntent = {},
             onAddTransaction = {},
             onEditTransaction = {},
+            onEditRecurring = {},
             onTabSelected = {},
         )
     }

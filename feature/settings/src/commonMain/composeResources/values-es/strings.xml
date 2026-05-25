@@ -46,6 +46,9 @@
     <string name="settings_txdisplay_note">Nota / descripción</string>
     <string name="settings_txdisplay_daily_sums">Totales diarios</string>
     <string name="settings_txdisplay_pending_recurring">Mostrar próximas recurrencias</string>
+    <string name="settings_recurring_title">Transacciones recurrentes</string>
+    <string name="settings_recurring_empty">Aún no hay transacciones recurrentes</string>
+    <string name="settings_recurring_nav">Transacciones recurrentes</string>
     <string name="settings_txdisplay_density">DENSIDAD</string>
     <string name="settings_txdisplay_row_size">Tamaño de fila</string>
     <string name="settings_txdisplay_compact">Compacto</string>

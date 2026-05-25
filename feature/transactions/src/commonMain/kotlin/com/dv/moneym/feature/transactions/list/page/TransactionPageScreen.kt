@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.feature.transactions.list.TransactionListBody
@@ -15,6 +16,7 @@ import org.koin.core.parameter.parametersOf
 internal fun TransactionPageScreen(
     yearMonth: YearMonth,
     onEditTransaction: (TransactionId) -> Unit,
+    onEditRecurring: (RecurringTransactionId) -> Unit,
 ) {
     val vm = koinViewModel<TransactionPageViewModel>(
         key = yearMonth.toString(),
@@ -27,6 +29,7 @@ internal fun TransactionPageScreen(
         isLoading = state.isLoading,
         isEmpty = state.isEmpty,
         onEditTransaction = onEditTransaction,
+        onEditRecurring = onEditRecurring,
         modifier = Modifier.fillMaxSize(),
     )
 }
