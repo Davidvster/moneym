@@ -62,8 +62,8 @@
     <string name="overview_date_range_to">HASTA</string>
     <string name="overview_budgets_title">Presupuestos</string>
     <string name="overview_budgets_all_categories">Todas las categorías</string>
-    <string name="overview_budgets_remaining_suffix">%1$.2f restante</string>
-    <string name="overview_budgets_overrun_suffix">%1$.2f excedido</string>
+    <string name="overview_budgets_remaining_suffix">%1$s restante</string>
+    <string name="overview_budgets_overrun_suffix">%1$s excedido</string>
     <string-array name="overview_year_x_labels">
         <item>Ene</item>
         <item>Abr</item>

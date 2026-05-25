@@ -62,8 +62,8 @@
     <string name="overview_date_range_to">A</string>
     <string name="overview_budgets_title">Budget</string>
     <string name="overview_budgets_all_categories">Tutte le categorie</string>
-    <string name="overview_budgets_remaining_suffix">%1$.2f rimanente</string>
-    <string name="overview_budgets_overrun_suffix">%1$.2f superato</string>
+    <string name="overview_budgets_remaining_suffix">%1$s rimanente</string>
+    <string name="overview_budgets_overrun_suffix">%1$s superato</string>
     <string-array name="overview_year_x_labels">
         <item>Gen</item>
         <item>Apr</item>

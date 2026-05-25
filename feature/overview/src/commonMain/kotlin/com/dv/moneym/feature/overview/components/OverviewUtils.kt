@@ -15,15 +15,6 @@ internal fun formatAxisAmount(value: Double): String {
     return if (value >= 1000) "${(value / 1000).toInt()}k" else value.toInt().toString()
 }
 
-internal fun formatBarAmount(value: Double): String {
-    return if (value >= 1000) {
-        val k = (value / 100).toInt() / 10.0
-        "${k}k"
-    } else {
-        value.toInt().toString()
-    }
-}
-
 internal fun formatShortDate(year: Int, month: Int, day: Int): String {
     return formatDate(LocalDate(year, month, day), DateStyle.Short)
 }

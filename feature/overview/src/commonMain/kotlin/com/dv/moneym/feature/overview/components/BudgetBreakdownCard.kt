@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.dv.moneym.core.common.formatNumber
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmMoney
@@ -69,8 +70,8 @@ private fun BudgetProgressRow(p: BudgetProgress) {
         ) {
             Box(
                 modifier = Modifier
-                    .size(8.dp)
-                    .clip(RoundedCornerShape(4.dp))
+                    .size(MM.dimen.padding_1x)
+                    .clip(RoundedCornerShape(MM.dimen.padding_0_5x))
                     .background(p.categoryColor?.let { Color(it) } ?: colors.text3),
             )
             Column(modifier = Modifier.weight(1f)) {
@@ -116,17 +117,17 @@ private fun BudgetProgressRow(p: BudgetProgress) {
                 text = if (p.isOverrun)
                     stringResource(
                         Res.string.overview_budgets_overrun_suffix,
-                        (-p.remaining.minorUnits) / 100.0,
+                        formatNumber(-p.remaining.minorUnits / 100.0, 2),
                     )
                 else
                     stringResource(
                         Res.string.overview_budgets_remaining_suffix,
-                        p.remaining.minorUnits / 100.0,
+                        formatNumber(p.remaining.minorUnits / 100.0, 2),
                     ),
                 style = type.caption.copy(
                     color = if (p.isOverrun) colors.danger else colors.text2,
                 ),
-                modifier = Modifier.padding(top = 4.dp),
+                modifier = Modifier.padding(top = MM.dimen.padding_0_5x),
             )
         }
     }
