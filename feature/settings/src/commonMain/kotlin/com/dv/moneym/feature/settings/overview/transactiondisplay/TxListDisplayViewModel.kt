@@ -23,10 +23,15 @@ class TxListDisplayViewModel(
         appSettingsRepository.observeDefaultTransactionType()
             .stateIn(viewModelScope, SharingStarted.Lazily, TransactionType.EXPENSE)
 
+    val showPendingRecurring: StateFlow<Boolean> =
+        appSettingsRepository.observeShowPendingRecurring()
+            .stateIn(viewModelScope, SharingStarted.Lazily, true)
+
     fun onIntent(intent: TxListDisplayIntent) {
         when (intent) {
             is TxListDisplayIntent.SetTxDisplayPrefs -> setTxDisplayPrefs(intent.prefs)
             is TxListDisplayIntent.SetDefaultTransactionType -> setDefaultTransactionType(intent.type)
+            is TxListDisplayIntent.SetShowPendingRecurring -> setShowPendingRecurring(intent.enabled)
         }
     }
 
@@ -36,5 +41,9 @@ class TxListDisplayViewModel(
 
     private fun setDefaultTransactionType(type: TransactionType) {
         viewModelScope.launch { appSettingsRepository.setDefaultTransactionType(type) }
+    }
+
+    private fun setShowPendingRecurring(enabled: Boolean) {
+        viewModelScope.launch { appSettingsRepository.setShowPendingRecurring(enabled) }
     }
 }

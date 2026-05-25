@@ -52,6 +52,7 @@ import moneym.feature.settings.generated.resources.settings_txdisplay_compact
 import moneym.feature.settings.generated.resources.settings_txdisplay_daily_sums
 import moneym.feature.settings.generated.resources.settings_txdisplay_density
 import moneym.feature.settings.generated.resources.settings_txdisplay_normal
+import moneym.feature.settings.generated.resources.settings_txdisplay_pending_recurring
 import moneym.feature.settings.generated.resources.settings_txdisplay_note
 import moneym.feature.settings.generated.resources.settings_txdisplay_preview
 import moneym.feature.settings.generated.resources.settings_txdisplay_show
@@ -105,12 +106,15 @@ private fun TxListDisplayScreen(
 ) {
     val currentPrefs by viewModel.txDisplayPrefs.collectAsStateWithLifecycle()
     val defaultTransactionType by viewModel.defaultTransactionType.collectAsStateWithLifecycle()
+    val showPendingRecurring by viewModel.showPendingRecurring.collectAsStateWithLifecycle()
 
     TxListDisplayContent(
         currentPrefs = currentPrefs,
         onPrefsChanged = { viewModel.onIntent(TxListDisplayIntent.SetTxDisplayPrefs(it)) },
         defaultTransactionType = defaultTransactionType,
         onDefaultTransactionTypeChanged = { viewModel.onIntent(TxListDisplayIntent.SetDefaultTransactionType(it)) },
+        showPendingRecurring = showPendingRecurring,
+        onShowPendingRecurringChanged = { viewModel.onIntent(TxListDisplayIntent.SetShowPendingRecurring(it)) },
         onBack = onBack,
     )
 }
@@ -121,6 +125,8 @@ private fun TxListDisplayContent(
     onPrefsChanged: (TxDisplayPrefs) -> Unit,
     defaultTransactionType: TransactionType,
     onDefaultTransactionTypeChanged: (TransactionType) -> Unit,
+    showPendingRecurring: Boolean,
+    onShowPendingRecurringChanged: (Boolean) -> Unit,
     onBack: () -> Unit,
 ) {
 
@@ -153,7 +159,9 @@ private fun TxListDisplayContent(
 
             ExtraShowOptions(
                 currentPrefs = currentPrefs,
-                onPrefsChanged = onPrefsChanged
+                onPrefsChanged = onPrefsChanged,
+                showPendingRecurring = showPendingRecurring,
+                onShowPendingRecurringChanged = onShowPendingRecurringChanged,
             )
 
             DefaultTransactionType(
@@ -452,6 +460,8 @@ private fun ItemDensitySection(
 private fun ExtraShowOptions(
     currentPrefs: TxDisplayPrefs,
     onPrefsChanged: (TxDisplayPrefs) -> Unit,
+    showPendingRecurring: Boolean,
+    onShowPendingRecurringChanged: (Boolean) -> Unit,
 ) {
     SectionLabel(
         text = stringResource(Res.string.settings_txdisplay_show),
@@ -464,7 +474,7 @@ private fun ExtraShowOptions(
     )
     MmCard(Modifier.padding(horizontal = MM.dimen.padding_2x), shape = MM.dimen.radius_1_5x) {
         MmRow(
-            divider = false,
+            divider = true,
             onClick = { onPrefsChanged(currentPrefs.copy(showDailySums = !currentPrefs.showDailySums)) },
         ) {
             Text(
@@ -476,6 +486,21 @@ private fun ExtraShowOptions(
             MmToggle(
                 checked = currentPrefs.showDailySums,
                 onCheckedChange = { onPrefsChanged(currentPrefs.copy(showDailySums = !currentPrefs.showDailySums)) },
+            )
+        }
+        MmRow(
+            divider = false,
+            onClick = { onShowPendingRecurringChanged(!showPendingRecurring) },
+        ) {
+            Text(
+                stringResource(Res.string.settings_txdisplay_pending_recurring),
+                style = MM.type.body,
+                color = MM.colors.text,
+                modifier = Modifier.weight(1f),
+            )
+            MmToggle(
+                checked = showPendingRecurring,
+                onCheckedChange = onShowPendingRecurringChanged,
             )
         }
     }

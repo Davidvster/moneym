@@ -4,6 +4,7 @@ import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
@@ -69,4 +70,7 @@ internal data class TransactionUiModel(
     val note: String?,
     val occurredOn: LocalDate,
     val paymentModeName: String? = null,
+    val isPending: Boolean = false,
+    val recurringId: RecurringTransactionId? = null,
+    val rowKey: String = id.value.toString(),
 )

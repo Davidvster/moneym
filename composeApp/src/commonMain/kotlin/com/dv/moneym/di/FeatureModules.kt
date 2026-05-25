@@ -83,10 +83,12 @@ val featureTransactionsModule = module {
         TransactionPageViewModel(
             yearMonth = params.get(),
             transactionRepository = get(),
+            recurringTransactionRepository = get(),
             categoryRepository = get(),
             accountRepository = get(),
             paymentModeRepository = get(),
             appSettingsRepository = get(),
+            clock = get(),
             ephemeralState = get(),
         )
     }

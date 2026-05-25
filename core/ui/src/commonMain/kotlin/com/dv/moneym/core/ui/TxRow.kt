@@ -51,6 +51,7 @@ fun TxRow(
     paymentModeName: String? = null,
     onClick: (() -> Unit)? = null,
     divider: Boolean = true,
+    isPending: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
@@ -71,11 +72,13 @@ fun TxRow(
 
     var pressed by remember { mutableStateOf(false) }
 
+    val baseAlpha = if (isPending) 0.5f else 1f
+
     Box(
         modifier = modifier
             .fillMaxWidth()
             .background(colors.bg)
-            .alpha(if (pressed) 0.75f else 1f)
+            .alpha(if (pressed) baseAlpha * 0.75f else baseAlpha)
             .then(
                 if (onClick != null) {
                     Modifier.pointerInput(onClick) {

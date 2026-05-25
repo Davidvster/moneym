@@ -45,6 +45,7 @@
     <string name="settings_txdisplay_category_name">Category name</string>
     <string name="settings_txdisplay_note">Note / description</string>
     <string name="settings_txdisplay_daily_sums">Daily totals</string>
+    <string name="settings_txdisplay_pending_recurring">Show upcoming recurring</string>
     <string name="settings_txdisplay_density">DENSITY</string>
     <string name="settings_txdisplay_row_size">Row size</string>
     <string name="settings_txdisplay_compact">Compact</string>

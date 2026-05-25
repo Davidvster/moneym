@@ -516,7 +516,7 @@ internal fun TransactionListBody(
                     stickyHeader(key = "header_${group.date}") {
                         DayGroupHeader(group = group, showAmount = txDisplayPrefs.showDailySums)
                     }
-                    items(items = group.transactions, key = { it.id.value }) { tx ->
+                    items(items = group.transactions, key = { it.rowKey }) { tx ->
                         val resolvedColor = categoryColor(tx.categoryColorHex)
                         val resolvedIcon = tx.categoryIcon.imageVector
                         TxRow(
@@ -529,8 +529,9 @@ internal fun TransactionListBody(
                             currency = tx.currency,
                             prefs = txDisplayPrefs,
                             paymentModeName = tx.paymentModeName,
-                            onClick = { onEditTransaction(tx.id) },
+                            onClick = if (tx.isPending) null else ({ onEditTransaction(tx.id) }),
                             divider = tx != group.transactions.last(),
+                            isPending = tx.isPending,
                         )
                     }
                 }
