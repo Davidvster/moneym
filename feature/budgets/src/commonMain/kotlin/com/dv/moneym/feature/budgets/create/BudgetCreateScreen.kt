@@ -73,8 +73,12 @@ fun BudgetCreateScreen(
     viewModel: BudgetCreateViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    LaunchedEffect(state.saved) {
-        if (state.saved) onBack()
+    val event by viewModel.singleEvents.collectAsStateWithLifecycle()
+    LaunchedEffect(event?.id) {
+        when (event) {
+            is BudgetCreateViewModel.BudgetCreateSingleUiEvent.NavigateBack -> onBack()
+            null -> Unit
+        }
     }
     BudgetCreateContent(
         state = state,

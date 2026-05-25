@@ -26,7 +26,6 @@ internal data class BudgetCreateUiState(
     val nameError: Boolean = false,
     val amountError: Boolean = false,
     val recurringCountError: Boolean = false,
-    val saved: Boolean = false,
 )
 
 internal sealed interface BudgetCreateIntent {

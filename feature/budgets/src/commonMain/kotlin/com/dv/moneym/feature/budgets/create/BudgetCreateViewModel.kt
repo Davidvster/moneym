@@ -4,7 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
+import com.dv.moneym.core.common.DefaultSingleUiEvent
 import com.dv.moneym.core.common.DispatcherProvider
+import com.dv.moneym.core.common.SingleUiEvent
 import com.dv.moneym.core.model.Budget
 import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.core.model.BudgetPeriodType
@@ -32,6 +34,14 @@ class BudgetCreateViewModel(
     private val dispatchers: DispatcherProvider,
     @Suppress("UNUSED_PARAMETER") savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+
+    sealed interface BudgetCreateSingleUiEvent : SingleUiEvent {
+        data object NavigateBack : BudgetCreateSingleUiEvent,
+            SingleUiEvent by DefaultSingleUiEvent()
+    }
+
+    private val _singleEvent: MutableStateFlow<BudgetCreateSingleUiEvent?> = MutableStateFlow(null)
+    val singleEvents: StateFlow<BudgetCreateSingleUiEvent?> = _singleEvent
 
     private val _state = MutableStateFlow(BudgetCreateUiState(isEditMode = budgetId != null, isLoading = true))
     internal val state: StateFlow<BudgetCreateUiState> = _state.asStateFlow()
@@ -141,7 +151,8 @@ class BudgetCreateViewModel(
                 if (budgetId != null) budgetRepository.update(budget)
                 else budgetRepository.insert(budget)
             }
-            _state.update { it.copy(isSaving = false, saved = true) }
+            _state.update { it.copy(isSaving = false) }
+            _singleEvent.value = BudgetCreateSingleUiEvent.NavigateBack
         }
     }
 

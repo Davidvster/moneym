@@ -154,20 +154,21 @@ class BudgetCreateViewModelTest {
             awaitItem()
             vm.onIntent(BudgetCreateIntent.Save)
             testDispatcher.scheduler.advanceUntilIdle()
-            // drain emissions until saved
-            while (true) {
-                val st = awaitItem()
-                if (st.saved) break
-            }
-            assertEquals(1, budgetRepo.budgets.size)
-            val saved = budgetRepo.budgets.first()
-            assertEquals("Groceries", saved.name)
-            assertEquals(40050L, saved.amount.minorUnits)
-            assertEquals(CategoryId(7), saved.categoryId)
-            assertEquals(Budget.UNLIMITED, saved.recurringMonths)
-            assertEquals(BudgetPeriodType.MONTHLY, saved.periodType)
+            // drain remaining state emissions after save
             cancelAndIgnoreRemainingEvents()
         }
+        vm.singleEvents.test {
+            val ev = awaitItem()
+            assertTrue(ev is BudgetCreateViewModel.BudgetCreateSingleUiEvent.NavigateBack)
+            cancelAndIgnoreRemainingEvents()
+        }
+        assertEquals(1, budgetRepo.budgets.size)
+        val saved = budgetRepo.budgets.first()
+        assertEquals("Groceries", saved.name)
+        assertEquals(40050L, saved.amount.minorUnits)
+        assertEquals(CategoryId(7), saved.categoryId)
+        assertEquals(Budget.UNLIMITED, saved.recurringMonths)
+        assertEquals(BudgetPeriodType.MONTHLY, saved.periodType)
     }
 
     @Test

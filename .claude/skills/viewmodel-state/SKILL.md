@@ -69,14 +69,58 @@ class TransactionListViewModel(
 
 ## One-shot effects
 
-Things like "navigate", "show snackbar", "dismiss sheet" don't belong in state — they fire once. Use a `Channel` (consumed as a Flow) or a `SharedFlow` with replay 0:
+Things like "navigate", "show snackbar", "dismiss sheet" don't belong in state — they fire once. Two patterns are in use:
+
+### Pattern A — Channel (preferred for snackbar / toast)
 
 ```kotlin
 private val _effects = Channel<TransactionListEffect>(Channel.BUFFERED)
 internal val effects: Flow<TransactionListEffect> = _effects.receiveAsFlow()
 ```
 
-The screen collects effects in a `LaunchedEffect` and dispatches them to the navigation/snackbar host. **Navigation events never travel through `UiState`.**
+The screen collects effects in a `LaunchedEffect` and dispatches them to the navigation/snackbar host.
+
+### Pattern B — SingleUiEvent with UUID (preferred for navigation)
+
+Each event carries a unique UUID so `LaunchedEffect(event?.id)` fires exactly once even across configuration changes. Defined in `core:common`:
+
+```kotlin
+// core/common/SingleUiEvent.kt
+@OptIn(ExperimentalUuidApi::class)
+fun newStringUuid(): String = Uuid.random().toString()
+
+interface SingleUiEvent { val id: String }
+class DefaultSingleUiEvent(override val id: String = newStringUuid()) : SingleUiEvent
+```
+
+In the ViewModel:
+
+```kotlin
+sealed interface BudgetCreateSingleUiEvent : SingleUiEvent {
+    data object NavigateBack : BudgetCreateSingleUiEvent,
+        SingleUiEvent by DefaultSingleUiEvent()
+}
+
+private val _singleEvent: MutableStateFlow<BudgetCreateSingleUiEvent?> = MutableStateFlow(null)
+val singleEvents: StateFlow<BudgetCreateSingleUiEvent?> = _singleEvent
+
+// emit:
+_singleEvent.value = BudgetCreateSingleUiEvent.NavigateBack
+```
+
+In the screen:
+
+```kotlin
+val event by viewModel.singleEvents.collectAsStateWithLifecycle()
+LaunchedEffect(event?.id) {
+    when (event) {
+        is BudgetCreateSingleUiEvent.NavigateBack -> onBack()
+        null -> Unit
+    }
+}
+```
+
+**Navigation events never travel through `UiState`.**
 
 ## Reactive data
 
