@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.OverviewPeriodMode
+import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.transactions.TransactionRepository
@@ -16,7 +17,9 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -84,6 +87,9 @@ class OverviewViewModel(
                 _selectedAccountId.value = id
             }
         }
+        appSettingsRepository.observeLastOverviewFilter()
+            .onEach { filter -> _spendingFilter.value = filter }
+            .launchIn(viewModelScope)
     }
 
     internal val state: StateFlow<OverviewUiState> = combine(
@@ -166,7 +172,10 @@ class OverviewViewModel(
 
             is OverviewIntent.DateRangeSelected -> selectDateRange(intent)
 
-            is OverviewIntent.SpendingFilterChanged -> _spendingFilter.value = intent.filter
+            is OverviewIntent.SpendingFilterChanged -> {
+                _spendingFilter.value = intent.filter
+                viewModelScope.launch { appSettingsRepository.setLastOverviewFilter(intent.filter) }
+            }
 
             is OverviewIntent.MonthPagerSwiped -> {
                 _currentPeriod.update { OverviewPeriod.Month(intent.yearMonth) }

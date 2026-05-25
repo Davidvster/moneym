@@ -23,13 +23,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.overview.OverviewPeriod
-import com.dv.moneym.feature.overview.SpendingFilter
 import moneym.feature.overview.generated.resources.Res
 import moneym.feature.overview.generated.resources.overview_all
 import moneym.feature.overview.generated.resources.overview_expenses

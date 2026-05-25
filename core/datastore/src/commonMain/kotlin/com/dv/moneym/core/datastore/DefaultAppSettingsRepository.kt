@@ -3,6 +3,7 @@ package com.dv.moneym.core.datastore
 import com.dv.moneym.core.model.Density
 import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.model.OverviewPeriodMode
+import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
@@ -106,6 +107,15 @@ class DefaultAppSettingsRepository(
         appSettings.putString(PrefKeys.OVERVIEW_LAST_TAB, encodeOverviewPeriod(mode))
     }
 
+    override fun observeLastOverviewFilter(): Flow<SpendingFilter> =
+        appSettings
+            .observeString(PrefKeys.OVERVIEW_LAST_FILTER, "expenses")
+            .map { decodeOverviewFilter(it ?: "expenses") }
+
+    override suspend fun setLastOverviewFilter(filter: SpendingFilter) {
+        appSettings.putString(PrefKeys.OVERVIEW_LAST_FILTER, encodeOverviewFilter(filter))
+    }
+
     // Private helpers — strings are ONLY here
     private fun encodeFilter(filter: TransactionFilter): String = when (filter) {
         is TransactionFilter.None -> "all"
@@ -133,6 +143,18 @@ class DefaultAppSettingsRepository(
         "year" -> OverviewPeriodMode.Year
         "range" -> OverviewPeriodMode.DateRange
         else -> OverviewPeriodMode.Month
+    }
+
+    private fun encodeOverviewFilter(filter: SpendingFilter): String = when (filter) {
+        SpendingFilter.All -> "all"
+        SpendingFilter.Expenses -> "expenses"
+        SpendingFilter.Income -> "income"
+    }
+
+    private fun decodeOverviewFilter(encoded: String): SpendingFilter = when (encoded) {
+        "all" -> SpendingFilter.All
+        "income" -> SpendingFilter.Income
+        else -> SpendingFilter.Expenses
     }
 
     override fun observeSelectedAccountId(): Flow<Long> =

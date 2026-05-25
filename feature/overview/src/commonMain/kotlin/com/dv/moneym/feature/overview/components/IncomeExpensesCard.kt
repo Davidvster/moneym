@@ -2,7 +2,7 @@ package com.dv.moneym.feature.overview.components
 
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.model.Icon
-import com.dv.moneym.feature.overview.SpendingFilter
+import com.dv.moneym.core.model.SpendingFilter
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

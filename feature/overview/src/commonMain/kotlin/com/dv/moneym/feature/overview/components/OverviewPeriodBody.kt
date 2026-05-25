@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.IndicatorStyle
+import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.CumulativeChart
 import com.dv.moneym.core.ui.DonutChart
@@ -47,7 +48,6 @@ import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.overview.CategorySpend
 import com.dv.moneym.feature.overview.CategoryTrend
 import com.dv.moneym.feature.overview.OverviewPeriod
-import com.dv.moneym.feature.overview.SpendingFilter
 import com.dv.moneym.feature.overview.page.OverviewPageIntent
 import com.dv.moneym.feature.overview.page.OverviewPageUiState
 import moneym.feature.overview.generated.resources.Res

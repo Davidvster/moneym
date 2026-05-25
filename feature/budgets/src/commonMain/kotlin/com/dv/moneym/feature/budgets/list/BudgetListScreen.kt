@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -24,6 +23,7 @@ import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.MmButton
+import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.imageVector
@@ -151,24 +151,38 @@ private fun BudgetListContent(
     if (state.deleteRequestId != null) {
         AlertDialog(
             onDismissRequest = { onIntent(BudgetListIntent.DismissDelete) },
+            containerColor = colors.surface,
             title = {
                 Text(
-                    stringResource(
+                    text = stringResource(
                         Res.string.budgets_delete_confirm_title,
                         state.deleteRequestName.orEmpty(),
                     ),
+                    style = type.title2,
+                    color = colors.text,
                 )
             },
-            text = { Text(stringResource(Res.string.budgets_delete_confirm_body)) },
+            text = {
+                Text(
+                    text = stringResource(Res.string.budgets_delete_confirm_body),
+                    style = type.body.copy(color = colors.text2),
+                )
+            },
             confirmButton = {
-                TextButton(onClick = { onIntent(BudgetListIntent.ConfirmDelete) }) {
-                    Text(stringResource(Res.string.budgets_delete))
-                }
+                MmButton(
+                    text = stringResource(Res.string.budgets_delete),
+                    onClick = { onIntent(BudgetListIntent.ConfirmDelete) },
+                    variant = MmButtonVariant.Primary,
+                    size = MmButtonSize.Md,
+                )
             },
             dismissButton = {
-                TextButton(onClick = { onIntent(BudgetListIntent.DismissDelete) }) {
-                    Text(stringResource(Res.string.budgets_cancel))
-                }
+                MmButton(
+                    text = stringResource(Res.string.budgets_cancel),
+                    onClick = { onIntent(BudgetListIntent.DismissDelete) },
+                    variant = MmButtonVariant.Ghost,
+                    size = MmButtonSize.Md,
+                )
             },
         )
     }

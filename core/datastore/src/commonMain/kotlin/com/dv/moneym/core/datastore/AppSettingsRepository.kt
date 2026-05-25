@@ -1,6 +1,7 @@
 package com.dv.moneym.core.datastore
 
 import com.dv.moneym.core.model.OverviewPeriodMode
+import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
@@ -20,6 +21,8 @@ interface AppSettingsRepository {
     suspend fun setLastTransactionFilter(filter: TransactionFilter)
     fun observeLastOverviewPeriod(): Flow<OverviewPeriodMode>
     suspend fun setLastOverviewPeriod(mode: OverviewPeriodMode)
+    fun observeLastOverviewFilter(): Flow<SpendingFilter>
+    suspend fun setLastOverviewFilter(filter: SpendingFilter)
 
     // Selected wallet / account (stored as Long, -1 = not set / use default)
     fun observeSelectedAccountId(): Flow<Long>

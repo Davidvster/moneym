@@ -1,6 +1,7 @@
 package com.dv.moneym.feature.overview
 
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.YearMonth
 import kotlinx.serialization.Serializable
 
@@ -52,9 +53,6 @@ internal data class CategoryAvgSpend(
     val categoryIcon: Icon,
     val avgAmount: Double,
 )
-
-@Serializable
-internal enum class SpendingFilter { All, Expenses, Income }
 
 // ─── Page math ─────────────────────────────────────────────────
 
