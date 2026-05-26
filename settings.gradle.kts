@@ -48,6 +48,8 @@ include(":data:accounts")
 include(":data:settings")
 include(":data:backup")
 include(":data:budgets")
+include(":data:remotebackup")
+include(":core:oauth")
 
 // Features
 include(":feature:transactions")
