@@ -36,6 +36,10 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.appcompat)
+            implementation(libs.ktor.client.okhttp)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -76,6 +80,9 @@ kotlin {
             implementation(projects.data.budgets)
             implementation(projects.data.remotebackup)
             implementation(projects.core.oauth)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
             // Feature modules
             implementation(projects.feature.transactions)
             implementation(projects.feature.transactionEdit)
@@ -103,6 +110,17 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        val googleOAuthClientId: String? = (project.findProperty("googleOAuthClientId") as String?)
+            ?: System.getenv("GOOGLE_OAUTH_CLIENT_ID")
+        buildConfigField(
+            "String",
+            "GOOGLE_OAUTH_CLIENT_ID",
+            googleOAuthClientId?.let { "\"$it\"" } ?: "null",
+        )
+    }
+    buildFeatures {
+        buildConfig = true
     }
     packaging {
         resources {

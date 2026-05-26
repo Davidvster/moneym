@@ -16,6 +16,7 @@ import com.dv.moneym.platform.FilePlatform
 import org.koin.dsl.module
 
 fun androidPlatformModule(context: Context) = module {
+    single<Context> { context }
     single { createCategoriesDatabase(context) }
     single { createAccountsDatabase(context) }
     single { createTransactionsDatabase(context) }
