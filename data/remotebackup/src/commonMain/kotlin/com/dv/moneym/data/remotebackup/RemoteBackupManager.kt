@@ -32,6 +32,7 @@ class RemoteBackupManager(
     private val schemaVersion: Int = CURRENT_SCHEMA,
     private val nowMs: () -> Long = { kotlin.time.Clock.System.now().toEpochMilliseconds() },
     private val debounceMs: Long = DEFAULT_DEBOUNCE_MS,
+    private val retentionCount: Int = DEFAULT_RETENTION_COUNT,
 ) {
 
     private val logger = Logger.withTag("RemoteBackup")
@@ -119,7 +120,7 @@ class RemoteBackupManager(
             _runtime.value = RemoteBackupRuntimeState.Uploading
             val ref = provider.upload(
                 bytes = bytes,
-                name = BACKUP_FILE_NAME,
+                name = timestampedName(envelope.createdAt),
                 properties = mapOf(
                     "schema" to schemaVersion.toString(),
                     "appVersion" to appVersion,
@@ -128,6 +129,7 @@ class RemoteBackupManager(
             )
             appSettings.putLong(PrefKeys.LAST_REMOTE_BACKUP_TIME_MS, ref.modifiedAtMs.takeIf { it > 0 } ?: envelope.createdAt)
             appSettings.putString(PrefKeys.REMOTE_BACKUP_PROVIDER_ID, provider.id)
+            pruneOldBackups()
             _runtime.value = RemoteBackupRuntimeState.Idle
             logger.i { "Remote backup uploaded id=${ref.id} size=${bytes.size}" }
         } catch (t: BackupCryptoError) {
@@ -142,6 +144,21 @@ class RemoteBackupManager(
         } finally {
             if (uploadLock.isLocked) uploadLock.unlock()
         }
+    }
+
+    private fun timestampedName(createdAt: Long): String = "moneym-backup-$createdAt.bin"
+
+    private suspend fun pruneOldBackups() {
+        if (retentionCount <= 0) return
+        runCatching {
+            val all = provider.list(limit = retentionCount * 4)
+            val moneymBackups = all.filter { it.name.startsWith("moneym-backup") }
+            val excess = moneymBackups.drop(retentionCount)
+            excess.forEach { stale ->
+                runCatching { provider.delete(stale) }
+                    .onFailure { logger.w(it) { "Failed to prune stale backup ${stale.id}" } }
+            }
+        }.onFailure { logger.w(it) { "Backup retention pruning failed" } }
     }
 
     private fun isEnabled(): Boolean =
@@ -162,5 +179,6 @@ class RemoteBackupManager(
         const val BACKUP_FILE_NAME = "moneym-backup.bin"
         const val CURRENT_SCHEMA = 1
         const val DEFAULT_DEBOUNCE_MS = 5_000L
+        const val DEFAULT_RETENTION_COUNT = 5
     }
 }
