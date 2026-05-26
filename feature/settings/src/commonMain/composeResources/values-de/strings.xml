@@ -166,4 +166,29 @@
     <string name="settings_edit_currency_confirm">Umrechnen</string>
     <string name="settings_edit_currency_cancel">Abbrechen</string>
     <string name="settings_edit_currency_converting">Transaktionen werden umgerechnet…</string>
+    <!-- Remote backup -->
+    <string name="settings_remote_backup_section">Google-Drive-Backup</string>
+    <string name="settings_remote_connect">Google-Konto verbinden</string>
+    <string name="settings_remote_disconnect">Trennen</string>
+    <string name="settings_remote_signed_in_as">Angemeldet als %1$s</string>
+    <string name="settings_remote_auto_backup">Automatisches Remote-Backup</string>
+    <string name="settings_remote_auto_backup_subtitle">Verschlüsselt das Backup und lädt es nach jeder Änderung in dein Google Drive hoch</string>
+    <string name="settings_remote_backup_now">Jetzt sichern</string>
+    <string name="settings_remote_restore">Aus Google Drive wiederherstellen</string>
+    <string name="settings_remote_last_backup">Letztes Remote-Backup: %1$s</string>
+    <string name="settings_remote_last_backup_never">Nie</string>
+    <string name="settings_remote_passphrase_title">Backup-Passphrase festlegen</string>
+    <string name="settings_remote_passphrase_body">Wähle eine Passphrase zur Verschlüsselung deines Backups. Geht sie verloren, kann das Remote-Backup nicht wiederhergestellt werden.</string>
+    <string name="settings_remote_passphrase_label">Passphrase</string>
+    <string name="settings_remote_passphrase_save">Speichern</string>
+    <string name="settings_remote_passphrase_cancel">Abbrechen</string>
+    <string name="settings_remote_restore_title">Aus Google Drive wiederherstellen?</string>
+    <string name="settings_remote_restore_body">Dies ersetzt alle aktuellen Daten dauerhaft durch das neueste verschlüsselte Backup. Gib zum Fortfahren deine Passphrase ein.</string>
+    <string name="settings_remote_restore_confirm">Wiederherstellen</string>
+    <string name="settings_remote_status_encrypting">Verschlüsseln…</string>
+    <string name="settings_remote_status_uploading">Hochladen…</string>
+    <string name="settings_remote_status_downloading">Herunterladen…</string>
+    <string name="settings_remote_status_decrypting">Entschlüsseln…</string>
+    <string name="settings_remote_status_restoring">Wiederherstellen…</string>
+    <string name="settings_remote_status_error">Letzter Versuch fehlgeschlagen: %1$s</string>
 </resources>

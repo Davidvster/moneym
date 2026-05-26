@@ -168,4 +168,29 @@
     <string name="settings_edit_currency_confirm">Convert</string>
     <string name="settings_edit_currency_cancel">Cancel</string>
     <string name="settings_edit_currency_converting">Converting transactions…</string>
+    <!-- Remote backup -->
+    <string name="settings_remote_backup_section">Google Drive backup</string>
+    <string name="settings_remote_connect">Connect Google account</string>
+    <string name="settings_remote_disconnect">Disconnect</string>
+    <string name="settings_remote_signed_in_as">Signed in as %1$s</string>
+    <string name="settings_remote_auto_backup">Automatic remote backup</string>
+    <string name="settings_remote_auto_backup_subtitle">Encrypt and upload the backup to your Google Drive after every change</string>
+    <string name="settings_remote_backup_now">Back up now</string>
+    <string name="settings_remote_restore">Restore from Google Drive</string>
+    <string name="settings_remote_last_backup">Last remote backup: %1$s</string>
+    <string name="settings_remote_last_backup_never">Never</string>
+    <string name="settings_remote_passphrase_title">Set backup passphrase</string>
+    <string name="settings_remote_passphrase_body">Pick a passphrase to encrypt your backup. If you lose it, your remote backup cannot be recovered.</string>
+    <string name="settings_remote_passphrase_label">Passphrase</string>
+    <string name="settings_remote_passphrase_save">Save</string>
+    <string name="settings_remote_passphrase_cancel">Cancel</string>
+    <string name="settings_remote_restore_title">Restore from Google Drive?</string>
+    <string name="settings_remote_restore_body">This will permanently replace all current data with the latest encrypted backup. Enter your passphrase to continue.</string>
+    <string name="settings_remote_restore_confirm">Restore</string>
+    <string name="settings_remote_status_encrypting">Encrypting…</string>
+    <string name="settings_remote_status_uploading">Uploading…</string>
+    <string name="settings_remote_status_downloading">Downloading…</string>
+    <string name="settings_remote_status_decrypting">Decrypting…</string>
+    <string name="settings_remote_status_restoring">Restoring…</string>
+    <string name="settings_remote_status_error">Last attempt failed: %1$s</string>
 </resources>

@@ -166,4 +166,29 @@
     <string name="settings_edit_currency_confirm">Convertir</string>
     <string name="settings_edit_currency_cancel">Cancelar</string>
     <string name="settings_edit_currency_converting">Convirtiendo transacciones…</string>
+    <!-- Remote backup -->
+    <string name="settings_remote_backup_section">Copia en Google Drive</string>
+    <string name="settings_remote_connect">Conectar cuenta de Google</string>
+    <string name="settings_remote_disconnect">Desconectar</string>
+    <string name="settings_remote_signed_in_as">Conectado como %1$s</string>
+    <string name="settings_remote_auto_backup">Copia remota automática</string>
+    <string name="settings_remote_auto_backup_subtitle">Cifra y sube la copia a tu Google Drive tras cada cambio</string>
+    <string name="settings_remote_backup_now">Copiar ahora</string>
+    <string name="settings_remote_restore">Restaurar desde Google Drive</string>
+    <string name="settings_remote_last_backup">Última copia remota: %1$s</string>
+    <string name="settings_remote_last_backup_never">Nunca</string>
+    <string name="settings_remote_passphrase_title">Definir contraseña de copia</string>
+    <string name="settings_remote_passphrase_body">Elige una contraseña para cifrar tu copia. Si la pierdes, la copia remota no podrá recuperarse.</string>
+    <string name="settings_remote_passphrase_label">Contraseña</string>
+    <string name="settings_remote_passphrase_save">Guardar</string>
+    <string name="settings_remote_passphrase_cancel">Cancelar</string>
+    <string name="settings_remote_restore_title">¿Restaurar desde Google Drive?</string>
+    <string name="settings_remote_restore_body">Esto reemplazará permanentemente todos los datos actuales con la última copia cifrada. Introduce tu contraseña para continuar.</string>
+    <string name="settings_remote_restore_confirm">Restaurar</string>
+    <string name="settings_remote_status_encrypting">Cifrando…</string>
+    <string name="settings_remote_status_uploading">Subiendo…</string>
+    <string name="settings_remote_status_downloading">Descargando…</string>
+    <string name="settings_remote_status_decrypting">Descifrando…</string>
+    <string name="settings_remote_status_restoring">Restaurando…</string>
+    <string name="settings_remote_status_error">El último intento falló: %1$s</string>
 </resources>

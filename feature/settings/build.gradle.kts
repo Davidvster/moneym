@@ -42,6 +42,8 @@ kotlin {
             implementation(projects.data.accounts)
             implementation(projects.data.categories)
             implementation(projects.data.transactions)
+            implementation(projects.data.remotebackup)
+            implementation(projects.core.oauth)
         }
         commonTest.dependencies {
             implementation(projects.core.testing)

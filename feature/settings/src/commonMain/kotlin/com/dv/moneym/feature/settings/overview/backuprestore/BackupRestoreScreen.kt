@@ -1,19 +1,27 @@
 package com.dv.moneym.feature.settings.overview.backuprestore
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
@@ -28,6 +36,7 @@ import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.data.remotebackup.RemoteBackupRuntimeState
 import com.dv.moneym.platform.rememberBinaryFilePicker
 import com.dv.moneym.platform.rememberFileSaver
 import com.dv.moneym.platform.rememberFolderPicker
@@ -42,6 +51,30 @@ import moneym.feature.settings.generated.resources.settings_backup_restore
 import moneym.feature.settings.generated.resources.settings_backup_saved
 import moneym.feature.settings.generated.resources.settings_backup_to_file
 import moneym.feature.settings.generated.resources.settings_last_backup
+import moneym.feature.settings.generated.resources.settings_remote_auto_backup
+import moneym.feature.settings.generated.resources.settings_remote_auto_backup_subtitle
+import moneym.feature.settings.generated.resources.settings_remote_backup_now
+import moneym.feature.settings.generated.resources.settings_remote_backup_section
+import moneym.feature.settings.generated.resources.settings_remote_connect
+import moneym.feature.settings.generated.resources.settings_remote_disconnect
+import moneym.feature.settings.generated.resources.settings_remote_last_backup
+import moneym.feature.settings.generated.resources.settings_remote_last_backup_never
+import moneym.feature.settings.generated.resources.settings_remote_passphrase_body
+import moneym.feature.settings.generated.resources.settings_remote_passphrase_cancel
+import moneym.feature.settings.generated.resources.settings_remote_passphrase_label
+import moneym.feature.settings.generated.resources.settings_remote_passphrase_save
+import moneym.feature.settings.generated.resources.settings_remote_passphrase_title
+import moneym.feature.settings.generated.resources.settings_remote_restore
+import moneym.feature.settings.generated.resources.settings_remote_restore_body
+import moneym.feature.settings.generated.resources.settings_remote_restore_confirm
+import moneym.feature.settings.generated.resources.settings_remote_restore_title
+import moneym.feature.settings.generated.resources.settings_remote_signed_in_as
+import moneym.feature.settings.generated.resources.settings_remote_status_decrypting
+import moneym.feature.settings.generated.resources.settings_remote_status_downloading
+import moneym.feature.settings.generated.resources.settings_remote_status_encrypting
+import moneym.feature.settings.generated.resources.settings_remote_status_error
+import moneym.feature.settings.generated.resources.settings_remote_status_restoring
+import moneym.feature.settings.generated.resources.settings_remote_status_uploading
 import moneym.feature.settings.generated.resources.settings_restore_confirm
 import moneym.feature.settings.generated.resources.settings_restore_from_file
 import moneym.feature.settings.generated.resources.settings_restore_warning_body
@@ -85,6 +118,8 @@ private fun BackupRestoreScreen(
                 BackupRestoreEffect.LaunchRestorePicker -> restorePicker()
                 is BackupRestoreEffect.RestoreError -> Unit
                 BackupRestoreEffect.LaunchFolderPicker -> folderPicker()
+                is BackupRestoreEffect.RemoteError -> Unit
+                BackupRestoreEffect.RemoteSignedIn -> Unit
             }
         }
     }
@@ -107,12 +142,32 @@ private fun BackupRestoreScreen(
         )
     }
 
+    if (state.showPassphraseDialog) {
+        PassphraseDialog(
+            errorMessage = state.passphraseError,
+            onDismiss = { viewModel.onIntent(BackupRestoreIntent.PassphrasePromptDismissed) },
+            onSubmit = { viewModel.onIntent(BackupRestoreIntent.PassphraseSubmitted(it)) },
+        )
+    }
+
+    if (state.showRemoteRestoreDialog) {
+        RemoteRestoreDialog(
+            onDismiss = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreDismissed) },
+            onConfirm = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreConfirmed(it)) },
+        )
+    }
+
     BackupRestoreContent(
         state = state,
         onBack = onBack,
         onBackupTapped = { viewModel.onIntent(BackupRestoreIntent.BackupTapped) },
         onRestoreTapped = restorePicker,
         onAutoBackupToggled = { viewModel.onIntent(BackupRestoreIntent.AutoBackupToggled(it)) },
+        onConnectGoogle = { viewModel.onIntent(BackupRestoreIntent.ConnectGoogleTapped) },
+        onDisconnectGoogle = { viewModel.onIntent(BackupRestoreIntent.DisconnectGoogleTapped) },
+        onRemoteAutoToggled = { viewModel.onIntent(BackupRestoreIntent.RemoteAutoBackupToggled(it)) },
+        onRemoteBackupNow = { viewModel.onIntent(BackupRestoreIntent.RemoteBackupNowTapped) },
+        onRemoteRestoreTapped = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreTapped) },
     )
 }
 
@@ -123,21 +178,18 @@ private fun BackupRestoreContent(
     onBackupTapped: () -> Unit,
     onRestoreTapped: () -> Unit,
     onAutoBackupToggled: (Boolean) -> Unit,
+    onConnectGoogle: () -> Unit,
+    onDisconnectGoogle: () -> Unit,
+    onRemoteAutoToggled: (Boolean) -> Unit,
+    onRemoteBackupNow: () -> Unit,
+    onRemoteRestoreTapped: () -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
     val space = MM.dimen
 
-    val lastBackupLabel = remember(state.lastBackupTimeMs) {
-        if (state.lastBackupTimeMs == 0L) null
-        else {
-            val dt = Instant.fromEpochMilliseconds(state.lastBackupTimeMs)
-                .toLocalDateTime(TimeZone.currentSystemDefault())
-            val h = dt.hour.toString().padStart(2, '0')
-            val m = dt.minute.toString().padStart(2, '0')
-            "${dt.date} $h:$m"
-        }
-    }
+    val lastBackupLabel = remember(state.lastBackupTimeMs) { formatTime(state.lastBackupTimeMs) }
+    val lastRemoteLabel = remember(state.lastRemoteBackupMs) { formatTime(state.lastRemoteBackupMs) }
 
     Column(modifier = Modifier.fillMaxSize().background(colors.bg)) {
         ScreenHeader(title = stringResource(Res.string.settings_backup_restore), onBack = onBack)
@@ -189,6 +241,198 @@ private fun BackupRestoreContent(
                     }
                 }
             }
+            if (state.remoteAvailable) {
+                item(key = "remote_label") {
+                    SectionLabel(
+                        text = stringResource(Res.string.settings_remote_backup_section),
+                        modifier = Modifier.padding(horizontal = space.padding_2_5x, vertical = space.padding_0_5x),
+                    )
+                }
+                item(key = "remote_card") {
+                    RemoteBackupSection(
+                        state = state,
+                        lastRemoteLabel = lastRemoteLabel,
+                        onConnect = onConnectGoogle,
+                        onDisconnect = onDisconnectGoogle,
+                        onRemoteAutoToggled = onRemoteAutoToggled,
+                        onBackupNow = onRemoteBackupNow,
+                        onRestore = onRemoteRestoreTapped,
+                    )
+                }
+            }
         }
     }
+}
+
+@Composable
+private fun RemoteBackupSection(
+    state: BackupRestoreUiState,
+    lastRemoteLabel: String?,
+    onConnect: () -> Unit,
+    onDisconnect: () -> Unit,
+    onRemoteAutoToggled: (Boolean) -> Unit,
+    onBackupNow: () -> Unit,
+    onRestore: () -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    val space = MM.dimen
+    val busy = state.remoteRuntime !is RemoteBackupRuntimeState.Idle &&
+        state.remoteRuntime !is RemoteBackupRuntimeState.Error
+
+    MmCard(Modifier.padding(horizontal = space.padding_2x)) {
+        if (!state.remoteSignedIn) {
+            MmRow(onClick = onConnect, divider = false) {
+                Text(stringResource(Res.string.settings_remote_connect), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
+                Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
+            }
+        } else {
+            MmRow(onClick = onDisconnect) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = state.remoteAccountEmail?.let {
+                            stringResource(Res.string.settings_remote_signed_in_as, it)
+                        } ?: stringResource(Res.string.settings_remote_connect),
+                        style = type.body,
+                        color = colors.text,
+                    )
+                    Text(stringResource(Res.string.settings_remote_disconnect), style = type.caption.copy(color = colors.text3))
+                }
+            }
+            MmRow(onClick = { if (!busy) onRemoteAutoToggled(!state.remoteAutoEnabled) }) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(stringResource(Res.string.settings_remote_auto_backup), style = type.body, color = colors.text)
+                    Text(stringResource(Res.string.settings_remote_auto_backup_subtitle), style = type.caption.copy(color = colors.text2))
+                }
+                MmToggle(checked = state.remoteAutoEnabled, onCheckedChange = onRemoteAutoToggled, enabled = !busy)
+            }
+            MmRow(onClick = onBackupNow) {
+                Text(stringResource(Res.string.settings_remote_backup_now), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
+                if (busy) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(space.icon_1x),
+                        strokeWidth = space.padding_0_25x,
+                    )
+                } else {
+                    Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
+                }
+            }
+            MmRow(onClick = onRestore, divider = false) {
+                Icon(imageVector = Download.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.icon_1x))
+                Text(stringResource(Res.string.settings_remote_restore), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
+                Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
+            }
+            RuntimeStatusLine(state.remoteRuntime, lastRemoteLabel)
+        }
+    }
+}
+
+@Composable
+private fun RuntimeStatusLine(runtime: RemoteBackupRuntimeState, lastRemoteLabel: String?) {
+    val colors = MM.colors
+    val type = MM.type
+    val space = MM.dimen
+
+    val message: String = when (runtime) {
+        RemoteBackupRuntimeState.Encrypting -> stringResource(Res.string.settings_remote_status_encrypting)
+        RemoteBackupRuntimeState.Uploading -> stringResource(Res.string.settings_remote_status_uploading)
+        RemoteBackupRuntimeState.Downloading -> stringResource(Res.string.settings_remote_status_downloading)
+        RemoteBackupRuntimeState.Decrypting -> stringResource(Res.string.settings_remote_status_decrypting)
+        RemoteBackupRuntimeState.Restoring -> stringResource(Res.string.settings_remote_status_restoring)
+        is RemoteBackupRuntimeState.Error -> stringResource(Res.string.settings_remote_status_error, runtime.message)
+        RemoteBackupRuntimeState.Idle -> {
+            val never = stringResource(Res.string.settings_remote_last_backup_never)
+            stringResource(Res.string.settings_remote_last_backup, lastRemoteLabel ?: never)
+        }
+    }
+
+    Text(
+        text = message,
+        style = type.caption.copy(color = if (runtime is RemoteBackupRuntimeState.Error) colors.danger else colors.text3),
+        modifier = Modifier.padding(start = space.padding_2x, end = space.padding_2x, bottom = space.padding_1x, top = space.padding_0_5x),
+    )
+}
+
+@Composable
+private fun PassphraseDialog(
+    errorMessage: String?,
+    onDismiss: () -> Unit,
+    onSubmit: (CharArray) -> Unit,
+) {
+    var input by remember { mutableStateOf("") }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(Res.string.settings_remote_passphrase_title)) },
+        text = {
+            Column {
+                Text(stringResource(Res.string.settings_remote_passphrase_body))
+                OutlinedTextField(
+                    value = input,
+                    onValueChange = { input = it },
+                    label = { Text(stringResource(Res.string.settings_remote_passphrase_label)) },
+                    modifier = Modifier.fillMaxWidth().padding(top = MM.dimen.padding_1x),
+                    singleLine = true,
+                )
+                if (errorMessage != null) {
+                    Text(errorMessage, color = MM.colors.danger, style = MM.type.caption)
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = { onSubmit(input.toCharArray()) },
+                enabled = input.isNotEmpty(),
+            ) {
+                Text(stringResource(Res.string.settings_remote_passphrase_save))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(Res.string.settings_remote_passphrase_cancel))
+            }
+        },
+    )
+}
+
+@Composable
+private fun RemoteRestoreDialog(
+    onDismiss: () -> Unit,
+    onConfirm: (CharArray) -> Unit,
+) {
+    var input by remember { mutableStateOf("") }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(Res.string.settings_remote_restore_title)) },
+        text = {
+            Column {
+                Text(stringResource(Res.string.settings_remote_restore_body))
+                OutlinedTextField(
+                    value = input,
+                    onValueChange = { input = it },
+                    label = { Text(stringResource(Res.string.settings_remote_passphrase_label)) },
+                    modifier = Modifier.fillMaxWidth().padding(top = MM.dimen.padding_1x),
+                    singleLine = true,
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = { onConfirm(input.toCharArray()) },
+                enabled = input.isNotEmpty(),
+            ) { Text(stringResource(Res.string.settings_remote_restore_confirm)) }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(Res.string.settings_remote_passphrase_cancel))
+            }
+        },
+    )
+}
+
+private fun formatTime(ms: Long): String? {
+    if (ms == 0L) return null
+    val dt = Instant.fromEpochMilliseconds(ms).toLocalDateTime(TimeZone.currentSystemDefault())
+    val h = dt.hour.toString().padStart(2, '0')
+    val m = dt.minute.toString().padStart(2, '0')
+    return "${dt.date} $h:$m"
 }
