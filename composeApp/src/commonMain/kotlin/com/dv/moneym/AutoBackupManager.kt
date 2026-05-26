@@ -6,6 +6,7 @@ import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
+import com.dv.moneym.data.remotebackup.RemoteBackupManager
 import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.platform.FilePlatform
 import kotlinx.coroutines.CoroutineScope
@@ -26,6 +27,7 @@ class AutoBackupManager(
     private val filePlatform: FilePlatform,
     private val appSettings: AppSettings,
     private val dispatchers: DispatcherProvider,
+    private val remoteBackupManager: RemoteBackupManager? = null,
 ) {
     private var job: Job? = null
 
@@ -49,13 +51,16 @@ class AutoBackupManager(
                         filePlatform.saveFileLocallyBinary("moneym-backup.zip", bytes)
                     }
                     if (path != null) recordBackup(path)
+                    remoteBackupManager?.enqueueUpload()
                 }
         }
+        remoteBackupManager?.start(scope)
     }
 
     fun stop() {
         job?.cancel()
         job = null
+        remoteBackupManager?.stop()
     }
 
     fun recordBackup(path: String) {

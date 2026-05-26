@@ -24,6 +24,8 @@ kotlin {
             implementation(libs.kermit)
             implementation(projects.core.common)
             implementation(projects.core.security)
+            implementation(projects.core.datastore)
+            implementation(projects.data.backup)
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.okhttp)

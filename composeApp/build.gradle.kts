@@ -74,6 +74,8 @@ kotlin {
             implementation(projects.data.transactions)
             implementation(projects.data.backup)
             implementation(projects.data.budgets)
+            implementation(projects.data.remotebackup)
+            implementation(projects.core.oauth)
             // Feature modules
             implementation(projects.feature.transactions)
             implementation(projects.feature.transactionEdit)

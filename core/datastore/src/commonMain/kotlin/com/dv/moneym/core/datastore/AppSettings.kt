@@ -53,4 +53,10 @@ object PrefKeys {
     const val LAST_BACKUP_TIME_MS = "pref.last_backup_time_ms"
     const val LAST_BACKUP_PATH = "pref.last_backup_path"
     const val AUTO_BACKUP_DIR_URI = "pref.auto_backup_dir_uri"
+
+    // Remote (Google Drive) backup
+    const val AUTO_REMOTE_BACKUP_ENABLED = "pref.auto_remote_backup_enabled"
+    const val LAST_REMOTE_BACKUP_TIME_MS = "pref.last_remote_backup_time_ms"
+    const val REMOTE_BACKUP_PROVIDER_ID = "pref.remote_backup_provider_id"
+    const val REMOTE_BACKUP_ACCOUNT_EMAIL = "pref.remote_backup_account_email"
 }
