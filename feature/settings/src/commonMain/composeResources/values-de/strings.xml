@@ -200,4 +200,5 @@
     <string name="settings_remote_disconnect_title">Google-Konto trennen?</string>
     <string name="settings_remote_disconnect_body">Das Trennen stoppt neue Backups, vorhandene Remote-Backups bleiben in deinem Google Drive erhalten. Verbinde dich jederzeit wieder, um darauf zuzugreifen.</string>
     <string name="settings_remote_disconnect_confirm">Trennen</string>
+    <string name="settings_remote_quota_warning">Nicht genug Google-Drive-Speicher (%1$d KB frei, %2$d KB nötig)</string>
 </resources>

@@ -107,6 +107,15 @@ class RemoteBackupManager(
             )
             passphrase.fill(' ')
             val bytes = BackupEnvelopeJson.encodeBytes(envelope)
+            val remaining = runCatching { provider.remainingQuotaBytes() }.getOrNull()
+            if (remaining != null && remaining < bytes.size) {
+                _runtime.value = RemoteBackupRuntimeState.QuotaWarning(
+                    remainingBytes = remaining,
+                    requiredBytes = bytes.size.toLong(),
+                )
+                logger.w { "Remote backup aborted: insufficient Drive quota ($remaining < ${bytes.size})" }
+                return
+            }
             _runtime.value = RemoteBackupRuntimeState.Uploading
             val ref = provider.upload(
                 bytes = bytes,

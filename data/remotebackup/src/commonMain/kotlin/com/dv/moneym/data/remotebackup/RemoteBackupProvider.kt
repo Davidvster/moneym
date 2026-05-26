@@ -23,6 +23,8 @@ interface RemoteBackupProvider {
     suspend fun download(ref: RemoteFileRef): ByteArray
 
     suspend fun delete(ref: RemoteFileRef)
+
+    suspend fun remainingQuotaBytes(): Long? = null
 }
 
 sealed class RemoteBackupError(message: String, cause: Throwable? = null) :

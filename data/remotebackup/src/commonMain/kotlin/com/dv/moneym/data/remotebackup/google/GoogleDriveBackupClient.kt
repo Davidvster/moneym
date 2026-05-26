@@ -99,6 +99,20 @@ class GoogleDriveBackupClient(
         }
     }
 
+    override suspend fun remainingQuotaBytes(): Long? {
+        val token = requireToken()
+        val response: HttpResponse = httpClient.get("$DRIVE_API_BASE/about") {
+            parameter("fields", "storageQuota")
+            authHeader(token)
+        }
+        if (!response.status.isSuccess()) return null
+        val dto = json.decodeFromString(DriveAboutDto.serializer(), response.bodyAsText())
+        val quota = dto.storageQuota ?: return null
+        val limit = quota.limit?.toLongOrNull() ?: return null
+        val usage = quota.usage?.toLongOrNull() ?: 0L
+        return (limit - usage).coerceAtLeast(0L)
+    }
+
     private suspend fun requireToken(): String =
         accessTokenProvider() ?: throw RemoteBackupError.NotAuthenticated()
 

@@ -200,4 +200,5 @@
     <string name="settings_remote_disconnect_title">¿Desconectar cuenta de Google?</string>
     <string name="settings_remote_disconnect_body">Al desconectar se detendrán las nuevas copias, pero las copias remotas existentes permanecerán en tu Google Drive. Vuelve a conectarte cuando quieras para acceder a ellas.</string>
     <string name="settings_remote_disconnect_confirm">Desconectar</string>
+    <string name="settings_remote_quota_warning">No hay suficiente espacio en Google Drive (%1$d KB libres, %2$d KB necesarios)</string>
 </resources>

@@ -8,4 +8,5 @@ sealed interface RemoteBackupRuntimeState {
     data object Decrypting : RemoteBackupRuntimeState
     data object Restoring : RemoteBackupRuntimeState
     data class Error(val message: String) : RemoteBackupRuntimeState
+    data class QuotaWarning(val remainingBytes: Long, val requiredBytes: Long) : RemoteBackupRuntimeState
 }

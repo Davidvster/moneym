@@ -200,4 +200,5 @@
     <string name="settings_remote_disconnect_title">Disconnettere l'account Google?</string>
     <string name="settings_remote_disconnect_body">La disconnessione interrompe i nuovi backup, ma quelli remoti esistenti restano nel tuo Google Drive. Riconnettiti in qualsiasi momento per accedervi.</string>
     <string name="settings_remote_disconnect_confirm">Disconnetti</string>
+    <string name="settings_remote_quota_warning">Spazio Google Drive insufficiente (%1$d KB liberi, %2$d KB necessari)</string>
 </resources>

@@ -73,6 +73,7 @@ import moneym.feature.settings.generated.resources.settings_remote_passphrase_ca
 import moneym.feature.settings.generated.resources.settings_remote_passphrase_label
 import moneym.feature.settings.generated.resources.settings_remote_passphrase_save
 import moneym.feature.settings.generated.resources.settings_remote_passphrase_title
+import moneym.feature.settings.generated.resources.settings_remote_quota_warning
 import moneym.feature.settings.generated.resources.settings_remote_restore
 import moneym.feature.settings.generated.resources.settings_remote_restore_body
 import moneym.feature.settings.generated.resources.settings_remote_restore_confirm
@@ -309,7 +310,8 @@ private fun RemoteBackupSection(
     val type = MM.type
     val space = MM.dimen
     val busy = state.remoteRuntime !is RemoteBackupRuntimeState.Idle &&
-        state.remoteRuntime !is RemoteBackupRuntimeState.Error
+        state.remoteRuntime !is RemoteBackupRuntimeState.Error &&
+        state.remoteRuntime !is RemoteBackupRuntimeState.QuotaWarning
 
     MmCard(Modifier.padding(horizontal = space.padding_2x)) {
         if (!state.remoteSignedIn) {
@@ -378,6 +380,11 @@ private fun RuntimeStatusLine(
         RemoteBackupRuntimeState.Decrypting -> stringResource(Res.string.settings_remote_status_decrypting)
         RemoteBackupRuntimeState.Restoring -> stringResource(Res.string.settings_remote_status_restoring)
         is RemoteBackupRuntimeState.Error -> stringResource(Res.string.settings_remote_status_error, runtime.message)
+        is RemoteBackupRuntimeState.QuotaWarning -> stringResource(
+            Res.string.settings_remote_quota_warning,
+            (runtime.remainingBytes / 1024L).toInt(),
+            (runtime.requiredBytes / 1024L).toInt(),
+        )
         RemoteBackupRuntimeState.Idle -> stringResource(Res.string.settings_remote_last_backup, relativeLabel)
     }
 
@@ -386,7 +393,7 @@ private fun RuntimeStatusLine(
     ) {
         Text(
             text = message,
-            style = type.caption.copy(color = if (runtime is RemoteBackupRuntimeState.Error) colors.danger else colors.text3),
+            style = type.caption.copy(color = if (runtime is RemoteBackupRuntimeState.Error || runtime is RemoteBackupRuntimeState.QuotaWarning) colors.danger else colors.text3),
         )
         if (runtime is RemoteBackupRuntimeState.Error) {
             Text(
