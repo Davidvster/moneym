@@ -16,7 +16,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
+import com.dv.moneym.core.model.Icon
+import androidx.compose.ui.tooling.preview.Preview
 
 enum class MmIconButtonVariant { Default, Accent, Danger }
 
@@ -60,5 +66,20 @@ fun MmIconButton(
             tint = iconColor,
             modifier = Modifier.size(22.dp),
         )
+    }
+}
+
+@Preview
+@Composable
+private fun MmIconButtonPreview() {
+    MoneyMTheme {
+        Row(
+            modifier = Modifier.padding(MM.dimen.padding_2x),
+            horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
+        ) {
+            MmIconButton(icon = Icon.Plus.imageVector, onClick = {})
+            MmIconButton(icon = Icon.Trash.imageVector, onClick = {}, variant = MmIconButtonVariant.Danger)
+            MmIconButton(icon = Icon.Check.imageVector, onClick = {}, variant = MmIconButtonVariant.Accent)
+        }
     }
 }

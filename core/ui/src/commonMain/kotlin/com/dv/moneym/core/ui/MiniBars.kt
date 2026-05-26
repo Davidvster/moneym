@@ -9,6 +9,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.tooling.preview.Preview
+import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 
 @Composable
 fun MiniBars(
@@ -55,5 +61,18 @@ fun MiniBars(
                 cornerRadius = cornerRadius,
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun MiniBarsPreview() {
+    MoneyMTheme {
+        MiniBars(
+            data = listOf(1.0, 3.0, 2.0, 5.0, 4.0, 0.0, 6.0, 3.5),
+            color = MM.colors.accent,
+            highlightIndex = 3,
+            modifier = Modifier.padding(MM.dimen.padding_2x).width(160.dp).height(48.dp),
+        )
     }
 }

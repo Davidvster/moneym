@@ -186,3 +186,17 @@ private fun LanguagePickerContent(
         }
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun LanguagePickerContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        LanguagePickerContent(
+            selectedLanguage = "en",
+            useDeviceLanguage = false,
+            onUseDeviceChanged = {},
+            onLanguageSelected = {},
+            onBack = {},
+        )
+    }
+}

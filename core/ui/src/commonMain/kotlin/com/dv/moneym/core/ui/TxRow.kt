@@ -26,8 +26,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.Density
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.TxDisplayPrefs
 
 /**
@@ -167,6 +170,36 @@ fun TxRow(
                     )
                 }
             }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun TxRowPreview() {
+    MoneyMTheme {
+        Column {
+            TxRow(
+                categoryName = "Groceries",
+                categoryColor = MM.colors.accent,
+                categoryIcon = Icon.List.imageVector,
+                note = "Whole Foods",
+                isExpense = true,
+                amountValue = 45.67,
+                currency = "€",
+                prefs = TxDisplayPrefs(),
+            )
+            TxRow(
+                categoryName = "Salary",
+                categoryColor = MM.colors.text2,
+                categoryIcon = Icon.ArrowDown.imageVector,
+                note = null,
+                isExpense = false,
+                amountValue = 2500.0,
+                currency = "€",
+                prefs = TxDisplayPrefs(),
+                divider = false,
+            )
         }
     }
 }

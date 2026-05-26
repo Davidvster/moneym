@@ -23,7 +23,7 @@ import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.feature.overview.components.DateRangePickerDialog
 import com.dv.moneym.feature.overview.components.OverviewHeader
-import com.dv.moneym.feature.overview.components.OverviewMonthPickerDialog
+import com.dv.moneym.core.ui.MmMonthPickerDialog
 import com.dv.moneym.feature.overview.components.OverviewYearPickerDialog
 import com.dv.moneym.feature.overview.components.daysInMonthUi
 import com.dv.moneym.feature.overview.components.formatShortDate
@@ -31,9 +31,20 @@ import com.dv.moneym.core.ui.localizedMonthNames
 import com.dv.moneym.feature.overview.page.OverviewIntent
 import com.dv.moneym.feature.overview.page.OverviewPageScreen
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
+import moneym.feature.overview.generated.resources.Res
+import moneym.feature.overview.generated.resources.overview_cancel
+import moneym.feature.overview.generated.resources.overview_dialog_select_month
+import moneym.feature.overview.generated.resources.overview_next_year_cd
+import moneym.feature.overview.generated.resources.overview_now
+import moneym.feature.overview.generated.resources.overview_ok
+import moneym.feature.overview.generated.resources.overview_prev_year_cd
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.time.Clock
 
 @Serializable
 data object OverviewKey : NavKey
@@ -190,9 +201,20 @@ private fun OverviewContent(
 
         if (state.showPeriodPicker) {
             if (currentPeriod is OverviewPeriod.Month) {
-                OverviewMonthPickerDialog(
+                val todayDate = remember {
+                    Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+                }
+                MmMonthPickerDialog(
                     currentYear = currentPeriod.yearMonth.year,
                     currentMonth = currentPeriod.yearMonth.monthNumber,
+                    nowYear = todayDate.year,
+                    nowMonth = todayDate.month.number,
+                    title = stringResource(Res.string.overview_dialog_select_month),
+                    nowLabel = stringResource(Res.string.overview_now),
+                    okLabel = stringResource(Res.string.overview_ok),
+                    cancelLabel = stringResource(Res.string.overview_cancel),
+                    prevYearContentDescription = stringResource(Res.string.overview_prev_year_cd),
+                    nextYearContentDescription = stringResource(Res.string.overview_next_year_cd),
                     minYear = state.minSelectableDateIso?.let { LocalDate.parse(it).year },
                     minMonth = state.minSelectableDateIso?.let { LocalDate.parse(it).month.number },
                     onDismiss = { onIntent(OverviewIntent.ShowPeriodPicker(false)) },

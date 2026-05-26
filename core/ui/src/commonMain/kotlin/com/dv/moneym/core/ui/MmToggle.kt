@@ -19,7 +19,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MmToggle(
@@ -71,5 +76,20 @@ fun MmToggle(
                 .clip(CircleShape)
                 .background(colors.bg, CircleShape),
         )
+    }
+}
+
+@Preview
+@Composable
+private fun MmTogglePreview() {
+    MoneyMTheme {
+        Row(
+            modifier = Modifier.padding(MM.dimen.padding_2x),
+            horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
+        ) {
+            MmToggle(checked = false, onCheckedChange = {})
+            MmToggle(checked = true, onCheckedChange = {})
+            MmToggle(checked = true, onCheckedChange = {}, enabled = false)
+        }
     }
 }

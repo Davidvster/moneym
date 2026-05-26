@@ -16,7 +16,9 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.Icon
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ScreenHeader(
@@ -82,4 +84,12 @@ fun ScreenHeader(
             }
         }
     } // end Column
+}
+
+@Preview
+@Composable
+private fun ScreenHeaderPreview() {
+    MoneyMTheme {
+        ScreenHeader(title = "Settings", onBack = {}, showDivider = true)
+    }
 }

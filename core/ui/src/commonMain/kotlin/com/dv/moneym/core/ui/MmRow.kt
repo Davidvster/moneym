@@ -21,7 +21,10 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.Text
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MmRow(
@@ -82,5 +85,20 @@ fun MmRow(
             verticalAlignment = Alignment.CenterVertically,
             content = content,
         )
+    }
+}
+
+@Preview
+@Composable
+private fun MmRowPreview() {
+    MoneyMTheme {
+        androidx.compose.foundation.layout.Column {
+            MmRow(onClick = {}) {
+                Text("Clickable row with divider", color = MM.colors.text)
+            }
+            MmRow(divider = false) {
+                Text("Plain row, no divider", color = MM.colors.text)
+            }
+        }
     }
 }

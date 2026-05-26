@@ -192,3 +192,17 @@ private fun ExportContent(
         }
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun ExportContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        ExportContent(
+            isExporting = false,
+            onExportJson = {},
+            onExportCsv = {},
+            onImport = {},
+            onBack = {},
+        )
+    }
+}

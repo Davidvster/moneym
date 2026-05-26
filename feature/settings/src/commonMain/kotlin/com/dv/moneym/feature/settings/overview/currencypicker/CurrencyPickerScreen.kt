@@ -219,3 +219,26 @@ private fun CurrencyRow(
         }
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun CurrencyPickerContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        CurrencyPickerContent(
+            searchQuery = "",
+            onSearchQueryChanged = {},
+            filteredPopular = listOf(
+                com.dv.moneym.core.model.CurrencyInfo("EUR", "Euro", "€"),
+                com.dv.moneym.core.model.CurrencyInfo("USD", "US Dollar", "$"),
+                com.dv.moneym.core.model.CurrencyInfo("GBP", "British Pound", "£"),
+            ),
+            filteredAll = listOf(
+                com.dv.moneym.core.model.CurrencyInfo("JPY", "Japanese Yen", "¥"),
+                com.dv.moneym.core.model.CurrencyInfo("CHF", "Swiss Franc", "CHF"),
+            ),
+            selectedCurrencyCode = "EUR",
+            onCurrencySelected = {},
+            onBack = {},
+        )
+    }
+}

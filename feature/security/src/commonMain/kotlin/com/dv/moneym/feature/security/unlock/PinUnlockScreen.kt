@@ -167,3 +167,15 @@ private fun PinUnlockContent(
         )
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@androidx.compose.runtime.Composable
+private fun PinUnlockContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        PinUnlockContent(
+            state = PinUnlockUiState(pin = "12"),
+            onIntent = {},
+            biometricPrompt = "Unlock MoneyM",
+        )
+    }
+}

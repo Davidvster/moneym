@@ -1,6 +1,7 @@
 package com.dv.moneym.core.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,8 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MmField(
@@ -96,5 +99,19 @@ fun MmField(
                 }
             },
         )
+    }
+}
+
+@Preview
+@Composable
+private fun MmFieldPreview() {
+    MoneyMTheme {
+        Column(
+            Modifier.padding(MM.dimen.padding_2x),
+            verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
+        ) {
+            MmField(value = "", onValueChange = {}, label = "Name", placeholder = "Enter name")
+            MmField(value = "filled value", onValueChange = {}, label = "Notes")
+        }
     }
 }

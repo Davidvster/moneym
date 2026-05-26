@@ -8,6 +8,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.tooling.preview.Preview
+import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 
 /**
  * A compact cumulative line chart used in category trend rows.
@@ -100,5 +106,17 @@ fun MiniCumulativeLine(
                 center = Offset(seekX, seekY),
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun MiniCumulativeLinePreview() {
+    MoneyMTheme {
+        MiniCumulativeLine(
+            data = listOf(2.0, 1.5, 3.0, 0.5, 4.0, 2.5, 1.0, 3.5, 2.0, 1.5),
+            color = MM.colors.accent,
+            modifier = Modifier.padding(MM.dimen.padding_2x).width(180.dp).height(56.dp),
+        )
     }
 }

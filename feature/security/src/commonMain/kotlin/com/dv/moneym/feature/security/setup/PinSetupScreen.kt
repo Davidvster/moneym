@@ -279,3 +279,16 @@ private fun PinSetupBody(
         )
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@androidx.compose.runtime.Composable
+private fun PinSetupContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        PinSetupContent(
+            state = PinSetupUiState(step = PinSetupStep.ENTER_FIRST, firstPin = "12"),
+            isChangePinFlow = false,
+            onIntent = {},
+            onDismiss = {},
+        )
+    }
+}

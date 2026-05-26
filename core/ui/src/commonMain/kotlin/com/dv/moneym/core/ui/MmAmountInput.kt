@@ -14,6 +14,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -23,9 +24,9 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.Icon
 import moneym.core.ui.generated.resources.Res
 import moneym.core.ui.generated.resources.amount_input_calculator_desc
@@ -63,10 +64,7 @@ fun MmAmountInput(
                 if (amountText.isEmpty()) {
                     Text(
                         text = "0.00",
-                        style = type.display.copy(
-                            fontSize = 40.sp,
-                            color = colors.text3,
-                        ),
+                        style = type.displayInput.copy(color = colors.text3),
                     )
                 }
                 BasicTextField(
@@ -75,10 +73,7 @@ fun MmAmountInput(
                         selection = TextRange(amountText.length),
                     ),
                     onValueChange = { onAmountChanged(it.text) },
-                    textStyle = type.display.copy(
-                        fontSize = 40.sp,
-                        color = colors.text,
-                    ),
+                    textStyle = type.displayInput.copy(color = colors.text),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Decimal,
                         imeAction = if (notesFocusRequester != null) ImeAction.Next else ImeAction.Done,
@@ -90,7 +85,7 @@ fun MmAmountInput(
                     singleLine = true,
                     modifier = Modifier
                         .focusRequester(focusRequester)
-                        .defaultMinSize(minWidth = 1.dp),
+                        .defaultMinSize(minWidth = MM.dimen.strokeHairline),
                 )
             }
             if (onCalculatorClick != null) {
@@ -102,5 +97,21 @@ fun MmAmountInput(
             }
         }
         Spacer(Modifier.height(MM.dimen.padding_1x))
+    }
+}
+
+@Preview
+@Composable
+private fun MmAmountInputPreview() {
+    val fr = remember { FocusRequester() }
+    MoneyMTheme {
+        Column(Modifier.padding(MM.dimen.padding_2x)) {
+            MmAmountInput(
+                amountText = "1234.56",
+                currencyCode = "EUR",
+                focusRequester = fr,
+                onAmountChanged = {},
+            )
+        }
     }
 }

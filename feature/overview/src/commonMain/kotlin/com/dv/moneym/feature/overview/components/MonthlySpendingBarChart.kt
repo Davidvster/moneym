@@ -98,8 +98,7 @@ internal fun MonthlySpendingBarChart(
                     )
                     MmMoney(
                         value = selVal,
-                        size = 15.sp,
-                        weight = FontWeight.SemiBold,
+                        style = MM.type.amountMedium,
                         currency = currencyCode,
                     )
                 }
@@ -121,19 +120,19 @@ internal fun MonthlySpendingBarChart(
                 ) {
                     Text(
                         text = formatAxisAmount(maxVal),
-                        style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                        style = type.captionXs.copy(color = colors.text3),
                         textAlign = TextAlign.End,
                         modifier = Modifier.fillMaxWidth(),
                     )
                     Text(
                         text = formatAxisAmount(maxVal / 2),
-                        style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                        style = type.captionXs.copy(color = colors.text3),
                         textAlign = TextAlign.End,
                         modifier = Modifier.fillMaxWidth(),
                     )
                     Text(
                         text = "0",
-                        style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                        style = type.captionXs.copy(color = colors.text3),
                         textAlign = TextAlign.End,
                         modifier = Modifier.fillMaxWidth(),
                     )
@@ -218,8 +217,7 @@ internal fun MonthlySpendingBarChart(
                     val isSelected = i == selectedBarIndex
                     Text(
                         text = name,
-                        style = type.captionMono.copy(
-                            fontSize = 9.sp,
+                        style = type.captionXs.copy(
                             color = when {
                                 isSelected -> colors.accent
                                 isCurrent -> colors.text
@@ -296,19 +294,19 @@ internal fun CategoryBarChart(
             ) {
                 Text(
                     text = formatAxisAmount(maxVal),
-                    style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                    style = type.captionXs.copy(color = colors.text3),
                     textAlign = TextAlign.End,
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Text(
                     text = formatAxisAmount(maxVal / 2),
-                    style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                    style = type.captionXs.copy(color = colors.text3),
                     textAlign = TextAlign.End,
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Text(
                     text = "0",
-                    style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                    style = type.captionXs.copy(color = colors.text3),
                     textAlign = TextAlign.End,
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -389,7 +387,7 @@ internal fun CategoryBarChart(
                 xLabels.forEach { label ->
                     Text(
                         text = label,
-                        style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                        style = type.captionXs.copy(color = colors.text3),
                         modifier = Modifier.weight(1f),
                         textAlign = TextAlign.Center,
                     )

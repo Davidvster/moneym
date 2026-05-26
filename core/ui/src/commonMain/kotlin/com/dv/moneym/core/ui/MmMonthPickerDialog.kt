@@ -1,7 +1,5 @@
-package com.dv.moneym.feature.transactions.list.components
+package com.dv.moneym.core.ui
 
-import com.dv.moneym.core.ui.imageVector
-import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -29,26 +26,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
-import com.dv.moneym.core.ui.MmIconButton
-import com.dv.moneym.core.ui.localizedMonthAbbreviations
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
-import moneym.feature.transactions.generated.resources.Res
-import moneym.feature.transactions.generated.resources.transactions_cancel
-import moneym.feature.transactions.generated.resources.transactions_dialog_select_month
-import moneym.feature.transactions.generated.resources.transactions_next_year_cd
-import moneym.feature.transactions.generated.resources.transactions_now
-import moneym.feature.transactions.generated.resources.transactions_ok
-import moneym.feature.transactions.generated.resources.transactions_prev_year_cd
-import org.jetbrains.compose.resources.stringResource
-import kotlin.time.Clock
+import com.dv.moneym.core.model.Icon
 
 @Composable
-internal fun MonthPickerDialog(
+fun MmMonthPickerDialog(
     currentYear: Int,
     currentMonth: Int,
+    nowYear: Int,
+    nowMonth: Int,
+    title: String,
+    nowLabel: String,
+    okLabel: String,
+    cancelLabel: String,
+    prevYearContentDescription: String,
+    nextYearContentDescription: String,
     minYear: Int? = null,
     minMonth: Int? = null,
     onDismiss: () -> Unit,
@@ -60,17 +52,11 @@ internal fun MonthPickerDialog(
     var selectedYear by remember { mutableIntStateOf(currentYear) }
     var selectedMonth by remember { mutableIntStateOf(currentMonth) }
 
-    val todayDate = remember {
-        Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-    }
-    val nowYear = todayDate.year
-    val nowMonth = todayDate.monthNumber
-
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                text = stringResource(Res.string.transactions_dialog_select_month),
+                text = title,
                 style = type.title3,
                 color = colors.text,
             )
@@ -80,7 +66,6 @@ internal fun MonthPickerDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
             ) {
-                // Year selection row
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
@@ -91,7 +76,7 @@ internal fun MonthPickerDialog(
                             icon = Icon.ChevronLeft.imageVector,
                             onClick = { selectedYear-- },
                             size = MM.dimen.padding_4x,
-                            contentDescription = stringResource(Res.string.transactions_prev_year_cd),
+                            contentDescription = prevYearContentDescription,
                         )
                     } else {
                         Spacer(Modifier.width(MM.dimen.padding_4x))
@@ -107,7 +92,7 @@ internal fun MonthPickerDialog(
                         icon = Icon.ChevronRight.imageVector,
                         onClick = { selectedYear++ },
                         size = MM.dimen.padding_4x,
-                        contentDescription = stringResource(Res.string.transactions_next_year_cd),
+                        contentDescription = nextYearContentDescription,
                     )
                 }
 
@@ -128,16 +113,16 @@ internal fun MonthPickerDialog(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 TextButton(onClick = { onConfirm(nowYear, nowMonth) }) {
-                    Text(stringResource(Res.string.transactions_now), color = colors.text2)
+                    Text(nowLabel, color = colors.text2)
                 }
                 TextButton(onClick = { onConfirm(selectedYear, selectedMonth) }) {
-                    Text(stringResource(Res.string.transactions_ok), color = colors.accent)
+                    Text(okLabel, color = colors.accent)
                 }
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(stringResource(Res.string.transactions_cancel), color = colors.text2)
+                Text(cancelLabel, color = colors.text2)
             }
         },
         containerColor = colors.surface,
@@ -159,7 +144,6 @@ private fun MonthGrid(
     val type = MM.type
     val monthNames = localizedMonthAbbreviations()
 
-    // Month grid — 4 rows × 3 columns
     Column(verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x)) {
         for (row in 0..3) {
             Row(
@@ -173,14 +157,14 @@ private fun MonthGrid(
                     val isDisabled = minYear != null && selectedYear == minYear && minMonth != null && m < minMonth
                     Box(
                         modifier = Modifier
-                            .clip(RoundedCornerShape(MM.dimen.padding_1x))
+                            .clip(MM.dimen.radius_1x)
                             .background(if (isSelected && !isDisabled) colors.accent else Color.Transparent)
                             .then(
                                 if (isNow && !isSelected && !isDisabled) {
                                     Modifier.border(
-                                        1.dp,
+                                        MM.dimen.strokeHairline,
                                         colors.accent.copy(alpha = 0.5f),
-                                        RoundedCornerShape(MM.dimen.padding_1x)
+                                        MM.dimen.radius_1x,
                                     )
                                 } else Modifier
                             )
@@ -191,7 +175,7 @@ private fun MonthGrid(
                             ) { onMonthSelected(m) }
                             .padding(
                                 horizontal = MM.dimen.padding_1_5x,
-                                vertical = MM.dimen.padding_1x
+                                vertical = MM.dimen.padding_1x,
                             ),
                         contentAlignment = Alignment.Center,
                     ) {

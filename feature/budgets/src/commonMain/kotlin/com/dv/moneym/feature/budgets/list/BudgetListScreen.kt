@@ -31,6 +31,7 @@ import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmChip
+import com.dv.moneym.core.ui.MmEmptyState
 import com.dv.moneym.core.ui.MmDeleteSheet
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.imageVector
@@ -123,13 +124,10 @@ private fun BudgetListContent(
         }
 
         if (state.rows.isEmpty() && !state.isLoading) {
-            Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                Text(
-                    stringResource(Res.string.budgets_empty),
-                    style = type.body,
-                    color = colors.text3,
-                )
-            }
+            MmEmptyState(
+                message = stringResource(Res.string.budgets_empty),
+                modifier = Modifier.weight(1f),
+            )
         } else {
             LazyColumn(
                 modifier = Modifier.weight(1f),

@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MmBudgetProgressBar(
@@ -86,5 +88,33 @@ fun MmBudgetProgressBar(
             text = remainingLabel,
             style = type.caption.copy(color = if (isOverrun) colors.danger else colors.text2),
         )
+    }
+}
+
+@Preview
+@Composable
+private fun MmBudgetProgressBarPreview() {
+    MoneyMTheme {
+        Column(
+            Modifier.padding(MM.dimen.padding_2x),
+            verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
+        ) {
+            MmBudgetProgressBar(
+                budgetName = "Groceries",
+                spentLabel = "€ 180",
+                limitLabel = "€ 400",
+                remainingLabel = "€ 220 left",
+                fraction = 0.45f,
+                isOverrun = false,
+            )
+            MmBudgetProgressBar(
+                budgetName = "Eating Out",
+                spentLabel = "€ 320",
+                limitLabel = "€ 250",
+                remainingLabel = "€ 70 over",
+                fraction = 1f,
+                isOverrun = true,
+            )
+        }
     }
 }

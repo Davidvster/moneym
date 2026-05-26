@@ -36,11 +36,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
@@ -58,6 +56,7 @@ import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmChip
+import com.dv.moneym.core.ui.MmEmptyState
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmMoney
@@ -69,7 +68,7 @@ import com.dv.moneym.core.ui.TxRow
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.transactions.list.components.CategoryFilterSheet
 import com.dv.moneym.feature.transactions.list.components.DayGroupHeader
-import com.dv.moneym.feature.transactions.list.components.MonthPickerDialog
+import com.dv.moneym.core.ui.MmMonthPickerDialog
 import com.dv.moneym.feature.transactions.list.components.WalletSwitcherDialog
 import com.dv.moneym.core.ui.monthLabel
 import com.dv.moneym.feature.transactions.list.page.TransactionPageScreen
@@ -78,6 +77,12 @@ import kotlinx.datetime.number
 import kotlinx.serialization.Serializable
 import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.transactions_add
+import moneym.feature.transactions.generated.resources.transactions_cancel
+import moneym.feature.transactions.generated.resources.transactions_dialog_select_month
+import moneym.feature.transactions.generated.resources.transactions_next_year_cd
+import moneym.feature.transactions.generated.resources.transactions_now
+import moneym.feature.transactions.generated.resources.transactions_ok
+import moneym.feature.transactions.generated.resources.transactions_prev_year_cd
 import moneym.feature.transactions.generated.resources.transactions_close_search_cd
 import moneym.feature.transactions.generated.resources.transactions_empty
 import moneym.feature.transactions.generated.resources.transactions_filter_all
@@ -149,9 +154,17 @@ private fun TransactionListContent(
     if (state.showMonthPicker) {
         val minYear = state.earliestMonth?.year
         val minMonth = state.earliestMonth?.monthNumber
-        MonthPickerDialog(
+        MmMonthPickerDialog(
             currentYear = currentMonth.year,
             currentMonth = currentMonth.monthNumber,
+            nowYear = today.year,
+            nowMonth = today.month.number,
+            title = stringResource(Res.string.transactions_dialog_select_month),
+            nowLabel = stringResource(Res.string.transactions_now),
+            okLabel = stringResource(Res.string.transactions_ok),
+            cancelLabel = stringResource(Res.string.transactions_cancel),
+            prevYearContentDescription = stringResource(Res.string.transactions_prev_year_cd),
+            nextYearContentDescription = stringResource(Res.string.transactions_next_year_cd),
             minYear = minYear,
             minMonth = minMonth,
             onDismiss = { onIntent(TransactionListIntent.ShowMonthPicker(false)) },
@@ -465,8 +478,7 @@ private fun MonthNavRow(
             MmMoney(
                 value = displayAmount,
                 sign = displaySign,
-                size = 17.sp,
-                weight = FontWeight.SemiBold,
+                style = MM.type.amountLarge,
                 color = displayColor,
                 currency = state.netCurrency,
             )
@@ -499,23 +511,11 @@ internal fun TransactionListBody(
         }
 
         isEmpty -> {
-            Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
-                ) {
-                    Icon(
-                        imageVector = Icon.List.imageVector,
-                        contentDescription = null,
-                        tint = colors.text3,
-                        modifier = Modifier.size(MM.dimen.padding_5x),
-                    )
-                    Text(
-                        text = stringResource(Res.string.transactions_empty),
-                        style = type.body.copy(color = colors.text3),
-                    )
-                }
-            }
+            MmEmptyState(
+                message = stringResource(Res.string.transactions_empty),
+                icon = Icon.List.imageVector,
+                modifier = modifier,
+            )
         }
 
         else -> {

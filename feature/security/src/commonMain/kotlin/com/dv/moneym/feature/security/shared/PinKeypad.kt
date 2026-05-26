@@ -44,10 +44,10 @@ private fun KeyCell(
 
     Box(
         modifier = modifier
-            .size(width = 80.dp, height = 72.dp)
+            .size(width = MM.dimen.padding_10x, height = MM.dimen.padding_9x)
             .clip(shape)
             .background(colors.surface, shape)
-            .border(1.dp, colors.border, shape)
+            .border(MM.dimen.strokeHairline, colors.border, shape)
             .alpha(if (pressed) 0.65f else 1f)
             .pointerInput(Unit) {
                 detectTapGestures(
@@ -75,7 +75,7 @@ private fun TransparentKeyCell(
 
     Box(
         modifier = modifier
-            .size(width = 80.dp, height = 72.dp)
+            .size(width = MM.dimen.padding_10x, height = MM.dimen.padding_9x)
             .alpha(if (pressed) 0.5f else 1f)
             .pointerInput(Unit) {
                 detectTapGestures(
@@ -147,7 +147,7 @@ fun PinKeypad(
                     )
                 }
             } else {
-                Box(modifier = Modifier.size(width = 80.dp, height = 72.dp))
+                Box(modifier = Modifier.size(width = MM.dimen.padding_10x, height = MM.dimen.padding_9x))
             }
 
             // 0 key

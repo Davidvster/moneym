@@ -11,6 +11,7 @@ import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmRow
+import com.dv.moneym.core.ui.MmSettingsRow
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
@@ -59,25 +60,11 @@ internal fun AppearanceSection(
                 size = MmSegmentedSize.Sm,
             )
         }
-        MmRow(onClick = onNavigateToTxDisplay, divider = false) {
-            Icon(
-                imageVector = Icon.Sliders.imageVector,
-                contentDescription = null,
-                tint = colors.text,
-                modifier = Modifier.size(MM.dimen.icon_1x),
-            )
-            Text(
-                stringResource(Res.string.settings_tx_list),
-                style = type.body,
-                color = colors.text,
-                modifier = Modifier.weight(1f)
-            )
-            Icon(
-                imageVector = Icon.ChevronRight.imageVector,
-                contentDescription = null,
-                tint = colors.text3,
-                modifier = Modifier.size(MM.dimen.padding_2x),
-            )
-        }
+        MmSettingsRow(
+            title = stringResource(Res.string.settings_tx_list),
+            leadingIcon = Icon.Sliders.imageVector,
+            onClick = onNavigateToTxDisplay,
+            divider = false,
+        )
     }
 }

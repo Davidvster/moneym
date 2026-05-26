@@ -14,9 +14,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmMoney
@@ -47,7 +44,7 @@ internal fun IncomeExpensesCard(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
                 ) {
                     Icon(
                         imageVector = Icon.ArrowDown.imageVector,
@@ -61,8 +58,7 @@ internal fun IncomeExpensesCard(
                     )
                     MmMoney(
                         value = income,
-                        size = 17.sp,
-                        weight = FontWeight.SemiBold,
+                        style = MM.type.amountLarge,
                         color = colors.accent,
                         currency = currencyCode,
                     )
@@ -72,7 +68,7 @@ internal fun IncomeExpensesCard(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
                 ) {
                     Icon(
                         imageVector = Icon.ArrowUp.imageVector,
@@ -86,8 +82,7 @@ internal fun IncomeExpensesCard(
                     )
                     MmMoney(
                         value = expenses,
-                        size = 17.sp,
-                        weight = FontWeight.SemiBold,
+                        style = MM.type.amountLarge,
                         currency = currencyCode,
                     )
                 }
@@ -96,7 +91,7 @@ internal fun IncomeExpensesCard(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
                 ) {
                     Icon(
                         imageVector = Icon.ArrowDown.imageVector,
@@ -110,19 +105,18 @@ internal fun IncomeExpensesCard(
                     )
                     MmMoney(
                         value = income,
-                        size = 17.sp,
-                        weight = FontWeight.SemiBold,
+                        style = MM.type.amountLarge,
                         color = colors.accent,
                         currency = currencyCode,
                     )
                 }
                 Spacer(Modifier.height(space.padding_1_25x))
-                HorizontalDivider(color = colors.divider, thickness = 1.dp)
+                HorizontalDivider(color = colors.divider, thickness = MM.dimen.strokeHairline)
                 Spacer(Modifier.height(space.padding_1_25x))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
                 ) {
                     Icon(
                         imageVector = Icon.ArrowUp.imageVector,
@@ -136,20 +130,19 @@ internal fun IncomeExpensesCard(
                     )
                     MmMoney(
                         value = expenses,
-                        size = 17.sp,
-                        weight = FontWeight.SemiBold,
+                        style = MM.type.amountLarge,
                         currency = currencyCode,
                     )
                 }
                 Spacer(Modifier.height(space.padding_1_25x))
-                HorizontalDivider(color = colors.divider, thickness = 1.dp)
+                HorizontalDivider(color = colors.divider, thickness = MM.dimen.strokeHairline)
                 Spacer(Modifier.height(space.padding_1_25x))
                 val balance = income - expenses
                 val balanceColor = if (balance >= 0) colors.accent else colors.danger
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
                 ) {
                     SectionLabel(
                         text = stringResource(Res.string.overview_label_balance),
@@ -157,8 +150,7 @@ internal fun IncomeExpensesCard(
                     )
                     MmMoney(
                         value = kotlin.math.abs(balance),
-                        size = 17.sp,
-                        weight = FontWeight.SemiBold,
+                        style = MM.type.amountLarge,
                         color = balanceColor,
                         currency = currencyCode,
                     )

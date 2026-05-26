@@ -14,7 +14,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.IndicatorStyle
 
 @Composable
@@ -88,6 +94,47 @@ fun CategoryIconTile(
 
         IndicatorStyle.Minimal -> {
             Box(modifier = modifier)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun CategoryIconTilePreview() {
+    MoneyMTheme {
+        Row(
+            modifier = Modifier.padding(MM.dimen.padding_2x),
+            horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            CategoryIconTile(
+                categoryName = "Groceries",
+                categoryColor = MM.colors.accent,
+                categoryIcon = Icon.List.imageVector,
+                size = 36.dp,
+                variant = IndicatorStyle.IconTile,
+            )
+            CategoryIconTile(
+                categoryName = "Groceries",
+                categoryColor = MM.colors.danger,
+                categoryIcon = Icon.List.imageVector,
+                size = 36.dp,
+                variant = IndicatorStyle.SoftIcon,
+            )
+            CategoryIconTile(
+                categoryName = "Groceries",
+                categoryColor = MM.colors.accent,
+                categoryIcon = Icon.List.imageVector,
+                size = 36.dp,
+                variant = IndicatorStyle.Bar,
+            )
+            CategoryIconTile(
+                categoryName = "Groceries",
+                categoryColor = MM.colors.accent,
+                categoryIcon = Icon.List.imageVector,
+                size = 36.dp,
+                variant = IndicatorStyle.Dot,
+            )
         }
     }
 }

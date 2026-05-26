@@ -11,9 +11,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmMoney
@@ -34,20 +31,19 @@ internal fun AvgStatsCard(
         MmCard(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = space.padding_2x, vertical = 6.dp),
+                .padding(horizontal = space.padding_2x, vertical = MM.dimen.spacingXs),
             padded = true,
             shape = MM.dimen.radius_1_5x,
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
             ) {
                 SectionLabel(text = avgDayLabel, modifier = Modifier.weight(1f))
                 MmMoney(
                     value = avgDailyExpense,
-                    size = 15.sp,
-                    weight = FontWeight.SemiBold,
+                    style = MM.type.amountMedium,
                     currency = currencyCode
                 )
             }
@@ -57,7 +53,7 @@ internal fun AvgStatsCard(
         MmCard(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = space.padding_2x, vertical = 6.dp),
+                .padding(horizontal = space.padding_2x, vertical = MM.dimen.spacingXs),
             padded = true,
             shape = MM.dimen.radius_1_5x,
         ) {
@@ -65,29 +61,27 @@ internal fun AvgStatsCard(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
                 ) {
                     SectionLabel(text = avgMonthLabel, modifier = Modifier.weight(1f))
                     MmMoney(
                         value = avgMonthlyExpense,
-                        size = 15.sp,
-                        weight = FontWeight.SemiBold,
+                        style = MM.type.amountMedium,
                         currency = currencyCode
                     )
                 }
                 Spacer(Modifier.height(space.padding_1x))
-                HorizontalDivider(color = MM.colors.divider, thickness = 1.dp)
+                HorizontalDivider(color = MM.colors.divider, thickness = MM.dimen.strokeHairline)
                 Spacer(Modifier.height(space.padding_1x))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
                 ) {
                     SectionLabel(text = avgDayLabel, modifier = Modifier.weight(1f))
                     MmMoney(
                         value = avgDailyExpenseYear,
-                        size = 15.sp,
-                        weight = FontWeight.SemiBold,
+                        style = MM.type.amountMedium,
                         currency = currencyCode
                     )
                 }

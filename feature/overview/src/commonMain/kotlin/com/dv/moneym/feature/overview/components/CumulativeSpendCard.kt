@@ -83,19 +83,19 @@ internal fun CumulativeSpendCard(
                     ) {
                         Text(
                             text = formatAxisAmount(maxVal),
-                            style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                            style = type.captionXs.copy(color = colors.text3),
                             textAlign = TextAlign.End,
                             modifier = Modifier.fillMaxWidth(),
                         )
                         Text(
                             text = formatAxisAmount(maxVal / 2),
-                            style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                            style = type.captionXs.copy(color = colors.text3),
                             textAlign = TextAlign.End,
                             modifier = Modifier.fillMaxWidth(),
                         )
                         Text(
                             text = "0",
-                            style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                            style = type.captionXs.copy(color = colors.text3),
                             textAlign = TextAlign.End,
                             modifier = Modifier.fillMaxWidth(),
                         )

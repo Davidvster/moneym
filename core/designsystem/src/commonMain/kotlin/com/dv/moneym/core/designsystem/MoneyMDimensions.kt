@@ -34,7 +34,24 @@ data class MoneyMDimensions(
 
     val icon_1x: Dp = 18.dp,
 
-    val donutWidth: Dp = 18.dp
+    val donutWidth: Dp = 18.dp,
+
+    val strokeHairline: Dp = 1.dp,
+    val strokeThin: Dp = 2.dp,
+
+    val iconSm: Dp = 14.dp,
+    val iconMd: Dp = 18.dp,
+    val iconLg: Dp = 22.dp,
+    val iconXl: Dp = 36.dp,
+
+    val rowMinHeightSm: Dp = 36.dp,
+    val rowMinHeightMd: Dp = 44.dp,
+    val rowMinHeightLg: Dp = 52.dp,
+
+    val spacingHairline: Dp = 1.dp,
+    val spacingMicro: Dp = 3.dp,
+    val spacingTiny: Dp = 5.dp,
+    val spacingXs: Dp = 6.dp,
 )
 
 val LocalMoneyMDimensions = staticCompositionLocalOf { MoneyMDimensions() }

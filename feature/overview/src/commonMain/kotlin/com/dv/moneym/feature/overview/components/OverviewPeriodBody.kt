@@ -632,8 +632,6 @@ private fun TrendsHeader(trend: CategoryTrend) {
         }
         MmMoney(
             value = trend.totalAmount,
-            size = 15.sp,
-            weight = FontWeight.Medium,
         )
     }
 }

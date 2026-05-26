@@ -18,6 +18,11 @@ data class MoneyMType(
     val caption: TextStyle,
     val captionMono: TextStyle,
     val micro: TextStyle,
+    val displayInput: TextStyle,
+    val amountLarge: TextStyle,
+    val amountMedium: TextStyle,
+    val captionXs: TextStyle,
+    val captionSm: TextStyle,
 )
 
 fun moneyMType(geist: FontFamily, geistMono: FontFamily) = MoneyMType(
@@ -75,6 +80,38 @@ fun moneyMType(geist: FontFamily, geistMono: FontFamily) = MoneyMType(
         fontWeight = FontWeight.SemiBold,
         fontSize = 11.sp,
         letterSpacing = 0.08.sp,
+    ),
+    displayInput = TextStyle(
+        fontFamily = geistMono,
+        fontWeight = FontWeight.Medium,
+        fontSize = 40.sp,
+        letterSpacing = (-0.8).sp,
+        fontFeatureSettings = "tnum",
+    ),
+    amountLarge = TextStyle(
+        fontFamily = geistMono,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 17.sp,
+        letterSpacing = (-0.2).sp,
+        fontFeatureSettings = "tnum",
+    ),
+    amountMedium = TextStyle(
+        fontFamily = geistMono,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 15.sp,
+        letterSpacing = (-0.2).sp,
+        fontFeatureSettings = "tnum",
+    ),
+    captionXs = TextStyle(
+        fontFamily = geistMono,
+        fontWeight = FontWeight.Medium,
+        fontSize = 9.sp,
+        fontFeatureSettings = "tnum",
+    ),
+    captionSm = TextStyle(
+        fontFamily = geist,
+        fontWeight = FontWeight.Medium,
+        fontSize = 11.sp,
     ),
 )
 

@@ -8,8 +8,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.common.formatNumber
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.SectionLabel
@@ -33,7 +31,7 @@ internal fun DayGroupHeader(group: DayGroup, showAmount: Boolean = true) {
         modifier = Modifier
             .fillMaxWidth()
             .background(colors.surface)
-            .padding(horizontal = MM.dimen.padding_2_5x, vertical = 6.dp),
+            .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.spacingXs),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         SectionLabel(
@@ -44,7 +42,7 @@ internal fun DayGroupHeader(group: DayGroup, showAmount: Boolean = true) {
         if (showAmount) {
             Text(
                 text = "$sign $currency $formattedDaily",
-                style = type.caption.copy(fontSize = 11.sp, color = colors.text2),
+                style = type.captionSm.copy(color = colors.text2),
             )
         }
     }

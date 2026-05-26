@@ -193,12 +193,12 @@ fun CumulativeChart(
                     .align(if (isRightHalf) Alignment.TopStart else Alignment.TopEnd)
                     .clip(RoundedCornerShape(6.dp))
                     .background(MM.colors.surface.copy(alpha = 0.92f))
-                    .border(1.dp, MM.colors.border, RoundedCornerShape(6.dp))
-                    .padding(horizontal = MM.dimen.padding_1x, vertical = 4.dp),
+                    .border(MM.dimen.strokeHairline, MM.colors.border, RoundedCornerShape(6.dp))
+                    .padding(horizontal = MM.dimen.padding_1x, vertical = MM.dimen.padding_0_5x),
             ) {
                 Text(
                     text = valueText,
-                    style = MM.type.captionMono.copy(fontSize = 11.sp),
+                    style = MM.type.captionSm,
                     color = MM.colors.text,
                 )
             }
@@ -213,7 +213,7 @@ fun CumulativeChart(
             xLabels.forEach { label ->
                 Text(
                     text = label,
-                    style = type.captionMono.copy(fontSize = 9.sp, color = colors.text3),
+                    style = type.captionXs.copy(color = colors.text3),
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Center,
                 )

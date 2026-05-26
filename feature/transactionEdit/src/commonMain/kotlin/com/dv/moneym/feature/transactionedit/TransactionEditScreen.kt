@@ -160,3 +160,19 @@ private fun TransactionEditContent(
         )
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@androidx.compose.runtime.Composable
+private fun TransactionEditContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        TransactionEditContent(
+            state = TransactionEditUiState(
+                amountText = "42.50",
+                date = kotlinx.datetime.LocalDate(2026, 5, 26),
+                isToday = true,
+            ),
+            onIntent = {},
+            onDismiss = {},
+        )
+    }
+}

@@ -182,6 +182,24 @@ private fun PaymentModeListContent(
     }
 }
 
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun PaymentModeListContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        PaymentModeListContent(
+            state = PaymentModeListUiState(modes = emptyList(), isLoading = false),
+            onBack = {},
+            onAddClick = {},
+            onRenameClick = {},
+            onDeleteClick = {},
+            onDismissDialog = {},
+            onConfirmCreate = {},
+            onConfirmRename = { _, _ -> },
+            onConfirmDelete = {},
+        )
+    }
+}
+
 @Composable
 private fun NameInputDialog(
     title: String,

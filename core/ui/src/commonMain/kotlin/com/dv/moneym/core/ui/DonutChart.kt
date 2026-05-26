@@ -11,7 +11,12 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import kotlin.math.PI
 import kotlin.math.atan2
 
@@ -95,5 +100,20 @@ fun DonutChart(
             )
             startAngle += sweep + gapDegrees
         }
+    }
+}
+
+@Preview
+@Composable
+private fun DonutChartPreview() {
+    MoneyMTheme {
+        DonutChart(
+            slices = listOf(
+                DonutSlice(MM.colors.accent, 0.45f),
+                DonutSlice(MM.colors.danger, 0.30f),
+                DonutSlice(MM.colors.text2, 0.25f),
+            ),
+            modifier = Modifier.padding(MM.dimen.padding_2x).size(140.dp),
+        )
     }
 }
