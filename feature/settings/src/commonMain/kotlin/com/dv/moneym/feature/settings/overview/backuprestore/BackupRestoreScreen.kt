@@ -57,6 +57,9 @@ import moneym.feature.settings.generated.resources.settings_remote_backup_now
 import moneym.feature.settings.generated.resources.settings_remote_backup_section
 import moneym.feature.settings.generated.resources.settings_remote_connect
 import moneym.feature.settings.generated.resources.settings_remote_disconnect
+import moneym.feature.settings.generated.resources.settings_remote_disconnect_body
+import moneym.feature.settings.generated.resources.settings_remote_disconnect_confirm
+import moneym.feature.settings.generated.resources.settings_remote_disconnect_title
 import moneym.feature.settings.generated.resources.settings_remote_last_backup
 import moneym.feature.settings.generated.resources.settings_remote_last_backup_never
 import moneym.feature.settings.generated.resources.settings_remote_relative_days
@@ -160,6 +163,24 @@ private fun BackupRestoreScreen(
         RemoteRestoreDialog(
             onDismiss = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreDismissed) },
             onConfirm = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreConfirmed(it)) },
+        )
+    }
+
+    if (state.showDisconnectDialog) {
+        AlertDialog(
+            onDismissRequest = { viewModel.onIntent(BackupRestoreIntent.DisconnectGoogleDismissed) },
+            title = { Text(stringResource(Res.string.settings_remote_disconnect_title)) },
+            text = { Text(stringResource(Res.string.settings_remote_disconnect_body)) },
+            confirmButton = {
+                TextButton(onClick = { viewModel.onIntent(BackupRestoreIntent.DisconnectGoogleConfirmed) }) {
+                    Text(stringResource(Res.string.settings_remote_disconnect_confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { viewModel.onIntent(BackupRestoreIntent.DisconnectGoogleDismissed) }) {
+                    Text(stringResource(Res.string.settings_remote_passphrase_cancel))
+                }
+            },
         )
     }
 

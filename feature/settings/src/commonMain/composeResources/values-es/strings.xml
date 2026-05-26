@@ -197,4 +197,7 @@
     <string name="settings_remote_relative_hours">hace %1$d h</string>
     <string name="settings_remote_relative_days">hace %1$d d</string>
     <string name="settings_remote_relative_longer">hace mucho tiempo</string>
+    <string name="settings_remote_disconnect_title">¿Desconectar cuenta de Google?</string>
+    <string name="settings_remote_disconnect_body">Al desconectar se detendrán las nuevas copias, pero las copias remotas existentes permanecerán en tu Google Drive. Vuelve a conectarte cuando quieras para acceder a ellas.</string>
+    <string name="settings_remote_disconnect_confirm">Desconectar</string>
 </resources>

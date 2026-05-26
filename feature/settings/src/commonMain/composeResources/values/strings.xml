@@ -199,4 +199,7 @@
     <string name="settings_remote_relative_hours">%1$d h ago</string>
     <string name="settings_remote_relative_days">%1$d d ago</string>
     <string name="settings_remote_relative_longer">a long time ago</string>
+    <string name="settings_remote_disconnect_title">Disconnect Google account?</string>
+    <string name="settings_remote_disconnect_body">Disconnecting will stop new backups but existing remote backups remain in your Google Drive. Reconnect any time to access them.</string>
+    <string name="settings_remote_disconnect_confirm">Disconnect</string>
 </resources>

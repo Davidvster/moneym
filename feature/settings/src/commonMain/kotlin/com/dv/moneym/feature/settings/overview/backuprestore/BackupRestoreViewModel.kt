@@ -42,6 +42,7 @@ data class BackupRestoreUiState(
     val showPassphraseDialog: Boolean = false,
     val passphraseError: String? = null,
     val showRemoteRestoreDialog: Boolean = false,
+    val showDisconnectDialog: Boolean = false,
     val remoteRuntime: RemoteBackupRuntimeState = RemoteBackupRuntimeState.Idle,
 )
 
@@ -56,6 +57,8 @@ sealed interface BackupRestoreIntent {
     // Remote
     data object ConnectGoogleTapped : BackupRestoreIntent
     data object DisconnectGoogleTapped : BackupRestoreIntent
+    data object DisconnectGoogleConfirmed : BackupRestoreIntent
+    data object DisconnectGoogleDismissed : BackupRestoreIntent
     data class RemoteAutoBackupToggled(val enabled: Boolean) : BackupRestoreIntent
     data object PassphrasePromptOpened : BackupRestoreIntent
     data object PassphrasePromptDismissed : BackupRestoreIntent
@@ -136,7 +139,9 @@ class BackupRestoreViewModel(
             is BackupRestoreIntent.BackupSaveCompleted -> handleBackupSaveCompleted(intent.path)
             is BackupRestoreIntent.AutoBackupLocationSelected -> handleAutoBackupLocationSelected(intent.uri)
             BackupRestoreIntent.ConnectGoogleTapped -> handleConnectGoogle()
-            BackupRestoreIntent.DisconnectGoogleTapped -> handleDisconnectGoogle()
+            BackupRestoreIntent.DisconnectGoogleTapped -> _base.update { it.copy(showDisconnectDialog = true) }
+            BackupRestoreIntent.DisconnectGoogleConfirmed -> handleDisconnectGoogle()
+            BackupRestoreIntent.DisconnectGoogleDismissed -> _base.update { it.copy(showDisconnectDialog = false) }
             is BackupRestoreIntent.RemoteAutoBackupToggled -> handleRemoteAutoToggled(intent.enabled)
             BackupRestoreIntent.PassphrasePromptOpened -> _base.update { it.copy(showPassphraseDialog = true, passphraseError = null) }
             BackupRestoreIntent.PassphrasePromptDismissed -> _base.update { it.copy(showPassphraseDialog = false, passphraseError = null) }
@@ -231,6 +236,7 @@ class BackupRestoreViewModel(
 
     private fun handleDisconnectGoogle() {
         val manager = googleAuthManager ?: return
+        _base.update { it.copy(showDisconnectDialog = false) }
         viewModelScope.launch {
             manager.signOut()
             appSettings.putBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, false)

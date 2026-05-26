@@ -197,4 +197,7 @@
     <string name="settings_remote_relative_hours">vor %1$d Std</string>
     <string name="settings_remote_relative_days">vor %1$d T</string>
     <string name="settings_remote_relative_longer">vor langer Zeit</string>
+    <string name="settings_remote_disconnect_title">Google-Konto trennen?</string>
+    <string name="settings_remote_disconnect_body">Das Trennen stoppt neue Backups, vorhandene Remote-Backups bleiben in deinem Google Drive erhalten. Verbinde dich jederzeit wieder, um darauf zuzugreifen.</string>
+    <string name="settings_remote_disconnect_confirm">Trennen</string>
 </resources>

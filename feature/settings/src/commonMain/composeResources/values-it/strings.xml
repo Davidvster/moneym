@@ -197,4 +197,7 @@
     <string name="settings_remote_relative_hours">%1$d h fa</string>
     <string name="settings_remote_relative_days">%1$d g fa</string>
     <string name="settings_remote_relative_longer">tanto tempo fa</string>
+    <string name="settings_remote_disconnect_title">Disconnettere l'account Google?</string>
+    <string name="settings_remote_disconnect_body">La disconnessione interrompe i nuovi backup, ma quelli remoti esistenti restano nel tuo Google Drive. Riconnettiti in qualsiasi momento per accedervi.</string>
+    <string name="settings_remote_disconnect_confirm">Disconnetti</string>
 </resources>
