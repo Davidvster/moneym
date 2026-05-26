@@ -201,4 +201,10 @@
     <string name="settings_remote_disconnect_body">La disconnessione interrompe i nuovi backup, ma quelli remoti esistenti restano nel tuo Google Drive. Riconnettiti in qualsiasi momento per accedervi.</string>
     <string name="settings_remote_disconnect_confirm">Disconnetti</string>
     <string name="settings_remote_quota_warning">Spazio Google Drive insufficiente (%1$d KB liberi, %2$d KB necessari)</string>
+    <string name="settings_remote_restore_preview_created">Creato %1$s</string>
+    <string name="settings_remote_restore_preview_app_version">Versione app %1$s</string>
+    <string name="settings_remote_restore_preview_size">Dimensione %1$d KB</string>
+    <string name="settings_remote_restore_loading">Caricamento info backup…</string>
+    <string name="settings_remote_restore_conflict">Attenzione: ci sono modifiche locali da quando è stato creato questo backup (%1$s). Il ripristino le scarterà.</string>
+    <string name="settings_remote_restore_too_new">Questo backup è stato creato da una versione più recente dell'app e non può essere ripristinato.</string>
 </resources>

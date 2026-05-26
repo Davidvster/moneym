@@ -10,6 +10,7 @@ import com.dv.moneym.core.oauth.AuthState
 import com.dv.moneym.core.oauth.GoogleAuthManager
 import com.dv.moneym.data.backup.DbBackupManager
 import com.dv.moneym.data.remotebackup.RemoteBackupManager
+import com.dv.moneym.data.remotebackup.RemoteBackupMetadata
 import com.dv.moneym.data.remotebackup.RemoteBackupRuntimeState
 import com.dv.moneym.data.remotebackup.SessionPassphrase
 import kotlinx.coroutines.channels.Channel
@@ -43,6 +44,9 @@ data class BackupRestoreUiState(
     val passphraseError: String? = null,
     val showRemoteRestoreDialog: Boolean = false,
     val showDisconnectDialog: Boolean = false,
+    val remoteRestorePreview: RemoteBackupMetadata? = null,
+    val remoteRestorePreviewLoading: Boolean = false,
+    val lastLocalMutationMs: Long = 0L,
     val remoteRuntime: RemoteBackupRuntimeState = RemoteBackupRuntimeState.Idle,
 )
 
@@ -98,6 +102,7 @@ class BackupRestoreViewModel(
             lastRemoteBackupMs = appSettings.getLong(PrefKeys.LAST_REMOTE_BACKUP_TIME_MS),
             remoteAccountEmail = appSettings.getString(PrefKeys.REMOTE_BACKUP_ACCOUNT_EMAIL),
             remotePassphraseSet = sessionPassphrase?.isSet?.value == true,
+            lastLocalMutationMs = appSettings.getLong(PrefKeys.LAST_LOCAL_MUTATION_MS),
         )
     )
 
@@ -121,6 +126,7 @@ class BackupRestoreViewModel(
             remoteAccountEmail = email ?: base.remoteAccountEmail,
             remoteRuntime = rtPs.first,
             remotePassphraseSet = rtPs.second,
+            lastLocalMutationMs = appSettings.getLong(PrefKeys.LAST_LOCAL_MUTATION_MS),
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, _base.value)
 
@@ -147,9 +153,11 @@ class BackupRestoreViewModel(
             BackupRestoreIntent.PassphrasePromptDismissed -> _base.update { it.copy(showPassphraseDialog = false, passphraseError = null) }
             is BackupRestoreIntent.PassphraseSubmitted -> handlePassphraseSubmitted(intent.value)
             BackupRestoreIntent.RemoteBackupNowTapped -> handleRemoteBackupNow()
-            BackupRestoreIntent.RemoteRestoreTapped -> _base.update { it.copy(showRemoteRestoreDialog = true) }
+            BackupRestoreIntent.RemoteRestoreTapped -> handleRemoteRestoreTapped()
             is BackupRestoreIntent.RemoteRestoreConfirmed -> handleRemoteRestoreConfirmed(intent.passphrase)
-            BackupRestoreIntent.RemoteRestoreDismissed -> _base.update { it.copy(showRemoteRestoreDialog = false) }
+            BackupRestoreIntent.RemoteRestoreDismissed -> _base.update {
+                it.copy(showRemoteRestoreDialog = false, remoteRestorePreview = null)
+            }
         }
     }
 
@@ -289,6 +297,37 @@ class BackupRestoreViewModel(
             manager.flushNow().onFailure { t ->
                 _effects.send(BackupRestoreEffect.RemoteError(t.message ?: "Backup failed"))
             }
+        }
+    }
+
+    private fun handleRemoteRestoreTapped() {
+        val manager = remoteBackupManager ?: return
+        _base.update {
+            it.copy(
+                showRemoteRestoreDialog = true,
+                remoteRestorePreviewLoading = true,
+                remoteRestorePreview = null,
+            )
+        }
+        viewModelScope.launch {
+            manager.peekLatestMetadata()
+                .onSuccess { meta ->
+                    _base.update {
+                        it.copy(
+                            remoteRestorePreview = meta,
+                            remoteRestorePreviewLoading = false,
+                        )
+                    }
+                }
+                .onFailure { t ->
+                    _base.update {
+                        it.copy(
+                            showRemoteRestoreDialog = false,
+                            remoteRestorePreviewLoading = false,
+                        )
+                    }
+                    _effects.send(BackupRestoreEffect.RemoteError(t.message ?: "Failed to fetch backup info"))
+                }
         }
     }
 

@@ -59,4 +59,5 @@ object PrefKeys {
     const val LAST_REMOTE_BACKUP_TIME_MS = "pref.last_remote_backup_time_ms"
     const val REMOTE_BACKUP_PROVIDER_ID = "pref.remote_backup_provider_id"
     const val REMOTE_BACKUP_ACCOUNT_EMAIL = "pref.remote_backup_account_email"
+    const val LAST_LOCAL_MUTATION_MS = "pref.last_local_mutation_ms"
 }

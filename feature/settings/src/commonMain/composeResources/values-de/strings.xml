@@ -201,4 +201,10 @@
     <string name="settings_remote_disconnect_body">Das Trennen stoppt neue Backups, vorhandene Remote-Backups bleiben in deinem Google Drive erhalten. Verbinde dich jederzeit wieder, um darauf zuzugreifen.</string>
     <string name="settings_remote_disconnect_confirm">Trennen</string>
     <string name="settings_remote_quota_warning">Nicht genug Google-Drive-Speicher (%1$d KB frei, %2$d KB nötig)</string>
+    <string name="settings_remote_restore_preview_created">Erstellt %1$s</string>
+    <string name="settings_remote_restore_preview_app_version">App-Version %1$s</string>
+    <string name="settings_remote_restore_preview_size">Größe %1$d KB</string>
+    <string name="settings_remote_restore_loading">Backup-Infos werden geladen…</string>
+    <string name="settings_remote_restore_conflict">Warnung: Es gibt lokale Änderungen seit diesem Backup (%1$s). Die Wiederherstellung verwirft sie.</string>
+    <string name="settings_remote_restore_too_new">Dieses Backup wurde von einer neueren App-Version erstellt und kann nicht wiederhergestellt werden.</string>
 </resources>

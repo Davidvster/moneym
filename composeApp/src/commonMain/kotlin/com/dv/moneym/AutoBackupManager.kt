@@ -51,6 +51,10 @@ class AutoBackupManager(
                         filePlatform.saveFileLocallyBinary("moneym-backup.zip", bytes)
                     }
                     if (path != null) recordBackup(path)
+                    appSettings.putLong(
+                        PrefKeys.LAST_LOCAL_MUTATION_MS,
+                        Clock.System.now().toEpochMilliseconds(),
+                    )
                     remoteBackupManager?.enqueueUpload()
                 }
         }

@@ -7,6 +7,7 @@ import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.core.security.BackupCrypto
 import com.dv.moneym.core.security.BackupCryptoError
 import com.dv.moneym.core.security.BackupEnvelopeJson
+import com.dv.moneym.core.security.EncryptedBackup
 import com.dv.moneym.data.backup.DbBackupManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
@@ -68,6 +69,20 @@ class RemoteBackupManager(
         if (!isEnabled()) return@runCatching
         if (!sessionPassphrase.isSet.value) return@runCatching
         runUpload()
+    }
+
+    suspend fun peekLatestMetadata(): Result<RemoteBackupMetadata?> = runCatching {
+        val ref = provider.latest() ?: return@runCatching null
+        val bytes = provider.download(ref)
+        val envelope: EncryptedBackup = BackupEnvelopeJson.decodeBytes(bytes)
+        RemoteBackupMetadata(
+            createdAtMs = envelope.createdAt,
+            appVersion = envelope.appVersion,
+            schema = envelope.schema,
+            envelopeVersion = envelope.version,
+            sizeBytes = bytes.size.toLong(),
+            fileName = ref.name,
+        )
     }
 
     suspend fun restoreLatest(passphrase: CharArray): Result<Unit> = runCatching {

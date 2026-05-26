@@ -36,6 +36,8 @@ import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.security.EncryptedBackup
+import com.dv.moneym.data.remotebackup.RemoteBackupMetadata
 import com.dv.moneym.data.remotebackup.RemoteBackupRuntimeState
 import com.dv.moneym.platform.rememberBinaryFilePicker
 import com.dv.moneym.platform.rememberFileSaver
@@ -77,7 +79,13 @@ import moneym.feature.settings.generated.resources.settings_remote_quota_warning
 import moneym.feature.settings.generated.resources.settings_remote_restore
 import moneym.feature.settings.generated.resources.settings_remote_restore_body
 import moneym.feature.settings.generated.resources.settings_remote_restore_confirm
+import moneym.feature.settings.generated.resources.settings_remote_restore_conflict
+import moneym.feature.settings.generated.resources.settings_remote_restore_loading
+import moneym.feature.settings.generated.resources.settings_remote_restore_preview_app_version
+import moneym.feature.settings.generated.resources.settings_remote_restore_preview_created
+import moneym.feature.settings.generated.resources.settings_remote_restore_preview_size
 import moneym.feature.settings.generated.resources.settings_remote_restore_title
+import moneym.feature.settings.generated.resources.settings_remote_restore_too_new
 import moneym.feature.settings.generated.resources.settings_remote_signed_in_as
 import moneym.feature.settings.generated.resources.settings_remote_status_decrypting
 import moneym.feature.settings.generated.resources.settings_remote_status_downloading
@@ -162,6 +170,9 @@ private fun BackupRestoreScreen(
 
     if (state.showRemoteRestoreDialog) {
         RemoteRestoreDialog(
+            loading = state.remoteRestorePreviewLoading,
+            preview = state.remoteRestorePreview,
+            localMutationMs = state.lastLocalMutationMs,
             onDismiss = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreDismissed) },
             onConfirm = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreConfirmed(it)) },
         )
@@ -462,29 +473,91 @@ private fun PassphraseDialog(
 
 @Composable
 private fun RemoteRestoreDialog(
+    loading: Boolean,
+    preview: RemoteBackupMetadata?,
+    localMutationMs: Long,
     onDismiss: () -> Unit,
     onConfirm: (CharArray) -> Unit,
 ) {
     var input by remember { mutableStateOf("") }
+    val space = MM.dimen
+    val tooNew = preview != null && preview.envelopeVersion > EncryptedBackup.ENVELOPE_VERSION
+    val conflict = preview != null && localMutationMs > preview.createdAtMs
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(Res.string.settings_remote_restore_title)) },
         text = {
             Column {
                 Text(stringResource(Res.string.settings_remote_restore_body))
+                if (loading) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
+                        modifier = Modifier.padding(top = space.padding_1x),
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(space.icon_1x),
+                            strokeWidth = space.padding_0_25x,
+                        )
+                        Text(stringResource(Res.string.settings_remote_restore_loading), style = MM.type.caption)
+                    }
+                } else if (preview != null) {
+                    Column(modifier = Modifier.padding(top = space.padding_1x)) {
+                        Text(
+                            stringResource(
+                                Res.string.settings_remote_restore_preview_created,
+                                formatTime(preview.createdAtMs) ?: "—",
+                            ),
+                            style = MM.type.caption,
+                        )
+                        Text(
+                            stringResource(
+                                Res.string.settings_remote_restore_preview_app_version,
+                                preview.appVersion,
+                            ),
+                            style = MM.type.caption,
+                        )
+                        Text(
+                            stringResource(
+                                Res.string.settings_remote_restore_preview_size,
+                                (preview.sizeBytes / 1024L).toInt(),
+                            ),
+                            style = MM.type.caption,
+                        )
+                    }
+                    if (tooNew) {
+                        Text(
+                            stringResource(Res.string.settings_remote_restore_too_new),
+                            style = MM.type.caption.copy(color = MM.colors.danger),
+                            modifier = Modifier.padding(top = space.padding_1x),
+                        )
+                    }
+                    if (conflict && !tooNew) {
+                        Text(
+                            stringResource(
+                                Res.string.settings_remote_restore_conflict,
+                                formatTime(localMutationMs) ?: "",
+                            ),
+                            style = MM.type.caption.copy(color = MM.colors.danger),
+                            modifier = Modifier.padding(top = space.padding_1x),
+                        )
+                    }
+                }
                 OutlinedTextField(
                     value = input,
                     onValueChange = { input = it },
                     label = { Text(stringResource(Res.string.settings_remote_passphrase_label)) },
-                    modifier = Modifier.fillMaxWidth().padding(top = MM.dimen.padding_1x),
+                    modifier = Modifier.fillMaxWidth().padding(top = space.padding_1x),
                     singleLine = true,
+                    enabled = !loading && !tooNew,
                 )
             }
         },
         confirmButton = {
             TextButton(
                 onClick = { onConfirm(input.toCharArray()) },
-                enabled = input.isNotEmpty(),
+                enabled = input.isNotEmpty() && !loading && !tooNew,
             ) { Text(stringResource(Res.string.settings_remote_restore_confirm)) }
         },
         dismissButton = {
