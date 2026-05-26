@@ -191,4 +191,10 @@
     <string name="settings_remote_status_decrypting">Entschlüsseln…</string>
     <string name="settings_remote_status_restoring">Wiederherstellen…</string>
     <string name="settings_remote_status_error">Letzter Versuch fehlgeschlagen: %1$s</string>
+    <string name="settings_remote_status_retry">Zum Erneuten versuchen tippen</string>
+    <string name="settings_remote_relative_just_now">gerade eben</string>
+    <string name="settings_remote_relative_minutes">vor %1$d Min</string>
+    <string name="settings_remote_relative_hours">vor %1$d Std</string>
+    <string name="settings_remote_relative_days">vor %1$d T</string>
+    <string name="settings_remote_relative_longer">vor langer Zeit</string>
 </resources>

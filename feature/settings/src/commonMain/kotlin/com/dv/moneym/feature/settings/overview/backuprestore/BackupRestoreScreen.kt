@@ -59,6 +59,12 @@ import moneym.feature.settings.generated.resources.settings_remote_connect
 import moneym.feature.settings.generated.resources.settings_remote_disconnect
 import moneym.feature.settings.generated.resources.settings_remote_last_backup
 import moneym.feature.settings.generated.resources.settings_remote_last_backup_never
+import moneym.feature.settings.generated.resources.settings_remote_relative_days
+import moneym.feature.settings.generated.resources.settings_remote_relative_hours
+import moneym.feature.settings.generated.resources.settings_remote_relative_just_now
+import moneym.feature.settings.generated.resources.settings_remote_relative_longer
+import moneym.feature.settings.generated.resources.settings_remote_relative_minutes
+import moneym.feature.settings.generated.resources.settings_remote_status_retry
 import moneym.feature.settings.generated.resources.settings_remote_passphrase_body
 import moneym.feature.settings.generated.resources.settings_remote_passphrase_cancel
 import moneym.feature.settings.generated.resources.settings_remote_passphrase_label
@@ -168,6 +174,7 @@ private fun BackupRestoreScreen(
         onRemoteAutoToggled = { viewModel.onIntent(BackupRestoreIntent.RemoteAutoBackupToggled(it)) },
         onRemoteBackupNow = { viewModel.onIntent(BackupRestoreIntent.RemoteBackupNowTapped) },
         onRemoteRestoreTapped = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreTapped) },
+        onRetryRemoteUpload = { viewModel.onIntent(BackupRestoreIntent.RemoteBackupNowTapped) },
     )
 }
 
@@ -183,6 +190,7 @@ private fun BackupRestoreContent(
     onRemoteAutoToggled: (Boolean) -> Unit,
     onRemoteBackupNow: () -> Unit,
     onRemoteRestoreTapped: () -> Unit,
+    onRetryRemoteUpload: () -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -257,6 +265,7 @@ private fun BackupRestoreContent(
                         onRemoteAutoToggled = onRemoteAutoToggled,
                         onBackupNow = onRemoteBackupNow,
                         onRestore = onRemoteRestoreTapped,
+                        onRetryUpload = onRetryRemoteUpload,
                     )
                 }
             }
@@ -273,6 +282,7 @@ private fun RemoteBackupSection(
     onRemoteAutoToggled: (Boolean) -> Unit,
     onBackupNow: () -> Unit,
     onRestore: () -> Unit,
+    onRetryUpload: () -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -322,16 +332,23 @@ private fun RemoteBackupSection(
                 Text(stringResource(Res.string.settings_remote_restore), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
                 Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
             }
-            RuntimeStatusLine(state.remoteRuntime, lastRemoteLabel)
+            RuntimeStatusLine(state.remoteRuntime, state.lastRemoteBackupMs, onRetryUpload)
         }
     }
 }
 
 @Composable
-private fun RuntimeStatusLine(runtime: RemoteBackupRuntimeState, lastRemoteLabel: String?) {
+private fun RuntimeStatusLine(
+    runtime: RemoteBackupRuntimeState,
+    lastRemoteMs: Long,
+    onRetry: () -> Unit,
+) {
     val colors = MM.colors
     val type = MM.type
     val space = MM.dimen
+
+    val relativeLabel: String = remember(lastRemoteMs) { null }
+        ?: relativeTimeLabel(lastRemoteMs)
 
     val message: String = when (runtime) {
         RemoteBackupRuntimeState.Encrypting -> stringResource(Res.string.settings_remote_status_encrypting)
@@ -340,17 +357,38 @@ private fun RuntimeStatusLine(runtime: RemoteBackupRuntimeState, lastRemoteLabel
         RemoteBackupRuntimeState.Decrypting -> stringResource(Res.string.settings_remote_status_decrypting)
         RemoteBackupRuntimeState.Restoring -> stringResource(Res.string.settings_remote_status_restoring)
         is RemoteBackupRuntimeState.Error -> stringResource(Res.string.settings_remote_status_error, runtime.message)
-        RemoteBackupRuntimeState.Idle -> {
-            val never = stringResource(Res.string.settings_remote_last_backup_never)
-            stringResource(Res.string.settings_remote_last_backup, lastRemoteLabel ?: never)
-        }
+        RemoteBackupRuntimeState.Idle -> stringResource(Res.string.settings_remote_last_backup, relativeLabel)
     }
 
-    Text(
-        text = message,
-        style = type.caption.copy(color = if (runtime is RemoteBackupRuntimeState.Error) colors.danger else colors.text3),
+    Column(
         modifier = Modifier.padding(start = space.padding_2x, end = space.padding_2x, bottom = space.padding_1x, top = space.padding_0_5x),
-    )
+    ) {
+        Text(
+            text = message,
+            style = type.caption.copy(color = if (runtime is RemoteBackupRuntimeState.Error) colors.danger else colors.text3),
+        )
+        if (runtime is RemoteBackupRuntimeState.Error) {
+            Text(
+                text = stringResource(Res.string.settings_remote_status_retry),
+                style = type.caption.copy(color = colors.accent),
+                modifier = Modifier.padding(top = space.padding_0_5x),
+            )
+        }
+    }
+}
+
+@Composable
+private fun relativeTimeLabel(timestampMs: Long): String {
+    if (timestampMs == 0L) return stringResource(Res.string.settings_remote_last_backup_never)
+    val nowMs = remember { kotlin.time.Clock.System.now().toEpochMilliseconds() }
+    val delta = nowMs - timestampMs
+    return when (val bucket = RelativeTime.format(delta)) {
+        RelativeTimeBucket.JustNow -> stringResource(Res.string.settings_remote_relative_just_now)
+        is RelativeTimeBucket.Minutes -> stringResource(Res.string.settings_remote_relative_minutes, bucket.n)
+        is RelativeTimeBucket.Hours -> stringResource(Res.string.settings_remote_relative_hours, bucket.n)
+        is RelativeTimeBucket.Days -> stringResource(Res.string.settings_remote_relative_days, bucket.n)
+        RelativeTimeBucket.LongerAgo -> stringResource(Res.string.settings_remote_relative_longer)
+    }
 }
 
 @Composable

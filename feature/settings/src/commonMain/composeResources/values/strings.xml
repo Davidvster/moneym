@@ -193,4 +193,10 @@
     <string name="settings_remote_status_decrypting">Decrypting…</string>
     <string name="settings_remote_status_restoring">Restoring…</string>
     <string name="settings_remote_status_error">Last attempt failed: %1$s</string>
+    <string name="settings_remote_status_retry">Tap to retry</string>
+    <string name="settings_remote_relative_just_now">just now</string>
+    <string name="settings_remote_relative_minutes">%1$d min ago</string>
+    <string name="settings_remote_relative_hours">%1$d h ago</string>
+    <string name="settings_remote_relative_days">%1$d d ago</string>
+    <string name="settings_remote_relative_longer">a long time ago</string>
 </resources>

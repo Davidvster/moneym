@@ -191,4 +191,10 @@
     <string name="settings_remote_status_decrypting">Decifratura…</string>
     <string name="settings_remote_status_restoring">Ripristino…</string>
     <string name="settings_remote_status_error">Ultimo tentativo fallito: %1$s</string>
+    <string name="settings_remote_status_retry">Tocca per riprovare</string>
+    <string name="settings_remote_relative_just_now">proprio ora</string>
+    <string name="settings_remote_relative_minutes">%1$d min fa</string>
+    <string name="settings_remote_relative_hours">%1$d h fa</string>
+    <string name="settings_remote_relative_days">%1$d g fa</string>
+    <string name="settings_remote_relative_longer">tanto tempo fa</string>
 </resources>
