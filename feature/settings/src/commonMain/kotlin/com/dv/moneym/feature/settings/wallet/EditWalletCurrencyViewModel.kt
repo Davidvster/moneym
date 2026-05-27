@@ -2,6 +2,7 @@ package com.dv.moneym.feature.settings.wallet
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.model.AccountId
@@ -27,7 +28,7 @@ class EditWalletCurrencyViewModel(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(EditWalletCurrencyUiState(currentCurrency = currentCurrency))
+    private val _state by savedStateHandle.saved { MutableStateFlow(EditWalletCurrencyUiState(currentCurrency = currentCurrency)) }
     internal val state: StateFlow<EditWalletCurrencyUiState> = _state.asStateFlow()
 
     private val _effects = Channel<EditWalletCurrencyEffect>(Channel.BUFFERED)

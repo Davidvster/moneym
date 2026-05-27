@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +44,7 @@ fun MmIconButton(
     }
 
     var pressed by remember { mutableStateOf(false) }
+    val latestOnClick by rememberUpdatedState(onClick)
 
     Box(
         modifier = modifier
@@ -55,7 +57,7 @@ fun MmIconButton(
                         tryAwaitRelease()
                         pressed = false
                     },
-                    onTap = { onClick() },
+                    onTap = { latestOnClick() },
                 )
             },
         contentAlignment = Alignment.Center,

@@ -2,6 +2,7 @@ package com.dv.moneym.feature.settings.wallet
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.Account
@@ -26,7 +27,7 @@ class WalletManageViewModel(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _pendingDeleteId = MutableStateFlow<Long?>(null)
+    private val _pendingDeleteId by savedStateHandle.saved { MutableStateFlow<Long?>(null) }
 
     internal val state: StateFlow<WalletManageUiState> = combine(
         accountRepository.observeAll(),

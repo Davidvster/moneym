@@ -2,6 +2,7 @@ package com.dv.moneym.feature.budgets.list
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.model.AccountId
@@ -28,11 +29,11 @@ class BudgetListViewModel(
     private val categoryRepository: CategoryRepository,
     private val accountRepository: AccountRepository,
     private val dispatchers: DispatcherProvider,
-    @Suppress("UNUSED_PARAMETER") savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val _deleteRequestId = MutableStateFlow<BudgetId?>(null)
-    private val _selectedAccountId = MutableStateFlow<AccountId?>(null)
+    private val _deleteRequestId by savedStateHandle.saved { MutableStateFlow<BudgetId?>(null) }
+    private val _selectedAccountId by savedStateHandle.saved { MutableStateFlow<AccountId?>(null) }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val budgets = _selectedAccountId.flatMapLatest { id ->

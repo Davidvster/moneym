@@ -193,7 +193,6 @@ val featureSettingsModule = module {
     }
     viewModel {
         CurrencyPickerViewModel(
-            appSettingsRepository = get(),
             savedStateHandle = get(),
         )
     }

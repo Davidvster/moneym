@@ -2,6 +2,7 @@ package com.dv.moneym.feature.settings.overview.backuprestore
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.datastore.AppSettings
@@ -24,8 +25,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.Serializable
 import kotlin.time.Clock
 
+@Serializable
 data class BackupRestoreUiState(
     val isLoading: Boolean = false,
     val showRestoreWarning: Boolean = false,
@@ -89,22 +92,25 @@ class BackupRestoreViewModel(
     private val googleAuthManager: GoogleAuthManager? = null,
     private val remoteBackupManager: RemoteBackupManager? = null,
     private val sessionPassphrase: SessionPassphrase? = null,
-    @Suppress("UNUSED_PARAMETER") savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val _base = MutableStateFlow(
-        BackupRestoreUiState(
-            autoBackupEnabled = appSettings.getBoolean(PrefKeys.AUTO_BACKUP_ENABLED),
-            lastBackupTimeMs = appSettings.getString(PrefKeys.LAST_BACKUP_TIME_MS)?.toLongOrNull() ?: 0L,
-            lastBackupPath = appSettings.getString(PrefKeys.LAST_BACKUP_PATH),
-            remoteAvailable = googleAuthManager?.isConfigured == true,
-            remoteAutoEnabled = appSettings.getBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED),
-            lastRemoteBackupMs = appSettings.getLong(PrefKeys.LAST_REMOTE_BACKUP_TIME_MS),
-            remoteAccountEmail = appSettings.getString(PrefKeys.REMOTE_BACKUP_ACCOUNT_EMAIL),
-            remotePassphraseSet = sessionPassphrase?.isSet?.value == true,
-            lastLocalMutationMs = appSettings.getLong(PrefKeys.LAST_LOCAL_MUTATION_MS),
+    private val _base by savedStateHandle.saved {
+        MutableStateFlow(
+            BackupRestoreUiState(
+                autoBackupEnabled = appSettings.getBoolean(PrefKeys.AUTO_BACKUP_ENABLED),
+                lastBackupTimeMs = appSettings.getString(PrefKeys.LAST_BACKUP_TIME_MS)
+                    ?.toLongOrNull() ?: 0L,
+                lastBackupPath = appSettings.getString(PrefKeys.LAST_BACKUP_PATH),
+                remoteAvailable = googleAuthManager?.isConfigured == true,
+                remoteAutoEnabled = appSettings.getBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED),
+                lastRemoteBackupMs = appSettings.getLong(PrefKeys.LAST_REMOTE_BACKUP_TIME_MS),
+                remoteAccountEmail = appSettings.getString(PrefKeys.REMOTE_BACKUP_ACCOUNT_EMAIL),
+                remotePassphraseSet = sessionPassphrase?.isSet?.value == true,
+                lastLocalMutationMs = appSettings.getLong(PrefKeys.LAST_LOCAL_MUTATION_MS),
+            )
         )
-    )
+    }
 
     private val authFlow = googleAuthManager?.state ?: flowOf(AuthState.SignedOut)
     private val runtimeFlow = remoteBackupManager?.runtime ?: flowOf(RemoteBackupRuntimeState.Idle)

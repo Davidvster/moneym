@@ -2,6 +2,7 @@ package com.dv.moneym.feature.budgets.create
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.common.DispatcherProvider
@@ -31,7 +32,7 @@ class BudgetCreateViewModel(
     private val accountRepository: AccountRepository,
     private val clock: AppClock,
     private val dispatchers: DispatcherProvider,
-    @Suppress("UNUSED_PARAMETER") savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     sealed interface BudgetCreateSingleUiEvent {
@@ -41,15 +42,17 @@ class BudgetCreateViewModel(
     private val _singleEvent = Channel<BudgetCreateSingleUiEvent>(Channel.BUFFERED)
     val singleEvents = _singleEvent.receiveAsFlow()
 
-    private val _state = MutableStateFlow(
-        BudgetCreateUiState(
-            isEditMode = budgetId != null,
-            isLoading = true,
-            startYearMonth = if (budgetId == null) {
-                clock.today().let { @Suppress("DEPRECATION") YearMonth(it.year, it.monthNumber) }
-            } else null,
+    private val _state by savedStateHandle.saved {
+        MutableStateFlow(
+            BudgetCreateUiState(
+                isEditMode = budgetId != null,
+                isLoading = true,
+                startYearMonth = if (budgetId == null) {
+                    clock.today().let { @Suppress("DEPRECATION") YearMonth(it.year, it.monthNumber) }
+                } else null,
+            )
         )
-    )
+    }
     internal val state: StateFlow<BudgetCreateUiState> = _state.asStateFlow()
 
     init {
@@ -86,18 +89,13 @@ class BudgetCreateViewModel(
                     accountRepository.observeDefault().first()
                 }
                 val defaultCurrency = defaultAccount?.currency?.value ?: "EUR"
-                val today = clock.today()
-                @Suppress("DEPRECATION")
-                val startYm = YearMonth(today.year, today.monthNumber)
                 _state.update {
-                    BudgetCreateUiState(
-                        isEditMode = false,
+                    it.copy(
                         isLoading = false,
                         availableAccounts = accounts,
                         selectedAccountId = defaultAccount?.id,
                         availableCategories = categories,
                         currency = defaultCurrency,
-                        startYearMonth = startYm,
                     )
                 }
             }

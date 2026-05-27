@@ -1,5 +1,8 @@
 package com.dv.moneym.data.remotebackup
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class RemoteBackupMetadata(
     val createdAtMs: Long,
     val appVersion: String,
