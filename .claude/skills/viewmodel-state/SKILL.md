@@ -101,8 +101,8 @@ sealed interface BudgetCreateSingleUiEvent : SingleUiEvent {
         SingleUiEvent by DefaultSingleUiEvent()
 }
 
-private val _singleEvent: MutableStateFlow<BudgetCreateSingleUiEvent?> = MutableStateFlow(null)
-val singleEvents: StateFlow<BudgetCreateSingleUiEvent?> = _singleEvent
+private val _singleEvent: Channel<BudgetCreateSingleUiEvent?> = Channel()
+val singleEvents: Flow<BudgetCreateSingleUiEvent?> = _singleEvent.receiveAsFlow()
 
 // emit:
 _singleEvent.value = BudgetCreateSingleUiEvent.NavigateBack

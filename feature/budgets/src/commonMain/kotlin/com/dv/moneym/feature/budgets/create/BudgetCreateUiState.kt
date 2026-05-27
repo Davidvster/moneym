@@ -25,6 +25,7 @@ internal data class BudgetCreateUiState(
     val selectedCategoryId: CategoryId? = null,
     val periodType: BudgetPeriodType = BudgetPeriodType.MONTHLY,
     val startYearMonth: YearMonth? = null,
+    val showMonthPicker: Boolean = false,
     val recurringKind: RecurringKind = RecurringKind.Single,
     val recurringNMonths: Int = 3,
     val nameError: Boolean = false,
@@ -38,6 +39,7 @@ internal sealed interface BudgetCreateIntent {
     data class AccountSelected(val id: AccountId) : BudgetCreateIntent
     data class CategorySelected(val id: CategoryId?) : BudgetCreateIntent
     data class StartMonthChanged(val ym: YearMonth) : BudgetCreateIntent
+    data class ShowMonthPicker(val show: Boolean) : BudgetCreateIntent
     data class RecurringKindChanged(val kind: RecurringKind) : BudgetCreateIntent
     data class RecurringCountChanged(val n: Int) : BudgetCreateIntent
     data object Save : BudgetCreateIntent

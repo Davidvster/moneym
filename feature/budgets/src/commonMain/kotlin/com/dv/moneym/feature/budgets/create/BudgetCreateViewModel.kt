@@ -4,23 +4,21 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
-import com.dv.moneym.core.common.DefaultSingleUiEvent
 import com.dv.moneym.core.common.DispatcherProvider
-import com.dv.moneym.core.common.SingleUiEvent
-import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Budget
 import com.dv.moneym.core.model.BudgetId
-import com.dv.moneym.core.model.BudgetPeriodType
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.budgets.BudgetRepository
 import com.dv.moneym.data.categories.CategoryRepository
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -36,13 +34,12 @@ class BudgetCreateViewModel(
     @Suppress("UNUSED_PARAMETER") savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    sealed interface BudgetCreateSingleUiEvent : SingleUiEvent {
-        data object NavigateBack : BudgetCreateSingleUiEvent,
-            SingleUiEvent by DefaultSingleUiEvent()
+    sealed interface BudgetCreateSingleUiEvent {
+        data object NavigateBack : BudgetCreateSingleUiEvent
     }
 
-    private val _singleEvent: MutableStateFlow<BudgetCreateSingleUiEvent?> = MutableStateFlow(null)
-    val singleEvents: StateFlow<BudgetCreateSingleUiEvent?> = _singleEvent
+    private val _singleEvent = Channel<BudgetCreateSingleUiEvent>(Channel.BUFFERED)
+    val singleEvents = _singleEvent.receiveAsFlow()
 
     private val _state = MutableStateFlow(BudgetCreateUiState(isEditMode = budgetId != null, isLoading = true))
     internal val state: StateFlow<BudgetCreateUiState> = _state.asStateFlow()
@@ -108,6 +105,7 @@ class BudgetCreateViewModel(
             is BudgetCreateIntent.AccountSelected -> _state.update { it.copy(selectedAccountId = intent.id) }
             is BudgetCreateIntent.CategorySelected -> _state.update { it.copy(selectedCategoryId = intent.id) }
             is BudgetCreateIntent.StartMonthChanged -> _state.update { it.copy(startYearMonth = intent.ym) }
+            is BudgetCreateIntent.ShowMonthPicker -> _state.update { it.copy(showMonthPicker = intent.show) }
             is BudgetCreateIntent.RecurringKindChanged -> _state.update {
                 it.copy(recurringKind = intent.kind, recurringCountError = false)
             }
@@ -164,7 +162,7 @@ class BudgetCreateViewModel(
                 else budgetRepository.insert(budget)
             }
             _state.update { it.copy(isSaving = false) }
-            _singleEvent.value = BudgetCreateSingleUiEvent.NavigateBack
+            _singleEvent.send(BudgetCreateSingleUiEvent.NavigateBack)
         }
     }
 

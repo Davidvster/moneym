@@ -31,4 +31,10 @@
     <string name="budgets_prev_month">Mes anterior</string>
     <string name="budgets_next_month">Mes siguiente</string>
     <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Seleccionar mes</string>
+    <string name="budgets_month_picker_now">Este mes</string>
+    <string name="budgets_month_picker_ok">OK</string>
+    <string name="budgets_month_picker_cancel">Cancelar</string>
+    <string name="budgets_month_picker_prev_year_cd">Año anterior</string>
+    <string name="budgets_month_picker_next_year_cd">Año siguiente</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.dv.moneym.feature.budgets.create
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,8 +31,13 @@ import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.navigation.ModalKey
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.number
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
 import com.dv.moneym.core.ui.CategoryChip
 import com.dv.moneym.core.ui.MmAmountInput
+import com.dv.moneym.core.ui.MmMonthPickerDialog
 import com.dv.moneym.core.ui.monthLabel
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
@@ -55,6 +61,12 @@ import moneym.feature.budgets.generated.resources.budgets_new_title
 import moneym.feature.budgets.generated.resources.budgets_next_month
 import moneym.feature.budgets.generated.resources.budgets_no_month
 import moneym.feature.budgets.generated.resources.budgets_placeholder_name
+import moneym.feature.budgets.generated.resources.budgets_month_picker_cancel
+import moneym.feature.budgets.generated.resources.budgets_month_picker_next_year_cd
+import moneym.feature.budgets.generated.resources.budgets_month_picker_now
+import moneym.feature.budgets.generated.resources.budgets_month_picker_ok
+import moneym.feature.budgets.generated.resources.budgets_month_picker_prev_year_cd
+import moneym.feature.budgets.generated.resources.budgets_month_picker_title
 import moneym.feature.budgets.generated.resources.budgets_prev_month
 import moneym.feature.budgets.generated.resources.budgets_recurring
 import moneym.feature.budgets.generated.resources.budgets_recurring_count_label
@@ -68,14 +80,20 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Serializable
-data class BudgetCreateKey(val id: Long? = null) : ModalKey
+data class BudgetCreateKey(
+    val id: Long? = null,
+    val sessionKey: String = kotlin.random.Random.nextLong().toString(),
+) : ModalKey
 
 fun EntryProviderScope<NavKey>.budgetCreateEntry(
     onBack: () -> Unit,
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<BudgetCreateKey>(metadata = metadata) { key ->
     val budgetId: BudgetId? = key.id?.let { BudgetId(it) }
-    val viewModel: BudgetCreateViewModel = koinViewModel(parameters = { parametersOf(budgetId) })
+    val viewModel: BudgetCreateViewModel = koinViewModel(
+        key = key.sessionKey,
+        parameters = { parametersOf(budgetId) },
+    )
     BudgetCreateScreen(onBack = onBack, viewModel = viewModel)
 }
 
@@ -85,11 +103,11 @@ fun BudgetCreateScreen(
     viewModel: BudgetCreateViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val event by viewModel.singleEvents.collectAsStateWithLifecycle()
-    LaunchedEffect(event?.id) {
-        when (event) {
-            is BudgetCreateViewModel.BudgetCreateSingleUiEvent.NavigateBack -> onBack()
-            null -> Unit
+    LaunchedEffect(Unit) {
+        viewModel.singleEvents.collect { event ->
+            when (event) {
+                BudgetCreateViewModel.BudgetCreateSingleUiEvent.NavigateBack -> onBack()
+            }
         }
     }
     BudgetCreateContent(
@@ -112,6 +130,28 @@ private fun BudgetCreateContent(
     else stringResource(Res.string.budgets_new_title)
     val allCategoriesLabel = stringResource(Res.string.budgets_all_categories)
     val amountFocusRequester = remember { FocusRequester() }
+    val today = remember { Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date }
+
+    if (state.showMonthPicker && state.startYearMonth != null) {
+        MmMonthPickerDialog(
+            currentYear = state.startYearMonth.year,
+            currentMonth = state.startYearMonth.monthNumber,
+            nowYear = today.year,
+            nowMonth = today.month.number,
+            title = stringResource(Res.string.budgets_month_picker_title),
+            nowLabel = stringResource(Res.string.budgets_month_picker_now),
+            okLabel = stringResource(Res.string.budgets_month_picker_ok),
+            cancelLabel = stringResource(Res.string.budgets_month_picker_cancel),
+            prevYearContentDescription = stringResource(Res.string.budgets_month_picker_prev_year_cd),
+            nextYearContentDescription = stringResource(Res.string.budgets_month_picker_next_year_cd),
+            onDismiss = { onIntent(BudgetCreateIntent.ShowMonthPicker(false)) },
+            onConfirm = { year, month ->
+                @Suppress("DEPRECATION")
+                onIntent(BudgetCreateIntent.StartMonthChanged(YearMonth(year, month)))
+                onIntent(BudgetCreateIntent.ShowMonthPicker(false))
+            },
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -215,6 +255,7 @@ private fun BudgetCreateContent(
                     ym = state.startYearMonth,
                     onPrev = { state.startYearMonth?.let { onIntent(BudgetCreateIntent.StartMonthChanged(it.previous())) } },
                     onNext = { state.startYearMonth?.let { onIntent(BudgetCreateIntent.StartMonthChanged(it.next())) } },
+                    onMonthClick = { onIntent(BudgetCreateIntent.ShowMonthPicker(true)) },
                 )
             }
             item {
@@ -250,6 +291,7 @@ private fun StartMonthRow(
     ym: YearMonth?,
     onPrev: () -> Unit,
     onNext: () -> Unit,
+    onMonthClick: () -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -270,7 +312,7 @@ private fun StartMonthRow(
                 text = ym?.let { monthLabel(it) } ?: stringResource(Res.string.budgets_no_month),
                 style = type.body,
                 color = colors.text,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).clickable(onClick = onMonthClick),
                 textAlign = TextAlign.Center,
             )
             MmIconButton(icon = Icon.ChevronRight.imageVector, onClick = onNext, contentDescription = stringResource(Res.string.budgets_next_month))

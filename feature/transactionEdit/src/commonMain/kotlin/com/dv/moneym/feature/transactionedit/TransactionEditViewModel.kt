@@ -416,6 +416,7 @@ class TransactionEditViewModel(
                             }
                         }
                     }
+                    _state.update { it.copy(isSaving = false) }
                     _effects.send(TransactionEditEffect.Saved)
                 }
             }
