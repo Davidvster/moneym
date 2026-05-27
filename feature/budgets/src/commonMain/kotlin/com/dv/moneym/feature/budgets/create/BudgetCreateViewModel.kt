@@ -41,7 +41,15 @@ class BudgetCreateViewModel(
     private val _singleEvent = Channel<BudgetCreateSingleUiEvent>(Channel.BUFFERED)
     val singleEvents = _singleEvent.receiveAsFlow()
 
-    private val _state = MutableStateFlow(BudgetCreateUiState(isEditMode = budgetId != null, isLoading = true))
+    private val _state = MutableStateFlow(
+        BudgetCreateUiState(
+            isEditMode = budgetId != null,
+            isLoading = true,
+            startYearMonth = if (budgetId == null) {
+                clock.today().let { @Suppress("DEPRECATION") YearMonth(it.year, it.monthNumber) }
+            } else null,
+        )
+    )
     internal val state: StateFlow<BudgetCreateUiState> = _state.asStateFlow()
 
     init {

@@ -106,7 +106,8 @@ fun EntryProviderScope<NavKey>.transactionsEntry(
     onEditTransaction: (TransactionId) -> Unit,
     onEditRecurring: (RecurringTransactionId) -> Unit,
     onTabSelected: (TabRoute) -> Unit = {},
-) = entry<TransactionsKey> {
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<TransactionsKey>(metadata = metadata) {
     TransactionListScreen(
         onAddTransaction = onAddTransaction,
         onEditTransaction = onEditTransaction,

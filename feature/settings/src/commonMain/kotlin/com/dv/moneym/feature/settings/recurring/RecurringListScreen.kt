@@ -42,7 +42,8 @@ data object RecurringListKey : ModalKey
 fun EntryProviderScope<NavKey>.recurringListEntry(
     onBack: () -> Unit,
     onEdit: (RecurringTransactionId) -> Unit,
-) = entry<RecurringListKey> {
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<RecurringListKey>(metadata = metadata) {
     RecurringListScreen(onBack = onBack, onEdit = onEdit)
 }
 

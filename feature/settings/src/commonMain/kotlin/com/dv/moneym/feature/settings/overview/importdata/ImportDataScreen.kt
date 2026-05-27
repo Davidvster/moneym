@@ -73,7 +73,8 @@ data object ImportDataKey : NavKey
 
 fun EntryProviderScope<NavKey>.importDataEntry(
     onBack: () -> Unit,
-) = entry<ImportDataKey> {
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<ImportDataKey>(metadata = metadata) {
     ImportDataScreen(onBack = onBack)
 }
 

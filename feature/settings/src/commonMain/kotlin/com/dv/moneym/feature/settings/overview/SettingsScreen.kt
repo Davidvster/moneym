@@ -73,7 +73,8 @@ fun EntryProviderScope<NavKey>.settingsEntry(
     onNavigateToBackupRestore: () -> Unit = {},
     onTabSelected: (TabRoute) -> Unit,
     securityViewModel: SecuritySettingsViewModel? = null,
-) = entry<SettingsKey> {
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<SettingsKey>(metadata = metadata) {
     SettingsScreen(
         onNavigateToPinSetup = onNavigateToPinSetup,
         onNavigateToCategories = onNavigateToCategories,

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -54,6 +53,7 @@ fun MmAmountInput(
         Row(
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text(
                 text = currencyCode,
@@ -85,7 +85,7 @@ fun MmAmountInput(
                     singleLine = true,
                     modifier = Modifier
                         .focusRequester(focusRequester)
-                        .defaultMinSize(minWidth = MM.dimen.strokeHairline),
+                        .fillMaxWidth(),
                 )
             }
             if (onCalculatorClick != null) {

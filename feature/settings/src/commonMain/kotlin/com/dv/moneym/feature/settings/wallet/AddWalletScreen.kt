@@ -58,7 +58,8 @@ fun EntryProviderScope<NavKey>.addWalletEntry(
     onBack: () -> Unit,
     onNavigateToCurrencyPicker: () -> Unit,
     onConfirm: (name: String, currency: String) -> Unit,
-) = entry<AddWalletKey> {
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<AddWalletKey>(metadata = metadata) {
     AddWalletScreen(
         viewModel = viewModel,
         onBack = onBack,
@@ -72,7 +73,8 @@ fun EntryProviderScope<NavKey>.addWalletCurrencyPickerEntry(
     currentCurrency: () -> String,
     onBack: () -> Unit,
     onCurrencySelected: (String) -> Unit,
-) = entry<AddWalletCurrencyPickerKey> {
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<AddWalletCurrencyPickerKey>(metadata = metadata) {
     AddWalletCurrencyPickerScreen(
         viewModel = viewModel,
         currentCurrency = currentCurrency(),

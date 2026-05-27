@@ -66,7 +66,8 @@ private val popularCurrenciesForEdit = CommonCurrencies.filter { it.code in Popu
 
 fun EntryProviderScope<NavKey>.editWalletCurrencyEntry(
     onBack: () -> Unit,
-) = entry<EditWalletCurrencyKey> { key ->
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<EditWalletCurrencyKey>(metadata = metadata) { key ->
     EditWalletCurrencyScreen(
         accountId = key.accountId,
         currentCurrency = key.currentCurrency,

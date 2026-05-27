@@ -1,12 +1,11 @@
 package com.dv.moneym
 
-import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
@@ -16,7 +15,6 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.feature.budgets.create.BudgetCreateKey
 import com.dv.moneym.feature.budgets.create.budgetCreateEntry
@@ -67,17 +65,17 @@ import com.dv.moneym.platform.rememberFilePicker
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
-private val TAB_ORDER: List<NavKey> = listOf(TransactionsKey, OverviewKey, SettingsKey)
-
-private fun tabSlideDirection(from: NavKey, to: NavKey): Int {
-    val fi = TAB_ORDER.indexOfFirst { it::class == from::class }
-    val ti = TAB_ORDER.indexOfFirst { it::class == to::class }
-    return when {
-        fi < 0 || ti < 0 -> 0
-        ti > fi -> 1
-        else -> -1
+private val modalTransitionMeta: Map<String, Any> =
+    NavDisplay.transitionSpec {
+        slideInVertically(initialOffsetY = { it }, animationSpec = tween(350)) togetherWith
+                ExitTransition.KeepUntilTransitionsFinished
+    } + NavDisplay.popTransitionSpec {
+        EnterTransition.None togetherWith
+                slideOutVertically(targetOffsetY = { it }, animationSpec = tween(350))
+    } + NavDisplay.predictivePopTransitionSpec { _ ->
+        EnterTransition.None togetherWith
+                slideOutVertically(targetOffsetY = { it }, animationSpec = tween(350))
     }
-}
 
 @Composable
 internal fun MainNav(lockController: AppLockController) {
@@ -105,70 +103,13 @@ internal fun MainNav(lockController: AppLockController) {
             rememberViewModelStoreNavEntryDecorator(),
         ),
         transitionSpec = {
-            when {
-                targetState.key is ModalKey -> ContentTransform(
-                    slideInVertically(animationSpec = tween(350)),
-                    slideOutVertically(animationSpec = tween(350)),
-                )
-
-                else -> {
-                    val fromKey = initialState.key as? NavKey
-                        ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-                    val toKey = targetState.key as? NavKey
-                        ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-                    val dir = tabSlideDirection(fromKey, toKey)
-                    if (dir != 0)
-                        slideInHorizontally(tween(300)) { it * dir } togetherWith slideOutHorizontally(
-                            tween(300)
-                        ) { -it * dir }
-                    else
-                        fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-                }
-            }
+            fadeIn(tween(220)) togetherWith fadeOut(tween(220))
         },
         popTransitionSpec = {
-            when {
-                initialState.key is ModalKey -> ContentTransform(
-                    slideInVertically(animationSpec = tween(350)),
-                    slideOutVertically(animationSpec = tween(350)),
-                )
-
-                else -> {
-                    val fromKey = initialState.key as? NavKey
-                        ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-                    val toKey = targetState.key as? NavKey
-                        ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-                    val dir = tabSlideDirection(fromKey, toKey)
-                    if (dir != 0)
-                        slideInHorizontally(tween(300)) { -it * dir } togetherWith slideOutHorizontally(
-                            tween(300)
-                        ) { it * dir }
-                    else
-                        fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-                }
-            }
+            fadeIn(tween(220)) togetherWith fadeOut(tween(220))
         },
-        predictivePopTransitionSpec = {
-            when {
-                initialState.key is ModalKey -> ContentTransform(
-                    slideInVertically(animationSpec = tween(350)),
-                    slideOutVertically(animationSpec = tween(350)),
-                )
-
-                else -> {
-                    val fromKey = initialState.key as? NavKey
-                        ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-                    val toKey = targetState.key as? NavKey
-                        ?: return@NavDisplay fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-                    val dir = tabSlideDirection(fromKey, toKey)
-                    if (dir != 0)
-                        slideInHorizontally(tween(300)) { -it * dir } togetherWith slideOutHorizontally(
-                            tween(300)
-                        ) { it * dir }
-                    else
-                        fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-                }
-            }
+        predictivePopTransitionSpec = { _ ->
+            fadeIn(tween(220)) togetherWith fadeOut(tween(220))
         },
         entryProvider = entryProvider {
             transactionsEntry(
@@ -183,11 +124,12 @@ internal fun MainNav(lockController: AppLockController) {
                     }
                 },
             )
-            transactionEditEntry(onDismiss = { tabBackStack.removeLast() })
-            recurringEditEntry(onDismiss = { tabBackStack.removeLast() })
+            transactionEditEntry(onDismiss = { tabBackStack.removeLast() }, metadata = modalTransitionMeta)
+            recurringEditEntry(onDismiss = { tabBackStack.removeLast() }, metadata = modalTransitionMeta)
             recurringListEntry(
                 onBack = { tabBackStack.removeLast() },
                 onEdit = { id -> tabBackStack.push(RecurringEditKey(id.value)) },
+                metadata = modalTransitionMeta,
             )
             overviewEntry(
                 onTabSelected = { route ->
@@ -225,20 +167,23 @@ internal fun MainNav(lockController: AppLockController) {
                 // Refresh pin state in settings so toggles reflect actual storage truth
                 securitySettingsViewModel.onIntent(SecuritySettingsIntent.RefreshPinState)
                 tabBackStack.removeLast()
-            })
+            }, metadata = modalTransitionMeta)
             categoriesEntry(
                 onBack = { tabBackStack.removeLast() },
+                metadata = modalTransitionMeta,
             )
             budgetListEntry(
                 onBack = { tabBackStack.removeLast() },
                 onCreate = { tabBackStack.push(BudgetCreateKey()) },
                 onEdit = { id -> tabBackStack.push(BudgetCreateKey(id.value)) },
+                metadata = modalTransitionMeta,
             )
             budgetCreateEntry(
                 onBack = { tabBackStack.removeLast() },
+                metadata = modalTransitionMeta,
             )
-            txListDisplayEntry(onBack = { tabBackStack.removeLast() })
-            languagePickerEntry(onBack = { tabBackStack.removeLast() })
+            txListDisplayEntry(onBack = { tabBackStack.removeLast() }, metadata = modalTransitionMeta)
+            languagePickerEntry(onBack = { tabBackStack.removeLast() }, metadata = modalTransitionMeta)
             exportDataEntry(
                 onBack = { tabBackStack.removeLast() },
                 onExportReady = { fileName, content, mimeType ->
@@ -248,19 +193,22 @@ internal fun MainNav(lockController: AppLockController) {
                     csvImportHolder.format = format
                     csvFilePicker()
                 },
+                metadata = modalTransitionMeta,
             )
-            importDataEntry(onBack = { tabBackStack.removeLast() })
-            backupRestoreEntry(onBack = { tabBackStack.removeLast() })
-            paymentModeListEntry(onBack = { tabBackStack.removeLast() })
+            importDataEntry(onBack = { tabBackStack.removeLast() }, metadata = modalTransitionMeta)
+            backupRestoreEntry(onBack = { tabBackStack.removeLast() }, metadata = modalTransitionMeta)
+            paymentModeListEntry(onBack = { tabBackStack.removeLast() }, metadata = modalTransitionMeta)
             walletManageEntry(
                 onBack = { tabBackStack.removeLast() },
                 onNavigateToAddWallet = { tabBackStack.push(AddWalletKey) },
                 onNavigateToEditCurrency = { id, currency ->
                     tabBackStack.push(EditWalletCurrencyKey(id, currency))
                 },
+                metadata = modalTransitionMeta,
             )
             editWalletCurrencyEntry(
                 onBack = { tabBackStack.removeLast() },
+                metadata = modalTransitionMeta,
             )
             addWalletEntry(
                 viewModel = addWalletViewModel,
@@ -270,12 +218,14 @@ internal fun MainNav(lockController: AppLockController) {
                     addWalletViewModel.addWallet(name, currency)
                     tabBackStack.removeLast()
                 },
+                metadata = modalTransitionMeta,
             )
             addWalletCurrencyPickerEntry(
                 viewModel = addWalletViewModel,
                 currentCurrency = { addWalletViewModel.selectedCurrency.value },
                 onBack = { tabBackStack.removeLast() },
                 onCurrencySelected = { code -> addWalletViewModel.setCurrency(code) },
+                metadata = modalTransitionMeta,
             )
         },
     )

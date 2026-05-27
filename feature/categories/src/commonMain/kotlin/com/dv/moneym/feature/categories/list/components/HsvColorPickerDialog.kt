@@ -2,9 +2,9 @@ package com.dv.moneym.feature.categories.list.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.horizontalDrag
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -25,12 +25,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -50,6 +52,7 @@ import moneym.feature.categories.generated.resources.categories_color_saturation
 import moneym.feature.categories.generated.resources.categories_color_select
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 // ─── HSV Color Picker Dialog ──────────────────────────────────────────────────
 // Using Dialog instead of ModalBottomSheet to avoid gesture conflicts with parent sheet
@@ -70,9 +73,9 @@ internal fun HsvColorPickerDialog(
     val currentColor = hsvToColor(hue, saturation, brightness)
 
     var hexText by remember(hue, saturation, brightness) {
-        val r = (currentColor.red * 255).toInt()
-        val g = (currentColor.green * 255).toInt()
-        val b = (currentColor.blue * 255).toInt()
+        val r = (currentColor.red * 255).roundToInt()
+        val g = (currentColor.green * 255).roundToInt()
+        val b = (currentColor.blue * 255).roundToInt()
         mutableStateOf(
             "#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${
                 b.toString(16).padStart(2, '0')
@@ -273,6 +276,8 @@ internal fun HsvSlider(
     onPositionChanged: (Float) -> Unit,
     colors: MoneyMColors,
 ) {
+    val density = LocalDensity.current
+    val latestOnPositionChanged by rememberUpdatedState(onPositionChanged)
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
@@ -284,21 +289,26 @@ internal fun HsvSlider(
             modifier = Modifier
                 .fillMaxSize()
                 .background(gradient)
-                .pointerInput(thumbPosition) {
-                    detectDragGestures { change, _ ->
-                        change.consume()
-                        onPositionChanged((change.position.x / widthPx).coerceIn(0f, 1f))
+                .pointerInput(Unit) {
+                    awaitEachGesture {
+                        val down = awaitFirstDown(requireUnconsumed = false)
+                        latestOnPositionChanged((down.position.x / widthPx).coerceIn(0f, 1f))
+                        horizontalDrag(down.id) { change ->
+                            change.consume()
+                            latestOnPositionChanged((change.position.x / widthPx).coerceIn(0f, 1f))
+                        }
                     }
-                }
-                .clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }) {},
+                },
         ) {
-            val thumbXDp = (thumbPosition * widthPx).toInt()
+            val thumbSizeDp = MM.dimen.padding_3x
+            val thumbSizePx = with(density) { thumbSizeDp.toPx() }
+            val thumbCenterPx = thumbPosition * widthPx
+            val thumbStartPx = (thumbCenterPx - thumbSizePx / 2f).coerceAtLeast(0f)
+            val thumbStartDp = with(density) { thumbStartPx.toDp() }
             Box(
                 modifier = Modifier
-                    .padding(start = (thumbXDp - 12).coerceAtLeast(0).dp)
-                    .size(MM.dimen.padding_3x)
+                    .padding(start = thumbStartDp)
+                    .size(thumbSizeDp)
                     .clip(CircleShape)
                     .background(Color.White)
                     .border(2.dp, colors.borderStrong, CircleShape),

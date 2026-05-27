@@ -44,6 +44,7 @@ import moneym.feature.categories.generated.resources.categories_new_income
 import moneym.feature.categories.generated.resources.categories_new_sheet_title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.math.roundToInt
 
 @Serializable
 data object CategoriesKey : ModalKey
@@ -268,9 +269,9 @@ private val CATEGORY_ICON_OPTIONS = listOf(
 
 private fun colorToHex(color: Color): String {
     fun Int.hex2() = toString(16).padStart(2, '0').uppercase()
-    val r = (color.red * 255).toInt()
-    val g = (color.green * 255).toInt()
-    val b = (color.blue * 255).toInt()
+    val r = (color.red * 255).roundToInt()
+    val g = (color.green * 255).roundToInt()
+    val b = (color.blue * 255).roundToInt()
     return "#${r.hex2()}${g.hex2()}${b.hex2()}"
 }
 

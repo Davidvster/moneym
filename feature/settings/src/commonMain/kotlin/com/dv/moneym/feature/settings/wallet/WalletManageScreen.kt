@@ -45,7 +45,8 @@ fun EntryProviderScope<NavKey>.walletManageEntry(
     onBack: () -> Unit,
     onNavigateToAddWallet: () -> Unit,
     onNavigateToEditCurrency: (accountId: Long, currentCurrency: String) -> Unit,
-) = entry<WalletManageKey> {
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<WalletManageKey>(metadata = metadata) {
     WalletManageScreen(
         onBack = onBack,
         onNavigateToAddWallet = onNavigateToAddWallet,

@@ -12,13 +12,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -37,6 +41,9 @@ fun MmField(
     suffix: (@Composable () -> Unit)? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
     singleLine: Boolean = true,
+    focusRequester: FocusRequester? = null,
+    imeAction: ImeAction = ImeAction.Default,
+    onImeAction: (() -> Unit)? = null,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -59,7 +66,12 @@ fun MmField(
             textStyle = type.body.copy(color = colors.text),
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
-                capitalization = KeyboardCapitalization.Sentences
+                capitalization = KeyboardCapitalization.Sentences,
+                imeAction = imeAction,
+            ),
+            keyboardActions = KeyboardActions(
+                onNext = { onImeAction?.invoke() },
+                onDone = { onImeAction?.invoke() },
             ),
             cursorBrush = SolidColor(colors.accent),
             modifier = Modifier
@@ -67,7 +79,8 @@ fun MmField(
                 .clip(radius.radius_1_5x)
                 .background(colors.surface, radius.radius_1_5x)
                 .border(1.dp, colors.border, radius.radius_1_5x)
-                .defaultMinSize(minHeight = if (singleLine) 52.dp else 80.dp),
+                .defaultMinSize(minHeight = if (singleLine) 52.dp else 80.dp)
+                .then(if (focusRequester != null) Modifier.focusRequester(focusRequester) else Modifier),
             decorationBox = { innerTextField ->
                 Row(
                     modifier = Modifier.padding(

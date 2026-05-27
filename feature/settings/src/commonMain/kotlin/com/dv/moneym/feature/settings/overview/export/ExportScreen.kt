@@ -52,7 +52,8 @@ fun EntryProviderScope<NavKey>.exportDataEntry(
     onBack: () -> Unit,
     onExportReady: (suspend (String, String, String) -> Unit)? = null,
     onImportSourceSelected: (CsvSourceFormat) -> Unit = {},
-) = entry<ExportDataKey> {
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<ExportDataKey>(metadata = metadata) {
     ExportScreen(
         onBack = onBack,
         onExportReady = onExportReady,

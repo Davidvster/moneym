@@ -5,7 +5,8 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.sqlite.SQLiteConnection
+import androidx.sqlite.execSQL
 
 @Suppress("NO_ACTUAL_FOR_EXPECT")
 expect object BudgetsRoomDatabaseConstructor : RoomDatabaseConstructor<BudgetsRoomDatabase>
@@ -17,8 +18,8 @@ abstract class BudgetsRoomDatabase : RoomDatabase() {
 
     companion object {
         val MIGRATION_1_2 = object : Migration(1, 2) {
-            override fun migrate(db: SupportSQLiteDatabase) {
-                db.execSQL("ALTER TABLE Budget ADD COLUMN account_id INTEGER NOT NULL DEFAULT 0")
+            override fun migrate(connection: SQLiteConnection) {
+                connection.execSQL("ALTER TABLE Budget ADD COLUMN account_id INTEGER NOT NULL DEFAULT 0")
             }
         }
     }

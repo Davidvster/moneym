@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
@@ -19,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -170,6 +172,8 @@ private fun BudgetCreateContent(
                     onValueChange = { onIntent(BudgetCreateIntent.NameChanged(it)) },
                     label = stringResource(Res.string.budgets_name_label),
                     placeholder = stringResource(Res.string.budgets_placeholder_name),
+                    imeAction = ImeAction.Next,
+                    onImeAction = { amountFocusRequester.requestFocus() },
                 )
                 if (state.nameError) {
                     Text(
@@ -326,7 +330,9 @@ private fun StartMonthRow(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.padding(vertical = MM.dimen.padding_1x),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = MM.dimen.padding_1x),
         ) {
             MmIconButton(
                 icon = Icon.ChevronLeft.imageVector,

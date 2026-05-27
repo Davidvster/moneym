@@ -66,7 +66,8 @@ import org.koin.compose.viewmodel.koinViewModel
 
 fun EntryProviderScope<NavKey>.txListDisplayEntry(
     onBack: () -> Unit,
-) = entry<TxListDisplayKey> {
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<TxListDisplayKey>(metadata = metadata) {
     TxListDisplayScreen(onBack = onBack)
 }
 

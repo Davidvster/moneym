@@ -51,7 +51,8 @@ data object OverviewKey : NavKey
 
 fun EntryProviderScope<NavKey>.overviewEntry(
     onTabSelected: (TabRoute) -> Unit = {},
-) = entry<OverviewKey> {
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<OverviewKey>(metadata = metadata) {
     OverviewScreen(onTabSelected = onTabSelected)
 }
 

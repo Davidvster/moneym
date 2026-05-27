@@ -46,7 +46,8 @@ import org.koin.compose.viewmodel.koinViewModel
 
 fun EntryProviderScope<NavKey>.paymentModeListEntry(
     onBack: () -> Unit,
-) = entry<PaymentModeListKey> {
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<PaymentModeListKey>(metadata = metadata) {
     PaymentModeListScreen(onBack = onBack)
 }
 

@@ -42,7 +42,8 @@ import org.koin.compose.viewmodel.koinViewModel
 
 fun EntryProviderScope<NavKey>.languagePickerEntry(
     onBack: () -> Unit,
-) = entry<LanguagePickerKey> {
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<LanguagePickerKey>(metadata = metadata) {
     LanguagePickerScreen(onBack = onBack)
 }
 

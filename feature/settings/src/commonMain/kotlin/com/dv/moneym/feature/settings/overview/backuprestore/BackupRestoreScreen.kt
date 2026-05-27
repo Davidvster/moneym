@@ -106,7 +106,8 @@ data object BackupRestoreKey : NavKey
 
 fun EntryProviderScope<NavKey>.backupRestoreEntry(
     onBack: () -> Unit,
-) = entry<BackupRestoreKey> {
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<BackupRestoreKey>(metadata = metadata) {
     BackupRestoreScreen(onBack = onBack)
 }
 
