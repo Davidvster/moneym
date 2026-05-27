@@ -16,7 +16,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,16 +30,15 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.navigation.ModalKey
-import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.feature.transactionedit.components.AmountDisplay
 import com.dv.moneym.feature.transactionedit.components.CalculatorBottomSheet
 import com.dv.moneym.feature.transactionedit.components.CategoryPicker
 import com.dv.moneym.feature.transactionedit.components.PaymentModePicker
 import com.dv.moneym.feature.transactionedit.components.RecurrenceSection
+import com.dv.moneym.feature.transactionedit.components.TransactionDeleteSheet
 import com.dv.moneym.feature.transactionedit.components.TransactionEditModalHeader
 import com.dv.moneym.feature.transactionedit.components.TransactionEditSaveBar
-import com.dv.moneym.feature.transactionedit.components.TransactionDeleteSheet
 import com.dv.moneym.feature.transactionedit.components.TypeToggleBar
 import kotlinx.serialization.Serializable
 import moneym.feature.transactionedit.generated.resources.Res
@@ -70,7 +68,6 @@ private fun RecurringEditScreen(
     ruleId: RecurringTransactionId,
     onDismiss: () -> Unit,
     viewModel: RecurringEditViewModel = koinViewModel(
-        key = "recurring_${ruleId.value}",
         parameters = { parametersOf(ruleId) },
     ),
 ) {

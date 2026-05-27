@@ -34,6 +34,7 @@ kotlin {
             implementation(projects.core.common)
             implementation(libs.androidx.navigation3.runtime)
             implementation(projects.core.navigation)
+            implementation(projects.core.utils)
             implementation(projects.data.budgets)
             implementation(projects.data.categories)
             implementation(projects.data.accounts)

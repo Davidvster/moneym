@@ -15,7 +15,7 @@ kotlin {
             freeCompilerArgs.add("-Xexpect-actual-classes")
         }
     }
-    
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -50,6 +50,7 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.androidx.lifecycle.navigation3)
             implementation(libs.androidx.navigation3.runtime)
             implementation(libs.org.jetbrains.navigation3.ui)
             // DI

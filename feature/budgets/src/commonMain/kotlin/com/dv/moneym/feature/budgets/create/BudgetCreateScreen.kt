@@ -7,14 +7,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,30 +21,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.navigation.ModalKey
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.number
-import kotlinx.datetime.toLocalDateTime
-import kotlin.time.Clock
 import com.dv.moneym.core.ui.CategoryChip
 import com.dv.moneym.core.ui.MmAmountInput
-import com.dv.moneym.core.ui.MmMonthPickerDialog
-import com.dv.moneym.core.ui.monthLabel
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmChip
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
+import com.dv.moneym.core.ui.MmMonthPickerDialog
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.ui.monthLabel
+import com.dv.moneym.core.utils.observeWithLifecycle
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.number
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
 import moneym.feature.budgets.generated.resources.Res
 import moneym.feature.budgets.generated.resources.budgets_account_label
@@ -56,28 +57,29 @@ import moneym.feature.budgets.generated.resources.budgets_edit_title
 import moneym.feature.budgets.generated.resources.budgets_error_amount
 import moneym.feature.budgets.generated.resources.budgets_error_count
 import moneym.feature.budgets.generated.resources.budgets_error_required
-import moneym.feature.budgets.generated.resources.budgets_name_label
-import moneym.feature.budgets.generated.resources.budgets_new_title
-import moneym.feature.budgets.generated.resources.budgets_next_month
-import moneym.feature.budgets.generated.resources.budgets_no_month
-import moneym.feature.budgets.generated.resources.budgets_placeholder_name
 import moneym.feature.budgets.generated.resources.budgets_month_picker_cancel
 import moneym.feature.budgets.generated.resources.budgets_month_picker_next_year_cd
 import moneym.feature.budgets.generated.resources.budgets_month_picker_now
 import moneym.feature.budgets.generated.resources.budgets_month_picker_ok
 import moneym.feature.budgets.generated.resources.budgets_month_picker_prev_year_cd
 import moneym.feature.budgets.generated.resources.budgets_month_picker_title
+import moneym.feature.budgets.generated.resources.budgets_name_label
+import moneym.feature.budgets.generated.resources.budgets_new_title
+import moneym.feature.budgets.generated.resources.budgets_next_month
+import moneym.feature.budgets.generated.resources.budgets_no_month
+import moneym.feature.budgets.generated.resources.budgets_placeholder_name
 import moneym.feature.budgets.generated.resources.budgets_prev_month
 import moneym.feature.budgets.generated.resources.budgets_recurring
 import moneym.feature.budgets.generated.resources.budgets_recurring_count_label
+import moneym.feature.budgets.generated.resources.budgets_recurring_n_months
 import moneym.feature.budgets.generated.resources.budgets_recurring_single
 import moneym.feature.budgets.generated.resources.budgets_recurring_unlimited
-import moneym.feature.budgets.generated.resources.budgets_recurring_n_months
 import moneym.feature.budgets.generated.resources.budgets_save
 import moneym.feature.budgets.generated.resources.budgets_start_month
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import kotlin.time.Clock
 
 @Serializable
 data class BudgetCreateKey(
@@ -90,10 +92,7 @@ fun EntryProviderScope<NavKey>.budgetCreateEntry(
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<BudgetCreateKey>(metadata = metadata) { key ->
     val budgetId: BudgetId? = key.id?.let { BudgetId(it) }
-    val viewModel: BudgetCreateViewModel = koinViewModel(
-        key = key.sessionKey,
-        parameters = { parametersOf(budgetId) },
-    )
+    val viewModel: BudgetCreateViewModel = koinViewModel(parameters = { parametersOf(budgetId) })
     BudgetCreateScreen(onBack = onBack, viewModel = viewModel)
 }
 
@@ -103,11 +102,9 @@ fun BudgetCreateScreen(
     viewModel: BudgetCreateViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    LaunchedEffect(Unit) {
-        viewModel.singleEvents.collect { event ->
-            when (event) {
-                BudgetCreateViewModel.BudgetCreateSingleUiEvent.NavigateBack -> onBack()
-            }
+    viewModel.singleEvents.observeWithLifecycle { event ->
+        when (event) {
+            BudgetCreateViewModel.BudgetCreateSingleUiEvent.NavigateBack -> onBack()
         }
     }
     BudgetCreateContent(
@@ -130,7 +127,8 @@ private fun BudgetCreateContent(
     else stringResource(Res.string.budgets_new_title)
     val allCategoriesLabel = stringResource(Res.string.budgets_all_categories)
     val amountFocusRequester = remember { FocusRequester() }
-    val today = remember { Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date }
+    val today =
+        remember { Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date }
 
     if (state.showMonthPicker && state.startYearMonth != null) {
         MmMonthPickerDialog(
@@ -146,7 +144,6 @@ private fun BudgetCreateContent(
             nextYearContentDescription = stringResource(Res.string.budgets_month_picker_next_year_cd),
             onDismiss = { onIntent(BudgetCreateIntent.ShowMonthPicker(false)) },
             onConfirm = { year, month ->
-                @Suppress("DEPRECATION")
                 onIntent(BudgetCreateIntent.StartMonthChanged(YearMonth(year, month)))
                 onIntent(BudgetCreateIntent.ShowMonthPicker(false))
             },
@@ -161,7 +158,7 @@ private fun BudgetCreateContent(
         ScreenHeader(title = title, onBack = onBack)
         LazyColumn(
             modifier = Modifier.weight(1f),
-            contentPadding = androidx.compose.foundation.layout.PaddingValues(
+            contentPadding = PaddingValues(
                 horizontal = MM.dimen.padding_2_5x,
                 vertical = MM.dimen.padding_2x,
             ),
@@ -175,7 +172,11 @@ private fun BudgetCreateContent(
                     placeholder = stringResource(Res.string.budgets_placeholder_name),
                 )
                 if (state.nameError) {
-                    Text(stringResource(Res.string.budgets_error_required), style = type.caption.copy(color = colors.danger), modifier = Modifier.padding(top = 4.dp))
+                    Text(
+                        stringResource(Res.string.budgets_error_required),
+                        style = type.caption.copy(color = colors.danger),
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
                 }
             }
             item {
@@ -192,7 +193,11 @@ private fun BudgetCreateContent(
                     onAmountChanged = { onIntent(BudgetCreateIntent.AmountChanged(it)) },
                 )
                 if (state.amountError) {
-                    Text(stringResource(Res.string.budgets_error_amount), style = type.caption.copy(color = colors.danger), modifier = Modifier.padding(top = 4.dp))
+                    Text(
+                        stringResource(Res.string.budgets_error_amount),
+                        style = type.caption.copy(color = colors.danger),
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
                 }
             }
             item {
@@ -253,8 +258,24 @@ private fun BudgetCreateContent(
             item {
                 StartMonthRow(
                     ym = state.startYearMonth,
-                    onPrev = { state.startYearMonth?.let { onIntent(BudgetCreateIntent.StartMonthChanged(it.previous())) } },
-                    onNext = { state.startYearMonth?.let { onIntent(BudgetCreateIntent.StartMonthChanged(it.next())) } },
+                    onPrev = {
+                        state.startYearMonth?.let {
+                            onIntent(
+                                BudgetCreateIntent.StartMonthChanged(
+                                    it.previous()
+                                )
+                            )
+                        }
+                    },
+                    onNext = {
+                        state.startYearMonth?.let {
+                            onIntent(
+                                BudgetCreateIntent.StartMonthChanged(
+                                    it.next()
+                                )
+                            )
+                        }
+                    },
                     onMonthClick = { onIntent(BudgetCreateIntent.ShowMonthPicker(true)) },
                 )
             }
@@ -307,7 +328,11 @@ private fun StartMonthRow(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.padding(vertical = MM.dimen.padding_1x),
         ) {
-            MmIconButton(icon = Icon.ChevronLeft.imageVector, onClick = onPrev, contentDescription = stringResource(Res.string.budgets_prev_month))
+            MmIconButton(
+                icon = Icon.ChevronLeft.imageVector,
+                onClick = onPrev,
+                contentDescription = stringResource(Res.string.budgets_prev_month)
+            )
             Text(
                 text = ym?.let { monthLabel(it) } ?: stringResource(Res.string.budgets_no_month),
                 style = type.body,
@@ -315,7 +340,11 @@ private fun StartMonthRow(
                 modifier = Modifier.weight(1f).clickable(onClick = onMonthClick),
                 textAlign = TextAlign.Center,
             )
-            MmIconButton(icon = Icon.ChevronRight.imageVector, onClick = onNext, contentDescription = stringResource(Res.string.budgets_next_month))
+            MmIconButton(
+                icon = Icon.ChevronRight.imageVector,
+                onClick = onNext,
+                contentDescription = stringResource(Res.string.budgets_next_month)
+            )
         }
     }
 }
@@ -337,13 +366,22 @@ private fun RecurringRow(
             color = colors.text2,
         )
         Row(horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x)) {
-            RecurringChip(stringResource(Res.string.budgets_recurring_single), kind == RecurringKind.Single) {
+            RecurringChip(
+                stringResource(Res.string.budgets_recurring_single),
+                kind == RecurringKind.Single
+            ) {
                 onKindChanged(RecurringKind.Single)
             }
-            RecurringChip(stringResource(Res.string.budgets_recurring_unlimited), kind == RecurringKind.Unlimited) {
+            RecurringChip(
+                stringResource(Res.string.budgets_recurring_unlimited),
+                kind == RecurringKind.Unlimited
+            ) {
                 onKindChanged(RecurringKind.Unlimited)
             }
-            RecurringChip(stringResource(Res.string.budgets_recurring_n_months), kind == RecurringKind.NMonths) {
+            RecurringChip(
+                stringResource(Res.string.budgets_recurring_n_months),
+                kind == RecurringKind.NMonths
+            ) {
                 onKindChanged(RecurringKind.NMonths)
             }
         }
@@ -355,7 +393,10 @@ private fun RecurringRow(
                 keyboardType = KeyboardType.Number,
             )
             if (showCountError) {
-                Text(stringResource(Res.string.budgets_error_count), style = type.caption.copy(color = colors.danger))
+                Text(
+                    stringResource(Res.string.budgets_error_count),
+                    style = type.caption.copy(color = colors.danger)
+                )
             }
         }
     }
@@ -371,17 +412,16 @@ private fun RecurringChip(text: String, selected: Boolean, onClick: () -> Unit) 
 }
 
 
-
-@androidx.compose.ui.tooling.preview.Preview
-@androidx.compose.runtime.Composable
+@Preview
+@Composable
 private fun BudgetCreateContentPreview() {
-    com.dv.moneym.core.designsystem.MoneyMTheme {
+    MoneyMTheme {
         BudgetCreateContent(
             state = BudgetCreateUiState(
                 name = "Groceries",
                 amountText = "300.00",
                 currency = "EUR",
-                startYearMonth = com.dv.moneym.core.model.YearMonth(2026, 5),
+                startYearMonth = YearMonth(2026, 5),
             ),
             onBack = {},
             onIntent = {},

@@ -40,6 +40,7 @@ include(":core:security")
 include(":core:navigation")
 include(":core:testing")
 include(":core:platform")
+include(":core:utils")
 
 // Data
 include(":data:transactions")

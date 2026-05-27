@@ -11,8 +11,10 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.TabRoute
@@ -42,11 +44,9 @@ import com.dv.moneym.feature.settings.overview.importdata.importDataEntry
 import com.dv.moneym.feature.settings.overview.locale.languagePickerEntry
 import com.dv.moneym.feature.settings.overview.settingsEntry
 import com.dv.moneym.feature.settings.overview.transactiondisplay.txListDisplayEntry
+import com.dv.moneym.feature.settings.paymentmodes.paymentModeListEntry
 import com.dv.moneym.feature.settings.recurring.RecurringListKey
 import com.dv.moneym.feature.settings.recurring.recurringListEntry
-import com.dv.moneym.feature.transactionedit.RecurringEditKey
-import com.dv.moneym.feature.transactionedit.recurringEditEntry
-import com.dv.moneym.feature.settings.paymentmodes.paymentModeListEntry
 import com.dv.moneym.feature.settings.wallet.AddWalletCurrencyPickerKey
 import com.dv.moneym.feature.settings.wallet.AddWalletKey
 import com.dv.moneym.feature.settings.wallet.AddWalletViewModel
@@ -56,7 +56,9 @@ import com.dv.moneym.feature.settings.wallet.addWalletCurrencyPickerEntry
 import com.dv.moneym.feature.settings.wallet.addWalletEntry
 import com.dv.moneym.feature.settings.wallet.editWalletCurrencyEntry
 import com.dv.moneym.feature.settings.wallet.walletManageEntry
+import com.dv.moneym.feature.transactionedit.RecurringEditKey
 import com.dv.moneym.feature.transactionedit.TransactionEditKey
+import com.dv.moneym.feature.transactionedit.recurringEditEntry
 import com.dv.moneym.feature.transactionedit.transactionEditEntry
 import com.dv.moneym.feature.transactions.list.TransactionsKey
 import com.dv.moneym.feature.transactions.list.transactionsEntry
@@ -98,9 +100,13 @@ internal fun MainNav(lockController: AppLockController) {
     NavDisplay(
         backStack = tabBackStack.backStack,
         onBack = { tabBackStack.removeLast() },
+        entryDecorators = listOf(
+            rememberSaveableStateHolderNavEntryDecorator(),
+            rememberViewModelStoreNavEntryDecorator(),
+        ),
         transitionSpec = {
             when {
-                initialState.key is ModalKey -> ContentTransform(
+                targetState.key is ModalKey -> ContentTransform(
                     slideInVertically(animationSpec = tween(350)),
                     slideOutVertically(animationSpec = tween(350)),
                 )

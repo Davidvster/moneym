@@ -8,10 +8,9 @@ import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.EndCondition
-import com.dv.moneym.core.model.MonthlyDayKind
 import com.dv.moneym.core.model.Money
+import com.dv.moneym.core.model.MonthlyDayKind
 import com.dv.moneym.core.model.RecurrenceRule
-import com.dv.moneym.core.model.RecurringTransaction
 import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
@@ -22,7 +21,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -43,7 +41,13 @@ class RecurringEditViewModel(
 ) : ViewModel() {
 
     private val _state by savedStateHandle.saved {
-        MutableStateFlow(TransactionEditUiState(isLoading = true, isEditMode = true, isRecurring = true))
+        MutableStateFlow(
+            TransactionEditUiState(
+                isLoading = true,
+                isEditMode = true,
+                isRecurring = true
+            )
+        )
     }
     internal val state: StateFlow<TransactionEditUiState> = _state
         .onStart { init() }
@@ -97,7 +101,8 @@ class RecurringEditViewModel(
                 },
                 freqInterval = rule.rule.interval,
                 weekDay = (rule.rule as? RecurrenceRule.Weekly)?.dayOfWeek ?: 1,
-                monthDayKind = (rule.rule as? RecurrenceRule.Monthly)?.dayKind ?: MonthlyDayKind.OnDay(1),
+                monthDayKind = (rule.rule as? RecurrenceRule.Monthly)?.dayKind
+                    ?: MonthlyDayKind.OnDay(1),
                 endKind = when (rule.endCondition) {
                     EndCondition.Unlimited -> EndKind.UNLIMITED
                     is EndCondition.Count -> EndKind.COUNT
@@ -111,37 +116,68 @@ class RecurringEditViewModel(
 
     internal fun onIntent(intent: TransactionEditIntent) {
         when (intent) {
-            is TransactionEditIntent.TypeChanged -> _state.update { it.copy(type = intent.type, selectedCategoryId = null) }
+            is TransactionEditIntent.TypeChanged -> _state.update {
+                it.copy(
+                    type = intent.type,
+                    selectedCategoryId = null
+                )
+            }
+
             is TransactionEditIntent.AmountChanged -> _state.update {
                 it.copy(amountText = filterAmountInput(intent.text), amountError = false)
             }
+
             is TransactionEditIntent.CategorySelected -> _state.update {
                 it.copy(selectedCategoryId = intent.id, categoryError = false)
             }
+
             is TransactionEditIntent.AccountSelected -> _state.update { it.copy(selectedAccountId = intent.id) }
             is TransactionEditIntent.NoteChanged -> _state.update { it.copy(note = intent.note) }
-            is TransactionEditIntent.PaymentModeSelected -> _state.update { it.copy(selectedPaymentModeId = intent.id) }
+            is TransactionEditIntent.PaymentModeSelected -> _state.update {
+                it.copy(
+                    selectedPaymentModeId = intent.id
+                )
+            }
+
             TransactionEditIntent.SaveRequested -> save()
             TransactionEditIntent.DeleteRequested,
             TransactionEditIntent.DeleteConfirmed -> delete()
-            TransactionEditIntent.DeleteCancelled -> _state.update { it.copy(showDeleteConfirm = false, showDeleteDialog = false) }
+
+            TransactionEditIntent.DeleteCancelled -> _state.update {
+                it.copy(
+                    showDeleteConfirm = false,
+                    showDeleteDialog = false
+                )
+            }
+
             is TransactionEditIntent.ShowDeleteDialog -> _state.update { it.copy(showDeleteDialog = intent.visible) }
-            is TransactionEditIntent.FreqUnitChanged -> _state.update { it.copy(freqUnit = intent.unit, recurrenceError = false) }
+            is TransactionEditIntent.FreqUnitChanged -> _state.update {
+                it.copy(
+                    freqUnit = intent.unit,
+                    recurrenceError = false
+                )
+            }
+
             is TransactionEditIntent.FreqIntervalChanged -> _state.update {
                 it.copy(freqInterval = intent.value.coerceIn(1, 30), recurrenceError = false)
             }
+
             is TransactionEditIntent.WeekDayChanged -> _state.update {
                 it.copy(weekDay = intent.day.coerceIn(1, 7), recurrenceError = false)
             }
+
             is TransactionEditIntent.MonthDayChanged -> _state.update {
                 it.copy(monthDayKind = intent.kind, recurrenceError = false)
             }
+
             is TransactionEditIntent.EndKindChanged -> _state.update {
                 it.copy(endKind = intent.kind, recurrenceError = false)
             }
+
             is TransactionEditIntent.EndCountChanged -> _state.update {
                 it.copy(endCount = intent.value.coerceAtLeast(1), recurrenceError = false)
             }
+
             is TransactionEditIntent.EndDateChanged -> _state.update {
                 it.copy(endDate = intent.date, recurrenceError = false)
             }
@@ -157,7 +193,8 @@ class RecurringEditViewModel(
         val filtered = input.filter { it.isDigit() || it == '.' }
         val dotIndex = filtered.indexOf('.')
         return if (dotIndex == -1) filtered
-        else filtered.substring(0, dotIndex) + "." + filtered.substring(dotIndex + 1).filter { it.isDigit() }.take(2)
+        else filtered.substring(0, dotIndex) + "." + filtered.substring(dotIndex + 1)
+            .filter { it.isDigit() }.take(2)
     }
 
     private fun save() {
@@ -206,6 +243,7 @@ class RecurringEditViewModel(
                 updatedAt = now,
             )
             withContext(dispatchers.io) { recurringRepo.upsert(updated) }
+            _state.update { it.copy(isSaving = false) }
             _effects.send(TransactionEditEffect.Saved)
         }
     }
@@ -218,6 +256,7 @@ class RecurringEditViewModel(
                 if (s.weekDay !in 1..7) return null
                 RecurrenceRule.Weekly(s.freqInterval, s.weekDay)
             }
+
             FreqUnit.MONTHS -> {
                 val k = s.monthDayKind
                 if (k is MonthlyDayKind.OnDay && k.day !in 1..28) return null
@@ -226,7 +265,10 @@ class RecurringEditViewModel(
         }
     }
 
-    private fun buildEnd(s: TransactionEditUiState, startDate: kotlinx.datetime.LocalDate): EndCondition? = when (s.endKind) {
+    private fun buildEnd(
+        s: TransactionEditUiState,
+        startDate: kotlinx.datetime.LocalDate
+    ): EndCondition? = when (s.endKind) {
         EndKind.UNLIMITED -> EndCondition.Unlimited
         EndKind.COUNT -> if (s.endCount < 1) null else EndCondition.Count(s.endCount)
         EndKind.UNTIL -> s.endDate?.takeIf { it >= startDate }?.let { EndCondition.Until(it) }

@@ -35,13 +35,11 @@ import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import kotlin.random.Random
 import kotlin.time.Clock
 
 @Serializable
 data class TransactionEditKey(
-    val id: Long? = null,
-    val sessionKey: String = Random.nextLong().toString(),
+    val id: Long? = null
 ) : ModalKey
 
 fun EntryProviderScope<NavKey>.transactionEditEntry(
@@ -50,7 +48,6 @@ fun EntryProviderScope<NavKey>.transactionEditEntry(
 ) = entry<TransactionEditKey>(metadata = metadata) { key ->
     TransactionEditScreen(
         transactionId = key.id?.let { TransactionId(it) },
-        sessionKey = key.sessionKey,
         onDismiss = onDismiss,
     )
 }
@@ -58,10 +55,8 @@ fun EntryProviderScope<NavKey>.transactionEditEntry(
 @Composable
 private fun TransactionEditScreen(
     transactionId: TransactionId?,
-    sessionKey: String = "",
     onDismiss: () -> Unit,
     viewModel: TransactionEditViewModel = koinViewModel(
-        key = sessionKey.ifEmpty { transactionId?.value?.toString() ?: "new" },
         parameters = { parametersOf(transactionId) },
     ),
 ) {
