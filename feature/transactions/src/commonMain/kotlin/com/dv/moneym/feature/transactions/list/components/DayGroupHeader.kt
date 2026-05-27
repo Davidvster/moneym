@@ -31,7 +31,7 @@ internal fun DayGroupHeader(group: DayGroup, showAmount: Boolean = true) {
         modifier = Modifier
             .fillMaxWidth()
             .background(colors.surface)
-            .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.spacingXs),
+            .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_1x),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         SectionLabel(

@@ -31,14 +31,14 @@ internal fun AvgStatsCard(
         MmCard(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = space.padding_2x, vertical = MM.dimen.spacingXs),
+                .padding(horizontal = space.padding_2x, vertical = MM.dimen.padding_1x),
             padded = true,
             shape = MM.dimen.radius_1_5x,
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
+                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
             ) {
                 SectionLabel(text = avgDayLabel, modifier = Modifier.weight(1f))
                 MmMoney(
@@ -53,7 +53,7 @@ internal fun AvgStatsCard(
         MmCard(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = space.padding_2x, vertical = MM.dimen.spacingXs),
+                .padding(horizontal = space.padding_2x, vertical = MM.dimen.padding_1x),
             padded = true,
             shape = MM.dimen.radius_1_5x,
         ) {
@@ -61,7 +61,7 @@ internal fun AvgStatsCard(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
                 ) {
                     SectionLabel(text = avgMonthLabel, modifier = Modifier.weight(1f))
                     MmMoney(
@@ -76,7 +76,7 @@ internal fun AvgStatsCard(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
                 ) {
                     SectionLabel(text = avgDayLabel, modifier = Modifier.weight(1f))
                     MmMoney(

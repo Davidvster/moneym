@@ -48,10 +48,6 @@ data class MoneyMDimensions(
     val rowMinHeightMd: Dp = 44.dp,
     val rowMinHeightLg: Dp = 52.dp,
 
-    val spacingHairline: Dp = 1.dp,
-    val spacingMicro: Dp = 3.dp,
-    val spacingTiny: Dp = 5.dp,
-    val spacingXs: Dp = 6.dp,
 )
 
 val LocalMoneyMDimensions = staticCompositionLocalOf { MoneyMDimensions() }

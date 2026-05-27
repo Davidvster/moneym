@@ -433,9 +433,9 @@ private fun LegendHeaderRow(
     val type = MM.type
     val colStyle = type.captionMono.copy(color = colors.text3)
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = MM.dimen.spacingTiny),
+        modifier = Modifier.fillMaxWidth().padding(vertical = MM.dimen.padding_0_5x),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
+        horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
     ) {
         Spacer(Modifier.weight(0.3f))
         LegendVDivider()
@@ -480,14 +480,14 @@ private fun LegendDataRow(
     val numColor = if (hasSelection && !isSelected) colors.text3 else colors.text2
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = MM.dimen.spacingTiny),
+        modifier = Modifier.fillMaxWidth().padding(vertical = MM.dimen.padding_0_5x),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
+        horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
     ) {
         Row(
             modifier = Modifier.weight(0.3f),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
+            horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
         ) {
             Box(
                 modifier = Modifier

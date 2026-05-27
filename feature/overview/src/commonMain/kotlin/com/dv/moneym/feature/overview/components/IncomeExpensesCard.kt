@@ -44,7 +44,7 @@ internal fun IncomeExpensesCard(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
                 ) {
                     Icon(
                         imageVector = Icon.ArrowDown.imageVector,
@@ -68,7 +68,7 @@ internal fun IncomeExpensesCard(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
                 ) {
                     Icon(
                         imageVector = Icon.ArrowUp.imageVector,
@@ -91,7 +91,7 @@ internal fun IncomeExpensesCard(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
                 ) {
                     Icon(
                         imageVector = Icon.ArrowDown.imageVector,
@@ -116,7 +116,7 @@ internal fun IncomeExpensesCard(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
                 ) {
                     Icon(
                         imageVector = Icon.ArrowUp.imageVector,
@@ -142,7 +142,7 @@ internal fun IncomeExpensesCard(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
                 ) {
                     SectionLabel(
                         text = stringResource(Res.string.overview_label_balance),
