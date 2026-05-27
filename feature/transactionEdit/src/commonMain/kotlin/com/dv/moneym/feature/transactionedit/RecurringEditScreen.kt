@@ -197,3 +197,19 @@ private fun RecurringEditContent(
         )
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@androidx.compose.runtime.Composable
+private fun RecurringEditContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        RecurringEditContent(
+            state = TransactionEditUiState(
+                isRecurring = true,
+                amountText = "100.00",
+                date = kotlinx.datetime.LocalDate(2026, 5, 26),
+            ),
+            onIntent = {},
+            onDismiss = {},
+        )
+    }
+}

@@ -33,3 +33,19 @@ internal fun TransactionPageScreen(
         modifier = Modifier.fillMaxSize(),
     )
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun TransactionPageScreenPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        TransactionListBody(
+            dayGroups = emptyList(),
+            txDisplayPrefs = com.dv.moneym.core.model.TxDisplayPrefs(),
+            isLoading = false,
+            isEmpty = true,
+            onEditTransaction = {},
+            onEditRecurring = {},
+            modifier = Modifier.fillMaxSize(),
+        )
+    }
+}

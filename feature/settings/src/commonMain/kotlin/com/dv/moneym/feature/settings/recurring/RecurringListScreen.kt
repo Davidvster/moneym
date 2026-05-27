@@ -53,6 +53,15 @@ private fun RecurringListScreen(
     viewModel: RecurringListViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    RecurringListContent(state = state, onBack = onBack, onEdit = onEdit)
+}
+
+@Composable
+private fun RecurringListContent(
+    state: RecurringListUiState,
+    onBack: () -> Unit,
+    onEdit: (RecurringTransactionId) -> Unit,
+) {
     Column(Modifier.fillMaxSize().background(MM.colors.bg)) {
         ScreenHeader(stringResource(Res.string.settings_recurring_title), onBack = onBack)
         when {
@@ -71,6 +80,18 @@ private fun RecurringListScreen(
                 }
             }
         }
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun RecurringListContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        RecurringListContent(
+            state = RecurringListUiState(isLoading = false, rules = emptyList()),
+            onBack = {},
+            onEdit = {},
+        )
     }
 }
 

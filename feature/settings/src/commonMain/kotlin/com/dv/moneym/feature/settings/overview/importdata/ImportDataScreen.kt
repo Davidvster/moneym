@@ -482,3 +482,15 @@ private fun TransactionImportRow(
         )
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun ImportDataContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        ImportDataContent(
+            state = ImportDataUiState(isParsing = false, parseError = null),
+            onIntent = {},
+            onBack = {},
+        )
+    }
+}

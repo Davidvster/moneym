@@ -84,9 +84,6 @@ private fun EditWalletCurrencyScreen(
     ),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val colors = MM.colors
-    val space = MM.dimen
-
     LaunchedEffect(Unit) {
         viewModel.effects.collect { effect ->
             when (effect) {
@@ -94,6 +91,23 @@ private fun EditWalletCurrencyScreen(
             }
         }
     }
+    EditWalletCurrencyContent(
+        state = state,
+        currentCurrency = currentCurrency,
+        onIntent = viewModel::onIntent,
+        onBack = onBack,
+    )
+}
+
+@Composable
+private fun EditWalletCurrencyContent(
+    state: EditWalletCurrencyUiState,
+    currentCurrency: String,
+    onIntent: (EditWalletCurrencyIntent) -> Unit,
+    onBack: () -> Unit,
+) {
+    val colors = MM.colors
+    val space = MM.dimen
 
     Box(Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize().background(colors.bg)) {
@@ -104,7 +118,7 @@ private fun EditWalletCurrencyScreen(
 
             MmField(
                 value = state.searchQuery,
-                onValueChange = { viewModel.onIntent(EditWalletCurrencyIntent.SearchQueryChanged(it)) },
+                onValueChange = { onIntent(EditWalletCurrencyIntent.SearchQueryChanged(it)) },
                 placeholder = stringResource(Res.string.settings_search_currency),
                 prefix = {
                     Icon(
@@ -151,7 +165,7 @@ private fun EditWalletCurrencyScreen(
                             currency = currency,
                             isSelected = currency.code == currentCurrency,
                             onClick = {
-                                viewModel.onIntent(EditWalletCurrencyIntent.CurrencySelected(currency.code))
+                                onIntent(EditWalletCurrencyIntent.CurrencySelected(currency.code))
                             },
                         )
                     }
@@ -173,7 +187,7 @@ private fun EditWalletCurrencyScreen(
                         currency = currency,
                         isSelected = currency.code == currentCurrency,
                         onClick = {
-                            viewModel.onIntent(EditWalletCurrencyIntent.CurrencySelected(currency.code))
+                            onIntent(EditWalletCurrencyIntent.CurrencySelected(currency.code))
                         },
                     )
                 }
@@ -186,11 +200,24 @@ private fun EditWalletCurrencyScreen(
                 newCurrency = state.selectedCurrency ?: "",
                 conversionRate = state.conversionRate,
                 isConverting = state.isConverting,
-                onRateChanged = { viewModel.onIntent(EditWalletCurrencyIntent.RateChanged(it)) },
-                onConfirm = { viewModel.onIntent(EditWalletCurrencyIntent.ConfirmConversion) },
-                onCancel = { viewModel.onIntent(EditWalletCurrencyIntent.CancelConversion) },
+                onRateChanged = { onIntent(EditWalletCurrencyIntent.RateChanged(it)) },
+                onConfirm = { onIntent(EditWalletCurrencyIntent.ConfirmConversion) },
+                onCancel = { onIntent(EditWalletCurrencyIntent.CancelConversion) },
             )
         }
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun EditWalletCurrencyContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        EditWalletCurrencyContent(
+            state = EditWalletCurrencyUiState(currentCurrency = "EUR"),
+            currentCurrency = "EUR",
+            onIntent = {},
+            onBack = {},
+        )
     }
 }
 

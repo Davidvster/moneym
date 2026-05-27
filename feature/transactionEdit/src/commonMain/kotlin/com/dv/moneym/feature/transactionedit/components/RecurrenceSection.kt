@@ -206,7 +206,7 @@ private fun Stepper(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.height(36.dp),
+        modifier = modifier.height(MM.dimen.iconXl),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_0_5x),
     ) {
@@ -214,7 +214,7 @@ private fun Stepper(
         Box(
             modifier = Modifier
                 .weight(1f)
-                .height(36.dp)
+                .height(MM.dimen.iconXl)
                 .clip(MM.dimen.pill)
                 .background(MM.colors.surface2),
             contentAlignment = Alignment.Center,
@@ -235,10 +235,10 @@ private fun StepperButton(label: String, enabled: Boolean, onClick: () -> Unit) 
     val colors = MM.colors
     Box(
         modifier = Modifier
-            .size(36.dp)
+            .size(MM.dimen.iconXl)
             .clip(CircleShape)
             .background(colors.surface2)
-            .border(1.dp, colors.borderStrong, CircleShape)
+            .border(MM.dimen.strokeHairline, colors.borderStrong, CircleShape)
             .clickable(enabled = enabled, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
@@ -450,7 +450,7 @@ private fun RadioOption(
             modifier = Modifier
                 .size(20.dp)
                 .clip(CircleShape)
-                .border(2.dp, if (selected) colors.accent else colors.borderStrong, CircleShape),
+                .border(MM.dimen.strokeThin, if (selected) colors.accent else colors.borderStrong, CircleShape),
             contentAlignment = Alignment.Center,
         ) {
             if (selected) {

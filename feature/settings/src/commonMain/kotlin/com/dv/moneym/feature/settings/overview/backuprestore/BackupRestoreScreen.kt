@@ -575,3 +575,27 @@ private fun formatTime(ms: Long): String? {
     val m = dt.minute.toString().padStart(2, '0')
     return "${dt.date} $h:$m"
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun BackupRestoreContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        BackupRestoreContent(
+            state = BackupRestoreUiState(
+                autoBackupEnabled = true,
+                lastBackupTimeMs = 1716700000000L,
+                remoteAvailable = true,
+            ),
+            onBack = {},
+            onBackupTapped = {},
+            onRestoreTapped = {},
+            onAutoBackupToggled = {},
+            onConnectGoogle = {},
+            onDisconnectGoogle = {},
+            onRemoteAutoToggled = {},
+            onRemoteBackupNow = {},
+            onRemoteRestoreTapped = {},
+            onRetryRemoteUpload = {},
+        )
+    }
+}

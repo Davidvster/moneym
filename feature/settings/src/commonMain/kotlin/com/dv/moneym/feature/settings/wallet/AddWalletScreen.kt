@@ -93,7 +93,25 @@ private fun AddWalletScreen(
 ) {
     val name by viewModel.name.collectAsStateWithLifecycle()
     val selectedCurrency by viewModel.selectedCurrency.collectAsStateWithLifecycle()
+    AddWalletContent(
+        name = name,
+        selectedCurrency = selectedCurrency,
+        onNameChange = viewModel::setName,
+        onBack = onBack,
+        onNavigateToCurrencyPicker = onNavigateToCurrencyPicker,
+        onConfirm = onConfirm,
+    )
+}
 
+@Composable
+private fun AddWalletContent(
+    name: String,
+    selectedCurrency: String,
+    onNameChange: (String) -> Unit,
+    onBack: () -> Unit,
+    onNavigateToCurrencyPicker: () -> Unit,
+    onConfirm: (name: String, currency: String) -> Unit,
+) {
     val colors = MM.colors
     val type = MM.type
     val space = MM.dimen
@@ -116,7 +134,7 @@ private fun AddWalletScreen(
         ) {
             MmField(
                 value = name,
-                onValueChange = { viewModel.setName(it) },
+                onValueChange = onNameChange,
                 placeholder = stringResource(Res.string.settings_wallet_name_placeholder),
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -162,6 +180,21 @@ private fun AddWalletScreen(
                     horizontal = space.padding_2x,
                     vertical = space.padding_2x,
                 ),
+        )
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun AddWalletContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        AddWalletContent(
+            name = "Travel",
+            selectedCurrency = "USD",
+            onNameChange = {},
+            onBack = {},
+            onNavigateToCurrencyPicker = {},
+            onConfirm = { _, _ -> },
         )
     }
 }

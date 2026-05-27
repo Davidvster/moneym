@@ -366,7 +366,7 @@ private fun SpendingByCategoryLegend(
         )
 
         Spacer(Modifier.height(MM.dimen.padding_1x))
-        HorizontalDivider(color = colors.divider, thickness = 1.dp)
+        HorizontalDivider(color = colors.divider, thickness = MM.dimen.strokeHairline)
 
         LegendHeaderRow(
             currencyCode = currencyCode,
@@ -374,7 +374,7 @@ private fun SpendingByCategoryLegend(
             inYearMode = inYearMode,
         )
 
-        HorizontalDivider(color = colors.divider, thickness = 1.dp)
+        HorizontalDivider(color = colors.divider, thickness = MM.dimen.strokeHairline)
 
         categories.forEachIndexed { i, cat ->
             LegendDataRow(
@@ -386,7 +386,7 @@ private fun SpendingByCategoryLegend(
             )
 
             if (i < categories.lastIndex) {
-                HorizontalDivider(color = colors.divider.copy(alpha = 0.5f), thickness = 1.dp)
+                HorizontalDivider(color = colors.divider.copy(alpha = 0.5f), thickness = MM.dimen.strokeHairline)
             }
         }
     }
@@ -417,7 +417,7 @@ private fun LegendVDivider() {
     val colors = MM.colors
     Box(
         modifier = Modifier
-            .width(1.dp)
+            .width(MM.dimen.strokeHairline)
             .height(16.dp)
             .background(colors.divider),
     )
@@ -433,9 +433,9 @@ private fun LegendHeaderRow(
     val type = MM.type
     val colStyle = type.captionMono.copy(color = colors.text3)
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp),
+        modifier = Modifier.fillMaxWidth().padding(vertical = MM.dimen.spacingTiny),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
     ) {
         Spacer(Modifier.weight(0.3f))
         LegendVDivider()
@@ -480,14 +480,14 @@ private fun LegendDataRow(
     val numColor = if (hasSelection && !isSelected) colors.text3 else colors.text2
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp),
+        modifier = Modifier.fillMaxWidth().padding(vertical = MM.dimen.spacingTiny),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
     ) {
         Row(
             modifier = Modifier.weight(0.3f),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            horizontalArrangement = Arrangement.spacedBy(MM.dimen.spacingXs),
         ) {
             Box(
                 modifier = Modifier
@@ -590,7 +590,7 @@ private fun CategoryTrendsCard(
                 if (index < trends.lastIndex) {
                     HorizontalDivider(
                         color = colors.divider,
-                        thickness = 1.dp,
+                        thickness = MM.dimen.strokeHairline,
                     )
                 }
             }

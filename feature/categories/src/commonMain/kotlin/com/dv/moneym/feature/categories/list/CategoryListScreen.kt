@@ -273,3 +273,42 @@ private fun colorToHex(color: Color): String {
     val b = (color.blue * 255).toInt()
     return "#${r.hex2()}${g.hex2()}${b.hex2()}"
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun ManageCategoriesScreenPreview() {
+    val epoch = kotlin.time.Instant.fromEpochSeconds(0)
+    val sample = listOf(
+        com.dv.moneym.core.model.Category(
+            id = com.dv.moneym.core.model.CategoryId(1L),
+            name = "Groceries",
+            iconKey = "basket",
+            colorHex = "#4A8E5C",
+            isUserCreated = false,
+            archived = false,
+            createdAt = epoch,
+            updatedAt = epoch,
+        ),
+        com.dv.moneym.core.model.Category(
+            id = com.dv.moneym.core.model.CategoryId(2L),
+            name = "Eating Out",
+            iconKey = "pizza",
+            colorHex = "#E07A5F",
+            isUserCreated = true,
+            archived = false,
+            createdAt = epoch,
+            updatedAt = epoch,
+        ),
+    )
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        ManageCategoriesScreen(
+            state = CategoryListUiState(
+                isLoading = false,
+                active = sample,
+                orderedCategories = sample,
+            ),
+            onBack = {},
+            onIntent = {},
+        )
+    }
+}

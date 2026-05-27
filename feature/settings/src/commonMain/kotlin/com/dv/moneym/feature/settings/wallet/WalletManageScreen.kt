@@ -61,7 +61,23 @@ private fun WalletManageScreen(
     viewModel: WalletManageViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    WalletManageContent(
+        state = state,
+        onBack = onBack,
+        onNavigateToAddWallet = onNavigateToAddWallet,
+        onNavigateToEditCurrency = onNavigateToEditCurrency,
+        onIntent = viewModel::onIntent,
+    )
+}
 
+@Composable
+private fun WalletManageContent(
+    state: WalletManageUiState,
+    onBack: () -> Unit,
+    onNavigateToAddWallet: () -> Unit,
+    onNavigateToEditCurrency: (accountId: Long, currentCurrency: String) -> Unit,
+    onIntent: (WalletManageIntent) -> Unit,
+) {
     val colors = MM.colors
     val type = MM.type
     val space = MM.dimen
@@ -89,8 +105,8 @@ private fun WalletManageScreen(
                     body = stringResource(Res.string.settings_wallet_delete_confirm_body),
                     cancelText = stringResource(Res.string.settings_wallet_delete_confirm_cancel),
                     confirmText = stringResource(Res.string.settings_wallet_delete_confirm_ok),
-                    onConfirm = { viewModel.onIntent(WalletManageIntent.DeleteConfirmed) },
-                    onCancel = { viewModel.onIntent(WalletManageIntent.DeleteCancelled) },
+                    onConfirm = { onIntent(WalletManageIntent.DeleteConfirmed) },
+                    onCancel = { onIntent(WalletManageIntent.DeleteCancelled) },
                 )
             }
 
@@ -127,7 +143,7 @@ private fun WalletManageScreen(
                                             (state.selectedAccountId <= 0L && account.isDefault)
                                     MmRow(
                                         onClick = {
-                                            viewModel.onIntent(
+                                            onIntent(
                                                 WalletManageIntent.SelectAccount(
                                                     account.id.value
                                                 )
@@ -171,7 +187,7 @@ private fun WalletManageScreen(
                                         MmIconButton(
                                             icon = Icon.Trash.imageVector,
                                             onClick = {
-                                                viewModel.onIntent(
+                                                onIntent(
                                                     WalletManageIntent.DeleteRequested(
                                                         account.id.value
                                                     )
@@ -187,5 +203,42 @@ private fun WalletManageScreen(
             }
         }
 
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun WalletManageContentPreview() {
+    val epoch = kotlin.time.Instant.fromEpochSeconds(0)
+    val accounts = listOf(
+        com.dv.moneym.core.model.Account(
+            id = com.dv.moneym.core.model.AccountId(1),
+            name = "Main",
+            type = com.dv.moneym.core.model.AccountType.CASH,
+            currency = com.dv.moneym.core.model.CurrencyCode("EUR"),
+            isDefault = true,
+            archived = false,
+            createdAt = epoch,
+            updatedAt = epoch,
+        ),
+        com.dv.moneym.core.model.Account(
+            id = com.dv.moneym.core.model.AccountId(2),
+            name = "Travel",
+            type = com.dv.moneym.core.model.AccountType.BANK,
+            currency = com.dv.moneym.core.model.CurrencyCode("USD"),
+            isDefault = false,
+            archived = false,
+            createdAt = epoch,
+            updatedAt = epoch,
+        ),
+    )
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        WalletManageContent(
+            state = WalletManageUiState(accounts = accounts, selectedAccountId = 1L),
+            onBack = {},
+            onNavigateToAddWallet = {},
+            onNavigateToEditCurrency = { _, _ -> },
+            onIntent = {},
+        )
     }
 }

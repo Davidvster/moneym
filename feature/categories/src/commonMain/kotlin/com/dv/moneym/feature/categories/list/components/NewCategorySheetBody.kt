@@ -159,8 +159,8 @@ private fun CategoryPreviewChip(
             modifier = Modifier
                 .clip(MM.dimen.pill)
                 .background(colors.surface)
-                .border(1.dp, colors.border, MM.dimen.pill)
-                .padding(horizontal = MM.dimen.padding_2x, vertical = 10.dp),
+                .border(MM.dimen.strokeHairline, colors.border, MM.dimen.pill)
+                .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1_25x),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
         ) {
@@ -199,8 +199,8 @@ private fun ColorPickerSection(
     colors: MoneyMColors,
 ) {
     FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+        horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_25x),
+        verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_25x),
     ) {
         // Preset palette swatches
         palette.forEach { color ->
@@ -221,11 +221,11 @@ private fun ColorPickerSection(
         // "+" button to open HSV color picker — always visible
         Box(
             modifier = Modifier
-                .size(36.dp)
+                .size(MM.dimen.iconXl)
                 .clip(RoundedCornerShape(10.dp))
                 .background(colors.surface)
                 .border(
-                    1.dp,
+                    MM.dimen.strokeHairline,
                     colors.borderStrong,
                     RoundedCornerShape(10.dp),
                 )
@@ -256,7 +256,7 @@ private fun ColorSwatch(
 
     Box(
         modifier = Modifier
-            .size(36.dp)
+            .size(MM.dimen.iconXl)
             .clip(RoundedCornerShape(10.dp))
             .background(color)
             .clickable(
@@ -303,18 +303,18 @@ private fun IconPickerSection(
     colors: MoneyMColors,
 ) {
     FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+        horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_25x),
+        verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_25x),
     ) {
         iconOptions.forEach { icon ->
             val isSelected = selectedIcon == icon
             Box(
                 modifier = Modifier
-                    .size(44.dp)
+                    .size(MM.dimen.rowMinHeightMd)
                     .clip(RoundedCornerShape(10.dp))
                     .background(if (isSelected) selectedColor else colors.surface)
                     .border(
-                        width = 1.dp,
+                        width = MM.dimen.strokeHairline,
                         color = if (isSelected) selectedColor else colors.border,
                         shape = RoundedCornerShape(10.dp),
                     )

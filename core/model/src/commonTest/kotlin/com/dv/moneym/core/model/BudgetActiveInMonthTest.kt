@@ -14,6 +14,7 @@ class BudgetActiveInMonthTest {
         name = "Test",
         amount = Money(0L, CurrencyCode("EUR")),
         categoryId = null,
+        accountId = AccountId(0),
         periodType = BudgetPeriodType.MONTHLY,
         startYearMonth = start,
         recurringMonths = recurringMonths,

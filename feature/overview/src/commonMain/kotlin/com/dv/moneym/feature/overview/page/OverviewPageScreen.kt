@@ -26,6 +26,23 @@ internal fun OverviewPageScreen(
         parameters = { parametersOf(period) },
     )
     val state by vm.state.collectAsStateWithLifecycle()
+    OverviewPageContent(
+        state = state,
+        spendingFilter = spendingFilter,
+        currencyCode = currencyCode,
+        onIntent = vm::onIntent,
+        modifier = modifier,
+    )
+}
+
+@Composable
+internal fun OverviewPageContent(
+    state: OverviewPageUiState,
+    spendingFilter: SpendingFilter,
+    currencyCode: String,
+    onIntent: (OverviewPageIntent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(bottom = MM.dimen.padding_2x),
@@ -35,8 +52,30 @@ internal fun OverviewPageScreen(
                 state = state,
                 spendingFilter = spendingFilter,
                 currencyCode = currencyCode,
-                onIntent = { vm.onIntent(it) },
+                onIntent = onIntent,
             )
         }
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun OverviewPageContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        OverviewPageContent(
+            state = OverviewPageUiState(
+                isLoading = false,
+                isEmpty = false,
+                income = 2500.0,
+                expenses = 1850.0,
+                dailyTotals = listOf(20.0, 45.0, 80.0, 30.0, 60.0, 110.0, 70.0),
+                cumulativeTotals = listOf(20.0, 65.0, 145.0, 175.0, 235.0, 345.0, 415.0),
+                todayIndex = 6,
+                avgDailyExpense = 59.3,
+            ),
+            spendingFilter = SpendingFilter.All,
+            currencyCode = "€",
+            onIntent = {},
+        )
     }
 }

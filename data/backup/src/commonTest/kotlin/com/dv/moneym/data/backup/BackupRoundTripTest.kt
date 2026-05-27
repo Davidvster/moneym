@@ -16,6 +16,7 @@ import com.dv.moneym.core.testing.FakeAccountRepository
 import com.dv.moneym.core.testing.FakeAppSettings
 import com.dv.moneym.core.testing.FakeBudgetRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
+import com.dv.moneym.core.testing.FakeRecurringTransactionRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.runTestWithDispatchers
 import kotlin.time.Instant
@@ -57,7 +58,8 @@ class BackupRoundTripTest {
         txnRepo.upsert(makeTxn(catId = 2, accId = 1, amount = 2500))
 
         val budgetRepo = FakeBudgetRepository()
-        val exporter = BackupExporter(catRepo, accRepo, txnRepo, budgetRepo, settings)
+        val recurringRepo = FakeRecurringTransactionRepository()
+        val exporter = BackupExporter(catRepo, accRepo, txnRepo, budgetRepo, recurringRepo, settings)
         val json = exporter.exportToJson()
         assertTrue(json.contains("\"version\":1"))
         assertTrue(json.contains("Cat1"))
@@ -66,7 +68,8 @@ class BackupRoundTripTest {
         val catRepo2 = FakeCategoryRepository()
         val accRepo2 = FakeAccountRepository()
         val txnRepo2 = FakeTransactionRepository()
-        val importer = BackupImporter(catRepo2, accRepo2, txnRepo2)
+        val recurringRepo2 = FakeRecurringTransactionRepository()
+        val importer = BackupImporter(catRepo2, accRepo2, txnRepo2, recurringRepo2)
 
         val preview = importer.previewFromJson(json)
         assertTrue(preview.isValid)
@@ -92,11 +95,12 @@ class BackupRoundTripTest {
         txnRepo.upsert(makeTxn(catId = 1, accId = 1, amount = 1000))
 
         val budgetRepo = FakeBudgetRepository()
-        val exporter = BackupExporter(catRepo, accRepo, txnRepo, budgetRepo, settings)
+        val recurringRepo = FakeRecurringTransactionRepository()
+        val exporter = BackupExporter(catRepo, accRepo, txnRepo, budgetRepo, recurringRepo, settings)
         val json = exporter.exportToJson()
 
         // Import into repos that already have the same data
-        val importer = BackupImporter(catRepo, accRepo, txnRepo)
+        val importer = BackupImporter(catRepo, accRepo, txnRepo, recurringRepo)
         val preview = importer.previewFromJson(json)
 
         assertEquals(0, preview.categories.new)

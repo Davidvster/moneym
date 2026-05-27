@@ -329,3 +329,20 @@ private fun RecurringChip(text: String, selected: Boolean, onClick: () -> Unit) 
 }
 
 
+
+@androidx.compose.ui.tooling.preview.Preview
+@androidx.compose.runtime.Composable
+private fun BudgetCreateContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        BudgetCreateContent(
+            state = BudgetCreateUiState(
+                name = "Groceries",
+                amountText = "300.00",
+                currency = "EUR",
+                startYearMonth = com.dv.moneym.core.model.YearMonth(2026, 5),
+            ),
+            onBack = {},
+            onIntent = {},
+        )
+    }
+}

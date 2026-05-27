@@ -285,7 +285,7 @@ private fun ItemIndicatorSection(
                             Box(
                                 Modifier
                                     .fillMaxWidth()
-                                    .size(width = MM.dimen.padding_3x, height = 1.dp)
+                                    .size(width = MM.dimen.padding_3x, height = MM.dimen.strokeHairline)
                                     .background(MM.colors.border),
                             )
                     }
@@ -306,7 +306,7 @@ private fun ItemIndicatorSection(
                 // Custom radio circle — not M3 RadioButton
                 Box(
                     modifier = Modifier
-                        .size(22.dp)
+                        .size(MM.dimen.iconLg)
                         .clip(CircleShape)
                         .border(
                             1.5.dp,
@@ -430,7 +430,7 @@ private fun ItemDensitySection(
                 // Custom radio circle
                 Box(
                     modifier = Modifier
-                        .size(22.dp)
+                        .size(MM.dimen.iconLg)
                         .clip(CircleShape)
                         .border(
                             1.5.dp,
@@ -542,7 +542,7 @@ private fun DefaultTransactionType(
                 // Custom radio circle
                 Box(
                     modifier = Modifier
-                        .size(22.dp)
+                        .size(MM.dimen.iconLg)
                         .clip(CircleShape)
                         .border(
                             1.5.dp,
@@ -565,5 +565,21 @@ private fun DefaultTransactionType(
                 }
             }
         }
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview
+@androidx.compose.runtime.Composable
+private fun TxListDisplayContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        TxListDisplayContent(
+            currentPrefs = com.dv.moneym.core.model.TxDisplayPrefs(),
+            onPrefsChanged = {},
+            defaultTransactionType = com.dv.moneym.core.model.TransactionType.EXPENSE,
+            onDefaultTransactionTypeChanged = {},
+            showPendingRecurring = true,
+            onShowPendingRecurringChanged = {},
+            onBack = {},
+        )
     }
 }
