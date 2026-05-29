@@ -22,8 +22,8 @@ import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_RECURRING_ID
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.core.model.YearMonth
-import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
+import kotlin.time.Instant
 
 fun Category.toDto() = CategoryDto(
     id = id.value,
@@ -56,6 +56,7 @@ fun Account.toDto() = AccountDto(
     archived = archived,
     createdAt = createdAt.toEpochMilliseconds(),
     updatedAt = updatedAt.toEpochMilliseconds(),
+    colorHex = colorHex,
 )
 
 fun AccountDto.toDomain(idOverride: AccountId = AccountId(id)) = Account(
@@ -67,6 +68,7 @@ fun AccountDto.toDomain(idOverride: AccountId = AccountId(id)) = Account(
     archived = archived,
     createdAt = Instant.fromEpochMilliseconds(createdAt),
     updatedAt = Instant.fromEpochMilliseconds(updatedAt),
+    colorHex = colorHex,
 )
 
 fun Transaction.toDto() = TransactionDto(
@@ -151,6 +153,7 @@ fun RecurringTransactionDto.toDomain(
             freqInterval,
             if (useLastDay) MonthlyDayKind.LastDay else MonthlyDayKind.OnDay(dayOfMonth ?: 1),
         )
+
         else -> error("Unknown freqUnit: $freqUnit")
     }
     val end: EndCondition = when (endKind) {
@@ -201,7 +204,8 @@ fun BudgetDto.toDomain(
     amount = Money(amountMinor, CurrencyCode(currency)),
     categoryId = categoryId?.let(::CategoryId),
     accountId = accIdOverride,
-    periodType = BudgetPeriodType.entries.firstOrNull { it.name == periodType } ?: BudgetPeriodType.MONTHLY,
+    periodType = BudgetPeriodType.entries.firstOrNull { it.name == periodType }
+        ?: BudgetPeriodType.MONTHLY,
     startYearMonth = startYearMonth.split('-').let { p -> YearMonth(p[0].toInt(), p[1].toInt()) },
     recurringMonths = recurringMonths,
     createdAt = Instant.fromEpochMilliseconds(createdAt),

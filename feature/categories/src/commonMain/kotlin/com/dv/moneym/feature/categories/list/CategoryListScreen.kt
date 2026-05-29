@@ -22,17 +22,17 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.categoryColor
-import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
-import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.navigation.ModalKey
+import com.dv.moneym.core.ui.HsvColorPickerDialog
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
+import com.dv.moneym.core.ui.colorToHex
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.categories.list.components.CategoryListHeader
 import com.dv.moneym.feature.categories.list.components.DeleteConfirmSheet
 import com.dv.moneym.feature.categories.list.components.DraggableCategoryList
-import com.dv.moneym.feature.categories.list.components.HsvColorPickerDialog
 import com.dv.moneym.feature.categories.list.components.NewCategorySaveButton
 import com.dv.moneym.feature.categories.list.components.NewCategorySheetBody
 import com.dv.moneym.feature.categories.list.components.NewCategorySheetHeader
@@ -44,7 +44,6 @@ import moneym.feature.categories.generated.resources.categories_new_income
 import moneym.feature.categories.generated.resources.categories_new_sheet_title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import kotlin.math.roundToInt
 
 @Serializable
 data object CategoriesKey : ModalKey
@@ -263,17 +262,22 @@ private val CATEGORY_PALETTE = listOf(
 )
 
 private val CATEGORY_ICON_OPTIONS = listOf(
-    Icon.Heart, Icon.Film, Icon.Car, Icon.Bolt, Icon.Basket, Icon.Utensils,
-    Icon.Home, Icon.Bag, Icon.Tag, Icon.Banknote, Icon.Gift, Icon.Sun, Icon.Moon, Icon.Globe, Icon.Folder,
+    Icon.Heart,
+    Icon.Film,
+    Icon.Car,
+    Icon.Bolt,
+    Icon.Basket,
+    Icon.Utensils,
+    Icon.Home,
+    Icon.Bag,
+    Icon.Tag,
+    Icon.Banknote,
+    Icon.Gift,
+    Icon.Sun,
+    Icon.Moon,
+    Icon.Globe,
+    Icon.Folder,
 )
-
-private fun colorToHex(color: Color): String {
-    fun Int.hex2() = toString(16).padStart(2, '0').uppercase()
-    val r = (color.red * 255).roundToInt()
-    val g = (color.green * 255).roundToInt()
-    val b = (color.blue * 255).roundToInt()
-    return "#${r.hex2()}${g.hex2()}${b.hex2()}"
-}
 
 @androidx.compose.ui.tooling.preview.Preview
 @Composable

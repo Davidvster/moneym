@@ -15,4 +15,5 @@ data class Account(
     val archived: Boolean,
     @Serializable(with = InstantSerializer::class) val createdAt: Instant,
     @Serializable(with = InstantSerializer::class) val updatedAt: Instant,
+    val colorHex: String? = null,
 )

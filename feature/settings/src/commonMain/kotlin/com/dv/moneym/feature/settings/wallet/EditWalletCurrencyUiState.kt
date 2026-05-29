@@ -1,5 +1,8 @@
 package com.dv.moneym.feature.settings.wallet
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 internal data class EditWalletCurrencyUiState(
     val currentCurrency: String,
     val selectedCurrency: String? = null,

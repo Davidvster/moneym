@@ -30,10 +30,12 @@ class AddWalletViewModel(
 
     private val _name by savedStateHandle.saved { MutableStateFlow("") }
     private val _selectedCurrency by savedStateHandle.saved { MutableStateFlow("") }
+    private val _colorHex by savedStateHandle.saved { MutableStateFlow<String?>(null) }
     private val _searchQuery = MutableStateFlow("")
 
     val name: StateFlow<String> = _name.asStateFlow()
     val selectedCurrency: StateFlow<String> = _selectedCurrency.asStateFlow()
+    val colorHex: StateFlow<String?> = _colorHex.asStateFlow()
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
     val filteredCurrencies: StateFlow<List<CurrencyInfo>> = _searchQuery
@@ -61,6 +63,10 @@ class AddWalletViewModel(
         _selectedCurrency.value = code
     }
 
+    fun setColor(hex: String?) {
+        _colorHex.value = hex
+    }
+
     fun setSearchQuery(query: String) {
         _searchQuery.value = query
     }
@@ -78,10 +84,12 @@ class AddWalletViewModel(
                     archived = false,
                     createdAt = Clock.System.now(),
                     updatedAt = Clock.System.now(),
+                    colorHex = _colorHex.value,
                 )
             )
             _name.value = ""
             _selectedCurrency.value = ""
+            _colorHex.value = null
             _searchQuery.value = ""
         }
     }

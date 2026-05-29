@@ -42,6 +42,7 @@ data class AccountDto(
     val archived: Boolean,
     val createdAt: Long,
     val updatedAt: Long,
+    val colorHex: String? = null,
 )
 
 @Serializable

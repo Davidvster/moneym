@@ -24,6 +24,7 @@ import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
+import com.dv.moneym.core.ui.WalletColorDot
 import com.dv.moneym.core.ui.imageVector
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
@@ -44,13 +45,13 @@ data object WalletManageKey : NavKey
 fun EntryProviderScope<NavKey>.walletManageEntry(
     onBack: () -> Unit,
     onNavigateToAddWallet: () -> Unit,
-    onNavigateToEditCurrency: (accountId: Long, currentCurrency: String) -> Unit,
+    onNavigateToEditWallet: (accountId: Long, currentCurrency: String) -> Unit,
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<WalletManageKey>(metadata = metadata) {
     WalletManageScreen(
         onBack = onBack,
         onNavigateToAddWallet = onNavigateToAddWallet,
-        onNavigateToEditCurrency = onNavigateToEditCurrency,
+        onNavigateToEditWallet = onNavigateToEditWallet,
     )
 }
 
@@ -58,7 +59,7 @@ fun EntryProviderScope<NavKey>.walletManageEntry(
 private fun WalletManageScreen(
     onBack: () -> Unit,
     onNavigateToAddWallet: () -> Unit,
-    onNavigateToEditCurrency: (accountId: Long, currentCurrency: String) -> Unit,
+    onNavigateToEditWallet: (accountId: Long, currentCurrency: String) -> Unit,
     viewModel: WalletManageViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -66,7 +67,7 @@ private fun WalletManageScreen(
         state = state,
         onBack = onBack,
         onNavigateToAddWallet = onNavigateToAddWallet,
-        onNavigateToEditCurrency = onNavigateToEditCurrency,
+        onNavigateToEditWallet = onNavigateToEditWallet,
         onIntent = viewModel::onIntent,
     )
 }
@@ -76,7 +77,7 @@ private fun WalletManageContent(
     state: WalletManageUiState,
     onBack: () -> Unit,
     onNavigateToAddWallet: () -> Unit,
-    onNavigateToEditCurrency: (accountId: Long, currentCurrency: String) -> Unit,
+    onNavigateToEditWallet: (accountId: Long, currentCurrency: String) -> Unit,
     onIntent: (WalletManageIntent) -> Unit,
 ) {
     val colors = MM.colors
@@ -152,6 +153,10 @@ private fun WalletManageContent(
                                         },
                                         divider = idx < activeAccounts.lastIndex,
                                     ) {
+                                        WalletColorDot(
+                                            colorHex = account.colorHex,
+                                            modifier = Modifier.padding(end = MM.dimen.padding_1x),
+                                        )
                                         Column(modifier = Modifier.weight(1f)) {
                                             Text(
                                                 text = account.name,
@@ -179,7 +184,7 @@ private fun WalletManageContent(
                                         MmIconButton(
                                             icon = Icon.Edit.imageVector,
                                             onClick = {
-                                                onNavigateToEditCurrency(
+                                                onNavigateToEditWallet(
                                                     account.id.value,
                                                     account.currency.value,
                                                 )
@@ -238,7 +243,7 @@ private fun WalletManageContentPreview() {
             state = WalletManageUiState(accounts = accounts, selectedAccountId = 1L),
             onBack = {},
             onNavigateToAddWallet = {},
-            onNavigateToEditCurrency = { _, _ -> },
+            onNavigateToEditWallet = { _, _ -> },
             onIntent = {},
         )
     }

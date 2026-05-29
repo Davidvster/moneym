@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.categories.list.components
+package com.dv.moneym.core.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,9 +15,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,26 +42,22 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMColors
-import com.dv.moneym.core.ui.MmButton
-import com.dv.moneym.core.ui.MmButtonVariant
-import com.dv.moneym.core.ui.MmField
-import moneym.feature.categories.generated.resources.Res
-import moneym.feature.categories.generated.resources.categories_cancel
-import moneym.feature.categories.generated.resources.categories_color_brightness
-import moneym.feature.categories.generated.resources.categories_color_hex
-import moneym.feature.categories.generated.resources.categories_color_hue
-import moneym.feature.categories.generated.resources.categories_color_picker_title
-import moneym.feature.categories.generated.resources.categories_color_saturation
-import moneym.feature.categories.generated.resources.categories_color_select
+import moneym.core.ui.generated.resources.Res
+import moneym.core.ui.generated.resources.colorpicker_brightness
+import moneym.core.ui.generated.resources.colorpicker_cancel
+import moneym.core.ui.generated.resources.colorpicker_hex
+import moneym.core.ui.generated.resources.colorpicker_hue
+import moneym.core.ui.generated.resources.colorpicker_saturation
+import moneym.core.ui.generated.resources.colorpicker_select
+import moneym.core.ui.generated.resources.colorpicker_title
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
-// ─── HSV Color Picker Dialog ──────────────────────────────────────────────────
 // Using Dialog instead of ModalBottomSheet to avoid gesture conflicts with parent sheet
 
 @Composable
-internal fun HsvColorPickerDialog(
+fun HsvColorPickerDialog(
     initialColor: Color,
     onDismiss: () -> Unit,
     onColorSelected: (Color) -> Unit,
@@ -76,14 +72,7 @@ internal fun HsvColorPickerDialog(
     val currentColor = hsvToColor(hue, saturation, brightness)
 
     var hexText by remember(hue, saturation, brightness) {
-        val r = (currentColor.red * 255).roundToInt()
-        val g = (currentColor.green * 255).roundToInt()
-        val b = (currentColor.blue * 255).roundToInt()
-        mutableStateOf(
-            "#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${
-                b.toString(16).padStart(2, '0')
-            }".uppercase()
-        )
+        mutableStateOf(colorToHex(currentColor))
     }
 
     Dialog(
@@ -116,10 +105,8 @@ internal fun HsvColorPickerDialog(
     }
 }
 
-// ─── HSV Color Picker content ─────────────────────────────────────────────────
-
 @Composable
-internal fun HsvColorPickerContent(
+private fun HsvColorPickerContent(
     colors: MoneyMColors,
     currentColor: Color,
     hue: Float,
@@ -143,14 +130,13 @@ internal fun HsvColorPickerContent(
         verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
     ) {
         Text(
-            stringResource(Res.string.categories_color_picker_title),
+            stringResource(Res.string.colorpicker_title),
             style = type.title3,
             color = colors.text,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
         )
 
-        // Color preview strip
         Box(
             Modifier
                 .fillMaxWidth()
@@ -169,7 +155,6 @@ internal fun HsvColorPickerContent(
             colors = colors,
         )
 
-        // Hex input
         MmField(
             value = hexText,
             onValueChange = { input ->
@@ -186,7 +171,7 @@ internal fun HsvColorPickerContent(
                     }
                 }
             },
-            label = stringResource(Res.string.categories_color_hex),
+            label = stringResource(Res.string.colorpicker_hex),
             placeholder = "#4A8E5C",
             modifier = Modifier.fillMaxWidth(),
         )
@@ -196,13 +181,13 @@ internal fun HsvColorPickerContent(
             horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
         ) {
             MmButton(
-                text = stringResource(Res.string.categories_cancel),
+                text = stringResource(Res.string.colorpicker_cancel),
                 onClick = onDismiss,
                 variant = MmButtonVariant.Secondary,
                 modifier = Modifier.weight(1f),
             )
             MmButton(
-                text = stringResource(Res.string.categories_color_select),
+                text = stringResource(Res.string.colorpicker_select),
                 onClick = { onColorSelected(currentColor) },
                 variant = MmButtonVariant.Accent,
                 modifier = Modifier.weight(1f),
@@ -212,10 +197,8 @@ internal fun HsvColorPickerContent(
     }
 }
 
-// ─── HSV Sliders Section ──────────────────────────────────────────────────────
-
 @Composable
-internal fun HsvSlidersSection(
+private fun HsvSlidersSection(
     hue: Float,
     saturation: Float,
     brightness: Float,
@@ -225,9 +208,8 @@ internal fun HsvSlidersSection(
     colors: MoneyMColors,
 ) {
     val type = MM.type
-    // Hue slider
     Text(
-        stringResource(Res.string.categories_color_hue),
+        stringResource(Res.string.colorpicker_hue),
         style = type.caption.copy(color = colors.text2)
     )
     HsvSlider(
@@ -236,9 +218,8 @@ internal fun HsvSlidersSection(
         onPositionChanged = { pos -> onHueChange(pos * 360f) },
         colors = colors,
     )
-    // Saturation slider
     Text(
-        stringResource(Res.string.categories_color_saturation),
+        stringResource(Res.string.colorpicker_saturation),
         style = type.caption.copy(color = colors.text2)
     )
     HsvSlider(
@@ -252,9 +233,8 @@ internal fun HsvSlidersSection(
         onPositionChanged = { pos -> onSaturationChange(pos) },
         colors = colors,
     )
-    // Brightness slider
     Text(
-        stringResource(Res.string.categories_color_brightness),
+        stringResource(Res.string.colorpicker_brightness),
         style = type.caption.copy(color = colors.text2)
     )
     HsvSlider(
@@ -270,10 +250,8 @@ internal fun HsvSlidersSection(
     )
 }
 
-// ─── HSV Slider ───────────────────────────────────────────────────────────────
-
 @Composable
-internal fun HsvSlider(
+private fun HsvSlider(
     gradient: Brush,
     thumbPosition: Float,
     onPositionChanged: (Float) -> Unit,
@@ -327,13 +305,19 @@ internal fun HsvSlider(
     }
 }
 
-// ─── HSV math helpers ─────────────────────────────────────────────────────────
+fun colorToHex(color: Color): String {
+    fun Int.hex2() = toString(16).padStart(2, '0').uppercase()
+    val r = (color.red * 255).roundToInt()
+    val g = (color.green * 255).roundToInt()
+    val b = (color.blue * 255).roundToInt()
+    return "#${r.hex2()}${g.hex2()}${b.hex2()}"
+}
 
 internal fun colorToHsv(color: Color): Triple<Float, Float, Float> {
-    val r = color.red;
-    val g = color.green;
+    val r = color.red
+    val g = color.green
     val b = color.blue
-    val max = maxOf(r, g, b);
+    val max = maxOf(r, g, b)
     val min = minOf(r, g, b)
     val delta = max - min
     val h = when {

@@ -126,6 +126,12 @@
     <string name="settings_wallet_currency_label">Währung</string>
     <string name="settings_wallet_currency_change">Ändern</string>
     <string name="settings_wallet_currency_none">Keine ausgewählt</string>
+    <!-- Edit wallet screen -->
+    <string name="settings_wallet_edit_title">Wallet bearbeiten</string>
+    <string name="settings_wallet_color_label">Farbe</string>
+    <string name="settings_wallet_color_change">Ändern</string>
+    <string name="settings_wallet_color_none">Standard</string>
+    <string name="settings_wallet_save">Speichern</string>
     <!-- Delete wallet confirmation -->
     <string name="settings_wallet_delete_confirm_title">Wallet löschen?</string>
     <string name="settings_wallet_delete_confirm_body">Alle Transaktionen in diesem Wallet werden dauerhaft gelöscht. Dies kann nicht rückgängig gemacht werden.</string>

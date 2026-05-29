@@ -3,7 +3,6 @@ package com.dv.moneym.feature.transactions.list
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -55,22 +54,22 @@ import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
-import com.dv.moneym.core.ui.MmChip
 import com.dv.moneym.core.ui.MmEmptyState
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmMoney
+import com.dv.moneym.core.ui.MmMonthPickerDialog
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.core.ui.TxRow
+import com.dv.moneym.core.ui.WalletChip
 import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.ui.monthLabel
 import com.dv.moneym.feature.transactions.list.components.CategoryFilterSheet
 import com.dv.moneym.feature.transactions.list.components.DayGroupHeader
-import com.dv.moneym.core.ui.MmMonthPickerDialog
 import com.dv.moneym.feature.transactions.list.components.WalletSwitcherDialog
-import com.dv.moneym.core.ui.monthLabel
 import com.dv.moneym.feature.transactions.list.page.TransactionPageScreen
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.number
@@ -78,12 +77,8 @@ import kotlinx.serialization.Serializable
 import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.transactions_add
 import moneym.feature.transactions.generated.resources.transactions_cancel
-import moneym.feature.transactions.generated.resources.transactions_dialog_select_month
-import moneym.feature.transactions.generated.resources.transactions_next_year_cd
-import moneym.feature.transactions.generated.resources.transactions_now
-import moneym.feature.transactions.generated.resources.transactions_ok
-import moneym.feature.transactions.generated.resources.transactions_prev_year_cd
 import moneym.feature.transactions.generated.resources.transactions_close_search_cd
+import moneym.feature.transactions.generated.resources.transactions_dialog_select_month
 import moneym.feature.transactions.generated.resources.transactions_empty
 import moneym.feature.transactions.generated.resources.transactions_filter_all
 import moneym.feature.transactions.generated.resources.transactions_filter_expenses
@@ -91,6 +86,10 @@ import moneym.feature.transactions.generated.resources.transactions_filter_incom
 import moneym.feature.transactions.generated.resources.transactions_loading
 import moneym.feature.transactions.generated.resources.transactions_net_label
 import moneym.feature.transactions.generated.resources.transactions_next_month
+import moneym.feature.transactions.generated.resources.transactions_next_year_cd
+import moneym.feature.transactions.generated.resources.transactions_now
+import moneym.feature.transactions.generated.resources.transactions_ok
+import moneym.feature.transactions.generated.resources.transactions_prev_year_cd
 import moneym.feature.transactions.generated.resources.transactions_previous_month
 import moneym.feature.transactions.generated.resources.transactions_search_cd
 import moneym.feature.transactions.generated.resources.transactions_search_placeholder
@@ -323,22 +322,12 @@ private fun TransactionListHeader(
                     modifier = Modifier.weight(1f),
                 )
                 if (state.availableAccounts.size > 1) {
-                    val walletName = state.selectedAccount?.name
-                        ?: state.availableAccounts.firstOrNull()?.name ?: ""
-                    MmChip(
-                        selected = false,
+                    val selected = state.selectedAccount ?: state.availableAccounts.firstOrNull()
+                    WalletChip(
+                        name = selected?.name ?: "",
+                        colorHex = selected?.colorHex,
                         onClick = onShowWalletSwitcher,
-                        leadingContent = {
-                            Icon(
-                                imageVector = Icon.Wallet.imageVector,
-                                contentDescription = null,
-                                tint = colors.text2,
-                                modifier = Modifier.size(MM.dimen.padding_1_5x),
-                            )
-                        },
-                    ) {
-                        Text(text = walletName, style = type.caption, color = colors.text, maxLines = 1)
-                    }
+                    )
                 }
                 if (state.availableCategories.isNotEmpty()) {
                     Box {
@@ -424,6 +413,7 @@ private fun MonthNavRow(
             displayColor = colors.accent
             displaySign = ""
         }
+
         else -> {
             displayAmount = state.netAmount / 100.0
             displayLabel = stringResource(Res.string.transactions_net_label)

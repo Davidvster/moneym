@@ -1,10 +1,9 @@
 package com.dv.moneym.feature.transactions.list.components
 
-import com.dv.moneym.core.ui.imageVector
-import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -15,7 +14,10 @@ import androidx.compose.ui.Modifier
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmRow
+import com.dv.moneym.core.ui.WalletColorDot
+import com.dv.moneym.core.ui.imageVector
 import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.transactions_cancel
 import moneym.feature.transactions.generated.resources.transactions_wallet_select
@@ -53,6 +55,10 @@ internal fun WalletSwitcherDialog(
                             vertical = space.padding_0_25x,
                         ),
                     ) {
+                        WalletColorDot(
+                            colorHex = account.colorHex,
+                            modifier = Modifier.padding(end = space.padding_1x),
+                        )
                         Column(Modifier.weight(1f)) {
                             Text(text = account.name, style = type.body, color = colors.text)
                             Text(

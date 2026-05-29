@@ -1,6 +1,7 @@
 package com.dv.moneym.core.designsystem
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 
 // Design palette — same in light and dark mode
 val defaultCategoryColors = listOf(
@@ -35,3 +36,7 @@ fun categoryColor(hex: String): Color {
         fallbackColor
     }
 }
+
+// Black or white, whichever is readable on the given background.
+fun onColorFor(background: Color): Color =
+    if (background.luminance() > 0.5f) Color.Black else Color.White

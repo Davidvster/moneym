@@ -11,11 +11,13 @@ internal interface AccountLocalDataSource {
     suspend fun insert(
         name: String, type: String, currency: String,
         isDefault: Boolean, createdAt: Long, updatedAt: Long,
+        colorHex: String?,
     ): Long
 
     suspend fun update(
         id: Long, name: String, type: String, currency: String,
         isDefault: Boolean, archived: Boolean, updatedAt: Long,
+        colorHex: String?,
     )
 
     suspend fun delete(id: Long)

@@ -15,6 +15,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,8 +26,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.categoryColor
+import com.dv.moneym.core.designsystem.defaultCategoryColors
 import com.dv.moneym.core.model.CurrencyInfo
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.ui.HsvColorPickerDialog
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
@@ -32,6 +38,8 @@ import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
+import com.dv.moneym.core.ui.WalletColorDot
+import com.dv.moneym.core.ui.colorToHex
 import com.dv.moneym.core.ui.imageVector
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
@@ -41,6 +49,9 @@ import moneym.feature.settings.generated.resources.settings_currency_popular
 import moneym.feature.settings.generated.resources.settings_search_currency
 import moneym.feature.settings.generated.resources.settings_wallet_add_confirm
 import moneym.feature.settings.generated.resources.settings_wallet_add_screen_title
+import moneym.feature.settings.generated.resources.settings_wallet_color_change
+import moneym.feature.settings.generated.resources.settings_wallet_color_label
+import moneym.feature.settings.generated.resources.settings_wallet_color_none
 import moneym.feature.settings.generated.resources.settings_wallet_currency_change
 import moneym.feature.settings.generated.resources.settings_wallet_currency_label
 import moneym.feature.settings.generated.resources.settings_wallet_currency_none
@@ -95,10 +106,13 @@ private fun AddWalletScreen(
 ) {
     val name by viewModel.name.collectAsStateWithLifecycle()
     val selectedCurrency by viewModel.selectedCurrency.collectAsStateWithLifecycle()
+    val colorHex by viewModel.colorHex.collectAsStateWithLifecycle()
     AddWalletContent(
         name = name,
         selectedCurrency = selectedCurrency,
+        colorHex = colorHex,
         onNameChange = viewModel::setName,
+        onColorChange = viewModel::setColor,
         onBack = onBack,
         onNavigateToCurrencyPicker = onNavigateToCurrencyPicker,
         onConfirm = onConfirm,
@@ -109,7 +123,9 @@ private fun AddWalletScreen(
 private fun AddWalletContent(
     name: String,
     selectedCurrency: String,
+    colorHex: String?,
     onNameChange: (String) -> Unit,
+    onColorChange: (String?) -> Unit,
     onBack: () -> Unit,
     onNavigateToCurrencyPicker: () -> Unit,
     onConfirm: (name: String, currency: String) -> Unit,
@@ -117,6 +133,8 @@ private fun AddWalletContent(
     val colors = MM.colors
     val type = MM.type
     val space = MM.dimen
+
+    var showColorPicker by rememberSaveable { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -163,6 +181,45 @@ private fun AddWalletContent(
                     )
                 }
             }
+
+            Column(verticalArrangement = Arrangement.spacedBy(space.padding_0_5x)) {
+                SectionLabel(text = stringResource(Res.string.settings_wallet_color_label))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
+                    ) {
+                        WalletColorDot(colorHex = colorHex)
+                        Text(
+                            text = colorHex
+                                ?: stringResource(Res.string.settings_wallet_color_none),
+                            style = type.body,
+                            color = if (colorHex == null) colors.text3 else colors.text,
+                        )
+                    }
+                    MmButton(
+                        text = stringResource(Res.string.settings_wallet_color_change),
+                        onClick = { showColorPicker = true },
+                        variant = MmButtonVariant.Outline,
+                        size = MmButtonSize.Sm,
+                    )
+                }
+            }
+        }
+
+        if (showColorPicker) {
+            HsvColorPickerDialog(
+                initialColor = colorHex?.let { categoryColor(it) } ?: defaultCategoryColors.first(),
+                onDismiss = { showColorPicker = false },
+                onColorSelected = { color ->
+                    onColorChange(colorToHex(color))
+                    showColorPicker = false
+                },
+            )
         }
 
         MmButton(
@@ -193,7 +250,9 @@ private fun AddWalletContentPreview() {
         AddWalletContent(
             name = "Travel",
             selectedCurrency = "USD",
+            colorHex = "#3B82F6",
             onNameChange = {},
+            onColorChange = {},
             onBack = {},
             onNavigateToCurrencyPicker = {},
             onConfirm = { _, _ -> },

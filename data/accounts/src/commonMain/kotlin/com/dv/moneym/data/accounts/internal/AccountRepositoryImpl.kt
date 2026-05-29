@@ -31,6 +31,7 @@ internal class AccountRepositoryImpl(
             isDefault = account.isDefault,
             createdAt = now,
             updatedAt = now,
+            colorHex = account.colorHex,
         )
         return AccountId(id)
     }
@@ -45,6 +46,7 @@ internal class AccountRepositoryImpl(
             isDefault = account.isDefault,
             archived = account.archived,
             updatedAt = now,
+            colorHex = account.colorHex,
         )
     }
 

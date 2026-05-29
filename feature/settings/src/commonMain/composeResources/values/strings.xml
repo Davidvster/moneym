@@ -110,6 +110,12 @@
     <string name="settings_wallet_currency_label">Currency</string>
     <string name="settings_wallet_currency_change">Change</string>
     <string name="settings_wallet_currency_none">None selected</string>
+    <!-- Edit wallet screen -->
+    <string name="settings_wallet_edit_title">Edit Wallet</string>
+    <string name="settings_wallet_color_label">Color</string>
+    <string name="settings_wallet_color_change">Change</string>
+    <string name="settings_wallet_color_none">Default</string>
+    <string name="settings_wallet_save">Save</string>
     <!-- Delete wallet confirmation -->
     <string name="settings_wallet_delete_confirm_title">Delete wallet?</string>
     <string name="settings_wallet_delete_confirm_body">All transactions in this wallet will be permanently deleted. This cannot be undone.</string>

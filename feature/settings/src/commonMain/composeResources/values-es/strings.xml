@@ -126,6 +126,12 @@
     <string name="settings_wallet_currency_label">Moneda</string>
     <string name="settings_wallet_currency_change">Cambiar</string>
     <string name="settings_wallet_currency_none">Ninguna seleccionada</string>
+    <!-- Edit wallet screen -->
+    <string name="settings_wallet_edit_title">Editar billetera</string>
+    <string name="settings_wallet_color_label">Color</string>
+    <string name="settings_wallet_color_change">Cambiar</string>
+    <string name="settings_wallet_color_none">Predeterminado</string>
+    <string name="settings_wallet_save">Guardar</string>
     <!-- Delete wallet confirmation -->
     <string name="settings_wallet_delete_confirm_title">¿Eliminar billetera?</string>
     <string name="settings_wallet_delete_confirm_body">Todas las transacciones de esta billetera se eliminarán permanentemente. Esta acción no se puede deshacer.</string>

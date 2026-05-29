@@ -1,11 +1,11 @@
 package com.dv.moneym.data.accounts.internal
 
-import com.dv.moneym.core.model.Account as DomainAccount
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.AccountType
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.data.accounts.db.AccountEntity
 import kotlin.time.Instant
+import com.dv.moneym.core.model.Account as DomainAccount
 
 internal fun AccountEntity.toDomain() = DomainAccount(
     id = AccountId(id),
@@ -16,4 +16,5 @@ internal fun AccountEntity.toDomain() = DomainAccount(
     archived = archived,
     createdAt = Instant.fromEpochMilliseconds(createdAt),
     updatedAt = Instant.fromEpochMilliseconds(updatedAt),
+    colorHex = colorHex,
 )

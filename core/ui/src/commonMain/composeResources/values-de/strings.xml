@@ -16,4 +16,11 @@
     <string name="month_oct">Oktober</string>
     <string name="month_nov">November</string>
     <string name="month_dec">Dezember</string>
+    <string name="colorpicker_title">Farbe wählen</string>
+    <string name="colorpicker_hue">Farbton</string>
+    <string name="colorpicker_saturation">Sättigung</string>
+    <string name="colorpicker_brightness">Helligkeit</string>
+    <string name="colorpicker_hex">Hex-Farbe</string>
+    <string name="colorpicker_select">Farbe auswählen</string>
+    <string name="colorpicker_cancel">Abbrechen</string>
 </resources>

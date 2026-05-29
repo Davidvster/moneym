@@ -21,6 +21,7 @@ internal class SqlDelightAccountDataSource(
     override suspend fun insert(
         name: String, type: String, currency: String,
         isDefault: Boolean, createdAt: Long, updatedAt: Long,
+        colorHex: String?,
     ): Long = dao.insert(
         AccountEntity(
             name = name,
@@ -29,15 +30,27 @@ internal class SqlDelightAccountDataSource(
             isDefault = isDefault,
             createdAt = createdAt,
             updatedAt = updatedAt,
+            colorHex = colorHex,
         )
     )
 
     override suspend fun update(
         id: Long, name: String, type: String, currency: String,
         isDefault: Boolean, archived: Boolean, updatedAt: Long,
+        colorHex: String?,
     ) {
         val existing = dao.selectById(id) ?: return
-        dao.update(existing.copy(name = name, type = type, currency = currency, isDefault = isDefault, archived = archived, updatedAt = updatedAt))
+        dao.update(
+            existing.copy(
+                name = name,
+                type = type,
+                currency = currency,
+                isDefault = isDefault,
+                archived = archived,
+                updatedAt = updatedAt,
+                colorHex = colorHex
+            )
+        )
     }
 
     override suspend fun delete(id: Long) = dao.deleteById(id)
