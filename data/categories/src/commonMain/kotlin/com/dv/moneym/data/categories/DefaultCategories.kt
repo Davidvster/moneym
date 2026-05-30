@@ -20,9 +20,9 @@ val defaultCategories: List<Category> = listOf(
     seed("Health",         Icon.Heart,    "#9B5C7D"),
     seed("Entertainment",  Icon.Film,     "#7C5C9B"),
     seed("Shopping",       Icon.Bag,      "#6D6D6D"),
-    seed("Other (expense)",Icon.Tag,      "#8A8A8A"),
+    seed("Other",Icon.Tag,      "#8A8A8A"),
     seed("Salary",         Icon.Wallet,   "#4A7A56", TransactionType.INCOME),
     seed("Payment",        Icon.Banknote, "#5A8A66", TransactionType.INCOME),
     seed("Gift",           Icon.Gift,     "#9B7A4B", TransactionType.INCOME),
-    seed("Other (income)", Icon.Tag,      "#4A7A56", TransactionType.INCOME),
+    seed("Other", Icon.Tag,      "#4A7A56", TransactionType.INCOME),
 )

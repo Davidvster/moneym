@@ -1,5 +1,6 @@
 package com.dv.moneym.feature.security.shared
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +23,9 @@ import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMColors
 import com.dv.moneym.core.designsystem.MoneyMType
+import moneym.feature.security.generated.resources.Res
+import moneym.feature.security.generated.resources.logo_colorful
+import org.jetbrains.compose.resources.painterResource
 
 /**
  * Shared composable for the MoneyM app lockup (icon box + brand text).
@@ -32,22 +36,29 @@ internal fun AppLockup(
     colors: MoneyMColors,
     type: MoneyMType,
 ) {
-    Box(
-        modifier = Modifier
-            .size(MM.dimen.padding_7x)
-            .clip(RoundedCornerShape(MM.dimen.padding_2x))
-            .background(colors.text),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = "M",
-            style = type.title2.copy(
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = colors.bg,
-            ),
-        )
-    }
+
+    Image(
+        painterResource(Res.drawable.logo_colorful),
+        contentDescription = null,
+        modifier = Modifier.size(MM.dimen.padding_10x),
+    )
+
+//    Box(
+//        modifier = Modifier
+//            .size(MM.dimen.padding_7x)
+//            .clip(RoundedCornerShape(MM.dimen.padding_2x))
+//            .background(colors.text),
+//        contentAlignment = Alignment.Center,
+//    ) {
+//        Text(
+//            text = "M",
+//            style = type.title2.copy(
+//                fontSize = 28.sp,
+//                fontWeight = FontWeight.Bold,
+//                color = colors.bg,
+//            ),
+//        )
+//    }
 }
 
 /**
