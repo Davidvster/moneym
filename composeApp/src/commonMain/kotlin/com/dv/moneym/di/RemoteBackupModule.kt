@@ -1,11 +1,6 @@
 package com.dv.moneym.di
 
-import com.dv.moneym.core.oauth.AuthorizationLauncher
-import com.dv.moneym.core.oauth.DefaultGoogleAuthManager
 import com.dv.moneym.core.oauth.GoogleAuthManager
-import com.dv.moneym.core.oauth.GoogleOAuthConfig
-import com.dv.moneym.core.oauth.OAuthTokenClient
-import com.dv.moneym.core.oauth.SecureTokenStore
 import com.dv.moneym.core.security.BackupCrypto
 import com.dv.moneym.core.security.DefaultBackupCrypto
 import com.dv.moneym.data.remotebackup.RemoteBackupManager
@@ -33,20 +28,10 @@ val remoteBackupCommonModule: Module = module {
             }
         }
     }
-    single { OAuthTokenClient(httpClient = get()) }
     single<RemoteBackupProvider> {
         GoogleDriveBackupClient(
             httpClient = get(),
             accessTokenProvider = { get<GoogleAuthManager>().accessToken() },
-        )
-    }
-    single<GoogleAuthManager> {
-        DefaultGoogleAuthManager(
-            config = get(),
-            tokenClient = get(),
-            launcher = get<AuthorizationLauncher>(),
-            tokenStore = get<SecureTokenStore>(),
-            dispatchers = get(),
         )
     }
     single {

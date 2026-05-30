@@ -3,20 +3,4 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <application>
-        <activity
-            android:name=".OAuthRedirectActivity"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
-            <intent-filter android:autoVerify="false">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:scheme="com.dv.moneym"
-                    android:host="oauth" />
-            </intent-filter>
-        </activity>
-    </application>
 </manifest>

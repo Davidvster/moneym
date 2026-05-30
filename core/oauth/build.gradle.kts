@@ -23,13 +23,17 @@ kotlin {
             implementation(libs.cryptography.core)
             implementation(libs.kermit)
             implementation(projects.core.common)
+            implementation(projects.core.datastore)
         }
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.security.crypto)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.cryptography.provider.jdk)
-            implementation("androidx.browser:browser:1.8.0")
+            implementation(libs.androidx.credentials)
+            implementation(libs.androidx.credentials.play.services.auth)
+            implementation(libs.googleid)
+            implementation(libs.play.services.auth)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

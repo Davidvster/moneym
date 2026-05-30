@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -28,6 +29,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            export(projects.core.oauth)
         }
     }
 
@@ -80,7 +82,7 @@ kotlin {
             implementation(projects.data.backup)
             implementation(projects.data.budgets)
             implementation(projects.data.remotebackup)
-            implementation(projects.core.oauth)
+            api(projects.core.oauth)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
@@ -101,9 +103,32 @@ kotlin {
     }
 }
 
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+
 android {
     namespace = "com.dv.moneym"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+
+    signingConfigs {
+        val signingStoreFile = localProperties.getProperty("signing.storeFile")
+        if (signingStoreFile != null) {
+            getByName("debug") {
+                storeFile = rootProject.file(signingStoreFile)
+                storePassword = localProperties.getProperty("signing.storePassword")
+                keyAlias = localProperties.getProperty("signing.keyAlias")
+                keyPassword = localProperties.getProperty("signing.keyPassword")
+            }
+            create("release") {
+                storeFile = rootProject.file(signingStoreFile)
+                storePassword = localProperties.getProperty("signing.storePassword")
+                keyAlias = localProperties.getProperty("signing.keyAlias")
+                keyPassword = localProperties.getProperty("signing.keyPassword")
+            }
+        }
+    }
 
     defaultConfig {
         applicationId = "com.dv.moneym"
@@ -112,12 +137,12 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        val googleOAuthClientId: String? = (project.findProperty("googleOAuthClientId") as String?)
-            ?: System.getenv("GOOGLE_OAUTH_CLIENT_ID")
+        val googleOAuthServerClientId: String? = localProperties.getProperty("googleOAuthServerClientId")
+            ?: System.getenv("GOOGLE_OAUTH_SERVER_CLIENT_ID")
         buildConfigField(
             "String",
-            "GOOGLE_OAUTH_CLIENT_ID",
-            googleOAuthClientId?.let { "\"$it\"" } ?: "null",
+            "GOOGLE_OAUTH_SERVER_CLIENT_ID",
+            googleOAuthServerClientId?.let { "\"$it\"" } ?: "null",
         )
     }
     buildFeatures {
@@ -136,9 +161,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+            signingConfig = signingConfigs.findByName("release")
         }
         getByName("debug") {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.findByName("debug")
         }
     }
     compileOptions {

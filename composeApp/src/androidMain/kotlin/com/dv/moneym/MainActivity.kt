@@ -5,6 +5,7 @@ import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.dv.moneym.core.oauth.GoogleAuthActivityBridge
 import com.dv.moneym.core.security.BiometricAuthenticatorImpl
 import com.dv.moneym.di.androidPlatformModule
 
@@ -14,6 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         BiometricAuthenticatorImpl.activityRef = this
+        GoogleAuthActivityBridge.register(this)
         setContent {
             App(platformModules = listOf(androidPlatformModule(applicationContext)))
         }
@@ -22,5 +24,6 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         BiometricAuthenticatorImpl.activityRef = null
+        GoogleAuthActivityBridge.unregister()
     }
 }
