@@ -191,6 +191,17 @@
     <string name="settings_remote_passphrase_label">Passphrase</string>
     <string name="settings_remote_passphrase_save">Speichern</string>
     <string name="settings_remote_passphrase_cancel">Abbrechen</string>
+    <string name="settings_remote_password_title">Backup-Passwort festlegen</string>
+    <string name="settings_remote_password_body">Wähle ein Passwort, um dein Cloud-Backup zu verschlüsseln. Wenn du es verlierst, kann das Backup nicht wiederhergestellt werden.</string>
+    <string name="settings_remote_password_label">Passwort</string>
+    <string name="settings_remote_password_repeat_label">Passwort wiederholen</string>
+    <string name="settings_remote_password_show">Passwort anzeigen</string>
+    <string name="settings_remote_password_hide">Passwort verbergen</string>
+    <string name="settings_remote_password_save">Speichern</string>
+    <string name="settings_remote_password_mismatch">Passwörter stimmen nicht überein</string>
+    <string name="settings_remote_password_too_short">Passwort muss mindestens %1$d Zeichen lang sein</string>
+    <string name="settings_remote_dont_encrypt">Nicht verschlüsseln</string>
+    <string name="settings_remote_plaintext_warning">Deine Finanzdaten werden unverschlüsselt in Google Drive gespeichert. Jeder mit Zugriff auf dein Drive kann sie lesen.</string>
     <string name="settings_remote_restore_title">Aus Google Drive wiederherstellen?</string>
     <string name="settings_remote_restore_body">Dies ersetzt alle aktuellen Daten dauerhaft durch das neueste verschlüsselte Backup. Gib zum Fortfahren deine Passphrase ein.</string>
     <string name="settings_remote_restore_confirm">Wiederherstellen</string>

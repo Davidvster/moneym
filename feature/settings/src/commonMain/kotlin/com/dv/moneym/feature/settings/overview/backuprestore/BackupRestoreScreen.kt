@@ -1,6 +1,7 @@
 package com.dv.moneym.feature.settings.overview.backuprestore
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
@@ -32,6 +36,8 @@ import com.dv.moneym.core.model.Icon.ChevronRight
 import com.dv.moneym.core.model.Icon.Download
 import com.dv.moneym.core.model.Icon.Folder
 import com.dv.moneym.core.ui.MmCard
+import com.dv.moneym.core.ui.MmDialog
+import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmLoadingOverlay
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.MmToggle
@@ -72,11 +78,18 @@ import moneym.feature.settings.generated.resources.settings_remote_relative_just
 import moneym.feature.settings.generated.resources.settings_remote_relative_longer
 import moneym.feature.settings.generated.resources.settings_remote_relative_minutes
 import moneym.feature.settings.generated.resources.settings_remote_status_retry
-import moneym.feature.settings.generated.resources.settings_remote_passphrase_body
+import moneym.feature.settings.generated.resources.settings_remote_dont_encrypt
 import moneym.feature.settings.generated.resources.settings_remote_passphrase_cancel
 import moneym.feature.settings.generated.resources.settings_remote_passphrase_label
-import moneym.feature.settings.generated.resources.settings_remote_passphrase_save
-import moneym.feature.settings.generated.resources.settings_remote_passphrase_title
+import moneym.feature.settings.generated.resources.settings_remote_password_body
+import moneym.feature.settings.generated.resources.settings_remote_password_hide
+import moneym.feature.settings.generated.resources.settings_remote_password_label
+import moneym.feature.settings.generated.resources.settings_remote_password_mismatch
+import moneym.feature.settings.generated.resources.settings_remote_password_repeat_label
+import moneym.feature.settings.generated.resources.settings_remote_password_save
+import moneym.feature.settings.generated.resources.settings_remote_password_show
+import moneym.feature.settings.generated.resources.settings_remote_password_title
+import moneym.feature.settings.generated.resources.settings_remote_plaintext_warning
 import moneym.feature.settings.generated.resources.settings_remote_quota_warning
 import moneym.feature.settings.generated.resources.settings_remote_restore
 import moneym.feature.settings.generated.resources.settings_remote_restore_body
@@ -164,10 +177,12 @@ private fun BackupRestoreScreen(
     }
 
     if (state.showPassphraseDialog) {
-        PassphraseDialog(
+        PasswordDialog(
             errorMessage = state.passphraseError,
             onDismiss = { viewModel.onIntent(BackupRestoreIntent.PassphrasePromptDismissed) },
-            onSubmit = { viewModel.onIntent(BackupRestoreIntent.PassphraseSubmitted(it)) },
+            onSubmit = { value, encrypt ->
+                viewModel.onIntent(BackupRestoreIntent.PasswordSubmitted(value, encrypt))
+            },
         )
     }
 
@@ -182,21 +197,19 @@ private fun BackupRestoreScreen(
     }
 
     if (state.showDisconnectDialog) {
-        AlertDialog(
-            onDismissRequest = { viewModel.onIntent(BackupRestoreIntent.DisconnectGoogleDismissed) },
-            title = { Text(stringResource(Res.string.settings_remote_disconnect_title)) },
-            text = { Text(stringResource(Res.string.settings_remote_disconnect_body)) },
-            confirmButton = {
-                TextButton(onClick = { viewModel.onIntent(BackupRestoreIntent.DisconnectGoogleConfirmed) }) {
-                    Text(stringResource(Res.string.settings_remote_disconnect_confirm))
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { viewModel.onIntent(BackupRestoreIntent.DisconnectGoogleDismissed) }) {
-                    Text(stringResource(Res.string.settings_remote_passphrase_cancel))
-                }
-            },
-        )
+        MmDialog(
+            title = stringResource(Res.string.settings_remote_disconnect_title),
+            confirmText = stringResource(Res.string.settings_remote_disconnect_confirm),
+            onConfirm = { viewModel.onIntent(BackupRestoreIntent.DisconnectGoogleConfirmed) },
+            onDismiss = { viewModel.onIntent(BackupRestoreIntent.DisconnectGoogleDismissed) },
+            dismissText = stringResource(Res.string.settings_remote_passphrase_cancel),
+        ) {
+            Text(
+                stringResource(Res.string.settings_remote_disconnect_body),
+                style = MM.type.body,
+                color = MM.colors.text2,
+            )
+        }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -437,45 +450,91 @@ private fun relativeTimeLabel(timestampMs: Long): String {
 }
 
 @Composable
-private fun PassphraseDialog(
+private fun PasswordDialog(
     errorMessage: String?,
     onDismiss: () -> Unit,
-    onSubmit: (CharArray) -> Unit,
+    onSubmit: (CharArray, Boolean) -> Unit,
 ) {
-    var input by remember { mutableStateOf("") }
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(stringResource(Res.string.settings_remote_passphrase_title)) },
-        text = {
-            Column {
-                Text(stringResource(Res.string.settings_remote_passphrase_body))
-                OutlinedTextField(
-                    value = input,
-                    onValueChange = { input = it },
-                    label = { Text(stringResource(Res.string.settings_remote_passphrase_label)) },
-                    modifier = Modifier.fillMaxWidth().padding(top = MM.dimen.padding_1x),
-                    singleLine = true,
+    val colors = MM.colors
+    val type = MM.type
+    var password by remember { mutableStateOf("") }
+    var repeat by remember { mutableStateOf("") }
+    var visible by remember { mutableStateOf(false) }
+    var dontEncrypt by remember { mutableStateOf(false) }
+
+    val mismatch = !dontEncrypt && repeat.isNotEmpty() && password != repeat
+    val valid = dontEncrypt || (password.length >= MIN_PASSWORD_LENGTH && password == repeat)
+
+    MmDialog(
+        title = stringResource(Res.string.settings_remote_password_title),
+        confirmText = stringResource(Res.string.settings_remote_password_save),
+        confirmEnabled = valid,
+        onConfirm = { onSubmit(password.toCharArray(), !dontEncrypt) },
+        onDismiss = onDismiss,
+        dismissText = stringResource(Res.string.settings_remote_passphrase_cancel),
+    ) {
+        Text(
+            stringResource(Res.string.settings_remote_password_body),
+            style = type.body,
+            color = colors.text2,
+        )
+        if (!dontEncrypt) {
+            MmField(
+                value = password,
+                onValueChange = { password = it },
+                label = stringResource(Res.string.settings_remote_password_label),
+                visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardType = KeyboardType.Password,
+                suffix = {
+                    Text(
+                        text = stringResource(
+                            if (visible) Res.string.settings_remote_password_hide
+                            else Res.string.settings_remote_password_show,
+                        ),
+                        style = type.caption,
+                        color = colors.accent,
+                        modifier = Modifier.clickable { visible = !visible },
+                    )
+                },
+            )
+            MmField(
+                value = repeat,
+                onValueChange = { repeat = it },
+                label = stringResource(Res.string.settings_remote_password_repeat_label),
+                visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardType = KeyboardType.Password,
+            )
+            if (mismatch) {
+                Text(
+                    stringResource(Res.string.settings_remote_password_mismatch),
+                    color = colors.danger,
+                    style = type.caption,
                 )
-                if (errorMessage != null) {
-                    Text(errorMessage, color = MM.colors.danger, style = MM.type.caption)
-                }
             }
-        },
-        confirmButton = {
-            TextButton(
-                onClick = { onSubmit(input.toCharArray()) },
-                enabled = input.isNotEmpty(),
-            ) {
-                Text(stringResource(Res.string.settings_remote_passphrase_save))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(Res.string.settings_remote_passphrase_cancel))
-            }
-        },
-    )
+        }
+        MmRow(onClick = { dontEncrypt = !dontEncrypt }, divider = false) {
+            Text(
+                stringResource(Res.string.settings_remote_dont_encrypt),
+                style = type.body,
+                color = colors.text,
+                modifier = Modifier.weight(1f),
+            )
+            MmToggle(checked = dontEncrypt, onCheckedChange = { dontEncrypt = it })
+        }
+        if (dontEncrypt) {
+            Text(
+                stringResource(Res.string.settings_remote_plaintext_warning),
+                color = colors.danger,
+                style = type.caption,
+            )
+        }
+        if (errorMessage != null) {
+            Text(errorMessage, color = colors.danger, style = type.caption)
+        }
+    }
 }
+
+private const val MIN_PASSWORD_LENGTH = 4
 
 @Composable
 private fun RemoteRestoreDialog(

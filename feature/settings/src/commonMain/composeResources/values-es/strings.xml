@@ -191,6 +191,17 @@
     <string name="settings_remote_passphrase_label">Contraseña</string>
     <string name="settings_remote_passphrase_save">Guardar</string>
     <string name="settings_remote_passphrase_cancel">Cancelar</string>
+    <string name="settings_remote_password_title">Establecer contraseña de copia</string>
+    <string name="settings_remote_password_body">Elige una contraseña para cifrar tu copia en la nube. Si la pierdes, no se podrá recuperar la copia.</string>
+    <string name="settings_remote_password_label">Contraseña</string>
+    <string name="settings_remote_password_repeat_label">Repetir contraseña</string>
+    <string name="settings_remote_password_show">Mostrar contraseña</string>
+    <string name="settings_remote_password_hide">Ocultar contraseña</string>
+    <string name="settings_remote_password_save">Guardar</string>
+    <string name="settings_remote_password_mismatch">Las contraseñas no coinciden</string>
+    <string name="settings_remote_password_too_short">La contraseña debe tener al menos %1$d caracteres</string>
+    <string name="settings_remote_dont_encrypt">No cifrar</string>
+    <string name="settings_remote_plaintext_warning">Tus datos financieros se guardarán sin cifrar en Google Drive. Cualquiera con acceso a tu Drive podrá leerlos.</string>
     <string name="settings_remote_restore_title">¿Restaurar desde Google Drive?</string>
     <string name="settings_remote_restore_body">Esto reemplazará permanentemente todos los datos actuales con la última copia cifrada. Introduce tu contraseña para continuar.</string>
     <string name="settings_remote_restore_confirm">Restaurar</string>

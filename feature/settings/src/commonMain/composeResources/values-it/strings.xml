@@ -191,6 +191,17 @@
     <string name="settings_remote_passphrase_label">Passphrase</string>
     <string name="settings_remote_passphrase_save">Salva</string>
     <string name="settings_remote_passphrase_cancel">Annulla</string>
+    <string name="settings_remote_password_title">Imposta password di backup</string>
+    <string name="settings_remote_password_body">Scegli una password per cifrare il backup nel cloud. Se la perdi, il backup non potrà essere recuperato.</string>
+    <string name="settings_remote_password_label">Password</string>
+    <string name="settings_remote_password_repeat_label">Ripeti password</string>
+    <string name="settings_remote_password_show">Mostra password</string>
+    <string name="settings_remote_password_hide">Nascondi password</string>
+    <string name="settings_remote_password_save">Salva</string>
+    <string name="settings_remote_password_mismatch">Le password non coincidono</string>
+    <string name="settings_remote_password_too_short">La password deve contenere almeno %1$d caratteri</string>
+    <string name="settings_remote_dont_encrypt">Non cifrare</string>
+    <string name="settings_remote_plaintext_warning">I tuoi dati finanziari saranno salvati non cifrati su Google Drive. Chiunque abbia accesso al tuo Drive potrà leggerli.</string>
     <string name="settings_remote_restore_title">Ripristinare da Google Drive?</string>
     <string name="settings_remote_restore_body">Questo sostituirà definitivamente tutti i dati attuali con l'ultimo backup cifrato. Inserisci la passphrase per continuare.</string>
     <string name="settings_remote_restore_confirm">Ripristina</string>

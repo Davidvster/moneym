@@ -7,6 +7,6 @@
 | 3 | Theme flicker fix (task 4) | done (68b4a4c) |
 | 4 | Add-button consistency (task 5) | done (06a545c) |
 | 5 | Immediate local backup + loading overlay (task 6) | done |
-| 6 | Dialogs theme + password + optional encryption + immediate cloud (tasks 7+8+9) | pending |
+| 6 | Dialogs theme + password + optional encryption + immediate cloud (tasks 7+8+9) | done |
 
-Final: Android `assembleDebug` + iOS link — pending.
+Final: Android `assembleDebug` ✓ + iOS link (Arm64 + SimulatorArm64) ✓ + backup/crypto unit tests ✓.

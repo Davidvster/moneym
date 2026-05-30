@@ -61,28 +61,39 @@ class RemoteBackupManager(
 
     fun enqueueUpload() {
         if (!isEnabled()) return
-        if (!sessionPassphrase.isSet.value) return
+        if (encryptEnabled() && !sessionPassphrase.isSet.value) return
         pulse.tryEmit(Unit)
     }
 
     suspend fun flushNow(): Result<Unit> = runCatching {
         if (!isEnabled()) return@runCatching
-        if (!sessionPassphrase.isSet.value) return@runCatching
+        if (encryptEnabled() && !sessionPassphrase.isSet.value) return@runCatching
         runUpload()
     }
 
     suspend fun peekLatestMetadata(): Result<RemoteBackupMetadata?> = runCatching {
         val ref = provider.latest() ?: return@runCatching null
         val bytes = provider.download(ref)
-        val envelope: EncryptedBackup = BackupEnvelopeJson.decodeBytes(bytes)
-        RemoteBackupMetadata(
-            createdAtMs = envelope.createdAt,
-            appVersion = envelope.appVersion,
-            schema = envelope.schema,
-            envelopeVersion = envelope.version,
-            sizeBytes = bytes.size.toLong(),
-            fileName = ref.name,
-        )
+        if (isEncryptedEnvelope(bytes)) {
+            val envelope: EncryptedBackup = BackupEnvelopeJson.decodeBytes(bytes)
+            RemoteBackupMetadata(
+                createdAtMs = envelope.createdAt,
+                appVersion = envelope.appVersion,
+                schema = envelope.schema,
+                envelopeVersion = envelope.version,
+                sizeBytes = bytes.size.toLong(),
+                fileName = ref.name,
+            )
+        } else {
+            RemoteBackupMetadata(
+                createdAtMs = ref.modifiedAtMs,
+                appVersion = "—",
+                schema = CURRENT_SCHEMA,
+                envelopeVersion = EncryptedBackup.ENVELOPE_VERSION,
+                sizeBytes = bytes.size.toLong(),
+                fileName = ref.name,
+            )
+        }
     }
 
     suspend fun restoreLatest(passphrase: CharArray): Result<Unit> = runCatching {
@@ -91,9 +102,13 @@ class RemoteBackupManager(
             _runtime.value = RemoteBackupRuntimeState.Downloading
             val ref = provider.latest() ?: throw RemoteBackupError.NotFound()
             val bytes = provider.download(ref)
-            _runtime.value = RemoteBackupRuntimeState.Decrypting
-            val envelope = BackupEnvelopeJson.decodeBytes(bytes)
-            val plain = crypto.decrypt(envelope, passphrase)
+            val plain = if (isEncryptedEnvelope(bytes)) {
+                _runtime.value = RemoteBackupRuntimeState.Decrypting
+                val envelope = BackupEnvelopeJson.decodeBytes(bytes)
+                crypto.decrypt(envelope, passphrase)
+            } else {
+                bytes
+            }
             _runtime.value = RemoteBackupRuntimeState.Restoring
             withContext(dispatchers.io) { dbBackupManager.restore(plain) }
             _runtime.value = RemoteBackupRuntimeState.Idle
@@ -111,18 +126,28 @@ class RemoteBackupManager(
             return
         }
         try {
-            val passphrase = sessionPassphrase.get() ?: return
-            _runtime.value = RemoteBackupRuntimeState.Encrypting
+            val createdAt = nowMs()
             val plain = withContext(dispatchers.io) { dbBackupManager.export() }
-            val envelope = crypto.encrypt(
-                plain = plain,
-                passphrase = passphrase,
-                schema = schemaVersion,
-                appVersion = appVersion,
-                createdAt = nowMs(),
-            )
-            passphrase.fill(' ')
-            val bytes = BackupEnvelopeJson.encodeBytes(envelope)
+            val encrypt = encryptEnabled()
+            val bytes: ByteArray
+            val name: String
+            if (encrypt) {
+                val passphrase = sessionPassphrase.get() ?: return
+                _runtime.value = RemoteBackupRuntimeState.Encrypting
+                val envelope = crypto.encrypt(
+                    plain = plain,
+                    passphrase = passphrase,
+                    schema = schemaVersion,
+                    appVersion = appVersion,
+                    createdAt = createdAt,
+                )
+                passphrase.fill(' ')
+                bytes = BackupEnvelopeJson.encodeBytes(envelope)
+                name = timestampedName(createdAt)
+            } else {
+                bytes = plain
+                name = plaintextName(createdAt)
+            }
             val remaining = runCatching { provider.remainingQuotaBytes() }.getOrNull()
             if (remaining != null && remaining < bytes.size) {
                 _runtime.value = RemoteBackupRuntimeState.QuotaWarning(
@@ -135,14 +160,15 @@ class RemoteBackupManager(
             _runtime.value = RemoteBackupRuntimeState.Uploading
             val ref = provider.upload(
                 bytes = bytes,
-                name = timestampedName(envelope.createdAt),
+                name = name,
                 properties = mapOf(
                     "schema" to schemaVersion.toString(),
                     "appVersion" to appVersion,
-                    "createdAt" to envelope.createdAt.toString(),
+                    "createdAt" to createdAt.toString(),
+                    "encrypted" to encrypt.toString(),
                 ),
             )
-            appSettings.putLong(PrefKeys.LAST_REMOTE_BACKUP_TIME_MS, ref.modifiedAtMs.takeIf { it > 0 } ?: envelope.createdAt)
+            appSettings.putLong(PrefKeys.LAST_REMOTE_BACKUP_TIME_MS, ref.modifiedAtMs.takeIf { it > 0 } ?: createdAt)
             appSettings.putString(PrefKeys.REMOTE_BACKUP_PROVIDER_ID, provider.id)
             pruneOldBackups()
             _runtime.value = RemoteBackupRuntimeState.Idle
@@ -163,6 +189,11 @@ class RemoteBackupManager(
 
     private fun timestampedName(createdAt: Long): String = "moneym-backup-$createdAt.bin"
 
+    private fun plaintextName(createdAt: Long): String = "moneym-backup-$createdAt.zip"
+
+    private fun isEncryptedEnvelope(bytes: ByteArray): Boolean =
+        bytes.isNotEmpty() && bytes[0] == '{'.code.toByte()
+
     private suspend fun pruneOldBackups() {
         if (retentionCount <= 0) return
         runCatching {
@@ -178,6 +209,9 @@ class RemoteBackupManager(
 
     private fun isEnabled(): Boolean =
         appSettings.getBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, defaultValue = false)
+
+    private fun encryptEnabled(): Boolean =
+        appSettings.getBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, defaultValue = true)
 
     private fun humanMessage(t: Throwable): String = when (t) {
         is BackupCryptoError.WrongPassphrase -> "Wrong passphrase"

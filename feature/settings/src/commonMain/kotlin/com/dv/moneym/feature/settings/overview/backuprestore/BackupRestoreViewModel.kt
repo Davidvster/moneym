@@ -70,7 +70,7 @@ sealed interface BackupRestoreIntent {
     data class RemoteAutoBackupToggled(val enabled: Boolean) : BackupRestoreIntent
     data object PassphrasePromptOpened : BackupRestoreIntent
     data object PassphrasePromptDismissed : BackupRestoreIntent
-    data class PassphraseSubmitted(val value: CharArray) : BackupRestoreIntent
+    data class PasswordSubmitted(val value: CharArray, val encrypt: Boolean) : BackupRestoreIntent
     data object RemoteBackupNowTapped : BackupRestoreIntent
     data object RemoteRestoreTapped : BackupRestoreIntent
     data class RemoteRestoreConfirmed(val passphrase: CharArray) : BackupRestoreIntent
@@ -159,7 +159,7 @@ class BackupRestoreViewModel(
             is BackupRestoreIntent.RemoteAutoBackupToggled -> handleRemoteAutoToggled(intent.enabled)
             BackupRestoreIntent.PassphrasePromptOpened -> _base.update { it.copy(showPassphraseDialog = true, passphraseError = null) }
             BackupRestoreIntent.PassphrasePromptDismissed -> _base.update { it.copy(showPassphraseDialog = false, passphraseError = null) }
-            is BackupRestoreIntent.PassphraseSubmitted -> handlePassphraseSubmitted(intent.value)
+            is BackupRestoreIntent.PasswordSubmitted -> handlePasswordSubmitted(intent.value, intent.encrypt)
             BackupRestoreIntent.RemoteBackupNowTapped -> handleRemoteBackupNow()
             BackupRestoreIntent.RemoteRestoreTapped -> handleRemoteRestoreTapped()
             is BackupRestoreIntent.RemoteRestoreConfirmed -> handleRemoteRestoreConfirmed(intent.passphrase)
@@ -282,49 +282,62 @@ class BackupRestoreViewModel(
 
     private fun handleRemoteAutoToggled(enabled: Boolean) {
         if (enabled) {
-            if (sessionPassphrase?.isSet?.value != true) {
+            if (encryptEnabled() && sessionPassphrase?.isSet?.value != true) {
                 _base.update { it.copy(showPassphraseDialog = true, passphraseError = null) }
                 return
             }
             appSettings.putBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, true)
             _base.update { it.copy(remoteAutoEnabled = true) }
-            remoteBackupManager?.enqueueUpload()
+            flushRemoteNow()
         } else {
             appSettings.putBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, false)
             _base.update { it.copy(remoteAutoEnabled = false) }
         }
     }
 
-    private fun handlePassphraseSubmitted(value: CharArray) {
-        if (value.size < MIN_PASSPHRASE_LENGTH) {
-            _base.update { it.copy(passphraseError = "Passphrase must be at least $MIN_PASSPHRASE_LENGTH characters") }
-            return
+    private fun handlePasswordSubmitted(value: CharArray, encrypt: Boolean) {
+        if (encrypt) {
+            if (value.size < MIN_PASSPHRASE_LENGTH) {
+                _base.update { it.copy(passphraseError = "Password must be at least $MIN_PASSPHRASE_LENGTH characters") }
+                return
+            }
+            sessionPassphrase?.set(value)
+            appSettings.putBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, true)
+        } else {
+            appSettings.putBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, false)
         }
-        sessionPassphrase?.set(value)
+        value.fill(' ')
         appSettings.putBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, true)
         _base.update {
             it.copy(
                 showPassphraseDialog = false,
                 passphraseError = null,
                 remoteAutoEnabled = true,
-                remotePassphraseSet = true,
+                remotePassphraseSet = encrypt,
             )
         }
-        remoteBackupManager?.enqueueUpload()
+        flushRemoteNow()
     }
 
     private fun handleRemoteBackupNow() {
-        val manager = remoteBackupManager ?: return
-        if (sessionPassphrase?.isSet?.value != true) {
+        if (encryptEnabled() && sessionPassphrase?.isSet?.value != true) {
             _base.update { it.copy(showPassphraseDialog = true, passphraseError = null) }
             return
         }
+        flushRemoteNow()
+    }
+
+    private fun flushRemoteNow() {
+        val manager = remoteBackupManager ?: return
         viewModelScope.launch {
             manager.flushNow().onFailure { t ->
                 _effects.send(BackupRestoreEffect.RemoteError(t.message ?: "Backup failed"))
             }
         }
     }
+
+    private fun encryptEnabled(): Boolean =
+        appSettings.getBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, defaultValue = true)
 
     private fun handleRemoteRestoreTapped() {
         val manager = remoteBackupManager ?: return
@@ -370,6 +383,6 @@ class BackupRestoreViewModel(
     }
 
     companion object {
-        const val MIN_PASSPHRASE_LENGTH = 8
+        const val MIN_PASSPHRASE_LENGTH = 4
     }
 }

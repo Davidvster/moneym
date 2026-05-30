@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
@@ -40,6 +41,7 @@ fun MmField(
     prefix: (@Composable () -> Unit)? = null,
     suffix: (@Composable () -> Unit)? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     singleLine: Boolean = true,
     focusRequester: FocusRequester? = null,
     imeAction: ImeAction = ImeAction.Default,
@@ -63,6 +65,7 @@ fun MmField(
             value = value,
             onValueChange = onValueChange,
             singleLine = singleLine,
+            visualTransformation = visualTransformation,
             textStyle = type.body.copy(color = colors.text),
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
