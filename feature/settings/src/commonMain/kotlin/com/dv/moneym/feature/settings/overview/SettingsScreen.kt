@@ -113,6 +113,7 @@ fun SettingsScreen(
     val defaultTransactionType by overviewViewModel.defaultTransactionType.collectAsStateWithLifecycle()
     val paymentModeEnabled by overviewViewModel.paymentModeEnabled.collectAsStateWithLifecycle()
     val useCurrencySymbol by overviewViewModel.useCurrencySymbol.collectAsStateWithLifecycle()
+    val walletCurrency by overviewViewModel.walletCurrency.collectAsStateWithLifecycle()
     val showLockPicker by overviewViewModel.showLockPicker.collectAsStateWithLifecycle()
     val securityState by securityViewModel.state.collectAsStateWithLifecycle()
 
@@ -131,6 +132,7 @@ fun SettingsScreen(
         defaultTransactionType = defaultTransactionType,
         paymentModeEnabled = paymentModeEnabled,
         useCurrencySymbol = useCurrencySymbol,
+        walletCurrency = walletCurrency,
         showLockPicker = showLockPicker,
     )
 

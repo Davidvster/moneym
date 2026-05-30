@@ -18,6 +18,7 @@ data class SettingsUiState(
     val paymentModeEnabled: Boolean = false,
     // show currency symbol instead of code
     val useCurrencySymbol: Boolean = false,
+    val walletCurrency: String = "EUR",
     val showLockPicker: Boolean = false,
 )
 

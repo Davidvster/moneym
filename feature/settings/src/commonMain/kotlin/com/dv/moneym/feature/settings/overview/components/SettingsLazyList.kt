@@ -105,6 +105,7 @@ internal fun SettingsLazyList(
                 languageSubtitle = languageSubtitle,
                 paymentModeEnabled = state.paymentModeEnabled,
                 useCurrencySymbol = state.useCurrencySymbol,
+                walletCurrency = state.walletCurrency,
                 onNavigateToLanguage = onNavigateToLanguage,
                 onNavigateToCategories = onNavigateToCategories,
                 onNavigateToBudgets = onNavigateToBudgets,

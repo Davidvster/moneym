@@ -172,6 +172,7 @@ val featureSettingsModule = module {
     viewModel {
         SettingsOverviewViewModel(
             appSettingsRepository = get(),
+            accountRepository = get(),
             savedStateHandle = get(),
         )
     }

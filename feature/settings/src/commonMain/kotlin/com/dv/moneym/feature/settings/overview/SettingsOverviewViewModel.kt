@@ -7,16 +7,19 @@ import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.TxDisplayPrefs
+import com.dv.moneym.data.accounts.AccountRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SettingsOverviewViewModel(
     private val appSettingsRepository: AppSettingsRepository,
+    private val accountRepository: AccountRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -38,6 +41,15 @@ class SettingsOverviewViewModel(
 
     val useCurrencySymbol: StateFlow<Boolean> = appSettingsRepository.observeUseCurrencySymbol()
         .stateIn(viewModelScope, SharingStarted.Lazily, false)
+
+    val walletCurrency: StateFlow<String> = combine(
+        appSettingsRepository.observeSelectedAccountId(),
+        accountRepository.observeAll(),
+    ) { selectedId, accounts ->
+        val account = if (selectedId > 0L) accounts.find { it.id.value == selectedId }
+        else accounts.firstOrNull { it.isDefault } ?: accounts.firstOrNull()
+        account?.currency?.value ?: "EUR"
+    }.stateIn(viewModelScope, SharingStarted.Lazily, "EUR")
 
     private val _showLockPicker = MutableStateFlow(false)
     val showLockPicker: StateFlow<Boolean> = _showLockPicker.asStateFlow()

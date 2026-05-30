@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.CommonCurrencies
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmRow
@@ -21,7 +22,6 @@ import moneym.feature.settings.generated.resources.settings_payment_mode_enabled
 import moneym.feature.settings.generated.resources.settings_payment_modes
 import moneym.feature.settings.generated.resources.settings_recurring_nav
 import moneym.feature.settings.generated.resources.settings_use_currency_symbol
-import moneym.feature.settings.generated.resources.settings_use_currency_symbol_subtitle
 import moneym.feature.settings.generated.resources.settings_wallets
 import org.jetbrains.compose.resources.stringResource
 
@@ -30,6 +30,7 @@ internal fun PreferencesSection(
     languageSubtitle: String,
     paymentModeEnabled: Boolean,
     useCurrencySymbol: Boolean,
+    walletCurrency: String,
     onNavigateToLanguage: () -> Unit,
     onNavigateToCategories: () -> Unit,
     onNavigateToBudgets: () -> Unit,
@@ -42,6 +43,8 @@ internal fun PreferencesSection(
     val colors = MM.colors
     val type = MM.type
     val space = MM.dimen
+    val currencySymbol = CommonCurrencies.firstOrNull { it.code == walletCurrency }?.symbol ?: walletCurrency
+    val currencySymbolSubtitle = "Show $currencySymbol instead of $walletCurrency"
     MmCard(Modifier.padding(horizontal = space.padding_2x)) {
         MmSettingsRow(
             title = stringResource(Res.string.settings_language),
@@ -115,7 +118,7 @@ internal fun PreferencesSection(
                     color = colors.text,
                 )
                 Text(
-                    stringResource(Res.string.settings_use_currency_symbol_subtitle),
+                    currencySymbolSubtitle,
                     style = type.caption,
                     color = colors.text2,
                 )

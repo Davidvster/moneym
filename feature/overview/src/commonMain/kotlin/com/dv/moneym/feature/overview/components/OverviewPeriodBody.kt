@@ -36,7 +36,9 @@ import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.model.SpendingFilter
+import com.dv.moneym.core.model.currencyDisplay
 import com.dv.moneym.core.ui.CategoryIconTile
+import com.dv.moneym.core.ui.LocalUseCurrencySymbol
 import com.dv.moneym.core.ui.CumulativeChart
 import com.dv.moneym.core.ui.DonutChart
 import com.dv.moneym.core.ui.DonutSlice
@@ -305,6 +307,7 @@ private fun DonutChartWithSelection(
 ) {
     val colors = MM.colors
     val type = MM.type
+    val displayCurrencyCode = currencyDisplay(currencyCode, LocalUseCurrencySymbol.current)
     val slices = animCats.map {
         DonutSlice(
             color = Color(it.categoryColor),
@@ -338,7 +341,7 @@ private fun DonutChartWithSelection(
                     style = type.bodyMono.copy(color = colors.text),
                 )
                 Text(
-                    text = "$currencyCode ${formatAmount(cat.amount)}",
+                    text = "$displayCurrencyCode ${formatAmount(cat.amount)}",
                     style = type.captionMono.copy(color = colors.text2),
                 )
             }

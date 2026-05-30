@@ -2,6 +2,8 @@ package com.dv.moneym.feature.transactionedit.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.dv.moneym.core.model.currencyDisplay
+import com.dv.moneym.core.ui.LocalUseCurrencySymbol
 import com.dv.moneym.core.ui.MmBudgetProgressBar
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.feature.transactionedit.usecase.CategoryBudgetRemaining
@@ -11,10 +13,12 @@ internal fun BudgetRemainingChip(
     remaining: CategoryBudgetRemaining,
     modifier: Modifier = Modifier,
 ) {
+    val useSymbol = LocalUseCurrencySymbol.current
+    val displayCurrency = currencyDisplay(remaining.spent.currency.value, useSymbol)
     MmCard(modifier = modifier, padded = true) {
         MmBudgetProgressBar(
             budgetName = remaining.budgetName,
-            spentLabel = formatAmount(remaining.spent.minorUnits / 100.0, remaining.spent.currency.value),
+            spentLabel = formatAmount(remaining.spent.minorUnits / 100.0, displayCurrency),
             limitLabel = formatAmount(remaining.amount.minorUnits / 100.0, ""),
             remainingLabel = if (remaining.isOverrun)
                 "${formatAmount(-remaining.remaining.minorUnits / 100.0, "")} over"
