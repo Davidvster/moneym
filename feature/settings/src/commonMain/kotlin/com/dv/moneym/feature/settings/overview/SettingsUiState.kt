@@ -16,6 +16,8 @@ data class SettingsUiState(
     val defaultTransactionType: TransactionType = TransactionType.EXPENSE,
     // payment mode toggle
     val paymentModeEnabled: Boolean = false,
+    // show currency symbol instead of code
+    val useCurrencySymbol: Boolean = false,
     val showLockPicker: Boolean = false,
 )
 
@@ -23,5 +25,6 @@ sealed interface SettingsOverviewIntent {
     data class SetThemeMode(val mode: ThemeMode) : SettingsOverviewIntent
     data class SetDefaultTransactionType(val type: TransactionType) : SettingsOverviewIntent
     data class SetPaymentModeEnabled(val enabled: Boolean) : SettingsOverviewIntent
+    data class SetUseCurrencySymbol(val enabled: Boolean) : SettingsOverviewIntent
     data class ShowLockPicker(val visible: Boolean) : SettingsOverviewIntent
 }

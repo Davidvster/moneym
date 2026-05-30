@@ -23,6 +23,7 @@ class FakeAppSettingsRepository : AppSettingsRepository {
     private val _defaultTransactionType = MutableStateFlow(TransactionType.EXPENSE)
     private val _paymentModeEnabled = MutableStateFlow(false)
     private val _showPendingRecurring = MutableStateFlow(true)
+    private val _useCurrencySymbol = MutableStateFlow(false)
 
     override fun observeThemeMode(): Flow<ThemeMode> = _themeMode.asStateFlow()
 
@@ -82,5 +83,11 @@ class FakeAppSettingsRepository : AppSettingsRepository {
 
     override suspend fun setShowPendingRecurring(enabled: Boolean) {
         _showPendingRecurring.value = enabled
+    }
+
+    override fun observeUseCurrencySymbol(): Flow<Boolean> = _useCurrencySymbol.asStateFlow()
+
+    override suspend fun setUseCurrencySymbol(enabled: Boolean) {
+        _useCurrencySymbol.value = enabled
     }
 }

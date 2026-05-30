@@ -1,5 +1,6 @@
 package com.dv.moneym.feature.settings.overview.components
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
@@ -19,6 +20,8 @@ import moneym.feature.settings.generated.resources.settings_language
 import moneym.feature.settings.generated.resources.settings_payment_mode_enabled
 import moneym.feature.settings.generated.resources.settings_payment_modes
 import moneym.feature.settings.generated.resources.settings_recurring_nav
+import moneym.feature.settings.generated.resources.settings_use_currency_symbol
+import moneym.feature.settings.generated.resources.settings_use_currency_symbol_subtitle
 import moneym.feature.settings.generated.resources.settings_wallets
 import org.jetbrains.compose.resources.stringResource
 
@@ -26,6 +29,7 @@ import org.jetbrains.compose.resources.stringResource
 internal fun PreferencesSection(
     languageSubtitle: String,
     paymentModeEnabled: Boolean,
+    useCurrencySymbol: Boolean,
     onNavigateToLanguage: () -> Unit,
     onNavigateToCategories: () -> Unit,
     onNavigateToBudgets: () -> Unit,
@@ -33,6 +37,7 @@ internal fun PreferencesSection(
     onNavigateToWallets: () -> Unit,
     onNavigateToPaymentModes: () -> Unit,
     onPaymentModeEnabledChanged: (Boolean) -> Unit,
+    onUseCurrencySymbolChanged: (Boolean) -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -65,7 +70,7 @@ internal fun PreferencesSection(
             onClick = onNavigateToWallets,
         )
         MmRow(
-            divider = paymentModeEnabled,
+            divider = true,
             onClick = { onPaymentModeEnabledChanged(!paymentModeEnabled) },
         ) {
             androidx.compose.material3.Icon(
@@ -90,7 +95,34 @@ internal fun PreferencesSection(
                 title = stringResource(Res.string.settings_payment_modes),
                 leadingIcon = Icon.List.imageVector,
                 onClick = onNavigateToPaymentModes,
-                divider = false,
+                divider = true,
+            )
+        }
+        MmRow(
+            divider = false,
+            onClick = { onUseCurrencySymbolChanged(!useCurrencySymbol) },
+        ) {
+            androidx.compose.material3.Icon(
+                imageVector = Icon.Wallet.imageVector,
+                contentDescription = null,
+                tint = colors.text,
+                modifier = Modifier.size(MM.dimen.icon_1x),
+            )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    stringResource(Res.string.settings_use_currency_symbol),
+                    style = type.body,
+                    color = colors.text,
+                )
+                Text(
+                    stringResource(Res.string.settings_use_currency_symbol_subtitle),
+                    style = type.caption,
+                    color = colors.text2,
+                )
+            }
+            MmToggle(
+                checked = useCurrencySymbol,
+                onCheckedChange = onUseCurrencySymbolChanged,
             )
         }
     }

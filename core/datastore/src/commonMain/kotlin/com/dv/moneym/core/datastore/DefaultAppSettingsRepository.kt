@@ -190,4 +190,11 @@ class DefaultAppSettingsRepository(
     override suspend fun setShowPendingRecurring(enabled: Boolean) {
         appSettings.putBoolean(PrefKeys.SHOW_PENDING_RECURRING_TX, enabled)
     }
+
+    override fun observeUseCurrencySymbol(): Flow<Boolean> =
+        appSettings.observeBoolean(PrefKeys.USE_CURRENCY_SYMBOL, false)
+
+    override suspend fun setUseCurrencySymbol(enabled: Boolean) {
+        appSettings.putBoolean(PrefKeys.USE_CURRENCY_SYMBOL, enabled)
+    }
 }

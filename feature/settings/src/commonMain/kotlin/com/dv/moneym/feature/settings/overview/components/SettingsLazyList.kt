@@ -33,6 +33,7 @@ internal fun SettingsLazyList(
     languageSubtitle: String,
     onThemeModeChanged: (ThemeMode) -> Unit,
     onPaymentModeEnabledChanged: (Boolean) -> Unit,
+    onUseCurrencySymbolChanged: (Boolean) -> Unit,
     onSecurityIntent: (SecuritySettingsIntent) -> Unit,
     onNavigateToTxDisplay: () -> Unit,
     onNavigateToCategories: () -> Unit,
@@ -103,6 +104,7 @@ internal fun SettingsLazyList(
             PreferencesSection(
                 languageSubtitle = languageSubtitle,
                 paymentModeEnabled = state.paymentModeEnabled,
+                useCurrencySymbol = state.useCurrencySymbol,
                 onNavigateToLanguage = onNavigateToLanguage,
                 onNavigateToCategories = onNavigateToCategories,
                 onNavigateToBudgets = onNavigateToBudgets,
@@ -110,6 +112,7 @@ internal fun SettingsLazyList(
                 onNavigateToWallets = onNavigateToWallets,
                 onNavigateToPaymentModes = onNavigateToPaymentModes,
                 onPaymentModeEnabledChanged = onPaymentModeEnabledChanged,
+                onUseCurrencySymbolChanged = onUseCurrencySymbolChanged,
             )
         }
         item(key = SettingsItem.DATA_LABEL.name) {

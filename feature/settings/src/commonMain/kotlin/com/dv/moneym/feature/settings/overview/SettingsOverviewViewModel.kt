@@ -36,6 +36,9 @@ class SettingsOverviewViewModel(
     val paymentModeEnabled: StateFlow<Boolean> = appSettingsRepository.observePaymentModeEnabled()
         .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
+    val useCurrencySymbol: StateFlow<Boolean> = appSettingsRepository.observeUseCurrencySymbol()
+        .stateIn(viewModelScope, SharingStarted.Lazily, false)
+
     private val _showLockPicker = MutableStateFlow(false)
     val showLockPicker: StateFlow<Boolean> = _showLockPicker.asStateFlow()
 
@@ -44,6 +47,7 @@ class SettingsOverviewViewModel(
             is SettingsOverviewIntent.SetThemeMode -> setThemeMode(intent.mode)
             is SettingsOverviewIntent.SetDefaultTransactionType -> setDefaultTransactionType(intent.type)
             is SettingsOverviewIntent.SetPaymentModeEnabled -> setPaymentModeEnabled(intent.enabled)
+            is SettingsOverviewIntent.SetUseCurrencySymbol -> setUseCurrencySymbol(intent.enabled)
             is SettingsOverviewIntent.ShowLockPicker -> _showLockPicker.update { intent.visible }
         }
     }
@@ -58,5 +62,9 @@ class SettingsOverviewViewModel(
 
     private fun setPaymentModeEnabled(enabled: Boolean) {
         viewModelScope.launch { appSettingsRepository.setPaymentModeEnabled(enabled) }
+    }
+
+    private fun setUseCurrencySymbol(enabled: Boolean) {
+        viewModelScope.launch { appSettingsRepository.setUseCurrencySymbol(enabled) }
     }
 }

@@ -2,8 +2,8 @@
 
 | Phase | Scope | Status |
 |-------|-------|--------|
-| 1 | Shared wallet selector (tasks 1+2) | in progress |
-| 2 | Currency symbol setting (task 3) | pending |
+| 1 | Shared wallet selector (tasks 1+2) | done (baa7db8) |
+| 2 | Currency symbol setting (task 3) | in progress |
 | 3 | Theme flicker fix (task 4) | pending |
 | 4 | Add-button consistency (task 5) | pending |
 | 5 | Immediate local backup + loading overlay (task 6) | pending |

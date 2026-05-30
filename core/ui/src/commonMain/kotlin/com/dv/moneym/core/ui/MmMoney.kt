@@ -2,6 +2,7 @@ package com.dv.moneym.core.ui
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -9,12 +10,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.common.formatNumber
+import com.dv.moneym.core.model.currencyDisplay
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import androidx.compose.ui.tooling.preview.Preview
+
+val LocalUseCurrencySymbol = staticCompositionLocalOf { false }
 
 @Composable
 fun MmMoney(
@@ -30,6 +34,8 @@ fun MmMoney(
     val colors = MM.colors
     val type = MM.type
 
+    val displayCurrency = currencyDisplay(currency, LocalUseCurrencySymbol.current)
+
     val absValue = kotlin.math.abs(value)
     val isNegative = value < 0
 
@@ -44,9 +50,9 @@ fun MmMoney(
     }
 
     val displayText = if (prefix.isNotEmpty()) {
-        "$prefix $currency $formatted"
+        "$prefix $displayCurrency $formatted"
     } else {
-        "$currency $formatted"
+        "$displayCurrency $formatted"
     }
 
     val resolvedColor = if (color == Color.Unspecified) colors.text else color

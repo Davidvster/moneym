@@ -146,6 +146,9 @@
     <string name="settings_payment_modes">Gestisci modalità di pagamento</string>
     <string name="settings_payment_mode_list_title">Modalità di pagamento</string>
     <string name="settings_payment_mode_add">Aggiungi modalità</string>
+    <!-- Currency symbol -->
+    <string name="settings_use_currency_symbol">Usa simbolo valuta</string>
+    <string name="settings_use_currency_symbol_subtitle">Mostra € invece di EUR</string>
     <string name="settings_payment_mode_rename_title">Rinomina</string>
     <string name="settings_payment_mode_name_placeholder">Nome modalità</string>
     <string name="settings_payment_mode_delete_title">Elimina modalità di pagamento</string>

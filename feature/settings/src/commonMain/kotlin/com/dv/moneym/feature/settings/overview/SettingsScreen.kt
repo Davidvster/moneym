@@ -112,6 +112,7 @@ fun SettingsScreen(
     val language by overviewViewModel.language.collectAsStateWithLifecycle()
     val defaultTransactionType by overviewViewModel.defaultTransactionType.collectAsStateWithLifecycle()
     val paymentModeEnabled by overviewViewModel.paymentModeEnabled.collectAsStateWithLifecycle()
+    val useCurrencySymbol by overviewViewModel.useCurrencySymbol.collectAsStateWithLifecycle()
     val showLockPicker by overviewViewModel.showLockPicker.collectAsStateWithLifecycle()
     val securityState by securityViewModel.state.collectAsStateWithLifecycle()
 
@@ -129,6 +130,7 @@ fun SettingsScreen(
         language = language,
         defaultTransactionType = defaultTransactionType,
         paymentModeEnabled = paymentModeEnabled,
+        useCurrencySymbol = useCurrencySymbol,
         showLockPicker = showLockPicker,
     )
 
@@ -137,6 +139,7 @@ fun SettingsScreen(
         securityState = securityState,
         onThemeModeChanged = { overviewViewModel.onIntent(SettingsOverviewIntent.SetThemeMode(it)) },
         onPaymentModeEnabledChanged = { overviewViewModel.onIntent(SettingsOverviewIntent.SetPaymentModeEnabled(it)) },
+        onUseCurrencySymbolChanged = { overviewViewModel.onIntent(SettingsOverviewIntent.SetUseCurrencySymbol(it)) },
         onShowLockPicker = { overviewViewModel.onIntent(SettingsOverviewIntent.ShowLockPicker(it)) },
         onSecurityIntent = securityViewModel::onIntent,
         onNavigateToCategories = onNavigateToCategories,
@@ -158,6 +161,7 @@ private fun SettingsContent(
     securityState: SecuritySettingsUiState,
     onThemeModeChanged: (ThemeMode) -> Unit,
     onPaymentModeEnabledChanged: (Boolean) -> Unit,
+    onUseCurrencySymbolChanged: (Boolean) -> Unit,
     onShowLockPicker: (Boolean) -> Unit,
     onSecurityIntent: (SecuritySettingsIntent) -> Unit,
     onNavigateToCategories: () -> Unit,
@@ -234,6 +238,7 @@ private fun SettingsContent(
             languageSubtitle = languageSubtitle,
             onThemeModeChanged = onThemeModeChanged,
             onPaymentModeEnabledChanged = onPaymentModeEnabledChanged,
+            onUseCurrencySymbolChanged = onUseCurrencySymbolChanged,
             onSecurityIntent = onSecurityIntent,
             onNavigateToTxDisplay = onNavigateToTxDisplay,
             onNavigateToCategories = onNavigateToCategories,
@@ -259,6 +264,7 @@ private fun SettingsScreenPreview() {
             securityState = SecuritySettingsUiState(),
             onThemeModeChanged = {},
             onPaymentModeEnabledChanged = {},
+            onUseCurrencySymbolChanged = {},
             onShowLockPicker = {},
             onSecurityIntent = {},
             onNavigateToCategories = {},

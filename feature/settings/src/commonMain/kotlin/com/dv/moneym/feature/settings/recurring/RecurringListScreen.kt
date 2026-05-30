@@ -26,6 +26,7 @@ import com.dv.moneym.core.model.RecurringTransaction
 import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.format
 import com.dv.moneym.core.navigation.ModalKey
+import com.dv.moneym.core.ui.LocalUseCurrencySymbol
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.ScreenHeader
@@ -127,7 +128,7 @@ private fun RuleSummary(rule: RecurringTransaction, categoryName: String) {
                 color = MM.colors.text,
             )
             Text(
-                text = rule.amount.format(),
+                text = rule.amount.format(LocalUseCurrencySymbol.current),
                 style = MM.type.body,
                 color = if (rule.type == com.dv.moneym.core.model.TransactionType.EXPENSE)
                     MM.colors.text else MM.colors.accent,

@@ -1,12 +1,13 @@
 package com.dv.moneym.core.model
 
-fun Money.format(): String {
+fun Money.format(useSymbol: Boolean = false): String {
     val negative = minorUnits < 0
     val abs = if (negative) -minorUnits else minorUnits
     val major = abs / 100
     val cents = abs % 100
     val sign = if (negative) "-" else ""
-    return "$sign${currency.value} $major.${cents.toString().padStart(2, '0')}"
+    val display = currencyDisplay(currency.value, useSymbol)
+    return "$sign$display $major.${cents.toString().padStart(2, '0')}"
 }
 
 fun String.toMinorUnits(): Long? {

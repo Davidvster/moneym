@@ -39,4 +39,8 @@ interface AppSettingsRepository {
     // Pending recurring transactions visibility in tx list (default true)
     fun observeShowPendingRecurring(): Flow<Boolean>
     suspend fun setShowPendingRecurring(enabled: Boolean)
+
+    // Show currency symbol instead of code
+    fun observeUseCurrencySymbol(): Flow<Boolean>
+    suspend fun setUseCurrencySymbol(enabled: Boolean)
 }

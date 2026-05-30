@@ -130,6 +130,9 @@
     <string name="settings_payment_modes">Manage Payment Modes</string>
     <string name="settings_payment_mode_list_title">Payment Modes</string>
     <string name="settings_payment_mode_add">Add payment mode</string>
+    <!-- Currency symbol -->
+    <string name="settings_use_currency_symbol">Use currency symbol</string>
+    <string name="settings_use_currency_symbol_subtitle">Show € instead of EUR</string>
     <string name="settings_payment_mode_rename_title">Rename</string>
     <string name="settings_payment_mode_name_placeholder">Mode name</string>
     <string name="settings_payment_mode_delete_title">Delete payment mode</string>

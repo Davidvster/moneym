@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -18,6 +19,7 @@ import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.ThemeMode
+import com.dv.moneym.core.ui.LocalUseCurrencySymbol
 import com.dv.moneym.di.appModules
 import com.dv.moneym.feature.security.unlock.PinUnlockScreen
 import org.koin.compose.KoinApplication
@@ -74,16 +76,21 @@ private fun AppContent() {
         ThemeMode.Auto -> isSystemInDarkTheme()
     }
 
+    val useCurrencySymbol by appSettingsRepo.observeUseCurrencySymbol()
+        .collectAsStateWithLifecycle(initialValue = false)
+
     MoneyMTheme(darkTheme = isDark) {
-        when {
-            !onboardingDone -> OnboardingNav()
-            isLocked == null -> Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MM.colors.bg)
-            ) // loading
-            isLocked == true -> PinUnlockScreen(onUnlocked = { lockController.unlock() })
-            else -> MainNav(lockController = lockController)
+        CompositionLocalProvider(LocalUseCurrencySymbol provides useCurrencySymbol) {
+            when {
+                !onboardingDone -> OnboardingNav()
+                isLocked == null -> Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MM.colors.bg)
+                ) // loading
+                isLocked == true -> PinUnlockScreen(onUnlocked = { lockController.unlock() })
+                else -> MainNav(lockController = lockController)
+            }
         }
     }
 }

@@ -45,6 +45,9 @@ object PrefKeys {
     // Payment mode feature toggle
     const val PAYMENT_MODE_ENABLED = "pref.payment_mode_enabled"
 
+    // Show currency symbol (€) instead of code (EUR) app-wide
+    const val USE_CURRENCY_SYMBOL = "pref.use_currency_symbol"
+
     // Show upcoming (grayed) recurring transaction occurrences in tx list
     const val SHOW_PENDING_RECURRING_TX = "pref.show_pending_recurring_tx"
 
