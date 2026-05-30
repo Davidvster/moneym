@@ -38,6 +38,7 @@ internal data class TransactionListUiState(
     // Page math — computed in VM, consumed by Screen
     val currentPage: Int = 0,
     val pageCount: Int = 121,
+    val canGoBack: Boolean = false,
     // null = no transactions yet → no min-date restriction in MonthPicker
     val earliestMonth: YearMonth? = null,
     val today: LocalDate? = null,

@@ -120,14 +120,14 @@ class OverviewViewModel(
         val canGoBack = when (val p = period) {
             is OverviewPeriod.Month -> {
                 val minDate = minIso?.let { LocalDate.parse(it) }
-                if (minDate == null) true
+                if (minDate == null) false
                 else YearMonth(p.yearMonth.year, p.yearMonth.monthNumber) >
                         YearMonth(minDate.year, minDate.month.number)
             }
 
             is OverviewPeriod.Year -> {
                 val minYear = minIso?.let { LocalDate.parse(it).year }
-                minYear == null || p.year > minYear
+                minYear != null && p.year > minYear
             }
 
             is OverviewPeriod.DateRange -> false

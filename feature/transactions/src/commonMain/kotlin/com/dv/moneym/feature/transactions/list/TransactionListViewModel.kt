@@ -121,6 +121,7 @@ class TransactionListViewModel(
                 earliestMonth = earliestMonth,
                 currentPage = currentPage,
                 pageCount = todayPage + 1 + 120,
+                canGoBack = currentPage > 0,
             )
         }
         .combine(ephemeralState.searchQuery) { state, q -> state.copy(searchQuery = q) }

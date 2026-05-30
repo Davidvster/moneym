@@ -395,7 +395,7 @@ private fun MonthNavRow(
     val type = MM.type
     val currentMonth = state.currentMonth ?: return
     val label = monthLabel(currentMonth.year, currentMonth.monthNumber)
-    val canGoBack = state.currentPage > 0
+    val canGoBack = state.canGoBack
 
     val displayAmount: Double
     val displayLabel: String
