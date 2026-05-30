@@ -6,12 +6,17 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
+import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingKey
 import com.dv.moneym.feature.onboarding.currency.onboardingCurrencyEntry
@@ -42,6 +47,7 @@ internal fun OnboardingNav() {
         }
     }
 
+    Box(modifier = Modifier.fillMaxSize().background(MM.colors.bg)) {
     NavDisplay(
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
@@ -87,4 +93,5 @@ internal fun OnboardingNav() {
             importDataEntry(onBack = { backStack.removeLastOrNull() })
         },
     )
+    }
 }

@@ -76,6 +76,8 @@ private fun AppContent() {
         ThemeMode.Auto -> isSystemInDarkTheme()
     }
 
+    LaunchedEffect(themeMode) { applyAppNightMode(themeMode) }
+
     val useCurrencySymbol by appSettingsRepo.observeUseCurrencySymbol()
         .collectAsStateWithLifecycle(initialValue = false)
 

@@ -8,12 +8,17 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.feature.budgets.create.BudgetCreateKey
 import com.dv.moneym.feature.budgets.create.budgetCreateEntry
@@ -96,6 +101,7 @@ internal fun MainNav(lockController: AppLockController) {
     }
 
 
+    Box(modifier = Modifier.fillMaxSize().background(MM.colors.bg)) {
     NavDisplay(
         backStack = tabBackStack.backStack,
         onBack = { tabBackStack.removeLast() },
@@ -255,4 +261,5 @@ internal fun MainNav(lockController: AppLockController) {
             )
         },
     )
+    }
 }
