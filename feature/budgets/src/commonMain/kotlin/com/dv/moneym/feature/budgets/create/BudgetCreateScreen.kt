@@ -43,6 +43,7 @@ import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmMonthPickerDialog
 import com.dv.moneym.core.ui.ScreenHeader
+import com.dv.moneym.core.ui.WalletSelector
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.monthLabel
 import com.dv.moneym.core.utils.observeWithLifecycle
@@ -211,23 +212,11 @@ private fun BudgetCreateContent(
                     color = colors.text2,
                     modifier = Modifier.padding(bottom = 4.dp),
                 )
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
-                    verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
-                ) {
-                    state.availableAccounts.forEach { account ->
-                        MmChip(
-                            selected = state.selectedAccountId == account.id,
-                            onClick = { onIntent(BudgetCreateIntent.AccountSelected(account.id)) },
-                        ) {
-                            Text(
-                                account.name,
-                                style = type.caption,
-                                color = if (state.selectedAccountId == account.id) colors.bg else colors.text,
-                            )
-                        }
-                    }
-                }
+                WalletSelector(
+                    accounts = state.availableAccounts,
+                    selectedAccountId = state.selectedAccountId,
+                    onSelect = { onIntent(BudgetCreateIntent.AccountSelected(it)) },
+                )
             }
             item {
                 Text(

@@ -2,6 +2,7 @@ package com.dv.moneym.feature.transactionedit.components
 
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.model.Icon
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,8 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.Account
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIconButtonVariant
+import com.dv.moneym.core.ui.WalletSelector
 import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.edit_title_add
 import moneym.feature.transactionedit.generated.resources.edit_title_edit
@@ -28,6 +32,9 @@ internal fun TransactionEditModalHeader(
     isEditMode: Boolean,
     onDismiss: () -> Unit,
     onDeleteClick: () -> Unit,
+    accounts: List<Account> = emptyList(),
+    selectedAccountId: AccountId? = null,
+    onAccountSelected: (AccountId) -> Unit = {},
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -53,14 +60,26 @@ internal fun TransactionEditModalHeader(
             modifier = Modifier.weight(1f),
             textAlign = TextAlign.Center,
         )
-        if (isEditMode) {
-            MmIconButton(
-                icon = Icon.Trash.imageVector,
-                onClick = onDeleteClick,
-                variant = MmIconButtonVariant.Danger,
-            )
-        } else {
-            Spacer(Modifier.size(MM.dimen.padding_5x))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_0_5x),
+        ) {
+            if (accounts.size > 1) {
+                WalletSelector(
+                    accounts = accounts,
+                    selectedAccountId = selectedAccountId,
+                    onSelect = onAccountSelected,
+                )
+            }
+            if (isEditMode) {
+                MmIconButton(
+                    icon = Icon.Trash.imageVector,
+                    onClick = onDeleteClick,
+                    variant = MmIconButtonVariant.Danger,
+                )
+            } else if (accounts.size <= 1) {
+                Spacer(Modifier.size(MM.dimen.padding_5x))
+            }
         }
     }
 }

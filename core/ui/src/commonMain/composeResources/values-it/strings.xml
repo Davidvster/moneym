@@ -23,4 +23,6 @@
     <string name="colorpicker_hex">Colore esadecimale</string>
     <string name="colorpicker_select">Seleziona colore</string>
     <string name="colorpicker_cancel">Annulla</string>
+    <string name="wallet_select">Seleziona portafoglio</string>
+    <string name="cancel">Annulla</string>
 </resources>

@@ -22,12 +22,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
+import com.dv.moneym.core.model.Account
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
+import com.dv.moneym.core.ui.WalletSelector
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.overview.OverviewPeriod
 import moneym.feature.overview.generated.resources.Res
@@ -52,6 +55,9 @@ internal fun OverviewHeader(
     onShowDateRangePicker: () -> Unit,
     onSpendingFilterChanged: (SpendingFilter) -> Unit,
     canGoBack: Boolean = true,
+    accounts: List<Account> = emptyList(),
+    selectedAccountId: AccountId? = null,
+    onAccountSelected: (AccountId) -> Unit = {},
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -81,6 +87,14 @@ internal fun OverviewHeader(
                 color = colors.text,
                 modifier = Modifier.weight(1f),
             )
+            if (accounts.size > 1) {
+                WalletSelector(
+                    accounts = accounts,
+                    selectedAccountId = selectedAccountId,
+                    onSelect = onAccountSelected,
+                    modifier = Modifier.padding(end = MM.dimen.padding_1x),
+                )
+            }
             MmSegmented(
                 options = listOf(
                     stringResource(Res.string.overview_period_month),

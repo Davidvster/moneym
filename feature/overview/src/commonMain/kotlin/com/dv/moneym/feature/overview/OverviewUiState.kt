@@ -1,5 +1,7 @@
 package com.dv.moneym.feature.overview
 
+import com.dv.moneym.core.model.Account
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.YearMonth
@@ -93,4 +95,6 @@ internal data class OverviewUiState(
     val currency: String = "EUR",
     val showPeriodPicker: Boolean = false,
     val showDateRangePicker: Boolean = false,
+    val accounts: List<Account> = emptyList(),
+    val selectedAccountId: AccountId? = null,
 )

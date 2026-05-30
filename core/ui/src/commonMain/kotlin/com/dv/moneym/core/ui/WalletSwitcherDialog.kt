@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.transactions.list.components
+package com.dv.moneym.core.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,20 +15,17 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Icon
-import com.dv.moneym.core.ui.MmRow
-import com.dv.moneym.core.ui.WalletColorDot
-import com.dv.moneym.core.ui.imageVector
-import moneym.feature.transactions.generated.resources.Res
-import moneym.feature.transactions.generated.resources.transactions_cancel
-import moneym.feature.transactions.generated.resources.transactions_wallet_select
+import moneym.core.ui.generated.resources.Res
+import moneym.core.ui.generated.resources.cancel
+import moneym.core.ui.generated.resources.wallet_select
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-internal fun WalletSwitcherDialog(
+fun WalletSwitcherDialog(
     accounts: List<Account>,
     selectedAccountId: AccountId?,
     onDismiss: () -> Unit,
-    onSelect: (AccountId?) -> Unit,
+    onSelect: (AccountId) -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -38,7 +35,7 @@ internal fun WalletSwitcherDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                text = stringResource(Res.string.transactions_wallet_select),
+                text = stringResource(Res.string.wallet_select),
                 style = type.title3,
                 color = colors.text,
             )
@@ -81,7 +78,7 @@ internal fun WalletSwitcherDialog(
         confirmButton = {},
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(stringResource(Res.string.transactions_cancel), color = colors.text2)
+                Text(stringResource(Res.string.cancel), color = colors.text2)
             }
         },
         containerColor = colors.surface,

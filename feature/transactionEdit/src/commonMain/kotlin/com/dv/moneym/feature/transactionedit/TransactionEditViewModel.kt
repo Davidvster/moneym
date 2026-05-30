@@ -221,7 +221,10 @@ class TransactionEditViewModel(
                 )
             }
 
-            is TransactionEditIntent.AccountSelected -> _state.update { it.copy(selectedAccountId = intent.id) }
+            is TransactionEditIntent.AccountSelected -> {
+                _state.update { it.copy(selectedAccountId = intent.id) }
+                viewModelScope.launch { appSettingsRepository.setSelectedAccountId(intent.id.value) }
+            }
             is TransactionEditIntent.NoteChanged -> {
                 _state.update { it.copy(note = intent.note) }
                 updateNoteSuggestions(intent.note)

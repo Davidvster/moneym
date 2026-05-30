@@ -139,6 +139,9 @@ private fun TransactionEditContent(
             isEditMode = state.isEditMode,
             onDismiss = onDismiss,
             onDeleteClick = { onIntent(TransactionEditIntent.ShowDeleteDialog(true)) },
+            accounts = state.availableAccounts,
+            selectedAccountId = state.selectedAccountId,
+            onAccountSelected = { onIntent(TransactionEditIntent.AccountSelected(it)) },
         )
         TransactionEditScrollBody(
             state = state,

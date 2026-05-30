@@ -23,4 +23,6 @@
     <string name="colorpicker_hex">Color hexadecimal</string>
     <string name="colorpicker_select">Seleccionar color</string>
     <string name="colorpicker_cancel">Cancelar</string>
+    <string name="wallet_select">Seleccionar billetera</string>
+    <string name="cancel">Cancelar</string>
 </resources>

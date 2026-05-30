@@ -160,6 +160,9 @@ private fun OverviewContent(
             onShowDateRangePicker = { onIntent(OverviewIntent.ShowDateRangePicker(true)) },
             onSpendingFilterChanged = { onIntent(OverviewIntent.SpendingFilterChanged(it)) },
             canGoBack = state.canGoBack,
+            accounts = state.accounts,
+            selectedAccountId = state.selectedAccountId,
+            onAccountSelected = { onIntent(OverviewIntent.AccountSelected(it)) },
         )
 
         when {

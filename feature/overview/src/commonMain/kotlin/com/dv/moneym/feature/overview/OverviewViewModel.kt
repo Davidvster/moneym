@@ -6,6 +6,7 @@ import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.datastore.AppSettingsRepository
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.OverviewPeriodMode
 import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.YearMonth
@@ -53,6 +54,7 @@ class OverviewViewModel(
     private data class UiBooleans(
         val showPeriodPicker: Boolean = false,
         val showDateRangePicker: Boolean = false,
+        val showWalletPicker: Boolean = false,
     )
 
     private val _uiBooleans = MutableStateFlow(UiBooleans())
@@ -131,9 +133,9 @@ class OverviewViewModel(
             is OverviewPeriod.DateRange -> false
         }
 
-        val currency = (if (selectedAccId > 0L) accounts.find { it.id.value == selectedAccId }
-        else accounts.firstOrNull { it.isDefault } ?: accounts.firstOrNull())
-            ?.currency?.value ?: "USD"
+        val selectedAccount = if (selectedAccId > 0L) accounts.find { it.id.value == selectedAccId }
+        else accounts.firstOrNull { it.isDefault } ?: accounts.firstOrNull()
+        val currency = selectedAccount?.currency?.value ?: "USD"
 
         OverviewUiState(
             currentPeriod = period,
@@ -148,6 +150,8 @@ class OverviewViewModel(
             minSelectableDateIso = minIso,
             maxSelectableDateIso = maxIso,
             currency = currency,
+            accounts = accounts,
+            selectedAccountId = selectedAccount?.id,
         )
     }
         .combine(_transactionDateIsos) { s, isos -> s.copy(transactionDateIsos = isos) }
@@ -190,6 +194,12 @@ class OverviewViewModel(
 
             is OverviewIntent.ShowDateRangePicker ->
                 _uiBooleans.update { it.copy(showDateRangePicker = intent.visible) }
+
+            is OverviewIntent.ShowWalletPicker ->
+                _uiBooleans.update { it.copy(showWalletPicker = intent.visible) }
+
+            is OverviewIntent.AccountSelected ->
+                viewModelScope.launch { appSettingsRepository.setSelectedAccountId(intent.id.value) }
         }
     }
 

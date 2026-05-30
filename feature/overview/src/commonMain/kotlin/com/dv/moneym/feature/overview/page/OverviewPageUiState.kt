@@ -1,5 +1,6 @@
 package com.dv.moneym.feature.overview.page
 
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.YearMonth
@@ -53,6 +54,8 @@ internal sealed interface OverviewIntent {
     data class YearPagerSwiped(val year: Int) : OverviewIntent
     data class ShowPeriodPicker(val visible: Boolean) : OverviewIntent
     data class ShowDateRangePicker(val visible: Boolean) : OverviewIntent
+    data class ShowWalletPicker(val visible: Boolean) : OverviewIntent
+    data class AccountSelected(val id: AccountId) : OverviewIntent
 }
 
 internal sealed interface OverviewPageIntent {
