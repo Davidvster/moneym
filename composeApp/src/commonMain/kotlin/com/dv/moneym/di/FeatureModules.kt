@@ -225,6 +225,7 @@ val featureSettingsModule = module {
             googleAuthManager = getOrNull(),
             remoteBackupManager = getOrNull(),
             sessionPassphrase = getOrNull(),
+            filePlatform = get(),
             savedStateHandle = get(),
         )
     }

@@ -6,7 +6,7 @@
 | 2 | Currency symbol setting (task 3) | done (f33c431) |
 | 3 | Theme flicker fix (task 4) | done (68b4a4c) |
 | 4 | Add-button consistency (task 5) | done (06a545c) |
-| 5 | Immediate local backup + loading overlay (task 6) | in progress |
+| 5 | Immediate local backup + loading overlay (task 6) | done |
 | 6 | Dialogs theme + password + optional encryption + immediate cloud (tasks 7+8+9) | pending |
 
 Final: Android `assembleDebug` + iOS link — pending.

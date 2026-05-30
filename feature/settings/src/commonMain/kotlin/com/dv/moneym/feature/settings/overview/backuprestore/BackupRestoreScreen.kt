@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -31,6 +32,7 @@ import com.dv.moneym.core.model.Icon.ChevronRight
 import com.dv.moneym.core.model.Icon.Download
 import com.dv.moneym.core.model.Icon.Folder
 import com.dv.moneym.core.ui.MmCard
+import com.dv.moneym.core.ui.MmLoadingOverlay
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
@@ -197,19 +199,22 @@ private fun BackupRestoreScreen(
         )
     }
 
-    BackupRestoreContent(
-        state = state,
-        onBack = onBack,
-        onBackupTapped = { viewModel.onIntent(BackupRestoreIntent.BackupTapped) },
-        onRestoreTapped = restorePicker,
-        onAutoBackupToggled = { viewModel.onIntent(BackupRestoreIntent.AutoBackupToggled(it)) },
-        onConnectGoogle = { viewModel.onIntent(BackupRestoreIntent.ConnectGoogleTapped) },
-        onDisconnectGoogle = { viewModel.onIntent(BackupRestoreIntent.DisconnectGoogleTapped) },
-        onRemoteAutoToggled = { viewModel.onIntent(BackupRestoreIntent.RemoteAutoBackupToggled(it)) },
-        onRemoteBackupNow = { viewModel.onIntent(BackupRestoreIntent.RemoteBackupNowTapped) },
-        onRemoteRestoreTapped = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreTapped) },
-        onRetryRemoteUpload = { viewModel.onIntent(BackupRestoreIntent.RemoteBackupNowTapped) },
-    )
+    Box(modifier = Modifier.fillMaxSize()) {
+        BackupRestoreContent(
+            state = state,
+            onBack = onBack,
+            onBackupTapped = { viewModel.onIntent(BackupRestoreIntent.BackupTapped) },
+            onRestoreTapped = restorePicker,
+            onAutoBackupToggled = { viewModel.onIntent(BackupRestoreIntent.AutoBackupToggled(it)) },
+            onConnectGoogle = { viewModel.onIntent(BackupRestoreIntent.ConnectGoogleTapped) },
+            onDisconnectGoogle = { viewModel.onIntent(BackupRestoreIntent.DisconnectGoogleTapped) },
+            onRemoteAutoToggled = { viewModel.onIntent(BackupRestoreIntent.RemoteAutoBackupToggled(it)) },
+            onRemoteBackupNow = { viewModel.onIntent(BackupRestoreIntent.RemoteBackupNowTapped) },
+            onRemoteRestoreTapped = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreTapped) },
+            onRetryRemoteUpload = { viewModel.onIntent(BackupRestoreIntent.RemoteBackupNowTapped) },
+        )
+        MmLoadingOverlay(visible = state.isLoading)
+    }
 }
 
 @Composable

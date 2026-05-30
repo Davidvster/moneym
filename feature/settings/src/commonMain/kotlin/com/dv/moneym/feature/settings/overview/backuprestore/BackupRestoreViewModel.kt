@@ -14,6 +14,7 @@ import com.dv.moneym.data.remotebackup.RemoteBackupManager
 import com.dv.moneym.data.remotebackup.RemoteBackupMetadata
 import com.dv.moneym.data.remotebackup.RemoteBackupRuntimeState
 import com.dv.moneym.data.remotebackup.SessionPassphrase
+import com.dv.moneym.platform.FilePlatform
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -92,6 +93,7 @@ class BackupRestoreViewModel(
     private val googleAuthManager: GoogleAuthManager? = null,
     private val remoteBackupManager: RemoteBackupManager? = null,
     private val sessionPassphrase: SessionPassphrase? = null,
+    private val filePlatform: FilePlatform,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -205,6 +207,7 @@ class BackupRestoreViewModel(
             if (hasDirUri) {
                 appSettings.putBoolean(PrefKeys.AUTO_BACKUP_ENABLED, true)
                 _base.update { it.copy(autoBackupEnabled = true) }
+                runImmediateLocalBackup()
             } else {
                 viewModelScope.launch { _effects.send(BackupRestoreEffect.LaunchFolderPicker) }
             }
@@ -232,6 +235,23 @@ class BackupRestoreViewModel(
             appSettings.putString(PrefKeys.AUTO_BACKUP_DIR_URI, uri)
             appSettings.putBoolean(PrefKeys.AUTO_BACKUP_ENABLED, true)
             _base.update { it.copy(autoBackupEnabled = true) }
+            runImmediateLocalBackup()
+        }
+    }
+
+    private fun runImmediateLocalBackup() {
+        _base.update { it.copy(isLoading = true, showBackupSuccess = false) }
+        viewModelScope.launch {
+            val path = withContext(dispatchers.io) {
+                val bytes = dbBackupManager.export()
+                val dirUri = appSettings.getString(PrefKeys.AUTO_BACKUP_DIR_URI)
+                if (dirUri != null && dirUri != "default") {
+                    filePlatform.saveFileToDirBinary(dirUri, "moneym-backup.zip", bytes)
+                } else {
+                    filePlatform.saveFileLocallyBinary("moneym-backup.zip", bytes)
+                }
+            }
+            handleBackupSaveCompleted(path)
         }
     }
 
