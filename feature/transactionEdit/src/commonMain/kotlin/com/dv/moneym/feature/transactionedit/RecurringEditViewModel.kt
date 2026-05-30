@@ -11,7 +11,9 @@ import com.dv.moneym.core.model.EndCondition
 import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.MonthlyDayKind
 import com.dv.moneym.core.model.RecurrenceRule
+import com.dv.moneym.core.model.RecurringTransaction
 import com.dv.moneym.core.model.RecurringTransactionId
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.transactions.PaymentModeRepository
@@ -57,6 +59,10 @@ class RecurringEditViewModel(
     internal val effects = _effects.receiveAsFlow()
 
     private suspend fun init() {
+        if (ruleId.value == 0L) {
+            initNewRule()
+            return
+        }
         val rule = recurringRepo.getById(ruleId) ?: run {
             _effects.send(TransactionEditEffect.Deleted)
             return
@@ -111,6 +117,36 @@ class RecurringEditViewModel(
                 endCount = (rule.endCondition as? EndCondition.Count)?.occurrences ?: 12,
                 endDate = (rule.endCondition as? EndCondition.Until)?.date,
             )
+        }
+    }
+
+    private fun initNewRule() {
+        viewModelScope.launch {
+            combine(
+                categoryRepository.observeActive(),
+                accountRepository.observeAll(),
+                paymentModeRepository.observeAll(),
+                appSettingsRepository.observePaymentModeEnabled(),
+            ) { cats, accs, modes, pmEnabled ->
+                Quad(cats, accs, modes, pmEnabled)
+            }.collect { (cats, accs, modes, pmEnabled) ->
+                val defaultExpenseCat = cats.firstOrNull { it.type == TransactionType.EXPENSE }
+                val defaultAcc = accs.firstOrNull()
+                _state.update { s ->
+                    s.copy(
+                        isLoading = false,
+                        isEditMode = false,
+                        isRecurring = true,
+                        availableCategories = cats,
+                        availableAccounts = accs,
+                        paymentModes = modes,
+                        showPaymentMode = pmEnabled,
+                        selectedCategoryId = s.selectedCategoryId ?: defaultExpenseCat?.id,
+                        selectedAccountId = s.selectedAccountId ?: defaultAcc?.id,
+                        date = s.date ?: clock.today(),
+                    )
+                }
+            }
         }
     }
 
@@ -226,23 +262,42 @@ class RecurringEditViewModel(
         val now = clock.now()
         _state.update { it.copy(isSaving = true) }
         viewModelScope.launch {
-            val existing = withContext(dispatchers.io) { recurringRepo.getById(ruleId) }
-            if (existing == null) {
-                _effects.send(TransactionEditEffect.Deleted)
-                return@launch
+            if (ruleId.value == 0L) {
+                val newRule = RecurringTransaction(
+                    id = RecurringTransactionId(0),
+                    type = s.type,
+                    amount = Money(minorUnits, currency),
+                    note = s.note.trim().ifEmpty { null },
+                    categoryId = catId,
+                    accountId = accId,
+                    paymentModeId = if (s.showPaymentMode) s.selectedPaymentModeId else null,
+                    startDate = date,
+                    rule = rule,
+                    endCondition = end,
+                    lastMaterializedDate = null,
+                    createdAt = now,
+                    updatedAt = now,
+                )
+                withContext(dispatchers.io) { recurringRepo.upsert(newRule) }
+            } else {
+                val existing = withContext(dispatchers.io) { recurringRepo.getById(ruleId) }
+                if (existing == null) {
+                    _effects.send(TransactionEditEffect.Deleted)
+                    return@launch
+                }
+                val updated = existing.copy(
+                    type = s.type,
+                    amount = Money(minorUnits, currency),
+                    note = s.note.trim().ifEmpty { null },
+                    categoryId = catId,
+                    accountId = accId,
+                    paymentModeId = if (s.showPaymentMode) s.selectedPaymentModeId else null,
+                    rule = rule,
+                    endCondition = end,
+                    updatedAt = now,
+                )
+                withContext(dispatchers.io) { recurringRepo.upsert(updated) }
             }
-            val updated = existing.copy(
-                type = s.type,
-                amount = Money(minorUnits, currency),
-                note = s.note.trim().ifEmpty { null },
-                categoryId = catId,
-                accountId = accId,
-                paymentModeId = if (s.showPaymentMode) s.selectedPaymentModeId else null,
-                rule = rule,
-                endCondition = end,
-                updatedAt = now,
-            )
-            withContext(dispatchers.io) { recurringRepo.upsert(updated) }
             _state.update { it.copy(isSaving = false) }
             _effects.send(TransactionEditEffect.Saved)
         }
@@ -276,7 +331,9 @@ class RecurringEditViewModel(
 
     private fun delete() {
         viewModelScope.launch {
-            withContext(dispatchers.io) { recurringRepo.delete(ruleId) }
+            if (ruleId.value != 0L) {
+                withContext(dispatchers.io) { recurringRepo.delete(ruleId) }
+            }
             _effects.send(TransactionEditEffect.Deleted)
         }
     }

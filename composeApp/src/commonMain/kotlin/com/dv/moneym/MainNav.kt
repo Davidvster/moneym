@@ -142,6 +142,7 @@ internal fun MainNav(lockController: AppLockController) {
             recurringListEntry(
                 onBack = { tabBackStack.removeLast() },
                 onEdit = { id -> tabBackStack.push(RecurringEditKey(id.value)) },
+                onCreateNew = { tabBackStack.push(RecurringEditKey(0L)) },
                 metadata = modalTransitionMeta,
             )
             overviewEntry(

@@ -43,6 +43,7 @@ import com.dv.moneym.feature.transactionedit.components.TypeToggleBar
 import kotlinx.serialization.Serializable
 import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.edit_note_placeholder
+import moneym.feature.transactionedit.generated.resources.edit_save
 import moneym.feature.transactionedit.generated.resources.edit_type_expense
 import moneym.feature.transactionedit.generated.resources.edit_type_income
 import moneym.feature.transactionedit.generated.resources.tx_recurring_update_button
@@ -119,7 +120,7 @@ private fun RecurringEditContent(
 
     Column(modifier = Modifier.fillMaxSize().background(colors.bg).imePadding()) {
         TransactionEditModalHeader(
-            isEditMode = true,
+            isEditMode = state.isEditMode,
             onDismiss = onDismiss,
             onDeleteClick = { onIntent(TransactionEditIntent.ShowDeleteDialog(true)) },
         )
@@ -187,10 +188,14 @@ private fun RecurringEditContent(
             RecurrenceSection(state = state, onIntent = onIntent)
         }
         TransactionEditSaveBar(
-            isEditMode = true,
+            isEditMode = state.isEditMode,
             isSaving = state.isSaving,
             onSave = { onIntent(TransactionEditIntent.SaveRequested) },
-            saveLabel = stringResource(Res.string.tx_recurring_update_button),
+            saveLabel = if (state.isEditMode) {
+                stringResource(Res.string.tx_recurring_update_button)
+            } else {
+                stringResource(Res.string.edit_save)
+            },
         )
     }
 }

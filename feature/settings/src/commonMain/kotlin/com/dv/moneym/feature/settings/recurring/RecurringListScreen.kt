@@ -8,18 +8,24 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.EndCondition
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.MonthlyDayKind
 import com.dv.moneym.core.model.RecurrenceRule
 import com.dv.moneym.core.model.RecurringTransaction
@@ -30,6 +36,7 @@ import com.dv.moneym.core.ui.LocalUseCurrencySymbol
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.ScreenHeader
+import com.dv.moneym.core.ui.imageVector
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_recurring_empty
@@ -43,19 +50,21 @@ data object RecurringListKey : ModalKey
 fun EntryProviderScope<NavKey>.recurringListEntry(
     onBack: () -> Unit,
     onEdit: (RecurringTransactionId) -> Unit,
+    onCreateNew: () -> Unit,
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<RecurringListKey>(metadata = metadata) {
-    RecurringListScreen(onBack = onBack, onEdit = onEdit)
+    RecurringListScreen(onBack = onBack, onEdit = onEdit, onCreateNew = onCreateNew)
 }
 
 @Composable
 private fun RecurringListScreen(
     onBack: () -> Unit,
     onEdit: (RecurringTransactionId) -> Unit,
+    onCreateNew: () -> Unit,
     viewModel: RecurringListViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    RecurringListContent(state = state, onBack = onBack, onEdit = onEdit)
+    RecurringListContent(state = state, onBack = onBack, onEdit = onEdit, onCreateNew = onCreateNew)
 }
 
 @Composable
@@ -63,24 +72,41 @@ private fun RecurringListContent(
     state: RecurringListUiState,
     onBack: () -> Unit,
     onEdit: (RecurringTransactionId) -> Unit,
+    onCreateNew: () -> Unit,
 ) {
-    Column(Modifier.fillMaxSize().background(MM.colors.bg)) {
-        ScreenHeader(stringResource(Res.string.settings_recurring_title), onBack = onBack)
-        when {
-            state.isLoading -> Unit
-            state.rules.isEmpty() -> EmptyView()
-            else -> LazyColumn(modifier = Modifier.padding(MM.dimen.padding_2x)) {
-                items(state.rules, key = { it.id.value }) { rule ->
-                    MmCard(modifier = Modifier.padding(bottom = MM.dimen.padding_1x)) {
-                        MmRow(onClick = { onEdit(rule.id) }) {
-                            RuleSummary(
-                                rule = rule,
-                                categoryName = state.categories[rule.categoryId]?.name ?: "—",
-                            )
+    Box(Modifier.fillMaxSize().background(MM.colors.bg)) {
+        Column(Modifier.fillMaxSize()) {
+            ScreenHeader(stringResource(Res.string.settings_recurring_title), onBack = onBack)
+            when {
+                state.isLoading -> Unit
+                state.rules.isEmpty() -> EmptyView()
+                else -> LazyColumn(modifier = Modifier.padding(MM.dimen.padding_2x)) {
+                    items(state.rules, key = { it.id.value }) { rule ->
+                        MmCard(modifier = Modifier.padding(bottom = MM.dimen.padding_1x)) {
+                            MmRow(onClick = { onEdit(rule.id) }) {
+                                RuleSummary(
+                                    rule = rule,
+                                    categoryName = state.categories[rule.categoryId]?.name ?: "—",
+                                )
+                            }
                         }
                     }
                 }
             }
+        }
+        FloatingActionButton(
+            onClick = onCreateNew,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(MM.dimen.padding_4x),
+            containerColor = MM.colors.accent,
+            contentColor = Color.White,
+        ) {
+            Icon(
+                imageVector = Icon.Plus.imageVector,
+                contentDescription = null,
+                modifier = Modifier.size(24.dp),
+            )
         }
     }
 }
@@ -93,6 +119,7 @@ private fun RecurringListContentPreview() {
             state = RecurringListUiState(isLoading = false, rules = emptyList()),
             onBack = {},
             onEdit = {},
+            onCreateNew = {},
         )
     }
 }
