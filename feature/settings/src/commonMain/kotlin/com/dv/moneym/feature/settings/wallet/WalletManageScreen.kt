@@ -18,6 +18,8 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.ui.MmButton
+import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmDeleteSheet
 import com.dv.moneym.core.ui.MmIconButton
@@ -32,6 +34,7 @@ import moneym.feature.settings.generated.resources.settings_wallet_delete_confir
 import moneym.feature.settings.generated.resources.settings_wallet_delete_confirm_cancel
 import moneym.feature.settings.generated.resources.settings_wallet_delete_confirm_ok
 import moneym.feature.settings.generated.resources.settings_wallet_delete_confirm_title
+import moneym.feature.settings.generated.resources.settings_wallet_add_title
 import moneym.feature.settings.generated.resources.settings_wallet_manage_title
 import moneym.feature.settings.generated.resources.settings_wallet_no_wallets
 import moneym.feature.settings.generated.resources.settings_wallet_section_header
@@ -93,12 +96,6 @@ private fun WalletManageContent(
             ScreenHeader(
                 title = stringResource(Res.string.settings_wallet_manage_title),
                 onBack = onBack,
-                trailingContent = {
-                    MmIconButton(
-                        icon = Icon.Plus.imageVector,
-                        onClick = onNavigateToAddWallet,
-                    )
-                },
             )
 
             if (state.pendingDeleteId != null) {
@@ -206,6 +203,21 @@ private fun WalletManageContent(
                         }
                     }
                 }
+            }
+
+            Box(
+                modifier = Modifier.padding(
+                    horizontal = space.padding_2_5x,
+                    vertical = space.padding_2x,
+                )
+            ) {
+                MmButton(
+                    text = stringResource(Res.string.settings_wallet_add_title),
+                    onClick = onNavigateToAddWallet,
+                    variant = MmButtonVariant.Secondary,
+                    fullWidth = true,
+                    leadingIcon = Icon.Plus.imageVector,
+                )
             }
         }
 

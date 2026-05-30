@@ -94,7 +94,6 @@ private fun ManageCategoriesScreen(
             categoryCount = categories.size,
             onBack = onBack,
             onSetTab = { onIntent(CategoryListIntent.SetTab(it)) },
-            onAddClick = { onIntent(CategoryListIntent.ShowCategoryEditSheet(true)) },
         )
 
         DraggableCategoryList(

@@ -8,10 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
-import com.dv.moneym.core.model.Icon
-import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmSegmented
-import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.feature.categories.list.CategoryTab
 import moneym.feature.categories.generated.resources.Res
@@ -27,19 +24,12 @@ internal fun CategoryListHeader(
     categoryCount: Int,
     onBack: () -> Unit,
     onSetTab: (CategoryTab) -> Unit,
-    onAddClick: () -> Unit,
 ) {
     val colors = MM.colors
 
     ScreenHeader(
         title = stringResource(Res.string.categories_title),
         onBack = onBack,
-        trailingContent = {
-            MmIconButton(
-                icon = Icon.Plus.imageVector,
-                onClick = onAddClick,
-            )
-        },
     )
 
     Row(
