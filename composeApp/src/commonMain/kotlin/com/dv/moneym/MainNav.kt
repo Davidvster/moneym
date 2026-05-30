@@ -35,6 +35,8 @@ import com.dv.moneym.feature.settings.overview.PaymentModeListKey
 import com.dv.moneym.feature.settings.overview.SecuritySettingsIntent
 import com.dv.moneym.feature.settings.overview.SecuritySettingsViewModel
 import com.dv.moneym.feature.settings.overview.SettingsKey
+import com.dv.moneym.feature.infopage.InfoPageKey
+import com.dv.moneym.feature.infopage.infoPageEntry
 import com.dv.moneym.feature.settings.overview.TxListDisplayKey
 import com.dv.moneym.feature.settings.overview.backuprestore.BackupRestoreKey
 import com.dv.moneym.feature.settings.overview.backuprestore.backupRestoreEntry
@@ -218,7 +220,11 @@ internal fun MainNav(lockController: AppLockController) {
             importDataEntry(onBack = { tabBackStack.removeLast() }, metadata = modalTransitionMeta)
             backupRestoreEntry(
                 onBack = { tabBackStack.removeLast() },
+                onNavigateToInfo = { tabBackStack.push(InfoPageKey("backup")) },
                 metadata = modalTransitionMeta
+            )
+            infoPageEntry(
+                onBack = { tabBackStack.removeLast() },
             )
             paymentModeListEntry(
                 onBack = { tabBackStack.removeLast() },

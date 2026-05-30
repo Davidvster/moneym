@@ -32,10 +32,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.Icon.ChevronRight
 import com.dv.moneym.core.model.Icon.Download
 import com.dv.moneym.core.model.Icon.Folder
 import com.dv.moneym.core.ui.MmCard
+import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmDialog
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmLoadingOverlay
@@ -121,14 +123,16 @@ data object BackupRestoreKey : NavKey
 
 fun EntryProviderScope<NavKey>.backupRestoreEntry(
     onBack: () -> Unit,
+    onNavigateToInfo: () -> Unit,
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<BackupRestoreKey>(metadata = metadata) {
-    BackupRestoreScreen(onBack = onBack)
+    BackupRestoreScreen(onBack = onBack, onNavigateToInfo = onNavigateToInfo)
 }
 
 @Composable
 private fun BackupRestoreScreen(
     onBack: () -> Unit,
+    onNavigateToInfo: () -> Unit,
     viewModel: BackupRestoreViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -216,6 +220,7 @@ private fun BackupRestoreScreen(
         BackupRestoreContent(
             state = state,
             onBack = onBack,
+            onNavigateToInfo = onNavigateToInfo,
             onBackupTapped = { viewModel.onIntent(BackupRestoreIntent.BackupTapped) },
             onRestoreTapped = restorePicker,
             onAutoBackupToggled = { viewModel.onIntent(BackupRestoreIntent.AutoBackupToggled(it)) },
@@ -234,6 +239,7 @@ private fun BackupRestoreScreen(
 private fun BackupRestoreContent(
     state: BackupRestoreUiState,
     onBack: () -> Unit,
+    onNavigateToInfo: () -> Unit,
     onBackupTapped: () -> Unit,
     onRestoreTapped: () -> Unit,
     onAutoBackupToggled: (Boolean) -> Unit,
@@ -252,7 +258,17 @@ private fun BackupRestoreContent(
     val lastRemoteLabel = remember(state.lastRemoteBackupMs) { formatTime(state.lastRemoteBackupMs) }
 
     Column(modifier = Modifier.fillMaxSize().background(colors.bg)) {
-        ScreenHeader(title = stringResource(Res.string.settings_backup_restore), onBack = onBack)
+        ScreenHeader(
+            title = stringResource(Res.string.settings_backup_restore),
+            onBack = onBack,
+            trailingContent = {
+                MmIconButton(
+                    icon = Icon.Info.imageVector,
+                    onClick = onNavigateToInfo,
+                    contentDescription = "Info",
+                )
+            },
+        )
 
         LazyColumn {
             item(key = "section_label") {
@@ -654,6 +670,7 @@ private fun BackupRestoreContentPreview() {
                 remoteAvailable = true,
             ),
             onBack = {},
+            onNavigateToInfo = {},
             onBackupTapped = {},
             onRestoreTapped = {},
             onAutoBackupToggled = {},

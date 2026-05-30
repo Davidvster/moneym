@@ -13,7 +13,7 @@ kotlin {
         compilerOptions { jvmTarget.set(JvmTarget.JVM_11) }
     }
     listOf(iosArm64(), iosSimulatorArm64()).forEach {
-        it.binaries.framework { baseName = "FeatureSettings"; isStatic = true }
+        it.binaries.framework { baseName = "FeatureInfoPage"; isStatic = true }
     }
     sourceSets {
         commonMain.dependencies {
@@ -25,35 +25,18 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-            implementation(libs.kotlinx.datetime)
-            implementation(projects.core.security)
-            implementation(projects.core.datastore)
+            implementation(libs.androidx.navigation3.runtime)
             implementation(projects.core.designsystem)
             implementation(projects.core.ui)
             implementation(projects.core.model)
-            implementation(projects.core.common)
-            implementation(libs.androidx.navigation3.runtime)
             implementation(projects.core.navigation)
-            implementation(projects.data.settings)
-            implementation(projects.data.backup)
-            implementation(projects.core.platform)
-            implementation(projects.data.accounts)
-            implementation(projects.data.categories)
-            implementation(projects.data.transactions)
-            implementation(projects.data.remotebackup)
-            implementation(projects.core.oauth)
-            implementation(projects.feature.infopage)
-        }
-        commonTest.dependencies {
-            implementation(projects.core.testing)
+            implementation(projects.core.common)
         }
     }
 }
 
 android {
-    namespace = "com.dv.moneym.feature.settings"
+    namespace = "com.dv.moneym.feature.infopage"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig { minSdk = libs.versions.android.minSdk.get().toInt() }
     compileOptions {
