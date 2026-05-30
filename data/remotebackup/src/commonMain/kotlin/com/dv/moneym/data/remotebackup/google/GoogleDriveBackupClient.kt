@@ -4,8 +4,8 @@ import com.dv.moneym.data.remotebackup.RemoteBackupError
 import com.dv.moneym.data.remotebackup.RemoteBackupProvider
 import com.dv.moneym.data.remotebackup.RemoteFileRef
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.header
@@ -116,7 +116,7 @@ class GoogleDriveBackupClient(
     private suspend fun requireToken(): String =
         accessTokenProvider() ?: throw RemoteBackupError.NotAuthenticated()
 
-    private fun io.ktor.client.request.HttpRequestBuilder.authHeader(token: String) {
+    private fun HttpRequestBuilder.authHeader(token: String) {
         header(HttpHeaders.Authorization, "Bearer $token")
     }
 
