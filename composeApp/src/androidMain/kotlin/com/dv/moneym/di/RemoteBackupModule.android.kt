@@ -5,8 +5,12 @@ import com.dv.moneym.BuildConfig
 import com.dv.moneym.core.oauth.AndroidGoogleAuthManager
 import com.dv.moneym.core.oauth.GoogleAuthManager
 import com.dv.moneym.core.oauth.GoogleOAuthConfig
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.engine.okhttp.OkHttp
 import org.koin.core.module.Module
 import org.koin.dsl.module
+
+internal actual fun createHttpEngine(): HttpClientEngine = OkHttp.create()
 
 actual fun remoteBackupPlatformModule(): Module = module {
     single {

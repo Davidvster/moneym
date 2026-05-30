@@ -8,6 +8,7 @@ import com.dv.moneym.data.remotebackup.RemoteBackupProvider
 import com.dv.moneym.data.remotebackup.SessionPassphrase
 import com.dv.moneym.data.remotebackup.google.GoogleDriveBackupClient
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
@@ -18,11 +19,13 @@ private const val APP_VERSION = "1.0"
 
 expect fun remoteBackupPlatformModule(): Module
 
+internal expect fun createHttpEngine(): HttpClientEngine
+
 val remoteBackupCommonModule: Module = module {
     single<BackupCrypto> { DefaultBackupCrypto(dispatchers = get()) }
     single { SessionPassphrase() }
     single {
-        HttpClient {
+        HttpClient(createHttpEngine()) {
             install(ContentNegotiation) {
                 json(Json { ignoreUnknownKeys = true; isLenient = true })
             }
