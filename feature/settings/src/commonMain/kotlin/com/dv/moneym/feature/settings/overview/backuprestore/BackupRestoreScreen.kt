@@ -429,7 +429,9 @@ private fun RuntimeStatusLine(
             Text(
                 text = stringResource(Res.string.settings_remote_status_retry),
                 style = type.caption.copy(color = colors.accent),
-                modifier = Modifier.padding(top = space.padding_0_5x),
+                modifier = Modifier
+                    .padding(top = space.padding_0_5x)
+                    .clickable { onRetry() },
             )
         }
     }

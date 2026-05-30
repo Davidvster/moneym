@@ -66,7 +66,6 @@ class RemoteBackupManager(
     }
 
     suspend fun flushNow(): Result<Unit> = runCatching {
-        if (!isEnabled()) return@runCatching
         if (encryptEnabled() && !sessionPassphrase.isSet.value) return@runCatching
         runUpload()
     }
