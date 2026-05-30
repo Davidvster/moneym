@@ -6,23 +6,39 @@ import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.TransactionType
 import kotlin.time.Instant
 
-// Epoch 0 used as placeholder; actual timestamps written by the repo on insert.
 private val epoch = Instant.fromEpochMilliseconds(0)
-private fun seed(name: String, icon: Icon, color: String, type: TransactionType = TransactionType.EXPENSE) =
-    Category(CategoryId(0), name, icon.key, color, isUserCreated = false, archived = false, epoch, epoch, type)
 
-val defaultCategories: List<Category> = listOf(
-    seed("Groceries",      Icon.Basket,   "#7E9C8C"),
-    seed("Eating out",     Icon.Utensils, "#C97B57"),
-    seed("Rent",           Icon.Home,     "#5F6F8A"),
-    seed("Transport",      Icon.Car,      "#3B7080"),
-    seed("Utilities",      Icon.Bolt,     "#B89A4B"),
-    seed("Health",         Icon.Heart,    "#9B5C7D"),
-    seed("Entertainment",  Icon.Film,     "#7C5C9B"),
-    seed("Shopping",       Icon.Bag,      "#6D6D6D"),
-    seed("Other",Icon.Tag,      "#8A8A8A"),
-    seed("Salary",         Icon.Wallet,   "#4A7A56", TransactionType.INCOME),
-    seed("Payment",        Icon.Banknote, "#5A8A66", TransactionType.INCOME),
-    seed("Gift",           Icon.Gift,     "#9B7A4B", TransactionType.INCOME),
-    seed("Other", Icon.Tag,      "#4A7A56", TransactionType.INCOME),
+data class DefaultCategorySpec(
+    val icon: Icon,
+    val color: String,
+    val type: TransactionType,
 )
+
+fun DefaultCategorySpec.toCategory(name: String): Category = Category(
+    CategoryId(0), name, icon.key, color, isUserCreated = false, archived = false, epoch, epoch, type
+)
+
+val defaultCategorySpecs: List<DefaultCategorySpec> = listOf(
+    DefaultCategorySpec(Icon.Basket,   "#7E9C8C", TransactionType.EXPENSE),
+    DefaultCategorySpec(Icon.Utensils, "#C97B57", TransactionType.EXPENSE),
+    DefaultCategorySpec(Icon.Home,     "#5F6F8A", TransactionType.EXPENSE),
+    DefaultCategorySpec(Icon.Car,      "#3B7080", TransactionType.EXPENSE),
+    DefaultCategorySpec(Icon.Bolt,     "#B89A4B", TransactionType.EXPENSE),
+    DefaultCategorySpec(Icon.Heart,    "#9B5C7D", TransactionType.EXPENSE),
+    DefaultCategorySpec(Icon.Film,     "#7C5C9B", TransactionType.EXPENSE),
+    DefaultCategorySpec(Icon.Bag,      "#6D6D6D", TransactionType.EXPENSE),
+    DefaultCategorySpec(Icon.Tag,      "#8A8A8A", TransactionType.EXPENSE),
+    DefaultCategorySpec(Icon.Wallet,   "#4A7A56", TransactionType.INCOME),
+    DefaultCategorySpec(Icon.Banknote, "#5A8A66", TransactionType.INCOME),
+    DefaultCategorySpec(Icon.Gift,     "#9B7A4B", TransactionType.INCOME),
+    DefaultCategorySpec(Icon.Tag,      "#4A7A56", TransactionType.INCOME),
+)
+
+private val englishNames = listOf(
+    "Groceries", "Eating out", "Rent", "Transport", "Utilities",
+    "Health", "Entertainment", "Shopping", "Other",
+    "Salary", "Payment", "Gift", "Other",
+)
+
+val defaultCategories: List<Category> =
+    defaultCategorySpecs.zip(englishNames) { spec, name -> spec.toCategory(name) }

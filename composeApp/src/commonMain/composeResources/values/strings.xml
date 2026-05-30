@@ -2,4 +2,17 @@
     <string name="nav_tab_transactions">Transactions</string>
     <string name="nav_tab_overview">Overview</string>
     <string name="nav_tab_settings">Settings</string>
+    <string name="category_seed_groceries">Groceries</string>
+    <string name="category_seed_eating_out">Eating out</string>
+    <string name="category_seed_rent">Rent</string>
+    <string name="category_seed_transport">Transport</string>
+    <string name="category_seed_utilities">Utilities</string>
+    <string name="category_seed_health">Health</string>
+    <string name="category_seed_entertainment">Entertainment</string>
+    <string name="category_seed_shopping">Shopping</string>
+    <string name="category_seed_other_expense">Other</string>
+    <string name="category_seed_salary">Salary</string>
+    <string name="category_seed_payment">Payment</string>
+    <string name="category_seed_gift">Gift</string>
+    <string name="category_seed_other_income">Other</string>
 </resources>

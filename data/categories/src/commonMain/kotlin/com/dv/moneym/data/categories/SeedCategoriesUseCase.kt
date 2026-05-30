@@ -1,9 +1,15 @@
 package com.dv.moneym.data.categories
 
-class SeedCategoriesUseCase(private val repository: CategoryRepository) {
+class SeedCategoriesUseCase(
+    private val repository: CategoryRepository,
+    private val nameProvider: suspend () -> List<String>,
+) {
     suspend operator fun invoke() {
         if (repository.count() == 0L) {
-            defaultCategories.forEach { repository.insert(it) }
+            val names = nameProvider()
+            defaultCategorySpecs.zip(names) { spec, name ->
+                spec.toCategory(name)
+            }.forEach { repository.insert(it) }
         }
     }
 }

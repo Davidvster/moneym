@@ -2,4 +2,17 @@
     <string name="nav_tab_transactions">Transaktionen</string>
     <string name="nav_tab_overview">Übersicht</string>
     <string name="nav_tab_settings">Einstellungen</string>
+    <string name="category_seed_groceries">Lebensmittel</string>
+    <string name="category_seed_eating_out">Essen gehen</string>
+    <string name="category_seed_rent">Miete</string>
+    <string name="category_seed_transport">Transport</string>
+    <string name="category_seed_utilities">Nebenkosten</string>
+    <string name="category_seed_health">Gesundheit</string>
+    <string name="category_seed_entertainment">Unterhaltung</string>
+    <string name="category_seed_shopping">Einkaufen</string>
+    <string name="category_seed_other_expense">Sonstiges</string>
+    <string name="category_seed_salary">Gehalt</string>
+    <string name="category_seed_payment">Zahlung</string>
+    <string name="category_seed_gift">Geschenk</string>
+    <string name="category_seed_other_income">Sonstiges</string>
 </resources>

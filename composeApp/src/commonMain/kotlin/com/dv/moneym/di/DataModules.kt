@@ -20,11 +20,44 @@ import com.dv.moneym.data.transactions.createPaymentModeRepository
 import com.dv.moneym.data.transactions.createRecurringTransactionRepository
 import com.dv.moneym.data.transactions.createTransactionRepository
 import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
+import moneym.composeapp.generated.resources.Res
+import moneym.composeapp.generated.resources.category_seed_eating_out
+import moneym.composeapp.generated.resources.category_seed_entertainment
+import moneym.composeapp.generated.resources.category_seed_gift
+import moneym.composeapp.generated.resources.category_seed_groceries
+import moneym.composeapp.generated.resources.category_seed_health
+import moneym.composeapp.generated.resources.category_seed_other_expense
+import moneym.composeapp.generated.resources.category_seed_other_income
+import moneym.composeapp.generated.resources.category_seed_payment
+import moneym.composeapp.generated.resources.category_seed_rent
+import moneym.composeapp.generated.resources.category_seed_salary
+import moneym.composeapp.generated.resources.category_seed_shopping
+import moneym.composeapp.generated.resources.category_seed_transport
+import moneym.composeapp.generated.resources.category_seed_utilities
+import org.jetbrains.compose.resources.getString
 import org.koin.dsl.module
 
 val dataCategoriesModule = module {
     single<CategoryRepository> { createCategoryRepository(get<CategoriesRoomDatabase>()) }
-    single { SeedCategoriesUseCase(get()) }
+    single {
+        SeedCategoriesUseCase(get()) {
+            listOf(
+                getString(Res.string.category_seed_groceries),
+                getString(Res.string.category_seed_eating_out),
+                getString(Res.string.category_seed_rent),
+                getString(Res.string.category_seed_transport),
+                getString(Res.string.category_seed_utilities),
+                getString(Res.string.category_seed_health),
+                getString(Res.string.category_seed_entertainment),
+                getString(Res.string.category_seed_shopping),
+                getString(Res.string.category_seed_other_expense),
+                getString(Res.string.category_seed_salary),
+                getString(Res.string.category_seed_payment),
+                getString(Res.string.category_seed_gift),
+                getString(Res.string.category_seed_other_income),
+            )
+        }
+    }
 }
 
 val dataAccountsModule = module {
