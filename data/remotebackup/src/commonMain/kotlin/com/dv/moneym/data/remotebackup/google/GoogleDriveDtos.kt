@@ -21,8 +21,8 @@ internal data class DriveFileListDto(
 @Serializable
 internal data class DriveFileMetadataRequest(
     val name: String,
-    val parents: List<String> = listOf("appDataFolder"),
-    val mimeType: String = "application/octet-stream",
+    val parents: List<String>,
+    val mimeType: String,
     val appProperties: Map<String, String>? = null,
 )
 

@@ -11,6 +11,8 @@ import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
 import com.google.android.gms.auth.api.identity.AuthorizationRequest
 import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
@@ -65,6 +67,9 @@ class AndroidGoogleAuthManager(
         runCatching {
             CredentialManager.create(context).clearCredentialState(ClearCredentialStateRequest())
         }
+        runCatching {
+            GoogleSignIn.getClient(context, GoogleSignInOptions.DEFAULT_SIGN_IN).signOut().await()
+        }
         appSettings.remove(PrefKeys.REMOTE_BACKUP_ACCOUNT_EMAIL)
         _state.value = AuthState.SignedOut
     }
@@ -98,6 +103,9 @@ class AndroidGoogleAuthManager(
                 ?: throw GoogleAuthError.Platform("Authorization requires resolution but no PendingIntent")
             if (activity == null) throw GoogleAuthError.Platform("Authorization requires user consent")
             val activityResult = GoogleAuthActivityBridge.resolve(pendingIntent)
+            if (activityResult.resultCode != android.app.Activity.RESULT_OK) {
+                throw GoogleAuthError.UserCancelled()
+            }
             val resolved = client.getAuthorizationResultFromIntent(activityResult.data)
             return resolved.accessToken
                 ?.takeIf { it.isNotBlank() }

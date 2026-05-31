@@ -120,12 +120,11 @@ class GoogleDriveBackupClient(
         header(HttpHeaders.Authorization, "Bearer $token")
     }
 
-    private suspend fun HttpResponse.toError(): RemoteBackupError =
-        if (status == HttpStatusCode.NotFound) {
-            RemoteBackupError.NotFound()
-        } else {
-            RemoteBackupError.Http(status.value, bodyAsText())
-        }
+    private suspend fun HttpResponse.toError(): RemoteBackupError = when (status) {
+        HttpStatusCode.NotFound -> RemoteBackupError.NotFound()
+        HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden -> RemoteBackupError.NotAuthenticated()
+        else -> RemoteBackupError.Http(status.value, bodyAsText())
+    }
 
     private fun HttpStatusCode.isSuccess() = value in 200..299
 

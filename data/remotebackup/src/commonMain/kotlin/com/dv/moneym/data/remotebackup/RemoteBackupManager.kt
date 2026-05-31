@@ -216,7 +216,7 @@ class RemoteBackupManager(
         is BackupCryptoError.WrongPassphrase -> "Wrong passphrase"
         is BackupCryptoError.UnsupportedEnvelope -> "Backup format is too new for this app version"
         is BackupCryptoError.PlatformFailure -> "Encryption failed: ${t.message}"
-        is RemoteBackupError.NotAuthenticated -> "Not signed in to Google"
+        is RemoteBackupError.NotAuthenticated -> "Google Drive access denied. Please disconnect and reconnect your account."
         is RemoteBackupError.NotFound -> "No remote backup found"
         is RemoteBackupError.Http -> "Server error: HTTP ${t.status}"
         is RemoteBackupError.Network -> "Network error"

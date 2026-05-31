@@ -123,7 +123,9 @@ class BackupRestoreViewModel(
         appSettings.observeString(PrefKeys.LAST_BACKUP_TIME_MS),
         appSettings.observeString(PrefKeys.LAST_BACKUP_PATH),
         authFlow,
-        combine(runtimeFlow, passphraseFlow) { rt, ps -> rt to ps },
+        combine(runtimeFlow, passphraseFlow) { rt, ps ->
+            Triple(rt, ps, appSettings.getLong(PrefKeys.LAST_REMOTE_BACKUP_TIME_MS))
+        },
     ) { base, timeStr, path, auth, rtPs ->
         val signedIn = auth is AuthState.SignedIn
         val email = (auth as? AuthState.SignedIn)?.email
@@ -135,6 +137,7 @@ class BackupRestoreViewModel(
             remoteRuntime = rtPs.first,
             remotePassphraseSet = rtPs.second,
             lastLocalMutationMs = appSettings.getLong(PrefKeys.LAST_LOCAL_MUTATION_MS),
+            lastRemoteBackupMs = rtPs.third.takeIf { it > 0L } ?: base.lastRemoteBackupMs,
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, _base.value)
 
