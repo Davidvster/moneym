@@ -6,6 +6,8 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,9 +41,9 @@ import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.currencyDisplay
 import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.LocalUseCurrencySymbol
-import com.dv.moneym.core.ui.CumulativeChart
-import com.dv.moneym.core.ui.DonutChart
-import com.dv.moneym.core.ui.DonutSlice
+import com.dv.moneym.core.uigraphs.CumulativeChart
+import com.dv.moneym.core.uigraphs.DonutChart
+import com.dv.moneym.core.uigraphs.DonutSlice
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmSegmented
@@ -292,6 +294,7 @@ private fun SpendingByCategoryCardBody(
                 inYearMode = inYearMode,
                 onTogglePercent = onTogglePercent,
                 selectedIndex = selectedSliceIndex,
+                onRowClick = { i -> onSliceTapped(if (i == selectedSliceIndex) null else i) },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -358,6 +361,7 @@ private fun SpendingByCategoryLegend(
     inYearMode: Boolean,
     onTogglePercent: () -> Unit,
     selectedIndex: Int? = null,
+    onRowClick: (Int) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
@@ -386,6 +390,7 @@ private fun SpendingByCategoryLegend(
                 selectedIndex = selectedIndex,
                 showPercent = showPercent,
                 inYearMode = inYearMode,
+                onClick = { onRowClick(i) },
             )
 
             if (i < categories.lastIndex) {
@@ -474,6 +479,7 @@ private fun LegendDataRow(
     selectedIndex: Int?,
     showPercent: Boolean,
     inYearMode: Boolean,
+    onClick: () -> Unit = {},
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -483,7 +489,10 @@ private fun LegendDataRow(
     val numColor = if (hasSelection && !isSelected) colors.text3 else colors.text2
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = MM.dimen.padding_0_5x),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(indication = null, interactionSource = remember { MutableInteractionSource() }, onClick = onClick)
+            .padding(vertical = MM.dimen.padding_0_5x),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
     ) {

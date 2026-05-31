@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
-import com.dv.moneym.core.ui.CumulativeChart
+import com.dv.moneym.core.uigraphs.CumulativeChart
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmMoney
 import moneym.feature.overview.generated.resources.Res

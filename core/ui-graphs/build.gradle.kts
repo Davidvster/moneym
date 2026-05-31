@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -13,7 +12,7 @@ kotlin {
         compilerOptions { jvmTarget.set(JvmTarget.JVM_11) }
     }
     listOf(iosArm64(), iosSimulatorArm64()).forEach {
-        it.binaries.framework { baseName = "FeatureOverview"; isStatic = true }
+        it.binaries.framework { baseName = "CoreUiGraphs"; isStatic = true }
     }
     sourceSets {
         commonMain.dependencies {
@@ -23,33 +22,18 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
             implementation(libs.compose.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodelCompose)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-            implementation(libs.kotlinx.datetime)
-            implementation(projects.core.datastore)
             implementation(projects.core.designsystem)
-            implementation(projects.core.ui)
-            implementation(projects.core.uiGraphs)
             implementation(projects.core.model)
             implementation(projects.core.common)
-            implementation(libs.androidx.navigation3.runtime)
-            implementation(projects.core.navigation)
-            implementation(projects.data.transactions)
-            implementation(projects.data.categories)
-            implementation(projects.data.accounts)
-            implementation(projects.data.budgets)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-            implementation(projects.core.testing)
         }
     }
 }
 
 android {
-    namespace = "com.dv.moneym.feature.overview"
+    namespace = "com.dv.moneym.core.uigraphs"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig { minSdk = libs.versions.android.minSdk.get().toInt() }
     compileOptions {
