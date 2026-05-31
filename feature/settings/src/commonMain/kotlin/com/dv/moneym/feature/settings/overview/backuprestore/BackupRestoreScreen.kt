@@ -11,12 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -74,11 +71,6 @@ import moneym.feature.settings.generated.resources.settings_remote_disconnect_co
 import moneym.feature.settings.generated.resources.settings_remote_disconnect_title
 import moneym.feature.settings.generated.resources.settings_remote_last_backup
 import moneym.feature.settings.generated.resources.settings_remote_last_backup_never
-import moneym.feature.settings.generated.resources.settings_remote_relative_days
-import moneym.feature.settings.generated.resources.settings_remote_relative_hours
-import moneym.feature.settings.generated.resources.settings_remote_relative_just_now
-import moneym.feature.settings.generated.resources.settings_remote_relative_longer
-import moneym.feature.settings.generated.resources.settings_remote_relative_minutes
 import moneym.feature.settings.generated.resources.settings_remote_status_retry
 import moneym.feature.settings.generated.resources.settings_remote_dont_encrypt
 import moneym.feature.settings.generated.resources.settings_remote_passphrase_cancel
@@ -275,7 +267,7 @@ private fun BackupRestoreContent(
             }
             item(key = "card") {
                 MmCard(Modifier.padding(horizontal = space.padding_2x)) {
-                    MmRow(onClick = onBackupTapped) {
+                    MmRow(onClick = if (state.isLocalLoading) null else onBackupTapped) {
                         Icon(imageVector = Folder.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.icon_1x))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(stringResource(Res.string.settings_backup_to_file), style = type.body, color = colors.text)
@@ -283,7 +275,15 @@ private fun BackupRestoreContent(
                                 Text(stringResource(Res.string.settings_backup_saved), style = type.caption.copy(color = colors.accent))
                             }
                         }
-                        Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
+                        if (state.isLocalLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(space.icon_1x),
+                                strokeWidth = space.padding_0_25x,
+                                color = colors.accent,
+                            )
+                        } else {
+                            Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
+                        }
                     }
                     MmRow(onClick = onRestoreTapped) {
                         Icon(imageVector = Download.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.icon_1x))
@@ -305,7 +305,7 @@ private fun BackupRestoreContent(
                         )
                         state.lastBackupPath?.let { path ->
                             Text(
-                                text = path,
+                                text = formatBackupPath(path),
                                 style = type.captionMono.copy(color = colors.text3),
                                 modifier = Modifier.padding(start = space.padding_2x, end = space.padding_2x, bottom = space.padding_1x),
                             )
@@ -387,6 +387,7 @@ private fun RemoteBackupSection(
                     CircularProgressIndicator(
                         modifier = Modifier.size(space.icon_1x),
                         strokeWidth = space.padding_0_25x,
+                        color = colors.accent,
                     )
                 } else {
                     Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
@@ -412,8 +413,11 @@ private fun RuntimeStatusLine(
     val type = MM.type
     val space = MM.dimen
 
-    val relativeLabel: String = remember(lastRemoteMs) { null }
-        ?: relativeTimeLabel(lastRemoteMs)
+    val idleLabel: String = if (lastRemoteMs == 0L) {
+        stringResource(Res.string.settings_remote_last_backup_never)
+    } else {
+        stringResource(Res.string.settings_remote_last_backup, formatTime(lastRemoteMs) ?: "—")
+    }
 
     val message: String = when (runtime) {
         RemoteBackupRuntimeState.Encrypting -> stringResource(Res.string.settings_remote_status_encrypting)
@@ -427,7 +431,7 @@ private fun RuntimeStatusLine(
             (runtime.remainingBytes / 1024L).toInt(),
             (runtime.requiredBytes / 1024L).toInt(),
         )
-        RemoteBackupRuntimeState.Idle -> stringResource(Res.string.settings_remote_last_backup, relativeLabel)
+        RemoteBackupRuntimeState.Idle -> idleLabel
     }
 
     Column(
@@ -446,20 +450,6 @@ private fun RuntimeStatusLine(
                     .clickable { onRetry() },
             )
         }
-    }
-}
-
-@Composable
-private fun relativeTimeLabel(timestampMs: Long): String {
-    if (timestampMs == 0L) return stringResource(Res.string.settings_remote_last_backup_never)
-    val nowMs = remember { kotlin.time.Clock.System.now().toEpochMilliseconds() }
-    val delta = nowMs - timestampMs
-    return when (val bucket = RelativeTime.format(delta)) {
-        RelativeTimeBucket.JustNow -> stringResource(Res.string.settings_remote_relative_just_now)
-        is RelativeTimeBucket.Minutes -> stringResource(Res.string.settings_remote_relative_minutes, bucket.n)
-        is RelativeTimeBucket.Hours -> stringResource(Res.string.settings_remote_relative_hours, bucket.n)
-        is RelativeTimeBucket.Days -> stringResource(Res.string.settings_remote_relative_days, bucket.n)
-        RelativeTimeBucket.LongerAgo -> stringResource(Res.string.settings_remote_relative_longer)
     }
 }
 
@@ -562,92 +552,108 @@ private fun RemoteRestoreDialog(
     onConfirm: (CharArray) -> Unit,
 ) {
     var input by remember { mutableStateOf("") }
+    var visible by remember { mutableStateOf(false) }
     val space = MM.dimen
+    val type = MM.type
+    val colors = MM.colors
     val tooNew = preview != null && preview.envelopeVersion > EncryptedBackup.ENVELOPE_VERSION
     val conflict = preview != null && localMutationMs > preview.createdAtMs
 
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(stringResource(Res.string.settings_remote_restore_title)) },
-        text = {
-            Column {
-                Text(stringResource(Res.string.settings_remote_restore_body))
-                if (loading) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
-                        modifier = Modifier.padding(top = space.padding_1x),
-                    ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(space.icon_1x),
-                            strokeWidth = space.padding_0_25x,
-                        )
-                        Text(stringResource(Res.string.settings_remote_restore_loading), style = MM.type.caption)
-                    }
-                } else if (preview != null) {
-                    Column(modifier = Modifier.padding(top = space.padding_1x)) {
-                        Text(
-                            stringResource(
-                                Res.string.settings_remote_restore_preview_created,
-                                formatTime(preview.createdAtMs) ?: "—",
-                            ),
-                            style = MM.type.caption,
-                        )
-                        Text(
-                            stringResource(
-                                Res.string.settings_remote_restore_preview_app_version,
-                                preview.appVersion,
-                            ),
-                            style = MM.type.caption,
-                        )
-                        Text(
-                            stringResource(
-                                Res.string.settings_remote_restore_preview_size,
-                                (preview.sizeBytes / 1024L).toInt(),
-                            ),
-                            style = MM.type.caption,
-                        )
-                    }
-                    if (tooNew) {
-                        Text(
-                            stringResource(Res.string.settings_remote_restore_too_new),
-                            style = MM.type.caption.copy(color = MM.colors.danger),
-                            modifier = Modifier.padding(top = space.padding_1x),
-                        )
-                    }
-                    if (conflict && !tooNew) {
-                        Text(
-                            stringResource(
-                                Res.string.settings_remote_restore_conflict,
-                                formatTime(localMutationMs) ?: "",
-                            ),
-                            style = MM.type.caption.copy(color = MM.colors.danger),
-                            modifier = Modifier.padding(top = space.padding_1x),
-                        )
-                    }
-                }
-                OutlinedTextField(
-                    value = input,
-                    onValueChange = { input = it },
-                    label = { Text(stringResource(Res.string.settings_remote_passphrase_label)) },
-                    modifier = Modifier.fillMaxWidth().padding(top = space.padding_1x),
-                    singleLine = true,
-                    enabled = !loading && !tooNew,
+    MmDialog(
+        title = stringResource(Res.string.settings_remote_restore_title),
+        confirmText = stringResource(Res.string.settings_remote_restore_confirm),
+        confirmEnabled = input.isNotEmpty() && !loading && !tooNew,
+        onConfirm = { onConfirm(input.toCharArray()) },
+        onDismiss = onDismiss,
+        dismissText = stringResource(Res.string.settings_remote_passphrase_cancel),
+    ) {
+        Text(stringResource(Res.string.settings_remote_restore_body), style = type.body, color = colors.text2)
+        if (loading) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
+                modifier = Modifier.padding(top = space.padding_1x),
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(space.icon_1x),
+                    strokeWidth = space.padding_0_25x,
+                    color = colors.accent,
+                )
+                Text(stringResource(Res.string.settings_remote_restore_loading), style = type.caption)
+            }
+        } else if (preview != null) {
+            Column(modifier = Modifier.padding(top = space.padding_1x)) {
+                Text(
+                    stringResource(
+                        Res.string.settings_remote_restore_preview_created,
+                        formatTime(preview.createdAtMs) ?: "—",
+                    ),
+                    style = type.caption,
+                )
+                Text(
+                    stringResource(
+                        Res.string.settings_remote_restore_preview_app_version,
+                        preview.appVersion,
+                    ),
+                    style = type.caption,
+                )
+                Text(
+                    stringResource(
+                        Res.string.settings_remote_restore_preview_size,
+                        (preview.sizeBytes / 1024L).toInt(),
+                    ),
+                    style = type.caption,
                 )
             }
-        },
-        confirmButton = {
-            TextButton(
-                onClick = { onConfirm(input.toCharArray()) },
-                enabled = input.isNotEmpty() && !loading && !tooNew,
-            ) { Text(stringResource(Res.string.settings_remote_restore_confirm)) }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(Res.string.settings_remote_passphrase_cancel))
+            if (tooNew) {
+                Text(
+                    stringResource(Res.string.settings_remote_restore_too_new),
+                    style = type.caption.copy(color = colors.danger),
+                    modifier = Modifier.padding(top = space.padding_1x),
+                )
             }
-        },
-    )
+            if (conflict && !tooNew) {
+                Text(
+                    stringResource(
+                        Res.string.settings_remote_restore_conflict,
+                        formatTime(localMutationMs) ?: "",
+                    ),
+                    style = type.caption.copy(color = colors.danger),
+                    modifier = Modifier.padding(top = space.padding_1x),
+                )
+            }
+        }
+        MmField(
+            value = input,
+            onValueChange = { if (!loading && !tooNew) input = it },
+            label = stringResource(Res.string.settings_remote_passphrase_label),
+            visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
+            keyboardType = KeyboardType.Password,
+            suffix = {
+                MmIconButton(
+                    icon = if (visible) Icon.EyeOff.imageVector else Icon.Eye.imageVector,
+                    onClick = { visible = !visible },
+                    contentDescription = null,
+                )
+            },
+        )
+    }
+}
+
+private fun formatBackupPath(raw: String): String {
+    val decoded = raw
+        .replace("%3A", ":").replace("%3a", ":")
+        .replace("%2F", "/").replace("%2f", "/")
+        .replace("%20", " ")
+    val treeIdx = decoded.lastIndexOf("/tree/")
+    val docIdx = decoded.lastIndexOf("/document/")
+    val startIdx = when {
+        treeIdx >= 0 -> treeIdx + 6
+        docIdx >= 0 -> docIdx + 10
+        else -> -1
+    }
+    val docId = if (startIdx >= 0) decoded.substring(startIdx) else decoded
+    return docId.replace(":", "/")
 }
 
 private fun formatTime(ms: Long): String? {

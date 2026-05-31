@@ -32,6 +32,7 @@ import kotlin.time.Clock
 @Serializable
 data class BackupRestoreUiState(
     val isLoading: Boolean = false,
+    val isLocalLoading: Boolean = false,
     val showRestoreWarning: Boolean = false,
     val autoBackupEnabled: Boolean = false,
     val showBackupSuccess: Boolean = false,
@@ -173,7 +174,7 @@ class BackupRestoreViewModel(
     }
 
     private fun handleBackupTapped() {
-        _base.update { it.copy(isLoading = true, showBackupSuccess = false) }
+        _base.update { it.copy(isLocalLoading = true, showBackupSuccess = false) }
         viewModelScope.launch {
             val bytes = withContext(dispatchers.io) { dbBackupManager.export() }
             _effects.send(BackupRestoreEffect.LaunchFileSaver(bytes, "moneym-backup.zip"))
@@ -188,12 +189,12 @@ class BackupRestoreViewModel(
     private fun handleRestoreConfirmed() {
         val bytes = pendingRestoreBytes ?: return
         pendingRestoreBytes = null
-        _base.update { it.copy(isLoading = true, showRestoreWarning = false) }
+        _base.update { it.copy(isLocalLoading = true, showRestoreWarning = false) }
         viewModelScope.launch {
             try {
                 withContext(dispatchers.io) { dbBackupManager.restore(bytes) }
             } catch (e: Exception) {
-                _base.update { it.copy(isLoading = false) }
+                _base.update { it.copy(isLocalLoading = false) }
                 _effects.send(BackupRestoreEffect.RestoreError(e.message ?: "Restore failed"))
             }
         }
@@ -227,9 +228,9 @@ class BackupRestoreViewModel(
                 PrefKeys.LAST_BACKUP_TIME_MS,
                 Clock.System.now().toEpochMilliseconds().toString(),
             )
-            _base.update { it.copy(isLoading = false, showBackupSuccess = true) }
+            _base.update { it.copy(isLocalLoading = false, showBackupSuccess = true) }
         } else {
-            _base.update { it.copy(isLoading = false) }
+            _base.update { it.copy(isLocalLoading = false) }
         }
     }
 
@@ -243,7 +244,7 @@ class BackupRestoreViewModel(
     }
 
     private fun runImmediateLocalBackup() {
-        _base.update { it.copy(isLoading = true, showBackupSuccess = false) }
+        _base.update { it.copy(isLocalLoading = true, showBackupSuccess = false) }
         viewModelScope.launch {
             val path = withContext(dispatchers.io) {
                 val bytes = dbBackupManager.export()
