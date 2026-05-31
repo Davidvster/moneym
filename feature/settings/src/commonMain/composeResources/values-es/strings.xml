@@ -228,4 +228,6 @@
     <string name="settings_remote_restore_conflict">Aviso: tienes cambios locales desde esta copia (%1$s). Restaurar los descartará.</string>
     <string name="settings_remote_restore_too_new">Esta copia se hizo con una versión más reciente de la app y no se puede restaurar.</string>
     <string name="settings_recurring_new">Nueva transacción recurrente</string>
+    <string name="settings_section_about">ACERCA DE</string>
+    <string name="settings_about">Acerca de</string>
 </resources>

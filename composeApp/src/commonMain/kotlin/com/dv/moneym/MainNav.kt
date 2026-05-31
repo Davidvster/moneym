@@ -35,6 +35,8 @@ import com.dv.moneym.feature.settings.overview.PaymentModeListKey
 import com.dv.moneym.feature.settings.overview.SecuritySettingsIntent
 import com.dv.moneym.feature.settings.overview.SecuritySettingsViewModel
 import com.dv.moneym.feature.settings.overview.SettingsKey
+import com.dv.moneym.feature.about.AboutKey
+import com.dv.moneym.feature.about.aboutEntry
 import com.dv.moneym.feature.infopage.InfoPageKey
 import com.dv.moneym.feature.infopage.infoPageEntry
 import com.dv.moneym.feature.settings.overview.TxListDisplayKey
@@ -169,6 +171,7 @@ internal fun MainNav(lockController: AppLockController) {
                 onNavigateToWallets = { tabBackStack.push(WalletManageKey) },
                 onNavigateToPaymentModes = { tabBackStack.push(PaymentModeListKey) },
                 onNavigateToBackupRestore = { tabBackStack.push(BackupRestoreKey) },
+                onNavigateToAbout = { tabBackStack.push(AboutKey) },
                 onTabSelected = { route ->
                     when (route) {
                         TabRoute.Transactions -> tabBackStack.switchTab(TransactionsKey)
@@ -225,6 +228,10 @@ internal fun MainNav(lockController: AppLockController) {
             )
             infoPageEntry(
                 onBack = { tabBackStack.removeLast() },
+            )
+            aboutEntry(
+                onBack = { tabBackStack.removeLast() },
+                metadata = modalTransitionMeta,
             )
             paymentModeListEntry(
                 onBack = { tabBackStack.removeLast() },

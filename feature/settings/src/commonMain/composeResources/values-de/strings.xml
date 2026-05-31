@@ -228,4 +228,6 @@
     <string name="settings_remote_restore_conflict">Warnung: Es gibt lokale Änderungen seit diesem Backup (%1$s). Die Wiederherstellung verwirft sie.</string>
     <string name="settings_remote_restore_too_new">Dieses Backup wurde von einer neueren App-Version erstellt und kann nicht wiederhergestellt werden.</string>
     <string name="settings_recurring_new">Neue Dauertransaktion</string>
+    <string name="settings_section_about">ÜBER</string>
+    <string name="settings_about">Über</string>
 </resources>

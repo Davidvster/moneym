@@ -96,6 +96,7 @@ kotlin {
             implementation(projects.feature.onboarding)
             implementation(projects.feature.overview)
             implementation(projects.feature.infopage)
+            implementation(projects.feature.about)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

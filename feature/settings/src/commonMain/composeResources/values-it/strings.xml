@@ -228,4 +228,6 @@
     <string name="settings_remote_restore_conflict">Attenzione: ci sono modifiche locali da quando è stato creato questo backup (%1$s). Il ripristino le scarterà.</string>
     <string name="settings_remote_restore_too_new">Questo backup è stato creato da una versione più recente dell'app e non può essere ripristinato.</string>
     <string name="settings_recurring_new">Nuova transazione ricorrente</string>
+    <string name="settings_section_about">INFORMAZIONI</string>
+    <string name="settings_about">Informazioni</string>
 </resources>

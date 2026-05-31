@@ -8,13 +8,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.ThemeMode
+import com.dv.moneym.core.ui.MmCard
+import com.dv.moneym.core.ui.MmSettingsRow
 import com.dv.moneym.core.ui.SectionLabel
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.settings.overview.SecuritySettingsIntent
 import com.dv.moneym.feature.settings.overview.SecuritySettingsUiState
 import com.dv.moneym.feature.settings.overview.SettingsItem
 import com.dv.moneym.feature.settings.overview.SettingsUiState
 import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.settings_about
+import moneym.feature.settings.generated.resources.settings_section_about
 import moneym.feature.settings.generated.resources.settings_section_appearance
 import moneym.feature.settings.generated.resources.settings_section_backup
 import moneym.feature.settings.generated.resources.settings_section_data
@@ -44,6 +50,7 @@ internal fun SettingsLazyList(
     onNavigateToWallets: () -> Unit,
     onNavigateToPaymentModes: () -> Unit,
     onNavigateToBackupRestore: () -> Unit,
+    onNavigateToAbout: () -> Unit,
     onShowLockPicker: () -> Unit,
 ) {
     val colors = MM.colors
@@ -145,6 +152,27 @@ internal fun SettingsLazyList(
         }
         item(key = SettingsItem.BACKUP_CARD.name) {
             BackupSection(onNavigateToBackupRestore = onNavigateToBackupRestore)
+        }
+        item(key = SettingsItem.ABOUT_LABEL.name) {
+            SectionLabel(
+                text = stringResource(Res.string.settings_section_about),
+                modifier = Modifier.padding(
+                    start = MM.dimen.padding_2_5x,
+                    end = MM.dimen.padding_2_5x,
+                    top = space.padding_2x,
+                    bottom = space.padding_0_5x
+                )
+            )
+        }
+        item(key = SettingsItem.ABOUT_CARD.name) {
+            MmCard(modifier = Modifier.padding(horizontal = space.padding_2x)) {
+                MmSettingsRow(
+                    title = stringResource(Res.string.settings_about),
+                    leadingIcon = Icon.Info.imageVector,
+                    onClick = onNavigateToAbout,
+                    divider = false,
+                )
+            }
         }
         item(key = SettingsItem.VERSION.name) {
             Text(
