@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -117,7 +118,11 @@ private fun PaymentModeListContent(
             }
         }
 
-        Column(Modifier.padding(horizontal = space.padding_2_5x, vertical = space.padding_2x)) {
+        Column(
+            Modifier
+                .padding(horizontal = space.padding_2_5x, vertical = space.padding_2x)
+                .navigationBarsPadding()
+        ) {
             MmButton(
                 text = stringResource(Res.string.settings_payment_mode_add),
                 onClick = onAddClick,

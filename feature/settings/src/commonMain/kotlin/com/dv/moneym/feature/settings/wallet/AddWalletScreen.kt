@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -238,7 +239,8 @@ private fun AddWalletContent(
                 .padding(
                     horizontal = space.padding_2x,
                     vertical = space.padding_2x,
-                ),
+                )
+                .navigationBarsPadding(),
         )
     }
 }

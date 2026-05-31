@@ -5,6 +5,7 @@ import com.dv.moneym.core.model.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -46,7 +47,8 @@ internal fun TransactionEditSaveBar(
                 end = MM.dimen.padding_2x,
                 top = MM.dimen.padding_1_5x,
                 bottom = MM.dimen.padding_2x
-            ),
+            )
+            .navigationBarsPadding(),
     ) {
         MmButton(
             text = saveLabel ?: if (isEditMode) stringResource(Res.string.edit_save_changes) else stringResource(

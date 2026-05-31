@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -94,10 +95,12 @@ private fun RecurringListContent(
             }
         }
         Box(
-            modifier = Modifier.padding(
-                horizontal = MM.dimen.padding_2_5x,
-                vertical = MM.dimen.padding_2x,
-            ),
+            modifier = Modifier
+                .padding(
+                    horizontal = MM.dimen.padding_2_5x,
+                    vertical = MM.dimen.padding_2x,
+                )
+                .navigationBarsPadding(),
         ) {
             MmButton(
                 text = stringResource(Res.string.settings_recurring_new),

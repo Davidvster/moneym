@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -186,7 +187,9 @@ internal fun SecurityStep(
 
         // Bottom buttons
         Column(
-            modifier = Modifier.padding(horizontal = MM.dimen.padding_2x, vertical = 16.dp),
+            modifier = Modifier
+                .padding(horizontal = MM.dimen.padding_2x, vertical = 16.dp)
+                .navigationBarsPadding(),
             verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
         ) {
             MmButton(

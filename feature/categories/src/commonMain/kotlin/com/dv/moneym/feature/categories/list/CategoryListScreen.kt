@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -109,10 +110,12 @@ private fun ManageCategoriesScreen(
             stringResource(Res.string.categories_new_income)
 
         Box(
-            modifier = Modifier.padding(
-                horizontal = MM.dimen.padding_2_5x,
-                vertical = MM.dimen.padding_2x
-            )
+            modifier = Modifier
+                .padding(
+                    horizontal = MM.dimen.padding_2_5x,
+                    vertical = MM.dimen.padding_2x
+                )
+                .navigationBarsPadding()
         ) {
             MmButton(
                 text = newCategoryButtonText,
