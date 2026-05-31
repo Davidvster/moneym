@@ -100,8 +100,10 @@ import moneym.feature.settings.generated.resources.settings_remote_status_encryp
 import moneym.feature.settings.generated.resources.settings_remote_status_error
 import moneym.feature.settings.generated.resources.settings_remote_status_restoring
 import moneym.feature.settings.generated.resources.settings_remote_status_uploading
+import moneym.feature.settings.generated.resources.settings_restore_app_close_notice
 import moneym.feature.settings.generated.resources.settings_restore_confirm
 import moneym.feature.settings.generated.resources.settings_restore_from_file
+import moneym.feature.settings.generated.resources.settings_restore_passphrase_label
 import moneym.feature.settings.generated.resources.settings_restore_warning_body
 import moneym.feature.settings.generated.resources.settings_restore_warning_title
 import moneym.feature.settings.generated.resources.settings_section_backup
@@ -153,19 +155,12 @@ private fun BackupRestoreScreen(
     }
 
     if (state.showRestoreWarning) {
-        MmDialog(
-            title = stringResource(Res.string.settings_restore_warning_title),
-            confirmText = stringResource(Res.string.settings_restore_confirm),
-            onConfirm = { viewModel.onIntent(BackupRestoreIntent.RestoreConfirmed) },
+        RestoreWarningDialog(
+            needsPassphrase = state.restoreNeedsPassphrase,
+            errorMessage = state.restoreError,
             onDismiss = { viewModel.onIntent(BackupRestoreIntent.RestoreDismissed) },
-            dismissText = stringResource(Res.string.settings_remote_passphrase_cancel),
-        ) {
-            Text(
-                stringResource(Res.string.settings_restore_warning_body),
-                style = MM.type.body,
-                color = MM.colors.text2,
-            )
-        }
+            onConfirm = { viewModel.onIntent(BackupRestoreIntent.RestoreConfirmed(it)) },
+        )
     }
 
     if (state.showPassphraseDialog) {
@@ -454,6 +449,60 @@ private fun RuntimeStatusLine(
 }
 
 @Composable
+private fun RestoreWarningDialog(
+    needsPassphrase: Boolean,
+    errorMessage: String?,
+    onDismiss: () -> Unit,
+    onConfirm: (CharArray?) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    val space = MM.dimen
+    var passphrase by remember { mutableStateOf("") }
+    var visible by remember { mutableStateOf(false) }
+
+    MmDialog(
+        title = stringResource(Res.string.settings_restore_warning_title),
+        confirmText = stringResource(Res.string.settings_restore_confirm),
+        confirmEnabled = !needsPassphrase || passphrase.isNotEmpty(),
+        onConfirm = { onConfirm(if (needsPassphrase) passphrase.toCharArray() else null) },
+        onDismiss = onDismiss,
+        dismissText = stringResource(Res.string.settings_remote_passphrase_cancel),
+    ) {
+        Text(
+            stringResource(Res.string.settings_restore_warning_body),
+            style = type.body,
+            color = colors.text2,
+        )
+        Text(
+            stringResource(Res.string.settings_restore_app_close_notice),
+            style = type.caption,
+            color = colors.text3,
+            modifier = Modifier.padding(top = space.padding_1x),
+        )
+        if (needsPassphrase) {
+            MmField(
+                value = passphrase,
+                onValueChange = { passphrase = it },
+                label = stringResource(Res.string.settings_restore_passphrase_label),
+                visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardType = KeyboardType.Password,
+                suffix = {
+                    MmIconButton(
+                        icon = if (visible) Icon.EyeOff.imageVector else Icon.Eye.imageVector,
+                        onClick = { visible = !visible },
+                        contentDescription = null,
+                    )
+                },
+            )
+        }
+        if (errorMessage != null) {
+            Text(errorMessage, color = colors.danger, style = type.caption)
+        }
+    }
+}
+
+@Composable
 private fun PasswordDialog(
     errorMessage: String?,
     onDismiss: () -> Unit,
@@ -568,6 +617,12 @@ private fun RemoteRestoreDialog(
         dismissText = stringResource(Res.string.settings_remote_passphrase_cancel),
     ) {
         Text(stringResource(Res.string.settings_remote_restore_body), style = type.body, color = colors.text2)
+        Text(
+            stringResource(Res.string.settings_restore_app_close_notice),
+            style = type.caption,
+            color = colors.text3,
+            modifier = Modifier.padding(top = space.padding_1x),
+        )
         if (loading) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

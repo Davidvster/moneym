@@ -9,6 +9,8 @@ import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.core.oauth.AuthState
 import com.dv.moneym.core.oauth.GoogleAuthManager
+import com.dv.moneym.core.security.BackupCryptoError
+import com.dv.moneym.data.backup.BackupCodec
 import com.dv.moneym.data.backup.DbBackupManager
 import com.dv.moneym.data.remotebackup.RemoteBackupManager
 import com.dv.moneym.data.remotebackup.RemoteBackupMetadata
@@ -34,6 +36,8 @@ data class BackupRestoreUiState(
     val isLoading: Boolean = false,
     val isLocalLoading: Boolean = false,
     val showRestoreWarning: Boolean = false,
+    val restoreNeedsPassphrase: Boolean = false,
+    val restoreError: String? = null,
     val autoBackupEnabled: Boolean = false,
     val showBackupSuccess: Boolean = false,
     val lastBackupTimeMs: Long = 0L,
@@ -55,10 +59,12 @@ data class BackupRestoreUiState(
     val remoteRuntime: RemoteBackupRuntimeState = RemoteBackupRuntimeState.Idle,
 )
 
+enum class PendingBackup { RemoteAuto, RemoteNow, LocalAuto, LocalNow }
+
 sealed interface BackupRestoreIntent {
     data object BackupTapped : BackupRestoreIntent
     data class RestoreFileSelected(val bytes: ByteArray) : BackupRestoreIntent
-    data object RestoreConfirmed : BackupRestoreIntent
+    data class RestoreConfirmed(val passphrase: CharArray? = null) : BackupRestoreIntent
     data object RestoreDismissed : BackupRestoreIntent
     data class AutoBackupToggled(val enabled: Boolean) : BackupRestoreIntent
     data class BackupSaveCompleted(val path: String?) : BackupRestoreIntent
@@ -89,6 +95,7 @@ sealed interface BackupRestoreEffect {
 
 class BackupRestoreViewModel(
     private val dbBackupManager: DbBackupManager,
+    private val backupCodec: BackupCodec,
     private val appSettings: AppSettings,
     private val dispatchers: DispatcherProvider,
     private val googleAuthManager: GoogleAuthManager? = null,
@@ -146,12 +153,13 @@ class BackupRestoreViewModel(
     val effects = _effects.receiveAsFlow()
 
     private var pendingRestoreBytes: ByteArray? = null
+    private var pendingBackup: PendingBackup? = null
 
     fun onIntent(intent: BackupRestoreIntent) {
         when (intent) {
             BackupRestoreIntent.BackupTapped -> handleBackupTapped()
             is BackupRestoreIntent.RestoreFileSelected -> handleRestoreFileSelected(intent.bytes)
-            BackupRestoreIntent.RestoreConfirmed -> handleRestoreConfirmed()
+            is BackupRestoreIntent.RestoreConfirmed -> handleRestoreConfirmed(intent.passphrase)
             BackupRestoreIntent.RestoreDismissed -> handleRestoreDismissed()
             is BackupRestoreIntent.AutoBackupToggled -> handleAutoBackupToggled(intent.enabled)
             is BackupRestoreIntent.BackupSaveCompleted -> handleBackupSaveCompleted(intent.path)
@@ -162,7 +170,10 @@ class BackupRestoreViewModel(
             BackupRestoreIntent.DisconnectGoogleDismissed -> _base.update { it.copy(showDisconnectDialog = false) }
             is BackupRestoreIntent.RemoteAutoBackupToggled -> handleRemoteAutoToggled(intent.enabled)
             BackupRestoreIntent.PassphrasePromptOpened -> _base.update { it.copy(showPassphraseDialog = true, passphraseError = null) }
-            BackupRestoreIntent.PassphrasePromptDismissed -> _base.update { it.copy(showPassphraseDialog = false, passphraseError = null) }
+            BackupRestoreIntent.PassphrasePromptDismissed -> {
+                pendingBackup = null
+                _base.update { it.copy(showPassphraseDialog = false, passphraseError = null) }
+            }
             is BackupRestoreIntent.PasswordSubmitted -> handlePasswordSubmitted(intent.value, intent.encrypt)
             BackupRestoreIntent.RemoteBackupNowTapped -> handleRemoteBackupNow()
             BackupRestoreIntent.RemoteRestoreTapped -> handleRemoteRestoreTapped()
@@ -174,25 +185,38 @@ class BackupRestoreViewModel(
     }
 
     private fun handleBackupTapped() {
-        _base.update { it.copy(isLocalLoading = true, showBackupSuccess = false) }
-        viewModelScope.launch {
-            val bytes = withContext(dispatchers.io) { dbBackupManager.export() }
-            _effects.send(BackupRestoreEffect.LaunchFileSaver(bytes, "moneym-backup.zip"))
-        }
+        pendingBackup = PendingBackup.LocalNow
+        _base.update { it.copy(showPassphraseDialog = true, passphraseError = null) }
     }
 
     private fun handleRestoreFileSelected(bytes: ByteArray) {
         pendingRestoreBytes = bytes
-        _base.update { it.copy(showRestoreWarning = true) }
+        _base.update {
+            it.copy(
+                showRestoreWarning = true,
+                restoreNeedsPassphrase = backupCodec.isEncrypted(bytes),
+                restoreError = null,
+            )
+        }
     }
 
-    private fun handleRestoreConfirmed() {
+    private fun handleRestoreConfirmed(passphrase: CharArray?) {
         val bytes = pendingRestoreBytes ?: return
-        pendingRestoreBytes = null
-        _base.update { it.copy(isLocalLoading = true, showRestoreWarning = false) }
+        val needsPassphrase = backupCodec.isEncrypted(bytes)
+        if (needsPassphrase && (passphrase == null || passphrase.isEmpty())) return
+        _base.update { it.copy(isLocalLoading = true, showRestoreWarning = false, restoreError = null) }
         viewModelScope.launch {
             try {
-                withContext(dispatchers.io) { dbBackupManager.restore(bytes) }
+                val plain = withContext(dispatchers.io) {
+                    if (needsPassphrase) backupCodec.open(bytes, passphrase!!) else bytes
+                }
+                passphrase?.fill(' ')
+                pendingRestoreBytes = null
+                withContext(dispatchers.io) { dbBackupManager.restore(plain) }
+            } catch (e: BackupCryptoError) {
+                _base.update {
+                    it.copy(isLocalLoading = false, showRestoreWarning = true, restoreError = e.message)
+                }
             } catch (e: Exception) {
                 _base.update { it.copy(isLocalLoading = false) }
                 _effects.send(BackupRestoreEffect.RestoreError(e.message ?: "Restore failed"))
@@ -202,16 +226,15 @@ class BackupRestoreViewModel(
 
     private fun handleRestoreDismissed() {
         pendingRestoreBytes = null
-        _base.update { it.copy(showRestoreWarning = false) }
+        _base.update { it.copy(showRestoreWarning = false, restoreNeedsPassphrase = false, restoreError = null) }
     }
 
     private fun handleAutoBackupToggled(enabled: Boolean) {
         if (enabled) {
             val hasDirUri = appSettings.getString(PrefKeys.AUTO_BACKUP_DIR_URI) != null
             if (hasDirUri) {
-                appSettings.putBoolean(PrefKeys.AUTO_BACKUP_ENABLED, true)
-                _base.update { it.copy(autoBackupEnabled = true) }
-                runImmediateLocalBackup()
+                pendingBackup = PendingBackup.LocalAuto
+                _base.update { it.copy(showPassphraseDialog = true, passphraseError = null) }
             } else {
                 viewModelScope.launch { _effects.send(BackupRestoreEffect.LaunchFolderPicker) }
             }
@@ -237,9 +260,23 @@ class BackupRestoreViewModel(
     private fun handleAutoBackupLocationSelected(uri: String?) {
         if (uri != null) {
             appSettings.putString(PrefKeys.AUTO_BACKUP_DIR_URI, uri)
-            appSettings.putBoolean(PrefKeys.AUTO_BACKUP_ENABLED, true)
-            _base.update { it.copy(autoBackupEnabled = true) }
-            runImmediateLocalBackup()
+            pendingBackup = PendingBackup.LocalAuto
+            _base.update { it.copy(showPassphraseDialog = true, passphraseError = null) }
+        }
+    }
+
+    private fun runLocalBackupToFile() {
+        _base.update { it.copy(isLocalLoading = true, showBackupSuccess = false) }
+        viewModelScope.launch {
+            val bytes = withContext(dispatchers.io) {
+                backupCodec.seal(
+                    plain = dbBackupManager.export(),
+                    passphrase = localPassphraseOrNull(),
+                    schema = BackupCodec.CURRENT_SCHEMA,
+                    createdAt = Clock.System.now().toEpochMilliseconds(),
+                )
+            }
+            _effects.send(BackupRestoreEffect.LaunchFileSaver(bytes, localBackupFileName()))
         }
     }
 
@@ -247,17 +284,32 @@ class BackupRestoreViewModel(
         _base.update { it.copy(isLocalLoading = true, showBackupSuccess = false) }
         viewModelScope.launch {
             val path = withContext(dispatchers.io) {
-                val bytes = dbBackupManager.export()
+                val bytes = backupCodec.seal(
+                    plain = dbBackupManager.export(),
+                    passphrase = localPassphraseOrNull(),
+                    schema = BackupCodec.CURRENT_SCHEMA,
+                    createdAt = Clock.System.now().toEpochMilliseconds(),
+                )
+                val name = localBackupFileName()
                 val dirUri = appSettings.getString(PrefKeys.AUTO_BACKUP_DIR_URI)
                 if (dirUri != null && dirUri != "default") {
-                    filePlatform.saveFileToDirBinary(dirUri, "moneym-backup.zip", bytes)
+                    filePlatform.saveFileToDirBinary(dirUri, name, bytes)
                 } else {
-                    filePlatform.saveFileLocallyBinary("moneym-backup.zip", bytes)
+                    filePlatform.saveFileLocallyBinary(name, bytes)
                 }
             }
             handleBackupSaveCompleted(path)
         }
     }
+
+    private fun localEncryptEnabled(): Boolean =
+        appSettings.getBoolean(PrefKeys.LOCAL_BACKUP_ENCRYPT, defaultValue = false)
+
+    private fun localBackupFileName(): String =
+        if (localEncryptEnabled()) "moneym-backup.bin" else "moneym-backup.zip"
+
+    private fun localPassphraseOrNull(): CharArray? =
+        if (localEncryptEnabled() && sessionPassphrase?.isSet?.value == true) sessionPassphrase.get() else null
 
     private fun handleConnectGoogle() {
         val manager = googleAuthManager ?: return
@@ -286,13 +338,8 @@ class BackupRestoreViewModel(
 
     private fun handleRemoteAutoToggled(enabled: Boolean) {
         if (enabled) {
-            if (encryptEnabled() && sessionPassphrase?.isSet?.value != true) {
-                _base.update { it.copy(showPassphraseDialog = true, passphraseError = null) }
-                return
-            }
-            appSettings.putBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, true)
-            _base.update { it.copy(remoteAutoEnabled = true) }
-            flushRemoteNow()
+            pendingBackup = PendingBackup.RemoteAuto
+            _base.update { it.copy(showPassphraseDialog = true, passphraseError = null) }
         } else {
             appSettings.putBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, false)
             _base.update { it.copy(remoteAutoEnabled = false) }
@@ -300,35 +347,48 @@ class BackupRestoreViewModel(
     }
 
     private fun handlePasswordSubmitted(value: CharArray, encrypt: Boolean) {
+        val action = pendingBackup
+        val isRemote = action == PendingBackup.RemoteAuto || action == PendingBackup.RemoteNow
+        val encryptPref = if (isRemote) PrefKeys.REMOTE_BACKUP_ENCRYPT else PrefKeys.LOCAL_BACKUP_ENCRYPT
         if (encrypt) {
             if (value.size < MIN_PASSPHRASE_LENGTH) {
                 _base.update { it.copy(passphraseError = "Password must be at least $MIN_PASSPHRASE_LENGTH characters") }
                 return
             }
             sessionPassphrase?.set(value)
-            appSettings.putBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, true)
+            appSettings.putBoolean(encryptPref, true)
         } else {
-            appSettings.putBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, false)
+            appSettings.putBoolean(encryptPref, false)
         }
         value.fill(' ')
-        appSettings.putBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, true)
+        pendingBackup = null
         _base.update {
             it.copy(
                 showPassphraseDialog = false,
                 passphraseError = null,
-                remoteAutoEnabled = true,
-                remotePassphraseSet = encrypt,
+                remotePassphraseSet = if (isRemote) encrypt else it.remotePassphraseSet,
             )
         }
-        flushRemoteNow()
+        when (action) {
+            PendingBackup.RemoteAuto -> {
+                appSettings.putBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, true)
+                _base.update { it.copy(remoteAutoEnabled = true) }
+                flushRemoteNow()
+            }
+            PendingBackup.RemoteNow -> flushRemoteNow()
+            PendingBackup.LocalAuto -> {
+                appSettings.putBoolean(PrefKeys.AUTO_BACKUP_ENABLED, true)
+                _base.update { it.copy(autoBackupEnabled = true) }
+                runImmediateLocalBackup()
+            }
+            PendingBackup.LocalNow -> runLocalBackupToFile()
+            null -> Unit
+        }
     }
 
     private fun handleRemoteBackupNow() {
-        if (encryptEnabled() && sessionPassphrase?.isSet?.value != true) {
-            _base.update { it.copy(showPassphraseDialog = true, passphraseError = null) }
-            return
-        }
-        flushRemoteNow()
+        pendingBackup = PendingBackup.RemoteNow
+        _base.update { it.copy(showPassphraseDialog = true, passphraseError = null) }
     }
 
     private fun flushRemoteNow() {
@@ -339,9 +399,6 @@ class BackupRestoreViewModel(
             }
         }
     }
-
-    private fun encryptEnabled(): Boolean =
-        appSettings.getBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, defaultValue = true)
 
     private fun handleRemoteRestoreTapped() {
         val manager = remoteBackupManager ?: return

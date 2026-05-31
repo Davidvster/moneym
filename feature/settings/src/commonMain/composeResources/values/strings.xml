@@ -164,6 +164,8 @@
     <string name="settings_restore_from_file">Restore from file</string>
     <string name="settings_restore_warning_title">Replace all data?</string>
     <string name="settings_restore_warning_body">This will permanently replace all current data with the backup. This cannot be undone.</string>
+    <string name="settings_restore_app_close_notice">The app will close after restoring. Reopen it manually to continue.</string>
+    <string name="settings_restore_passphrase_label">Backup passphrase</string>
     <string name="settings_restore_confirm">Replace</string>
     <string name="settings_auto_backup">Auto-backup</string>
     <string name="settings_auto_backup_subtitle">Updates the backup file automatically on every change</string>
@@ -202,7 +204,7 @@
     <string name="settings_remote_password_save">Save</string>
     <string name="settings_remote_password_mismatch">Passwords do not match</string>
     <string name="settings_remote_password_too_short">Password must be at least %1$d characters</string>
-    <string name="settings_remote_dont_encrypt">Don\'t encrypt</string>
+    <string name="settings_remote_dont_encrypt">Don't encrypt</string>
     <string name="settings_remote_plaintext_warning">Your financial data will be stored unencrypted on Google Drive. Anyone with access to your Drive can read it.</string>
     <string name="settings_remote_restore_title">Restore from Google Drive?</string>
     <string name="settings_remote_restore_body">This will permanently replace all current data with the latest encrypted backup. Enter your passphrase to continue.</string>

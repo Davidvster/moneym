@@ -165,7 +165,7 @@ val dataBackupModule = module {
             get<BudgetsRoomDatabase>().close()
         }
     }
-    single { AutoBackupManager(get(), get(), get(), get(), get(), get(), get(), getOrNull()) }
+    single { AutoBackupManager(get(), get(), get(), get(), get(), get(), get(), get(), get(), getOrNull()) }
 }
 
 val featureSettingsModule = module {
@@ -221,6 +221,7 @@ val featureSettingsModule = module {
     viewModel {
         BackupRestoreViewModel(
             dbBackupManager = get(),
+            backupCodec = get(),
             appSettings = get(),
             dispatchers = get(),
             googleAuthManager = getOrNull(),

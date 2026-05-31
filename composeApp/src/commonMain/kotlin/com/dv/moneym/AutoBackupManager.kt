@@ -1,5 +1,6 @@
 package com.dv.moneym
 
+import com.dv.moneym.data.backup.BackupCodec
 import com.dv.moneym.data.backup.DbBackupManager
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.datastore.AppSettings
@@ -7,6 +8,7 @@ import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.remotebackup.RemoteBackupManager
+import com.dv.moneym.data.remotebackup.SessionPassphrase
 import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.platform.FilePlatform
 import kotlinx.coroutines.CoroutineScope
@@ -27,6 +29,8 @@ class AutoBackupManager(
     private val filePlatform: FilePlatform,
     private val appSettings: AppSettings,
     private val dispatchers: DispatcherProvider,
+    private val backupCodec: BackupCodec,
+    private val sessionPassphrase: SessionPassphrase,
     private val remoteBackupManager: RemoteBackupManager? = null,
 ) {
     private var job: Job? = null
@@ -43,12 +47,22 @@ class AutoBackupManager(
                 .drop(1)
                 .debounce(3_000)
                 .collect {
-                    val bytes = withContext(dispatchers.io) { dbBackupManager.export() }
+                    val encrypt = appSettings.getBoolean(PrefKeys.LOCAL_BACKUP_ENCRYPT, defaultValue = false) &&
+                        sessionPassphrase.isSet.value
+                    val bytes = withContext(dispatchers.io) {
+                        backupCodec.seal(
+                            plain = dbBackupManager.export(),
+                            passphrase = if (encrypt) sessionPassphrase.get() else null,
+                            schema = BackupCodec.CURRENT_SCHEMA,
+                            createdAt = Clock.System.now().toEpochMilliseconds(),
+                        )
+                    }
+                    val name = if (encrypt) "moneym-backup.bin" else "moneym-backup.zip"
                     val dirUri = appSettings.getString(PrefKeys.AUTO_BACKUP_DIR_URI)
                     val path = if (dirUri != null && dirUri != "default") {
-                        filePlatform.saveFileToDirBinary(dirUri, "moneym-backup.zip", bytes)
+                        filePlatform.saveFileToDirBinary(dirUri, name, bytes)
                     } else {
-                        filePlatform.saveFileLocallyBinary("moneym-backup.zip", bytes)
+                        filePlatform.saveFileLocallyBinary(name, bytes)
                     }
                     if (path != null) recordBackup(path)
                     appSettings.putLong(

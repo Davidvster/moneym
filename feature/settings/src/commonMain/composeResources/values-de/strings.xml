@@ -163,6 +163,8 @@
     <string name="settings_restore_from_file">Aus Datei wiederherstellen</string>
     <string name="settings_restore_warning_title">Alle Daten ersetzen?</string>
     <string name="settings_restore_warning_body">Alle aktuellen Daten werden dauerhaft durch die Sicherung ersetzt. Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="settings_restore_app_close_notice">Die App wird nach dem Wiederherstellen geschlossen. Öffne sie manuell erneut, um fortzufahren.</string>
+    <string name="settings_restore_passphrase_label">Backup-Passphrase</string>
     <string name="settings_restore_confirm">Ersetzen</string>
     <string name="settings_auto_backup">Automatisches Backup</string>
     <string name="settings_auto_backup_subtitle">Aktualisiert die Backup-Datei automatisch bei jeder Änderung</string>

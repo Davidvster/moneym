@@ -3,6 +3,7 @@ package com.dv.moneym.di
 import com.dv.moneym.core.oauth.GoogleAuthManager
 import com.dv.moneym.core.security.BackupCrypto
 import com.dv.moneym.core.security.DefaultBackupCrypto
+import com.dv.moneym.data.backup.BackupCodec
 import com.dv.moneym.data.remotebackup.RemoteBackupManager
 import com.dv.moneym.data.remotebackup.RemoteBackupProvider
 import com.dv.moneym.data.remotebackup.SessionPassphrase
@@ -23,6 +24,7 @@ internal expect fun createHttpEngine(): HttpClientEngine
 
 val remoteBackupCommonModule: Module = module {
     single<BackupCrypto> { DefaultBackupCrypto(dispatchers = get()) }
+    single { BackupCodec(crypto = get(), appVersion = APP_VERSION) }
     single { SessionPassphrase() }
     single {
         HttpClient(createHttpEngine()) {

@@ -163,6 +163,8 @@
     <string name="settings_restore_from_file">Restaurar desde archivo</string>
     <string name="settings_restore_warning_title">¿Reemplazar todos los datos?</string>
     <string name="settings_restore_warning_body">Todos los datos actuales se reemplazarán permanentemente con la copia de seguridad. Esta acción no se puede deshacer.</string>
+    <string name="settings_restore_app_close_notice">La aplicación se cerrará después de restaurar. Vuelve a abrirla manualmente para continuar.</string>
+    <string name="settings_restore_passphrase_label">Contraseña del backup</string>
     <string name="settings_restore_confirm">Reemplazar</string>
     <string name="settings_auto_backup">Copia automática</string>
     <string name="settings_auto_backup_subtitle">Actualiza el archivo de copia automáticamente con cada cambio</string>

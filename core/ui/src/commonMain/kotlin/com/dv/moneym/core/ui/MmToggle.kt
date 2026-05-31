@@ -53,6 +53,7 @@ fun MmToggle(
 
     val trackBg = if (checked) colors.text else colors.surface2
     val trackBorder = if (checked) colors.text else colors.borderStrong
+    val thumbColor = if (checked) colors.bg else colors.text
 
     Box(
         modifier = modifier
@@ -74,7 +75,7 @@ fun MmToggle(
                 .size(thumbSize)
                 .shadow(1.dp, CircleShape)
                 .clip(CircleShape)
-                .background(colors.bg, CircleShape),
+                .background(thumbColor, CircleShape),
         )
     }
 }
