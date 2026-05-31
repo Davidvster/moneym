@@ -5,21 +5,33 @@ import androidx.compose.ui.graphics.luminance
 
 // Design palette — same in light and dark mode
 val defaultCategoryColors = listOf(
-    Color(0xFFC2566B), // Health
-    Color(0xFF8B6FB0), // Entertainment
-    Color(0xFF4A8E5C), // Salary
-    Color(0xFF4F8694), // Transport
-    Color(0xFFB89148), // Utilities
-    Color(0xFF7A9572), // Groceries
-    Color(0xFFC97A4F), // Eating out
-    Color(0xFF5A7BA8), // Rent
-    Color(0xFFB07089), // Shopping
-    Color(0xFF8A8A8A), // Other
-    Color(0xFFD14C7A),
-    Color(0xFF6B5BC4),
-    Color(0xFF3F9E70),
-    Color(0xFF3A82A5),
+    Color(0xFFF4743B),
+    Color(0xFFC97A4F),
     Color(0xFFD88B33),
+    Color(0xFFFF9F1C),
+    Color(0xFFB89148),
+    Color(0xFFF4B400),
+    Color(0xFFA8C63A),
+    Color(0xFF7A9572),
+    Color(0xFF2EA84F),
+    Color(0xFF4A8E5C),
+    Color(0xFF3F9E70),
+    Color(0xFF12B5A5),
+    Color(0xFF1CA7C9),
+    Color(0xFF4F8694),
+    Color(0xFF3A82A5),
+    Color(0xFF5A7BA8),
+    Color(0xFF2D6CDF),
+    Color(0xFF6B5BC4),
+    Color(0xFF5A3FC0),
+    Color(0xFF8B6FB0),
+    Color(0xFF9B51E0),
+    Color(0xFFB07089),
+    Color(0xFFE84B8A),
+    Color(0xFFD14C7A),
+    Color(0xFFC2566B),
+    Color(0xFFE63946),
+    Color(0xFF8A8A8A),
 )
 
 private val fallbackColor = Color(0xFF8A8A8A)

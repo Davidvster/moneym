@@ -56,17 +56,18 @@ internal fun NewCategorySheetBody(
     selectedIcon: Icon,
     customColors: List<Color>,
     isEditMode: Boolean,
-    nameError: String? = null,
     onNameChange: (String) -> Unit,
     onColorSelected: (Color) -> Unit,
     onCustomColorClick: () -> Unit,
     onIconSelected: (Icon) -> Unit,
     onDeleteClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    nameError: String? = null,
 ) {
     val colors = MM.colors
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .verticalScroll(rememberScrollState())
             .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_2x),
     ) {
