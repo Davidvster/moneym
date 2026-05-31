@@ -28,7 +28,7 @@ kotlin {
             implementation(libs.cryptography.provider.jdk)
         }
         iosMain.dependencies {
-            implementation(libs.cryptography.provider.apple)
+            implementation(libs.cryptography.provider.openssl3.prebuilt)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

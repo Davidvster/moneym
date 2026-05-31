@@ -15,7 +15,7 @@ import kotlinx.io.bytestring.ByteString
 @OptIn(DelicateCryptographyApi::class)
 class DefaultBackupCrypto(
     private val dispatchers: DispatcherProvider,
-    provider: CryptographyProvider = CryptographyProvider.Default,
+    provider: CryptographyProvider = platformCryptographyProvider(),
     internal val pbkdf2Iterations: Int = BackupCryptoConstants.PBKDF2_ITERATIONS,
 ) : BackupCrypto {
 

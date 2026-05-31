@@ -132,6 +132,7 @@ compose-material-icons-extended = { module = "org.jetbrains.compose.material:mat
 cryptography-core = { module = "dev.whyoleg.cryptography:cryptography-core", version.ref = "cryptographyKotlin" }
 cryptography-provider-jdk = { module = "dev.whyoleg.cryptography:cryptography-provider-jdk", version.ref = "cryptographyKotlin" }
 cryptography-provider-apple = { module = "dev.whyoleg.cryptography:cryptography-provider-apple", version.ref = "cryptographyKotlin" }
+cryptography-provider-openssl3-prebuilt = { module = "dev.whyoleg.cryptography:cryptography-provider-openssl3-prebuilt", version.ref = "cryptographyKotlin" }
 
 # Networking (Ktor)
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }

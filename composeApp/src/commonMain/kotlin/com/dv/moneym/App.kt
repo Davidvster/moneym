@@ -41,19 +41,7 @@ private fun AppContent() {
     val lockController = koinInject<AppLockController>()
     val appSettings = koinInject<AppSettings>()
     val appSettingsRepo = koinInject<AppSettingsRepository>()
-    val koin = org.koin.compose.getKoin()
-    val autoBackupManager = remember {
-        try {
-            koin.get<AutoBackupManager>()
-        } catch (e: Throwable) {
-            var c: Throwable? = e
-            while (c != null) {
-                println("ABM-CAUSE >> ${c::class.qualifiedName}: ${c.message}")
-                c = c.cause
-            }
-            throw e
-        }
-    }
+    val autoBackupManager = koinInject<AutoBackupManager>()
 
     LaunchedEffect(Unit) { initializer.initialize() }
 
