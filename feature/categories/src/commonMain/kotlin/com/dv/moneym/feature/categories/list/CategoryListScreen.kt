@@ -120,7 +120,7 @@ private fun ManageCategoriesScreen(
             MmButton(
                 text = newCategoryButtonText,
                 onClick = { onIntent(CategoryListIntent.ShowCategoryEditSheet(true)) },
-                variant = MmButtonVariant.Secondary,
+                variant = MmButtonVariant.Primary,
                 fullWidth = true,
                 leadingIcon = Icon.Plus.imageVector,
             )

@@ -217,7 +217,7 @@ private fun WalletManageContent(
                 MmButton(
                     text = stringResource(Res.string.settings_wallet_add_title),
                     onClick = onNavigateToAddWallet,
-                    variant = MmButtonVariant.Secondary,
+                    variant = MmButtonVariant.Primary,
                     fullWidth = true,
                     leadingIcon = Icon.Plus.imageVector,
                 )

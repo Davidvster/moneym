@@ -152,7 +152,7 @@ private fun BudgetListContent(
             MmButton(
                 text = stringResource(Res.string.budgets_new),
                 onClick = onCreate,
-                variant = MmButtonVariant.Secondary,
+                variant = MmButtonVariant.Primary,
                 fullWidth = true,
                 leadingIcon = Icon.Plus.imageVector,
             )

@@ -105,7 +105,7 @@ private fun RecurringListContent(
             MmButton(
                 text = stringResource(Res.string.settings_recurring_new),
                 onClick = onCreateNew,
-                variant = MmButtonVariant.Secondary,
+                variant = MmButtonVariant.Primary,
                 fullWidth = true,
                 leadingIcon = Icon.Plus.imageVector,
             )

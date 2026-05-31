@@ -126,7 +126,7 @@ private fun PaymentModeListContent(
             MmButton(
                 text = stringResource(Res.string.settings_payment_mode_add),
                 onClick = onAddClick,
-                variant = MmButtonVariant.Secondary,
+                variant = MmButtonVariant.Primary,
                 fullWidth = true,
                 leadingIcon = Icon.Plus.imageVector,
             )
