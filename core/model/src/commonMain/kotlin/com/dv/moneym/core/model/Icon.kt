@@ -51,6 +51,8 @@ enum class Icon(val key: String) {
     Bank("bank"),
     Dots("dots"),
     Edit("edit"),
+    Eye("eye"),
+    EyeOff("eye_off"),
     ;
 
     companion object {

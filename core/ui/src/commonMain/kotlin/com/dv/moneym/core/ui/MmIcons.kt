@@ -1276,5 +1276,7 @@ internal object MmIcons {
         Icon.Bank -> banknote
         Icon.Dots -> tag
         Icon.Edit -> edit
+        Icon.Eye -> eye
+        Icon.EyeOff -> eyeOff
     }
 }

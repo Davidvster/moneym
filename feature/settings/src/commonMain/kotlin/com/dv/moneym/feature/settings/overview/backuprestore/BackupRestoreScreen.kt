@@ -84,12 +84,10 @@ import moneym.feature.settings.generated.resources.settings_remote_dont_encrypt
 import moneym.feature.settings.generated.resources.settings_remote_passphrase_cancel
 import moneym.feature.settings.generated.resources.settings_remote_passphrase_label
 import moneym.feature.settings.generated.resources.settings_remote_password_body
-import moneym.feature.settings.generated.resources.settings_remote_password_hide
 import moneym.feature.settings.generated.resources.settings_remote_password_label
 import moneym.feature.settings.generated.resources.settings_remote_password_mismatch
 import moneym.feature.settings.generated.resources.settings_remote_password_repeat_label
 import moneym.feature.settings.generated.resources.settings_remote_password_save
-import moneym.feature.settings.generated.resources.settings_remote_password_show
 import moneym.feature.settings.generated.resources.settings_remote_password_title
 import moneym.feature.settings.generated.resources.settings_remote_plaintext_warning
 import moneym.feature.settings.generated.resources.settings_remote_quota_warning
@@ -163,21 +161,19 @@ private fun BackupRestoreScreen(
     }
 
     if (state.showRestoreWarning) {
-        AlertDialog(
-            onDismissRequest = { viewModel.onIntent(BackupRestoreIntent.RestoreDismissed) },
-            title = { Text(stringResource(Res.string.settings_restore_warning_title)) },
-            text = { Text(stringResource(Res.string.settings_restore_warning_body)) },
-            confirmButton = {
-                TextButton(onClick = { viewModel.onIntent(BackupRestoreIntent.RestoreConfirmed) }) {
-                    Text(stringResource(Res.string.settings_restore_confirm))
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { viewModel.onIntent(BackupRestoreIntent.RestoreDismissed) }) {
-                    Text("Cancel")
-                }
-            },
-        )
+        MmDialog(
+            title = stringResource(Res.string.settings_restore_warning_title),
+            confirmText = stringResource(Res.string.settings_restore_confirm),
+            onConfirm = { viewModel.onIntent(BackupRestoreIntent.RestoreConfirmed) },
+            onDismiss = { viewModel.onIntent(BackupRestoreIntent.RestoreDismissed) },
+            dismissText = stringResource(Res.string.settings_remote_passphrase_cancel),
+        ) {
+            Text(
+                stringResource(Res.string.settings_restore_warning_body),
+                style = MM.type.body,
+                color = MM.colors.text2,
+            )
+        }
     }
 
     if (state.showPassphraseDialog) {
@@ -504,14 +500,10 @@ private fun PasswordDialog(
                 visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardType = KeyboardType.Password,
                 suffix = {
-                    Text(
-                        text = stringResource(
-                            if (visible) Res.string.settings_remote_password_hide
-                            else Res.string.settings_remote_password_show,
-                        ),
-                        style = type.caption,
-                        color = colors.accent,
-                        modifier = Modifier.clickable { visible = !visible },
+                    MmIconButton(
+                        icon = if (visible) Icon.EyeOff.imageVector else Icon.Eye.imageVector,
+                        onClick = { visible = !visible },
+                        contentDescription = null,
                     )
                 },
             )
@@ -521,6 +513,13 @@ private fun PasswordDialog(
                 label = stringResource(Res.string.settings_remote_password_repeat_label),
                 visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardType = KeyboardType.Password,
+                suffix = {
+                    MmIconButton(
+                        icon = if (visible) Icon.EyeOff.imageVector else Icon.Eye.imageVector,
+                        onClick = { visible = !visible },
+                        contentDescription = null,
+                    )
+                },
             )
             if (mismatch) {
                 Text(
