@@ -229,4 +229,5 @@
     <string name="settings_remote_restore_loading">Loading backup info…</string>
     <string name="settings_remote_restore_conflict">Warning: you have local changes since this backup was made (%1$s). Restoring will discard them.</string>
     <string name="settings_remote_restore_too_new">This backup was made by a newer version of the app and cannot be restored.</string>
+    <string name="settings_recurring_new">New recurring transaction</string>
 </resources>

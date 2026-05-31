@@ -147,7 +147,7 @@ class OverviewViewModel(
             yearAnchor = yearAnchor,
             yearCurrentPage = yearCurrentPage,
             yearPageCount = yearPageCount,
-            minSelectableDateIso = minIso,
+            minSelectableDateIso = minIso ?: today.toString(),
             maxSelectableDateIso = maxIso,
             currency = currency,
             accounts = accounts,

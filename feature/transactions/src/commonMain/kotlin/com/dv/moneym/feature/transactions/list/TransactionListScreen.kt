@@ -152,8 +152,8 @@ private fun TransactionListContent(
     val anchor = state.earliestMonth ?: YearMonth(today.year, today.month.number)
 
     if (state.showMonthPicker) {
-        val minYear = state.earliestMonth?.year
-        val minMonth = state.earliestMonth?.monthNumber
+        val minYear = state.earliestMonth?.year ?: state.today?.year
+        val minMonth = state.earliestMonth?.monthNumber ?: state.today?.monthNumber
         MmMonthPickerDialog(
             currentYear = currentMonth.year,
             currentMonth = currentMonth.monthNumber,
