@@ -19,4 +19,14 @@
     <string name="onboarding_restore_warning_title">¿Reemplazar todos los datos?</string>
     <string name="onboarding_restore_warning_body">Los datos actuales se reemplazarán con la copia de seguridad y se omitirá la configuración.</string>
     <string name="onboarding_restore_confirm">Restaurar</string>
+    <string name="onboarding_restore_screen_title">Restaurar copia de seguridad</string>
+    <string name="onboarding_restore_local_button">Restaurar desde archivo</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">Conectar cuenta de Google</string>
+    <string name="onboarding_restore_google_button">Restaurar desde Google Drive</string>
+    <string name="onboarding_restore_passphrase_label">Contraseña de la copia</string>
+    <string name="onboarding_restore_app_close_notice">La app se cerrará después de restaurar. Vuelve a abrirla para continuar.</string>
+    <string name="onboarding_restore_cancel">Cancelar</string>
+    <string name="onboarding_restore_remote_loading">Obteniendo información de la copia…</string>
+    <string name="onboarding_restore_wrong_password">Contraseña incorrecta o copia dañada.</string>
 </resources>

@@ -21,6 +21,7 @@ import com.dv.moneym.feature.budgets.list.BudgetListViewModel
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
 import com.dv.moneym.feature.categories.list.CategoryListViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
+import com.dv.moneym.feature.onboarding.restore.OnboardingRestoreViewModel
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.OverviewViewModel
@@ -303,9 +304,18 @@ val featureOnboardingModule = module {
     viewModel {
         OnboardingCurrencyViewModel(
             accountRepository = get(),
+            appSettings = get(),
+            savedStateHandle = get(),
+        )
+    }
+    viewModel {
+        OnboardingRestoreViewModel(
             dbBackupManager = get(),
+            backupCodec = get(),
             appSettings = get(),
             dispatchers = get(),
+            googleAuthManager = getOrNull(),
+            remoteBackupManager = getOrNull(),
             savedStateHandle = get(),
         )
     }

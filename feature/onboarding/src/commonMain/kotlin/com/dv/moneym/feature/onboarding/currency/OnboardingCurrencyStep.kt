@@ -13,10 +13,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -45,13 +43,9 @@ import moneym.feature.onboarding.generated.resources.onboarding_continue
 import moneym.feature.onboarding.generated.resources.onboarding_currencies_header
 import moneym.feature.onboarding.generated.resources.onboarding_currency_title
 import moneym.feature.onboarding.generated.resources.onboarding_import_data
-import moneym.feature.onboarding.generated.resources.onboarding_restore_confirm
 import moneym.feature.onboarding.generated.resources.onboarding_restore_from_backup
-import moneym.feature.onboarding.generated.resources.onboarding_restore_warning_body
-import moneym.feature.onboarding.generated.resources.onboarding_restore_warning_title
 import moneym.feature.onboarding.generated.resources.onboarding_search_currency
 import moneym.feature.onboarding.generated.resources.onboarding_welcome
-import com.dv.moneym.platform.rememberBinaryFilePicker
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -61,11 +55,13 @@ data object OnboardingKey : NavKey
 fun EntryProviderScope<NavKey>.onboardingCurrencyEntry(
     onComplete: () -> Unit,
     onOpenCsvFilePicker: () -> Unit = {},
+    onOpenRestore: () -> Unit = {},
     viewModel: OnboardingCurrencyViewModel? = null,
 ) = entry<OnboardingKey> {
     OnboardingCurrencyScreen(
         onComplete = onComplete,
         onOpenCsvFilePicker = onOpenCsvFilePicker,
+        onOpenRestore = onOpenRestore,
         viewModel = viewModel ?: koinViewModel(),
     )
 }
@@ -74,13 +70,10 @@ fun EntryProviderScope<NavKey>.onboardingCurrencyEntry(
 private fun OnboardingCurrencyScreen(
     onComplete: () -> Unit,
     onOpenCsvFilePicker: () -> Unit,
+    onOpenRestore: () -> Unit,
     viewModel: OnboardingCurrencyViewModel,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-
-    val restorePicker = rememberBinaryFilePicker { bytes ->
-        if (bytes != null) viewModel.onIntent(OnboardingCurrencyIntent.RestoreFileSelected(bytes))
-    }
 
     LaunchedEffect(viewModel) {
         viewModel.effects.collect { effect ->
@@ -93,14 +86,11 @@ private fun OnboardingCurrencyScreen(
     CurrencyStep(
         selected = state.selectedCurrency,
         searchQuery = state.searchQuery,
-        showRestoreWarning = state.showRestoreWarning,
         onSelect = { viewModel.onIntent(OnboardingCurrencyIntent.CurrencySelected(it)) },
         onSearchQueryChanged = { viewModel.onIntent(OnboardingCurrencyIntent.SearchQueryChanged(it)) },
         onContinue = { viewModel.onIntent(OnboardingCurrencyIntent.Continue) },
-        onRestoreFromBackup = restorePicker,
+        onRestoreFromBackup = onOpenRestore,
         onImportCsv = { viewModel.onIntent(OnboardingCurrencyIntent.ImportCsvTapped) },
-        onRestoreConfirmed = { viewModel.onIntent(OnboardingCurrencyIntent.RestoreConfirmed) },
-        onRestoreDismissed = { viewModel.onIntent(OnboardingCurrencyIntent.RestoreDismissed) },
     )
 }
 
@@ -108,35 +98,14 @@ private fun OnboardingCurrencyScreen(
 internal fun CurrencyStep(
     selected: String,
     searchQuery: String,
-    showRestoreWarning: Boolean = false,
     onSelect: (String) -> Unit,
     onSearchQueryChanged: (String) -> Unit,
     onContinue: () -> Unit,
     onRestoreFromBackup: () -> Unit = {},
     onImportCsv: () -> Unit = {},
-    onRestoreConfirmed: () -> Unit = {},
-    onRestoreDismissed: () -> Unit = {},
 ) {
     val colors = MM.colors
     val type = MM.type
-
-    if (showRestoreWarning) {
-        AlertDialog(
-            onDismissRequest = onRestoreDismissed,
-            title = { Text(stringResource(Res.string.onboarding_restore_warning_title)) },
-            text = { Text(stringResource(Res.string.onboarding_restore_warning_body)) },
-            confirmButton = {
-                TextButton(onClick = onRestoreConfirmed) {
-                    Text(stringResource(Res.string.onboarding_restore_confirm))
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = onRestoreDismissed) {
-                    Text("Cancel")
-                }
-            },
-        )
-    }
 
     val filteredItems by remember(searchQuery) {
         derivedStateOf {

@@ -21,6 +21,8 @@ import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingKey
 import com.dv.moneym.feature.onboarding.currency.onboardingCurrencyEntry
 import com.dv.moneym.feature.onboarding.pin.OnboardingPinSetupKey
+import com.dv.moneym.feature.onboarding.restore.OnboardingRestoreKey
+import com.dv.moneym.feature.onboarding.restore.onboardingRestoreEntry
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityIntent
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityKey
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
@@ -81,7 +83,9 @@ internal fun OnboardingNav() {
                 viewModel = currencyVm,
                 onComplete = { },
                 onOpenCsvFilePicker = csvFilePicker,
+                onOpenRestore = { backStack.add(OnboardingRestoreKey) },
             )
+            onboardingRestoreEntry(onBack = { backStack.removeLastOrNull() })
             entry<OnboardingPinSetupKey> {
                 PinSetupScreen(
                     onDone = {

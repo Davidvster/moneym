@@ -19,4 +19,14 @@
     <string name="onboarding_restore_warning_title">Alle Daten ersetzen?</string>
     <string name="onboarding_restore_warning_body">Alle aktuellen Daten werden durch das Backup ersetzt und die Einrichtung wird übersprungen.</string>
     <string name="onboarding_restore_confirm">Wiederherstellen</string>
+    <string name="onboarding_restore_screen_title">Backup wiederherstellen</string>
+    <string name="onboarding_restore_local_button">Aus Datei wiederherstellen</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">Google-Konto verbinden</string>
+    <string name="onboarding_restore_google_button">Aus Google Drive wiederherstellen</string>
+    <string name="onboarding_restore_passphrase_label">Backup-Passwort</string>
+    <string name="onboarding_restore_app_close_notice">Die App wird nach der Wiederherstellung geschlossen. Öffne sie erneut, um fortzufahren.</string>
+    <string name="onboarding_restore_cancel">Abbrechen</string>
+    <string name="onboarding_restore_remote_loading">Backup-Informationen werden abgerufen…</string>
+    <string name="onboarding_restore_wrong_password">Falsches Passwort oder beschädigtes Backup.</string>
 </resources>
