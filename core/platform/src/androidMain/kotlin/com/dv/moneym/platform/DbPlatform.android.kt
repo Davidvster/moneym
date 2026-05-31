@@ -1,6 +1,9 @@
 package com.dv.moneym.platform
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -27,5 +30,19 @@ actual class DbPlatform(private val context: Context) {
         Unit
     }
 
-    actual fun terminateApp() { exitProcess(0) }
+    actual fun terminateApp() {
+        val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+            ?.apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK) }
+        if (intent != null) {
+            val pending = PendingIntent.getActivity(
+                context,
+                0,
+                intent,
+                PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE,
+            )
+            (context.getSystemService(Context.ALARM_SERVICE) as AlarmManager)
+                .set(AlarmManager.RTC, System.currentTimeMillis() + 500L, pending)
+        }
+        exitProcess(0)
+    }
 }

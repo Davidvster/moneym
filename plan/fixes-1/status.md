@@ -5,4 +5,4 @@
 | 1 | Encryption eye icon + Restore warning dialog theme | done |
 | 2 | Month/year picker bounds + Recurring UI | done |
 | 3 | Budgets wallet chip | done |
-| 4 | App restart after local backup restore | pending |
+| 4 | App restart after local backup restore | done |
