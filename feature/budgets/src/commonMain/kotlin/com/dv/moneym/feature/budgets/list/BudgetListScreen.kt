@@ -1,20 +1,15 @@
 package com.dv.moneym.feature.budgets.list
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,15 +25,14 @@ import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
-import com.dv.moneym.core.ui.MmChip
 import com.dv.moneym.core.ui.MmEmptyState
 import com.dv.moneym.core.ui.MmDeleteSheet
 import com.dv.moneym.core.ui.ScreenHeader
+import com.dv.moneym.core.ui.WalletSelector
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.budgets.list.components.BudgetRow
 import kotlinx.serialization.Serializable
 import moneym.feature.budgets.generated.resources.Res
-import moneym.feature.budgets.generated.resources.budgets_account_filter_label
 import moneym.feature.budgets.generated.resources.budgets_all_categories
 import moneym.feature.budgets.generated.resources.budgets_cancel
 import moneym.feature.budgets.generated.resources.budgets_delete
@@ -90,7 +84,6 @@ private fun BudgetListContent(
     onIntent: (BudgetListIntent) -> Unit,
 ) {
     val colors = MM.colors
-    val type = MM.type
     val allCategoriesLabel = stringResource(Res.string.budgets_all_categories)
     val unlimitedLabel = stringResource(Res.string.budgets_recurring_badge_unlimited)
 
@@ -99,29 +92,19 @@ private fun BudgetListContent(
             .fillMaxSize()
             .background(colors.bg),
     ) {
-        ScreenHeader(title = stringResource(Res.string.budgets_title), onBack = onBack)
-
-        if (state.accounts.size > 1) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
-                modifier = Modifier
-                    .horizontalScroll(rememberScrollState())
-                    .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_1x),
-            ) {
-                state.accounts.forEach { account ->
-                    MmChip(
-                        selected = state.selectedAccountId == account.id,
-                        onClick = { onIntent(BudgetListIntent.AccountSelected(account.id)) },
-                    ) {
-                        Text(
-                            account.name,
-                            style = type.caption,
-                            color = if (state.selectedAccountId == account.id) colors.bg else colors.text,
-                        )
-                    }
+        ScreenHeader(
+            title = stringResource(Res.string.budgets_title),
+            onBack = onBack,
+            trailingContent = if (state.accounts.size > 1) {
+                {
+                    WalletSelector(
+                        accounts = state.accounts,
+                        selectedAccountId = state.selectedAccountId,
+                        onSelect = { onIntent(BudgetListIntent.AccountSelected(it)) },
+                    )
                 }
-            }
-        }
+            } else null,
+        )
 
         if (state.rows.isEmpty() && !state.isLoading) {
             MmEmptyState(
