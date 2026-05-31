@@ -12,6 +12,7 @@ import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.Transaction
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.accounts.AccountRepository
@@ -158,10 +159,14 @@ class ImportDataViewModel(
                         val catId = if (mapping.mappedToCategoryId != null) {
                             mapping.mappedToCategoryId
                         } else {
+                            val categoryType = selectedTxns
+                                .firstOrNull { it.categoryName == mapping.csvName }
+                                ?.type ?: TransactionType.EXPENSE
                             categoryRepository.insert(
                                 Category(
                                     id = CategoryId(0),
                                     name = mapping.csvName,
+                                    type = categoryType,
                                     iconKey = Icon.Tag.key,
                                     colorHex = "#8A8A8A",
                                     isUserCreated = true,
