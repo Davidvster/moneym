@@ -1228,6 +1228,35 @@ internal object MmIcons {
         }.build()
     }
 
+    private val sparkles: ImageVector by lazy {
+        ImageVector.Builder(
+            name = "sparkles",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+        ).apply {
+            addPath(
+                pathData = addPathNodes("M12 3 L13.6 9.2 L19.5 11 L13.6 12.8 L12 19 L10.4 12.8 L4.5 11 L10.4 9.2 Z"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+            addPath(
+                pathData = addPathNodes("M18 4 L18.7 6 L20.7 6.7 L18.7 7.4 L18 9.4 L17.3 7.4 L15.3 6.7 L17.3 6 Z"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+        }.build()
+    }
+
     internal fun forIcon(icon: Icon): ImageVector = when (icon) {
         Icon.Plus -> plus
         Icon.Close -> close
@@ -1278,5 +1307,6 @@ internal object MmIcons {
         Icon.Edit -> edit
         Icon.Eye -> eye
         Icon.EyeOff -> eyeOff
+        Icon.Sparkles -> sparkles
     }
 }

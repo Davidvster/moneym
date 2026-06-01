@@ -20,6 +20,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.TabRoute
+import com.dv.moneym.feature.aianalysis.AnalyzeKey
 import com.dv.moneym.feature.aianalysis.analyzeEntry
 import com.dv.moneym.feature.budgets.create.BudgetCreateKey
 import com.dv.moneym.feature.budgets.create.budgetCreateEntry
@@ -163,6 +164,7 @@ internal fun MainNav(lockController: AppLockController) {
                         TabRoute.Settings -> tabBackStack.switchTab(SettingsKey)
                     }
                 },
+                onAnalyze = { year, month -> tabBackStack.push(AnalyzeKey(year, month)) },
             )
             settingsEntry(
                 securityViewModel = securitySettingsViewModel,

@@ -38,6 +38,7 @@
     <string name="overview_dialog_select_year">Select Year</string>
     <string name="overview_prev_year_cd">Previous year</string>
     <string name="overview_next_year_cd">Next year</string>
+    <string name="overview_analyze_cd">Analyze with AI</string>
     <string name="overview_now">Now</string>
     <string name="overview_ok">OK</string>
     <string name="overview_cancel">Cancel</string>

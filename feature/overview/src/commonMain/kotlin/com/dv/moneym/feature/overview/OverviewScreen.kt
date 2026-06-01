@@ -51,21 +51,24 @@ data object OverviewKey : NavKey
 
 fun EntryProviderScope<NavKey>.overviewEntry(
     onTabSelected: (TabRoute) -> Unit = {},
+    onAnalyze: (year: Int, month: Int) -> Unit = { _, _ -> },
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<OverviewKey>(metadata = metadata) {
-    OverviewScreen(onTabSelected = onTabSelected)
+    OverviewScreen(onTabSelected = onTabSelected, onAnalyze = onAnalyze)
 }
 
 @Composable
 private fun OverviewScreen(
     viewModel: OverviewViewModel = koinViewModel(),
     onTabSelected: (TabRoute) -> Unit = {},
+    onAnalyze: (year: Int, month: Int) -> Unit = { _, _ -> },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     OverviewContent(
         state = state,
         onIntent = viewModel::onIntent,
         onTabSelected = onTabSelected,
+        onAnalyze = onAnalyze,
     )
 }
 
@@ -74,6 +77,7 @@ private fun OverviewContent(
     state: OverviewUiState,
     onIntent: (OverviewIntent) -> Unit,
     onTabSelected: (TabRoute) -> Unit,
+    onAnalyze: (year: Int, month: Int) -> Unit = { _, _ -> },
 ) {
     val colors = MM.colors
     val monthNames = localizedMonthNames()
@@ -88,6 +92,11 @@ private fun OverviewContent(
         is OverviewPeriod.DateRange -> "${
             formatShortDate(p.startYear, p.startMonth, p.startDay)
         } – ${formatShortDate(p.endYear, p.endMonth, p.endDay)}"
+    }
+    val analyzeYearMonth = when (val p = currentPeriod) {
+        is OverviewPeriod.Month -> p.yearMonth.year to p.yearMonth.monthNumber
+        is OverviewPeriod.Year -> p.year to 1
+        is OverviewPeriod.DateRange -> p.startYear to p.startMonth
     }
 
     var initialMonthScrollDone by remember { mutableStateOf(false) }
@@ -163,6 +172,8 @@ private fun OverviewContent(
             accounts = state.accounts,
             selectedAccountId = state.selectedAccountId,
             onAccountSelected = { onIntent(OverviewIntent.AccountSelected(it)) },
+            aiAvailable = state.aiAvailable,
+            onAnalyzeClick = { onAnalyze(analyzeYearMonth.first, analyzeYearMonth.second) },
         )
 
         when {

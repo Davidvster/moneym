@@ -1,6 +1,6 @@
 # Phase 5a — Analyze chat screen + nav entry + Koin + i18n
 
-**Status:** IN PROGRESS
+**Status:** DONE (commit 4d27ff9). assembleDebug + module tests green. AnalyzeViewModel has NO clock param (7 args); both use cases 5 args.
 
 ## Goal
 Build the Analyze chat UI for `feature/aianalysis`, register it in Koin + as a modal nav entry, and add localized strings. (The Overview button that opens it comes in Phase 5b.)

@@ -4,6 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
+import com.dv.moneym.core.ai.AiAvailability
+import com.dv.moneym.core.ai.AiEngine
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.AccountId
@@ -32,11 +34,14 @@ class OverviewViewModel(
     private val transactionRepository: TransactionRepository,
     private val accountRepository: AccountRepository,
     private val appSettingsRepository: AppSettingsRepository,
+    private val aiEngine: AiEngine,
     private val clock: AppClock,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val today get() = clock.today()
+
+    private val _aiAvailable = MutableStateFlow(false)
 
     private val _currentPeriod by savedStateHandle.saved {
         MutableStateFlow<OverviewPeriod>(
@@ -92,6 +97,11 @@ class OverviewViewModel(
         appSettingsRepository.observeLastOverviewFilter()
             .onEach { filter -> _spendingFilter.value = filter }
             .launchIn(viewModelScope)
+        viewModelScope.launch {
+            _aiAvailable.value = runCatching {
+                aiEngine.availability() == AiAvailability.AVAILABLE
+            }.getOrDefault(false)
+        }
     }
 
     internal val state: StateFlow<OverviewUiState> = combine(
@@ -161,6 +171,7 @@ class OverviewViewModel(
                 showDateRangePicker = ui.showDateRangePicker,
             )
         }
+        .combine(_aiAvailable) { s, avail -> s.copy(aiAvailable = avail) }
         .stateIn(viewModelScope, SharingStarted.Lazily, OverviewUiState())
 
     internal fun onIntent(intent: OverviewIntent) {

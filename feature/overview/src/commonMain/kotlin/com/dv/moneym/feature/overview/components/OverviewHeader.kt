@@ -28,6 +28,7 @@ import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.ui.MmIconButton
+import com.dv.moneym.core.ui.MmIconButtonVariant
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
 import com.dv.moneym.core.ui.WalletSelector
@@ -35,6 +36,7 @@ import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.overview.OverviewPeriod
 import moneym.feature.overview.generated.resources.Res
 import moneym.feature.overview.generated.resources.overview_all
+import moneym.feature.overview.generated.resources.overview_analyze_cd
 import moneym.feature.overview.generated.resources.overview_expenses
 import moneym.feature.overview.generated.resources.overview_income
 import moneym.feature.overview.generated.resources.overview_period_custom
@@ -58,6 +60,8 @@ internal fun OverviewHeader(
     accounts: List<Account> = emptyList(),
     selectedAccountId: AccountId? = null,
     onAccountSelected: (AccountId) -> Unit = {},
+    aiAvailable: Boolean = false,
+    onAnalyzeClick: () -> Unit = {},
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -179,6 +183,16 @@ internal fun OverviewHeader(
                 )
             } else {
                 Spacer(Modifier.width(MM.dimen.padding_4x))
+            }
+            if (aiAvailable) {
+                Spacer(Modifier.weight(1f))
+                MmIconButton(
+                    icon = Icon.Sparkles.imageVector,
+                    size = MM.dimen.padding_4x,
+                    onClick = onAnalyzeClick,
+                    variant = MmIconButtonVariant.Accent,
+                    contentDescription = stringResource(Res.string.overview_analyze_cd),
+                )
             }
         }
     }

@@ -53,6 +53,7 @@ enum class Icon(val key: String) {
     Edit("edit"),
     Eye("eye"),
     EyeOff("eye_off"),
+    Sparkles("sparkles"),
     ;
 
     companion object {

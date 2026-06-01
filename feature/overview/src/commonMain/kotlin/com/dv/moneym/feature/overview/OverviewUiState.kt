@@ -97,4 +97,5 @@ internal data class OverviewUiState(
     val showDateRangePicker: Boolean = false,
     val accounts: List<Account> = emptyList(),
     val selectedAccountId: AccountId? = null,
+    val aiAvailable: Boolean = false,
 )

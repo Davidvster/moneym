@@ -34,6 +34,7 @@ kotlin {
             implementation(projects.core.uiGraphs)
             implementation(projects.core.model)
             implementation(projects.core.common)
+            implementation(projects.core.ai)
             implementation(libs.androidx.navigation3.runtime)
             implementation(projects.core.navigation)
             implementation(projects.data.transactions)
