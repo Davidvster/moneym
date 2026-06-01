@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -132,7 +133,7 @@ private fun AnalyzeContent(
                 LazyColumn(
                     state = listState,
                     modifier = Modifier.fillMaxSize(),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(MM.dimen.padding_2_5x),
+                    contentPadding = PaddingValues(MM.dimen.padding_2_5x),
                     verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
                 ) {
                     itemsIndexed(state.messages) { _, message ->

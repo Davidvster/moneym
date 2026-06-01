@@ -22,7 +22,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.designsystem.categoryColor
+import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.navigation.ModalKey
@@ -299,8 +301,8 @@ private val CATEGORY_ICON_OPTIONS = listOf(
 private fun ManageCategoriesScreenPreview() {
     val epoch = kotlin.time.Instant.fromEpochSeconds(0)
     val sample = listOf(
-        com.dv.moneym.core.model.Category(
-            id = com.dv.moneym.core.model.CategoryId(1L),
+        Category(
+            id = CategoryId(1L),
             name = "Groceries",
             iconKey = "basket",
             colorHex = "#4A8E5C",
@@ -309,8 +311,8 @@ private fun ManageCategoriesScreenPreview() {
             createdAt = epoch,
             updatedAt = epoch,
         ),
-        com.dv.moneym.core.model.Category(
-            id = com.dv.moneym.core.model.CategoryId(2L),
+        Category(
+            id = CategoryId(2L),
             name = "Eating Out",
             iconKey = "pizza",
             colorHex = "#E07A5F",
@@ -320,7 +322,7 @@ private fun ManageCategoriesScreenPreview() {
             updatedAt = epoch,
         ),
     )
-    com.dv.moneym.core.designsystem.MoneyMTheme {
+    MoneyMTheme {
         ManageCategoriesScreen(
             state = CategoryListUiState(
                 isLoading = false,
