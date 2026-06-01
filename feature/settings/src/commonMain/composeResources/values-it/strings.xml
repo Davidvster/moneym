@@ -161,6 +161,7 @@
     <string name="settings_section_backup">BACKUP E RIPRISTINO</string>
     <string name="settings_backup_restore">Backup e ripristino</string>
     <string name="settings_cross_device_sync">Sincronizzazione tra dispositivi</string>
+    <string name="settings_cross_device_sync_subtitle">Gestisci i dispositivi che si sincronizzano tramite il tuo backup su Google Drive.</string>
     <string name="settings_backup_to_file">Salva backup su file</string>
     <string name="settings_restore_from_file">Ripristina da file</string>
     <string name="settings_restore_warning_title">Sostituire tutti i dati?</string>

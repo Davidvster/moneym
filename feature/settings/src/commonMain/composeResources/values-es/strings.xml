@@ -161,6 +161,7 @@
     <string name="settings_section_backup">COPIA DE SEGURIDAD Y RESTAURAR</string>
     <string name="settings_backup_restore">Copia de seguridad y restaurar</string>
     <string name="settings_cross_device_sync">Sincronización entre dispositivos</string>
+    <string name="settings_cross_device_sync_subtitle">Gestiona los dispositivos que sincronizan mediante tu copia de Google Drive.</string>
     <string name="settings_backup_to_file">Guardar copia en archivo</string>
     <string name="settings_restore_from_file">Restaurar desde archivo</string>
     <string name="settings_restore_warning_title">¿Reemplazar todos los datos?</string>

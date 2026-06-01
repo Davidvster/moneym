@@ -59,6 +59,8 @@ import moneym.feature.settings.generated.resources.settings_auto_backup_subtitle
 import moneym.feature.settings.generated.resources.settings_backup_restore
 import moneym.feature.settings.generated.resources.settings_backup_saved
 import moneym.feature.settings.generated.resources.settings_backup_to_file
+import moneym.feature.settings.generated.resources.settings_cross_device_sync
+import moneym.feature.settings.generated.resources.settings_cross_device_sync_subtitle
 import moneym.feature.settings.generated.resources.settings_last_backup
 import moneym.feature.settings.generated.resources.settings_remote_auto_backup
 import moneym.feature.settings.generated.resources.settings_remote_auto_backup_subtitle
@@ -116,15 +118,17 @@ data object BackupRestoreKey : NavKey
 fun EntryProviderScope<NavKey>.backupRestoreEntry(
     onBack: () -> Unit,
     onNavigateToInfo: () -> Unit,
+    onNavigateToSync: () -> Unit,
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<BackupRestoreKey>(metadata = metadata) {
-    BackupRestoreScreen(onBack = onBack, onNavigateToInfo = onNavigateToInfo)
+    BackupRestoreScreen(onBack = onBack, onNavigateToInfo = onNavigateToInfo, onNavigateToSync = onNavigateToSync)
 }
 
 @Composable
 private fun BackupRestoreScreen(
     onBack: () -> Unit,
     onNavigateToInfo: () -> Unit,
+    onNavigateToSync: () -> Unit,
     viewModel: BackupRestoreViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -204,6 +208,7 @@ private fun BackupRestoreScreen(
             state = state,
             onBack = onBack,
             onNavigateToInfo = onNavigateToInfo,
+            onNavigateToSync = onNavigateToSync,
             onBackupTapped = { viewModel.onIntent(BackupRestoreIntent.BackupTapped) },
             onRestoreTapped = restorePicker,
             onAutoBackupToggled = { viewModel.onIntent(BackupRestoreIntent.AutoBackupToggled(it)) },
@@ -223,6 +228,7 @@ private fun BackupRestoreContent(
     state: BackupRestoreUiState,
     onBack: () -> Unit,
     onNavigateToInfo: () -> Unit,
+    onNavigateToSync: () -> Unit,
     onBackupTapped: () -> Unit,
     onRestoreTapped: () -> Unit,
     onAutoBackupToggled: (Boolean) -> Unit,
@@ -326,6 +332,26 @@ private fun BackupRestoreContent(
                         onRestore = onRemoteRestoreTapped,
                         onRetryUpload = onRetryRemoteUpload,
                     )
+                }
+                if (state.remoteSignedIn) {
+                    item(key = "sync_label") {
+                        SectionLabel(
+                            text = stringResource(Res.string.settings_cross_device_sync),
+                            modifier = Modifier.padding(horizontal = space.padding_2_5x, vertical = space.padding_0_5x),
+                        )
+                    }
+                    item(key = "sync_card") {
+                        MmCard(Modifier.padding(horizontal = space.padding_2x)) {
+                            MmRow(onClick = onNavigateToSync, divider = false) {
+                                Icon(imageVector = Icon.Bolt.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.icon_1x))
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(stringResource(Res.string.settings_cross_device_sync), style = type.body, color = colors.text)
+                                    Text(stringResource(Res.string.settings_cross_device_sync_subtitle), style = type.caption.copy(color = colors.text2))
+                                }
+                                Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -728,9 +754,11 @@ private fun BackupRestoreContentPreview() {
                 autoBackupEnabled = true,
                 lastBackupTimeMs = 1716700000000L,
                 remoteAvailable = true,
+                remoteSignedIn = true,
             ),
             onBack = {},
             onNavigateToInfo = {},
+            onNavigateToSync = {},
             onBackupTapped = {},
             onRestoreTapped = {},
             onAutoBackupToggled = {},

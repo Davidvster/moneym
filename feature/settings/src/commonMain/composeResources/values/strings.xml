@@ -162,6 +162,7 @@
     <string name="settings_section_backup">BACKUP &amp; RESTORE</string>
     <string name="settings_backup_restore">Backup &amp; Restore</string>
     <string name="settings_cross_device_sync">Cross-device sync</string>
+    <string name="settings_cross_device_sync_subtitle">Manage devices syncing through your Google Drive backup.</string>
     <string name="settings_backup_to_file">Back up to file</string>
     <string name="settings_restore_from_file">Restore from file</string>
     <string name="settings_restore_warning_title">Replace all data?</string>

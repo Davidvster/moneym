@@ -161,6 +161,7 @@
     <string name="settings_section_backup">SICHERN &amp; WIEDERHERSTELLEN</string>
     <string name="settings_backup_restore">Sichern &amp; Wiederherstellen</string>
     <string name="settings_cross_device_sync">Geräteübergreifende Synchronisierung</string>
+    <string name="settings_cross_device_sync_subtitle">Verwalte Geräte, die über dein Google-Drive-Backup synchronisieren.</string>
     <string name="settings_backup_to_file">In Datei sichern</string>
     <string name="settings_restore_from_file">Aus Datei wiederherstellen</string>
     <string name="settings_restore_warning_title">Alle Daten ersetzen?</string>

@@ -179,7 +179,6 @@ internal fun MainNav(lockController: AppLockController) {
                 onNavigateToWallets = { tabBackStack.push(WalletManageKey) },
                 onNavigateToPaymentModes = { tabBackStack.push(PaymentModeListKey) },
                 onNavigateToBackupRestore = { tabBackStack.push(BackupRestoreKey) },
-                onNavigateToSync = { tabBackStack.push(SyncSettingsKey) },
                 onNavigateToAbout = { tabBackStack.push(AboutKey) },
                 onTabSelected = { route ->
                     when (route) {
@@ -245,6 +244,7 @@ internal fun MainNav(lockController: AppLockController) {
             backupRestoreEntry(
                 onBack = { tabBackStack.removeLast() },
                 onNavigateToInfo = { tabBackStack.push(InfoPageKey("backup")) },
+                onNavigateToSync = { tabBackStack.push(SyncSettingsKey) },
                 metadata = modalTransitionMeta
             )
             infoPageEntry(
