@@ -65,4 +65,11 @@ object PrefKeys {
     const val REMOTE_BACKUP_ACCOUNT_EMAIL = "pref.remote_backup_account_email"
     const val REMOTE_BACKUP_ENCRYPT = "pref.remote_backup_encrypt"
     const val LAST_LOCAL_MUTATION_MS = "pref.last_local_mutation_ms"
+
+    // Cross-device sync
+    const val DEVICE_ID = "pref.device_id"
+    const val DEVICE_NAME = "pref.device_name"
+    const val LAST_SYNC_PULL_MS = "pref.last_sync_pull_ms"
+    const val CROSS_DEVICE_SYNC_ENABLED = "pref.cross_device_sync_enabled"
+    const val PENDING_DELETION_BLOB = "pref.pending_deletion_blob"
 }

@@ -25,6 +25,15 @@ interface RemoteBackupProvider {
     suspend fun delete(ref: RemoteFileRef)
 
     suspend fun remainingQuotaBytes(): Long? = null
+
+    suspend fun findByName(name: String): RemoteFileRef? =
+        list(limit = 100).firstOrNull { it.name == name }
+
+    suspend fun updateContents(
+        ref: RemoteFileRef,
+        bytes: ByteArray,
+        properties: Map<String, String> = emptyMap(),
+    ): RemoteFileRef
 }
 
 sealed class RemoteBackupError(message: String, cause: Throwable? = null) :

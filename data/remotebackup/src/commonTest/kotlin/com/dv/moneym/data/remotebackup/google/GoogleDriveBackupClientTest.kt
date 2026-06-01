@@ -89,6 +89,30 @@ class GoogleDriveBackupClientTest {
     }
 
     @Test
+    fun updateContents_patchesMediaUpload() = runTest {
+        var capturedUrl: String? = null
+        var capturedMethod: HttpMethod? = null
+        val c = client { req ->
+            capturedUrl = req.url.toString()
+            capturedMethod = req.method
+            respond(
+                content = """{"id":"file1","name":"moneym-sync-state.json","size":"9","modifiedTime":"2026-01-01T00:00:00Z"}""",
+                status = HttpStatusCode.OK,
+                headers = headersOf(HttpHeaders.ContentType, "application/json"),
+            )
+        }
+        val ref = c.updateContents(
+            com.dv.moneym.data.remotebackup.RemoteFileRef("file1", "moneym-sync-state.json", 0L, 0L),
+            ByteArray(9) { 2 },
+        )
+        assertEquals("file1", ref.id)
+        assertEquals(HttpMethod.Patch, capturedMethod)
+        assertNotNull(capturedUrl)
+        assertTrue(capturedUrl!!.contains("/upload/drive/v3/files/file1"))
+        assertTrue(capturedUrl!!.contains("uploadType=media"))
+    }
+
+    @Test
     fun missingToken_throwsNotAuthenticated() = runTest {
         val http = HttpClient(MockEngine { respond("") })
         val c = GoogleDriveBackupClient(httpClient = http, accessTokenProvider = { null })

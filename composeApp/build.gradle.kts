@@ -82,6 +82,7 @@ kotlin {
             implementation(projects.data.backup)
             implementation(projects.data.budgets)
             implementation(projects.data.remotebackup)
+            implementation(projects.data.sync)
             api(projects.core.oauth)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)

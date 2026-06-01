@@ -10,6 +10,7 @@ import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
+import io.ktor.client.request.patch
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
@@ -87,6 +88,24 @@ class GoogleDriveBackupClient(
         }
         if (!response.status.isSuccess()) throw response.toError()
         return response.readRawBytes()
+    }
+
+    override suspend fun updateContents(
+        ref: RemoteFileRef,
+        bytes: ByteArray,
+        properties: Map<String, String>,
+    ): RemoteFileRef {
+        val token = requireToken()
+        val response: HttpResponse = httpClient.patch("$DRIVE_UPLOAD_BASE/files/${ref.id}") {
+            parameter("uploadType", "media")
+            parameter("fields", SINGLE_FILE_FIELDS)
+            authHeader(token)
+            contentType(ContentType.Application.OctetStream)
+            setBody(bytes)
+        }
+        if (!response.status.isSuccess()) throw response.toError()
+        val dto = json.decodeFromString(DriveFileDto.serializer(), response.bodyAsText())
+        return dto.toRef()
     }
 
     override suspend fun delete(ref: RemoteFileRef) {

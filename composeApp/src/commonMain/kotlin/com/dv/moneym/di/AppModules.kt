@@ -29,6 +29,7 @@ val appModules: List<Module> = listOf(
     coreSecurityModule,
     remoteBackupCommonModule,
     remoteBackupPlatformModule(),
+    syncCommonModule,
     dataCategoriesModule,
     dataAccountsModule,
     dataTransactionsModule,

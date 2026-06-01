@@ -51,6 +51,7 @@ include(":data:settings")
 include(":data:backup")
 include(":data:budgets")
 include(":data:remotebackup")
+include(":data:sync")
 include(":core:oauth")
 
 // Features
