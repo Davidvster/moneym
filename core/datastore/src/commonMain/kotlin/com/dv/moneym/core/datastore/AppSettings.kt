@@ -72,4 +72,7 @@ object PrefKeys {
     const val LAST_SYNC_PULL_MS = "pref.last_sync_pull_ms"
     const val CROSS_DEVICE_SYNC_ENABLED = "pref.cross_device_sync_enabled"
     const val PENDING_DELETION_BLOB = "pref.pending_deletion_blob"
+
+    // AI analysis grounding mode (SNAPSHOT / TOOLS)
+    const val AI_GROUNDING_MODE = "pref.ai_grounding_mode"
 }

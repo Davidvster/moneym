@@ -1,6 +1,6 @@
 # Phase 3 — iOS Foundation Models engine + Swift bridge
 
-**Status:** IN PROGRESS
+**Status:** DONE (commit 7f3e97c). Real Foundation Models compiled on Xcode 26 (partial.content). core:ai exported from iOS framework (api+export). xcodebuild + iOS link + Android compile all green.
 
 ## Goal
 Implement `AiEngine` on iOS backed by Apple **Foundation Models** (iOS 26 + Apple Intelligence), via a Swift bridge injected from `iosApp` — mirroring the existing `GoogleSignInBridge` pattern exactly.
