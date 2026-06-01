@@ -42,6 +42,7 @@
     <string name="settings_txdisplay_preview">VISTA PREVIA</string>
     <string name="settings_txdisplay_color_indicator">INDICADOR DE COLOR</string>
     <string name="settings_txdisplay_show">MOSTRAR</string>
+    <string name="settings_txdisplay_list_section">LISTA DE TRANSACCIONES</string>
     <string name="settings_txdisplay_category_name">Nombre de categoría</string>
     <string name="settings_txdisplay_note">Nota / descripción</string>
     <string name="settings_txdisplay_daily_sums">Totales diarios</string>

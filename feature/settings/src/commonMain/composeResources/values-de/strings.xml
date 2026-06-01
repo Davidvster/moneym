@@ -42,6 +42,7 @@
     <string name="settings_txdisplay_preview">VORSCHAU</string>
     <string name="settings_txdisplay_color_indicator">FARBINDIKATOR</string>
     <string name="settings_txdisplay_show">ANZEIGEN</string>
+    <string name="settings_txdisplay_list_section">TRANSAKTIONSLISTE</string>
     <string name="settings_txdisplay_category_name">Kategoriename</string>
     <string name="settings_txdisplay_note">Notiz / Beschreibung</string>
     <string name="settings_txdisplay_daily_sums">Tagessummen</string>

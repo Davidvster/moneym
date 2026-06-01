@@ -42,6 +42,7 @@
     <string name="settings_txdisplay_preview">PREVIEW</string>
     <string name="settings_txdisplay_color_indicator">COLOR INDICATOR</string>
     <string name="settings_txdisplay_show">SHOW</string>
+    <string name="settings_txdisplay_list_section">TRANSACTION LIST</string>
     <string name="settings_txdisplay_category_name">Category name</string>
     <string name="settings_txdisplay_note">Note / description</string>
     <string name="settings_txdisplay_daily_sums">Daily totals</string>

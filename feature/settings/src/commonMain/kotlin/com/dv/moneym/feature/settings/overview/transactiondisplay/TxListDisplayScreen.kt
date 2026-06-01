@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
@@ -51,6 +52,7 @@ import moneym.feature.settings.generated.resources.settings_txdisplay_comfortabl
 import moneym.feature.settings.generated.resources.settings_txdisplay_compact
 import moneym.feature.settings.generated.resources.settings_txdisplay_daily_sums
 import moneym.feature.settings.generated.resources.settings_txdisplay_density
+import moneym.feature.settings.generated.resources.settings_txdisplay_list_section
 import moneym.feature.settings.generated.resources.settings_txdisplay_normal
 import moneym.feature.settings.generated.resources.settings_txdisplay_pending_recurring
 import moneym.feature.settings.generated.resources.settings_txdisplay_note
@@ -200,21 +202,51 @@ private fun ItemPreviewPanel(
                 text = stringResource(Res.string.settings_txdisplay_preview),
                 modifier = Modifier.padding(bottom = MM.dimen.padding_0_5x)
             )
-            MmCard {
-                sampleTransactions.forEachIndexed { i, tx ->
-                    TxRow(
-                        categoryName = tx.categoryName,
-                        categoryColor = tx.categoryColor,
-                        categoryIcon = Icon.Basket.imageVector,
-                        note = tx.note,
-                        isExpense = tx.isExpense,
-                        amountValue = tx.amount,
-                        currency = tx.currency,
-                        prefs = currentPrefs,
-                        divider = i < sampleTransactions.size - 1,
-                    )
-                }
-            }
+            MaxHeightPreview(currentPrefs = currentPrefs)
+        }
+    }
+}
+
+@Composable
+private fun MaxHeightPreview(
+    currentPrefs: TxDisplayPrefs,
+    modifier: Modifier = Modifier,
+) {
+    val maxedPrefs = TxDisplayPrefs(
+        indicatorStyle = IndicatorStyle.IconTile,
+        showCategoryName = true,
+        showNote = true,
+        density = Density.Comfortable,
+        showDailySums = true,
+    )
+    SubcomposeLayout(modifier) { constraints ->
+        val ghost = subcompose("ghost") { PreviewCard(maxedPrefs) }
+            .map { it.measure(constraints) }
+        val maxH = ghost.maxOfOrNull { it.height } ?: 0
+        val real = subcompose("real") { PreviewCard(currentPrefs) }
+            .map { it.measure(constraints) }
+        val width = real.maxOfOrNull { it.width } ?: constraints.minWidth
+        layout(width, maxH) {
+            real.forEach { it.place(0, 0) }
+        }
+    }
+}
+
+@Composable
+private fun PreviewCard(prefs: TxDisplayPrefs) {
+    MmCard {
+        sampleTransactions.forEachIndexed { i, tx ->
+            TxRow(
+                categoryName = tx.categoryName,
+                categoryColor = tx.categoryColor,
+                categoryIcon = Icon.Basket.imageVector,
+                note = tx.note,
+                isExpense = tx.isExpense,
+                amountValue = tx.amount,
+                currency = tx.currency,
+                prefs = prefs,
+                divider = i < sampleTransactions.size - 1,
+            )
         }
     }
 }
@@ -362,7 +394,7 @@ private fun ItemDetailsShowSection(
             )
         }
         MmRow(
-            divider = true,
+            divider = false,
             onClick = { onPrefsChanged(currentPrefs.copy(showNote = !currentPrefs.showNote)) },
         ) {
             Text(
@@ -374,21 +406,6 @@ private fun ItemDetailsShowSection(
             MmToggle(
                 checked = currentPrefs.showNote,
                 onCheckedChange = { onPrefsChanged(currentPrefs.copy(showNote = !currentPrefs.showNote)) },
-            )
-        }
-        MmRow(
-            divider = false,
-            onClick = { onPrefsChanged(currentPrefs.copy(showDailySums = !currentPrefs.showDailySums)) },
-        ) {
-            Text(
-                stringResource(Res.string.settings_txdisplay_daily_sums),
-                style = MM.type.body,
-                color = MM.colors.text,
-                modifier = Modifier.weight(1f),
-            )
-            MmToggle(
-                checked = currentPrefs.showDailySums,
-                onCheckedChange = { onPrefsChanged(currentPrefs.copy(showDailySums = !currentPrefs.showDailySums)) },
             )
         }
     }
@@ -465,11 +482,11 @@ private fun ExtraShowOptions(
     onShowPendingRecurringChanged: (Boolean) -> Unit,
 ) {
     SectionLabel(
-        text = stringResource(Res.string.settings_txdisplay_show),
+        text = stringResource(Res.string.settings_txdisplay_list_section),
         modifier = Modifier.padding(
             start = MM.dimen.padding_2_5x,
             end = MM.dimen.padding_2_5x,
-            top = MM.dimen.padding_2x,
+            top = MM.dimen.padding_3x,
             bottom = MM.dimen.padding_0_5x
         ),
     )
