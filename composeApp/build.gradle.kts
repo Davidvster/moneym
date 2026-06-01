@@ -75,6 +75,7 @@ kotlin {
             implementation(projects.core.datastore)
             implementation(projects.core.navigation)
             implementation(projects.core.security)
+            implementation(projects.core.ai)
             // Data modules
             implementation(projects.data.categories)
             implementation(projects.data.accounts)

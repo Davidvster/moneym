@@ -1,6 +1,8 @@
 package com.dv.moneym.di
 
 import android.content.Context
+import com.dv.moneym.core.ai.AiEngine
+import com.dv.moneym.core.ai.GeminiNanoAiEngine
 import com.dv.moneym.core.common.LocaleController
 import com.dv.moneym.core.security.AndroidSecureStore
 import com.dv.moneym.core.security.BiometricAuthenticator
@@ -26,4 +28,5 @@ fun androidPlatformModule(context: Context) = module {
     single<LocaleController> { AndroidLocaleController(get()) }
     single { FilePlatform(context) }
     single { DbPlatform(context) }
+    single<AiEngine> { GeminiNanoAiEngine() }
 }

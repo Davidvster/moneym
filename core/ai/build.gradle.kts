@@ -21,6 +21,9 @@ kotlin {
             implementation(projects.core.model)
             implementation(projects.core.common)
         }
+        androidMain.dependencies {
+            implementation(libs.mlkit.genai.prompt)
+        }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }

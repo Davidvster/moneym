@@ -56,6 +56,9 @@ ktor = "3.0.3"
 # Logging
 kermit = "2.0.5"
 
+# AI / ML Kit GenAI
+mlkitGenaiPrompt = "1.0.0-beta2"
+
 # Testing
 junit = "4.13.2"
 kotest = "5.9.1"
@@ -63,6 +66,9 @@ mockative = "3.0.1"
 turbine = "1.2.0"
 
 [libraries]
+# AI / ML Kit GenAI
+mlkit-genai-prompt = { group = "com.google.mlkit", name = "genai-prompt", version.ref = "mlkitGenaiPrompt" }
+
 # Kotlin test baseline
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }

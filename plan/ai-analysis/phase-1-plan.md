@@ -1,6 +1,6 @@
 # Phase 1 — `core/ai` foundation + pure helpers + tests
 
-**Status:** IN PROGRESS
+**Status:** DONE (commit d01351c). All compile/test tasks green.
 
 ## Goal
 Create a new **pure** KMP module `core/ai` holding the on-device-AI abstractions (interfaces + models + a unit-testable prompt helper). No Compose, no data-layer deps. Platform engine impls (Android Gemini Nano, iOS Foundation Models) come in later phases — only the `androidMain`/`iosMain` source sets are scaffolded here.
