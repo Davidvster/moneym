@@ -6,6 +6,7 @@ import ComposeApp
 struct iOSApp: App {
     init() {
         GoogleSignInBridgeHolder.shared.instance = GoogleSignInBridgeImpl()
+        IosAiBridgeHolder.shared.instance = FoundationModelsBridgeImpl()
         GIDSignIn.sharedInstance.restorePreviousSignIn()
     }
 

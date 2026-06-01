@@ -1,5 +1,7 @@
 package com.dv.moneym.di
 
+import com.dv.moneym.core.ai.AiEngine
+import com.dv.moneym.core.ai.IosFoundationModelsAiEngine
 import com.dv.moneym.core.common.LocaleController
 import com.dv.moneym.core.security.BiometricAuthenticator
 import com.dv.moneym.core.security.BiometricAuthenticatorImpl
@@ -24,4 +26,5 @@ fun iosPlatformModule() = module {
     single<LocaleController> { IosLocaleController() }
     single { FilePlatform() }
     single { DbPlatform() }
+    single<AiEngine> { IosFoundationModelsAiEngine() }
 }

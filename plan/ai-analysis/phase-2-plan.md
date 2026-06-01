@@ -1,6 +1,6 @@
 # Phase 2 — Android Gemini Nano engine + wiring
 
-**Status:** IN PROGRESS
+**Status:** DONE (commit c56db05). genai-prompt:1.0.0-beta2 resolved; :core:ai compile + :composeApp:assembleDebug green. getClient() no-arg; checkStatus():Int FeatureStatus 0..3; generateContentStream(String):Flow<GenerateContentResponse>, candidates.firstOrNull()?.text.
 
 ## Goal
 Implement `AiEngine` on Android using the **ML Kit GenAI Prompt API** (Gemini Nano via AICore), and wire it into the Android Koin platform module.

@@ -30,6 +30,7 @@ kotlin {
             baseName = "ComposeApp"
             isStatic = true
             export(projects.core.oauth)
+            export(projects.core.ai)
         }
     }
 
@@ -75,7 +76,7 @@ kotlin {
             implementation(projects.core.datastore)
             implementation(projects.core.navigation)
             implementation(projects.core.security)
-            implementation(projects.core.ai)
+            api(projects.core.ai)
             // Data modules
             implementation(projects.data.categories)
             implementation(projects.data.accounts)
