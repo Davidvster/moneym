@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Transactions</string>
+    <string name="transactions_add">Ajouter une transaction</string>
+    <string name="transactions_filter_all">Tout</string>
+    <string name="transactions_filter_expenses">Dépenses</string>
+    <string name="transactions_filter_income">Revenus</string>
+    <string name="transactions_filter_categories">Filtrer par catégorie</string>
+    <string name="transactions_filter_clear">Effacer</string>
+    <string name="transactions_filter_done">Terminé</string>
+    <string name="transactions_empty">Aucune transaction ce mois</string>
+    <string name="transactions_previous_month">Mois précédent</string>
+    <string name="transactions_next_month">Mois suivant</string>
+    <string name="transactions_loading">Chargement…</string>
+    <string name="transactions_search_placeholder">Rechercher des transactions…</string>
+    <string name="transactions_search_cd">Rechercher</string>
+    <string name="transactions_close_search_cd">Fermer la recherche</string>
+    <string name="transactions_net_label">NET</string>
+    <string name="transactions_dialog_select_month">Sélectionner le mois</string>
+    <string name="transactions_prev_year_cd">Année précédente</string>
+    <string name="transactions_next_year_cd">Année suivante</string>
+    <string name="transactions_now">Maintenant</string>
+    <string name="transactions_ok">OK</string>
+    <string name="transactions_cancel">Annuler</string>
+    <!-- Wallet switcher -->
+    <string name="transactions_wallet_select">Sélectionner un portefeuille</string>
+    <string name="transactions_wallet_all">Tous les portefeuilles</string>
+    <!-- Sync -->
+    <string name="transactions_syncing">Synchronisation…</string>
+    <string name="transactions_pending_deletions">%1$d éléments supprimés sur un autre appareil — examiner</string>
+</resources>

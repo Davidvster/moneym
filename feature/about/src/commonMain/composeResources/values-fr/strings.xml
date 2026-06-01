@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">À propos</string>
+    <string name="about_terms">Conditions d'utilisation</string>
+    <string name="about_privacy">Politique de confidentialité</string>
+</resources>

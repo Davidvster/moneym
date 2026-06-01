@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analyser</string>
+    <string name="analyze_intro">Posez n'importe quelle question sur vos finances pour cette période.</string>
+    <string name="analyze_input_hint">Posez une question…</string>
+    <string name="analyze_send_cd">Envoyer</string>
+    <string name="analyze_grounding_label">Source de données</string>
+    <string name="analyze_grounding_snapshot">Instantané</string>
+    <string name="analyze_grounding_tools">Outils</string>
+    <string name="analyze_tools_fallback_notice">Les outils ne sont pas pris en charge par ce modèle. Utilisation d'un instantané à la place.</string>
+    <string name="analyze_error">Une erreur s'est produite. Veuillez réessayer.</string>
+    <string name="analyze_generating">Réflexion en cours…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Combien ai-je dépensé ce mois-ci ?</item>
+        <item>Quelles sont mes principales catégories de dépenses ?</item>
+        <item>Comment ce mois-ci se compare-t-il au mois dernier ?</item>
+        <item>Y a-t-il des dépenses inhabituelles ou importantes ?</item>
+    </string-array>
+</resources>

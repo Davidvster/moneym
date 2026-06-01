@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Confirmer les suppressions</string>
+    <string name="sync_deletions_subtitle">Un autre appareil a supprimé ces éléments. Choisissez ceux que vous souhaitez également supprimer ici. Les éléments non cochés sont conservés et restaurés sur l'autre appareil.</string>
+    <string name="sync_deletions_group_wallets">Portefeuilles</string>
+    <string name="sync_deletions_group_transactions">Transactions</string>
+    <string name="sync_deletions_group_budgets">Budgets</string>
+    <string name="sync_deletions_group_recurring">Récurrentes</string>
+    <string name="sync_deletions_group_categories">Catégories</string>
+    <string name="sync_deletions_group_payment_modes">Modes de paiement</string>
+    <string name="sync_deletions_confirm">Supprimer la sélection</string>
+    <string name="sync_deletions_cancel">Tout conserver</string>
+    <string name="sync_settings_title">Synchronisation multi-appareils</string>
+    <string name="sync_settings_toggle_title">Synchroniser sur les appareils</string>
+    <string name="sync_settings_toggle_subtitle">Maintenez vos données synchronisées sur tous les appareils connectés à la même sauvegarde.</string>
+    <string name="sync_settings_rename_label">Nom de cet appareil</string>
+    <string name="sync_settings_rename_save">Enregistrer</string>
+    <string name="sync_settings_rename_cancel">Annuler</string>
+    <string name="sync_settings_devices_header">APPAREILS</string>
+    <string name="sync_settings_this_device">Cet appareil</string>
+    <string name="sync_settings_remove">Supprimer</string>
+    <string name="sync_settings_last_synced_just_now">synchronisé à l'instant</string>
+    <string name="sync_settings_last_synced_minutes">synchronisé il y a %1$d min</string>
+    <string name="sync_settings_last_synced_hours">synchronisé il y a %1$d h</string>
+    <string name="sync_settings_last_synced_days">synchronisé il y a %1$d j</string>
+    <string name="sync_settings_last_synced_longer">synchronisé il y a un moment</string>
+</resources>

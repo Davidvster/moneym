@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">Transactions</string>
+    <string name="nav_tab_overview">Aperçu</string>
+    <string name="nav_tab_settings">Paramètres</string>
+    <string name="category_seed_groceries">Alimentation</string>
+    <string name="category_seed_eating_out">Restaurant</string>
+    <string name="category_seed_rent">Loyer</string>
+    <string name="category_seed_transport">Transport</string>
+    <string name="category_seed_utilities">Charges</string>
+    <string name="category_seed_health">Santé</string>
+    <string name="category_seed_entertainment">Loisirs</string>
+    <string name="category_seed_shopping">Shopping</string>
+    <string name="category_seed_other_expense">Autre</string>
+    <string name="category_seed_salary">Salaire</string>
+    <string name="category_seed_payment">Paiement</string>
+    <string name="category_seed_gift">Cadeau</string>
+    <string name="category_seed_other_income">Autre</string>
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">Définir un PIN</string>
+    <string name="security_pin_confirm_title">Confirmer le PIN</string>
+    <string name="security_pin_enter_title">Entrez votre PIN</string>
+    <string name="security_pin_subtitle_first">Entrez un PIN à 4 chiffres</string>
+    <string name="security_pin_subtitle_confirm">Entrez le PIN à nouveau</string>
+    <string name="security_pin_mismatch">Les PIN ne correspondent pas</string>
+    <string name="security_pin_incorrect">PIN incorrect</string>
+    <string name="security_pin_locked">Trop de tentatives</string>
+    <string name="security_biometric_use">Utiliser la biométrie</string>
+    <string name="security_biometric_reason">Déverrouiller MoneyM</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Annuler</string>
+    <string name="security_backoff_retry">Réessayer dans %1$ds</string>
+    <string name="security_change_pin_title">Modifier le PIN</string>
+    <string name="security_pin_set_header">Définissez votre PIN</string>
+    <string name="security_pin_confirm_header">Confirmez votre PIN</string>
+    <string name="security_pin_enter_header">Entrez votre PIN</string>
+    <string name="security_biometric_offer_title">Activer la biométrie ?</string>
+    <string name="security_biometric_offer_body">Déverrouillez MoneyM rapidement avec Face ID ou empreinte digitale.</string>
+    <string name="security_biometric_offer_enable">Activer</string>
+    <string name="security_biometric_offer_skip">Pas maintenant</string>
+    <string name="security_biometric_unlock_prompt">Déverrouiller MoneyM</string>
+</resources>

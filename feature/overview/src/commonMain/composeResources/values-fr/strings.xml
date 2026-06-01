@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Aperçu</string>
+    <string name="overview_income">Revenus</string>
+    <string name="overview_expenses">Dépenses</string>
+    <string name="overview_by_category">Dépenses par catégorie</string>
+    <string name="overview_trend">Tendance sur 6 mois</string>
+    <string name="overview_all_categories">Toutes les catégories</string>
+    <string name="overview_empty">Aucune transaction cette période</string>
+    <string name="overview_previous_month">Mois précédent</string>
+    <string name="overview_next_month">Mois suivant</string>
+    <string name="overview_loading">Chargement…</string>
+    <string name="overview_more">+ %1$d de plus</string>
+    <string name="overview_monthly_breakdown">Détail mensuel</string>
+    <string name="overview_daily_breakdown">Détail quotidien</string>
+    <string name="overview_all">Tout</string>
+    <string name="overview_previous">Précédent</string>
+    <string name="overview_next">Suivant</string>
+    <string name="overview_switch_to_month">Passer à la vue mensuelle</string>
+    <string name="overview_switch_to_year">Passer à la vue annuelle</string>
+    <string name="overview_period_month">Mois</string>
+    <string name="overview_period_year">Année</string>
+    <string name="overview_period_custom">Personnalisé</string>
+    <string name="overview_label_income">REVENUS</string>
+    <string name="overview_label_expenses">DÉPENSES</string>
+    <string name="overview_label_balance">SOLDE</string>
+    <string name="overview_spending_by_category">Dépenses par catégorie</string>
+    <string name="overview_no_expenses">Aucune dépense cette période</string>
+    <string name="overview_label_total">TOTAL</string>
+    <string name="overview_cumulative_spend">Dépenses cumulées</string>
+    <string name="overview_through_day">jusqu'au jour %1$d</string>
+    <string name="overview_daily_trend">Tendance quotidienne par catégorie</string>
+    <string name="overview_monthly_spending">Dépenses mensuelles</string>
+    <string name="overview_monthly_trend">Tendance mensuelle par catégorie</string>
+    <string name="overview_avg_day">MOY / JOUR</string>
+    <string name="overview_avg_month">MOY / MOIS</string>
+    <string name="overview_dialog_select_month">Sélectionner le mois</string>
+    <string name="overview_dialog_select_year">Sélectionner l'année</string>
+    <string name="overview_prev_year_cd">Année précédente</string>
+    <string name="overview_next_year_cd">Année suivante</string>
+    <string name="overview_analyze_cd">Analyser avec l'IA</string>
+    <string name="overview_now">Maintenant</string>
+    <string name="overview_ok">OK</string>
+    <string name="overview_cancel">Annuler</string>
+    <string name="overview_tx_count_singular">%1$d transaction</string>
+    <string name="overview_tx_count_plural">%1$d transactions</string>
+    <string name="overview_cat_avg_day">moy/jour</string>
+    <string name="overview_cat_avg_month">moy/mois</string>
+    <string name="overview_date_range_title">Sélectionner une plage de dates</string>
+    <string name="overview_date_range_from">DU</string>
+    <string name="overview_date_range_to">AU</string>
+    <string name="overview_budgets_title">Budgets</string>
+    <string name="overview_budgets_all_categories">Toutes les catégories</string>
+    <string name="overview_budgets_remaining_suffix">%1$s restant</string>
+    <string name="overview_budgets_overrun_suffix">%1$s dépassé</string>
+    <string-array name="overview_year_x_labels">
+        <item>janv.</item>
+        <item>avr.</item>
+        <item>juil.</item>
+        <item>oct.</item>
+        <item>déc.</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>

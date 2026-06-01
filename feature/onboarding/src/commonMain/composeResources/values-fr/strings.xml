@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Bienvenue dans MoneyM</string>
+    <string name="onboarding_currency_title">Choisissez votre devise par défaut</string>
+    <string name="onboarding_continue">Continuer</string>
+    <string name="onboarding_security_title">Sécurisez votre application</string>
+    <string name="onboarding_security_subtitle">Protégez vos données financières avec un code PIN.</string>
+    <string name="onboarding_pin_label">Verrouillage PIN</string>
+    <string name="onboarding_pin_set">PIN défini ✓</string>
+    <string name="onboarding_done">Terminer</string>
+    <string name="onboarding_skip">Ignorer pour l'instant</string>
+    <string name="onboarding_skip_short">Ignorer</string>
+    <string name="onboarding_search_currency">Rechercher une devise…</string>
+    <string name="onboarding_currencies_header">DEVISES</string>
+    <string name="onboarding_biometrics_label">Biométrie</string>
+    <string name="onboarding_biometrics_subtitle">Déverrouiller avec Face ID ou empreinte digitale</string>
+    <string name="onboarding_restore_from_backup">Restaurer depuis une sauvegarde</string>
+    <string name="onboarding_import_data">Importer des données</string>
+    <string name="onboarding_restore_warning_title">Remplacer toutes les données ?</string>
+    <string name="onboarding_restore_warning_body">Cela remplacera vos données actuelles par la sauvegarde et ignorera la configuration.</string>
+    <string name="onboarding_restore_confirm">Restaurer</string>
+    <string name="onboarding_restore_screen_title">Restaurer la sauvegarde</string>
+    <string name="onboarding_restore_local_button">Restaurer depuis un fichier</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">Connecter un compte Google</string>
+    <string name="onboarding_restore_google_button">Restaurer depuis Google Drive</string>
+    <string name="onboarding_restore_passphrase_label">Mot de passe de sauvegarde</string>
+    <string name="onboarding_restore_app_close_notice">L'application se fermera après la restauration. Rouvrez-la pour continuer.</string>
+    <string name="onboarding_restore_cancel">Annuler</string>
+    <string name="onboarding_restore_remote_loading">Récupération des informations de sauvegarde…</string>
+    <string name="onboarding_restore_wrong_password">Mot de passe incorrect ou sauvegarde corrompue.</string>
+</resources>
