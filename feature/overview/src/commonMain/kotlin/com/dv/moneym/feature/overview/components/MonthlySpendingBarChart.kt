@@ -163,7 +163,7 @@ internal fun CategoryBarChart(
             BarChart(
                 values = monthlyTotals,
                 barColors = BarColors(
-                    selected = barColor,
+                    selected = colors.accent,
                     current = barColor.copy(alpha = 0.85f),
                     other = barColor.copy(alpha = 0.35f),
                     avg = barColor.copy(alpha = 0.50f),
