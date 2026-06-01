@@ -46,9 +46,10 @@ class SyncEngine(
     private val transactionRepository: TransactionRepository,
     private val recurringTransactionRepository: RecurringTransactionRepository,
     private val budgetRepository: BudgetRepository,
+    private val deviceRegistryManager: DeviceRegistryManager? = null,
     private val nowMs: () -> Long = { kotlin.time.Clock.System.now().toEpochMilliseconds() },
     private val debounceMs: Long = DEFAULT_DEBOUNCE_MS,
-) : SyncDeletionController, SyncStatusProvider {
+) : SyncDeletionController, SyncStatusProvider, SyncPuller {
 
     private val logger = Logger.withTag("SyncEngine")
     private val lock = Mutex()
@@ -83,7 +84,7 @@ class SyncEngine(
         pushPulse.tryEmit(Unit)
     }
 
-    suspend fun pullNow(): Result<Unit> {
+    override suspend fun pullNow(): Result<Unit> {
         if (!enabled()) return Result.success(Unit)
         return pull()
     }
@@ -102,6 +103,7 @@ class SyncEngine(
             if (bytes == null) {
                 _runtime.value = SyncRuntimeState.Idle
                 pushInternal()
+                touchSelfQuietly()
                 return@runCatching
             }
             val remote = withContext(dispatchers.io) { codec.open(bytes, passphrase()) }
@@ -112,6 +114,7 @@ class SyncEngine(
             pendingDeletionStore.replaceAll(result.pendingDeletions)
             appSettings.putLong(PrefKeys.LAST_SYNC_PULL_MS, nowMs())
             _runtime.value = SyncRuntimeState.Idle
+            touchSelfQuietly()
         }.onFailure { t ->
             _runtime.value = SyncRuntimeState.Error(t.message ?: "Sync pull failed")
             logger.e(t) { "Sync pull failed" }
@@ -119,7 +122,10 @@ class SyncEngine(
     }
 
     suspend fun push(): Result<Unit> = lock.withLock {
-        runCatching { pushInternal() }
+        runCatching {
+            pushInternal()
+            touchSelfQuietly()
+        }
             .onFailure { t ->
                 _runtime.value = SyncRuntimeState.Error(t.message ?: "Sync push failed")
                 logger.e(t) { "Sync push failed" }
@@ -179,6 +185,11 @@ class SyncEngine(
         val bytes = withContext(dispatchers.io) { codec.seal(local, passphrase()) }
         withContext(dispatchers.io) { store.writeSnapshotBytes(bytes) }
         _runtime.value = SyncRuntimeState.Idle
+    }
+
+    private suspend fun touchSelfQuietly() {
+        runCatching { deviceRegistryManager?.touchSelf() }
+            .onFailure { logger.w(it) { "device registry touchSelf failed" } }
     }
 
     private fun encryptEnabled(): Boolean =

@@ -1,6 +1,7 @@
 package com.dv.moneym.di
 
 import com.dv.moneym.data.sync.DeviceIdentity
+import com.dv.moneym.data.sync.DeviceRegistryManager
 import com.dv.moneym.data.sync.PendingDeletionStore
 import com.dv.moneym.data.sync.SyncApplier
 import com.dv.moneym.data.sync.SyncDeletionController
@@ -23,6 +24,13 @@ val syncCommonModule: Module = module {
     single { SyncApplier(get(), get(), get(), get(), get(), get()) }
     single { PendingDeletionStore(appSettings = get()) }
     single {
+        DeviceRegistryManager(
+            store = get(),
+            deviceIdentity = get(),
+            nowMs = { kotlin.time.Clock.System.now().toEpochMilliseconds() },
+        )
+    }
+    single {
         SyncEngine(
             exporter = get(),
             reconciler = get(),
@@ -39,6 +47,7 @@ val syncCommonModule: Module = module {
             transactionRepository = get(),
             recurringTransactionRepository = get(),
             budgetRepository = get(),
+            deviceRegistryManager = get(),
         )
     }
     single<SyncDeletionController> { get<SyncEngine>() }

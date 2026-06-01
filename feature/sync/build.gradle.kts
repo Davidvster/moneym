@@ -31,6 +31,7 @@ kotlin {
             implementation(projects.core.ui)
             implementation(projects.core.model)
             implementation(projects.core.common)
+            implementation(projects.core.datastore)
             implementation(libs.androidx.navigation3.runtime)
             implementation(projects.core.navigation)
             implementation(projects.data.sync)

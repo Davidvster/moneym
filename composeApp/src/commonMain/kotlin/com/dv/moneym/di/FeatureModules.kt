@@ -9,6 +9,7 @@ import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.security.PinHasher
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.data.accounts.db.AccountsRoomDatabase
+import com.dv.moneym.data.sync.DeviceRegistryManager
 import com.dv.moneym.data.sync.SyncEngine
 import com.dv.moneym.data.backup.BackupExporter
 import com.dv.moneym.data.backup.BackupImporter
@@ -25,6 +26,7 @@ import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
 import com.dv.moneym.feature.onboarding.restore.OnboardingRestoreViewModel
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
 import com.dv.moneym.feature.sync.PendingDeletionsViewModel
+import com.dv.moneym.feature.sync.SyncSettingsViewModel
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.OverviewViewModel
 import com.dv.moneym.feature.overview.page.OverviewPageViewModel
@@ -293,6 +295,13 @@ val featureCategoriesModule = module {
 
 val featureSyncModule = module {
     viewModel { PendingDeletionsViewModel(get()) }
+    viewModel {
+        SyncSettingsViewModel(
+            registry = get<DeviceRegistryManager>(),
+            appSettings = get(),
+            syncPuller = get<SyncEngine>(),
+        )
+    }
 }
 
 val featureBudgetsModule = module {

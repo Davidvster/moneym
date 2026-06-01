@@ -10,4 +10,18 @@
     <string name="sync_deletions_group_payment_modes">Zahlungsarten</string>
     <string name="sync_deletions_confirm">Ausgewählte entfernen</string>
     <string name="sync_deletions_cancel">Alle behalten</string>
+    <string name="sync_settings_title">Geräteübergreifende Synchronisierung</string>
+    <string name="sync_settings_toggle_title">Über Geräte hinweg synchronisieren</string>
+    <string name="sync_settings_toggle_subtitle">Halte deine Daten auf allen Geräten synchron, die mit demselben Backup angemeldet sind.</string>
+    <string name="sync_settings_rename_label">Name dieses Geräts</string>
+    <string name="sync_settings_rename_save">Speichern</string>
+    <string name="sync_settings_rename_cancel">Abbrechen</string>
+    <string name="sync_settings_devices_header">GERÄTE</string>
+    <string name="sync_settings_this_device">Dieses Gerät</string>
+    <string name="sync_settings_remove">Entfernen</string>
+    <string name="sync_settings_last_synced_just_now">gerade synchronisiert</string>
+    <string name="sync_settings_last_synced_minutes">vor %1$d Min. synchronisiert</string>
+    <string name="sync_settings_last_synced_hours">vor %1$d Std. synchronisiert</string>
+    <string name="sync_settings_last_synced_days">vor %1$d T. synchronisiert</string>
+    <string name="sync_settings_last_synced_longer">vor einiger Zeit synchronisiert</string>
 </resources>

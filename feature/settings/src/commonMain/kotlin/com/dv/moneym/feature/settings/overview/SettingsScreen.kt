@@ -73,6 +73,7 @@ fun EntryProviderScope<NavKey>.settingsEntry(
     onNavigateToWallets: () -> Unit = {},
     onNavigateToPaymentModes: () -> Unit = {},
     onNavigateToBackupRestore: () -> Unit = {},
+    onNavigateToSync: () -> Unit = {},
     onNavigateToAbout: () -> Unit = {},
     onTabSelected: (TabRoute) -> Unit,
     securityViewModel: SecuritySettingsViewModel? = null,
@@ -89,6 +90,7 @@ fun EntryProviderScope<NavKey>.settingsEntry(
         onNavigateToWallets = onNavigateToWallets,
         onNavigateToPaymentModes = onNavigateToPaymentModes,
         onNavigateToBackupRestore = onNavigateToBackupRestore,
+        onNavigateToSync = onNavigateToSync,
         onNavigateToAbout = onNavigateToAbout,
         onTabSelected = onTabSelected,
         securityViewModel = securityViewModel ?: koinViewModel(),
@@ -107,6 +109,7 @@ fun SettingsScreen(
     onNavigateToWallets: () -> Unit = {},
     onNavigateToPaymentModes: () -> Unit = {},
     onNavigateToBackupRestore: () -> Unit = {},
+    onNavigateToSync: () -> Unit = {},
     onNavigateToAbout: () -> Unit = {},
     onTabSelected: (TabRoute) -> Unit = {},
     overviewViewModel: SettingsOverviewViewModel = koinViewModel(),
@@ -158,6 +161,7 @@ fun SettingsScreen(
         onNavigateToWallets = onNavigateToWallets,
         onNavigateToPaymentModes = onNavigateToPaymentModes,
         onNavigateToBackupRestore = onNavigateToBackupRestore,
+        onNavigateToSync = onNavigateToSync,
         onNavigateToAbout = onNavigateToAbout,
         onTabSelected = onTabSelected,
     )
@@ -181,6 +185,7 @@ private fun SettingsContent(
     onNavigateToWallets: () -> Unit,
     onNavigateToPaymentModes: () -> Unit,
     onNavigateToBackupRestore: () -> Unit,
+    onNavigateToSync: () -> Unit,
     onNavigateToAbout: () -> Unit,
     onTabSelected: (TabRoute) -> Unit,
 ) {
@@ -258,6 +263,7 @@ private fun SettingsContent(
             onNavigateToWallets = onNavigateToWallets,
             onNavigateToPaymentModes = onNavigateToPaymentModes,
             onNavigateToBackupRestore = onNavigateToBackupRestore,
+            onNavigateToSync = onNavigateToSync,
             onNavigateToAbout = onNavigateToAbout,
             onShowLockPicker = { onShowLockPicker(true) },
         )
@@ -286,6 +292,7 @@ private fun SettingsScreenPreview() {
             onNavigateToWallets = {},
             onNavigateToPaymentModes = {},
             onNavigateToBackupRestore = {},
+            onNavigateToSync = {},
             onNavigateToAbout = {},
             onTabSelected = {},
         )

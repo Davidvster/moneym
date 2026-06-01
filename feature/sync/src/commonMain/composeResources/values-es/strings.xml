@@ -10,4 +10,18 @@
     <string name="sync_deletions_group_payment_modes">Métodos de pago</string>
     <string name="sync_deletions_confirm">Eliminar seleccionados</string>
     <string name="sync_deletions_cancel">Conservar todo</string>
+    <string name="sync_settings_title">Sincronización entre dispositivos</string>
+    <string name="sync_settings_toggle_title">Sincronizar entre dispositivos</string>
+    <string name="sync_settings_toggle_subtitle">Mantén tus datos sincronizados en todos los dispositivos con la misma copia de seguridad.</string>
+    <string name="sync_settings_rename_label">Nombre de este dispositivo</string>
+    <string name="sync_settings_rename_save">Guardar</string>
+    <string name="sync_settings_rename_cancel">Cancelar</string>
+    <string name="sync_settings_devices_header">DISPOSITIVOS</string>
+    <string name="sync_settings_this_device">Este dispositivo</string>
+    <string name="sync_settings_remove">Eliminar</string>
+    <string name="sync_settings_last_synced_just_now">sincronizado ahora mismo</string>
+    <string name="sync_settings_last_synced_minutes">sincronizado hace %1$d min</string>
+    <string name="sync_settings_last_synced_hours">sincronizado hace %1$d h</string>
+    <string name="sync_settings_last_synced_days">sincronizado hace %1$d d</string>
+    <string name="sync_settings_last_synced_longer">sincronizado hace tiempo</string>
 </resources>

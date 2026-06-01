@@ -50,6 +50,7 @@ internal fun SettingsLazyList(
     onNavigateToWallets: () -> Unit,
     onNavigateToPaymentModes: () -> Unit,
     onNavigateToBackupRestore: () -> Unit,
+    onNavigateToSync: () -> Unit,
     onNavigateToAbout: () -> Unit,
     onShowLockPicker: () -> Unit,
 ) {
@@ -151,7 +152,10 @@ internal fun SettingsLazyList(
             )
         }
         item(key = SettingsItem.BACKUP_CARD.name) {
-            BackupSection(onNavigateToBackupRestore = onNavigateToBackupRestore)
+            BackupSection(
+                onNavigateToBackupRestore = onNavigateToBackupRestore,
+                onNavigateToSync = onNavigateToSync,
+            )
         }
         item(key = SettingsItem.ABOUT_LABEL.name) {
             SectionLabel(

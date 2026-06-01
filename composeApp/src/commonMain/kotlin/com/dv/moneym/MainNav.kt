@@ -32,6 +32,8 @@ import com.dv.moneym.feature.security.setup.PinSetupKey
 import com.dv.moneym.feature.security.setup.pinSetupEntry
 import com.dv.moneym.feature.sync.PendingDeletionsKey
 import com.dv.moneym.feature.sync.pendingDeletionsEntry
+import com.dv.moneym.feature.sync.SyncSettingsKey
+import com.dv.moneym.feature.sync.syncSettingsEntry
 import com.dv.moneym.feature.settings.overview.LanguagePickerKey
 import com.dv.moneym.feature.settings.overview.PaymentModeListKey
 import com.dv.moneym.feature.settings.overview.SecuritySettingsIntent
@@ -174,6 +176,7 @@ internal fun MainNav(lockController: AppLockController) {
                 onNavigateToWallets = { tabBackStack.push(WalletManageKey) },
                 onNavigateToPaymentModes = { tabBackStack.push(PaymentModeListKey) },
                 onNavigateToBackupRestore = { tabBackStack.push(BackupRestoreKey) },
+                onNavigateToSync = { tabBackStack.push(SyncSettingsKey) },
                 onNavigateToAbout = { tabBackStack.push(AboutKey) },
                 onTabSelected = { route ->
                     when (route) {
@@ -196,6 +199,10 @@ internal fun MainNav(lockController: AppLockController) {
             )
             pendingDeletionsEntry(
                 onDone = { tabBackStack.removeLast() },
+                metadata = modalTransitionMeta,
+            )
+            syncSettingsEntry(
+                onBack = { tabBackStack.removeLast() },
                 metadata = modalTransitionMeta,
             )
             budgetListEntry(
