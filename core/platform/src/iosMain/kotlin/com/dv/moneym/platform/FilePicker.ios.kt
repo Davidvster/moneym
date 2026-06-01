@@ -12,6 +12,8 @@ import platform.UIKit.UIDocumentPickerViewController
 import platform.UIKit.UIDocumentPickerDelegateProtocol
 import platform.UniformTypeIdentifiers.UTTypeItem
 import platform.darwin.NSObject
+import platform.darwin.dispatch_async
+import platform.darwin.dispatch_get_main_queue
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
@@ -44,6 +46,8 @@ actual fun rememberFilePicker(onResult: (String?) -> Unit): () -> Unit {
         )
         picker.delegate = delegate
         picker.allowsMultipleSelection = false
-        topViewController()?.presentViewController(picker, animated = true, completion = null)
+        dispatch_async(dispatch_get_main_queue()) {
+            topViewController()?.presentViewController(picker, animated = true, completion = null)
+        }
     }
 }
