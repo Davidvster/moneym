@@ -24,7 +24,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -110,10 +112,21 @@ fun MmSegmented(
             }
         }
     } else {
-        // Wrap content; each option gets a fixed slot width.
-        val optionWidth: Dp = when (size) {
+        // Wrap content; every option gets the same slot width, sized to the widest label
+        // so no locale's text is clipped while the pill still relies on equal-width slots.
+        val fallbackWidth: Dp = when (size) {
             MmSegmentedSize.Md -> 52.dp
             MmSegmentedSize.Sm -> 44.dp
+        }
+        val hPadding = MM.dimen.padding_2x
+        val density = LocalDensity.current
+        val textMeasurer = rememberTextMeasurer()
+        val labelStyle = type.caption.copy(fontWeight = FontWeight.SemiBold)
+        val optionWidth: Dp = remember(options, labelStyle, hPadding, fallbackWidth) {
+            val widest = options.maxOfOrNull {
+                with(density) { textMeasurer.measure(it, labelStyle).size.width.toDp() }
+            } ?: 0.dp
+            maxOf(widest + hPadding * 2, fallbackWidth)
         }
         val trackWidth = optionWidth * options.size + innerPadding * 2
         val pillOffset = optionWidth * animatedIndex
@@ -154,6 +167,7 @@ fun MmSegmented(
                                 fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Medium,
                                 color = if (isSelected) colors.text else colors.text2,
                             ),
+                            modifier = Modifier.padding(horizontal = hPadding),
                         )
                     }
                 }

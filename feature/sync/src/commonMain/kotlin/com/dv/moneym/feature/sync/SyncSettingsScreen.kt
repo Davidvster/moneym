@@ -2,13 +2,16 @@ package com.dv.moneym.feature.sync
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -81,26 +84,39 @@ private fun SyncSettingsContent(
     Column(modifier = Modifier.fillMaxSize().background(colors.bg)) {
         ScreenHeader(title = stringResource(Res.string.sync_settings_title), onBack = onBack)
 
-        LazyColumn(
-            modifier = Modifier.weight(1f),
-            contentPadding = androidx.compose.foundation.layout.PaddingValues(
-                horizontal = space.padding_2x,
-                vertical = space.padding_2x,
-            ),
-            verticalArrangement = Arrangement.spacedBy(space.padding_2x),
-        ) {
-            item { SyncToggleCard(enabled = state.crossDeviceSyncEnabled, onIntent = onIntent) }
-            item { RenameCard(state = state, onIntent = onIntent) }
-            item {
-                Text(
-                    text = stringResource(Res.string.sync_settings_devices_header),
-                    style = MM.type.micro,
-                    color = colors.text2,
-                    modifier = Modifier.padding(top = space.padding_1x),
+        if (state.isLoading) {
+            Box(
+                modifier = Modifier.weight(1f).fillMaxWidth(),
+                contentAlignment = Alignment.Center,
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(space.icon_1x),
+                    strokeWidth = space.padding_0_25x,
+                    color = colors.accent,
                 )
             }
-            items(state.devices, key = { it.id }) { device ->
-                DeviceCard(device = device, onIntent = onIntent)
+        } else {
+            LazyColumn(
+                modifier = Modifier.weight(1f),
+                contentPadding = androidx.compose.foundation.layout.PaddingValues(
+                    horizontal = space.padding_2x,
+                    vertical = space.padding_2x,
+                ),
+                verticalArrangement = Arrangement.spacedBy(space.padding_2x),
+            ) {
+                item { SyncToggleCard(enabled = state.crossDeviceSyncEnabled, onIntent = onIntent) }
+                item { RenameCard(state = state, onIntent = onIntent) }
+                item {
+                    Text(
+                        text = stringResource(Res.string.sync_settings_devices_header),
+                        style = MM.type.micro,
+                        color = colors.text2,
+                        modifier = Modifier.padding(top = space.padding_1x),
+                    )
+                }
+                items(state.devices, key = { it.id }) { device ->
+                    DeviceCard(device = device, onIntent = onIntent)
+                }
             }
         }
     }
@@ -242,6 +258,7 @@ private fun SyncSettingsPreview() {
         SyncSettingsContent(
             state = SyncSettingsUiState(
                 crossDeviceSyncEnabled = true,
+                isLoading = false,
                 thisDeviceName = "Pixel 8",
                 devices = listOf(
                     DeviceRow("1", "Pixel 8", "Android", 0L, isThisDevice = true),

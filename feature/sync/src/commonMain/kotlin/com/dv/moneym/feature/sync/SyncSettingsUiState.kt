@@ -14,5 +14,5 @@ data class SyncSettingsUiState(
     val isRenaming: Boolean = false,
     val renameDraft: String = "",
     val devices: List<DeviceRow> = emptyList(),
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
 )
