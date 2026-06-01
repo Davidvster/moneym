@@ -20,14 +20,20 @@ class FakeAccountRepository : AccountRepository {
     // never went through upsertFromSync so exportForSync still emits a stable id.
     private val syncIds = mutableMapOf<Long, String>()
 
-    val accounts: List<Account> get() = _accounts.value
+    // Soft-deleted rows: hidden from observeAll/count, still exported with deleted=true.
+    private val tombstoned = mutableSetOf<Long>()
+    private val updatedAtOverrides = mutableMapOf<Long, Long>()
+
+    val accounts: List<Account> get() = _accounts.value.filter { it.id.value !in tombstoned }
 
     fun addAll(accounts: List<Account>) = _accounts.update { it + accounts }
 
-    override fun observeAll(): Flow<List<Account>> = _accounts
-    override fun observeDefault(): Flow<Account?> = _accounts.map { it.firstOrNull { a -> a.isDefault } }
+    override fun observeAll(): Flow<List<Account>> =
+        _accounts.map { list -> list.filter { it.id.value !in tombstoned } }
+    override fun observeDefault(): Flow<Account?> =
+        _accounts.map { it.firstOrNull { a -> a.isDefault && a.id.value !in tombstoned } }
     override suspend fun getById(id: AccountId): Account? = _accounts.value.find { it.id == id }
-    override suspend fun count(): Long = _accounts.value.size.toLong()
+    override suspend fun count(): Long = _accounts.value.count { it.id.value !in tombstoned }.toLong()
     override suspend fun insert(account: Account): AccountId {
         val id = AccountId(nextId++)
         _accounts.update { it + account.copy(id = id) }
@@ -37,12 +43,28 @@ class FakeAccountRepository : AccountRepository {
         _accounts.update { list -> list.map { if (it.id == account.id) account else it } }
     }
     override suspend fun delete(id: AccountId) {
-        _accounts.update { list -> list.filter { it.id != id } }
-        syncIds.remove(id.value)
+        tombstoned.add(id.value)
     }
+
+    override suspend fun markDeletedBySyncId(syncId: String, now: Long) {
+        idForSyncId(syncId)?.let { id ->
+            tombstoned.add(id)
+            updatedAtOverrides[id] = now
+        }
+    }
+
+    override suspend fun reviveBySyncId(syncId: String, now: Long) {
+        idForSyncId(syncId)?.let { id ->
+            tombstoned.remove(id)
+            updatedAtOverrides[id] = now
+        }
+    }
+
     override suspend fun deleteAll() {
         _accounts.value = emptyList()
         syncIds.clear()
+        tombstoned.clear()
+        updatedAtOverrides.clear()
     }
 
     override suspend fun exportForSync(): List<AccountSyncRow> =
@@ -56,9 +78,9 @@ class FakeAccountRepository : AccountRepository {
                 isDefault = a.isDefault,
                 archived = a.archived,
                 colorHex = a.colorHex,
-                deleted = false,
+                deleted = a.id.value in tombstoned,
                 createdAt = a.createdAt.toEpochMilliseconds(),
-                updatedAt = a.updatedAt.toEpochMilliseconds(),
+                updatedAt = updatedAtOverrides[a.id.value] ?: a.updatedAt.toEpochMilliseconds(),
             )
         }
 
@@ -89,4 +111,9 @@ class FakeAccountRepository : AccountRepository {
     )
 
     private fun syncIdFor(id: Long): String = syncIds.getOrPut(id) { "sync-acc-$id" }
+
+    private fun idForSyncId(syncId: String): Long? {
+        _accounts.value.forEach { syncIdFor(it.id.value) }
+        return syncIds.entries.firstOrNull { it.value == syncId }?.key
+    }
 }

@@ -6,6 +6,7 @@ import com.dv.moneym.data.transactions.PaymentModeRepository
 import com.dv.moneym.data.transactions.PaymentModeSyncRow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlin.time.Instant
 
@@ -15,9 +16,13 @@ class FakePaymentModeRepository : PaymentModeRepository {
 
     private val syncIds = mutableMapOf<Long, String>()
 
+    private val tombstoned = mutableSetOf<Long>()
+    private val updatedAtOverrides = mutableMapOf<Long, Long>()
+
     fun addAll(modes: List<PaymentMode>) = _modes.update { it + modes }
 
-    override fun observeAll(): Flow<List<PaymentMode>> = _modes
+    override fun observeAll(): Flow<List<PaymentMode>> =
+        _modes.map { list -> list.filter { it.id.value !in tombstoned } }
 
     override suspend fun getById(id: PaymentModeId): PaymentMode? =
         _modes.value.find { it.id == id }
@@ -31,8 +36,21 @@ class FakePaymentModeRepository : PaymentModeRepository {
     }
 
     override suspend fun delete(id: PaymentModeId) {
-        _modes.update { list -> list.filter { it.id != id } }
-        syncIds.remove(id.value)
+        tombstoned.add(id.value)
+    }
+
+    override suspend fun markDeletedBySyncId(syncId: String, now: Long) {
+        idForSyncId(syncId)?.let { id ->
+            tombstoned.add(id)
+            updatedAtOverrides[id] = now
+        }
+    }
+
+    override suspend fun reviveBySyncId(syncId: String, now: Long) {
+        idForSyncId(syncId)?.let { id ->
+            tombstoned.remove(id)
+            updatedAtOverrides[id] = now
+        }
     }
 
     override suspend fun exportForSync(): List<PaymentModeSyncRow> =
@@ -41,9 +59,9 @@ class FakePaymentModeRepository : PaymentModeRepository {
                 id = m.id.value,
                 syncId = syncIdFor(m.id.value),
                 name = m.name,
-                deleted = false,
+                deleted = m.id.value in tombstoned,
                 createdAt = m.createdAt.toEpochMilliseconds(),
-                updatedAt = m.updatedAt.toEpochMilliseconds(),
+                updatedAt = updatedAtOverrides[m.id.value] ?: m.updatedAt.toEpochMilliseconds(),
             )
         }
 
@@ -69,4 +87,9 @@ class FakePaymentModeRepository : PaymentModeRepository {
     )
 
     private fun syncIdFor(id: Long): String = syncIds.getOrPut(id) { "sync-pm-$id" }
+
+    private fun idForSyncId(syncId: String): Long? {
+        _modes.value.forEach { syncIdFor(it.id.value) }
+        return syncIds.entries.firstOrNull { it.value == syncId }?.key
+    }
 }

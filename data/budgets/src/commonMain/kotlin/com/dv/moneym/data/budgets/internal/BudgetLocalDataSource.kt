@@ -34,7 +34,9 @@ internal interface BudgetLocalDataSource {
         updatedAt: Long,
     )
 
-    suspend fun delete(id: Long)
+    suspend fun softDelete(id: Long, now: Long)
+    suspend fun markDeletedBySyncId(syncId: String, now: Long)
+    suspend fun reviveBySyncId(syncId: String, now: Long)
     suspend fun exportForSync(): List<BudgetEntity>
     suspend fun upsertFromSync(row: BudgetSyncRow): Long
 }

@@ -12,6 +12,8 @@ interface CategoryRepository {
     suspend fun insert(category: Category): CategoryId
     suspend fun update(category: Category)
     suspend fun delete(id: CategoryId)
+    suspend fun markDeletedBySyncId(syncId: String, now: Long)
+    suspend fun reviveBySyncId(syncId: String, now: Long)
     suspend fun deleteAll()
     suspend fun exportForSync(): List<CategorySyncRow>
     suspend fun upsertFromSync(row: CategorySyncRow): Long

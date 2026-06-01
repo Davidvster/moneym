@@ -17,14 +17,19 @@ class FakeCategoryRepository : CategoryRepository {
 
     private val syncIds = mutableMapOf<Long, String>()
 
-    val categories: List<Category> get() = _categories.value
+    private val tombstoned = mutableSetOf<Long>()
+    private val updatedAtOverrides = mutableMapOf<Long, Long>()
+
+    val categories: List<Category> get() = _categories.value.filter { it.id.value !in tombstoned }
 
     fun addAll(categories: List<Category>) = _categories.update { it + categories }
 
-    override fun observeAll(): Flow<List<Category>> = _categories
-    override fun observeActive(): Flow<List<Category>> = _categories.map { it.filter { c -> !c.archived } }
+    override fun observeAll(): Flow<List<Category>> =
+        _categories.map { list -> list.filter { it.id.value !in tombstoned } }
+    override fun observeActive(): Flow<List<Category>> =
+        _categories.map { it.filter { c -> !c.archived && c.id.value !in tombstoned } }
     override suspend fun getById(id: CategoryId): Category? = _categories.value.find { it.id == id }
-    override suspend fun count(): Long = _categories.value.size.toLong()
+    override suspend fun count(): Long = _categories.value.count { it.id.value !in tombstoned }.toLong()
     override suspend fun insert(category: Category): CategoryId {
         val id = CategoryId(nextId++)
         _categories.update { it + category.copy(id = id) }
@@ -34,12 +39,28 @@ class FakeCategoryRepository : CategoryRepository {
         _categories.update { list -> list.map { if (it.id == category.id) category else it } }
     }
     override suspend fun delete(id: CategoryId) {
-        _categories.update { list -> list.filter { it.id != id } }
-        syncIds.remove(id.value)
+        tombstoned.add(id.value)
     }
+
+    override suspend fun markDeletedBySyncId(syncId: String, now: Long) {
+        idForSyncId(syncId)?.let { id ->
+            tombstoned.add(id)
+            updatedAtOverrides[id] = now
+        }
+    }
+
+    override suspend fun reviveBySyncId(syncId: String, now: Long) {
+        idForSyncId(syncId)?.let { id ->
+            tombstoned.remove(id)
+            updatedAtOverrides[id] = now
+        }
+    }
+
     override suspend fun deleteAll() {
         _categories.value = emptyList()
         syncIds.clear()
+        tombstoned.clear()
+        updatedAtOverrides.clear()
     }
 
     override suspend fun exportForSync(): List<CategorySyncRow> =
@@ -53,9 +74,9 @@ class FakeCategoryRepository : CategoryRepository {
                 isUserCreated = c.isUserCreated,
                 archived = c.archived,
                 categoryType = c.type.name,
-                deleted = false,
+                deleted = c.id.value in tombstoned,
                 createdAt = c.createdAt.toEpochMilliseconds(),
-                updatedAt = c.updatedAt.toEpochMilliseconds(),
+                updatedAt = updatedAtOverrides[c.id.value] ?: c.updatedAt.toEpochMilliseconds(),
             )
         }
 
@@ -86,4 +107,9 @@ class FakeCategoryRepository : CategoryRepository {
     )
 
     private fun syncIdFor(id: Long): String = syncIds.getOrPut(id) { "sync-cat-$id" }
+
+    private fun idForSyncId(syncId: String): Long? {
+        _categories.value.forEach { syncIdFor(it.id.value) }
+        return syncIds.entries.firstOrNull { it.value == syncId }?.key
+    }
 }

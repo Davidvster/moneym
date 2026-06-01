@@ -78,9 +78,18 @@ internal class TransactionRepositoryImpl(
         }
     }
 
-    override suspend fun delete(id: TransactionId) = dataSource.delete(id.value)
+    override suspend fun delete(id: TransactionId) =
+        dataSource.softDelete(id.value, Clock.System.now().toEpochMilliseconds())
 
-    override suspend fun deleteByAccountId(id: AccountId) = dataSource.deleteByAccountId(id.value)
+    override suspend fun deleteByAccountId(id: AccountId) =
+        dataSource.softDeleteByAccountId(id.value, Clock.System.now().toEpochMilliseconds())
+
+    override suspend fun markDeletedBySyncId(syncId: String, now: Long) =
+        dataSource.markDeletedBySyncId(syncId, now)
+
+    override suspend fun reviveBySyncId(syncId: String, now: Long) =
+        dataSource.reviveBySyncId(syncId, now)
+
     override suspend fun deleteAll() = dataSource.deleteAll()
 
     override suspend fun convertCurrencyForAccount(accountId: AccountId, newCurrency: CurrencyCode, rate: Double) {

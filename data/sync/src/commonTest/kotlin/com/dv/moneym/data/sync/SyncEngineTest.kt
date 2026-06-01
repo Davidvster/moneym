@@ -90,6 +90,7 @@ class SyncEngineTest {
         deviceId: String = "device-A",
         encrypt: Boolean = false,
         passphrase: SessionPassphrase = SessionPassphrase(),
+        pendingDeletionStore: PendingDeletionStore = PendingDeletionStore(settings),
     ): SyncEngine {
         settings.putBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, encrypt)
         return SyncEngine(
@@ -101,6 +102,13 @@ class SyncEngineTest {
             appSettings = settings,
             sessionPassphrase = passphrase,
             dispatchers = dispatchers,
+            pendingDeletionStore = pendingDeletionStore,
+            accountRepository = device.accounts,
+            categoryRepository = device.categories,
+            paymentModeRepository = device.paymentModes,
+            transactionRepository = device.transactions,
+            recurringTransactionRepository = device.recurring,
+            budgetRepository = device.budgets,
             nowMs = { 1234L },
         )
     }
@@ -142,7 +150,8 @@ class SyncEngineTest {
         // Local device has an account whose syncId will appear as a tombstone in remote.
         val localDevice = Device().apply { accounts.addAll(listOf(account(1, name = "Local live"))) }
         val localSettings = InMemoryAppSettings()
-        val engine = engine(localDevice, store, localSettings, dispatchers)
+        val pendingDeletionStore = PendingDeletionStore(localSettings)
+        val engine = engine(localDevice, store, localSettings, dispatchers, pendingDeletionStore = pendingDeletionStore)
         val localAccSyncId = localDevice.accounts.exportForSync().single().syncId!!
 
         // Compose the remote bytes: the new account + a tombstone of the local account's syncId.
@@ -164,7 +173,7 @@ class SyncEngineTest {
         assertTrue(localDevice.accounts.accounts.any { it.name == "Remote new" })
         // Local live account NOT deleted (pending only).
         assertTrue(localDevice.accounts.accounts.any { it.name == "Local live" })
-        val pd = engine.pendingDeletions.value.single()
+        val pd = pendingDeletionStore.current().single()
         assertEquals(SyncEntityType.ACCOUNT, pd.entityType)
         assertEquals(localAccSyncId, pd.syncId)
         assertEquals("Local live", pd.label)

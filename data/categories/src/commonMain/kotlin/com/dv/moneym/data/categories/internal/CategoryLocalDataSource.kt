@@ -20,7 +20,9 @@ internal interface CategoryLocalDataSource {
         archived: Boolean, updatedAt: Long,
     )
 
-    suspend fun delete(id: Long)
+    suspend fun softDelete(id: Long, now: Long)
+    suspend fun markDeletedBySyncId(syncId: String, now: Long)
+    suspend fun reviveBySyncId(syncId: String, now: Long)
     suspend fun deleteAll()
     suspend fun exportForSync(): List<CategoryEntity>
     suspend fun upsertFromSync(row: CategorySyncRow): Long

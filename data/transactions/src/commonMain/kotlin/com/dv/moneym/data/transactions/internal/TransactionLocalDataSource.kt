@@ -23,8 +23,10 @@ internal interface TransactionLocalDataSource {
         paymentModeId: Long? = null, recurringId: Long? = null,
     )
 
-    suspend fun delete(id: Long)
-    suspend fun deleteByAccountId(accountId: Long)
+    suspend fun softDelete(id: Long, now: Long)
+    suspend fun softDeleteByAccountId(accountId: Long, now: Long)
+    suspend fun markDeletedBySyncId(syncId: String, now: Long)
+    suspend fun reviveBySyncId(syncId: String, now: Long)
     suspend fun deleteAll()
     suspend fun convertCurrencyForAccount(accountId: Long, currency: String, rate: Double, updatedAt: Long)
     suspend fun getEarliestDate(): String?

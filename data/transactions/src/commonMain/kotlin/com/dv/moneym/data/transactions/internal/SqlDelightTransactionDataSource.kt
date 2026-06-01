@@ -73,9 +73,16 @@ internal class SqlDelightTransactionDataSource(
         )
     }
 
-    override suspend fun delete(id: Long) = dao.deleteById(id)
+    override suspend fun softDelete(id: Long, now: Long) = dao.softDeleteById(id, now)
 
-    override suspend fun deleteByAccountId(accountId: Long) = dao.deleteByAccountId(accountId)
+    override suspend fun softDeleteByAccountId(accountId: Long, now: Long) =
+        dao.softDeleteByAccountId(accountId, now)
+
+    override suspend fun markDeletedBySyncId(syncId: String, now: Long) =
+        dao.markDeletedBySyncId(syncId, now)
+
+    override suspend fun reviveBySyncId(syncId: String, now: Long) =
+        dao.touchBySyncId(syncId, now)
 
     override suspend fun deleteAll() = dao.deleteAll()
 

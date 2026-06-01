@@ -49,7 +49,15 @@ internal class CategoryRepositoryImpl(
         )
     }
 
-    override suspend fun delete(id: CategoryId) = dataSource.delete(id.value)
+    override suspend fun delete(id: CategoryId) =
+        dataSource.softDelete(id.value, Clock.System.now().toEpochMilliseconds())
+
+    override suspend fun markDeletedBySyncId(syncId: String, now: Long) =
+        dataSource.markDeletedBySyncId(syncId, now)
+
+    override suspend fun reviveBySyncId(syncId: String, now: Long) =
+        dataSource.reviveBySyncId(syncId, now)
+
     override suspend fun deleteAll() = dataSource.deleteAll()
 
     override suspend fun exportForSync(): List<CategorySyncRow> =

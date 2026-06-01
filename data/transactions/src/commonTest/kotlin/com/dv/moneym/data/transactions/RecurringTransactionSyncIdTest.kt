@@ -57,6 +57,20 @@ class RecurringTransactionSyncIdTest {
             rows.remove(id)
         }
 
+        override suspend fun softDeleteById(id: Long, now: Long) {
+            rows[id]?.let { rows[id] = it.copy(deleted = true, updatedAt = now) }
+        }
+
+        override suspend fun markDeletedBySyncId(syncId: String, now: Long) {
+            rows.values.firstOrNull { it.syncId == syncId }
+                ?.let { rows[it.id] = it.copy(deleted = true, updatedAt = now) }
+        }
+
+        override suspend fun touchBySyncId(syncId: String, now: Long) {
+            rows.values.firstOrNull { it.syncId == syncId }
+                ?.let { rows[it.id] = it.copy(updatedAt = now) }
+        }
+
         override suspend fun deleteAll() {
             rows.clear()
         }

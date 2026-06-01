@@ -11,6 +11,8 @@ interface RecurringTransactionRepository {
     suspend fun upsert(rule: RecurringTransaction): RecurringTransactionId
     suspend fun updateCursor(id: RecurringTransactionId, lastMaterialized: LocalDate)
     suspend fun delete(id: RecurringTransactionId)
+    suspend fun markDeletedBySyncId(syncId: String, now: Long)
+    suspend fun reviveBySyncId(syncId: String, now: Long)
     suspend fun deleteAll()
     suspend fun exportForSync(): List<RecurringSyncRow>
     suspend fun upsertFromSync(row: RecurringSyncRow): Long

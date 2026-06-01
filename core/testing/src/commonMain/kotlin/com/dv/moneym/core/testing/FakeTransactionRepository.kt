@@ -27,19 +27,25 @@ class FakeTransactionRepository : TransactionRepository {
 
     private val syncIds = mutableMapOf<Long, String>()
 
-    val transactions: List<Transaction> get() = _transactions.value
+    private val tombstoned = mutableSetOf<Long>()
+    private val updatedAtOverrides = mutableMapOf<Long, Long>()
+
+    private fun List<Transaction>.live() = filter { it.id.value !in tombstoned }
+
+    val transactions: List<Transaction> get() = _transactions.value.live()
 
     fun addAll(transactions: List<Transaction>) = _transactions.update { it + transactions }
 
-    override fun observeAll(): Flow<List<Transaction>> = _transactions
+    override fun observeAll(): Flow<List<Transaction>> = _transactions.map { it.live() }
 
     override fun observeByMonth(year: Int, month: Int): Flow<List<Transaction>> =
         _transactions.map { list ->
-            list.filter { it.occurredOn.year == year && it.occurredOn.month.number == month }
+            list.live().filter { it.occurredOn.year == year && it.occurredOn.month.number == month }
         }
 
     override fun observeFiltered(filter: TransactionFilter): Flow<List<Transaction>> =
-        _transactions.map { list ->
+        _transactions.map { rows ->
+            val list = rows.live()
             when (filter) {
                 is TransactionFilter.None -> list
                 is TransactionFilter.ByCategory -> list.filter { it.categoryId == filter.categoryId }
@@ -64,17 +70,32 @@ class FakeTransactionRepository : TransactionRepository {
     }
 
     override suspend fun delete(id: TransactionId) {
-        _transactions.update { list -> list.filter { it.id != id } }
-        syncIds.remove(id.value)
+        tombstoned.add(id.value)
     }
 
     override suspend fun deleteByAccountId(id: AccountId) {
-        _transactions.update { list -> list.filter { it.accountId != id } }
+        _transactions.value.filter { it.accountId == id }.forEach { tombstoned.add(it.id.value) }
+    }
+
+    override suspend fun markDeletedBySyncId(syncId: String, now: Long) {
+        idForSyncId(syncId)?.let { id ->
+            tombstoned.add(id)
+            updatedAtOverrides[id] = now
+        }
+    }
+
+    override suspend fun reviveBySyncId(syncId: String, now: Long) {
+        idForSyncId(syncId)?.let { id ->
+            tombstoned.remove(id)
+            updatedAtOverrides[id] = now
+        }
     }
 
     override suspend fun deleteAll() {
         _transactions.value = emptyList()
         syncIds.clear()
+        tombstoned.clear()
+        updatedAtOverrides.clear()
     }
 
     override suspend fun convertCurrencyForAccount(
@@ -100,10 +121,10 @@ class FakeTransactionRepository : TransactionRepository {
     override suspend fun getLatestTransactionDate(): LocalDate? = null
 
     override fun getTransactionDates(): Flow<Set<LocalDate>> =
-        _transactions.map { list -> list.map { it.occurredOn }.toSet() }
+        _transactions.map { list -> list.live().map { it.occurredOn }.toSet() }
 
     override suspend fun countByRecurringId(id: RecurringTransactionId): Int =
-        _transactions.value.count { it.recurringId == id }
+        _transactions.value.live().count { it.recurringId == id }
 
     override suspend fun exportForSync(): List<TransactionSyncRow> =
         _transactions.value.map { t ->
@@ -119,9 +140,9 @@ class FakeTransactionRepository : TransactionRepository {
                 accountId = t.accountId.value,
                 paymentModeId = t.paymentModeId?.value,
                 recurringId = t.recurringId?.value,
-                deleted = false,
+                deleted = t.id.value in tombstoned,
                 createdAt = t.createdAt.toEpochMilliseconds(),
-                updatedAt = t.updatedAt.toEpochMilliseconds(),
+                updatedAt = updatedAtOverrides[t.id.value] ?: t.updatedAt.toEpochMilliseconds(),
             )
         }
 
@@ -154,4 +175,9 @@ class FakeTransactionRepository : TransactionRepository {
     )
 
     private fun syncIdFor(id: Long): String = syncIds.getOrPut(id) { "sync-tx-$id" }
+
+    private fun idForSyncId(syncId: String): Long? {
+        _transactions.value.forEach { syncIdFor(it.id.value) }
+        return syncIds.entries.firstOrNull { it.value == syncId }?.key
+    }
 }

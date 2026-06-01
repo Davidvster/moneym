@@ -17,6 +17,8 @@ interface TransactionRepository {
     suspend fun upsert(transaction: Transaction): TransactionId
     suspend fun delete(id: TransactionId)
     suspend fun deleteByAccountId(id: AccountId)
+    suspend fun markDeletedBySyncId(syncId: String, now: Long)
+    suspend fun reviveBySyncId(syncId: String, now: Long)
     suspend fun deleteAll()
     suspend fun convertCurrencyForAccount(accountId: AccountId, newCurrency: CurrencyCode, rate: Double)
     suspend fun getEarliestTransactionDate(): LocalDate?

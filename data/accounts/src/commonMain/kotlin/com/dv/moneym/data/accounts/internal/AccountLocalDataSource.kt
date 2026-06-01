@@ -21,7 +21,9 @@ internal interface AccountLocalDataSource {
         colorHex: String?,
     )
 
-    suspend fun delete(id: Long)
+    suspend fun softDelete(id: Long, now: Long)
+    suspend fun markDeletedBySyncId(syncId: String, now: Long)
+    suspend fun reviveBySyncId(syncId: String, now: Long)
     suspend fun deleteAll()
     suspend fun exportForSync(): List<AccountEntity>
     suspend fun upsertFromSync(row: AccountSyncRow): Long

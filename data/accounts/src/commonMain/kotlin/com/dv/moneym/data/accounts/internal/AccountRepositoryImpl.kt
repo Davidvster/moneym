@@ -51,7 +51,15 @@ internal class AccountRepositoryImpl(
         )
     }
 
-    override suspend fun delete(id: AccountId) = dataSource.delete(id.value)
+    override suspend fun delete(id: AccountId) =
+        dataSource.softDelete(id.value, Clock.System.now().toEpochMilliseconds())
+
+    override suspend fun markDeletedBySyncId(syncId: String, now: Long) =
+        dataSource.markDeletedBySyncId(syncId, now)
+
+    override suspend fun reviveBySyncId(syncId: String, now: Long) =
+        dataSource.reviveBySyncId(syncId, now)
+
     override suspend fun deleteAll() = dataSource.deleteAll()
 
     override suspend fun exportForSync(): List<AccountSyncRow> =

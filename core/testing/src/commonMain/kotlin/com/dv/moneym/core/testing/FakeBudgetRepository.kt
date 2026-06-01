@@ -22,14 +22,22 @@ class FakeBudgetRepository : BudgetRepository {
 
     private val syncIds = mutableMapOf<Long, String>()
 
-    val budgets: List<Budget> get() = _budgets.value
+    private val tombstoned = mutableSetOf<Long>()
+    private val updatedAtOverrides = mutableMapOf<Long, Long>()
+
+    val budgets: List<Budget> get() = _budgets.value.filter { it.id.value !in tombstoned }
 
     fun addAll(budgets: List<Budget>) = _budgets.update { it + budgets }
 
-    override fun observeAll(): Flow<List<Budget>> = _budgets
+    override fun observeAll(): Flow<List<Budget>> =
+        _budgets.map { list -> list.filter { it.id.value !in tombstoned } }
 
     override fun observeByAccount(accountId: AccountId): Flow<List<Budget>> =
-        _budgets.map { list -> list.filter { it.accountId == accountId || it.accountId.value == 0L } }
+        _budgets.map { list ->
+            list.filter {
+                (it.accountId == accountId || it.accountId.value == 0L) && it.id.value !in tombstoned
+            }
+        }
 
     override suspend fun getById(id: BudgetId): Budget? = _budgets.value.find { it.id == id }
 
@@ -44,8 +52,21 @@ class FakeBudgetRepository : BudgetRepository {
     }
 
     override suspend fun delete(id: BudgetId) {
-        _budgets.update { list -> list.filter { it.id != id } }
-        syncIds.remove(id.value)
+        tombstoned.add(id.value)
+    }
+
+    override suspend fun markDeletedBySyncId(syncId: String, now: Long) {
+        idForSyncId(syncId)?.let { id ->
+            tombstoned.add(id)
+            updatedAtOverrides[id] = now
+        }
+    }
+
+    override suspend fun reviveBySyncId(syncId: String, now: Long) {
+        idForSyncId(syncId)?.let { id ->
+            tombstoned.remove(id)
+            updatedAtOverrides[id] = now
+        }
     }
 
     override suspend fun exportForSync(): List<BudgetSyncRow> =
@@ -61,9 +82,9 @@ class FakeBudgetRepository : BudgetRepository {
                 periodType = b.periodType.name,
                 startYearMonth = b.startYearMonth.toString(),
                 recurringMonths = b.recurringMonths,
-                deleted = false,
+                deleted = b.id.value in tombstoned,
                 createdAt = b.createdAt.toEpochMilliseconds(),
-                updatedAt = b.updatedAt.toEpochMilliseconds(),
+                updatedAt = updatedAtOverrides[b.id.value] ?: b.updatedAt.toEpochMilliseconds(),
             )
         }
 
@@ -100,4 +121,9 @@ class FakeBudgetRepository : BudgetRepository {
     }
 
     private fun syncIdFor(id: Long): String = syncIds.getOrPut(id) { "sync-budget-$id" }
+
+    private fun idForSyncId(syncId: String): Long? {
+        _budgets.value.forEach { syncIdFor(it.id.value) }
+        return syncIds.entries.firstOrNull { it.value == syncId }?.key
+    }
 }

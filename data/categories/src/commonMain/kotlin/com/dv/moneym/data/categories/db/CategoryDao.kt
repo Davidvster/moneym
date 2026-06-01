@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CategoryDao {
-    @Query("SELECT * FROM Category ORDER BY name ASC")
+    @Query("SELECT * FROM Category WHERE deleted = 0 ORDER BY name ASC")
     fun selectAll(): Flow<List<CategoryEntity>>
 
-    @Query("SELECT * FROM Category WHERE archived = 0 ORDER BY name ASC")
+    @Query("SELECT * FROM Category WHERE archived = 0 AND deleted = 0 ORDER BY name ASC")
     fun selectActive(): Flow<List<CategoryEntity>>
 
     @Query("SELECT * FROM Category WHERE id = :id")
@@ -20,7 +20,7 @@ interface CategoryDao {
     @Query("SELECT * FROM Category WHERE sync_id = :syncId LIMIT 1")
     suspend fun selectBySyncId(syncId: String): CategoryEntity?
 
-    @Query("SELECT COUNT(*) FROM Category")
+    @Query("SELECT COUNT(*) FROM Category WHERE deleted = 0")
     suspend fun countAll(): Long
 
     @Query("SELECT * FROM Category")
@@ -34,6 +34,15 @@ interface CategoryDao {
 
     @Query("DELETE FROM Category WHERE id = :id")
     suspend fun deleteById(id: Long)
+
+    @Query("UPDATE Category SET deleted = 1, updated_at = :now WHERE id = :id")
+    suspend fun softDeleteById(id: Long, now: Long)
+
+    @Query("UPDATE Category SET deleted = 1, updated_at = :now WHERE sync_id = :syncId")
+    suspend fun markDeletedBySyncId(syncId: String, now: Long)
+
+    @Query("UPDATE Category SET updated_at = :now WHERE sync_id = :syncId")
+    suspend fun touchBySyncId(syncId: String, now: Long)
 
     @Query("DELETE FROM Category")
     suspend fun deleteAll()

@@ -16,6 +16,7 @@ import com.dv.moneym.data.transactions.RecurringSyncRow
 import com.dv.moneym.data.transactions.RecurringTransactionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.LocalDate
 import kotlin.time.Instant
@@ -26,11 +27,15 @@ class FakeRecurringTransactionRepository : RecurringTransactionRepository {
 
     private val syncIds = mutableMapOf<Long, String>()
 
-    val rules: List<RecurringTransaction> get() = _rules.value
+    private val tombstoned = mutableSetOf<Long>()
+    private val updatedAtOverrides = mutableMapOf<Long, Long>()
+
+    val rules: List<RecurringTransaction> get() = _rules.value.filter { it.id.value !in tombstoned }
 
     fun addAll(rules: List<RecurringTransaction>) = _rules.update { it + rules }
 
-    override fun observeAll(): Flow<List<RecurringTransaction>> = _rules
+    override fun observeAll(): Flow<List<RecurringTransaction>> =
+        _rules.map { list -> list.filter { it.id.value !in tombstoned } }
 
     override suspend fun getById(id: RecurringTransactionId): RecurringTransaction? =
         _rules.value.find { it.id == id }
@@ -53,13 +58,28 @@ class FakeRecurringTransactionRepository : RecurringTransactionRepository {
     }
 
     override suspend fun delete(id: RecurringTransactionId) {
-        _rules.update { list -> list.filter { it.id != id } }
-        syncIds.remove(id.value)
+        tombstoned.add(id.value)
+    }
+
+    override suspend fun markDeletedBySyncId(syncId: String, now: Long) {
+        idForSyncId(syncId)?.let { id ->
+            tombstoned.add(id)
+            updatedAtOverrides[id] = now
+        }
+    }
+
+    override suspend fun reviveBySyncId(syncId: String, now: Long) {
+        idForSyncId(syncId)?.let { id ->
+            tombstoned.remove(id)
+            updatedAtOverrides[id] = now
+        }
     }
 
     override suspend fun deleteAll() {
         _rules.value = emptyList()
         syncIds.clear()
+        tombstoned.clear()
+        updatedAtOverrides.clear()
     }
 
     override suspend fun exportForSync(): List<RecurringSyncRow> =
@@ -98,9 +118,9 @@ class FakeRecurringTransactionRepository : RecurringTransactionRepository {
                 endCount = (r.endCondition as? EndCondition.Count)?.occurrences,
                 endDate = (r.endCondition as? EndCondition.Until)?.date?.toString(),
                 lastMaterializedDate = r.lastMaterializedDate?.toString(),
-                deleted = false,
+                deleted = r.id.value in tombstoned,
                 createdAt = r.createdAt.toEpochMilliseconds(),
-                updatedAt = r.updatedAt.toEpochMilliseconds(),
+                updatedAt = updatedAtOverrides[r.id.value] ?: r.updatedAt.toEpochMilliseconds(),
             )
         }
 
@@ -152,4 +172,9 @@ class FakeRecurringTransactionRepository : RecurringTransactionRepository {
     }
 
     private fun syncIdFor(id: Long): String = syncIds.getOrPut(id) { "sync-recurring-$id" }
+
+    private fun idForSyncId(syncId: String): Long? {
+        _rules.value.forEach { syncIdFor(it.id.value) }
+        return syncIds.entries.firstOrNull { it.value == syncId }?.key
+    }
 }

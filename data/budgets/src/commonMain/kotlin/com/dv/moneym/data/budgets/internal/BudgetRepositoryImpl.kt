@@ -55,7 +55,14 @@ internal class BudgetRepositoryImpl(
         )
     }
 
-    override suspend fun delete(id: BudgetId) = dataSource.delete(id.value)
+    override suspend fun delete(id: BudgetId) =
+        dataSource.softDelete(id.value, Clock.System.now().toEpochMilliseconds())
+
+    override suspend fun markDeletedBySyncId(syncId: String, now: Long) =
+        dataSource.markDeletedBySyncId(syncId, now)
+
+    override suspend fun reviveBySyncId(syncId: String, now: Long) =
+        dataSource.reviveBySyncId(syncId, now)
 
     override suspend fun exportForSync(): List<BudgetSyncRow> =
         dataSource.exportForSync().map { it.toSyncRow() }

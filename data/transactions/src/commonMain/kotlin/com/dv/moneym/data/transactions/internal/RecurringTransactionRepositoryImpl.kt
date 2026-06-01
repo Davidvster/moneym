@@ -44,7 +44,14 @@ internal class RecurringTransactionRepositoryImpl(
         )
     }
 
-    override suspend fun delete(id: RecurringTransactionId) = dao.deleteById(id.value)
+    override suspend fun delete(id: RecurringTransactionId) =
+        dao.softDeleteById(id.value, Clock.System.now().toEpochMilliseconds())
+
+    override suspend fun markDeletedBySyncId(syncId: String, now: Long) =
+        dao.markDeletedBySyncId(syncId, now)
+
+    override suspend fun reviveBySyncId(syncId: String, now: Long) =
+        dao.touchBySyncId(syncId, now)
 
     override suspend fun deleteAll() = dao.deleteAll()
 
