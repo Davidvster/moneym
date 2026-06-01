@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analizar</string>
+    <string name="analyze_intro">Pregunta lo que quieras sobre tus finanzas de este periodo.</string>
+    <string name="analyze_input_hint">Haz una pregunta…</string>
+    <string name="analyze_send_cd">Enviar</string>
+    <string name="analyze_grounding_label">Fuente de datos</string>
+    <string name="analyze_grounding_snapshot">Resumen</string>
+    <string name="analyze_grounding_tools">Herramientas</string>
+    <string name="analyze_tools_fallback_notice">Este modelo no admite herramientas. Se usará un resumen en su lugar.</string>
+    <string name="analyze_error">Algo salió mal. Inténtalo de nuevo.</string>
+    <string name="analyze_generating">Pensando…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>¿Cuánto he gastado este mes?</item>
+        <item>¿Cuáles son mis principales categorías de gasto?</item>
+        <item>¿Cómo se compara este mes con el anterior?</item>
+        <item>¿Hay gastos inusuales o elevados?</item>
+    </string-array>
+</resources>

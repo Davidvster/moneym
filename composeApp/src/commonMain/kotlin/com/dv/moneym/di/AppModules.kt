@@ -45,4 +45,5 @@ val appModules: List<Module> = listOf(
     featureBudgetsModule,
     featureOnboardingModule,
     featureOverviewModule,
+    featureAianalysisModule,
 )

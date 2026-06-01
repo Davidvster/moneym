@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analysieren</string>
+    <string name="analyze_intro">Frag alles über deine Finanzen für diesen Zeitraum.</string>
+    <string name="analyze_input_hint">Stelle eine Frage…</string>
+    <string name="analyze_send_cd">Senden</string>
+    <string name="analyze_grounding_label">Datenquelle</string>
+    <string name="analyze_grounding_snapshot">Snapshot</string>
+    <string name="analyze_grounding_tools">Tools</string>
+    <string name="analyze_tools_fallback_notice">Tools werden von diesem Modell nicht unterstützt. Stattdessen wird ein Snapshot verwendet.</string>
+    <string name="analyze_error">Etwas ist schiefgelaufen. Bitte versuche es erneut.</string>
+    <string name="analyze_generating">Denkt nach…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Wie viel habe ich diesen Monat ausgegeben?</item>
+        <item>Was sind meine größten Ausgabenkategorien?</item>
+        <item>Wie ist dieser Monat im Vergleich zum letzten?</item>
+        <item>Gibt es ungewöhnliche oder große Ausgaben?</item>
+    </string-array>
+</resources>

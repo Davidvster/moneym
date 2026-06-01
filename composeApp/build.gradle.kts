@@ -98,6 +98,7 @@ kotlin {
             implementation(projects.feature.budgets)
             implementation(projects.feature.onboarding)
             implementation(projects.feature.overview)
+            implementation(projects.feature.aianalysis)
             implementation(projects.feature.infopage)
             implementation(projects.feature.about)
             implementation(projects.feature.sync)

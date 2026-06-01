@@ -1,6 +1,6 @@
 # Phase 4 — `feature/aianalysis`: grounding use cases + ViewModel + settings toggle + tests
 
-**Status:** IN PROGRESS
+**Status:** DONE (commit ca43545). 9/9 tests pass; android+ios compile green. Deterministic formatMinor used (core/common formatNumber was locale-dependent + abs-stripped sign). AnalyzeViewModel constructor: (year, month, engine, buildSnapshot, buildToolset, appSettings, dispatchers, clock).
 
 ## Goal
 Create the `feature/aianalysis` module with the read-only grounding use cases, the grounding-mode persistence, and the `AnalyzeViewModel` (chat orchestration) + unit tests. **No UI yet** (Compose screen comes in Phase 5) — but the module's `build.gradle.kts` includes Compose deps so Phase 5 only adds UI files.

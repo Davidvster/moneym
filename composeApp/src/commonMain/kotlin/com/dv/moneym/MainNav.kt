@@ -20,6 +20,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.TabRoute
+import com.dv.moneym.feature.aianalysis.analyzeEntry
 import com.dv.moneym.feature.budgets.create.BudgetCreateKey
 import com.dv.moneym.feature.budgets.create.budgetCreateEntry
 import com.dv.moneym.feature.budgets.list.BudgetListKey
@@ -194,6 +195,10 @@ internal fun MainNav(lockController: AppLockController) {
                 tabBackStack.removeLast()
             }, metadata = modalTransitionMeta)
             categoriesEntry(
+                onBack = { tabBackStack.removeLast() },
+                metadata = modalTransitionMeta,
+            )
+            analyzeEntry(
                 onBack = { tabBackStack.removeLast() },
                 metadata = modalTransitionMeta,
             )

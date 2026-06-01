@@ -18,6 +18,9 @@ import com.dv.moneym.data.backup.DbBackupManager
 import com.dv.moneym.data.budgets.db.BudgetsRoomDatabase
 import com.dv.moneym.data.categories.db.CategoriesRoomDatabase
 import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
+import com.dv.moneym.feature.aianalysis.AnalyzeViewModel
+import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceSnapshotUseCase
+import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceToolsetUseCase
 import com.dv.moneym.feature.budgets.create.BudgetCreateViewModel
 import com.dv.moneym.feature.budgets.list.BudgetListViewModel
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
@@ -366,6 +369,22 @@ val featureOverviewModule = module {
             budgetRepository = get(),
             buildOverviewPageState = get(),
             clock = get(),
+        )
+    }
+}
+
+val featureAianalysisModule = module {
+    single { BuildFinanceSnapshotUseCase(get(), get(), get(), get(), get()) }
+    single { BuildFinanceToolsetUseCase(get(), get(), get(), get(), get()) }
+    viewModel { params ->
+        AnalyzeViewModel(
+            year = params.get(),
+            month = params.get(),
+            engine = get(),
+            buildSnapshot = get(),
+            buildToolset = get(),
+            appSettings = get(),
+            dispatchers = get(),
         )
     }
 }
