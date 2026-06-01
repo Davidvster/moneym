@@ -57,6 +57,8 @@ data class BackupRestoreUiState(
     val remoteRestorePreviewLoading: Boolean = false,
     val lastLocalMutationMs: Long = 0L,
     val remoteRuntime: RemoteBackupRuntimeState = RemoteBackupRuntimeState.Idle,
+    val remoteRestoreInProgress: Boolean = false,
+    val remoteRestoreError: String? = null,
 )
 
 enum class PendingBackup { RemoteAuto, RemoteNow, LocalAuto, LocalNow }
@@ -179,7 +181,12 @@ class BackupRestoreViewModel(
             BackupRestoreIntent.RemoteRestoreTapped -> handleRemoteRestoreTapped()
             is BackupRestoreIntent.RemoteRestoreConfirmed -> handleRemoteRestoreConfirmed(intent.passphrase)
             BackupRestoreIntent.RemoteRestoreDismissed -> _base.update {
-                it.copy(showRemoteRestoreDialog = false, remoteRestorePreview = null)
+                it.copy(
+                    showRemoteRestoreDialog = false,
+                    remoteRestorePreview = null,
+                    remoteRestoreError = null,
+                    remoteRestoreInProgress = false,
+                )
             }
         }
     }
@@ -433,12 +440,18 @@ class BackupRestoreViewModel(
 
     private fun handleRemoteRestoreConfirmed(passphrase: CharArray) {
         val manager = remoteBackupManager ?: return
-        _base.update { it.copy(showRemoteRestoreDialog = false, isLoading = true) }
+        _base.update { it.copy(remoteRestoreInProgress = true, remoteRestoreError = null) }
         viewModelScope.launch {
-            manager.restoreLatest(passphrase).onFailure { t ->
-                _base.update { it.copy(isLoading = false) }
-                _effects.send(BackupRestoreEffect.RemoteError(t.message ?: "Restore failed"))
-            }
+            manager.restoreLatest(passphrase)
+                .onFailure { t ->
+                    _base.update {
+                        it.copy(
+                            remoteRestoreInProgress = false,
+                            remoteRestoreError = t.message ?: "Restore failed",
+                        )
+                    }
+                }
+                .onSuccess { _base.update { it.copy(remoteRestoreInProgress = false) } }
             passphrase.fill(' ')
         }
     }

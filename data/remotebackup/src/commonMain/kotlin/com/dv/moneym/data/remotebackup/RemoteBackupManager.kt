@@ -96,26 +96,26 @@ class RemoteBackupManager(
     }
 
     suspend fun restoreLatest(passphrase: CharArray): Result<Unit> = runCatching {
-        if (!uploadLock.tryLock()) return@runCatching
-        try {
-            _runtime.value = RemoteBackupRuntimeState.Downloading
-            val ref = provider.latest() ?: throw RemoteBackupError.NotFound()
-            val bytes = provider.download(ref)
-            val plain = if (isEncryptedEnvelope(bytes)) {
-                _runtime.value = RemoteBackupRuntimeState.Decrypting
-                val envelope = BackupEnvelopeJson.decodeBytes(bytes)
-                crypto.decrypt(envelope, passphrase)
-            } else {
-                bytes
+        uploadLock.withLock {
+            try {
+                _runtime.value = RemoteBackupRuntimeState.Downloading
+                val ref = provider.latest() ?: throw RemoteBackupError.NotFound()
+                val bytes = provider.download(ref)
+                val plain = if (isEncryptedEnvelope(bytes)) {
+                    _runtime.value = RemoteBackupRuntimeState.Decrypting
+                    val envelope = BackupEnvelopeJson.decodeBytes(bytes)
+                    crypto.decrypt(envelope, passphrase)
+                } else {
+                    bytes
+                }
+                _runtime.value = RemoteBackupRuntimeState.Restoring
+                withContext(dispatchers.io) { dbBackupManager.restore(plain) }
+                _runtime.value = RemoteBackupRuntimeState.Idle
+            } catch (t: Throwable) {
+                _runtime.value = RemoteBackupRuntimeState.Error(humanMessage(t))
+                logger.e(t) { "Remote restore failed" }
+                throw t
             }
-            _runtime.value = RemoteBackupRuntimeState.Restoring
-            withContext(dispatchers.io) { dbBackupManager.restore(plain) }
-            _runtime.value = RemoteBackupRuntimeState.Idle
-        } catch (t: Throwable) {
-            _runtime.value = RemoteBackupRuntimeState.Error(humanMessage(t))
-            throw t
-        } finally {
-            if (uploadLock.isLocked) uploadLock.unlock()
         }
     }
 

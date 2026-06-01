@@ -182,6 +182,8 @@ private fun BackupRestoreScreen(
             loading = state.remoteRestorePreviewLoading,
             preview = state.remoteRestorePreview,
             localMutationMs = state.lastLocalMutationMs,
+            inProgress = state.remoteRestoreInProgress,
+            errorMessage = state.remoteRestoreError,
             onDismiss = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreDismissed) },
             onConfirm = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreConfirmed(it)) },
         )
@@ -623,6 +625,8 @@ private fun RemoteRestoreDialog(
     loading: Boolean,
     preview: RemoteBackupMetadata?,
     localMutationMs: Long,
+    inProgress: Boolean,
+    errorMessage: String?,
     onDismiss: () -> Unit,
     onConfirm: (CharArray) -> Unit,
 ) {
@@ -637,7 +641,7 @@ private fun RemoteRestoreDialog(
     MmDialog(
         title = stringResource(Res.string.settings_remote_restore_title),
         confirmText = stringResource(Res.string.settings_remote_restore_confirm),
-        confirmEnabled = input.isNotEmpty() && !loading && !tooNew,
+        confirmEnabled = input.isNotEmpty() && !loading && !tooNew && !inProgress,
         onConfirm = { onConfirm(input.toCharArray()) },
         onDismiss = onDismiss,
         dismissText = stringResource(Res.string.settings_remote_passphrase_cancel),
@@ -649,7 +653,7 @@ private fun RemoteRestoreDialog(
             color = colors.text3,
             modifier = Modifier.padding(top = space.padding_1x),
         )
-        if (loading) {
+        if (loading || inProgress) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
@@ -706,7 +710,7 @@ private fun RemoteRestoreDialog(
         }
         MmField(
             value = input,
-            onValueChange = { if (!loading && !tooNew) input = it },
+            onValueChange = { if (!loading && !tooNew && !inProgress) input = it },
             label = stringResource(Res.string.settings_remote_passphrase_label),
             visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardType = KeyboardType.Password,
@@ -718,6 +722,9 @@ private fun RemoteRestoreDialog(
                 )
             },
         )
+        if (errorMessage != null) {
+            Text(errorMessage, color = colors.danger, style = type.caption)
+        }
     }
 }
 
