@@ -9,6 +9,7 @@ import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.security.PinHasher
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.data.accounts.db.AccountsRoomDatabase
+import com.dv.moneym.data.sync.SyncEngine
 import com.dv.moneym.data.backup.BackupExporter
 import com.dv.moneym.data.backup.BackupImporter
 import com.dv.moneym.data.backup.BackupRestorer
@@ -70,7 +71,7 @@ val coreSecurityModule = module {
     single { PinHasher() }
     single { PinManager(get(), get(), get()) }
     single { AppLockController(get()) }
-    single { AppInitializer(get(), get(), get(), get(), get()) }
+    single { AppInitializer(get(), get(), get(), get(), get(), get()) }
 }
 
 val featureTransactionsModule = module {
@@ -82,6 +83,7 @@ val featureTransactionsModule = module {
             accountRepository = get(),
             appSettingsRepository = get(),
             ephemeralState = get(),
+            syncStatus = get<SyncEngine>(),
             clock = get(),
             savedStateHandle = get(),
         )
@@ -170,7 +172,7 @@ val dataBackupModule = module {
             get<BudgetsRoomDatabase>().close()
         }
     }
-    single { AutoBackupManager(get(), get(), get(), get(), get(), get(), get(), get(), get(), getOrNull()) }
+    single { AutoBackupManager(get(), get(), get(), get(), get(), get(), get(), get(), get(), getOrNull(), getOrNull<SyncEngine>()) }
 }
 
 val featureSettingsModule = module {

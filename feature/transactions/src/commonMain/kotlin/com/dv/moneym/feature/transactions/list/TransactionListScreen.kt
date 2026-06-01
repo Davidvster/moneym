@@ -1,5 +1,6 @@
 package com.dv.moneym.feature.transactions.list
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -20,6 +21,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -89,10 +91,12 @@ import moneym.feature.transactions.generated.resources.transactions_next_month
 import moneym.feature.transactions.generated.resources.transactions_next_year_cd
 import moneym.feature.transactions.generated.resources.transactions_now
 import moneym.feature.transactions.generated.resources.transactions_ok
+import moneym.feature.transactions.generated.resources.transactions_pending_deletions
 import moneym.feature.transactions.generated.resources.transactions_prev_year_cd
 import moneym.feature.transactions.generated.resources.transactions_previous_month
 import moneym.feature.transactions.generated.resources.transactions_search_cd
 import moneym.feature.transactions.generated.resources.transactions_search_placeholder
+import moneym.feature.transactions.generated.resources.transactions_syncing
 import moneym.feature.transactions.generated.resources.transactions_title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -105,6 +109,7 @@ fun EntryProviderScope<NavKey>.transactionsEntry(
     onEditTransaction: (TransactionId) -> Unit,
     onEditRecurring: (RecurringTransactionId) -> Unit,
     onTabSelected: (TabRoute) -> Unit = {},
+    onNavigateToPendingDeletions: () -> Unit = {},
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<TransactionsKey>(metadata = metadata) {
     TransactionListScreen(
@@ -112,6 +117,7 @@ fun EntryProviderScope<NavKey>.transactionsEntry(
         onEditTransaction = onEditTransaction,
         onEditRecurring = onEditRecurring,
         onTabSelected = onTabSelected,
+        onNavigateToPendingDeletions = onNavigateToPendingDeletions,
     )
 }
 
@@ -121,6 +127,7 @@ private fun TransactionListScreen(
     onEditTransaction: (TransactionId) -> Unit,
     onEditRecurring: (RecurringTransactionId) -> Unit,
     onTabSelected: (TabRoute) -> Unit = {},
+    onNavigateToPendingDeletions: () -> Unit = {},
     viewModel: TransactionListViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -131,6 +138,7 @@ private fun TransactionListScreen(
         onEditTransaction = onEditTransaction,
         onEditRecurring = onEditRecurring,
         onTabSelected = onTabSelected,
+        onNavigateToPendingDeletions = onNavigateToPendingDeletions,
     )
 }
 
@@ -143,6 +151,7 @@ private fun TransactionListContent(
     onEditTransaction: (TransactionId) -> Unit,
     onEditRecurring: (RecurringTransactionId) -> Unit,
     onTabSelected: (TabRoute) -> Unit,
+    onNavigateToPendingDeletions: () -> Unit = {},
 ) {
     var initialScrollDone by remember { mutableStateOf(false) }
 
@@ -227,6 +236,11 @@ private fun TransactionListContent(
             .fillMaxSize()
             .background(MM.colors.bg),
     ) {
+        SyncBanner(
+            isSyncInProgress = state.isSyncInProgress,
+            pendingDeletionCount = state.pendingDeletionCount,
+            onNavigateToPendingDeletions = onNavigateToPendingDeletions,
+        )
         TransactionListHeader(
             state = state,
             isSearchActive = state.isSearchActive,
@@ -257,6 +271,65 @@ private fun TransactionListContent(
             onTabSelected = onTabSelected,
             dividerColor = MM.colors.border,
         )
+    }
+}
+
+@Composable
+private fun SyncBanner(
+    isSyncInProgress: Boolean,
+    pendingDeletionCount: Int,
+    onNavigateToPendingDeletions: () -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+
+    AnimatedVisibility(visible = isSyncInProgress) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(colors.surface2)
+                .statusBarsPadding()
+                .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1x),
+        ) {
+            CircularProgressIndicator(
+                strokeWidth = 2.dp,
+                color = colors.accent,
+                modifier = Modifier.size(MM.dimen.icon_1x),
+            )
+            Spacer(Modifier.width(MM.dimen.padding_1x))
+            Text(
+                text = stringResource(Res.string.transactions_syncing),
+                style = type.body,
+                color = colors.text2,
+            )
+        }
+    }
+
+    AnimatedVisibility(visible = !isSyncInProgress && pendingDeletionCount > 0) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(colors.surface2)
+                .clickable(onClick = onNavigateToPendingDeletions)
+                .statusBarsPadding()
+                .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1x),
+        ) {
+            Icon(
+                imageVector = Icon.Info.imageVector,
+                contentDescription = null,
+                tint = colors.accent,
+                modifier = Modifier.size(MM.dimen.icon_1x),
+            )
+            Spacer(Modifier.width(MM.dimen.padding_1x))
+            Text(
+                text = stringResource(Res.string.transactions_pending_deletions, pendingDeletionCount),
+                style = type.body,
+                color = colors.text,
+                modifier = Modifier.weight(1f),
+            )
+        }
     }
 }
 

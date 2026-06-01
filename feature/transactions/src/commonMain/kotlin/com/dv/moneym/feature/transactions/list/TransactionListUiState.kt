@@ -48,6 +48,8 @@ internal data class TransactionListUiState(
     val showMonthPicker: Boolean = false,
     val showWalletSwitcher: Boolean = false,
     val showCategoryFilter: Boolean = false,
+    val isSyncInProgress: Boolean = false,
+    val pendingDeletionCount: Int = 0,
 )
 
 @Serializable

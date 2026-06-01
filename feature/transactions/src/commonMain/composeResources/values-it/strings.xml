@@ -24,4 +24,7 @@
     <string name="transactions_cancel">Annulla</string>
     <string name="transactions_wallet_select">Seleziona portafoglio</string>
     <string name="transactions_wallet_all">Tutti i portafogli</string>
+    <!-- Sync -->
+    <string name="transactions_syncing">Sincronizzazione…</string>
+    <string name="transactions_pending_deletions">%1$d elementi rimossi su un altro dispositivo — rivedi</string>
 </resources>

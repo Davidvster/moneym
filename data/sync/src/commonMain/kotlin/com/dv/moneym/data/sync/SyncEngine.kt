@@ -11,10 +11,17 @@ import com.dv.moneym.data.remotebackup.SessionPassphrase
 import com.dv.moneym.data.transactions.PaymentModeRepository
 import com.dv.moneym.data.transactions.RecurringTransactionRepository
 import com.dv.moneym.data.transactions.TransactionRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -40,15 +47,49 @@ class SyncEngine(
     private val recurringTransactionRepository: RecurringTransactionRepository,
     private val budgetRepository: BudgetRepository,
     private val nowMs: () -> Long = { kotlin.time.Clock.System.now().toEpochMilliseconds() },
-) : SyncDeletionController {
+    private val debounceMs: Long = DEFAULT_DEBOUNCE_MS,
+) : SyncDeletionController, SyncStatusProvider {
 
     private val logger = Logger.withTag("SyncEngine")
     private val lock = Mutex()
+    private val pushPulse = MutableSharedFlow<Unit>(extraBufferCapacity = 64)
+    private var job: Job? = null
 
     private val _runtime = MutableStateFlow<SyncRuntimeState>(SyncRuntimeState.Idle)
     val runtime: StateFlow<SyncRuntimeState> = _runtime.asStateFlow()
 
+    override val isSyncing: Flow<Boolean> =
+        runtime.map { it != SyncRuntimeState.Idle && it !is SyncRuntimeState.Error }
+
+    override val pendingDeletionCount: Flow<Int> = pendingDeletionStore.count
+
     override val pendingDeletions: Flow<List<PendingDeletion>> = pendingDeletionStore.pending
+
+    @OptIn(FlowPreview::class)
+    fun start(scope: CoroutineScope) {
+        job?.cancel()
+        job = scope.launch(dispatchers.io) {
+            pushPulse.debounce(debounceMs).collect { push() }
+        }
+    }
+
+    fun stop() {
+        job?.cancel()
+        job = null
+    }
+
+    fun enqueuePush() {
+        if (!enabled()) return
+        pushPulse.tryEmit(Unit)
+    }
+
+    suspend fun pullNow(): Result<Unit> {
+        if (!enabled()) return Result.success(Unit)
+        return pull()
+    }
+
+    private fun enabled(): Boolean =
+        appSettings.getBoolean(PrefKeys.CROSS_DEVICE_SYNC_ENABLED, defaultValue = false)
 
     suspend fun pull(): Result<Unit> = lock.withLock {
         runCatching {
@@ -144,4 +185,8 @@ class SyncEngine(
         appSettings.getBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, defaultValue = true)
 
     private fun passphrase(): CharArray? = if (encryptEnabled()) sessionPassphrase.get() else null
+
+    companion object {
+        const val DEFAULT_DEBOUNCE_MS = 3_000L
+    }
 }

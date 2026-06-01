@@ -25,4 +25,7 @@
     <!-- Wallet switcher -->
     <string name="transactions_wallet_select">Select Wallet</string>
     <string name="transactions_wallet_all">All wallets</string>
+    <!-- Sync -->
+    <string name="transactions_syncing">Syncing…</string>
+    <string name="transactions_pending_deletions">%1$d items removed on another device — review</string>
 </resources>

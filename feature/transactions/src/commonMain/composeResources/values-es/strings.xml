@@ -24,4 +24,7 @@
     <string name="transactions_cancel">Cancelar</string>
     <string name="transactions_wallet_select">Seleccionar billetera</string>
     <string name="transactions_wallet_all">Todas las billeteras</string>
+    <!-- Sync -->
+    <string name="transactions_syncing">Sincronizando…</string>
+    <string name="transactions_pending_deletions">%1$d elementos eliminados en otro dispositivo: revisar</string>
 </resources>

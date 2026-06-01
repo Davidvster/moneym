@@ -30,6 +30,7 @@ import com.dv.moneym.feature.overview.OverviewKey
 import com.dv.moneym.feature.overview.overviewEntry
 import com.dv.moneym.feature.security.setup.PinSetupKey
 import com.dv.moneym.feature.security.setup.pinSetupEntry
+import com.dv.moneym.feature.sync.PendingDeletionsKey
 import com.dv.moneym.feature.sync.pendingDeletionsEntry
 import com.dv.moneym.feature.settings.overview.LanguagePickerKey
 import com.dv.moneym.feature.settings.overview.PaymentModeListKey
@@ -135,6 +136,7 @@ internal fun MainNav(lockController: AppLockController) {
                         TabRoute.Settings -> tabBackStack.switchTab(SettingsKey)
                     }
                 },
+                onNavigateToPendingDeletions = { tabBackStack.push(PendingDeletionsKey) },
             )
             transactionEditEntry(
                 onDismiss = { tabBackStack.removeLast() },

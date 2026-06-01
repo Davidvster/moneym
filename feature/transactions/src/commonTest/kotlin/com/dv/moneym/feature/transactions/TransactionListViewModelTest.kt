@@ -16,10 +16,13 @@ import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.FixedClock
 import com.dv.moneym.core.testing.runTestWithDispatchers
+import com.dv.moneym.data.sync.SyncStatusProvider
 import com.dv.moneym.feature.transactions.list.TransactionListEphemeralState
 import com.dv.moneym.feature.transactions.list.TransactionListIntent
 import com.dv.moneym.feature.transactions.list.TransactionListViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
@@ -30,6 +33,16 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.time.Instant
+
+private class FakeSyncStatusProvider(
+    syncing: Boolean = false,
+    pendingCount: Int = 0,
+) : SyncStatusProvider {
+    val syncingFlow = MutableStateFlow(syncing)
+    val pendingCountFlow = MutableStateFlow(pendingCount)
+    override val isSyncing: Flow<Boolean> = syncingFlow
+    override val pendingDeletionCount: Flow<Int> = pendingCountFlow
+}
 
 class TransactionListViewModelTest {
 
@@ -74,12 +87,14 @@ class TransactionListViewModelTest {
         catRepo: FakeCategoryRepository = FakeCategoryRepository(),
         accRepo: FakeAccountRepository = FakeAccountRepository(),
         settings: FakeAppSettingsRepository = FakeAppSettingsRepository(),
+        syncStatus: SyncStatusProvider = FakeSyncStatusProvider(),
     ) = TransactionListViewModel(
         transactionRepository = txnRepo,
         categoryRepository = catRepo,
         accountRepository = accRepo,
         appSettingsRepository = settings,
         ephemeralState = TransactionListEphemeralState(),
+        syncStatus = syncStatus,
         clock = clock,
         savedStateHandle = SavedStateHandle(),
     )
@@ -147,6 +162,38 @@ class TransactionListViewModelTest {
             var after = awaitItem()
             while (after.currentMonth == before) after = awaitItem()
             assertEquals(before.previous(), after.currentMonth)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun isSyncInProgressReflectsEngineRuntime() = runTestWithDispatchers {
+        val sync = FakeSyncStatusProvider(syncing = false)
+        val vm = makeVm(syncStatus = sync)
+        vm.state.test {
+            var s = awaitItem()
+            while (s.currentMonth == null) s = awaitItem()
+            assertEquals(false, s.isSyncInProgress)
+            sync.syncingFlow.value = true
+            var after = awaitItem()
+            while (!after.isSyncInProgress) after = awaitItem()
+            assertEquals(true, after.isSyncInProgress)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun pendingDeletionCountReflectsCountFlow() = runTestWithDispatchers {
+        val sync = FakeSyncStatusProvider(pendingCount = 0)
+        val vm = makeVm(syncStatus = sync)
+        vm.state.test {
+            var s = awaitItem()
+            while (s.currentMonth == null) s = awaitItem()
+            assertEquals(0, s.pendingDeletionCount)
+            sync.pendingCountFlow.value = 3
+            var after = awaitItem()
+            while (after.pendingDeletionCount == 0) after = awaitItem()
+            assertEquals(3, after.pendingDeletionCount)
             cancelAndIgnoreRemainingEvents()
         }
     }

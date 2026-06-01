@@ -12,6 +12,7 @@ import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
+import com.dv.moneym.data.sync.SyncStatusProvider
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,6 +35,7 @@ class TransactionListViewModel(
     private val accountRepository: AccountRepository,
     private val appSettingsRepository: AppSettingsRepository,
     private val ephemeralState: TransactionListEphemeralState,
+    private val syncStatus: SyncStatusProvider,
     private val clock: AppClock,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -134,6 +136,8 @@ class TransactionListViewModel(
                 showCategoryFilter = ui.showCategoryFilter,
             )
         }
+        .combine(syncStatus.isSyncing) { state, syncing -> state.copy(isSyncInProgress = syncing) }
+        .combine(syncStatus.pendingDeletionCount) { state, count -> state.copy(pendingDeletionCount = count) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,

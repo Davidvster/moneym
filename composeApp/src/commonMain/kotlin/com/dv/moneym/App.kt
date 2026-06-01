@@ -20,6 +20,7 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.ui.LocalUseCurrencySymbol
+import com.dv.moneym.data.sync.SyncEngine
 import com.dv.moneym.di.appModules
 import com.dv.moneym.feature.security.unlock.PinUnlockScreen
 import org.koin.compose.KoinApplication
@@ -42,11 +43,12 @@ private fun AppContent() {
     val appSettings = koinInject<AppSettings>()
     val appSettingsRepo = koinInject<AppSettingsRepository>()
     val autoBackupManager = koinInject<AutoBackupManager>()
+    val syncEngine = koinInject<SyncEngine>()
 
     LaunchedEffect(Unit) { initializer.initialize() }
 
     val lifecycleOwner = LocalLifecycleOwner.current
-    val lifecycleObserver = remember { AppLifecycleObserver(lockController) }
+    val lifecycleObserver = remember { AppLifecycleObserver(lockController, syncEngine = syncEngine) }
     DisposableEffect(lifecycleOwner) {
         lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
         onDispose { lifecycleOwner.lifecycle.removeObserver(lifecycleObserver) }

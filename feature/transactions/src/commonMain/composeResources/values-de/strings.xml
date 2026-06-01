@@ -24,4 +24,7 @@
     <string name="transactions_cancel">Abbrechen</string>
     <string name="transactions_wallet_select">Wallet auswählen</string>
     <string name="transactions_wallet_all">Alle Wallets</string>
+    <!-- Sync -->
+    <string name="transactions_syncing">Synchronisierung…</string>
+    <string name="transactions_pending_deletions">%1$d Einträge auf einem anderen Gerät entfernt – prüfen</string>
 </resources>
