@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">लेन-देन</string>
+    <string name="nav_tab_overview">अवलोकन</string>
+    <string name="nav_tab_settings">सेटिंग्स</string>
+    <string name="category_seed_groceries">किराना</string>
+    <string name="category_seed_eating_out">बाहर खाना</string>
+    <string name="category_seed_rent">किराया</string>
+    <string name="category_seed_transport">परिवहन</string>
+    <string name="category_seed_utilities">उपयोगिताएँ</string>
+    <string name="category_seed_health">स्वास्थ्य</string>
+    <string name="category_seed_entertainment">मनोरंजन</string>
+    <string name="category_seed_shopping">खरीदारी</string>
+    <string name="category_seed_other_expense">अन्य</string>
+    <string name="category_seed_salary">वेतन</string>
+    <string name="category_seed_payment">भुगतान</string>
+    <string name="category_seed_gift">उपहार</string>
+    <string name="category_seed_other_income">अन्य</string>
+</resources>

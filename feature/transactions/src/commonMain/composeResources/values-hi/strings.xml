@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">लेन-देन</string>
+    <string name="transactions_add">लेन-देन जोड़ें</string>
+    <string name="transactions_filter_all">सभी</string>
+    <string name="transactions_filter_expenses">व्यय</string>
+    <string name="transactions_filter_income">आय</string>
+    <string name="transactions_filter_categories">श्रेणी के अनुसार फ़िल्टर करें</string>
+    <string name="transactions_filter_clear">साफ़ करें</string>
+    <string name="transactions_filter_done">हो गया</string>
+    <string name="transactions_empty">इस महीने कोई लेन-देन नहीं</string>
+    <string name="transactions_previous_month">पिछला महीना</string>
+    <string name="transactions_next_month">अगला महीना</string>
+    <string name="transactions_loading">लोड हो रहा है…</string>
+    <string name="transactions_search_placeholder">लेन-देन खोजें…</string>
+    <string name="transactions_search_cd">खोजें</string>
+    <string name="transactions_close_search_cd">खोज बंद करें</string>
+    <string name="transactions_net_label">शुद्ध</string>
+    <string name="transactions_dialog_select_month">महीना चुनें</string>
+    <string name="transactions_prev_year_cd">पिछला वर्ष</string>
+    <string name="transactions_next_year_cd">अगला वर्ष</string>
+    <string name="transactions_now">अभी</string>
+    <string name="transactions_ok">ठीक है</string>
+    <string name="transactions_cancel">रद्द करें</string>
+    <string name="transactions_wallet_select">वॉलेट चुनें</string>
+    <string name="transactions_wallet_all">सभी वॉलेट</string>
+    <string name="transactions_syncing">सिंक हो रहा है…</string>
+    <string name="transactions_pending_deletions">%1$d आइटम दूसरे डिवाइस पर हटाए गए — समीक्षा करें</string>
+</resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">बजट</string>
+    <string name="budgets_empty">अभी कोई बजट नहीं</string>
+    <string name="budgets_new">नया बजट</string>
+    <string name="budgets_new_title">नया बजट</string>
+    <string name="budgets_edit_title">बजट संपादित करें</string>
+    <string name="budgets_name_label">नाम</string>
+    <string name="budgets_amount_label">राशि</string>
+    <string name="budgets_account_label">खाता</string>
+    <string name="budgets_account_filter_label">खाता</string>
+    <string name="budgets_category_label">श्रेणी</string>
+    <string name="budgets_all_categories">सभी श्रेणियाँ</string>
+    <string name="budgets_start_month">प्रारंभ माह</string>
+    <string name="budgets_recurring">आवर्ती</string>
+    <string name="budgets_recurring_single">एकल</string>
+    <string name="budgets_recurring_unlimited">असीमित</string>
+    <string name="budgets_recurring_n_months">N महीने</string>
+    <string name="budgets_recurring_count_label">महीनों की संख्या</string>
+    <string name="budgets_recurring_badge_unlimited">आवर्ती</string>
+    <string name="budgets_recurring_badge_n_months">%1$d महीने</string>
+    <string name="budgets_save">सहेजें</string>
+    <string name="budgets_cancel">रद्द करें</string>
+    <string name="budgets_delete">हटाएँ</string>
+    <string name="budgets_delete_confirm_title">"%1$s" हटाएँ?</string>
+    <string name="budgets_delete_confirm_body">इससे बजट हट जाएगा। लेन-देन प्रभावित नहीं होंगे।</string>
+    <string name="budgets_placeholder_name">किराना</string>
+    <string name="budgets_error_required">आवश्यक है</string>
+    <string name="budgets_error_amount">0 से अधिक राशि दर्ज करें</string>
+    <string name="budgets_error_count">0 से अधिक होना चाहिए</string>
+    <string name="budgets_prev_month">पिछला महीना</string>
+    <string name="budgets_next_month">अगला महीना</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">महीना चुनें</string>
+    <string name="budgets_month_picker_now">इस महीने</string>
+    <string name="budgets_month_picker_ok">ठीक है</string>
+    <string name="budgets_month_picker_cancel">रद्द करें</string>
+    <string name="budgets_month_picker_prev_year_cd">पिछला वर्ष</string>
+    <string name="budgets_month_picker_next_year_cd">अगला वर्ष</string>
+</resources>

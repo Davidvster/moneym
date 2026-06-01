@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">श्रेणियाँ</string>
+    <string name="categories_add">श्रेणी जोड़ें</string>
+    <string name="categories_edit_title">श्रेणी संपादित करें</string>
+    <string name="categories_new_title">नई श्रेणी</string>
+    <string name="categories_name_label">नाम</string>
+    <string name="categories_name_error">नाम आवश्यक है</string>
+    <string name="categories_icon_label">आइकन</string>
+    <string name="categories_color_label">रंग</string>
+    <string name="categories_archive">संग्रहीत करें</string>
+    <string name="categories_restore">पुनर्स्थापित करें</string>
+    <string name="categories_show_archived">संग्रहीत दिखाएँ</string>
+    <string name="categories_hide_archived">संग्रहीत छुपाएँ</string>
+    <string name="categories_archived_badge">संग्रहीत</string>
+    <string name="categories_empty">अभी कोई श्रेणी नहीं</string>
+    <string name="categories_back">वापस</string>
+    <string name="categories_show_archived_count">संग्रहीत दिखाएँ (%1$d)</string>
+    <string name="categories_cancel">रद्द करें</string>
+    <string name="categories_save">सहेजें</string>
+    <string name="categories_new_button">नया</string>
+    <string name="categories_tab_expense">व्यय</string>
+    <string name="categories_tab_income">आय</string>
+    <string name="categories_hint">क्रम बदलने के लिए लंबे समय तक दबाएँ</string>
+    <string name="categories_new_expense">नई व्यय श्रेणी</string>
+    <string name="categories_new_income">नई आय श्रेणी</string>
+    <string name="categories_name_placeholder">उदा. किराना</string>
+    <string name="categories_edit_sheet_title">श्रेणी संपादित करें</string>
+    <string name="categories_new_sheet_title">नई श्रेणी</string>
+    <string name="categories_delete">श्रेणी हटाएँ</string>
+    <string name="categories_save_changes">बदलाव सहेजें</string>
+    <string name="categories_create">श्रेणी बनाएँ</string>
+    <string name="categories_delete_confirm_title">"%1$s" हटाएँ?</string>
+    <string name="categories_delete_confirm_body">इससे श्रेणी हट जाएगी। इसका उपयोग करने वाले लेन-देन प्रभावित हो सकते हैं।</string>
+    <string name="categories_delete_button">हटाएँ</string>
+    <string name="categories_color_picker_title">रंग चुनें</string>
+    <string name="categories_color_hue">रंगत</string>
+    <string name="categories_color_saturation">संतृप्ति</string>
+    <string name="categories_color_brightness">चमक</string>
+    <string name="categories_color_hex">हेक्स रंग</string>
+    <string name="categories_color_select">रंग चुनें</string>
+    <string name="categories_name_preview_placeholder">श्रेणी का नाम</string>
+</resources>

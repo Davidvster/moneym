@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">विश्लेषण</string>
+    <string name="analyze_intro">इस अवधि के अपने वित्त के बारे में कुछ भी पूछें।</string>
+    <string name="analyze_input_hint">कोई प्रश्न पूछें…</string>
+    <string name="analyze_send_cd">भेजें</string>
+    <string name="analyze_grounding_label">डेटा स्रोत</string>
+    <string name="analyze_grounding_snapshot">स्नैपशॉट</string>
+    <string name="analyze_grounding_tools">टूल्स</string>
+    <string name="analyze_tools_fallback_notice">इस मॉडल द्वारा टूल्स समर्थित नहीं हैं। इसके बजाय स्नैपशॉट का उपयोग किया जा रहा है।</string>
+    <string name="analyze_error">कुछ गड़बड़ हो गई। कृपया पुनः प्रयास करें।</string>
+    <string name="analyze_generating">सोच रहा है…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>इस महीने मैंने कितना खर्च किया?</item>
+        <item>मेरी शीर्ष खर्च श्रेणियाँ क्या हैं?</item>
+        <item>इस महीने की तुलना पिछले महीने से कैसी है?</item>
+        <item>कोई असामान्य या बड़े खर्चे?</item>
+    </string-array>
+</resources>

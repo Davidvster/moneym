@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">हटाने की पुष्टि करें</string>
+    <string name="sync_deletions_subtitle">किसी अन्य डिवाइस ने ये आइटम हटाए। चुनें कि यहाँ भी कौन से हटाने हैं। अनचेक किए गए आइटम रखे जाएँगे और दूसरे डिवाइस पर पुनर्स्थापित होंगे।</string>
+    <string name="sync_deletions_group_wallets">वॉलेट</string>
+    <string name="sync_deletions_group_transactions">लेन-देन</string>
+    <string name="sync_deletions_group_budgets">बजट</string>
+    <string name="sync_deletions_group_recurring">आवर्ती</string>
+    <string name="sync_deletions_group_categories">श्रेणियाँ</string>
+    <string name="sync_deletions_group_payment_modes">भुगतान मोड</string>
+    <string name="sync_deletions_confirm">चुने हुए हटाएँ</string>
+    <string name="sync_deletions_cancel">सभी रखें</string>
+    <string name="sync_settings_title">क्रॉस-डिवाइस सिंक</string>
+    <string name="sync_settings_toggle_title">डिवाइसों में सिंक करें</string>
+    <string name="sync_settings_toggle_subtitle">एक ही बैकअप से जुड़े हर डिवाइस पर अपना डेटा सिंक में रखें।</string>
+    <string name="sync_settings_rename_label">इस डिवाइस का नाम</string>
+    <string name="sync_settings_rename_save">सहेजें</string>
+    <string name="sync_settings_rename_cancel">रद्द करें</string>
+    <string name="sync_settings_devices_header">डिवाइस</string>
+    <string name="sync_settings_this_device">यह डिवाइस</string>
+    <string name="sync_settings_remove">हटाएँ</string>
+    <string name="sync_settings_last_synced_just_now">अभी-अभी सिंक हुआ</string>
+    <string name="sync_settings_last_synced_minutes">%1$d मिनट पहले सिंक हुआ</string>
+    <string name="sync_settings_last_synced_hours">%1$d घंटे पहले सिंक हुआ</string>
+    <string name="sync_settings_last_synced_days">%1$d दिन पहले सिंक हुआ</string>
+    <string name="sync_settings_last_synced_longer">काफी समय पहले सिंक हुआ</string>
+</resources>

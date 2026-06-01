@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">PIN सेट करें</string>
+    <string name="security_pin_confirm_title">PIN की पुष्टि करें</string>
+    <string name="security_pin_enter_title">अपना PIN दर्ज करें</string>
+    <string name="security_pin_subtitle_first">4 अंकों का PIN दर्ज करें</string>
+    <string name="security_pin_subtitle_confirm">PIN फिर से दर्ज करें</string>
+    <string name="security_pin_mismatch">PIN मेल नहीं खाते</string>
+    <string name="security_pin_incorrect">गलत PIN</string>
+    <string name="security_pin_locked">बहुत अधिक प्रयास</string>
+    <string name="security_biometric_use">बायोमेट्रिक का उपयोग करें</string>
+    <string name="security_biometric_reason">MoneyM अनलॉक करें</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">रद्द करें</string>
+    <string name="security_backoff_retry">%1$ds में पुनः प्रयास करें</string>
+    <string name="security_change_pin_title">PIN बदलें</string>
+    <string name="security_pin_set_header">अपना PIN सेट करें</string>
+    <string name="security_pin_confirm_header">अपने PIN की पुष्टि करें</string>
+    <string name="security_pin_enter_header">अपना PIN दर्ज करें</string>
+    <string name="security_biometric_offer_title">बायोमेट्रिक्स सक्षम करें?</string>
+    <string name="security_biometric_offer_body">Face ID या फ़िंगरप्रिंट से MoneyM को जल्दी अनलॉक करें।</string>
+    <string name="security_biometric_offer_enable">सक्षम करें</string>
+    <string name="security_biometric_offer_skip">अभी नहीं</string>
+    <string name="security_biometric_unlock_prompt">MoneyM अनलॉक करें</string>
+</resources>

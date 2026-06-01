@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">अवलोकन</string>
+    <string name="overview_income">आय</string>
+    <string name="overview_expenses">व्यय</string>
+    <string name="overview_by_category">श्रेणी के अनुसार खर्च</string>
+    <string name="overview_trend">6 माह का रुझान</string>
+    <string name="overview_all_categories">सभी श्रेणियाँ</string>
+    <string name="overview_empty">इस अवधि में कोई लेन-देन नहीं</string>
+    <string name="overview_previous_month">पिछला महीना</string>
+    <string name="overview_next_month">अगला महीना</string>
+    <string name="overview_loading">लोड हो रहा है…</string>
+    <string name="overview_more">+ %1$d और</string>
+    <string name="overview_monthly_breakdown">मासिक विवरण</string>
+    <string name="overview_daily_breakdown">दैनिक विवरण</string>
+    <string name="overview_all">सभी</string>
+    <string name="overview_previous">पिछला</string>
+    <string name="overview_next">अगला</string>
+    <string name="overview_switch_to_month">माह दृश्य पर जाएँ</string>
+    <string name="overview_switch_to_year">वर्ष दृश्य पर जाएँ</string>
+    <string name="overview_period_month">महीना</string>
+    <string name="overview_period_year">वर्ष</string>
+    <string name="overview_period_custom">कस्टम</string>
+    <string name="overview_label_income">आय</string>
+    <string name="overview_label_expenses">व्यय</string>
+    <string name="overview_label_balance">शेष</string>
+    <string name="overview_spending_by_category">श्रेणी के अनुसार खर्च</string>
+    <string name="overview_no_expenses">इस अवधि में कोई व्यय नहीं</string>
+    <string name="overview_label_total">कुल</string>
+    <string name="overview_cumulative_spend">संचित खर्च</string>
+    <string name="overview_through_day">दिन %1$d तक</string>
+    <string name="overview_daily_trend">श्रेणी के अनुसार दैनिक रुझान</string>
+    <string name="overview_monthly_spending">मासिक खर्च</string>
+    <string name="overview_monthly_trend">श्रेणी के अनुसार मासिक रुझान</string>
+    <string name="overview_avg_day">औसत / दिन</string>
+    <string name="overview_avg_month">औसत / माह</string>
+    <string name="overview_dialog_select_month">महीना चुनें</string>
+    <string name="overview_dialog_select_year">वर्ष चुनें</string>
+    <string name="overview_prev_year_cd">पिछला वर्ष</string>
+    <string name="overview_next_year_cd">अगला वर्ष</string>
+    <string name="overview_analyze_cd">AI से विश्लेषण करें</string>
+    <string name="overview_now">अभी</string>
+    <string name="overview_ok">ठीक है</string>
+    <string name="overview_cancel">रद्द करें</string>
+    <string name="overview_tx_count_singular">%1$d लेन-देन</string>
+    <string name="overview_tx_count_plural">%1$d लेन-देन</string>
+    <string name="overview_cat_avg_day">औसत/दिन</string>
+    <string name="overview_cat_avg_month">औसत/माह</string>
+    <string name="overview_date_range_title">तिथि सीमा चुनें</string>
+    <string name="overview_date_range_from">से</string>
+    <string name="overview_date_range_to">तक</string>
+    <string name="overview_budgets_title">बजट</string>
+    <string name="overview_budgets_all_categories">सभी श्रेणियाँ</string>
+    <string name="overview_budgets_remaining_suffix">%1$s शेष</string>
+    <string name="overview_budgets_overrun_suffix">%1$s अधिक</string>
+    <string-array name="overview_year_x_labels">
+        <item>जन</item>
+        <item>अप्रै</item>
+        <item>जुल</item>
+        <item>अक्टू</item>
+        <item>दिस</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>

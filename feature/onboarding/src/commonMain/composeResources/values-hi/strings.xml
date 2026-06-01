@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">MoneyM में आपका स्वागत है</string>
+    <string name="onboarding_currency_title">अपनी डिफ़ॉल्ट मुद्रा चुनें</string>
+    <string name="onboarding_continue">जारी रखें</string>
+    <string name="onboarding_security_title">अपना ऐप सुरक्षित करें</string>
+    <string name="onboarding_security_subtitle">PIN से अपने वित्तीय डेटा की सुरक्षा करें।</string>
+    <string name="onboarding_pin_label">PIN लॉक</string>
+    <string name="onboarding_pin_set">PIN सेट हो गया ✓</string>
+    <string name="onboarding_done">हो गया</string>
+    <string name="onboarding_skip">अभी छोड़ें</string>
+    <string name="onboarding_skip_short">छोड़ें</string>
+    <string name="onboarding_search_currency">मुद्रा खोजें…</string>
+    <string name="onboarding_currencies_header">मुद्राएँ</string>
+    <string name="onboarding_biometrics_label">बायोमेट्रिक्स</string>
+    <string name="onboarding_biometrics_subtitle">Face ID या फ़िंगरप्रिंट से अनलॉक करें</string>
+    <string name="onboarding_restore_from_backup">बैकअप से पुनर्स्थापित करें</string>
+    <string name="onboarding_import_data">डेटा आयात करें</string>
+    <string name="onboarding_restore_warning_title">सभी डेटा बदलें?</string>
+    <string name="onboarding_restore_warning_body">इससे आपका मौजूदा डेटा बैकअप से बदल जाएगा और सेटअप छोड़ दिया जाएगा।</string>
+    <string name="onboarding_restore_confirm">पुनर्स्थापित करें</string>
+    <string name="onboarding_restore_screen_title">बैकअप पुनर्स्थापित करें</string>
+    <string name="onboarding_restore_local_button">फ़ाइल से पुनर्स्थापित करें</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">Google खाता कनेक्ट करें</string>
+    <string name="onboarding_restore_google_button">Google Drive से पुनर्स्थापित करें</string>
+    <string name="onboarding_restore_passphrase_label">बैकअप पासवर्ड</string>
+    <string name="onboarding_restore_app_close_notice">पुनर्स्थापना के बाद ऐप बंद हो जाएगी। जारी रखने के लिए इसे फिर से खोलें।</string>
+    <string name="onboarding_restore_cancel">रद्द करें</string>
+    <string name="onboarding_restore_remote_loading">बैकअप जानकारी प्राप्त हो रही है…</string>
+    <string name="onboarding_restore_wrong_password">गलत पासवर्ड या दूषित बैकअप।</string>
+</resources>

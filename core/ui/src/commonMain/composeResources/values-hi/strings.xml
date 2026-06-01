@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">लेन-देन</string>
+    <string name="tab_overview">अवलोकन</string>
+    <string name="tab_settings">सेटिंग्स</string>
+    <string name="amount_input_calculator_desc">कैलकुलेटर खोलें</string>
+    <string name="month_jan">जनवरी</string>
+    <string name="month_feb">फ़रवरी</string>
+    <string name="month_mar">मार्च</string>
+    <string name="month_apr">अप्रैल</string>
+    <string name="month_may">मई</string>
+    <string name="month_jun">जून</string>
+    <string name="month_jul">जुलाई</string>
+    <string name="month_aug">अगस्त</string>
+    <string name="month_sep">सितंबर</string>
+    <string name="month_oct">अक्टूबर</string>
+    <string name="month_nov">नवंबर</string>
+    <string name="month_dec">दिसंबर</string>
+    <string name="colorpicker_title">रंग चुनें</string>
+    <string name="colorpicker_hue">रंगत</string>
+    <string name="colorpicker_saturation">संतृप्ति</string>
+    <string name="colorpicker_brightness">चमक</string>
+    <string name="colorpicker_hex">हेक्स रंग</string>
+    <string name="colorpicker_select">रंग चुनें</string>
+    <string name="colorpicker_cancel">रद्द करें</string>
+    <string name="wallet_select">वॉलेट चुनें</string>
+    <string name="cancel">रद्द करें</string>
+</resources>
