@@ -2,6 +2,8 @@ package com.dv.moneym.data.categories.internal
 
 import com.dv.moneym.data.categories.db.CategoriesRoomDatabase
 import com.dv.moneym.data.categories.db.CategoryEntity
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.Flow
 
 internal class SqlDelightCategoryDataSource(
@@ -18,6 +20,7 @@ internal class SqlDelightCategoryDataSource(
 
     override suspend fun count(): Long = dao.countAll()
 
+    @OptIn(ExperimentalUuidApi::class)
     override suspend fun insert(
         name: String, iconKey: String, colorHex: String,
         isUserCreated: Boolean, createdAt: Long, updatedAt: Long,
@@ -31,6 +34,7 @@ internal class SqlDelightCategoryDataSource(
             createdAt = createdAt,
             updatedAt = updatedAt,
             categoryType = categoryType,
+            syncId = Uuid.random().toString(),
         )
     )
 

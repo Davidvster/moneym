@@ -6,6 +6,8 @@ import com.dv.moneym.core.model.UNSAVED_RECURRING_ID
 import com.dv.moneym.data.transactions.RecurringTransactionRepository
 import com.dv.moneym.data.transactions.db.RecurringTransactionDao
 import kotlin.time.Clock
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.LocalDate
@@ -20,12 +22,14 @@ internal class RecurringTransactionRepositoryImpl(
     override suspend fun getById(id: RecurringTransactionId): RecurringTransaction? =
         dao.selectById(id.value)?.toDomain()
 
+    @OptIn(ExperimentalUuidApi::class)
     override suspend fun upsert(rule: RecurringTransaction): RecurringTransactionId {
         return if (rule.id == UNSAVED_RECURRING_ID) {
-            val newId = dao.insert(rule.toEntity().copy(id = 0))
+            val newId = dao.insert(rule.toEntity().copy(id = 0, syncId = Uuid.random().toString()))
             RecurringTransactionId(newId)
         } else {
-            dao.update(rule.toEntity())
+            val existing = dao.selectById(rule.id.value)
+            dao.update(rule.toEntity().copy(syncId = existing?.syncId, deleted = existing?.deleted ?: false))
             rule.id
         }
     }

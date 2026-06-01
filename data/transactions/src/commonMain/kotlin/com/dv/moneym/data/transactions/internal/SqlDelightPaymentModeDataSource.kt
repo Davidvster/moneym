@@ -6,6 +6,8 @@ import com.dv.moneym.data.transactions.PaymentModeRepository
 import com.dv.moneym.data.transactions.db.PaymentModeEntity
 import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
 import kotlin.time.Clock
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import kotlin.time.Instant
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -38,9 +40,10 @@ internal class SqlDelightPaymentModeDataSource(
             )
         }
 
+    @OptIn(ExperimentalUuidApi::class)
     override suspend fun create(name: String) {
         val now = Clock.System.now().toEpochMilliseconds()
-        dao.insert(PaymentModeEntity(name = name, createdAt = now, updatedAt = now))
+        dao.insert(PaymentModeEntity(name = name, createdAt = now, updatedAt = now, syncId = Uuid.random().toString()))
     }
 
     override suspend fun rename(id: PaymentModeId, name: String) {

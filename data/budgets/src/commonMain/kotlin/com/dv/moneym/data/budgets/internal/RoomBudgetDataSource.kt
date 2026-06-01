@@ -2,6 +2,8 @@ package com.dv.moneym.data.budgets.internal
 
 import com.dv.moneym.data.budgets.db.BudgetEntity
 import com.dv.moneym.data.budgets.db.BudgetsRoomDatabase
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.Flow
 
 internal class RoomBudgetDataSource(
@@ -17,6 +19,7 @@ internal class RoomBudgetDataSource(
 
     override suspend fun getById(id: Long): BudgetEntity? = dao.selectById(id)
 
+    @OptIn(ExperimentalUuidApi::class)
     override suspend fun insert(
         name: String,
         amountMinor: Long,
@@ -40,6 +43,7 @@ internal class RoomBudgetDataSource(
             recurringMonths = recurringMonths,
             createdAt = createdAt,
             updatedAt = updatedAt,
+            syncId = Uuid.random().toString(),
         )
     )
 

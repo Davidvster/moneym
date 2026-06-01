@@ -28,4 +28,6 @@ data class TransactionEntity(
     @ColumnInfo(name = "updated_at")      val updatedAt: Long,
     @ColumnInfo(name = "payment_mode_id") val paymentModeId: Long? = null,
     @ColumnInfo(name = "recurring_id")    val recurringId: Long? = null,
+    @ColumnInfo(name = "sync_id")         val syncId: String? = null,
+    @ColumnInfo(name = "deleted", defaultValue = "0") val deleted: Boolean = false,
 )

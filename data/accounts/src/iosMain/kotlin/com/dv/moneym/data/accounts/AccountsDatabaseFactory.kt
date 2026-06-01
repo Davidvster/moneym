@@ -4,6 +4,7 @@ import androidx.room.Room
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.dv.moneym.data.accounts.db.AccountsRoomDatabase
 import com.dv.moneym.data.accounts.db.MIGRATION_ACCOUNTS_1_2
+import com.dv.moneym.data.accounts.db.MIGRATION_ACCOUNTS_2_3
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers
 import platform.Foundation.NSApplicationSupportDirectory
@@ -20,7 +21,7 @@ fun createAccountsDatabase(): AccountsRoomDatabase {
     )
     return Room.databaseBuilder<AccountsRoomDatabase>(name = "$appSupport/moneym_accounts.db")
         .setDriver(BundledSQLiteDriver())
-        .addMigrations(MIGRATION_ACCOUNTS_1_2)
+        .addMigrations(MIGRATION_ACCOUNTS_1_2, MIGRATION_ACCOUNTS_2_3)
         .setQueryCoroutineContext(Dispatchers.Default)
         .build()
 }

@@ -15,4 +15,6 @@ data class AccountEntity(
     @ColumnInfo(name = "created_at") val createdAt: Long,
     @ColumnInfo(name = "updated_at") val updatedAt: Long,
     @ColumnInfo(name = "color_hex") val colorHex: String? = null,
+    @ColumnInfo(name = "sync_id") val syncId: String? = null,
+    @ColumnInfo(name = "deleted", defaultValue = "0") val deleted: Boolean = false,
 )

@@ -13,7 +13,7 @@ expect object TransactionsRoomDatabaseConstructor : RoomDatabaseConstructor<Tran
 
 @Database(
     entities = [TransactionEntity::class, PaymentModeEntity::class, RecurringTransactionEntity::class],
-    version = 2,
+    version = 3,
 )
 @ConstructedBy(TransactionsRoomDatabaseConstructor::class)
 abstract class TransactionsRoomDatabase : RoomDatabase() {
@@ -54,6 +54,16 @@ abstract class TransactionsRoomDatabase : RoomDatabase() {
                 )
                 connection.execSQL("CREATE INDEX IF NOT EXISTS idx_rte_category ON RecurringTransactionEntry(category_id)")
                 connection.execSQL("CREATE INDEX IF NOT EXISTS idx_rte_account ON RecurringTransactionEntry(account_id)")
+            }
+        }
+
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(connection: SQLiteConnection) {
+                for (table in listOf("TransactionEntry", "PaymentMode", "RecurringTransactionEntry")) {
+                    connection.execSQL("ALTER TABLE $table ADD COLUMN sync_id TEXT")
+                    connection.execSQL("ALTER TABLE $table ADD COLUMN deleted INTEGER NOT NULL DEFAULT 0")
+                    connection.execSQL("UPDATE $table SET sync_id = lower(hex(randomblob(16))) WHERE sync_id IS NULL")
+                }
             }
         }
     }

@@ -15,4 +15,6 @@ data class CategoryEntity(
     @ColumnInfo(name = "created_at")                        val createdAt: Long,
     @ColumnInfo(name = "updated_at")                        val updatedAt: Long,
     @ColumnInfo(name = "category_type", defaultValue = "'EXPENSE'") val categoryType: String = "EXPENSE",
+    @ColumnInfo(name = "sync_id") val syncId: String? = null,
+    @ColumnInfo(name = "deleted", defaultValue = "0") val deleted: Boolean = false,
 )

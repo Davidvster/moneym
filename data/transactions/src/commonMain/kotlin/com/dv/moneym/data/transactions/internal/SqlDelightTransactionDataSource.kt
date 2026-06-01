@@ -2,6 +2,8 @@ package com.dv.moneym.data.transactions.internal
 
 import com.dv.moneym.data.transactions.db.TransactionEntity
 import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.Flow
 
 internal class SqlDelightTransactionDataSource(
@@ -26,6 +28,7 @@ internal class SqlDelightTransactionDataSource(
 
     override suspend fun getById(id: Long): TransactionEntity? = dao.selectById(id)
 
+    @OptIn(ExperimentalUuidApi::class)
     override suspend fun insert(
         type: String, amountMinor: Long, currency: String, occurredOn: String,
         note: String?, categoryId: Long, accountId: Long, createdAt: Long, updatedAt: Long,
@@ -43,6 +46,7 @@ internal class SqlDelightTransactionDataSource(
             updatedAt = updatedAt,
             paymentModeId = paymentModeId,
             recurringId = recurringId,
+            syncId = Uuid.random().toString(),
         )
     )
 

@@ -2,6 +2,8 @@ package com.dv.moneym.data.accounts.internal
 
 import com.dv.moneym.data.accounts.db.AccountEntity
 import com.dv.moneym.data.accounts.db.AccountsRoomDatabase
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.Flow
 
 internal class SqlDelightAccountDataSource(
@@ -18,6 +20,7 @@ internal class SqlDelightAccountDataSource(
 
     override suspend fun count(): Long = dao.countAll()
 
+    @OptIn(ExperimentalUuidApi::class)
     override suspend fun insert(
         name: String, type: String, currency: String,
         isDefault: Boolean, createdAt: Long, updatedAt: Long,
@@ -31,6 +34,7 @@ internal class SqlDelightAccountDataSource(
             createdAt = createdAt,
             updatedAt = updatedAt,
             colorHex = colorHex,
+            syncId = Uuid.random().toString(),
         )
     )
 

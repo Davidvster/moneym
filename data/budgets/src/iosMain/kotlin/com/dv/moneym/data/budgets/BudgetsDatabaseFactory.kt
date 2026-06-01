@@ -20,6 +20,6 @@ fun createBudgetsDatabase(): BudgetsRoomDatabase {
     return Room.databaseBuilder<BudgetsRoomDatabase>(name = "$appSupport/moneym_budgets.db")
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.Default)
-        .addMigrations(BudgetsRoomDatabase.MIGRATION_1_2)
+        .addMigrations(BudgetsRoomDatabase.MIGRATION_1_2, BudgetsRoomDatabase.MIGRATION_2_3)
         .build()
 }
