@@ -40,7 +40,7 @@ class SyncEngine(
     private val recurringTransactionRepository: RecurringTransactionRepository,
     private val budgetRepository: BudgetRepository,
     private val nowMs: () -> Long = { kotlin.time.Clock.System.now().toEpochMilliseconds() },
-) {
+) : SyncDeletionController {
 
     private val logger = Logger.withTag("SyncEngine")
     private val lock = Mutex()
@@ -48,7 +48,7 @@ class SyncEngine(
     private val _runtime = MutableStateFlow<SyncRuntimeState>(SyncRuntimeState.Idle)
     val runtime: StateFlow<SyncRuntimeState> = _runtime.asStateFlow()
 
-    val pendingDeletions: Flow<List<PendingDeletion>> = pendingDeletionStore.pending
+    override val pendingDeletions: Flow<List<PendingDeletion>> = pendingDeletionStore.pending
 
     suspend fun pull(): Result<Unit> = lock.withLock {
         runCatching {
@@ -90,7 +90,7 @@ class SyncEngine(
      * rest are revived (updatedAt bumped so the live local row beats the remote tombstone on the
      * next push). Clears the store, then pushes.
      */
-    suspend fun resolveDeletions(confirmedSyncIds: Set<String>): Result<Unit> = lock.withLock {
+    override suspend fun resolveDeletions(confirmedSyncIds: Set<String>): Result<Unit> = lock.withLock {
         runCatching {
             val now = nowMs()
             for (pending in pendingDeletionStore.current()) {

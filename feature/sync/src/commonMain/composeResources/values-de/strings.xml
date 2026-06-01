@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Löschungen bestätigen</string>
+    <string name="sync_deletions_subtitle">Ein anderes Gerät hat diese Einträge entfernt. Wähle aus, welche auch hier entfernt werden sollen. Nicht markierte Einträge bleiben erhalten und werden auf dem anderen Gerät wiederhergestellt.</string>
+    <string name="sync_deletions_group_wallets">Konten</string>
+    <string name="sync_deletions_group_transactions">Transaktionen</string>
+    <string name="sync_deletions_group_budgets">Budgets</string>
+    <string name="sync_deletions_group_recurring">Wiederkehrend</string>
+    <string name="sync_deletions_group_categories">Kategorien</string>
+    <string name="sync_deletions_group_payment_modes">Zahlungsarten</string>
+    <string name="sync_deletions_confirm">Ausgewählte entfernen</string>
+    <string name="sync_deletions_cancel">Alle behalten</string>
+</resources>

@@ -1,6 +1,6 @@
 # Phase 5 — Deletion semantics + confirmation screen + upload gating
 
-**Status: IN PROGRESS**
+**Status: DONE** — 5a: soft-delete + deleted=0 filtering + markDeleted/revive + PendingDeletionStore + SyncEngine gating/resolve. 5b: feature/sync grouped-checkbox confirm screen (SyncDeletionController iface for testability), nav entry + DI wired, i18n strings. All builds + tests green.
 
 Split into **5a (data + engine)** and **5b (feature UI)** — two builder runs, committed separately.
 

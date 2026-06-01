@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Confirmar eliminaciones</string>
+    <string name="sync_deletions_subtitle">Otro dispositivo eliminó estos elementos. Elige cuáles eliminar también aquí. Los elementos sin marcar se conservan y se restauran en el otro dispositivo.</string>
+    <string name="sync_deletions_group_wallets">Carteras</string>
+    <string name="sync_deletions_group_transactions">Transacciones</string>
+    <string name="sync_deletions_group_budgets">Presupuestos</string>
+    <string name="sync_deletions_group_recurring">Recurrentes</string>
+    <string name="sync_deletions_group_categories">Categorías</string>
+    <string name="sync_deletions_group_payment_modes">Métodos de pago</string>
+    <string name="sync_deletions_confirm">Eliminar seleccionados</string>
+    <string name="sync_deletions_cancel">Conservar todo</string>
+</resources>

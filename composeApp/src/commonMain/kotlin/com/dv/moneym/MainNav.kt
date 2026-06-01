@@ -30,6 +30,7 @@ import com.dv.moneym.feature.overview.OverviewKey
 import com.dv.moneym.feature.overview.overviewEntry
 import com.dv.moneym.feature.security.setup.PinSetupKey
 import com.dv.moneym.feature.security.setup.pinSetupEntry
+import com.dv.moneym.feature.sync.pendingDeletionsEntry
 import com.dv.moneym.feature.settings.overview.LanguagePickerKey
 import com.dv.moneym.feature.settings.overview.PaymentModeListKey
 import com.dv.moneym.feature.settings.overview.SecuritySettingsIntent
@@ -189,6 +190,10 @@ internal fun MainNav(lockController: AppLockController) {
             }, metadata = modalTransitionMeta)
             categoriesEntry(
                 onBack = { tabBackStack.removeLast() },
+                metadata = modalTransitionMeta,
+            )
+            pendingDeletionsEntry(
+                onDone = { tabBackStack.removeLast() },
                 metadata = modalTransitionMeta,
             )
             budgetListEntry(

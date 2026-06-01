@@ -3,6 +3,7 @@ package com.dv.moneym.di
 import com.dv.moneym.data.sync.DeviceIdentity
 import com.dv.moneym.data.sync.PendingDeletionStore
 import com.dv.moneym.data.sync.SyncApplier
+import com.dv.moneym.data.sync.SyncDeletionController
 import com.dv.moneym.data.sync.SyncEngine
 import com.dv.moneym.data.sync.SyncExporter
 import com.dv.moneym.data.sync.SyncReconciler
@@ -40,4 +41,5 @@ val syncCommonModule: Module = module {
             budgetRepository = get(),
         )
     }
+    single<SyncDeletionController> { get<SyncEngine>() }
 }

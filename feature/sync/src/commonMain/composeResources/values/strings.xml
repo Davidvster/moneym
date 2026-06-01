@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Confirm removals</string>
+    <string name="sync_deletions_subtitle">Another device removed these items. Choose which ones to also remove here. Unchecked items are kept and restored on the other device.</string>
+    <string name="sync_deletions_group_wallets">Wallets</string>
+    <string name="sync_deletions_group_transactions">Transactions</string>
+    <string name="sync_deletions_group_budgets">Budgets</string>
+    <string name="sync_deletions_group_recurring">Recurring</string>
+    <string name="sync_deletions_group_categories">Categories</string>
+    <string name="sync_deletions_group_payment_modes">Payment modes</string>
+    <string name="sync_deletions_confirm">Remove selected</string>
+    <string name="sync_deletions_cancel">Keep all</string>
+</resources>

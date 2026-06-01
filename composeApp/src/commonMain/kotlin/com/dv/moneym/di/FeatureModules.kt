@@ -23,6 +23,7 @@ import com.dv.moneym.feature.categories.list.CategoryListViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
 import com.dv.moneym.feature.onboarding.restore.OnboardingRestoreViewModel
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
+import com.dv.moneym.feature.sync.PendingDeletionsViewModel
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.OverviewViewModel
 import com.dv.moneym.feature.overview.page.OverviewPageViewModel
@@ -286,6 +287,10 @@ val featureWalletModule = module {
 val featureCategoriesModule = module {
     single { ArchiveCategoryUseCase(get(), get()) }
     viewModelOf(::CategoryListViewModel)
+}
+
+val featureSyncModule = module {
+    viewModel { PendingDeletionsViewModel(get()) }
 }
 
 val featureBudgetsModule = module {

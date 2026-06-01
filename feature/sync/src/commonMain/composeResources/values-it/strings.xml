@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Conferma rimozioni</string>
+    <string name="sync_deletions_subtitle">Un altro dispositivo ha rimosso questi elementi. Scegli quali rimuovere anche qui. Gli elementi non selezionati vengono mantenuti e ripristinati sull'altro dispositivo.</string>
+    <string name="sync_deletions_group_wallets">Portafogli</string>
+    <string name="sync_deletions_group_transactions">Transazioni</string>
+    <string name="sync_deletions_group_budgets">Budget</string>
+    <string name="sync_deletions_group_recurring">Ricorrenti</string>
+    <string name="sync_deletions_group_categories">Categorie</string>
+    <string name="sync_deletions_group_payment_modes">Metodi di pagamento</string>
+    <string name="sync_deletions_confirm">Rimuovi selezionati</string>
+    <string name="sync_deletions_cancel">Mantieni tutto</string>
+</resources>

@@ -98,6 +98,7 @@ kotlin {
             implementation(projects.feature.overview)
             implementation(projects.feature.infopage)
             implementation(projects.feature.about)
+            implementation(projects.feature.sync)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
