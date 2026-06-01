@@ -717,14 +717,65 @@ private fun TrendsCumulativeSection(
     val cumulativeData = trend.series
         .runningFold(0.0) { acc, v -> acc + v }
         .drop(1)
-    CumulativeChart(
-        values = cumulativeData,
-        todayIndex = if (highlightIndex >= 0) highlightIndex else cumulativeData.lastIndex.coerceAtLeast(
-            0
-        ),
-        xLabels = xLabels,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(CHART_HEIGHT),
-    )
+    val todayIndex = if (highlightIndex >= 0) highlightIndex
+    else cumulativeData.lastIndex.coerceAtLeast(0)
+    val displayCount = (todayIndex + 1).coerceIn(1, cumulativeData.size.coerceAtLeast(1))
+    val maxVal = cumulativeData.take(displayCount).maxOrNull()?.coerceAtLeast(1.0) ?: 1.0
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.Bottom,
+    ) {
+        Column(
+            modifier = Modifier
+                .width(YAXIS_WIDTH)
+                .height(CHART_HEIGHT),
+            verticalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                text = formatAxisAmount(maxVal),
+                style = type.captionXs.copy(color = colors.text3),
+                textAlign = TextAlign.End,
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Text(
+                text = formatAxisAmount(maxVal / 2),
+                style = type.captionXs.copy(color = colors.text3),
+                textAlign = TextAlign.End,
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Text(
+                text = "0",
+                style = type.captionXs.copy(color = colors.text3),
+                textAlign = TextAlign.End,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+        Spacer(Modifier.width(MM.dimen.padding_0_5x))
+        CumulativeChart(
+            values = cumulativeData,
+            todayIndex = todayIndex,
+            modifier = Modifier
+                .weight(1f)
+                .height(CHART_HEIGHT),
+        )
+    }
+    if (xLabels.isNotEmpty()) {
+        Spacer(Modifier.height(space.padding_0_5x))
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Spacer(Modifier.width(YAXIS_WIDTH + MM.dimen.padding_0_5x))
+            Row(
+                modifier = Modifier.weight(1f),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+            ) {
+                xLabels.forEach { label ->
+                    Text(
+                        text = label,
+                        style = type.captionXs.copy(color = colors.text3),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+            }
+        }
+    }
 }
