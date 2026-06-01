@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Categorias</string>
+    <string name="categories_add">Adicionar categoria</string>
+    <string name="categories_edit_title">Editar Categoria</string>
+    <string name="categories_new_title">Nova Categoria</string>
+    <string name="categories_name_label">Nome</string>
+    <string name="categories_name_error">O nome é obrigatório</string>
+    <string name="categories_icon_label">Ícone</string>
+    <string name="categories_color_label">Cor</string>
+    <string name="categories_archive">Arquivar</string>
+    <string name="categories_restore">Restaurar</string>
+    <string name="categories_show_archived">Mostrar arquivadas</string>
+    <string name="categories_hide_archived">Ocultar arquivadas</string>
+    <string name="categories_archived_badge">Arquivada</string>
+    <string name="categories_empty">Ainda não há categorias</string>
+    <string name="categories_back">Voltar</string>
+    <string name="categories_show_archived_count">Mostrar arquivadas (%1$d)</string>
+    <string name="categories_cancel">Cancelar</string>
+    <string name="categories_save">Guardar</string>
+    <string name="categories_new_button">Nova</string>
+    <string name="categories_tab_expense">Despesa</string>
+    <string name="categories_tab_income">Receita</string>
+    <string name="categories_hint">pressão longa para reordenar</string>
+    <string name="categories_new_expense">Nova categoria de despesa</string>
+    <string name="categories_new_income">Nova categoria de receita</string>
+    <string name="categories_name_placeholder">ex.: Mercearia</string>
+    <string name="categories_edit_sheet_title">Editar categoria</string>
+    <string name="categories_new_sheet_title">Nova categoria</string>
+    <string name="categories_delete">Eliminar categoria</string>
+    <string name="categories_save_changes">Guardar alterações</string>
+    <string name="categories_create">Criar categoria</string>
+    <string name="categories_delete_confirm_title">Eliminar "%1$s"?</string>
+    <string name="categories_delete_confirm_body">Isto irá remover a categoria. As transações que a utilizam podem ser afetadas.</string>
+    <string name="categories_delete_button">Eliminar</string>
+    <string name="categories_color_picker_title">Escolher cor</string>
+    <string name="categories_color_hue">Matiz</string>
+    <string name="categories_color_saturation">Saturação</string>
+    <string name="categories_color_brightness">Brilho</string>
+    <string name="categories_color_hex">Cor hexadecimal</string>
+    <string name="categories_color_select">Selecionar cor</string>
+    <string name="categories_name_preview_placeholder">Nome da categoria</string>
+</resources>

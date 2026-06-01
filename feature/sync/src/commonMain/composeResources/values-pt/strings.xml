@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Confirmar remoções</string>
+    <string name="sync_deletions_subtitle">Outro dispositivo removeu estes itens. Escolha quais também remover aqui. Os itens não selecionados são mantidos e restaurados no outro dispositivo.</string>
+    <string name="sync_deletions_group_wallets">Carteiras</string>
+    <string name="sync_deletions_group_transactions">Transações</string>
+    <string name="sync_deletions_group_budgets">Orçamentos</string>
+    <string name="sync_deletions_group_recurring">Recorrentes</string>
+    <string name="sync_deletions_group_categories">Categorias</string>
+    <string name="sync_deletions_group_payment_modes">Modos de pagamento</string>
+    <string name="sync_deletions_confirm">Remover selecionados</string>
+    <string name="sync_deletions_cancel">Manter todos</string>
+    <string name="sync_settings_title">Sincronização entre dispositivos</string>
+    <string name="sync_settings_toggle_title">Sincronizar entre dispositivos</string>
+    <string name="sync_settings_toggle_subtitle">Mantenha os seus dados sincronizados em todos os dispositivos com sessão iniciada na mesma cópia de segurança.</string>
+    <string name="sync_settings_rename_label">Nome deste dispositivo</string>
+    <string name="sync_settings_rename_save">Guardar</string>
+    <string name="sync_settings_rename_cancel">Cancelar</string>
+    <string name="sync_settings_devices_header">DISPOSITIVOS</string>
+    <string name="sync_settings_this_device">Este dispositivo</string>
+    <string name="sync_settings_remove">Remover</string>
+    <string name="sync_settings_last_synced_just_now">sincronizado agora mesmo</string>
+    <string name="sync_settings_last_synced_minutes">sincronizado há %1$d min</string>
+    <string name="sync_settings_last_synced_hours">sincronizado há %1$d h</string>
+    <string name="sync_settings_last_synced_days">sincronizado há %1$d d</string>
+    <string name="sync_settings_last_synced_longer">sincronizado há algum tempo</string>
+</resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Orçamentos</string>
+    <string name="budgets_empty">Ainda não há orçamentos</string>
+    <string name="budgets_new">Novo orçamento</string>
+    <string name="budgets_new_title">Novo Orçamento</string>
+    <string name="budgets_edit_title">Editar Orçamento</string>
+    <string name="budgets_name_label">Nome</string>
+    <string name="budgets_amount_label">Valor</string>
+    <string name="budgets_account_label">Conta</string>
+    <string name="budgets_account_filter_label">Conta</string>
+    <string name="budgets_category_label">Categoria</string>
+    <string name="budgets_all_categories">Todas as categorias</string>
+    <string name="budgets_start_month">Mês de início</string>
+    <string name="budgets_recurring">Recorrente</string>
+    <string name="budgets_recurring_single">Único</string>
+    <string name="budgets_recurring_unlimited">Ilimitado</string>
+    <string name="budgets_recurring_n_months">N meses</string>
+    <string name="budgets_recurring_count_label">Número de meses</string>
+    <string name="budgets_recurring_badge_unlimited">Recorrente</string>
+    <string name="budgets_recurring_badge_n_months">%1$d meses</string>
+    <string name="budgets_save">Guardar</string>
+    <string name="budgets_cancel">Cancelar</string>
+    <string name="budgets_delete">Eliminar</string>
+    <string name="budgets_delete_confirm_title">Eliminar "%1$s"?</string>
+    <string name="budgets_delete_confirm_body">Isto irá remover o orçamento. As transações não serão afetadas.</string>
+    <string name="budgets_placeholder_name">Mercearia</string>
+    <string name="budgets_error_required">Obrigatório</string>
+    <string name="budgets_error_amount">Introduza um valor > 0</string>
+    <string name="budgets_error_count">Deve ser > 0</string>
+    <string name="budgets_prev_month">Mês anterior</string>
+    <string name="budgets_next_month">Mês seguinte</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Selecionar mês</string>
+    <string name="budgets_month_picker_now">Este mês</string>
+    <string name="budgets_month_picker_ok">OK</string>
+    <string name="budgets_month_picker_cancel">Cancelar</string>
+    <string name="budgets_month_picker_prev_year_cd">Ano anterior</string>
+    <string name="budgets_month_picker_next_year_cd">Próximo ano</string>
+</resources>

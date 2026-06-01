@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Bem-vindo ao MoneyM</string>
+    <string name="onboarding_currency_title">Escolha a sua moeda predefinida</string>
+    <string name="onboarding_continue">Continuar</string>
+    <string name="onboarding_security_title">Proteja a sua aplicação</string>
+    <string name="onboarding_security_subtitle">Proteja os seus dados financeiros com um PIN.</string>
+    <string name="onboarding_pin_label">Bloqueio por PIN</string>
+    <string name="onboarding_pin_set">PIN definido ✓</string>
+    <string name="onboarding_done">Concluído</string>
+    <string name="onboarding_skip">Ignorar por agora</string>
+    <string name="onboarding_skip_short">Ignorar</string>
+    <string name="onboarding_search_currency">Pesquisar moeda…</string>
+    <string name="onboarding_currencies_header">MOEDAS</string>
+    <string name="onboarding_biometrics_label">Biometria</string>
+    <string name="onboarding_biometrics_subtitle">Desbloquear com Face ID ou impressão digital</string>
+    <string name="onboarding_restore_from_backup">Restaurar a partir de cópia de segurança</string>
+    <string name="onboarding_import_data">Importar dados</string>
+    <string name="onboarding_restore_warning_title">Substituir todos os dados?</string>
+    <string name="onboarding_restore_warning_body">Isto irá substituir os seus dados actuais pela cópia de segurança e ignorar a configuração.</string>
+    <string name="onboarding_restore_confirm">Restaurar</string>
+    <string name="onboarding_restore_screen_title">Restaurar Cópia de Segurança</string>
+    <string name="onboarding_restore_local_button">Restaurar a partir de ficheiro</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">Ligar conta Google</string>
+    <string name="onboarding_restore_google_button">Restaurar a partir do Google Drive</string>
+    <string name="onboarding_restore_passphrase_label">Palavra-passe da cópia de segurança</string>
+    <string name="onboarding_restore_app_close_notice">A aplicação irá fechar após o restauro. Reabra-a para continuar.</string>
+    <string name="onboarding_restore_cancel">Cancelar</string>
+    <string name="onboarding_restore_remote_loading">A obter informações da cópia de segurança…</string>
+    <string name="onboarding_restore_wrong_password">Palavra-passe errada ou cópia de segurança corrompida.</string>
+</resources>

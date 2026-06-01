@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Transações</string>
+    <string name="transactions_add">Adicionar transação</string>
+    <string name="transactions_filter_all">Todas</string>
+    <string name="transactions_filter_expenses">Despesas</string>
+    <string name="transactions_filter_income">Receita</string>
+    <string name="transactions_filter_categories">Filtrar por categoria</string>
+    <string name="transactions_filter_clear">Limpar</string>
+    <string name="transactions_filter_done">Concluído</string>
+    <string name="transactions_empty">Sem transações este mês</string>
+    <string name="transactions_previous_month">Mês anterior</string>
+    <string name="transactions_next_month">Mês seguinte</string>
+    <string name="transactions_loading">A carregar…</string>
+    <string name="transactions_search_placeholder">Pesquisar transações…</string>
+    <string name="transactions_search_cd">Pesquisar</string>
+    <string name="transactions_close_search_cd">Fechar pesquisa</string>
+    <string name="transactions_net_label">LÍQUIDO</string>
+    <string name="transactions_dialog_select_month">Selecionar Mês</string>
+    <string name="transactions_prev_year_cd">Ano anterior</string>
+    <string name="transactions_next_year_cd">Próximo ano</string>
+    <string name="transactions_now">Agora</string>
+    <string name="transactions_ok">OK</string>
+    <string name="transactions_cancel">Cancelar</string>
+    <string name="transactions_wallet_select">Selecionar Carteira</string>
+    <string name="transactions_wallet_all">Todas as carteiras</string>
+    <string name="transactions_syncing">A sincronizar…</string>
+    <string name="transactions_pending_deletions">%1$d itens removidos noutro dispositivo — rever</string>
+</resources>
