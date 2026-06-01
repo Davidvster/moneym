@@ -1,6 +1,6 @@
 # Phase 5b — Overview AI button + Sparkles icon + availability gating + final cross-platform build
 
-**Status:** IN PROGRESS
+**Status:** DONE (commit 8e5d6a8). All 5 verify commands green: feature:overview compile, composeApp:assembleDebug, iOS link, xcodebuild iosApp, core:ai + feature:aianalysis tests.
 
 ## Goal
 Add the AI button to the Overview header (right of the month/year picker), shown only when the on-device engine is available, that opens the Analyze screen for the currently selected period. Then verify the whole app builds on Android AND iOS.
