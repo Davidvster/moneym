@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">نظرة عامة</string>
+    <string name="overview_income">الدخل</string>
+    <string name="overview_expenses">المصروفات</string>
+    <string name="overview_by_category">الإنفاق حسب الفئة</string>
+    <string name="overview_trend">الاتجاه على 6 أشهر</string>
+    <string name="overview_all_categories">جميع الفئات</string>
+    <string name="overview_empty">لا توجد معاملات في هذه الفترة</string>
+    <string name="overview_previous_month">الشهر السابق</string>
+    <string name="overview_next_month">الشهر التالي</string>
+    <string name="overview_loading">جارٍ التحميل…</string>
+    <string name="overview_more">+ %1$d أكثر</string>
+    <string name="overview_monthly_breakdown">التفصيل الشهري</string>
+    <string name="overview_daily_breakdown">التفصيل اليومي</string>
+    <string name="overview_all">الكل</string>
+    <string name="overview_previous">السابق</string>
+    <string name="overview_next">التالي</string>
+    <string name="overview_switch_to_month">التبديل إلى عرض الشهر</string>
+    <string name="overview_switch_to_year">التبديل إلى عرض السنة</string>
+    <string name="overview_period_month">الشهر</string>
+    <string name="overview_period_year">السنة</string>
+    <string name="overview_period_custom">مخصص</string>
+    <string name="overview_label_income">الدخل</string>
+    <string name="overview_label_expenses">المصروفات</string>
+    <string name="overview_label_balance">الرصيد</string>
+    <string name="overview_spending_by_category">الإنفاق حسب الفئة</string>
+    <string name="overview_no_expenses">لا توجد مصروفات في هذه الفترة</string>
+    <string name="overview_label_total">الإجمالي</string>
+    <string name="overview_cumulative_spend">الإنفاق التراكمي</string>
+    <string name="overview_through_day">حتى اليوم %1$d</string>
+    <string name="overview_daily_trend">الاتجاه اليومي حسب الفئة</string>
+    <string name="overview_monthly_spending">الإنفاق الشهري</string>
+    <string name="overview_monthly_trend">الاتجاه الشهري حسب الفئة</string>
+    <string name="overview_avg_day">متوسط / اليوم</string>
+    <string name="overview_avg_month">متوسط / الشهر</string>
+    <string name="overview_dialog_select_month">اختر الشهر</string>
+    <string name="overview_dialog_select_year">اختر السنة</string>
+    <string name="overview_prev_year_cd">السنة السابقة</string>
+    <string name="overview_next_year_cd">السنة التالية</string>
+    <string name="overview_analyze_cd">التحليل بالذكاء الاصطناعي</string>
+    <string name="overview_now">الآن</string>
+    <string name="overview_ok">موافق</string>
+    <string name="overview_cancel">إلغاء</string>
+    <string name="overview_tx_count_singular">%1$d معاملة</string>
+    <string name="overview_tx_count_plural">%1$d معاملات</string>
+    <string name="overview_cat_avg_day">متوسط/يوم</string>
+    <string name="overview_cat_avg_month">متوسط/شهر</string>
+    <string name="overview_date_range_title">اختر النطاق الزمني</string>
+    <string name="overview_date_range_from">من</string>
+    <string name="overview_date_range_to">إلى</string>
+    <string name="overview_budgets_title">الميزانيات</string>
+    <string name="overview_budgets_all_categories">جميع الفئات</string>
+    <string name="overview_budgets_remaining_suffix">%1$s متبقية</string>
+    <string name="overview_budgets_overrun_suffix">%1$s زيادة</string>
+    <string-array name="overview_year_x_labels">
+        <item>يناير</item>
+        <item>أبريل</item>
+        <item>يوليو</item>
+        <item>أكتوبر</item>
+        <item>ديسمبر</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>

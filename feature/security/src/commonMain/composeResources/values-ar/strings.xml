@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">تعيين رمز PIN</string>
+    <string name="security_pin_confirm_title">تأكيد رمز PIN</string>
+    <string name="security_pin_enter_title">أدخل رمز PIN</string>
+    <string name="security_pin_subtitle_first">أدخل رمز PIN مكوناً من 4 أرقام</string>
+    <string name="security_pin_subtitle_confirm">أدخل رمز PIN مرة أخرى</string>
+    <string name="security_pin_mismatch">رموز PIN غير متطابقة</string>
+    <string name="security_pin_incorrect">رمز PIN غير صحيح</string>
+    <string name="security_pin_locked">محاولات كثيرة جداً</string>
+    <string name="security_biometric_use">استخدام القياسات الحيوية</string>
+    <string name="security_biometric_reason">فتح قفل MoneyM</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">إلغاء</string>
+    <string name="security_backoff_retry">أعد المحاولة خلال %1$d ثانية</string>
+    <string name="security_change_pin_title">تغيير رمز PIN</string>
+    <string name="security_pin_set_header">عيّن رمز PIN</string>
+    <string name="security_pin_confirm_header">أكّد رمز PIN</string>
+    <string name="security_pin_enter_header">أدخل رمز PIN</string>
+    <string name="security_biometric_offer_title">تفعيل القياسات الحيوية؟</string>
+    <string name="security_biometric_offer_body">افتح قفل MoneyM بسرعة باستخدام معرّف الوجه أو بصمة الإصبع.</string>
+    <string name="security_biometric_offer_enable">تفعيل</string>
+    <string name="security_biometric_offer_skip">ليس الآن</string>
+    <string name="security_biometric_unlock_prompt">فتح قفل MoneyM</string>
+</resources>

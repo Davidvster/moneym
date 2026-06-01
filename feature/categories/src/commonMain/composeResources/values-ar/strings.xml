@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">الفئات</string>
+    <string name="categories_add">إضافة فئة</string>
+    <string name="categories_edit_title">تعديل الفئة</string>
+    <string name="categories_new_title">فئة جديدة</string>
+    <string name="categories_name_label">الاسم</string>
+    <string name="categories_name_error">الاسم مطلوب</string>
+    <string name="categories_icon_label">الأيقونة</string>
+    <string name="categories_color_label">اللون</string>
+    <string name="categories_archive">أرشفة</string>
+    <string name="categories_restore">استعادة</string>
+    <string name="categories_show_archived">عرض المؤرشف</string>
+    <string name="categories_hide_archived">إخفاء المؤرشف</string>
+    <string name="categories_archived_badge">مؤرشف</string>
+    <string name="categories_empty">لا توجد فئات بعد</string>
+    <string name="categories_back">رجوع</string>
+    <string name="categories_show_archived_count">عرض المؤرشف (%1$d)</string>
+    <string name="categories_cancel">إلغاء</string>
+    <string name="categories_save">حفظ</string>
+    <string name="categories_new_button">جديد</string>
+    <string name="categories_tab_expense">المصروف</string>
+    <string name="categories_tab_income">الدخل</string>
+    <string name="categories_hint">اضغط مطولاً لإعادة الترتيب</string>
+    <string name="categories_new_expense">فئة مصروف جديدة</string>
+    <string name="categories_new_income">فئة دخل جديدة</string>
+    <string name="categories_name_placeholder">مثال: البقالة</string>
+    <string name="categories_edit_sheet_title">تعديل الفئة</string>
+    <string name="categories_new_sheet_title">فئة جديدة</string>
+    <string name="categories_delete">حذف الفئة</string>
+    <string name="categories_save_changes">حفظ التغييرات</string>
+    <string name="categories_create">إنشاء فئة</string>
+    <string name="categories_delete_confirm_title">حذف "%1$s"؟</string>
+    <string name="categories_delete_confirm_body">سيؤدي ذلك إلى إزالة الفئة. المعاملات التي تستخدمها قد تتأثر.</string>
+    <string name="categories_delete_button">حذف</string>
+    <string name="categories_color_picker_title">اختر لوناً</string>
+    <string name="categories_color_hue">الصبغة</string>
+    <string name="categories_color_saturation">التشبع</string>
+    <string name="categories_color_brightness">السطوع</string>
+    <string name="categories_color_hex">لون هيكساديسيمال</string>
+    <string name="categories_color_select">اختر اللون</string>
+    <string name="categories_name_preview_placeholder">اسم الفئة</string>
+</resources>

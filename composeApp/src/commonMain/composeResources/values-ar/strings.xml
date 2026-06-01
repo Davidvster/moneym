@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">المعاملات</string>
+    <string name="nav_tab_overview">نظرة عامة</string>
+    <string name="nav_tab_settings">الإعدادات</string>
+    <string name="category_seed_groceries">البقالة</string>
+    <string name="category_seed_eating_out">تناول الطعام خارجاً</string>
+    <string name="category_seed_rent">الإيجار</string>
+    <string name="category_seed_transport">المواصلات</string>
+    <string name="category_seed_utilities">المرافق</string>
+    <string name="category_seed_health">الصحة</string>
+    <string name="category_seed_entertainment">الترفيه</string>
+    <string name="category_seed_shopping">التسوق</string>
+    <string name="category_seed_other_expense">أخرى</string>
+    <string name="category_seed_salary">الراتب</string>
+    <string name="category_seed_payment">الدفع</string>
+    <string name="category_seed_gift">هدية</string>
+    <string name="category_seed_other_income">أخرى</string>
+</resources>

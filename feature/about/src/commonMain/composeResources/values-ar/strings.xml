@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">حول</string>
+    <string name="about_terms">الشروط &amp; الأحكام</string>
+    <string name="about_privacy">سياسة الخصوصية</string>
+</resources>

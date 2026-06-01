@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">الميزانيات</string>
+    <string name="budgets_empty">لا توجد ميزانيات بعد</string>
+    <string name="budgets_new">ميزانية جديدة</string>
+    <string name="budgets_new_title">ميزانية جديدة</string>
+    <string name="budgets_edit_title">تعديل الميزانية</string>
+    <string name="budgets_name_label">الاسم</string>
+    <string name="budgets_amount_label">المبلغ</string>
+    <string name="budgets_account_label">الحساب</string>
+    <string name="budgets_account_filter_label">الحساب</string>
+    <string name="budgets_category_label">الفئة</string>
+    <string name="budgets_all_categories">جميع الفئات</string>
+    <string name="budgets_start_month">شهر البداية</string>
+    <string name="budgets_recurring">متكرر</string>
+    <string name="budgets_recurring_single">مرة واحدة</string>
+    <string name="budgets_recurring_unlimited">غير محدود</string>
+    <string name="budgets_recurring_n_months">عدد الأشهر</string>
+    <string name="budgets_recurring_count_label">عدد الأشهر</string>
+    <string name="budgets_recurring_badge_unlimited">متكرر</string>
+    <string name="budgets_recurring_badge_n_months">%1$d أشهر</string>
+    <string name="budgets_save">حفظ</string>
+    <string name="budgets_cancel">إلغاء</string>
+    <string name="budgets_delete">حذف</string>
+    <string name="budgets_delete_confirm_title">حذف "%1$s"؟</string>
+    <string name="budgets_delete_confirm_body">سيؤدي ذلك إلى إزالة الميزانية. المعاملات غير متأثرة.</string>
+    <string name="budgets_placeholder_name">البقالة</string>
+    <string name="budgets_error_required">مطلوب</string>
+    <string name="budgets_error_amount">أدخل مبلغاً أكبر من 0</string>
+    <string name="budgets_error_count">يجب أن يكون أكبر من 0</string>
+    <string name="budgets_prev_month">الشهر السابق</string>
+    <string name="budgets_next_month">الشهر التالي</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">اختر الشهر</string>
+    <string name="budgets_month_picker_now">هذا الشهر</string>
+    <string name="budgets_month_picker_ok">موافق</string>
+    <string name="budgets_month_picker_cancel">إلغاء</string>
+    <string name="budgets_month_picker_prev_year_cd">السنة السابقة</string>
+    <string name="budgets_month_picker_next_year_cd">السنة التالية</string>
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">تأكيد الحذف</string>
+    <string name="sync_deletions_subtitle">أزال جهاز آخر هذه العناصر. اختر أيها تريد إزالته هنا أيضاً. العناصر غير المحددة تُحتفظ بها وتُستعاد على الجهاز الآخر.</string>
+    <string name="sync_deletions_group_wallets">المحافظ</string>
+    <string name="sync_deletions_group_transactions">المعاملات</string>
+    <string name="sync_deletions_group_budgets">الميزانيات</string>
+    <string name="sync_deletions_group_recurring">المتكررة</string>
+    <string name="sync_deletions_group_categories">الفئات</string>
+    <string name="sync_deletions_group_payment_modes">طرق الدفع</string>
+    <string name="sync_deletions_confirm">إزالة المحدد</string>
+    <string name="sync_deletions_cancel">الاحتفاظ بالكل</string>
+    <string name="sync_settings_title">المزامنة عبر الأجهزة</string>
+    <string name="sync_settings_toggle_title">المزامنة عبر الأجهزة</string>
+    <string name="sync_settings_toggle_subtitle">حافظ على تزامن بياناتك على كل جهاز مسجّل في نفس النسخ الاحتياطية.</string>
+    <string name="sync_settings_rename_label">اسم هذا الجهاز</string>
+    <string name="sync_settings_rename_save">حفظ</string>
+    <string name="sync_settings_rename_cancel">إلغاء</string>
+    <string name="sync_settings_devices_header">الأجهزة</string>
+    <string name="sync_settings_this_device">هذا الجهاز</string>
+    <string name="sync_settings_remove">إزالة</string>
+    <string name="sync_settings_last_synced_just_now">تمت المزامنة للتو</string>
+    <string name="sync_settings_last_synced_minutes">تمت المزامنة منذ %1$d دقيقة</string>
+    <string name="sync_settings_last_synced_hours">تمت المزامنة منذ %1$d ساعة</string>
+    <string name="sync_settings_last_synced_days">تمت المزامنة منذ %1$d يوم</string>
+    <string name="sync_settings_last_synced_longer">تمت المزامنة منذ فترة</string>
+</resources>

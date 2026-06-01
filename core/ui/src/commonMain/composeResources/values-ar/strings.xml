@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">المعاملات</string>
+    <string name="tab_overview">نظرة عامة</string>
+    <string name="tab_settings">الإعدادات</string>
+    <string name="amount_input_calculator_desc">فتح الآلة الحاسبة</string>
+    <string name="month_jan">يناير</string>
+    <string name="month_feb">فبراير</string>
+    <string name="month_mar">مارس</string>
+    <string name="month_apr">أبريل</string>
+    <string name="month_may">مايو</string>
+    <string name="month_jun">يونيو</string>
+    <string name="month_jul">يوليو</string>
+    <string name="month_aug">أغسطس</string>
+    <string name="month_sep">سبتمبر</string>
+    <string name="month_oct">أكتوبر</string>
+    <string name="month_nov">نوفمبر</string>
+    <string name="month_dec">ديسمبر</string>
+    <string name="colorpicker_title">اختر لوناً</string>
+    <string name="colorpicker_hue">الصبغة</string>
+    <string name="colorpicker_saturation">التشبع</string>
+    <string name="colorpicker_brightness">السطوع</string>
+    <string name="colorpicker_hex">لون هيكساديسيمال</string>
+    <string name="colorpicker_select">اختر اللون</string>
+    <string name="colorpicker_cancel">إلغاء</string>
+    <string name="wallet_select">اختر المحفظة</string>
+    <string name="cancel">إلغاء</string>
+</resources>

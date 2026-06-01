@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">تحليل</string>
+    <string name="analyze_intro">اسأل أي شيء عن شؤونك المالية لهذه الفترة.</string>
+    <string name="analyze_input_hint">اطرح سؤالاً…</string>
+    <string name="analyze_send_cd">إرسال</string>
+    <string name="analyze_grounding_label">مصدر البيانات</string>
+    <string name="analyze_grounding_snapshot">لقطة</string>
+    <string name="analyze_grounding_tools">أدوات</string>
+    <string name="analyze_tools_fallback_notice">الأدوات غير مدعومة من قِبَل هذا النموذج. سيتم استخدام لقطة بديلاً.</string>
+    <string name="analyze_error">حدث خطأ ما. يرجى المحاولة مرة أخرى.</string>
+    <string name="analyze_generating">جارٍ التفكير…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>كم أنفقت هذا الشهر؟</item>
+        <item>ما هي فئات الإنفاق الأعلى لديّ؟</item>
+        <item>كيف يقارن هذا الشهر بالشهر الماضي؟</item>
+        <item>هل هناك نفقات غير عادية أو كبيرة؟</item>
+    </string-array>
+</resources>

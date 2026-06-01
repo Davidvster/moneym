@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">مرحباً بك في MoneyM</string>
+    <string name="onboarding_currency_title">اختر عملتك الافتراضية</string>
+    <string name="onboarding_continue">متابعة</string>
+    <string name="onboarding_security_title">حمِّ تطبيقك</string>
+    <string name="onboarding_security_subtitle">احمِ بياناتك المالية برمز PIN.</string>
+    <string name="onboarding_pin_label">قفل PIN</string>
+    <string name="onboarding_pin_set">تم تعيين PIN ✓</string>
+    <string name="onboarding_done">تم</string>
+    <string name="onboarding_skip">تخطي في الوقت الحالي</string>
+    <string name="onboarding_skip_short">تخطي</string>
+    <string name="onboarding_search_currency">البحث عن عملة…</string>
+    <string name="onboarding_currencies_header">العملات</string>
+    <string name="onboarding_biometrics_label">القياسات الحيوية</string>
+    <string name="onboarding_biometrics_subtitle">فتح القفل بمعرّف الوجه أو بصمة الإصبع</string>
+    <string name="onboarding_restore_from_backup">الاستعادة من نسخة احتياطية</string>
+    <string name="onboarding_import_data">استيراد البيانات</string>
+    <string name="onboarding_restore_warning_title">استبدال جميع البيانات؟</string>
+    <string name="onboarding_restore_warning_body">سيؤدي ذلك إلى استبدال بياناتك الحالية بالنسخة الاحتياطية وتخطي الإعداد.</string>
+    <string name="onboarding_restore_confirm">استعادة</string>
+    <string name="onboarding_restore_screen_title">استعادة النسخة الاحتياطية</string>
+    <string name="onboarding_restore_local_button">الاستعادة من ملف</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">ربط حساب Google</string>
+    <string name="onboarding_restore_google_button">الاستعادة من Google Drive</string>
+    <string name="onboarding_restore_passphrase_label">كلمة مرور النسخة الاحتياطية</string>
+    <string name="onboarding_restore_app_close_notice">سيُغلق التطبيق بعد الاستعادة. أعد فتحه للمتابعة.</string>
+    <string name="onboarding_restore_cancel">إلغاء</string>
+    <string name="onboarding_restore_remote_loading">جارٍ جلب معلومات النسخ الاحتياطي…</string>
+    <string name="onboarding_restore_wrong_password">كلمة المرور خاطئة أو النسخة الاحتياطية تالفة.</string>
+</resources>
