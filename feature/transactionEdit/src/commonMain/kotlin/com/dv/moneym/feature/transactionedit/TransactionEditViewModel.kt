@@ -21,6 +21,7 @@ import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
 import com.dv.moneym.feature.transactionedit.usecase.RecurrenceInput
+import com.dv.moneym.feature.transactionedit.usecase.SuggestNotesUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ValidateAndBuildTransactionUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ValidationOutcome
 import com.dv.moneym.feature.transactionedit.usecase.ComputeCategoryBudgetRemainingUseCase
@@ -56,6 +57,7 @@ class TransactionEditViewModel(
     private val appSettingsRepository: AppSettingsRepository,
     private val paymentModeRepository: PaymentModeRepository,
     private val computeBudgetRemaining: ComputeCategoryBudgetRemainingUseCase,
+    private val suggestNotes: SuggestNotesUseCase,
     private val dispatchers: DispatcherProvider,
     private val clock: AppClock,
     savedStateHandle: SavedStateHandle
@@ -345,26 +347,7 @@ class TransactionEditViewModel(
             val allTxns = withContext(dispatchers.io) {
                 transactionRepository.observeAll().first()
             }
-            val noteCounts = allTxns
-                .mapNotNull { it.note }
-                .filter { it.isNotBlank() }
-                .groupingBy { it }
-                .eachCount()
-
-            val q = query.lowercase()
-            val prefixMatches = noteCounts.entries
-                .filter { it.key.lowercase().startsWith(q) && it.key != query }
-                .sortedByDescending { it.value }
-                .map { it.key }
-            val containsMatches = noteCounts.entries
-                .filter {
-                    it.key.lowercase().contains(q) && !it.key.lowercase()
-                        .startsWith(q) && it.key != query
-                }
-                .sortedByDescending { it.value }
-                .map { it.key }
-
-            _state.update { it.copy(noteSuggestions = (prefixMatches + containsMatches).take(5)) }
+            _state.update { it.copy(noteSuggestions = suggestNotes(allTxns, query, today)) }
         }
     }
 

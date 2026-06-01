@@ -56,6 +56,7 @@ import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ComputeCategoryBudgetRemainingUseCase
+import com.dv.moneym.feature.transactionedit.usecase.SuggestNotesUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ValidateAndBuildTransactionUseCase
 import com.dv.moneym.feature.transactions.list.TransactionListEphemeralState
 import com.dv.moneym.feature.transactions.list.TransactionListViewModel
@@ -105,6 +106,7 @@ val featureTransactionEditModule = module {
     single { GetTransactionUseCase(get()) }
     single { ComputeCategoryBudgetRemainingUseCase(get(), get()) }
     single { ValidateAndBuildTransactionUseCase() }
+    single { SuggestNotesUseCase() }
     viewModel { params ->
         TransactionEditViewModel(
             editingId = params.getOrNull<TransactionId>(),
@@ -119,6 +121,7 @@ val featureTransactionEditModule = module {
             appSettingsRepository = get(),
             paymentModeRepository = get(),
             computeBudgetRemaining = get(),
+            suggestNotes = get(),
             dispatchers = get(),
             clock = get(),
             savedStateHandle = get(),
