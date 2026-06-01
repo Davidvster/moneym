@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">Установить PIN</string>
+    <string name="security_pin_confirm_title">Подтвердить PIN</string>
+    <string name="security_pin_enter_title">Введите PIN</string>
+    <string name="security_pin_subtitle_first">Введите 4-значный PIN</string>
+    <string name="security_pin_subtitle_confirm">Введите PIN ещё раз</string>
+    <string name="security_pin_mismatch">PIN-коды не совпадают</string>
+    <string name="security_pin_incorrect">Неверный PIN</string>
+    <string name="security_pin_locked">Слишком много попыток</string>
+    <string name="security_biometric_use">Использовать биометрию</string>
+    <string name="security_biometric_reason">Разблокировать MoneyM</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Отмена</string>
+    <string name="security_backoff_retry">Повторите через %1$d с</string>
+    <string name="security_change_pin_title">Изменить PIN</string>
+    <string name="security_pin_set_header">Установите PIN</string>
+    <string name="security_pin_confirm_header">Подтвердите PIN</string>
+    <string name="security_pin_enter_header">Введите PIN</string>
+    <string name="security_biometric_offer_title">Включить биометрию?</string>
+    <string name="security_biometric_offer_body">Быстро разблокируйте MoneyM с помощью Face ID или отпечатка пальца.</string>
+    <string name="security_biometric_offer_enable">Включить</string>
+    <string name="security_biometric_offer_skip">Не сейчас</string>
+    <string name="security_biometric_unlock_prompt">Разблокировать MoneyM</string>
+</resources>

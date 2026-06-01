@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Подтвердить удаление</string>
+    <string name="sync_deletions_subtitle">Другое устройство удалило эти элементы. Выберите, какие из них также удалить здесь. Невыбранные элементы сохраняются и восстанавливаются на другом устройстве.</string>
+    <string name="sync_deletions_group_wallets">Кошельки</string>
+    <string name="sync_deletions_group_transactions">Транзакции</string>
+    <string name="sync_deletions_group_budgets">Бюджеты</string>
+    <string name="sync_deletions_group_recurring">Повторяющиеся</string>
+    <string name="sync_deletions_group_categories">Категории</string>
+    <string name="sync_deletions_group_payment_modes">Способы оплаты</string>
+    <string name="sync_deletions_confirm">Удалить выбранные</string>
+    <string name="sync_deletions_cancel">Оставить всё</string>
+    <string name="sync_settings_title">Синхронизация между устройствами</string>
+    <string name="sync_settings_toggle_title">Синхронизировать между устройствами</string>
+    <string name="sync_settings_toggle_subtitle">Держите данные синхронизированными на всех устройствах, подключённых к одной резервной копии.</string>
+    <string name="sync_settings_rename_label">Имя этого устройства</string>
+    <string name="sync_settings_rename_save">Сохранить</string>
+    <string name="sync_settings_rename_cancel">Отмена</string>
+    <string name="sync_settings_devices_header">УСТРОЙСТВА</string>
+    <string name="sync_settings_this_device">Это устройство</string>
+    <string name="sync_settings_remove">Удалить</string>
+    <string name="sync_settings_last_synced_just_now">синхронизировано только что</string>
+    <string name="sync_settings_last_synced_minutes">синхронизировано %1$d мин назад</string>
+    <string name="sync_settings_last_synced_hours">синхронизировано %1$d ч назад</string>
+    <string name="sync_settings_last_synced_days">синхронизировано %1$d д назад</string>
+    <string name="sync_settings_last_synced_longer">синхронизировано давно</string>
+</resources>

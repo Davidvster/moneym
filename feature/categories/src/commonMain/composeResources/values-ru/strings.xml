@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Категории</string>
+    <string name="categories_add">Добавить категорию</string>
+    <string name="categories_edit_title">Редактировать категорию</string>
+    <string name="categories_new_title">Новая категория</string>
+    <string name="categories_name_label">Название</string>
+    <string name="categories_name_error">Название обязательно</string>
+    <string name="categories_icon_label">Иконка</string>
+    <string name="categories_color_label">Цвет</string>
+    <string name="categories_archive">Архивировать</string>
+    <string name="categories_restore">Восстановить</string>
+    <string name="categories_show_archived">Показать архивные</string>
+    <string name="categories_hide_archived">Скрыть архивные</string>
+    <string name="categories_archived_badge">Архивная</string>
+    <string name="categories_empty">Категорий пока нет</string>
+    <string name="categories_back">Назад</string>
+    <string name="categories_show_archived_count">Показать архивные (%1$d)</string>
+    <string name="categories_cancel">Отмена</string>
+    <string name="categories_save">Сохранить</string>
+    <string name="categories_new_button">Новая</string>
+    <string name="categories_tab_expense">Расходы</string>
+    <string name="categories_tab_income">Доходы</string>
+    <string name="categories_hint">удерживайте для сортировки</string>
+    <string name="categories_new_expense">Новая категория расходов</string>
+    <string name="categories_new_income">Новая категория доходов</string>
+    <string name="categories_name_placeholder">напр. Продукты</string>
+    <string name="categories_edit_sheet_title">Редактировать категорию</string>
+    <string name="categories_new_sheet_title">Новая категория</string>
+    <string name="categories_delete">Удалить категорию</string>
+    <string name="categories_save_changes">Сохранить изменения</string>
+    <string name="categories_create">Создать категорию</string>
+    <string name="categories_delete_confirm_title">Удалить «%1$s»?</string>
+    <string name="categories_delete_confirm_body">Категория будет удалена. Транзакции, использующие её, могут быть затронуты.</string>
+    <string name="categories_delete_button">Удалить</string>
+    <string name="categories_color_picker_title">Выбрать цвет</string>
+    <string name="categories_color_hue">Оттенок</string>
+    <string name="categories_color_saturation">Насыщенность</string>
+    <string name="categories_color_brightness">Яркость</string>
+    <string name="categories_color_hex">HEX-цвет</string>
+    <string name="categories_color_select">Выбрать цвет</string>
+    <string name="categories_name_preview_placeholder">Название категории</string>
+</resources>

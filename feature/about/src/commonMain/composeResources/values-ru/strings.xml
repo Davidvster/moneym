@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">О приложении</string>
+    <string name="about_terms">Условия &amp; Положения</string>
+    <string name="about_privacy">Политика конфиденциальности</string>
+</resources>

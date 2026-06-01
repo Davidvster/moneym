@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Бюджеты</string>
+    <string name="budgets_empty">Бюджетов пока нет</string>
+    <string name="budgets_new">Новый бюджет</string>
+    <string name="budgets_new_title">Новый бюджет</string>
+    <string name="budgets_edit_title">Редактировать бюджет</string>
+    <string name="budgets_name_label">Название</string>
+    <string name="budgets_amount_label">Сумма</string>
+    <string name="budgets_account_label">Счёт</string>
+    <string name="budgets_account_filter_label">Счёт</string>
+    <string name="budgets_category_label">Категория</string>
+    <string name="budgets_all_categories">Все категории</string>
+    <string name="budgets_start_month">Начальный месяц</string>
+    <string name="budgets_recurring">Повторяющийся</string>
+    <string name="budgets_recurring_single">Разовый</string>
+    <string name="budgets_recurring_unlimited">Неограниченный</string>
+    <string name="budgets_recurring_n_months">N месяцев</string>
+    <string name="budgets_recurring_count_label">Количество месяцев</string>
+    <string name="budgets_recurring_badge_unlimited">Повторяющийся</string>
+    <string name="budgets_recurring_badge_n_months">%1$d мес.</string>
+    <string name="budgets_save">Сохранить</string>
+    <string name="budgets_cancel">Отмена</string>
+    <string name="budgets_delete">Удалить</string>
+    <string name="budgets_delete_confirm_title">Удалить «%1$s»?</string>
+    <string name="budgets_delete_confirm_body">Бюджет будет удалён. Транзакции не затрагиваются.</string>
+    <string name="budgets_placeholder_name">Продукты</string>
+    <string name="budgets_error_required">Обязательное поле</string>
+    <string name="budgets_error_amount">Введите сумму &gt; 0</string>
+    <string name="budgets_error_count">Должно быть &gt; 0</string>
+    <string name="budgets_prev_month">Предыдущий месяц</string>
+    <string name="budgets_next_month">Следующий месяц</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Выбрать месяц</string>
+    <string name="budgets_month_picker_now">Этот месяц</string>
+    <string name="budgets_month_picker_ok">ОК</string>
+    <string name="budgets_month_picker_cancel">Отмена</string>
+    <string name="budgets_month_picker_prev_year_cd">Предыдущий год</string>
+    <string name="budgets_month_picker_next_year_cd">Следующий год</string>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">Транзакции</string>
+    <string name="nav_tab_overview">Обзор</string>
+    <string name="nav_tab_settings">Настройки</string>
+    <string name="category_seed_groceries">Продукты</string>
+    <string name="category_seed_eating_out">Питание вне дома</string>
+    <string name="category_seed_rent">Аренда</string>
+    <string name="category_seed_transport">Транспорт</string>
+    <string name="category_seed_utilities">Коммунальные услуги</string>
+    <string name="category_seed_health">Здоровье</string>
+    <string name="category_seed_entertainment">Развлечения</string>
+    <string name="category_seed_shopping">Покупки</string>
+    <string name="category_seed_other_expense">Прочее</string>
+    <string name="category_seed_salary">Зарплата</string>
+    <string name="category_seed_payment">Платёж</string>
+    <string name="category_seed_gift">Подарок</string>
+    <string name="category_seed_other_income">Прочее</string>
+</resources>

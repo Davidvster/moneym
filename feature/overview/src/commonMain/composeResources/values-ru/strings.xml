@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Обзор</string>
+    <string name="overview_income">Доходы</string>
+    <string name="overview_expenses">Расходы</string>
+    <string name="overview_by_category">Расходы по категориям</string>
+    <string name="overview_trend">Тренд за 6 месяцев</string>
+    <string name="overview_all_categories">Все категории</string>
+    <string name="overview_empty">Нет транзакций за этот период</string>
+    <string name="overview_previous_month">Предыдущий месяц</string>
+    <string name="overview_next_month">Следующий месяц</string>
+    <string name="overview_loading">Загрузка…</string>
+    <string name="overview_more">+ ещё %1$d</string>
+    <string name="overview_monthly_breakdown">Разбивка по месяцам</string>
+    <string name="overview_daily_breakdown">Разбивка по дням</string>
+    <string name="overview_all">Все</string>
+    <string name="overview_previous">Предыдущий</string>
+    <string name="overview_next">Следующий</string>
+    <string name="overview_switch_to_month">Переключиться на вид по месяцам</string>
+    <string name="overview_switch_to_year">Переключиться на вид по годам</string>
+    <string name="overview_period_month">Месяц</string>
+    <string name="overview_period_year">Год</string>
+    <string name="overview_period_custom">Произвольный</string>
+    <string name="overview_label_income">ДОХОДЫ</string>
+    <string name="overview_label_expenses">РАСХОДЫ</string>
+    <string name="overview_label_balance">БАЛАНС</string>
+    <string name="overview_spending_by_category">Расходы по категориям</string>
+    <string name="overview_no_expenses">Расходов за этот период нет</string>
+    <string name="overview_label_total">ИТОГО</string>
+    <string name="overview_cumulative_spend">Накопленные расходы</string>
+    <string name="overview_through_day">по день %1$d</string>
+    <string name="overview_daily_trend">Дневной тренд по категориям</string>
+    <string name="overview_monthly_spending">Расходы по месяцам</string>
+    <string name="overview_monthly_trend">Месячный тренд по категориям</string>
+    <string name="overview_avg_day">СР / ДЕНЬ</string>
+    <string name="overview_avg_month">СР / МЕС</string>
+    <string name="overview_dialog_select_month">Выбрать месяц</string>
+    <string name="overview_dialog_select_year">Выбрать год</string>
+    <string name="overview_prev_year_cd">Предыдущий год</string>
+    <string name="overview_next_year_cd">Следующий год</string>
+    <string name="overview_analyze_cd">Анализировать с AI</string>
+    <string name="overview_now">Сейчас</string>
+    <string name="overview_ok">ОК</string>
+    <string name="overview_cancel">Отмена</string>
+    <string name="overview_tx_count_singular">%1$d транзакция</string>
+    <string name="overview_tx_count_plural">%1$d транзакций</string>
+    <string name="overview_cat_avg_day">ср/день</string>
+    <string name="overview_cat_avg_month">ср/мес</string>
+    <string name="overview_date_range_title">Выбрать диапазон дат</string>
+    <string name="overview_date_range_from">С</string>
+    <string name="overview_date_range_to">ПО</string>
+    <string name="overview_budgets_title">Бюджеты</string>
+    <string name="overview_budgets_all_categories">Все категории</string>
+    <string name="overview_budgets_remaining_suffix">%1$s осталось</string>
+    <string name="overview_budgets_overrun_suffix">%1$s превышено</string>
+    <string-array name="overview_year_x_labels">
+        <item>янв</item>
+        <item>апр</item>
+        <item>июл</item>
+        <item>окт</item>
+        <item>дек</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>

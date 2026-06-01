@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Анализ</string>
+    <string name="analyze_intro">Задайте любой вопрос о ваших финансах за этот период.</string>
+    <string name="analyze_input_hint">Задать вопрос…</string>
+    <string name="analyze_send_cd">Отправить</string>
+    <string name="analyze_grounding_label">Источник данных</string>
+    <string name="analyze_grounding_snapshot">Снимок</string>
+    <string name="analyze_grounding_tools">Инструменты</string>
+    <string name="analyze_tools_fallback_notice">Инструменты не поддерживаются этой моделью. Используется снимок.</string>
+    <string name="analyze_error">Что-то пошло не так. Попробуйте ещё раз.</string>
+    <string name="analyze_generating">Думаю…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Сколько я потратил в этом месяце?</item>
+        <item>Каковы мои главные категории расходов?</item>
+        <item>Как этот месяц сравнивается с прошлым?</item>
+        <item>Есть ли необычные или крупные расходы?</item>
+    </string-array>
+</resources>

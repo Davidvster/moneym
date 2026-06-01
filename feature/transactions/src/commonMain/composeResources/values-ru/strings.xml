@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Транзакции</string>
+    <string name="transactions_add">Добавить транзакцию</string>
+    <string name="transactions_filter_all">Все</string>
+    <string name="transactions_filter_expenses">Расходы</string>
+    <string name="transactions_filter_income">Доходы</string>
+    <string name="transactions_filter_categories">Фильтр по категории</string>
+    <string name="transactions_filter_clear">Очистить</string>
+    <string name="transactions_filter_done">Готово</string>
+    <string name="transactions_empty">Транзакций в этом месяце нет</string>
+    <string name="transactions_previous_month">Предыдущий месяц</string>
+    <string name="transactions_next_month">Следующий месяц</string>
+    <string name="transactions_loading">Загрузка…</string>
+    <string name="transactions_search_placeholder">Поиск транзакций…</string>
+    <string name="transactions_search_cd">Поиск</string>
+    <string name="transactions_close_search_cd">Закрыть поиск</string>
+    <string name="transactions_net_label">ИТОГ</string>
+    <string name="transactions_dialog_select_month">Выбрать месяц</string>
+    <string name="transactions_prev_year_cd">Предыдущий год</string>
+    <string name="transactions_next_year_cd">Следующий год</string>
+    <string name="transactions_now">Сейчас</string>
+    <string name="transactions_ok">ОК</string>
+    <string name="transactions_cancel">Отмена</string>
+    <string name="transactions_wallet_select">Выбрать кошелёк</string>
+    <string name="transactions_wallet_all">Все кошельки</string>
+    <string name="transactions_syncing">Синхронизация…</string>
+    <string name="transactions_pending_deletions">%1$d элементов удалено на другом устройстве — проверить</string>
+</resources>

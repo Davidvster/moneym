@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Транзакции</string>
+    <string name="tab_overview">Обзор</string>
+    <string name="tab_settings">Настройки</string>
+    <string name="amount_input_calculator_desc">Открыть калькулятор</string>
+    <string name="month_jan">Январь</string>
+    <string name="month_feb">Февраль</string>
+    <string name="month_mar">Март</string>
+    <string name="month_apr">Апрель</string>
+    <string name="month_may">Май</string>
+    <string name="month_jun">Июнь</string>
+    <string name="month_jul">Июль</string>
+    <string name="month_aug">Август</string>
+    <string name="month_sep">Сентябрь</string>
+    <string name="month_oct">Октябрь</string>
+    <string name="month_nov">Ноябрь</string>
+    <string name="month_dec">Декабрь</string>
+    <string name="colorpicker_title">Выбрать цвет</string>
+    <string name="colorpicker_hue">Оттенок</string>
+    <string name="colorpicker_saturation">Насыщенность</string>
+    <string name="colorpicker_brightness">Яркость</string>
+    <string name="colorpicker_hex">HEX-цвет</string>
+    <string name="colorpicker_select">Выбрать цвет</string>
+    <string name="colorpicker_cancel">Отмена</string>
+    <string name="wallet_select">Выбрать кошелёк</string>
+    <string name="cancel">Отмена</string>
+</resources>

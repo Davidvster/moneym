@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Добро пожаловать в MoneyM</string>
+    <string name="onboarding_currency_title">Выберите валюту по умолчанию</string>
+    <string name="onboarding_continue">Продолжить</string>
+    <string name="onboarding_security_title">Защитите приложение</string>
+    <string name="onboarding_security_subtitle">Защитите свои финансовые данные с помощью PIN-кода.</string>
+    <string name="onboarding_pin_label">PIN-блокировка</string>
+    <string name="onboarding_pin_set">PIN установлен ✓</string>
+    <string name="onboarding_done">Готово</string>
+    <string name="onboarding_skip">Пропустить</string>
+    <string name="onboarding_skip_short">Пропустить</string>
+    <string name="onboarding_search_currency">Поиск валюты…</string>
+    <string name="onboarding_currencies_header">ВАЛЮТЫ</string>
+    <string name="onboarding_biometrics_label">Биометрия</string>
+    <string name="onboarding_biometrics_subtitle">Разблокировать с помощью Face ID или отпечатка пальца</string>
+    <string name="onboarding_restore_from_backup">Восстановить из резервной копии</string>
+    <string name="onboarding_import_data">Импорт данных</string>
+    <string name="onboarding_restore_warning_title">Заменить все данные?</string>
+    <string name="onboarding_restore_warning_body">Это заменит ваши текущие данные резервной копией и пропустит настройку.</string>
+    <string name="onboarding_restore_confirm">Восстановить</string>
+    <string name="onboarding_restore_screen_title">Восстановление резервной копии</string>
+    <string name="onboarding_restore_local_button">Восстановить из файла</string>
+    <string name="onboarding_restore_google_section">Google Диск</string>
+    <string name="onboarding_restore_google_connect">Подключить аккаунт Google</string>
+    <string name="onboarding_restore_google_button">Восстановить с Google Диска</string>
+    <string name="onboarding_restore_passphrase_label">Пароль резервной копии</string>
+    <string name="onboarding_restore_app_close_notice">Приложение закроется после восстановления. Откройте его снова для продолжения.</string>
+    <string name="onboarding_restore_cancel">Отмена</string>
+    <string name="onboarding_restore_remote_loading">Загрузка информации о резервной копии…</string>
+    <string name="onboarding_restore_wrong_password">Неверный пароль или повреждённая резервная копия.</string>
+</resources>
