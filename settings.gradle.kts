@@ -42,6 +42,7 @@ include(":core:navigation")
 include(":core:testing")
 include(":core:platform")
 include(":core:utils")
+include(":core:ai")
 
 // Data
 include(":data:transactions")
