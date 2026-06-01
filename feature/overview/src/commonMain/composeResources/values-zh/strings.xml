@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">概览</string>
+    <string name="overview_income">收入</string>
+    <string name="overview_expenses">支出</string>
+    <string name="overview_by_category">按类别消费</string>
+    <string name="overview_trend">6 个月趋势</string>
+    <string name="overview_all_categories">所有类别</string>
+    <string name="overview_empty">本期无交易记录</string>
+    <string name="overview_previous_month">上一个月</string>
+    <string name="overview_next_month">下一个月</string>
+    <string name="overview_loading">加载中…</string>
+    <string name="overview_more">+ %1$d 更多</string>
+    <string name="overview_monthly_breakdown">月度明细</string>
+    <string name="overview_daily_breakdown">日度明细</string>
+    <string name="overview_all">全部</string>
+    <string name="overview_previous">上一个</string>
+    <string name="overview_next">下一个</string>
+    <string name="overview_switch_to_month">切换到月视图</string>
+    <string name="overview_switch_to_year">切换到年视图</string>
+    <string name="overview_period_month">月</string>
+    <string name="overview_period_year">年</string>
+    <string name="overview_period_custom">自定义</string>
+    <string name="overview_label_income">收入</string>
+    <string name="overview_label_expenses">支出</string>
+    <string name="overview_label_balance">结余</string>
+    <string name="overview_spending_by_category">按类别消费</string>
+    <string name="overview_no_expenses">本期无支出</string>
+    <string name="overview_label_total">合计</string>
+    <string name="overview_cumulative_spend">累计支出</string>
+    <string name="overview_through_day">截至第 %1$d 天</string>
+    <string name="overview_daily_trend">按类别日趋势</string>
+    <string name="overview_monthly_spending">月度支出</string>
+    <string name="overview_monthly_trend">按类别月趋势</string>
+    <string name="overview_avg_day">日均</string>
+    <string name="overview_avg_month">月均</string>
+    <string name="overview_dialog_select_month">选择月份</string>
+    <string name="overview_dialog_select_year">选择年份</string>
+    <string name="overview_prev_year_cd">上一年</string>
+    <string name="overview_next_year_cd">下一年</string>
+    <string name="overview_analyze_cd">使用 AI 分析</string>
+    <string name="overview_now">现在</string>
+    <string name="overview_ok">确定</string>
+    <string name="overview_cancel">取消</string>
+    <string name="overview_tx_count_singular">%1$d 条交易记录</string>
+    <string name="overview_tx_count_plural">%1$d 条交易记录</string>
+    <string name="overview_cat_avg_day">日均</string>
+    <string name="overview_cat_avg_month">月均</string>
+    <string name="overview_date_range_title">选择日期范围</string>
+    <string name="overview_date_range_from">从</string>
+    <string name="overview_date_range_to">至</string>
+    <string name="overview_budgets_title">预算</string>
+    <string name="overview_budgets_all_categories">所有类别</string>
+    <string name="overview_budgets_remaining_suffix">剩余 %1$s</string>
+    <string name="overview_budgets_overrun_suffix">超出 %1$s</string>
+    <string-array name="overview_year_x_labels">
+        <item>1月</item>
+        <item>4月</item>
+        <item>7月</item>
+        <item>10月</item>
+        <item>12月</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>

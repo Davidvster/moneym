@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">预算</string>
+    <string name="budgets_empty">暂无预算</string>
+    <string name="budgets_new">新建预算</string>
+    <string name="budgets_new_title">新建预算</string>
+    <string name="budgets_edit_title">编辑预算</string>
+    <string name="budgets_name_label">名称</string>
+    <string name="budgets_amount_label">金额</string>
+    <string name="budgets_account_label">账户</string>
+    <string name="budgets_account_filter_label">账户</string>
+    <string name="budgets_category_label">类别</string>
+    <string name="budgets_all_categories">所有类别</string>
+    <string name="budgets_start_month">开始月份</string>
+    <string name="budgets_recurring">重复</string>
+    <string name="budgets_recurring_single">单次</string>
+    <string name="budgets_recurring_unlimited">无限</string>
+    <string name="budgets_recurring_n_months">N 个月</string>
+    <string name="budgets_recurring_count_label">月数</string>
+    <string name="budgets_recurring_badge_unlimited">重复</string>
+    <string name="budgets_recurring_badge_n_months">%1$d 个月</string>
+    <string name="budgets_save">保存</string>
+    <string name="budgets_cancel">取消</string>
+    <string name="budgets_delete">删除</string>
+    <string name="budgets_delete_confirm_title">删除"%1$s"？</string>
+    <string name="budgets_delete_confirm_body">这将删除该预算，交易记录不受影响。</string>
+    <string name="budgets_placeholder_name">食品杂货</string>
+    <string name="budgets_error_required">必填项</string>
+    <string name="budgets_error_amount">请输入大于 0 的金额</string>
+    <string name="budgets_error_count">必须大于 0</string>
+    <string name="budgets_prev_month">上一个月</string>
+    <string name="budgets_next_month">下一个月</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">选择月份</string>
+    <string name="budgets_month_picker_now">本月</string>
+    <string name="budgets_month_picker_ok">确定</string>
+    <string name="budgets_month_picker_cancel">取消</string>
+    <string name="budgets_month_picker_prev_year_cd">上一年</string>
+    <string name="budgets_month_picker_next_year_cd">下一年</string>
+</resources>

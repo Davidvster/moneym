@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">类别</string>
+    <string name="categories_add">添加类别</string>
+    <string name="categories_edit_title">编辑类别</string>
+    <string name="categories_new_title">新建类别</string>
+    <string name="categories_name_label">名称</string>
+    <string name="categories_name_error">名称不能为空</string>
+    <string name="categories_icon_label">图标</string>
+    <string name="categories_color_label">颜色</string>
+    <string name="categories_archive">归档</string>
+    <string name="categories_restore">恢复</string>
+    <string name="categories_show_archived">显示已归档</string>
+    <string name="categories_hide_archived">隐藏已归档</string>
+    <string name="categories_archived_badge">已归档</string>
+    <string name="categories_empty">暂无类别</string>
+    <string name="categories_back">返回</string>
+    <string name="categories_show_archived_count">显示已归档 (%1$d)</string>
+    <string name="categories_cancel">取消</string>
+    <string name="categories_save">保存</string>
+    <string name="categories_new_button">新建</string>
+    <string name="categories_tab_expense">支出</string>
+    <string name="categories_tab_income">收入</string>
+    <string name="categories_hint">长按以重新排序</string>
+    <string name="categories_new_expense">新建支出类别</string>
+    <string name="categories_new_income">新建收入类别</string>
+    <string name="categories_name_placeholder">例如：食品杂货</string>
+    <string name="categories_edit_sheet_title">编辑类别</string>
+    <string name="categories_new_sheet_title">新建类别</string>
+    <string name="categories_delete">删除类别</string>
+    <string name="categories_save_changes">保存更改</string>
+    <string name="categories_create">创建类别</string>
+    <string name="categories_delete_confirm_title">删除"%1$s"？</string>
+    <string name="categories_delete_confirm_body">这将删除该类别，使用该类别的交易记录可能受到影响。</string>
+    <string name="categories_delete_button">删除</string>
+    <string name="categories_color_picker_title">选择颜色</string>
+    <string name="categories_color_hue">色相</string>
+    <string name="categories_color_saturation">饱和度</string>
+    <string name="categories_color_brightness">亮度</string>
+    <string name="categories_color_hex">十六进制颜色</string>
+    <string name="categories_color_select">选择颜色</string>
+    <string name="categories_name_preview_placeholder">类别名称</string>
+</resources>

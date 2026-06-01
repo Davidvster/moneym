@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">交易记录</string>
+    <string name="nav_tab_overview">概览</string>
+    <string name="nav_tab_settings">设置</string>
+    <string name="category_seed_groceries">食品杂货</string>
+    <string name="category_seed_eating_out">外出就餐</string>
+    <string name="category_seed_rent">房租</string>
+    <string name="category_seed_transport">交通</string>
+    <string name="category_seed_utilities">水电费</string>
+    <string name="category_seed_health">健康</string>
+    <string name="category_seed_entertainment">娱乐</string>
+    <string name="category_seed_shopping">购物</string>
+    <string name="category_seed_other_expense">其他</string>
+    <string name="category_seed_salary">工资</string>
+    <string name="category_seed_payment">付款</string>
+    <string name="category_seed_gift">礼金</string>
+    <string name="category_seed_other_income">其他</string>
+</resources>

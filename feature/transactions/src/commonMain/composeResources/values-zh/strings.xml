@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">交易记录</string>
+    <string name="transactions_add">添加交易</string>
+    <string name="transactions_filter_all">全部</string>
+    <string name="transactions_filter_expenses">支出</string>
+    <string name="transactions_filter_income">收入</string>
+    <string name="transactions_filter_categories">按类别筛选</string>
+    <string name="transactions_filter_clear">清除</string>
+    <string name="transactions_filter_done">完成</string>
+    <string name="transactions_empty">本月无交易记录</string>
+    <string name="transactions_previous_month">上一个月</string>
+    <string name="transactions_next_month">下一个月</string>
+    <string name="transactions_loading">加载中…</string>
+    <string name="transactions_search_placeholder">搜索交易记录…</string>
+    <string name="transactions_search_cd">搜索</string>
+    <string name="transactions_close_search_cd">关闭搜索</string>
+    <string name="transactions_net_label">净额</string>
+    <string name="transactions_dialog_select_month">选择月份</string>
+    <string name="transactions_prev_year_cd">上一年</string>
+    <string name="transactions_next_year_cd">下一年</string>
+    <string name="transactions_now">现在</string>
+    <string name="transactions_ok">确定</string>
+    <string name="transactions_cancel">取消</string>
+    <string name="transactions_wallet_select">选择钱包</string>
+    <string name="transactions_wallet_all">所有钱包</string>
+    <string name="transactions_syncing">同步中…</string>
+    <string name="transactions_pending_deletions">另一台设备删除了 %1$d 个项目 — 请审核</string>
+</resources>

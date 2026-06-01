@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">欢迎使用 MoneyM</string>
+    <string name="onboarding_currency_title">选择默认货币</string>
+    <string name="onboarding_continue">继续</string>
+    <string name="onboarding_security_title">保护您的应用</string>
+    <string name="onboarding_security_subtitle">使用 PIN 码保护您的财务数据。</string>
+    <string name="onboarding_pin_label">PIN 锁</string>
+    <string name="onboarding_pin_set">PIN 已设置 ✓</string>
+    <string name="onboarding_done">完成</string>
+    <string name="onboarding_skip">暂时跳过</string>
+    <string name="onboarding_skip_short">跳过</string>
+    <string name="onboarding_search_currency">搜索货币…</string>
+    <string name="onboarding_currencies_header">货币</string>
+    <string name="onboarding_biometrics_label">生物识别</string>
+    <string name="onboarding_biometrics_subtitle">使用 Face ID 或指纹解锁</string>
+    <string name="onboarding_restore_from_backup">从备份恢复</string>
+    <string name="onboarding_import_data">导入数据</string>
+    <string name="onboarding_restore_warning_title">替换所有数据？</string>
+    <string name="onboarding_restore_warning_body">这将用备份替换您的当前数据并跳过设置。</string>
+    <string name="onboarding_restore_confirm">恢复</string>
+    <string name="onboarding_restore_screen_title">恢复备份</string>
+    <string name="onboarding_restore_local_button">从文件恢复</string>
+    <string name="onboarding_restore_google_section">Google 云端硬盘</string>
+    <string name="onboarding_restore_google_connect">连接 Google 账户</string>
+    <string name="onboarding_restore_google_button">从 Google 云端硬盘恢复</string>
+    <string name="onboarding_restore_passphrase_label">备份密码</string>
+    <string name="onboarding_restore_app_close_notice">恢复后应用将关闭，请重新打开以继续。</string>
+    <string name="onboarding_restore_cancel">取消</string>
+    <string name="onboarding_restore_remote_loading">正在获取备份信息…</string>
+    <string name="onboarding_restore_wrong_password">密码错误或备份已损坏。</string>
+</resources>

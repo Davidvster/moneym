@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">确认删除</string>
+    <string name="sync_deletions_subtitle">另一台设备删除了这些项目。选择要在此处同步删除的项目，未勾选的项目将保留并在另一台设备上恢复。</string>
+    <string name="sync_deletions_group_wallets">钱包</string>
+    <string name="sync_deletions_group_transactions">交易记录</string>
+    <string name="sync_deletions_group_budgets">预算</string>
+    <string name="sync_deletions_group_recurring">重复</string>
+    <string name="sync_deletions_group_categories">类别</string>
+    <string name="sync_deletions_group_payment_modes">支付方式</string>
+    <string name="sync_deletions_confirm">删除所选</string>
+    <string name="sync_deletions_cancel">全部保留</string>
+    <string name="sync_settings_title">跨设备同步</string>
+    <string name="sync_settings_toggle_title">跨设备同步</string>
+    <string name="sync_settings_toggle_subtitle">在登录同一备份的所有设备上保持数据同步。</string>
+    <string name="sync_settings_rename_label">此设备名称</string>
+    <string name="sync_settings_rename_save">保存</string>
+    <string name="sync_settings_rename_cancel">取消</string>
+    <string name="sync_settings_devices_header">设备</string>
+    <string name="sync_settings_this_device">此设备</string>
+    <string name="sync_settings_remove">移除</string>
+    <string name="sync_settings_last_synced_just_now">刚刚同步</string>
+    <string name="sync_settings_last_synced_minutes">%1$d 分钟前同步</string>
+    <string name="sync_settings_last_synced_hours">%1$d 小时前同步</string>
+    <string name="sync_settings_last_synced_days">%1$d 天前同步</string>
+    <string name="sync_settings_last_synced_longer">很久以前同步</string>
+</resources>

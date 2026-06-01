@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">关于</string>
+    <string name="about_terms">条款与条件</string>
+    <string name="about_privacy">隐私政策</string>
+</resources>

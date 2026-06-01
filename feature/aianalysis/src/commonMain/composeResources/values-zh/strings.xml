@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">分析</string>
+    <string name="analyze_intro">询问关于本期财务的任何问题。</string>
+    <string name="analyze_input_hint">提出问题…</string>
+    <string name="analyze_send_cd">发送</string>
+    <string name="analyze_grounding_label">数据来源</string>
+    <string name="analyze_grounding_snapshot">快照</string>
+    <string name="analyze_grounding_tools">工具</string>
+    <string name="analyze_tools_fallback_notice">此模型不支持工具，将改用快照。</string>
+    <string name="analyze_error">出现错误，请重试。</string>
+    <string name="analyze_generating">思考中…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>本月我花了多少钱？</item>
+        <item>我的主要消费类别是什么？</item>
+        <item>本月与上月相比如何？</item>
+        <item>有没有异常或大额支出？</item>
+    </string-array>
+</resources>

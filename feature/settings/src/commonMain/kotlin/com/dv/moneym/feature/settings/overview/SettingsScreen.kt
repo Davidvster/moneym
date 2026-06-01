@@ -207,6 +207,7 @@ private fun SettingsContent(
         "it" -> "Italiano"
         "fr" -> "Français"
         "pt" -> "Português"
+        "zh" -> "中文"
         else -> stringResource(Res.string.settings_lang_system_default)
     }
 
