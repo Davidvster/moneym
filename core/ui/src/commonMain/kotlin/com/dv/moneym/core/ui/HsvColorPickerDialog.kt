@@ -1,9 +1,11 @@
 package com.dv.moneym.core.ui
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.drag
 import androidx.compose.foundation.gestures.horizontalDrag
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,8 +34,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
@@ -46,13 +50,17 @@ import moneym.core.ui.generated.resources.Res
 import moneym.core.ui.generated.resources.colorpicker_brightness
 import moneym.core.ui.generated.resources.colorpicker_cancel
 import moneym.core.ui.generated.resources.colorpicker_hex
-import moneym.core.ui.generated.resources.colorpicker_hue
-import moneym.core.ui.generated.resources.colorpicker_saturation
 import moneym.core.ui.generated.resources.colorpicker_select
 import moneym.core.ui.generated.resources.colorpicker_title
 import org.jetbrains.compose.resources.stringResource
+import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.hypot
+import kotlin.math.min
 import kotlin.math.roundToInt
+import kotlin.math.sin
 
 // Using Dialog instead of ModalBottomSheet to avoid gesture conflicts with parent sheet
 
@@ -145,13 +153,32 @@ private fun HsvColorPickerContent(
                 .background(currentColor),
         )
 
-        HsvSlidersSection(
+        HueSaturationWheel(
             hue = hue,
             saturation = saturation,
             brightness = brightness,
             onHueChange = onHueChange,
             onSaturationChange = onSaturationChange,
-            onBrightnessChange = onBrightnessChange,
+            colors = colors,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(vertical = MM.dimen.padding_1x)
+                .size(240.dp),
+        )
+
+        Text(
+            stringResource(Res.string.colorpicker_brightness),
+            style = type.caption.copy(color = colors.text2),
+        )
+        HsvSlider(
+            gradient = Brush.horizontalGradient(
+                listOf(
+                    Color.Black,
+                    hsvToColor(hue, saturation.coerceAtLeast(0.3f), 1f),
+                )
+            ),
+            thumbPosition = brightness,
+            onPositionChanged = onBrightnessChange,
             colors = colors,
         )
 
@@ -198,56 +225,72 @@ private fun HsvColorPickerContent(
 }
 
 @Composable
-private fun HsvSlidersSection(
+private fun HueSaturationWheel(
     hue: Float,
     saturation: Float,
     brightness: Float,
     onHueChange: (Float) -> Unit,
     onSaturationChange: (Float) -> Unit,
-    onBrightnessChange: (Float) -> Unit,
     colors: MoneyMColors,
+    modifier: Modifier = Modifier,
 ) {
-    val type = MM.type
-    Text(
-        stringResource(Res.string.colorpicker_hue),
-        style = type.caption.copy(color = colors.text2)
-    )
-    HsvSlider(
-        gradient = Brush.horizontalGradient((0..6).map { i -> hsvToColor(i * 60f, 1f, 1f) }),
-        thumbPosition = hue / 360f,
-        onPositionChanged = { pos -> onHueChange(pos * 360f) },
-        colors = colors,
-    )
-    Text(
-        stringResource(Res.string.colorpicker_saturation),
-        style = type.caption.copy(color = colors.text2)
-    )
-    HsvSlider(
-        gradient = Brush.horizontalGradient(
-            listOf(
-                hsvToColor(hue, 0f, brightness.coerceAtLeast(0.3f)),
-                hsvToColor(hue, 1f, brightness.coerceAtLeast(0.3f)),
-            )
-        ),
-        thumbPosition = saturation,
-        onPositionChanged = { pos -> onSaturationChange(pos) },
-        colors = colors,
-    )
-    Text(
-        stringResource(Res.string.colorpicker_brightness),
-        style = type.caption.copy(color = colors.text2)
-    )
-    HsvSlider(
-        gradient = Brush.horizontalGradient(
-            listOf(
-                Color.Black,
-                hsvToColor(hue, saturation.coerceAtLeast(0.3f), 1f)
-            )
-        ),
-        thumbPosition = brightness,
-        onPositionChanged = { pos -> onBrightnessChange(pos) },
-        colors = colors,
-    )
+    val density = LocalDensity.current
+    val latestOnHueChange by rememberUpdatedState(onHueChange)
+    val latestOnSaturationChange by rememberUpdatedState(onSaturationChange)
+    val sweepColors = remember { (0..6).map { i -> hsvToColor(i * 60f, 1f, 1f) } }
+    val thumbRadiusPx = with(density) { 10.dp.toPx() }
+    val thumbStrokePx = with(density) { 2.dp.toPx() }
+
+    Canvas(
+        modifier = modifier.pointerInput(Unit) {
+            fun emit(pos: Offset) {
+                val r = min(size.width, size.height) / 2f
+                val dx = pos.x - size.width / 2f
+                val dy = pos.y - size.height / 2f
+                val sat = (hypot(dx, dy) / r).coerceIn(0f, 1f)
+                var deg = atan2(dy, dx) * 180f / PI.toFloat()
+                if (deg < 0f) deg += 360f
+                latestOnHueChange(deg)
+                latestOnSaturationChange(sat)
+            }
+            awaitEachGesture {
+                val down = awaitFirstDown(requireUnconsumed = false)
+                emit(down.position)
+                drag(down.id) { change ->
+                    change.consume()
+                    emit(change.position)
+                }
+            }
+        },
+    ) {
+        val center = Offset(size.width / 2f, size.height / 2f)
+        val r = size.minDimension / 2f
+        drawCircle(Brush.sweepGradient(sweepColors, center), radius = r, center = center)
+        drawCircle(
+            Brush.radialGradient(
+                listOf(Color.White, Color.White.copy(alpha = 0f)),
+                center = center,
+                radius = r,
+            ),
+            radius = r,
+            center = center,
+        )
+        if (brightness < 1f) {
+            drawCircle(Color.Black.copy(alpha = 1f - brightness), radius = r, center = center)
+        }
+        val angleRad = hue * PI.toFloat() / 180f
+        val thumb = Offset(
+            center.x + cos(angleRad) * saturation * r,
+            center.y + sin(angleRad) * saturation * r,
+        )
+        drawCircle(Color.White, radius = thumbRadiusPx, center = thumb)
+        drawCircle(
+            colors.borderStrong,
+            radius = thumbRadiusPx,
+            center = thumb,
+            style = Stroke(width = thumbStrokePx),
+        )
+    }
 }
 
 @Composable
