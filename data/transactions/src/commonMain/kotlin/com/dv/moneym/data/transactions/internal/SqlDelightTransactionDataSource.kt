@@ -89,4 +89,6 @@ internal class SqlDelightTransactionDataSource(
     override fun getDistinctTransactionDates(): Flow<List<String>> = dao.selectDistinctDates()
 
     override suspend fun countByRecurringId(recurringId: Long): Int = dao.countByRecurringId(recurringId)
+
+    override suspend fun exportForSync(): List<TransactionEntity> = dao.selectAllForSync()
 }

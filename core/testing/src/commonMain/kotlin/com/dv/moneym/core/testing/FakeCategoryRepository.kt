@@ -3,6 +3,7 @@ package com.dv.moneym.core.testing
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.data.categories.CategoryRepository
+import com.dv.moneym.data.categories.CategorySyncRow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -34,4 +35,21 @@ class FakeCategoryRepository : CategoryRepository {
     override suspend fun deleteAll() {
         _categories.value = emptyList()
     }
+
+    override suspend fun exportForSync(): List<CategorySyncRow> =
+        _categories.value.map { c ->
+            CategorySyncRow(
+                id = c.id.value,
+                syncId = "sync-cat-${c.id.value}",
+                name = c.name,
+                iconKey = c.iconKey,
+                colorHex = c.colorHex,
+                isUserCreated = c.isUserCreated,
+                archived = c.archived,
+                categoryType = c.type.name,
+                deleted = false,
+                createdAt = c.createdAt.toEpochMilliseconds(),
+                updatedAt = c.updatedAt.toEpochMilliseconds(),
+            )
+        }
 }

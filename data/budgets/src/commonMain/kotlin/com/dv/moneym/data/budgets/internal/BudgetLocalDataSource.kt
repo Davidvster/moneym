@@ -34,4 +34,5 @@ internal interface BudgetLocalDataSource {
     )
 
     suspend fun delete(id: Long)
+    suspend fun exportForSync(): List<BudgetEntity>
 }

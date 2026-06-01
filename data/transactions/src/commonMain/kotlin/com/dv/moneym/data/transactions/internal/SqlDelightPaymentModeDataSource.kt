@@ -3,6 +3,7 @@ package com.dv.moneym.data.transactions.internal
 import com.dv.moneym.core.model.PaymentMode
 import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.data.transactions.PaymentModeRepository
+import com.dv.moneym.data.transactions.PaymentModeSyncRow
 import com.dv.moneym.data.transactions.db.PaymentModeEntity
 import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
 import kotlin.time.Clock
@@ -52,4 +53,16 @@ internal class SqlDelightPaymentModeDataSource(
     }
 
     override suspend fun delete(id: PaymentModeId) = dao.deleteById(id.value)
+
+    override suspend fun exportForSync(): List<PaymentModeSyncRow> =
+        dao.selectAllForSync().map { row ->
+            PaymentModeSyncRow(
+                id = row.id,
+                syncId = row.syncId,
+                name = row.name,
+                deleted = row.deleted,
+                createdAt = row.createdAt,
+                updatedAt = row.updatedAt,
+            )
+        }
 }

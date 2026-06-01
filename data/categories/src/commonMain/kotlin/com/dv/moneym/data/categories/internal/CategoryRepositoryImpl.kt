@@ -3,6 +3,7 @@ package com.dv.moneym.data.categories.internal
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.data.categories.CategoryRepository
+import com.dv.moneym.data.categories.CategorySyncRow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.time.Clock
@@ -50,4 +51,7 @@ internal class CategoryRepositoryImpl(
 
     override suspend fun delete(id: CategoryId) = dataSource.delete(id.value)
     override suspend fun deleteAll() = dataSource.deleteAll()
+
+    override suspend fun exportForSync(): List<CategorySyncRow> =
+        dataSource.exportForSync().map { it.toSyncRow() }
 }

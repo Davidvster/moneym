@@ -3,6 +3,7 @@ package com.dv.moneym.data.accounts.internal
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.data.accounts.AccountRepository
+import com.dv.moneym.data.accounts.AccountSyncRow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.time.Clock
@@ -52,4 +53,7 @@ internal class AccountRepositoryImpl(
 
     override suspend fun delete(id: AccountId) = dataSource.delete(id.value)
     override suspend fun deleteAll() = dataSource.deleteAll()
+
+    override suspend fun exportForSync(): List<AccountSyncRow> =
+        dataSource.exportForSync().map { it.toSyncRow() }
 }

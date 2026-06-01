@@ -3,6 +3,7 @@ package com.dv.moneym.data.transactions.internal
 import com.dv.moneym.core.model.RecurringTransaction
 import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.UNSAVED_RECURRING_ID
+import com.dv.moneym.data.transactions.RecurringSyncRow
 import com.dv.moneym.data.transactions.RecurringTransactionRepository
 import com.dv.moneym.data.transactions.db.RecurringTransactionDao
 import kotlin.time.Clock
@@ -45,4 +46,7 @@ internal class RecurringTransactionRepositoryImpl(
     override suspend fun delete(id: RecurringTransactionId) = dao.deleteById(id.value)
 
     override suspend fun deleteAll() = dao.deleteAll()
+
+    override suspend fun exportForSync(): List<RecurringSyncRow> =
+        dao.selectAllForSync().map { it.toSyncRow() }
 }

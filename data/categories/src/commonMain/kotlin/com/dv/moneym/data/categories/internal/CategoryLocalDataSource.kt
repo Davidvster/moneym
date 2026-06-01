@@ -21,4 +21,5 @@ internal interface CategoryLocalDataSource {
 
     suspend fun delete(id: Long)
     suspend fun deleteAll()
+    suspend fun exportForSync(): List<CategoryEntity>
 }

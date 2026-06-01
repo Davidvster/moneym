@@ -4,6 +4,7 @@ import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Budget
 import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.data.budgets.BudgetRepository
+import com.dv.moneym.data.budgets.BudgetSyncRow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -37,4 +38,23 @@ class FakeBudgetRepository : BudgetRepository {
     override suspend fun delete(id: BudgetId) {
         _budgets.update { list -> list.filter { it.id != id } }
     }
+
+    override suspend fun exportForSync(): List<BudgetSyncRow> =
+        _budgets.value.map { b ->
+            BudgetSyncRow(
+                id = b.id.value,
+                syncId = "sync-budget-${b.id.value}",
+                name = b.name,
+                amountMinor = b.amount.minorUnits,
+                currency = b.amount.currency.value,
+                categoryId = b.categoryId?.value,
+                accountId = b.accountId.value,
+                periodType = b.periodType.name,
+                startYearMonth = b.startYearMonth.toString(),
+                recurringMonths = b.recurringMonths,
+                deleted = false,
+                createdAt = b.createdAt.toEpochMilliseconds(),
+                updatedAt = b.updatedAt.toEpochMilliseconds(),
+            )
+        }
 }

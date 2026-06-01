@@ -20,6 +20,9 @@ interface AccountDao {
     @Query("SELECT COUNT(*) FROM Account")
     suspend fun countAll(): Long
 
+    @Query("SELECT * FROM Account")
+    suspend fun selectAllForSync(): List<AccountEntity>
+
     @Insert
     suspend fun insert(entity: AccountEntity): Long
 

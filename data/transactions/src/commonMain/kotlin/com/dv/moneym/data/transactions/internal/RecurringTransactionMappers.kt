@@ -11,6 +11,7 @@ import com.dv.moneym.core.model.RecurrenceRule
 import com.dv.moneym.core.model.RecurringTransaction
 import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.TransactionType
+import com.dv.moneym.data.transactions.RecurringSyncRow
 import com.dv.moneym.data.transactions.db.RecurringTransactionEntity
 import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
@@ -86,5 +87,30 @@ internal fun RecurringTransaction.toEntity(): RecurringTransactionEntity {
         updatedAt = updatedAt.toEpochMilliseconds(),
     )
 }
+
+internal fun RecurringTransactionEntity.toSyncRow() = RecurringSyncRow(
+    id = id,
+    syncId = syncId,
+    type = type,
+    amountMinor = amountMinor,
+    currency = currency,
+    note = note,
+    categoryId = categoryId,
+    accountId = accountId,
+    paymentModeId = paymentModeId,
+    startDate = startDate,
+    freqUnit = freqUnit,
+    freqInterval = freqInterval,
+    dayOfWeek = dayOfWeek,
+    dayOfMonth = dayOfMonth,
+    useLastDay = useLastDay,
+    endKind = endKind,
+    endCount = endCount,
+    endDate = endDate,
+    lastMaterializedDate = lastMaterializedDate,
+    deleted = deleted,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+)
 
 private data class Quintuple<A, B, C, D, E>(val a: A, val b: B, val c: C, val d: D, val e: E)

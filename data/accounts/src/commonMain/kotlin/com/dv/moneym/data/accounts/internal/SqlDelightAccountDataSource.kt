@@ -60,4 +60,6 @@ internal class SqlDelightAccountDataSource(
     override suspend fun delete(id: Long) = dao.deleteById(id)
 
     override suspend fun deleteAll() = dao.deleteAll()
+
+    override suspend fun exportForSync(): List<AccountEntity> = dao.selectAllForSync()
 }

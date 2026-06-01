@@ -12,4 +12,5 @@ interface RecurringTransactionRepository {
     suspend fun updateCursor(id: RecurringTransactionId, lastMaterialized: LocalDate)
     suspend fun delete(id: RecurringTransactionId)
     suspend fun deleteAll()
+    suspend fun exportForSync(): List<RecurringSyncRow>
 }

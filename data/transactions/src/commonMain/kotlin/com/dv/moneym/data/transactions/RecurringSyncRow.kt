@@ -1,0 +1,26 @@
+package com.dv.moneym.data.transactions
+
+data class RecurringSyncRow(
+    val id: Long,
+    val syncId: String?,
+    val type: String,
+    val amountMinor: Long,
+    val currency: String,
+    val note: String?,
+    val categoryId: Long,
+    val accountId: Long,
+    val paymentModeId: Long?,
+    val startDate: String,
+    val freqUnit: String,
+    val freqInterval: Int,
+    val dayOfWeek: Int?,
+    val dayOfMonth: Int?,
+    val useLastDay: Boolean,
+    val endKind: String,
+    val endCount: Int?,
+    val endDate: String?,
+    val lastMaterializedDate: String?,
+    val deleted: Boolean,
+    val createdAt: Long,
+    val updatedAt: Long,
+)

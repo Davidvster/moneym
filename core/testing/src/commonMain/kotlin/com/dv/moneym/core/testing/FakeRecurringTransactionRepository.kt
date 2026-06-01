@@ -1,8 +1,12 @@
 package com.dv.moneym.core.testing
 
+import com.dv.moneym.core.model.EndCondition
+import com.dv.moneym.core.model.MonthlyDayKind
+import com.dv.moneym.core.model.RecurrenceRule
 import com.dv.moneym.core.model.RecurringTransaction
 import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.UNSAVED_RECURRING_ID
+import com.dv.moneym.data.transactions.RecurringSyncRow
 import com.dv.moneym.data.transactions.RecurringTransactionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,4 +50,46 @@ class FakeRecurringTransactionRepository : RecurringTransactionRepository {
     override suspend fun deleteAll() {
         _rules.value = emptyList()
     }
+
+    override suspend fun exportForSync(): List<RecurringSyncRow> =
+        _rules.value.map { r ->
+            val dayOfWeek = (r.rule as? RecurrenceRule.Weekly)?.dayOfWeek
+            val monthly = r.rule as? RecurrenceRule.Monthly
+            val dayOfMonth = (monthly?.dayKind as? MonthlyDayKind.OnDay)?.day
+            val useLastDay = monthly?.dayKind is MonthlyDayKind.LastDay
+            val freqUnit = when (r.rule) {
+                is RecurrenceRule.Daily -> "DAILY"
+                is RecurrenceRule.Weekly -> "WEEKLY"
+                is RecurrenceRule.Monthly -> "MONTHLY"
+            }
+            val endKind = when (r.endCondition) {
+                EndCondition.Unlimited -> "UNLIMITED"
+                is EndCondition.Count -> "COUNT"
+                is EndCondition.Until -> "UNTIL"
+            }
+            RecurringSyncRow(
+                id = r.id.value,
+                syncId = "sync-recurring-${r.id.value}",
+                type = r.type.name,
+                amountMinor = r.amount.minorUnits,
+                currency = r.amount.currency.value,
+                note = r.note,
+                categoryId = r.categoryId.value,
+                accountId = r.accountId.value,
+                paymentModeId = r.paymentModeId?.value,
+                startDate = r.startDate.toString(),
+                freqUnit = freqUnit,
+                freqInterval = r.rule.interval,
+                dayOfWeek = dayOfWeek,
+                dayOfMonth = dayOfMonth,
+                useLastDay = useLastDay,
+                endKind = endKind,
+                endCount = (r.endCondition as? EndCondition.Count)?.occurrences,
+                endDate = (r.endCondition as? EndCondition.Until)?.date?.toString(),
+                lastMaterializedDate = r.lastMaterializedDate?.toString(),
+                deleted = false,
+                createdAt = r.createdAt.toEpochMilliseconds(),
+                updatedAt = r.updatedAt.toEpochMilliseconds(),
+            )
+        }
 }

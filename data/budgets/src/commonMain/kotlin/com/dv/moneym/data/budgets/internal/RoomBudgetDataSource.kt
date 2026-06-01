@@ -76,4 +76,6 @@ internal class RoomBudgetDataSource(
     }
 
     override suspend fun delete(id: Long) = dao.deleteById(id)
+
+    override suspend fun exportForSync(): List<BudgetEntity> = dao.selectAllForSync()
 }

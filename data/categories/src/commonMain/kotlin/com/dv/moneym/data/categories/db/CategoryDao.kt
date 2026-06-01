@@ -20,6 +20,9 @@ interface CategoryDao {
     @Query("SELECT COUNT(*) FROM Category")
     suspend fun countAll(): Long
 
+    @Query("SELECT * FROM Category")
+    suspend fun selectAllForSync(): List<CategoryEntity>
+
     @Insert
     suspend fun insert(entity: CategoryEntity): Long
 

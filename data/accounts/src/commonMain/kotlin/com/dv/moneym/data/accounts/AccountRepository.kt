@@ -13,4 +13,5 @@ interface AccountRepository {
     suspend fun update(account: Account)
     suspend fun delete(id: AccountId)
     suspend fun deleteAll()
+    suspend fun exportForSync(): List<AccountSyncRow>
 }

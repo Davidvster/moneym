@@ -24,4 +24,7 @@ interface PaymentModeDao {
 
     @Query("SELECT COUNT(*) FROM PaymentMode")
     suspend fun countAll(): Long
+
+    @Query("SELECT * FROM PaymentMode")
+    suspend fun selectAllForSync(): List<PaymentModeEntity>
 }

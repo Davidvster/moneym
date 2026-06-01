@@ -8,6 +8,7 @@ import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.data.transactions.TransactionRepository
+import com.dv.moneym.data.transactions.TransactionSyncRow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -94,4 +95,24 @@ class FakeTransactionRepository : TransactionRepository {
 
     override suspend fun countByRecurringId(id: RecurringTransactionId): Int =
         _transactions.value.count { it.recurringId == id }
+
+    override suspend fun exportForSync(): List<TransactionSyncRow> =
+        _transactions.value.map { t ->
+            TransactionSyncRow(
+                id = t.id.value,
+                syncId = "sync-tx-${t.id.value}",
+                type = t.type.name,
+                amountMinor = t.amount.minorUnits,
+                currency = t.amount.currency.value,
+                occurredOn = t.occurredOn.toString(),
+                note = t.note,
+                categoryId = t.categoryId.value,
+                accountId = t.accountId.value,
+                paymentModeId = t.paymentModeId?.value,
+                recurringId = t.recurringId?.value,
+                deleted = false,
+                createdAt = t.createdAt.toEpochMilliseconds(),
+                updatedAt = t.updatedAt.toEpochMilliseconds(),
+            )
+        }
 }

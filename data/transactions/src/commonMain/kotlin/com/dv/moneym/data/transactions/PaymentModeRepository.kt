@@ -10,4 +10,5 @@ interface PaymentModeRepository {
     suspend fun create(name: String)
     suspend fun rename(id: PaymentModeId, name: String)
     suspend fun delete(id: PaymentModeId)
+    suspend fun exportForSync(): List<PaymentModeSyncRow>
 }

@@ -23,4 +23,5 @@ interface TransactionRepository {
     suspend fun getLatestTransactionDate(): LocalDate?
     fun getTransactionDates(): Flow<Set<LocalDate>>
     suspend fun countByRecurringId(id: RecurringTransactionId): Int
+    suspend fun exportForSync(): List<TransactionSyncRow>
 }

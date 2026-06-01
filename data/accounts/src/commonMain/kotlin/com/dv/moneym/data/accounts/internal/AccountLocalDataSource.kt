@@ -22,4 +22,5 @@ internal interface AccountLocalDataSource {
 
     suspend fun delete(id: Long)
     suspend fun deleteAll()
+    suspend fun exportForSync(): List<AccountEntity>
 }

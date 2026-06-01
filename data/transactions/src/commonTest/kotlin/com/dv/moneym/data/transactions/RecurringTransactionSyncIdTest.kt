@@ -34,6 +34,8 @@ class RecurringTransactionSyncIdTest {
 
         override suspend fun selectById(id: Long): RecurringTransactionEntity? = rows[id]
 
+        override suspend fun selectAllForSync(): List<RecurringTransactionEntity> = rows.values.toList()
+
         override suspend fun insert(entity: RecurringTransactionEntity): Long {
             val id = nextId++
             rows[id] = entity.copy(id = id)

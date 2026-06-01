@@ -3,6 +3,7 @@ package com.dv.moneym.core.testing
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.data.accounts.AccountRepository
+import com.dv.moneym.data.accounts.AccountSyncRow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -34,4 +35,21 @@ class FakeAccountRepository : AccountRepository {
     override suspend fun deleteAll() {
         _accounts.value = emptyList()
     }
+
+    override suspend fun exportForSync(): List<AccountSyncRow> =
+        _accounts.value.map { a ->
+            AccountSyncRow(
+                id = a.id.value,
+                syncId = "sync-acc-${a.id.value}",
+                name = a.name,
+                type = a.type.name,
+                currency = a.currency.value,
+                isDefault = a.isDefault,
+                archived = a.archived,
+                colorHex = a.colorHex,
+                deleted = false,
+                createdAt = a.createdAt.toEpochMilliseconds(),
+                updatedAt = a.updatedAt.toEpochMilliseconds(),
+            )
+        }
 }

@@ -4,6 +4,7 @@ import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Budget
 import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.data.budgets.BudgetRepository
+import com.dv.moneym.data.budgets.BudgetSyncRow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.time.Clock
@@ -55,4 +56,7 @@ internal class BudgetRepositoryImpl(
     }
 
     override suspend fun delete(id: BudgetId) = dataSource.delete(id.value)
+
+    override suspend fun exportForSync(): List<BudgetSyncRow> =
+        dataSource.exportForSync().map { it.toSyncRow() }
 }

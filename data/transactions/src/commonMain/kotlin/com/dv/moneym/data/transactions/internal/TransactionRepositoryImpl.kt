@@ -8,6 +8,7 @@ import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.data.transactions.TransactionRepository
+import com.dv.moneym.data.transactions.TransactionSyncRow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.LocalDate
@@ -107,4 +108,7 @@ internal class TransactionRepositoryImpl(
 
     override suspend fun countByRecurringId(id: RecurringTransactionId): Int =
         dataSource.countByRecurringId(id.value)
+
+    override suspend fun exportForSync(): List<TransactionSyncRow> =
+        dataSource.exportForSync().map { it.toSyncRow() }
 }

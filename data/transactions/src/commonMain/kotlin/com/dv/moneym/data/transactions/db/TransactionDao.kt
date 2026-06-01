@@ -61,4 +61,7 @@ interface TransactionDao {
 
     @Query("SELECT COUNT(*) FROM TransactionEntry WHERE recurring_id = :recurringId")
     suspend fun countByRecurringId(recurringId: Long): Int
+
+    @Query("SELECT * FROM TransactionEntry")
+    suspend fun selectAllForSync(): List<TransactionEntity>
 }

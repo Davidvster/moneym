@@ -25,4 +25,7 @@ interface BudgetDao {
 
     @Query("DELETE FROM Budget WHERE id = :id")
     suspend fun deleteById(id: Long)
+
+    @Query("SELECT * FROM Budget")
+    suspend fun selectAllForSync(): List<BudgetEntity>
 }

@@ -24,10 +24,15 @@ kotlin {
             implementation(projects.core.datastore)
             implementation(projects.core.platform)
             implementation(projects.data.remotebackup)
+            implementation(projects.data.accounts)
+            implementation(projects.data.categories)
+            implementation(projects.data.transactions)
+            implementation(projects.data.budgets)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
+            implementation(projects.core.testing)
         }
     }
 }

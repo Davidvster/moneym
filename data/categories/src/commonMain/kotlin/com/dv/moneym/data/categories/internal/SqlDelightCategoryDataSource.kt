@@ -49,4 +49,6 @@ internal class SqlDelightCategoryDataSource(
     override suspend fun delete(id: Long) = dao.deleteById(id)
 
     override suspend fun deleteAll() = dao.deleteAll()
+
+    override suspend fun exportForSync(): List<CategoryEntity> = dao.selectAllForSync()
 }

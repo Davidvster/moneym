@@ -9,6 +9,7 @@ import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
+import com.dv.moneym.data.transactions.TransactionSyncRow
 import com.dv.moneym.data.transactions.db.TransactionEntity
 import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
@@ -25,6 +26,23 @@ internal fun TransactionEntity.toDomain() = Transaction(
     updatedAt = Instant.fromEpochMilliseconds(updatedAt),
     paymentModeId = paymentModeId?.let { PaymentModeId(it) },
     recurringId = recurringId?.let { RecurringTransactionId(it) },
+)
+
+internal fun TransactionEntity.toSyncRow() = TransactionSyncRow(
+    id = id,
+    syncId = syncId,
+    type = type,
+    amountMinor = amountMinor,
+    currency = currency,
+    occurredOn = occurredOn,
+    note = note,
+    categoryId = categoryId,
+    accountId = accountId,
+    paymentModeId = paymentModeId,
+    recurringId = recurringId,
+    deleted = deleted,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
 )
 
 internal fun yearMonthKey(year: Int, month: Int): String =
