@@ -3,10 +3,7 @@ package com.dv.moneym.data.accounts
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
-import com.dv.moneym.core.model.Account
-import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.AccountType
-import com.dv.moneym.core.model.CurrencyCode
 
 class SeedAccountsUseCase(
     private val repository: AccountRepository,
@@ -16,16 +13,19 @@ class SeedAccountsUseCase(
 ) {
     suspend operator fun invoke() {
         if (repository.count() > 0L) return
-        val now = clock.now()
+        val now = clock.now().toEpochMilliseconds()
         val currency = settings.getString(PrefKeys.DEFAULT_CURRENCY, "EUR") ?: "EUR"
-        repository.insert(
-            Account(
-                id = AccountId(0),
+        repository.upsertFromSync(
+            AccountSyncRow(
+                id = 0,
+                syncId = "seed-account-default",
                 name = defaultName,
-                type = AccountType.CASH,
-                currency = CurrencyCode(currency),
+                type = AccountType.CASH.name,
+                currency = currency,
                 isDefault = true,
                 archived = false,
+                colorHex = null,
+                deleted = false,
                 createdAt = now,
                 updatedAt = now,
             )

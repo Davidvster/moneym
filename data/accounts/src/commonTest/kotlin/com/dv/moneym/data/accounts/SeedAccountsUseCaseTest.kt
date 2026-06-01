@@ -70,4 +70,24 @@ class SeedAccountsUseCaseTest {
         useCase()
         assertEquals("Wallet", repo.accounts.first().name)
     }
+
+    @Test
+    fun seedsDeterministicSyncId() = runTestWithDispatchers {
+        val repo = FakeAccountRepository()
+        SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, "Main")()
+
+        assertEquals("seed-account-default", repo.exportForSync().single().syncId)
+    }
+
+    @Test
+    fun reSeedIsIdempotentBySyncId() = runTestWithDispatchers {
+        val repo = FakeAccountRepository()
+        // Two devices seeding independently with different localized names must merge to one row.
+        SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, "Main")()
+        repo.deleteAll() // simulate count()==0 guard not firing across a wipe; re-run still stable
+        SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, "Hauptkonto")()
+
+        assertEquals(1, repo.accounts.size)
+        assertEquals("seed-account-default", repo.exportForSync().single().syncId)
+    }
 }

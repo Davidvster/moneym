@@ -40,7 +40,7 @@ import org.koin.dsl.module
 val dataCategoriesModule = module {
     single<CategoryRepository> { createCategoryRepository(get<CategoriesRoomDatabase>()) }
     single {
-        SeedCategoriesUseCase(get()) {
+        SeedCategoriesUseCase(get(), nameProvider = {
             listOf(
                 getString(Res.string.category_seed_groceries),
                 getString(Res.string.category_seed_eating_out),
@@ -56,7 +56,7 @@ val dataCategoriesModule = module {
                 getString(Res.string.category_seed_gift),
                 getString(Res.string.category_seed_other_income),
             )
-        }
+        })
     }
 }
 
