@@ -17,6 +17,9 @@ interface AccountDao {
     @Query("SELECT * FROM Account WHERE id = :id")
     suspend fun selectById(id: Long): AccountEntity?
 
+    @Query("SELECT * FROM Account WHERE sync_id = :syncId LIMIT 1")
+    suspend fun selectBySyncId(syncId: String): AccountEntity?
+
     @Query("SELECT COUNT(*) FROM Account")
     suspend fun countAll(): Long
 

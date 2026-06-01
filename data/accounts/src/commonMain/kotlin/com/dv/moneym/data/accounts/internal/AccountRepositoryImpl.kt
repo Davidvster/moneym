@@ -56,4 +56,6 @@ internal class AccountRepositoryImpl(
 
     override suspend fun exportForSync(): List<AccountSyncRow> =
         dataSource.exportForSync().map { it.toSyncRow() }
+
+    override suspend fun upsertFromSync(row: AccountSyncRow): Long = dataSource.upsertFromSync(row)
 }

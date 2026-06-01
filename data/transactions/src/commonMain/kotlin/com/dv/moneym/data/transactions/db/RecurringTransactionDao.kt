@@ -14,6 +14,9 @@ interface RecurringTransactionDao {
     @Query("SELECT * FROM RecurringTransactionEntry WHERE id = :id")
     suspend fun selectById(id: Long): RecurringTransactionEntity?
 
+    @Query("SELECT * FROM RecurringTransactionEntry WHERE sync_id = :syncId LIMIT 1")
+    suspend fun selectBySyncId(syncId: String): RecurringTransactionEntity?
+
     @Insert
     suspend fun insert(entity: RecurringTransactionEntity): Long
 

@@ -1,10 +1,16 @@
 package com.dv.moneym.core.testing
 
+import com.dv.moneym.core.model.AccountId
+import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.EndCondition
+import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.MonthlyDayKind
+import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.RecurrenceRule
 import com.dv.moneym.core.model.RecurringTransaction
 import com.dv.moneym.core.model.RecurringTransactionId
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_RECURRING_ID
 import com.dv.moneym.data.transactions.RecurringSyncRow
 import com.dv.moneym.data.transactions.RecurringTransactionRepository
@@ -12,10 +18,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.LocalDate
+import kotlin.time.Instant
 
 class FakeRecurringTransactionRepository : RecurringTransactionRepository {
     private val _rules = MutableStateFlow<List<RecurringTransaction>>(emptyList())
     private var nextId = 1L
+
+    private val syncIds = mutableMapOf<Long, String>()
 
     val rules: List<RecurringTransaction> get() = _rules.value
 
@@ -45,10 +54,12 @@ class FakeRecurringTransactionRepository : RecurringTransactionRepository {
 
     override suspend fun delete(id: RecurringTransactionId) {
         _rules.update { list -> list.filter { it.id != id } }
+        syncIds.remove(id.value)
     }
 
     override suspend fun deleteAll() {
         _rules.value = emptyList()
+        syncIds.clear()
     }
 
     override suspend fun exportForSync(): List<RecurringSyncRow> =
@@ -69,7 +80,7 @@ class FakeRecurringTransactionRepository : RecurringTransactionRepository {
             }
             RecurringSyncRow(
                 id = r.id.value,
-                syncId = "sync-recurring-${r.id.value}",
+                syncId = syncIdFor(r.id.value),
                 type = r.type.name,
                 amountMinor = r.amount.minorUnits,
                 currency = r.amount.currency.value,
@@ -92,4 +103,53 @@ class FakeRecurringTransactionRepository : RecurringTransactionRepository {
                 updatedAt = r.updatedAt.toEpochMilliseconds(),
             )
         }
+
+    override suspend fun upsertFromSync(row: RecurringSyncRow): Long {
+        val syncId = requireNotNull(row.syncId)
+        val existingId = syncIds.entries.firstOrNull { it.value == syncId }?.key
+        return if (existingId == null) {
+            val id = nextId++
+            _rules.update { it + row.toDomain(id) }
+            syncIds[id] = syncId
+            id
+        } else {
+            _rules.update { list -> list.map { if (it.id.value == existingId) row.toDomain(existingId) else it } }
+            existingId
+        }
+    }
+
+    private fun RecurringSyncRow.toDomain(id: Long): RecurringTransaction {
+        val rule = when (freqUnit) {
+            "DAILY" -> RecurrenceRule.Daily(freqInterval)
+            "WEEKLY" -> RecurrenceRule.Weekly(freqInterval, dayOfWeek ?: 1)
+            "MONTHLY" -> RecurrenceRule.Monthly(
+                interval = freqInterval,
+                dayKind = if (useLastDay) MonthlyDayKind.LastDay else MonthlyDayKind.OnDay(dayOfMonth ?: 1),
+            )
+            else -> error("Unknown freq_unit: $freqUnit")
+        }
+        val end = when (endKind) {
+            "UNLIMITED" -> EndCondition.Unlimited
+            "COUNT" -> EndCondition.Count(endCount ?: error("COUNT end without count"))
+            "UNTIL" -> EndCondition.Until(LocalDate.parse(endDate ?: error("UNTIL end without date")))
+            else -> error("Unknown end_kind: $endKind")
+        }
+        return RecurringTransaction(
+            id = RecurringTransactionId(id),
+            type = TransactionType.valueOf(type),
+            amount = Money(amountMinor, CurrencyCode(currency)),
+            note = note,
+            categoryId = CategoryId(categoryId),
+            accountId = AccountId(accountId),
+            paymentModeId = paymentModeId?.let { PaymentModeId(it) },
+            startDate = LocalDate.parse(startDate),
+            rule = rule,
+            endCondition = end,
+            lastMaterializedDate = lastMaterializedDate?.let { LocalDate.parse(it) },
+            createdAt = Instant.fromEpochMilliseconds(createdAt),
+            updatedAt = Instant.fromEpochMilliseconds(updatedAt),
+        )
+    }
+
+    private fun syncIdFor(id: Long): String = syncIds.getOrPut(id) { "sync-recurring-$id" }
 }

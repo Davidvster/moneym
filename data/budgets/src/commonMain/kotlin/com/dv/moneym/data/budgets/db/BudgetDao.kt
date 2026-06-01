@@ -17,6 +17,9 @@ interface BudgetDao {
     @Query("SELECT * FROM Budget WHERE id = :id")
     suspend fun selectById(id: Long): BudgetEntity?
 
+    @Query("SELECT * FROM Budget WHERE sync_id = :syncId LIMIT 1")
+    suspend fun selectBySyncId(syncId: String): BudgetEntity?
+
     @Insert
     suspend fun insert(entity: BudgetEntity): Long
 

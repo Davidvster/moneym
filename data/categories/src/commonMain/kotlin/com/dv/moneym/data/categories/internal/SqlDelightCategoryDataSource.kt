@@ -1,5 +1,6 @@
 package com.dv.moneym.data.categories.internal
 
+import com.dv.moneym.data.categories.CategorySyncRow
 import com.dv.moneym.data.categories.db.CategoriesRoomDatabase
 import com.dv.moneym.data.categories.db.CategoryEntity
 import kotlin.uuid.ExperimentalUuidApi
@@ -51,4 +52,40 @@ internal class SqlDelightCategoryDataSource(
     override suspend fun deleteAll() = dao.deleteAll()
 
     override suspend fun exportForSync(): List<CategoryEntity> = dao.selectAllForSync()
+
+    override suspend fun upsertFromSync(row: CategorySyncRow): Long {
+        val syncId = requireNotNull(row.syncId) { "upsertFromSync requires a non-null syncId" }
+        val existing = dao.selectBySyncId(syncId)
+        return if (existing == null) {
+            dao.insert(
+                CategoryEntity(
+                    id = 0,
+                    name = row.name,
+                    iconKey = row.iconKey,
+                    colorHex = row.colorHex,
+                    isUserCreated = row.isUserCreated,
+                    archived = row.archived,
+                    createdAt = row.createdAt,
+                    updatedAt = row.updatedAt,
+                    categoryType = row.categoryType,
+                    syncId = syncId,
+                    deleted = row.deleted,
+                )
+            )
+        } else {
+            dao.update(
+                existing.copy(
+                    name = row.name,
+                    iconKey = row.iconKey,
+                    colorHex = row.colorHex,
+                    isUserCreated = row.isUserCreated,
+                    archived = row.archived,
+                    categoryType = row.categoryType,
+                    updatedAt = row.updatedAt,
+                    deleted = row.deleted,
+                )
+            )
+            existing.id
+        }
+    }
 }

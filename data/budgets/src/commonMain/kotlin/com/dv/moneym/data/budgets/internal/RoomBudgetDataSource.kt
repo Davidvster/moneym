@@ -1,5 +1,6 @@
 package com.dv.moneym.data.budgets.internal
 
+import com.dv.moneym.data.budgets.BudgetSyncRow
 import com.dv.moneym.data.budgets.db.BudgetEntity
 import com.dv.moneym.data.budgets.db.BudgetsRoomDatabase
 import kotlin.uuid.ExperimentalUuidApi
@@ -78,4 +79,44 @@ internal class RoomBudgetDataSource(
     override suspend fun delete(id: Long) = dao.deleteById(id)
 
     override suspend fun exportForSync(): List<BudgetEntity> = dao.selectAllForSync()
+
+    override suspend fun upsertFromSync(row: BudgetSyncRow): Long {
+        val syncId = requireNotNull(row.syncId) { "upsertFromSync requires a non-null syncId" }
+        val existing = dao.selectBySyncId(syncId)
+        return if (existing == null) {
+            dao.insert(
+                BudgetEntity(
+                    id = 0,
+                    name = row.name,
+                    amountMinor = row.amountMinor,
+                    currency = row.currency,
+                    categoryId = row.categoryId,
+                    accountId = row.accountId,
+                    periodType = row.periodType,
+                    startYearMonth = row.startYearMonth,
+                    recurringMonths = row.recurringMonths,
+                    createdAt = row.createdAt,
+                    updatedAt = row.updatedAt,
+                    syncId = syncId,
+                    deleted = row.deleted,
+                )
+            )
+        } else {
+            dao.update(
+                existing.copy(
+                    name = row.name,
+                    amountMinor = row.amountMinor,
+                    currency = row.currency,
+                    categoryId = row.categoryId,
+                    accountId = row.accountId,
+                    periodType = row.periodType,
+                    startYearMonth = row.startYearMonth,
+                    recurringMonths = row.recurringMonths,
+                    updatedAt = row.updatedAt,
+                    deleted = row.deleted,
+                )
+            )
+            existing.id
+        }
+    }
 }

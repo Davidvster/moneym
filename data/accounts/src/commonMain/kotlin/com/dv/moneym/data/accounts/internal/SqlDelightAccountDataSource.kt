@@ -1,5 +1,6 @@
 package com.dv.moneym.data.accounts.internal
 
+import com.dv.moneym.data.accounts.AccountSyncRow
 import com.dv.moneym.data.accounts.db.AccountEntity
 import com.dv.moneym.data.accounts.db.AccountsRoomDatabase
 import kotlin.uuid.ExperimentalUuidApi
@@ -62,4 +63,40 @@ internal class SqlDelightAccountDataSource(
     override suspend fun deleteAll() = dao.deleteAll()
 
     override suspend fun exportForSync(): List<AccountEntity> = dao.selectAllForSync()
+
+    override suspend fun upsertFromSync(row: AccountSyncRow): Long {
+        val syncId = requireNotNull(row.syncId) { "upsertFromSync requires a non-null syncId" }
+        val existing = dao.selectBySyncId(syncId)
+        return if (existing == null) {
+            dao.insert(
+                AccountEntity(
+                    id = 0,
+                    name = row.name,
+                    type = row.type,
+                    currency = row.currency,
+                    isDefault = row.isDefault,
+                    archived = row.archived,
+                    createdAt = row.createdAt,
+                    updatedAt = row.updatedAt,
+                    colorHex = row.colorHex,
+                    syncId = syncId,
+                    deleted = row.deleted,
+                )
+            )
+        } else {
+            dao.update(
+                existing.copy(
+                    name = row.name,
+                    type = row.type,
+                    currency = row.currency,
+                    isDefault = row.isDefault,
+                    archived = row.archived,
+                    colorHex = row.colorHex,
+                    updatedAt = row.updatedAt,
+                    deleted = row.deleted,
+                )
+            )
+            existing.id
+        }
+    }
 }

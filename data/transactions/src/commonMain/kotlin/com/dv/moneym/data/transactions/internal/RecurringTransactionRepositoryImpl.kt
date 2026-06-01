@@ -6,6 +6,7 @@ import com.dv.moneym.core.model.UNSAVED_RECURRING_ID
 import com.dv.moneym.data.transactions.RecurringSyncRow
 import com.dv.moneym.data.transactions.RecurringTransactionRepository
 import com.dv.moneym.data.transactions.db.RecurringTransactionDao
+import com.dv.moneym.data.transactions.db.RecurringTransactionEntity
 import kotlin.time.Clock
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -49,4 +50,40 @@ internal class RecurringTransactionRepositoryImpl(
 
     override suspend fun exportForSync(): List<RecurringSyncRow> =
         dao.selectAllForSync().map { it.toSyncRow() }
+
+    override suspend fun upsertFromSync(row: RecurringSyncRow): Long {
+        val syncId = requireNotNull(row.syncId) { "upsertFromSync requires a non-null syncId" }
+        val existing = dao.selectBySyncId(syncId)
+        return if (existing == null) {
+            dao.insert(row.toEntity(id = 0, syncId = syncId))
+        } else {
+            dao.update(row.toEntity(id = existing.id, syncId = syncId))
+            existing.id
+        }
+    }
+
+    private fun RecurringSyncRow.toEntity(id: Long, syncId: String) = RecurringTransactionEntity(
+        id = id,
+        type = type,
+        amountMinor = amountMinor,
+        currency = currency,
+        note = note,
+        categoryId = categoryId,
+        accountId = accountId,
+        paymentModeId = paymentModeId,
+        startDate = startDate,
+        freqUnit = freqUnit,
+        freqInterval = freqInterval,
+        dayOfWeek = dayOfWeek,
+        dayOfMonth = dayOfMonth,
+        useLastDay = useLastDay,
+        endKind = endKind,
+        endCount = endCount,
+        endDate = endDate,
+        lastMaterializedDate = lastMaterializedDate,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+        syncId = syncId,
+        deleted = deleted,
+    )
 }

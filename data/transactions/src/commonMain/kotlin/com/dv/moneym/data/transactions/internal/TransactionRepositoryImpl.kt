@@ -111,4 +111,6 @@ internal class TransactionRepositoryImpl(
 
     override suspend fun exportForSync(): List<TransactionSyncRow> =
         dataSource.exportForSync().map { it.toSyncRow() }
+
+    override suspend fun upsertFromSync(row: TransactionSyncRow): Long = dataSource.upsertFromSync(row)
 }

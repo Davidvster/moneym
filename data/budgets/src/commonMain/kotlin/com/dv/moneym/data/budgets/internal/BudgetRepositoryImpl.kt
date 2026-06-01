@@ -59,4 +59,6 @@ internal class BudgetRepositoryImpl(
 
     override suspend fun exportForSync(): List<BudgetSyncRow> =
         dataSource.exportForSync().map { it.toSyncRow() }
+
+    override suspend fun upsertFromSync(row: BudgetSyncRow): Long = dataSource.upsertFromSync(row)
 }

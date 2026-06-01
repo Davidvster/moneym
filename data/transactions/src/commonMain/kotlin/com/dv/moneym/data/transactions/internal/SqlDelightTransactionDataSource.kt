@@ -1,5 +1,6 @@
 package com.dv.moneym.data.transactions.internal
 
+import com.dv.moneym.data.transactions.TransactionSyncRow
 import com.dv.moneym.data.transactions.db.TransactionEntity
 import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
 import kotlin.uuid.ExperimentalUuidApi
@@ -91,4 +92,46 @@ internal class SqlDelightTransactionDataSource(
     override suspend fun countByRecurringId(recurringId: Long): Int = dao.countByRecurringId(recurringId)
 
     override suspend fun exportForSync(): List<TransactionEntity> = dao.selectAllForSync()
+
+    override suspend fun upsertFromSync(row: TransactionSyncRow): Long {
+        val syncId = requireNotNull(row.syncId) { "upsertFromSync requires a non-null syncId" }
+        val existing = dao.selectBySyncId(syncId)
+        return if (existing == null) {
+            dao.insert(
+                TransactionEntity(
+                    id = 0,
+                    type = row.type,
+                    amountMinor = row.amountMinor,
+                    currency = row.currency,
+                    occurredOn = row.occurredOn,
+                    note = row.note,
+                    categoryId = row.categoryId,
+                    accountId = row.accountId,
+                    createdAt = row.createdAt,
+                    updatedAt = row.updatedAt,
+                    paymentModeId = row.paymentModeId,
+                    recurringId = row.recurringId,
+                    syncId = syncId,
+                    deleted = row.deleted,
+                )
+            )
+        } else {
+            dao.update(
+                existing.copy(
+                    type = row.type,
+                    amountMinor = row.amountMinor,
+                    currency = row.currency,
+                    occurredOn = row.occurredOn,
+                    note = row.note,
+                    categoryId = row.categoryId,
+                    accountId = row.accountId,
+                    paymentModeId = row.paymentModeId,
+                    recurringId = row.recurringId,
+                    updatedAt = row.updatedAt,
+                    deleted = row.deleted,
+                )
+            )
+            existing.id
+        }
+    }
 }

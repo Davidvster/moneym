@@ -65,4 +65,30 @@ internal class SqlDelightPaymentModeDataSource(
                 updatedAt = row.updatedAt,
             )
         }
+
+    override suspend fun upsertFromSync(row: PaymentModeSyncRow): Long {
+        val syncId = requireNotNull(row.syncId) { "upsertFromSync requires a non-null syncId" }
+        val existing = dao.selectBySyncId(syncId)
+        return if (existing == null) {
+            dao.insert(
+                PaymentModeEntity(
+                    id = 0,
+                    name = row.name,
+                    createdAt = row.createdAt,
+                    updatedAt = row.updatedAt,
+                    syncId = syncId,
+                    deleted = row.deleted,
+                )
+            )
+        } else {
+            dao.update(
+                existing.copy(
+                    name = row.name,
+                    updatedAt = row.updatedAt,
+                    deleted = row.deleted,
+                )
+            )
+            existing.id
+        }
+    }
 }

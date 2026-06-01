@@ -13,4 +13,5 @@ interface RecurringTransactionRepository {
     suspend fun delete(id: RecurringTransactionId)
     suspend fun deleteAll()
     suspend fun exportForSync(): List<RecurringSyncRow>
+    suspend fun upsertFromSync(row: RecurringSyncRow): Long
 }

@@ -14,4 +14,5 @@ interface AccountRepository {
     suspend fun delete(id: AccountId)
     suspend fun deleteAll()
     suspend fun exportForSync(): List<AccountSyncRow>
+    suspend fun upsertFromSync(row: AccountSyncRow): Long
 }

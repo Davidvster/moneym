@@ -1,5 +1,6 @@
 package com.dv.moneym.data.categories.internal
 
+import com.dv.moneym.data.categories.CategorySyncRow
 import com.dv.moneym.data.categories.db.CategoryEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -22,4 +23,5 @@ internal interface CategoryLocalDataSource {
     suspend fun delete(id: Long)
     suspend fun deleteAll()
     suspend fun exportForSync(): List<CategoryEntity>
+    suspend fun upsertFromSync(row: CategorySyncRow): Long
 }

@@ -1,5 +1,6 @@
 package com.dv.moneym.data.accounts.internal
 
+import com.dv.moneym.data.accounts.AccountSyncRow
 import com.dv.moneym.data.accounts.db.AccountEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -23,4 +24,5 @@ internal interface AccountLocalDataSource {
     suspend fun delete(id: Long)
     suspend fun deleteAll()
     suspend fun exportForSync(): List<AccountEntity>
+    suspend fun upsertFromSync(row: AccountSyncRow): Long
 }

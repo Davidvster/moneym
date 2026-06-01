@@ -13,4 +13,5 @@ interface BudgetRepository {
     suspend fun update(budget: Budget)
     suspend fun delete(id: BudgetId)
     suspend fun exportForSync(): List<BudgetSyncRow>
+    suspend fun upsertFromSync(row: BudgetSyncRow): Long
 }

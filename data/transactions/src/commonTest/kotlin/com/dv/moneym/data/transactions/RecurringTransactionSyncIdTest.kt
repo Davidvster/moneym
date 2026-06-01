@@ -34,6 +34,9 @@ class RecurringTransactionSyncIdTest {
 
         override suspend fun selectById(id: Long): RecurringTransactionEntity? = rows[id]
 
+        override suspend fun selectBySyncId(syncId: String): RecurringTransactionEntity? =
+            rows.values.firstOrNull { it.syncId == syncId }
+
         override suspend fun selectAllForSync(): List<RecurringTransactionEntity> = rows.values.toList()
 
         override suspend fun insert(entity: RecurringTransactionEntity): Long {

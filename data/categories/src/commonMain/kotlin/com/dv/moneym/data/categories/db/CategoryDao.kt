@@ -17,6 +17,9 @@ interface CategoryDao {
     @Query("SELECT * FROM Category WHERE id = :id")
     suspend fun selectById(id: Long): CategoryEntity?
 
+    @Query("SELECT * FROM Category WHERE sync_id = :syncId LIMIT 1")
+    suspend fun selectBySyncId(syncId: String): CategoryEntity?
+
     @Query("SELECT COUNT(*) FROM Category")
     suspend fun countAll(): Long
 

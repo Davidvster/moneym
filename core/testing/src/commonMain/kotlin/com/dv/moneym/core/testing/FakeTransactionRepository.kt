@@ -1,11 +1,15 @@
 package com.dv.moneym.core.testing
 
 import com.dv.moneym.core.model.AccountId
+import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.CurrencyCode
+import com.dv.moneym.core.model.Money
+import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.data.transactions.TransactionSyncRow
@@ -15,10 +19,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.number
+import kotlin.time.Instant
 
 class FakeTransactionRepository : TransactionRepository {
     private val _transactions = MutableStateFlow<List<Transaction>>(emptyList())
     private var nextId = 1L
+
+    private val syncIds = mutableMapOf<Long, String>()
 
     val transactions: List<Transaction> get() = _transactions.value
 
@@ -58,6 +65,7 @@ class FakeTransactionRepository : TransactionRepository {
 
     override suspend fun delete(id: TransactionId) {
         _transactions.update { list -> list.filter { it.id != id } }
+        syncIds.remove(id.value)
     }
 
     override suspend fun deleteByAccountId(id: AccountId) {
@@ -66,6 +74,7 @@ class FakeTransactionRepository : TransactionRepository {
 
     override suspend fun deleteAll() {
         _transactions.value = emptyList()
+        syncIds.clear()
     }
 
     override suspend fun convertCurrencyForAccount(
@@ -100,7 +109,7 @@ class FakeTransactionRepository : TransactionRepository {
         _transactions.value.map { t ->
             TransactionSyncRow(
                 id = t.id.value,
-                syncId = "sync-tx-${t.id.value}",
+                syncId = syncIdFor(t.id.value),
                 type = t.type.name,
                 amountMinor = t.amount.minorUnits,
                 currency = t.amount.currency.value,
@@ -115,4 +124,34 @@ class FakeTransactionRepository : TransactionRepository {
                 updatedAt = t.updatedAt.toEpochMilliseconds(),
             )
         }
+
+    override suspend fun upsertFromSync(row: TransactionSyncRow): Long {
+        val syncId = requireNotNull(row.syncId)
+        val existingId = syncIds.entries.firstOrNull { it.value == syncId }?.key
+        return if (existingId == null) {
+            val id = nextId++
+            _transactions.update { it + row.toDomain(id) }
+            syncIds[id] = syncId
+            id
+        } else {
+            _transactions.update { list -> list.map { if (it.id.value == existingId) row.toDomain(existingId) else it } }
+            existingId
+        }
+    }
+
+    private fun TransactionSyncRow.toDomain(id: Long) = Transaction(
+        id = TransactionId(id),
+        type = TransactionType.valueOf(type),
+        amount = Money(amountMinor, CurrencyCode(currency)),
+        occurredOn = LocalDate.parse(occurredOn),
+        note = note,
+        categoryId = CategoryId(categoryId),
+        accountId = AccountId(accountId),
+        createdAt = Instant.fromEpochMilliseconds(createdAt),
+        updatedAt = Instant.fromEpochMilliseconds(updatedAt),
+        paymentModeId = paymentModeId?.let { PaymentModeId(it) },
+        recurringId = recurringId?.let { RecurringTransactionId(it) },
+    )
+
+    private fun syncIdFor(id: Long): String = syncIds.getOrPut(id) { "sync-tx-$id" }
 }

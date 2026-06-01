@@ -1,7 +1,10 @@
 package com.dv.moneym.di
 
 import com.dv.moneym.data.sync.DeviceIdentity
+import com.dv.moneym.data.sync.SyncApplier
+import com.dv.moneym.data.sync.SyncEngine
 import com.dv.moneym.data.sync.SyncExporter
+import com.dv.moneym.data.sync.SyncReconciler
 import com.dv.moneym.data.sync.SyncRemoteStore
 import com.dv.moneym.data.sync.SyncSnapshotCodec
 import org.koin.core.module.Module
@@ -14,4 +17,18 @@ val syncCommonModule: Module = module {
     single { SyncSnapshotCodec(crypto = get(), appVersion = APP_VERSION) }
     single { SyncRemoteStore(provider = get()) }
     single { SyncExporter(get(), get(), get(), get(), get(), get(), get()) }
+    single { SyncReconciler() }
+    single { SyncApplier(get(), get(), get(), get(), get(), get()) }
+    single {
+        SyncEngine(
+            exporter = get(),
+            reconciler = get(),
+            applier = get(),
+            codec = get(),
+            store = get(),
+            appSettings = get(),
+            sessionPassphrase = get(),
+            dispatchers = get(),
+        )
+    }
 }

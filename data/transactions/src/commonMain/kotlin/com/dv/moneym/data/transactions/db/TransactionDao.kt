@@ -17,6 +17,9 @@ interface TransactionDao {
     @Query("SELECT * FROM TransactionEntry WHERE id = :id")
     suspend fun selectById(id: Long): TransactionEntity?
 
+    @Query("SELECT * FROM TransactionEntry WHERE sync_id = :syncId LIMIT 1")
+    suspend fun selectBySyncId(syncId: String): TransactionEntity?
+
     @Query("SELECT * FROM TransactionEntry WHERE category_id = :categoryId ORDER BY occurred_on DESC, created_at DESC")
     fun selectByCategory(categoryId: Long): Flow<List<TransactionEntity>>
 

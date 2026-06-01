@@ -1,5 +1,6 @@
 package com.dv.moneym.data.budgets.internal
 
+import com.dv.moneym.data.budgets.BudgetSyncRow
 import com.dv.moneym.data.budgets.db.BudgetEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -35,4 +36,5 @@ internal interface BudgetLocalDataSource {
 
     suspend fun delete(id: Long)
     suspend fun exportForSync(): List<BudgetEntity>
+    suspend fun upsertFromSync(row: BudgetSyncRow): Long
 }

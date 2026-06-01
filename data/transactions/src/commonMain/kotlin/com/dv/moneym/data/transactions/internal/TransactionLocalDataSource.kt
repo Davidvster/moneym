@@ -1,5 +1,6 @@
 package com.dv.moneym.data.transactions.internal
 
+import com.dv.moneym.data.transactions.TransactionSyncRow
 import com.dv.moneym.data.transactions.db.TransactionEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -31,4 +32,5 @@ internal interface TransactionLocalDataSource {
     fun getDistinctTransactionDates(): Flow<List<String>>
     suspend fun countByRecurringId(recurringId: Long): Int
     suspend fun exportForSync(): List<TransactionEntity>
+    suspend fun upsertFromSync(row: TransactionSyncRow): Long
 }

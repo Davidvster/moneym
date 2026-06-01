@@ -54,4 +54,6 @@ internal class CategoryRepositoryImpl(
 
     override suspend fun exportForSync(): List<CategorySyncRow> =
         dataSource.exportForSync().map { it.toSyncRow() }
+
+    override suspend fun upsertFromSync(row: CategorySyncRow): Long = dataSource.upsertFromSync(row)
 }
