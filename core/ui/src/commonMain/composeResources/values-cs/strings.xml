@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Transakce</string>
+    <string name="tab_overview">Přehled</string>
+    <string name="tab_settings">Nastavení</string>
+    <string name="amount_input_calculator_desc">Otevřít kalkulačku</string>
+    <string name="month_jan">Leden</string>
+    <string name="month_feb">Únor</string>
+    <string name="month_mar">Březen</string>
+    <string name="month_apr">Duben</string>
+    <string name="month_may">Květen</string>
+    <string name="month_jun">Červen</string>
+    <string name="month_jul">Červenec</string>
+    <string name="month_aug">Srpen</string>
+    <string name="month_sep">Září</string>
+    <string name="month_oct">Říjen</string>
+    <string name="month_nov">Listopad</string>
+    <string name="month_dec">Prosinec</string>
+    <string name="colorpicker_title">Vybrat barvu</string>
+    <string name="colorpicker_hue">Odstín</string>
+    <string name="colorpicker_saturation">Sytost</string>
+    <string name="colorpicker_brightness">Jas</string>
+    <string name="colorpicker_hex">Hex barva</string>
+    <string name="colorpicker_select">Vybrat barvu</string>
+    <string name="colorpicker_cancel">Zrušit</string>
+    <string name="wallet_select">Vybrat peněženku</string>
+    <string name="cancel">Zrušit</string>
+</resources>

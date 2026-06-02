@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">O aplikaci</string>
+    <string name="about_terms">Podmínky &amp; Pravidla</string>
+    <string name="about_privacy">Zásady ochrany soukromí</string>
+</resources>

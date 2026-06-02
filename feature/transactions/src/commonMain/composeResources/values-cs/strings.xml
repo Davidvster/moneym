@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Transakce</string>
+    <string name="transactions_add">Přidat transakci</string>
+    <string name="transactions_filter_all">Vše</string>
+    <string name="transactions_filter_expenses">Výdaje</string>
+    <string name="transactions_filter_income">Příjmy</string>
+    <string name="transactions_filter_categories">Filtrovat podle kategorie</string>
+    <string name="transactions_filter_clear">Vymazat</string>
+    <string name="transactions_filter_done">Hotovo</string>
+    <string name="transactions_empty">Žádné transakce tento měsíc</string>
+    <string name="transactions_previous_month">Předchozí měsíc</string>
+    <string name="transactions_next_month">Následující měsíc</string>
+    <string name="transactions_loading">Načítám…</string>
+    <string name="transactions_search_placeholder">Hledat transakce…</string>
+    <string name="transactions_search_cd">Hledat</string>
+    <string name="transactions_close_search_cd">Zavřít hledání</string>
+    <string name="transactions_net_label">NETTO</string>
+    <string name="transactions_dialog_select_month">Vybrat měsíc</string>
+    <string name="transactions_prev_year_cd">Předchozí rok</string>
+    <string name="transactions_next_year_cd">Následující rok</string>
+    <string name="transactions_now">Nyní</string>
+    <string name="transactions_ok">OK</string>
+    <string name="transactions_cancel">Zrušit</string>
+    <string name="transactions_wallet_select">Vybrat peněženku</string>
+    <string name="transactions_wallet_all">Všechny peněženky</string>
+    <string name="transactions_syncing">Synchronizuji…</string>
+    <string name="transactions_pending_deletions">%1$d položek odebráno na jiném zařízení — zkontrolovat</string>
+</resources>

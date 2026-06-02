@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Rozpočty</string>
+    <string name="budgets_empty">Zatím žádné rozpočty</string>
+    <string name="budgets_new">Nový rozpočet</string>
+    <string name="budgets_new_title">Nový rozpočet</string>
+    <string name="budgets_edit_title">Upravit rozpočet</string>
+    <string name="budgets_name_label">Název</string>
+    <string name="budgets_amount_label">Částka</string>
+    <string name="budgets_account_label">Účet</string>
+    <string name="budgets_account_filter_label">Účet</string>
+    <string name="budgets_category_label">Kategorie</string>
+    <string name="budgets_all_categories">Všechny kategorie</string>
+    <string name="budgets_start_month">Počáteční měsíc</string>
+    <string name="budgets_recurring">Opakující se</string>
+    <string name="budgets_recurring_single">Jednorázový</string>
+    <string name="budgets_recurring_unlimited">Neomezený</string>
+    <string name="budgets_recurring_n_months">N měsíců</string>
+    <string name="budgets_recurring_count_label">Počet měsíců</string>
+    <string name="budgets_recurring_badge_unlimited">Opakující se</string>
+    <string name="budgets_recurring_badge_n_months">%1$d měsíců</string>
+    <string name="budgets_save">Uložit</string>
+    <string name="budgets_cancel">Zrušit</string>
+    <string name="budgets_delete">Smazat</string>
+    <string name="budgets_delete_confirm_title">Smazat „%1$s"?</string>
+    <string name="budgets_delete_confirm_body">Toto odstraní rozpočet. Transakce nebudou ovlivněny.</string>
+    <string name="budgets_placeholder_name">Potraviny</string>
+    <string name="budgets_error_required">Povinné</string>
+    <string name="budgets_error_amount">Zadejte částku &gt; 0</string>
+    <string name="budgets_error_count">Musí být &gt; 0</string>
+    <string name="budgets_prev_month">Předchozí měsíc</string>
+    <string name="budgets_next_month">Následující měsíc</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Vybrat měsíc</string>
+    <string name="budgets_month_picker_now">Tento měsíc</string>
+    <string name="budgets_month_picker_ok">OK</string>
+    <string name="budgets_month_picker_cancel">Zrušit</string>
+    <string name="budgets_month_picker_prev_year_cd">Předchozí rok</string>
+    <string name="budgets_month_picker_next_year_cd">Následující rok</string>
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Potvrdit odstranění</string>
+    <string name="sync_deletions_subtitle">Jiné zařízení odebralo tyto položky. Vyberte, které chcete odebrat i zde. Nezaškrtnuté položky se zachovají a obnoví na druhém zařízení.</string>
+    <string name="sync_deletions_group_wallets">Peněženky</string>
+    <string name="sync_deletions_group_transactions">Transakce</string>
+    <string name="sync_deletions_group_budgets">Rozpočty</string>
+    <string name="sync_deletions_group_recurring">Opakující se</string>
+    <string name="sync_deletions_group_categories">Kategorie</string>
+    <string name="sync_deletions_group_payment_modes">Způsoby platby</string>
+    <string name="sync_deletions_confirm">Odebrat vybrané</string>
+    <string name="sync_deletions_cancel">Zachovat vše</string>
+    <string name="sync_settings_title">Synchronizace mezi zařízeními</string>
+    <string name="sync_settings_toggle_title">Synchronizovat mezi zařízeními</string>
+    <string name="sync_settings_toggle_subtitle">Udržujte data synchronizovaná na každém zařízení přihlášeném ke stejné záloze.</string>
+    <string name="sync_settings_rename_label">Název tohoto zařízení</string>
+    <string name="sync_settings_rename_save">Uložit</string>
+    <string name="sync_settings_rename_cancel">Zrušit</string>
+    <string name="sync_settings_devices_header">ZAŘÍZENÍ</string>
+    <string name="sync_settings_this_device">Toto zařízení</string>
+    <string name="sync_settings_remove">Odebrat</string>
+    <string name="sync_settings_last_synced_just_now">synchronizováno právě teď</string>
+    <string name="sync_settings_last_synced_minutes">synchronizováno před %1$d min</string>
+    <string name="sync_settings_last_synced_hours">synchronizováno před %1$d h</string>
+    <string name="sync_settings_last_synced_days">synchronizováno před %1$d d</string>
+    <string name="sync_settings_last_synced_longer">synchronizováno dávno</string>
+</resources>

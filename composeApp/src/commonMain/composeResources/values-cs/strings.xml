@@ -1,0 +1,18 @@
+<resources>
+    <string name="nav_tab_transactions">Transakce</string>
+    <string name="nav_tab_overview">Přehled</string>
+    <string name="nav_tab_settings">Nastavení</string>
+    <string name="category_seed_groceries">Potraviny</string>
+    <string name="category_seed_eating_out">Restaurace</string>
+    <string name="category_seed_rent">Nájem</string>
+    <string name="category_seed_transport">Doprava</string>
+    <string name="category_seed_utilities">Energie</string>
+    <string name="category_seed_health">Zdraví</string>
+    <string name="category_seed_entertainment">Zábava</string>
+    <string name="category_seed_shopping">Nakupování</string>
+    <string name="category_seed_other_expense">Ostatní</string>
+    <string name="category_seed_salary">Plat</string>
+    <string name="category_seed_payment">Platba</string>
+    <string name="category_seed_gift">Dárek</string>
+    <string name="category_seed_other_income">Ostatní</string>
+</resources>

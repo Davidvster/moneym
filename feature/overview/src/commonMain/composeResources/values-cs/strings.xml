@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Přehled</string>
+    <string name="overview_income">Příjmy</string>
+    <string name="overview_expenses">Výdaje</string>
+    <string name="overview_by_category">Výdaje podle kategorie</string>
+    <string name="overview_trend">Trend za 6 měsíců</string>
+    <string name="overview_all_categories">Všechny kategorie</string>
+    <string name="overview_empty">Žádné transakce v tomto období</string>
+    <string name="overview_previous_month">Předchozí měsíc</string>
+    <string name="overview_next_month">Následující měsíc</string>
+    <string name="overview_loading">Načítám…</string>
+    <string name="overview_more">+ %1$d další</string>
+    <string name="overview_monthly_breakdown">Měsíční přehled</string>
+    <string name="overview_daily_breakdown">Denní přehled</string>
+    <string name="overview_all">Vše</string>
+    <string name="overview_previous">Předchozí</string>
+    <string name="overview_next">Následující</string>
+    <string name="overview_switch_to_month">Přepnout na měsíční pohled</string>
+    <string name="overview_switch_to_year">Přepnout na roční pohled</string>
+    <string name="overview_period_month">Měsíc</string>
+    <string name="overview_period_year">Rok</string>
+    <string name="overview_period_custom">Vlastní</string>
+    <string name="overview_label_income">PŘÍJMY</string>
+    <string name="overview_label_expenses">VÝDAJE</string>
+    <string name="overview_label_balance">ZŮSTATEK</string>
+    <string name="overview_spending_by_category">Výdaje podle kategorie</string>
+    <string name="overview_no_expenses">Žádné výdaje v tomto období</string>
+    <string name="overview_label_total">CELKEM</string>
+    <string name="overview_cumulative_spend">Kumulativní výdaje</string>
+    <string name="overview_through_day">do dne %1$d</string>
+    <string name="overview_daily_trend">Denní trend podle kategorie</string>
+    <string name="overview_monthly_spending">Měsíční výdaje</string>
+    <string name="overview_monthly_trend">Měsíční trend podle kategorie</string>
+    <string name="overview_avg_day">PRŮMĚR / DEN</string>
+    <string name="overview_avg_month">PRŮMĚR / MĚSÍC</string>
+    <string name="overview_dialog_select_month">Vybrat měsíc</string>
+    <string name="overview_dialog_select_year">Vybrat rok</string>
+    <string name="overview_prev_year_cd">Předchozí rok</string>
+    <string name="overview_next_year_cd">Následující rok</string>
+    <string name="overview_analyze_cd">Analyzovat s AI</string>
+    <string name="overview_now">Nyní</string>
+    <string name="overview_ok">OK</string>
+    <string name="overview_cancel">Zrušit</string>
+    <string name="overview_tx_count_singular">%1$d transakce</string>
+    <string name="overview_tx_count_plural">%1$d transakcí</string>
+    <string name="overview_cat_avg_day">průměr/den</string>
+    <string name="overview_cat_avg_month">průměr/měs</string>
+    <string name="overview_date_range_title">Vybrat rozsah dat</string>
+    <string name="overview_date_range_from">OD</string>
+    <string name="overview_date_range_to">DO</string>
+    <string name="overview_budgets_title">Rozpočty</string>
+    <string name="overview_budgets_all_categories">Všechny kategorie</string>
+    <string name="overview_budgets_remaining_suffix">%1$s zbývá</string>
+    <string name="overview_budgets_overrun_suffix">%1$s překročeno</string>
+    <string-array name="overview_year_x_labels">
+        <item>led</item>
+        <item>dub</item>
+        <item>čvc</item>
+        <item>říj</item>
+        <item>pro</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>

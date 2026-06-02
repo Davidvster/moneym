@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">Nastavit PIN</string>
+    <string name="security_pin_confirm_title">Potvrdit PIN</string>
+    <string name="security_pin_enter_title">Zadejte PIN</string>
+    <string name="security_pin_subtitle_first">Zadejte 4místný PIN</string>
+    <string name="security_pin_subtitle_confirm">Zadejte PIN znovu</string>
+    <string name="security_pin_mismatch">PINy se neshodují</string>
+    <string name="security_pin_incorrect">Nesprávný PIN</string>
+    <string name="security_pin_locked">Příliš mnoho pokusů</string>
+    <string name="security_biometric_use">Použít biometrii</string>
+    <string name="security_biometric_reason">Odemknout MoneyM</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Zrušit</string>
+    <string name="security_backoff_retry">Zkuste znovu za %1$ds</string>
+    <string name="security_change_pin_title">Změnit PIN</string>
+    <string name="security_pin_set_header">Nastavit PIN</string>
+    <string name="security_pin_confirm_header">Potvrdit PIN</string>
+    <string name="security_pin_enter_header">Zadejte PIN</string>
+    <string name="security_biometric_offer_title">Povolit biometrii?</string>
+    <string name="security_biometric_offer_body">Rychle odemkněte MoneyM pomocí Face ID nebo otisku prstu.</string>
+    <string name="security_biometric_offer_enable">Povolit</string>
+    <string name="security_biometric_offer_skip">Teď ne</string>
+    <string name="security_biometric_unlock_prompt">Odemknout MoneyM</string>
+</resources>
