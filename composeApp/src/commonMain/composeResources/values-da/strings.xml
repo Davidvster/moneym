@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">Transaktioner</string>
+    <string name="nav_tab_overview">Oversigt</string>
+    <string name="nav_tab_settings">Indstillinger</string>
+    <string name="category_seed_groceries">Dagligvarer</string>
+    <string name="category_seed_eating_out">Spisning ude</string>
+    <string name="category_seed_rent">Husleje</string>
+    <string name="category_seed_transport">Transport</string>
+    <string name="category_seed_utilities">Forsyning</string>
+    <string name="category_seed_health">Sundhed</string>
+    <string name="category_seed_entertainment">Underholdning</string>
+    <string name="category_seed_shopping">Shopping</string>
+    <string name="category_seed_other_expense">Andet</string>
+    <string name="category_seed_salary">Løn</string>
+    <string name="category_seed_payment">Betaling</string>
+    <string name="category_seed_gift">Gave</string>
+    <string name="category_seed_other_income">Andet</string>
+</resources>

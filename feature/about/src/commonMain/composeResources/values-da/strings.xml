@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Om</string>
+    <string name="about_terms">Vilkår &amp; betingelser</string>
+    <string name="about_privacy">Privatlivspolitik</string>
+</resources>

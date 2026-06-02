@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analysér</string>
+    <string name="analyze_intro">Spørg om alt angående din økonomi i denne periode.</string>
+    <string name="analyze_input_hint">Stil et spørgsmål…</string>
+    <string name="analyze_send_cd">Send</string>
+    <string name="analyze_grounding_label">Datakilde</string>
+    <string name="analyze_grounding_snapshot">Øjebliksbillede</string>
+    <string name="analyze_grounding_tools">Værktøjer</string>
+    <string name="analyze_tools_fallback_notice">Værktøjer understøttes ikke af denne model. Bruger et øjebliksbillede i stedet.</string>
+    <string name="analyze_error">Noget gik galt. Prøv igen.</string>
+    <string name="analyze_generating">Tænker…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Hvor meget har jeg brugt denne måned?</item>
+        <item>Hvad er mine største udgiftskategorier?</item>
+        <item>Hvordan er denne måned sammenlignet med den forrige?</item>
+        <item>Er der usædvanlige eller store udgifter?</item>
+    </string-array>
+</resources>

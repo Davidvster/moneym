@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Budgetter</string>
+    <string name="budgets_empty">Ingen budgetter endnu</string>
+    <string name="budgets_new">Nyt budget</string>
+    <string name="budgets_new_title">Nyt budget</string>
+    <string name="budgets_edit_title">Rediger budget</string>
+    <string name="budgets_name_label">Navn</string>
+    <string name="budgets_amount_label">Beløb</string>
+    <string name="budgets_account_label">Konto</string>
+    <string name="budgets_account_filter_label">Konto</string>
+    <string name="budgets_category_label">Kategori</string>
+    <string name="budgets_all_categories">Alle kategorier</string>
+    <string name="budgets_start_month">Startmåned</string>
+    <string name="budgets_recurring">Tilbagevendende</string>
+    <string name="budgets_recurring_single">Enkelt</string>
+    <string name="budgets_recurring_unlimited">Ubegrænset</string>
+    <string name="budgets_recurring_n_months">N måneder</string>
+    <string name="budgets_recurring_count_label">Antal måneder</string>
+    <string name="budgets_recurring_badge_unlimited">Tilbagevendende</string>
+    <string name="budgets_recurring_badge_n_months">%1$d måneder</string>
+    <string name="budgets_save">Gem</string>
+    <string name="budgets_cancel">Annuller</string>
+    <string name="budgets_delete">Slet</string>
+    <string name="budgets_delete_confirm_title">Slet „%1$s"?</string>
+    <string name="budgets_delete_confirm_body">Dette fjerner budgettet. Transaktioner påvirkes ikke.</string>
+    <string name="budgets_placeholder_name">Dagligvarer</string>
+    <string name="budgets_error_required">Påkrævet</string>
+    <string name="budgets_error_amount">Angiv et beløb &gt; 0</string>
+    <string name="budgets_error_count">Skal være &gt; 0</string>
+    <string name="budgets_prev_month">Forrige måned</string>
+    <string name="budgets_next_month">Næste måned</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Vælg måned</string>
+    <string name="budgets_month_picker_now">Denne måned</string>
+    <string name="budgets_month_picker_ok">OK</string>
+    <string name="budgets_month_picker_cancel">Annuller</string>
+    <string name="budgets_month_picker_prev_year_cd">Forrige år</string>
+    <string name="budgets_month_picker_next_year_cd">Næste år</string>
+</resources>

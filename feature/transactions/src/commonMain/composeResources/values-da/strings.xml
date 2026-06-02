@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Transaktioner</string>
+    <string name="transactions_add">Tilføj transaktion</string>
+    <string name="transactions_filter_all">Alle</string>
+    <string name="transactions_filter_expenses">Udgifter</string>
+    <string name="transactions_filter_income">Indkomst</string>
+    <string name="transactions_filter_categories">Filtrer efter kategori</string>
+    <string name="transactions_filter_clear">Ryd</string>
+    <string name="transactions_filter_done">Færdig</string>
+    <string name="transactions_empty">Ingen transaktioner denne måned</string>
+    <string name="transactions_previous_month">Forrige måned</string>
+    <string name="transactions_next_month">Næste måned</string>
+    <string name="transactions_loading">Indlæser…</string>
+    <string name="transactions_search_placeholder">Søg transaktioner…</string>
+    <string name="transactions_search_cd">Søg</string>
+    <string name="transactions_close_search_cd">Luk søgning</string>
+    <string name="transactions_net_label">NETTO</string>
+    <string name="transactions_dialog_select_month">Vælg måned</string>
+    <string name="transactions_prev_year_cd">Forrige år</string>
+    <string name="transactions_next_year_cd">Næste år</string>
+    <string name="transactions_now">Nu</string>
+    <string name="transactions_ok">OK</string>
+    <string name="transactions_cancel">Annuller</string>
+    <string name="transactions_wallet_select">Vælg pung</string>
+    <string name="transactions_wallet_all">Alle punge</string>
+    <string name="transactions_syncing">Synkroniserer…</string>
+    <string name="transactions_pending_deletions">%1$d elementer fjernet på en anden enhed — gennemse</string>
+</resources>

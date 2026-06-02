@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">Indstil PIN</string>
+    <string name="security_pin_confirm_title">Bekræft PIN</string>
+    <string name="security_pin_enter_title">Indtast din PIN</string>
+    <string name="security_pin_subtitle_first">Indtast en 4-cifret PIN</string>
+    <string name="security_pin_subtitle_confirm">Indtast PIN igen</string>
+    <string name="security_pin_mismatch">PIN-koderne stemmer ikke overens</string>
+    <string name="security_pin_incorrect">Forkert PIN</string>
+    <string name="security_pin_locked">For mange forsøg</string>
+    <string name="security_biometric_use">Brug biometri</string>
+    <string name="security_biometric_reason">Lås MoneyM op</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Annuller</string>
+    <string name="security_backoff_retry">Prøv igen om %1$ds</string>
+    <string name="security_change_pin_title">Skift PIN</string>
+    <string name="security_pin_set_header">Indstil din PIN</string>
+    <string name="security_pin_confirm_header">Bekræft din PIN</string>
+    <string name="security_pin_enter_header">Indtast din PIN</string>
+    <string name="security_biometric_offer_title">Aktivér biometri?</string>
+    <string name="security_biometric_offer_body">Lås MoneyM hurtigt op med Face ID eller fingeraftryk.</string>
+    <string name="security_biometric_offer_enable">Aktivér</string>
+    <string name="security_biometric_offer_skip">Ikke nu</string>
+    <string name="security_biometric_unlock_prompt">Lås MoneyM op</string>
+</resources>

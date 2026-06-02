@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Bekræft fjernelser</string>
+    <string name="sync_deletions_subtitle">En anden enhed fjernede disse elementer. Vælg hvilke du også vil fjerne her. Ikke-markerede elementer bevares og gendannes på den anden enhed.</string>
+    <string name="sync_deletions_group_wallets">Punge</string>
+    <string name="sync_deletions_group_transactions">Transaktioner</string>
+    <string name="sync_deletions_group_budgets">Budgetter</string>
+    <string name="sync_deletions_group_recurring">Tilbagevendende</string>
+    <string name="sync_deletions_group_categories">Kategorier</string>
+    <string name="sync_deletions_group_payment_modes">Betalingsmetoder</string>
+    <string name="sync_deletions_confirm">Fjern valgte</string>
+    <string name="sync_deletions_cancel">Bevar alle</string>
+    <string name="sync_settings_title">Synkronisering på tværs af enheder</string>
+    <string name="sync_settings_toggle_title">Synkronisér på tværs af enheder</string>
+    <string name="sync_settings_toggle_subtitle">Hold dine data synkroniseret på alle enheder, der er logget ind på den samme sikkerhedskopi.</string>
+    <string name="sync_settings_rename_label">Denne enheds navn</string>
+    <string name="sync_settings_rename_save">Gem</string>
+    <string name="sync_settings_rename_cancel">Annuller</string>
+    <string name="sync_settings_devices_header">ENHEDER</string>
+    <string name="sync_settings_this_device">Denne enhed</string>
+    <string name="sync_settings_remove">Fjern</string>
+    <string name="sync_settings_last_synced_just_now">synkroniseret lige nu</string>
+    <string name="sync_settings_last_synced_minutes">synkroniseret %1$d min siden</string>
+    <string name="sync_settings_last_synced_hours">synkroniseret %1$d t siden</string>
+    <string name="sync_settings_last_synced_days">synkroniseret %1$d d siden</string>
+    <string name="sync_settings_last_synced_longer">synkroniseret for et stykke tid siden</string>
+</resources>

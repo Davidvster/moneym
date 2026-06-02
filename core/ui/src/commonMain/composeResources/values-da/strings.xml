@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Transaktioner</string>
+    <string name="tab_overview">Oversigt</string>
+    <string name="tab_settings">Indstillinger</string>
+    <string name="amount_input_calculator_desc">Åbn lommeregner</string>
+    <string name="month_jan">Januar</string>
+    <string name="month_feb">Februar</string>
+    <string name="month_mar">Marts</string>
+    <string name="month_apr">April</string>
+    <string name="month_may">Maj</string>
+    <string name="month_jun">Juni</string>
+    <string name="month_jul">Juli</string>
+    <string name="month_aug">August</string>
+    <string name="month_sep">September</string>
+    <string name="month_oct">Oktober</string>
+    <string name="month_nov">November</string>
+    <string name="month_dec">December</string>
+    <string name="colorpicker_title">Vælg farve</string>
+    <string name="colorpicker_hue">Farvetone</string>
+    <string name="colorpicker_saturation">Mætning</string>
+    <string name="colorpicker_brightness">Lysstyrke</string>
+    <string name="colorpicker_hex">Hex-farve</string>
+    <string name="colorpicker_select">Vælg farve</string>
+    <string name="colorpicker_cancel">Annuller</string>
+    <string name="wallet_select">Vælg pung</string>
+    <string name="cancel">Annuller</string>
+</resources>
