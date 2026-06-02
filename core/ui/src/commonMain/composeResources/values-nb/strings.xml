@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Transaksjoner</string>
+    <string name="tab_overview">Oversikt</string>
+    <string name="tab_settings">Innstillinger</string>
+    <string name="amount_input_calculator_desc">Åpne kalkulator</string>
+    <string name="month_jan">Januar</string>
+    <string name="month_feb">Februar</string>
+    <string name="month_mar">Mars</string>
+    <string name="month_apr">April</string>
+    <string name="month_may">Mai</string>
+    <string name="month_jun">Juni</string>
+    <string name="month_jul">Juli</string>
+    <string name="month_aug">August</string>
+    <string name="month_sep">September</string>
+    <string name="month_oct">Oktober</string>
+    <string name="month_nov">November</string>
+    <string name="month_dec">Desember</string>
+    <string name="colorpicker_title">Velg farge</string>
+    <string name="colorpicker_hue">Fargetone</string>
+    <string name="colorpicker_saturation">Metning</string>
+    <string name="colorpicker_brightness">Lysstyrke</string>
+    <string name="colorpicker_hex">Hex-farge</string>
+    <string name="colorpicker_select">Velg farge</string>
+    <string name="colorpicker_cancel">Avbryt</string>
+    <string name="wallet_select">Velg lommebok</string>
+    <string name="cancel">Avbryt</string>
+</resources>

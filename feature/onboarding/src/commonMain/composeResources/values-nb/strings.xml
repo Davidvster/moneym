@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Velkommen til MoneyM</string>
+    <string name="onboarding_currency_title">Velg standardvaluta</string>
+    <string name="onboarding_continue">Fortsett</string>
+    <string name="onboarding_security_title">Sikre appen din</string>
+    <string name="onboarding_security_subtitle">Beskytt dine økonomiske data med en PIN-kode.</string>
+    <string name="onboarding_pin_label">PIN-lås</string>
+    <string name="onboarding_pin_set">PIN er satt ✓</string>
+    <string name="onboarding_done">Ferdig</string>
+    <string name="onboarding_skip">Hopp over for nå</string>
+    <string name="onboarding_skip_short">Hopp over</string>
+    <string name="onboarding_search_currency">Søk valuta…</string>
+    <string name="onboarding_currencies_header">VALUTAER</string>
+    <string name="onboarding_biometrics_label">Biometri</string>
+    <string name="onboarding_biometrics_subtitle">Lås opp med Face ID eller fingeravtrykk</string>
+    <string name="onboarding_restore_from_backup">Gjenopprett fra sikkerhetskopi</string>
+    <string name="onboarding_import_data">Importer data</string>
+    <string name="onboarding_restore_warning_title">Erstatt alle data?</string>
+    <string name="onboarding_restore_warning_body">Dette erstatter gjeldende data med sikkerhetskopien og hopper over oppsett.</string>
+    <string name="onboarding_restore_confirm">Gjenopprett</string>
+    <string name="onboarding_restore_screen_title">Gjenopprett sikkerhetskopi</string>
+    <string name="onboarding_restore_local_button">Gjenopprett fra fil</string>
+    <string name="onboarding_restore_google_section">Google Disk</string>
+    <string name="onboarding_restore_google_connect">Koble til Google-konto</string>
+    <string name="onboarding_restore_google_button">Gjenopprett fra Google Disk</string>
+    <string name="onboarding_restore_passphrase_label">Sikkerhetskopieringspassord</string>
+    <string name="onboarding_restore_app_close_notice">Appen lukkes etter gjenoppretting. Åpne den igjen for å fortsette.</string>
+    <string name="onboarding_restore_cancel">Avbryt</string>
+    <string name="onboarding_restore_remote_loading">Henter sikkerhetskopieringsinformasjon…</string>
+    <string name="onboarding_restore_wrong_password">Feil passord eller ødelagt sikkerhetskopi.</string>
+</resources>

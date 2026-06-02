@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Kategorier</string>
+    <string name="categories_add">Legg til kategori</string>
+    <string name="categories_edit_title">Rediger kategori</string>
+    <string name="categories_new_title">Ny kategori</string>
+    <string name="categories_name_label">Navn</string>
+    <string name="categories_name_error">Navn er påkrevd</string>
+    <string name="categories_icon_label">Ikon</string>
+    <string name="categories_color_label">Farge</string>
+    <string name="categories_archive">Arkiver</string>
+    <string name="categories_restore">Gjenopprett</string>
+    <string name="categories_show_archived">Vis arkiverte</string>
+    <string name="categories_hide_archived">Skjul arkiverte</string>
+    <string name="categories_archived_badge">Arkivert</string>
+    <string name="categories_empty">Ingen kategorier ennå</string>
+    <string name="categories_back">Tilbake</string>
+    <string name="categories_show_archived_count">Vis arkiverte (%1$d)</string>
+    <string name="categories_cancel">Avbryt</string>
+    <string name="categories_save">Lagre</string>
+    <string name="categories_new_button">Ny</string>
+    <string name="categories_tab_expense">Utgift</string>
+    <string name="categories_tab_income">Inntekt</string>
+    <string name="categories_hint">langt trykk for å omorganisere</string>
+    <string name="categories_new_expense">Ny utgiftskategori</string>
+    <string name="categories_new_income">Ny inntektskategori</string>
+    <string name="categories_name_placeholder">f.eks. Dagligvarer</string>
+    <string name="categories_edit_sheet_title">Rediger kategori</string>
+    <string name="categories_new_sheet_title">Ny kategori</string>
+    <string name="categories_delete">Slett kategori</string>
+    <string name="categories_save_changes">Lagre endringer</string>
+    <string name="categories_create">Opprett kategori</string>
+    <string name="categories_delete_confirm_title">Slett "%1$s"?</string>
+    <string name="categories_delete_confirm_body">Dette fjerner kategorien. Transaksjoner som bruker den kan bli påvirket.</string>
+    <string name="categories_delete_button">Slett</string>
+    <string name="categories_color_picker_title">Velg farge</string>
+    <string name="categories_color_hue">Fargetone</string>
+    <string name="categories_color_saturation">Metning</string>
+    <string name="categories_color_brightness">Lysstyrke</string>
+    <string name="categories_color_hex">Hex-farge</string>
+    <string name="categories_color_select">Velg farge</string>
+    <string name="categories_name_preview_placeholder">Kategorinavn</string>
+</resources>

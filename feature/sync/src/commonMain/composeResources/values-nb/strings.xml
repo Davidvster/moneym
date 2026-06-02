@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Bekreft fjerninger</string>
+    <string name="sync_deletions_subtitle">En annen enhet fjernet disse elementene. Velg hvilke du også vil fjerne her. Ikke-merkede elementer beholdes og gjenopprettes på den andre enheten.</string>
+    <string name="sync_deletions_group_wallets">Lommebøker</string>
+    <string name="sync_deletions_group_transactions">Transaksjoner</string>
+    <string name="sync_deletions_group_budgets">Budsjetter</string>
+    <string name="sync_deletions_group_recurring">Gjentakende</string>
+    <string name="sync_deletions_group_categories">Kategorier</string>
+    <string name="sync_deletions_group_payment_modes">Betalingsmoduser</string>
+    <string name="sync_deletions_confirm">Fjern valgte</string>
+    <string name="sync_deletions_cancel">Behold alle</string>
+    <string name="sync_settings_title">Synkronisering på tvers av enheter</string>
+    <string name="sync_settings_toggle_title">Synkroniser på tvers av enheter</string>
+    <string name="sync_settings_toggle_subtitle">Hold dataene dine synkronisert på alle enheter som er logget inn på samme sikkerhetskopi.</string>
+    <string name="sync_settings_rename_label">Denne enhetens navn</string>
+    <string name="sync_settings_rename_save">Lagre</string>
+    <string name="sync_settings_rename_cancel">Avbryt</string>
+    <string name="sync_settings_devices_header">ENHETER</string>
+    <string name="sync_settings_this_device">Denne enheten</string>
+    <string name="sync_settings_remove">Fjern</string>
+    <string name="sync_settings_last_synced_just_now">synkronisert akkurat nå</string>
+    <string name="sync_settings_last_synced_minutes">synkronisert %1$d min siden</string>
+    <string name="sync_settings_last_synced_hours">synkronisert %1$d t siden</string>
+    <string name="sync_settings_last_synced_days">synkronisert %1$d d siden</string>
+    <string name="sync_settings_last_synced_longer">synkronisert for en stund siden</string>
+</resources>

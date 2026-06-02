@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Oversikt</string>
+    <string name="overview_income">Inntekt</string>
+    <string name="overview_expenses">Utgifter</string>
+    <string name="overview_by_category">Forbruk etter kategori</string>
+    <string name="overview_trend">6-måneders trend</string>
+    <string name="overview_all_categories">Alle kategorier</string>
+    <string name="overview_empty">Ingen transaksjoner i denne perioden</string>
+    <string name="overview_previous_month">Forrige måned</string>
+    <string name="overview_next_month">Neste måned</string>
+    <string name="overview_loading">Laster…</string>
+    <string name="overview_more">+ %1$d til</string>
+    <string name="overview_monthly_breakdown">Månedlig oversikt</string>
+    <string name="overview_daily_breakdown">Daglig oversikt</string>
+    <string name="overview_all">Alle</string>
+    <string name="overview_previous">Forrige</string>
+    <string name="overview_next">Neste</string>
+    <string name="overview_switch_to_month">Bytt til månedvisning</string>
+    <string name="overview_switch_to_year">Bytt til årsvisning</string>
+    <string name="overview_period_month">Måned</string>
+    <string name="overview_period_year">År</string>
+    <string name="overview_period_custom">Tilpasset</string>
+    <string name="overview_label_income">INNTEKT</string>
+    <string name="overview_label_expenses">UTGIFTER</string>
+    <string name="overview_label_balance">SALDO</string>
+    <string name="overview_spending_by_category">Forbruk etter kategori</string>
+    <string name="overview_no_expenses">Ingen utgifter i denne perioden</string>
+    <string name="overview_label_total">TOTALT</string>
+    <string name="overview_cumulative_spend">Kumulativt forbruk</string>
+    <string name="overview_through_day">til og med dag %1$d</string>
+    <string name="overview_daily_trend">Daglig trend etter kategori</string>
+    <string name="overview_monthly_spending">Månedlig forbruk</string>
+    <string name="overview_monthly_trend">Månedlig trend etter kategori</string>
+    <string name="overview_avg_day">SNITT / DAG</string>
+    <string name="overview_avg_month">SNITT / MÅNED</string>
+    <string name="overview_dialog_select_month">Velg måned</string>
+    <string name="overview_dialog_select_year">Velg år</string>
+    <string name="overview_prev_year_cd">Forrige år</string>
+    <string name="overview_next_year_cd">Neste år</string>
+    <string name="overview_analyze_cd">Analyser med AI</string>
+    <string name="overview_now">Nå</string>
+    <string name="overview_ok">OK</string>
+    <string name="overview_cancel">Avbryt</string>
+    <string name="overview_tx_count_singular">%1$d transaksjon</string>
+    <string name="overview_tx_count_plural">%1$d transaksjoner</string>
+    <string name="overview_cat_avg_day">snitt/dag</string>
+    <string name="overview_cat_avg_month">snitt/mnd</string>
+    <string name="overview_date_range_title">Velg datoperiode</string>
+    <string name="overview_date_range_from">FRA</string>
+    <string name="overview_date_range_to">TIL</string>
+    <string name="overview_budgets_title">Budsjetter</string>
+    <string name="overview_budgets_all_categories">Alle kategorier</string>
+    <string name="overview_budgets_remaining_suffix">%1$s igjen</string>
+    <string name="overview_budgets_overrun_suffix">%1$s over</string>
+    <string-array name="overview_year_x_labels">
+        <item>jan</item>
+        <item>apr</item>
+        <item>jul</item>
+        <item>okt</item>
+        <item>des</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>
