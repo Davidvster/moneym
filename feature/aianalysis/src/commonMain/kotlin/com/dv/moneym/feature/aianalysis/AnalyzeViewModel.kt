@@ -1,6 +1,8 @@
 package com.dv.moneym.feature.aianalysis
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.ai.AiAvailability
 import com.dv.moneym.core.ai.AiEngine
@@ -14,9 +16,11 @@ import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceSnapshotUseCase
 import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceToolsetUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,16 +33,15 @@ class AnalyzeViewModel(
     private val buildToolset: BuildFinanceToolsetUseCase,
     private val appSettings: AppSettings,
     private val dispatchers: DispatcherProvider,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(AnalyzeUiState(groundingMode = loadGroundingMode()))
-    internal val state = _state.asStateFlow()
+    private val _state by savedStateHandle.saved { MutableStateFlow(AnalyzeUiState(groundingMode = loadGroundingMode())) }
+    internal val state = _state.onStart { init() }.stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
-    init {
-        viewModelScope.launch {
-            val availability = withContext(dispatchers.io) { engine.availability() }
-            _state.update { it.copy(available = availability == AiAvailability.AVAILABLE) }
-        }
+    private suspend fun init() {
+        val availability = withContext(dispatchers.io) { engine.availability() }
+        _state.update { it.copy(available = availability == AiAvailability.AVAILABLE) }
     }
 
     fun onIntent(intent: AnalyzeIntent) {
@@ -47,7 +50,7 @@ class AnalyzeViewModel(
             is AnalyzeIntent.SendMessage -> sendMessage(intent.text)
             is AnalyzeIntent.GroundingModeChanged -> changeGroundingMode(intent.mode)
             AnalyzeIntent.DismissFallbackNotice -> _state.update { it.copy(showToolsFallbackNotice = false) }
-            AnalyzeIntent.ClearError -> _state.update { it.copy(errorKey = null) }
+            AnalyzeIntent.ClearError -> _state.update { it.copy(error = null) }
         }
     }
 
@@ -61,7 +64,7 @@ class AnalyzeViewModel(
                 messages = it.messages + userMessage,
                 input = "",
                 isGenerating = true,
-                errorKey = null,
+                error = null,
             )
         }
 
@@ -80,7 +83,7 @@ class AnalyzeViewModel(
             _state.update { it.copy(messages = it.messages + ChatMessage(ChatRole.ASSISTANT, "")) }
 
             engine.streamReply(_state.value.messages.dropLast(1), grounding)
-                .catch { _state.update { it.copy(errorKey = ERROR_KEY, isGenerating = false) } }
+                .catch { _state.update { it.copy(error = AnalyzeError.GenerationFailed, isGenerating = false) } }
                 .onCompletion { _state.update { it.copy(isGenerating = false) } }
                 .collect { delta -> appendDelta(assistantIndex, delta) }
         }
@@ -103,9 +106,5 @@ class AnalyzeViewModel(
     private fun loadGroundingMode(): AiGroundingMode {
         val raw = appSettings.getString(PrefKeys.AI_GROUNDING_MODE)
         return AiGroundingMode.entries.firstOrNull { it.name == raw } ?: AiGroundingMode.SNAPSHOT
-    }
-
-    private companion object {
-        const val ERROR_KEY = "ai_generation_failed"
     }
 }

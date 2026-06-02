@@ -1,6 +1,8 @@
 package com.dv.moneym.feature.sync
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
@@ -8,8 +10,9 @@ import com.dv.moneym.data.sync.DeviceEntry
 import com.dv.moneym.data.sync.DeviceRegistryController
 import com.dv.moneym.data.sync.SyncPuller
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -17,13 +20,14 @@ class SyncSettingsViewModel(
     private val registry: DeviceRegistryController,
     private val appSettings: AppSettings,
     private val syncPuller: SyncPuller,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(SyncSettingsUiState())
-    internal val state: StateFlow<SyncSettingsUiState> = _state.asStateFlow()
+    private val _state by savedStateHandle.saved { MutableStateFlow(SyncSettingsUiState()) }
+    internal val state = _state.onStart { init() }.stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
-    init {
-        refresh()
+    private suspend fun init() {
+        refreshNow()
     }
 
     fun onIntent(intent: SyncSettingsIntent) {
@@ -39,19 +43,21 @@ class SyncSettingsViewModel(
     }
 
     private fun refresh() {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-            val devices = registry.load()
-            val enabled = appSettings.getBoolean(PrefKeys.CROSS_DEVICE_SYNC_ENABLED, defaultValue = false)
-            val thisDeviceName = appSettings.getString(PrefKeys.DEVICE_NAME).orEmpty()
-            _state.update {
-                it.copy(
-                    crossDeviceSyncEnabled = enabled,
-                    thisDeviceName = thisDeviceName,
-                    devices = toRows(devices),
-                    isLoading = false,
-                )
-            }
+        viewModelScope.launch { refreshNow() }
+    }
+
+    private suspend fun refreshNow() {
+        _state.update { it.copy(isLoading = true) }
+        val devices = registry.load()
+        val enabled = appSettings.getBoolean(PrefKeys.CROSS_DEVICE_SYNC_ENABLED, defaultValue = false)
+        val thisDeviceName = appSettings.getString(PrefKeys.DEVICE_NAME).orEmpty()
+        _state.update {
+            it.copy(
+                crossDeviceSyncEnabled = enabled,
+                thisDeviceName = thisDeviceName,
+                devices = toRows(devices),
+                isLoading = false,
+            )
         }
     }
 

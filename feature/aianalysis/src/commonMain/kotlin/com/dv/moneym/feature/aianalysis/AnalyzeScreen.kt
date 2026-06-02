@@ -120,7 +120,7 @@ private fun AnalyzeContent(
         if (state.showToolsFallbackNotice) {
             NoticeRow(text = stringResource(Res.string.analyze_tools_fallback_notice))
         }
-        if (state.errorKey != null) {
+        if (state.error != null) {
             NoticeRow(text = stringResource(Res.string.analyze_error))
         }
 

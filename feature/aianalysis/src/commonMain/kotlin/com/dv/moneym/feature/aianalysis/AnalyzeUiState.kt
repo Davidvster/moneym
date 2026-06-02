@@ -2,7 +2,9 @@ package com.dv.moneym.feature.aianalysis
 
 import com.dv.moneym.core.ai.AiGroundingMode
 import com.dv.moneym.core.ai.ChatMessage
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class AnalyzeUiState(
     val available: Boolean = true,
     val messages: List<ChatMessage> = emptyList(),
@@ -10,8 +12,14 @@ data class AnalyzeUiState(
     val isGenerating: Boolean = false,
     val groundingMode: AiGroundingMode = AiGroundingMode.SNAPSHOT,
     val showToolsFallbackNotice: Boolean = false,
-    val errorKey: String? = null,
+    val error: AnalyzeError? = null,
 )
+
+@Serializable
+sealed interface AnalyzeError {
+    @Serializable
+    data object GenerationFailed : AnalyzeError
+}
 
 sealed interface AnalyzeIntent {
     data class InputChanged(val text: String) : AnalyzeIntent

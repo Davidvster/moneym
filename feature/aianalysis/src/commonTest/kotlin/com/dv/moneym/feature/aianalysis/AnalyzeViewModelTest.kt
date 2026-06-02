@@ -5,6 +5,7 @@ import com.dv.moneym.core.ai.AiEngine
 import com.dv.moneym.core.ai.AiGroundingMode
 import com.dv.moneym.core.ai.ChatMessage
 import com.dv.moneym.core.ai.ChatRole
+import androidx.lifecycle.SavedStateHandle
 import com.dv.moneym.core.ai.Grounding
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.core.testing.FakeAccountRepository
@@ -20,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -89,11 +91,13 @@ class AnalyzeViewModelTest {
         buildToolset = toolsetUseCase(),
         appSettings = appSettings,
         dispatchers = TestDispatcherProvider(testDispatcher),
+        savedStateHandle = SavedStateHandle(),
     )
 
     @Test
     fun sendMessageAppendsUserAndStreamsAssistantDeltas() = runTest(testDispatcher) {
         val vm = makeVm(FakeAiEngine(deltas = listOf("Hel", "lo")))
+        backgroundScope.launch { vm.state.collect {} }
         vm.onIntent(AnalyzeIntent.SendMessage("hi"))
         testDispatcher.scheduler.advanceUntilIdle()
 
@@ -109,6 +113,7 @@ class AnalyzeViewModelTest {
     @Test
     fun blankMessageIgnored() = runTest(testDispatcher) {
         val vm = makeVm(FakeAiEngine())
+        backgroundScope.launch { vm.state.collect {} }
         vm.onIntent(AnalyzeIntent.SendMessage("   "))
         testDispatcher.scheduler.advanceUntilIdle()
         assertTrue(vm.state.value.messages.isEmpty())
@@ -117,11 +122,14 @@ class AnalyzeViewModelTest {
     @Test
     fun groundingModeChangePersistsToAppSettings() = runTest(testDispatcher) {
         val vm = makeVm(FakeAiEngine())
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
         vm.onIntent(AnalyzeIntent.GroundingModeChanged(AiGroundingMode.TOOLS))
         testDispatcher.scheduler.advanceUntilIdle()
 
         assertEquals(AiGroundingMode.TOOLS, vm.state.value.groundingMode)
         assertEquals(AiGroundingMode.TOOLS.name, appSettings.getString(PrefKeys.AI_GROUNDING_MODE))
+        job.cancel()
     }
 
     @Test
@@ -136,6 +144,7 @@ class AnalyzeViewModelTest {
         appSettings.putString(PrefKeys.AI_GROUNDING_MODE, AiGroundingMode.TOOLS.name)
         val engine = FakeAiEngine(supportsTools = false)
         val vm = makeVm(engine)
+        backgroundScope.launch { vm.state.collect {} }
         vm.onIntent(AnalyzeIntent.SendMessage("analyze"))
         testDispatcher.scheduler.advanceUntilIdle()
 
@@ -148,6 +157,7 @@ class AnalyzeViewModelTest {
         appSettings.putString(PrefKeys.AI_GROUNDING_MODE, AiGroundingMode.TOOLS.name)
         val engine = FakeAiEngine(supportsTools = true)
         val vm = makeVm(engine)
+        backgroundScope.launch { vm.state.collect {} }
         vm.onIntent(AnalyzeIntent.SendMessage("analyze"))
         testDispatcher.scheduler.advanceUntilIdle()
 
@@ -158,7 +168,9 @@ class AnalyzeViewModelTest {
     @Test
     fun availabilityReflectedFromEngine() = runTest(testDispatcher) {
         val vm = makeVm(FakeAiEngine(availability = AiAvailability.UNAVAILABLE))
+        val job = launch { vm.state.collect {} }
         testDispatcher.scheduler.advanceUntilIdle()
         assertFalse(vm.state.value.available)
+        job.cancel()
     }
 }

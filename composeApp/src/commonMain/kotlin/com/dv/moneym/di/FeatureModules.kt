@@ -303,6 +303,7 @@ val featureSyncModule = module {
             registry = get<DeviceRegistryManager>(),
             appSettings = get(),
             syncPuller = get<SyncEngine>(),
+            savedStateHandle = get(),
         )
     }
 }
@@ -385,6 +386,7 @@ val featureAianalysisModule = module {
             buildToolset = get(),
             appSettings = get(),
             dispatchers = get(),
+            savedStateHandle = get(),
         )
     }
 }

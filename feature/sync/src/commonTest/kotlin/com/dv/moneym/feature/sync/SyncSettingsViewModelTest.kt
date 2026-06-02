@@ -1,5 +1,6 @@
 package com.dv.moneym.feature.sync
 
+import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.ReceiveTurbine
 import app.cash.turbine.test
 import com.dv.moneym.core.datastore.PrefKeys
@@ -65,7 +66,7 @@ class SyncSettingsViewModelTest {
         registry: FakeRegistry = FakeRegistry(),
         settings: FakeAppSettings = FakeAppSettings(),
         puller: FakePuller = FakePuller(),
-    ) = SyncSettingsViewModel(registry, settings, puller)
+    ) = SyncSettingsViewModel(registry, settings, puller, SavedStateHandle())
 
     private suspend fun ReceiveTurbine<SyncSettingsUiState>.awaitSettled(): SyncSettingsUiState {
         var s = awaitItem()
@@ -102,10 +103,10 @@ class SyncSettingsViewModelTest {
             skipItems(1)
             awaitSettled() // populated, disabled
             vm.onIntent(SyncSettingsIntent.ToggleSync)
-            val enabled = awaitItem()
+            // enabling flips the flag then kicks pullNow() then refresh — drain to settled enabled
+            var enabled = awaitItem()
+            while (enabled.isLoading || !enabled.crossDeviceSyncEnabled) enabled = awaitItem()
             assertTrue(enabled.crossDeviceSyncEnabled)
-            // enabling kicks pullNow() then refresh — drain to its settled emission
-            awaitSettled()
             cancelAndIgnoreRemainingEvents()
         }
         assertTrue(settings.getBoolean(PrefKeys.CROSS_DEVICE_SYNC_ENABLED))

@@ -1,5 +1,8 @@
 package com.dv.moneym.feature.sync
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class DeviceRow(
     val id: String,
     val displayName: String,
@@ -8,6 +11,7 @@ data class DeviceRow(
     val isThisDevice: Boolean,
 )
 
+@Serializable
 data class SyncSettingsUiState(
     val crossDeviceSyncEnabled: Boolean = false,
     val thisDeviceName: String = "",
