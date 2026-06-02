@@ -10,4 +10,5 @@ data class RemoteBackupMetadata(
     val envelopeVersion: Int,
     val sizeBytes: Long,
     val fileName: String,
+    val encrypted: Boolean,
 )

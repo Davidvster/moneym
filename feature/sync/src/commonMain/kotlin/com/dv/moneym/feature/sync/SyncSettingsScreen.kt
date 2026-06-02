@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,6 +30,7 @@ import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIconButtonVariant
+import com.dv.moneym.core.ui.MmLoadingSpinner
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.imageVector
@@ -90,11 +89,7 @@ private fun SyncSettingsContent(
                 modifier = Modifier.weight(1f).fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(space.icon_1x),
-                    strokeWidth = space.padding_0_25x,
-                    color = colors.accent,
-                )
+                MmLoadingSpinner()
             }
         } else {
             LazyColumn(

@@ -230,6 +230,9 @@
     <string name="settings_remote_restore_preview_app_version">Versione app %1$s</string>
     <string name="settings_remote_restore_preview_size">Dimensione %1$d KB</string>
     <string name="settings_remote_restore_loading">Caricamento info backup…</string>
+    <string name="settings_remote_restore_error_title">Impossibile caricare il backup</string>
+    <string name="settings_remote_restore_no_backup">Nessun backup trovato su Google Drive.</string>
+    <string name="settings_remote_restore_try_again">Riprova.</string>
     <string name="settings_remote_restore_conflict">Attenzione: ci sono modifiche locali da quando è stato creato questo backup (%1$s). Il ripristino le scarterà.</string>
     <string name="settings_remote_restore_too_new">Questo backup è stato creato da una versione più recente dell'app e non può essere ripristinato.</string>
     <string name="settings_recurring_new">Nuova transazione ricorrente</string>

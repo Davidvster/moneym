@@ -232,6 +232,9 @@
     <string name="settings_remote_restore_preview_app_version">App version %1$s</string>
     <string name="settings_remote_restore_preview_size">Size %1$d KB</string>
     <string name="settings_remote_restore_loading">Loading backup info…</string>
+    <string name="settings_remote_restore_error_title">Couldn\'t load backup</string>
+    <string name="settings_remote_restore_no_backup">No backup was found on Google Drive.</string>
+    <string name="settings_remote_restore_try_again">Please try again.</string>
     <string name="settings_remote_restore_conflict">Warning: you have local changes since this backup was made (%1$s). Restoring will discard them.</string>
     <string name="settings_remote_restore_too_new">This backup was made by a newer version of the app and cannot be restored.</string>
     <string name="settings_recurring_new">New recurring transaction</string>

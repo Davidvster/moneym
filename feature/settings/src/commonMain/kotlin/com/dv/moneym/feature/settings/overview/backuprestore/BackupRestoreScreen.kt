@@ -37,6 +37,7 @@ import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmDeleteSheet
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmDialog
+import com.dv.moneym.core.ui.MmErrorDialog
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmLoadingOverlay
 import com.dv.moneym.core.ui.MmRow
@@ -91,9 +92,11 @@ import moneym.feature.settings.generated.resources.settings_remote_password_titl
 import moneym.feature.settings.generated.resources.settings_remote_plaintext_warning
 import moneym.feature.settings.generated.resources.settings_remote_quota_warning
 import moneym.feature.settings.generated.resources.settings_remote_restore
+import moneym.feature.settings.generated.resources.settings_ok
 import moneym.feature.settings.generated.resources.settings_remote_restore_body
 import moneym.feature.settings.generated.resources.settings_remote_restore_confirm
 import moneym.feature.settings.generated.resources.settings_remote_restore_conflict
+import moneym.feature.settings.generated.resources.settings_remote_restore_error_title
 import moneym.feature.settings.generated.resources.settings_remote_restore_loading
 import moneym.feature.settings.generated.resources.settings_remote_restore_preview_app_version
 import moneym.feature.settings.generated.resources.settings_remote_restore_preview_created
@@ -184,13 +187,22 @@ private fun BackupRestoreScreen(
 
     if (state.showRemoteRestoreDialog) {
         RemoteRestoreDialog(
-            loading = state.remoteRestorePreviewLoading,
+            encrypted = state.remoteRestoreEncrypted,
             preview = state.remoteRestorePreview,
             localMutationMs = state.lastLocalMutationMs,
             inProgress = state.remoteRestoreInProgress,
             errorMessage = state.remoteRestoreError,
             onDismiss = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreDismissed) },
             onConfirm = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreConfirmed(it)) },
+        )
+    }
+
+    state.remoteRestoreErrorDialog?.let { message ->
+        MmErrorDialog(
+            title = stringResource(Res.string.settings_remote_restore_error_title),
+            message = message,
+            confirmText = stringResource(Res.string.settings_ok),
+            onDismiss = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreErrorDismissed) },
         )
     }
 
@@ -647,7 +659,7 @@ private const val MIN_PASSWORD_LENGTH = 4
 
 @Composable
 private fun RemoteRestoreDialog(
-    loading: Boolean,
+    encrypted: Boolean,
     preview: RemoteBackupMetadata?,
     localMutationMs: Long,
     inProgress: Boolean,
@@ -666,8 +678,8 @@ private fun RemoteRestoreDialog(
     MmDialog(
         title = stringResource(Res.string.settings_remote_restore_title),
         confirmText = stringResource(Res.string.settings_remote_restore_confirm),
-        confirmEnabled = input.isNotEmpty() && !loading && !tooNew && !inProgress,
-        onConfirm = { onConfirm(input.toCharArray()) },
+        confirmEnabled = (!encrypted || input.isNotEmpty()) && !tooNew && !inProgress,
+        onConfirm = { onConfirm(if (encrypted) input.toCharArray() else CharArray(0)) },
         onDismiss = onDismiss,
         dismissText = stringResource(Res.string.settings_remote_passphrase_cancel),
     ) {
@@ -678,7 +690,7 @@ private fun RemoteRestoreDialog(
             color = colors.text3,
             modifier = Modifier.padding(top = space.padding_1x),
         )
-        if (loading || inProgress) {
+        if (inProgress) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
@@ -733,20 +745,22 @@ private fun RemoteRestoreDialog(
                 )
             }
         }
-        MmField(
-            value = input,
-            onValueChange = { if (!loading && !tooNew && !inProgress) input = it },
-            label = stringResource(Res.string.settings_remote_passphrase_label),
-            visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
-            keyboardType = KeyboardType.Password,
-            suffix = {
-                MmIconButton(
-                    icon = if (visible) Icon.EyeOff.imageVector else Icon.Eye.imageVector,
-                    onClick = { visible = !visible },
-                    contentDescription = null,
-                )
-            },
-        )
+        if (encrypted) {
+            MmField(
+                value = input,
+                onValueChange = { if (!tooNew && !inProgress) input = it },
+                label = stringResource(Res.string.settings_remote_passphrase_label),
+                visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardType = KeyboardType.Password,
+                suffix = {
+                    MmIconButton(
+                        icon = if (visible) Icon.EyeOff.imageVector else Icon.Eye.imageVector,
+                        onClick = { visible = !visible },
+                        contentDescription = null,
+                    )
+                },
+            )
+        }
         if (errorMessage != null) {
             Text(errorMessage, color = colors.danger, style = type.caption)
         }

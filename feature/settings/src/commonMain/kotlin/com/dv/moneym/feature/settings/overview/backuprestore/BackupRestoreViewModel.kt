@@ -35,6 +35,8 @@ import moneym.feature.settings.generated.resources.settings_remote_error_backup_
 import moneym.feature.settings.generated.resources.settings_remote_error_fetch_info
 import moneym.feature.settings.generated.resources.settings_remote_error_restore_failed
 import moneym.feature.settings.generated.resources.settings_remote_error_sign_in_failed
+import moneym.feature.settings.generated.resources.settings_remote_restore_no_backup
+import moneym.feature.settings.generated.resources.settings_remote_restore_try_again
 import moneym.feature.settings.generated.resources.settings_remote_password_too_short
 import org.jetbrains.compose.resources.getString
 import kotlin.time.Clock
@@ -63,7 +65,8 @@ data class BackupRestoreUiState(
     val showDisconnectDialog: Boolean = false,
     val showDeleteRemoteDialog: Boolean = false,
     val remoteRestorePreview: RemoteBackupMetadata? = null,
-    val remoteRestorePreviewLoading: Boolean = false,
+    val remoteRestoreEncrypted: Boolean = false,
+    val remoteRestoreErrorDialog: String? = null,
     val lastLocalMutationMs: Long = 0L,
     val remoteRuntime: RemoteBackupRuntimeState = RemoteBackupRuntimeState.Idle,
     val remoteRestoreInProgress: Boolean = false,
@@ -93,6 +96,7 @@ sealed interface BackupRestoreIntent {
     data object RemoteRestoreTapped : BackupRestoreIntent
     data class RemoteRestoreConfirmed(val passphrase: CharArray) : BackupRestoreIntent
     data object RemoteRestoreDismissed : BackupRestoreIntent
+    data object RemoteRestoreErrorDismissed : BackupRestoreIntent
     data object DeleteRemoteDataTapped : BackupRestoreIntent
     data object DeleteRemoteDataConfirmed : BackupRestoreIntent
     data object DeleteRemoteDataDismissed : BackupRestoreIntent
@@ -198,9 +202,13 @@ class BackupRestoreViewModel(
                 it.copy(
                     showRemoteRestoreDialog = false,
                     remoteRestorePreview = null,
+                    remoteRestoreEncrypted = false,
                     remoteRestoreError = null,
                     remoteRestoreInProgress = false,
                 )
+            }
+            BackupRestoreIntent.RemoteRestoreErrorDismissed -> _base.update {
+                it.copy(remoteRestoreErrorDialog = null)
             }
             BackupRestoreIntent.DeleteRemoteDataTapped -> _base.update { it.copy(showDeleteRemoteDialog = true) }
             BackupRestoreIntent.DeleteRemoteDataConfirmed -> handleDeleteRemoteData()
@@ -440,31 +448,42 @@ class BackupRestoreViewModel(
         val manager = remoteBackupManager ?: return
         _base.update {
             it.copy(
-                showRemoteRestoreDialog = true,
-                remoteRestorePreviewLoading = true,
+                isLoading = true,
+                showRemoteRestoreDialog = false,
                 remoteRestorePreview = null,
                 remoteRestoreError = null,
+                remoteRestoreErrorDialog = null,
             )
         }
         viewModelScope.launch {
             manager.peekLatestMetadata()
                 .onSuccess { meta ->
-                    _base.update {
-                        it.copy(
-                            remoteRestorePreview = meta,
-                            remoteRestorePreviewLoading = false,
-                        )
+                    if (meta == null) {
+                        _base.update {
+                            it.copy(
+                                isLoading = false,
+                                remoteRestoreErrorDialog = getString(Res.string.settings_remote_restore_no_backup),
+                            )
+                        }
+                    } else {
+                        _base.update {
+                            it.copy(
+                                isLoading = false,
+                                remoteRestorePreview = meta,
+                                remoteRestoreEncrypted = meta.encrypted,
+                                showRemoteRestoreDialog = true,
+                            )
+                        }
                     }
                 }
                 .onFailure { t ->
                     logger.e(t) { "Remote restore metadata peek failed" }
-                    val msg = t.message ?: getString(Res.string.settings_remote_error_fetch_info)
+                    val reason = t.message ?: getString(Res.string.settings_remote_error_fetch_info)
+                    val msg = "$reason ${getString(Res.string.settings_remote_restore_try_again)}"
                     _base.update {
                         it.copy(
-                            showRemoteRestoreDialog = true,
-                            remoteRestorePreviewLoading = false,
-                            remoteRestorePreview = null,
-                            remoteRestoreError = msg,
+                            isLoading = false,
+                            remoteRestoreErrorDialog = msg,
                         )
                     }
                 }

@@ -230,6 +230,9 @@
     <string name="settings_remote_restore_preview_app_version">Versión de la app %1$s</string>
     <string name="settings_remote_restore_preview_size">Tamaño %1$d KB</string>
     <string name="settings_remote_restore_loading">Cargando información de la copia…</string>
+    <string name="settings_remote_restore_error_title">No se pudo cargar la copia</string>
+    <string name="settings_remote_restore_no_backup">No se encontró ninguna copia en Google Drive.</string>
+    <string name="settings_remote_restore_try_again">Inténtalo de nuevo.</string>
     <string name="settings_remote_restore_conflict">Aviso: tienes cambios locales desde esta copia (%1$s). Restaurar los descartará.</string>
     <string name="settings_remote_restore_too_new">Esta copia se hizo con una versión más reciente de la app y no se puede restaurar.</string>
     <string name="settings_recurring_new">Nueva transacción recurrente</string>

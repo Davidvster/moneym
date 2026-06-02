@@ -71,7 +71,7 @@ class RemoteBackupManager(
     }
 
     suspend fun peekLatestMetadata(): Result<RemoteBackupMetadata?> = runCatching {
-        val ref = provider.latest() ?: return@runCatching null
+        val ref = latestBackup() ?: return@runCatching null
         val bytes = provider.download(ref)
         if (isEncrypted(ref, bytes)) {
             val envelope: EncryptedBackup = decodeEnvelope(bytes)
@@ -82,6 +82,7 @@ class RemoteBackupManager(
                 envelopeVersion = envelope.version,
                 sizeBytes = bytes.size.toLong(),
                 fileName = ref.name,
+                encrypted = true,
             )
         } else {
             RemoteBackupMetadata(
@@ -91,6 +92,7 @@ class RemoteBackupManager(
                 envelopeVersion = EncryptedBackup.ENVELOPE_VERSION,
                 sizeBytes = bytes.size.toLong(),
                 fileName = ref.name,
+                encrypted = false,
             )
         }
     }
@@ -99,7 +101,7 @@ class RemoteBackupManager(
         uploadLock.withLock {
             try {
                 _runtime.value = RemoteBackupRuntimeState.Downloading
-                val ref = provider.latest() ?: throw RemoteBackupError.NotFound()
+                val ref = latestBackup() ?: throw RemoteBackupError.NotFound()
                 val bytes = provider.download(ref)
                 val plain = if (isEncrypted(ref, bytes)) {
                     _runtime.value = RemoteBackupRuntimeState.Decrypting
@@ -196,6 +198,9 @@ class RemoteBackupManager(
         }
     }.onFailure { logger.e(it) { "Delete all remote data failed" } }
 
+    private suspend fun latestBackup(): RemoteFileRef? =
+        latestBackupRef(provider.list(limit = MAX_LIST_LIMIT))
+
     private fun timestampedName(createdAt: Long): String = "moneym-backup-$createdAt.bin"
 
     private fun plaintextName(createdAt: Long): String = "moneym-backup-$createdAt.zip"
@@ -214,7 +219,7 @@ class RemoteBackupManager(
         if (retentionCount <= 0) return
         runCatching {
             val all = provider.list(limit = retentionCount * 4)
-            val moneymBackups = all.filter { it.name.startsWith("moneym-backup") }
+            val moneymBackups = all.filter { it.name.startsWith(BACKUP_NAME_PREFIX) }
             val excess = moneymBackups.drop(retentionCount)
             excess.forEach { stale ->
                 runCatching { provider.delete(stale) }
@@ -243,6 +248,7 @@ class RemoteBackupManager(
 
     companion object {
         const val BACKUP_FILE_NAME = "moneym-backup.bin"
+        const val BACKUP_NAME_PREFIX = "moneym-backup"
         const val CURRENT_SCHEMA = 1
         const val DEFAULT_DEBOUNCE_MS = 5_000L
         const val DEFAULT_RETENTION_COUNT = 5
@@ -255,6 +261,15 @@ class RemoteBackupManager(
  * Precedence: authoritative `encrypted` appProperty → filename suffix
  * (`.bin` = encrypted, `.zip` = plaintext) → first-byte sniff for legacy files.
  */
+/**
+ * Picks the newest actual backup, ignoring sidecar files that share the Drive
+ * appDataFolder (e.g. `moneym-sync-state.json`, `moneym-devices.json`). Only files
+ * named with the [RemoteBackupManager.BACKUP_NAME_PREFIX] prefix are candidates.
+ */
+internal fun latestBackupRef(files: List<RemoteFileRef>): RemoteFileRef? =
+    files.filter { it.name.startsWith(RemoteBackupManager.BACKUP_NAME_PREFIX) }
+        .maxByOrNull { it.modifiedAtMs }
+
 internal fun isEncryptedRemoteBackup(
     appProperties: Map<String, String>,
     name: String,
