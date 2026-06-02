@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">Setja PIN-kóða</string>
+    <string name="security_pin_confirm_title">Staðfesta PIN-kóða</string>
+    <string name="security_pin_enter_title">Sláðu inn PIN-kóðann þinn</string>
+    <string name="security_pin_subtitle_first">Sláðu inn 4 stafa PIN-kóða</string>
+    <string name="security_pin_subtitle_confirm">Sláðu inn PIN-kóðann aftur</string>
+    <string name="security_pin_mismatch">PIN-kóðarnir stemma ekki</string>
+    <string name="security_pin_incorrect">Rangur PIN-kóði</string>
+    <string name="security_pin_locked">Of margar tilraunir</string>
+    <string name="security_biometric_use">Nota líffræðilegar auðkenningar</string>
+    <string name="security_biometric_reason">Opna MoneyM</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Hætta við</string>
+    <string name="security_backoff_retry">Reyndu aftur eftir %1$ds</string>
+    <string name="security_change_pin_title">Breyta PIN-kóða</string>
+    <string name="security_pin_set_header">Settu PIN-kóðann þinn</string>
+    <string name="security_pin_confirm_header">Staðfestu PIN-kóðann þinn</string>
+    <string name="security_pin_enter_header">Sláðu inn PIN-kóðann þinn</string>
+    <string name="security_biometric_offer_title">Virkja líffræðilegar auðkenningar?</string>
+    <string name="security_biometric_offer_body">Opnaðu MoneyM fljótt með Face ID eða fingrafarið.</string>
+    <string name="security_biometric_offer_enable">Virkja</string>
+    <string name="security_biometric_offer_skip">Ekki núna</string>
+    <string name="security_biometric_unlock_prompt">Opna MoneyM</string>
+</resources>

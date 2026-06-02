@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Færslur</string>
+    <string name="transactions_add">Bæta við færslu</string>
+    <string name="transactions_filter_all">Allt</string>
+    <string name="transactions_filter_expenses">Útgjöld</string>
+    <string name="transactions_filter_income">Tekjur</string>
+    <string name="transactions_filter_categories">Sía eftir flokki</string>
+    <string name="transactions_filter_clear">Hreinsa</string>
+    <string name="transactions_filter_done">Lokið</string>
+    <string name="transactions_empty">Engar færslur í þessum mánuði</string>
+    <string name="transactions_previous_month">Fyrri mánuður</string>
+    <string name="transactions_next_month">Næsti mánuður</string>
+    <string name="transactions_loading">Hleður…</string>
+    <string name="transactions_search_placeholder">Leita í færslum…</string>
+    <string name="transactions_search_cd">Leita</string>
+    <string name="transactions_close_search_cd">Loka leit</string>
+    <string name="transactions_net_label">NETTÓ</string>
+    <string name="transactions_dialog_select_month">Velja mánuð</string>
+    <string name="transactions_prev_year_cd">Fyrra ár</string>
+    <string name="transactions_next_year_cd">Næsta ár</string>
+    <string name="transactions_now">Núna</string>
+    <string name="transactions_ok">OK</string>
+    <string name="transactions_cancel">Hætta við</string>
+    <string name="transactions_wallet_select">Velja veski</string>
+    <string name="transactions_wallet_all">Öll veski</string>
+    <string name="transactions_syncing">Samstillir…</string>
+    <string name="transactions_pending_deletions">%1$d atriðum eytt á öðru tæki — yfirfara</string>
+</resources>

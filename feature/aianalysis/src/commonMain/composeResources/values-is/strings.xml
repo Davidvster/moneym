@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Greina</string>
+    <string name="analyze_intro">Spurðu hvað sem er um fjármál þín á þessu tímabili.</string>
+    <string name="analyze_input_hint">Spurðu spurningu…</string>
+    <string name="analyze_send_cd">Senda</string>
+    <string name="analyze_grounding_label">Gagnaveita</string>
+    <string name="analyze_grounding_snapshot">Skyndimynd</string>
+    <string name="analyze_grounding_tools">Verkfæri</string>
+    <string name="analyze_tools_fallback_notice">Verkfæri eru ekki studd af þessu líkani. Notar skyndimynd í staðinn.</string>
+    <string name="analyze_error">Eitthvað fór úrskeiðis. Reyndu aftur.</string>
+    <string name="analyze_generating">Hugsar…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Hvað eyðdi ég í þessum mánuði?</item>
+        <item>Hverjar eru helstu útgjaldaflokkar mínir?</item>
+        <item>Hvernig ber þennan mánuð saman við síðasta mánuð?</item>
+        <item>Einhverjar óvenjulegar eða stórar útgjöld?</item>
+    </string-array>
+</resources>

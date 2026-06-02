@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Færslur</string>
+    <string name="tab_overview">Yfirlit</string>
+    <string name="tab_settings">Stillingar</string>
+    <string name="amount_input_calculator_desc">Opna reiknivél</string>
+    <string name="month_jan">Janúar</string>
+    <string name="month_feb">Febrúar</string>
+    <string name="month_mar">Mars</string>
+    <string name="month_apr">Apríl</string>
+    <string name="month_may">Maí</string>
+    <string name="month_jun">Júní</string>
+    <string name="month_jul">Júlí</string>
+    <string name="month_aug">Ágúst</string>
+    <string name="month_sep">September</string>
+    <string name="month_oct">Október</string>
+    <string name="month_nov">Nóvember</string>
+    <string name="month_dec">Desember</string>
+    <string name="colorpicker_title">Velja lit</string>
+    <string name="colorpicker_hue">Litmóða</string>
+    <string name="colorpicker_saturation">Mettun</string>
+    <string name="colorpicker_brightness">Ljósmassi</string>
+    <string name="colorpicker_hex">Hex-litur</string>
+    <string name="colorpicker_select">Velja lit</string>
+    <string name="colorpicker_cancel">Hætta við</string>
+    <string name="wallet_select">Velja veski</string>
+    <string name="cancel">Hætta við</string>
+</resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Fjárhagsáætlanir</string>
+    <string name="budgets_empty">Engar fjárhagsáætlanir ennþá</string>
+    <string name="budgets_new">Ný fjárhagsáætlun</string>
+    <string name="budgets_new_title">Ný fjárhagsáætlun</string>
+    <string name="budgets_edit_title">Breyta fjárhagsáætlun</string>
+    <string name="budgets_name_label">Nafn</string>
+    <string name="budgets_amount_label">Upphæð</string>
+    <string name="budgets_account_label">Reikningur</string>
+    <string name="budgets_account_filter_label">Reikningur</string>
+    <string name="budgets_category_label">Flokkur</string>
+    <string name="budgets_all_categories">Allir flokkar</string>
+    <string name="budgets_start_month">Upphafsm­ánuður</string>
+    <string name="budgets_recurring">Endurtekið</string>
+    <string name="budgets_recurring_single">Einstakt</string>
+    <string name="budgets_recurring_unlimited">Ótakmarkað</string>
+    <string name="budgets_recurring_n_months">N mánuðir</string>
+    <string name="budgets_recurring_count_label">Fjöldi mánaða</string>
+    <string name="budgets_recurring_badge_unlimited">Endurtekið</string>
+    <string name="budgets_recurring_badge_n_months">%1$d mánuðir</string>
+    <string name="budgets_save">Vista</string>
+    <string name="budgets_cancel">Hætta við</string>
+    <string name="budgets_delete">Eyða</string>
+    <string name="budgets_delete_confirm_title">Eyða "%1$s"?</string>
+    <string name="budgets_delete_confirm_body">Þetta fjarlægir fjárhagsáætlunina. Færslur eru óbreyttar.</string>
+    <string name="budgets_placeholder_name">Matvörur</string>
+    <string name="budgets_error_required">Skyldulegt</string>
+    <string name="budgets_error_amount">Sláðu inn upphæð &gt; 0</string>
+    <string name="budgets_error_count">Verður að vera &gt; 0</string>
+    <string name="budgets_prev_month">Fyrri mánuður</string>
+    <string name="budgets_next_month">Næsti mánuður</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Velja mánuð</string>
+    <string name="budgets_month_picker_now">Þessi mánuður</string>
+    <string name="budgets_month_picker_ok">OK</string>
+    <string name="budgets_month_picker_cancel">Hætta við</string>
+    <string name="budgets_month_picker_prev_year_cd">Fyrra ár</string>
+    <string name="budgets_month_picker_next_year_cd">Næsta ár</string>
+</resources>

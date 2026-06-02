@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Staðfesta fjarlægingarnar</string>
+    <string name="sync_deletions_subtitle">Annað tæki fjarlægði þessi atriði. Veldu hvaða þú vilt einnig fjarlægja hér. Ómerkt atriði eru geymd og endurheimt á hinu tækinu.</string>
+    <string name="sync_deletions_group_wallets">Veski</string>
+    <string name="sync_deletions_group_transactions">Færslur</string>
+    <string name="sync_deletions_group_budgets">Fjárhagsáætlanir</string>
+    <string name="sync_deletions_group_recurring">Endurteknar</string>
+    <string name="sync_deletions_group_categories">Flokkar</string>
+    <string name="sync_deletions_group_payment_modes">Greiðslumátar</string>
+    <string name="sync_deletions_confirm">Fjarlægja valdar</string>
+    <string name="sync_deletions_cancel">Geyma allt</string>
+    <string name="sync_settings_title">Samstilling milli tækja</string>
+    <string name="sync_settings_toggle_title">Samstilla milli tækja</string>
+    <string name="sync_settings_toggle_subtitle">Haltu gögnum þínum samstilltum á öllum tækjum sem eru skráð inn á sama öryggisafritið.</string>
+    <string name="sync_settings_rename_label">Nafn þessa tækis</string>
+    <string name="sync_settings_rename_save">Vista</string>
+    <string name="sync_settings_rename_cancel">Hætta við</string>
+    <string name="sync_settings_devices_header">TÆKI</string>
+    <string name="sync_settings_this_device">Þetta tæki</string>
+    <string name="sync_settings_remove">Fjarlægja</string>
+    <string name="sync_settings_last_synced_just_now">samstillt rétt í þessu</string>
+    <string name="sync_settings_last_synced_minutes">samstillt %1$d mín síðan</string>
+    <string name="sync_settings_last_synced_hours">samstillt %1$d klst síðan</string>
+    <string name="sync_settings_last_synced_days">samstillt %1$d d síðan</string>
+    <string name="sync_settings_last_synced_longer">samstillt fyrir löngu</string>
+</resources>

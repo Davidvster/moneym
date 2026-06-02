@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">Færslur</string>
+    <string name="nav_tab_overview">Yfirlit</string>
+    <string name="nav_tab_settings">Stillingar</string>
+    <string name="category_seed_groceries">Matvörur</string>
+    <string name="category_seed_eating_out">Borða úti</string>
+    <string name="category_seed_rent">Leiga</string>
+    <string name="category_seed_transport">Samgöngur</string>
+    <string name="category_seed_utilities">Þjónustur</string>
+    <string name="category_seed_health">Heilsa</string>
+    <string name="category_seed_entertainment">Skemmtun</string>
+    <string name="category_seed_shopping">Innkaup</string>
+    <string name="category_seed_other_expense">Annað</string>
+    <string name="category_seed_salary">Laun</string>
+    <string name="category_seed_payment">Greiðsla</string>
+    <string name="category_seed_gift">Gjöf</string>
+    <string name="category_seed_other_income">Annað</string>
+</resources>

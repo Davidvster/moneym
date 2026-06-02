@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Flokkar</string>
+    <string name="categories_add">Bæta við flokk</string>
+    <string name="categories_edit_title">Breyta flokk</string>
+    <string name="categories_new_title">Nýr flokkur</string>
+    <string name="categories_name_label">Nafn</string>
+    <string name="categories_name_error">Nafn er nauðsynlegt</string>
+    <string name="categories_icon_label">Tákn</string>
+    <string name="categories_color_label">Litur</string>
+    <string name="categories_archive">Geyma</string>
+    <string name="categories_restore">Endurheimta</string>
+    <string name="categories_show_archived">Sýna geymda</string>
+    <string name="categories_hide_archived">Fela geymda</string>
+    <string name="categories_archived_badge">Geymt</string>
+    <string name="categories_empty">Engir flokkar ennþá</string>
+    <string name="categories_back">Til baka</string>
+    <string name="categories_show_archived_count">Sýna geymda (%1$d)</string>
+    <string name="categories_cancel">Hætta við</string>
+    <string name="categories_save">Vista</string>
+    <string name="categories_new_button">Nýr</string>
+    <string name="categories_tab_expense">Útgjöld</string>
+    <string name="categories_tab_income">Tekjur</string>
+    <string name="categories_hint">haltu inni til að endurraða</string>
+    <string name="categories_new_expense">Nýr útgjaldaflokkur</string>
+    <string name="categories_new_income">Nýr tekjuflokkur</string>
+    <string name="categories_name_placeholder">t.d. Matvörur</string>
+    <string name="categories_edit_sheet_title">Breyta flokk</string>
+    <string name="categories_new_sheet_title">Nýr flokkur</string>
+    <string name="categories_delete">Eyða flokk</string>
+    <string name="categories_save_changes">Vista breytingar</string>
+    <string name="categories_create">Búa til flokk</string>
+    <string name="categories_delete_confirm_title">Eyða "%1$s"?</string>
+    <string name="categories_delete_confirm_body">Þetta fjarlægir flokkinn. Færslur sem nota hann geta verið fyrir áhrifum.</string>
+    <string name="categories_delete_button">Eyða</string>
+    <string name="categories_color_picker_title">Velja lit</string>
+    <string name="categories_color_hue">Litmóða</string>
+    <string name="categories_color_saturation">Mettun</string>
+    <string name="categories_color_brightness">Ljósmassi</string>
+    <string name="categories_color_hex">Hex-litur</string>
+    <string name="categories_color_select">Velja lit</string>
+    <string name="categories_name_preview_placeholder">Nafn flokks</string>
+</resources>

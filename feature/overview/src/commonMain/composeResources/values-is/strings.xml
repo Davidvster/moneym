@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Yfirlit</string>
+    <string name="overview_income">Tekjur</string>
+    <string name="overview_expenses">Útgjöld</string>
+    <string name="overview_by_category">Eyðsla eftir flokki</string>
+    <string name="overview_trend">6 mánaða þróun</string>
+    <string name="overview_all_categories">Allir flokkar</string>
+    <string name="overview_empty">Engar færslur á þessu tímabili</string>
+    <string name="overview_previous_month">Fyrri mánuður</string>
+    <string name="overview_next_month">Næsti mánuður</string>
+    <string name="overview_loading">Hleður…</string>
+    <string name="overview_more">+ %1$d fleiri</string>
+    <string name="overview_monthly_breakdown">Mánaðarlegt sundurliðun</string>
+    <string name="overview_daily_breakdown">Dagleg sundurliðun</string>
+    <string name="overview_all">Allt</string>
+    <string name="overview_previous">Fyrri</string>
+    <string name="overview_next">Næsti</string>
+    <string name="overview_switch_to_month">Skipta yfir í mánaðarsýn</string>
+    <string name="overview_switch_to_year">Skipta yfir í árssýn</string>
+    <string name="overview_period_month">Mánuður</string>
+    <string name="overview_period_year">Ár</string>
+    <string name="overview_period_custom">Sérsniðið</string>
+    <string name="overview_label_income">TEKJUR</string>
+    <string name="overview_label_expenses">ÚTGJÖLD</string>
+    <string name="overview_label_balance">STAÐA</string>
+    <string name="overview_spending_by_category">Eyðsla eftir flokki</string>
+    <string name="overview_no_expenses">Engin útgjöld á þessu tímabili</string>
+    <string name="overview_label_total">SAMTALS</string>
+    <string name="overview_cumulative_spend">Uppsöfnuð eyðsla</string>
+    <string name="overview_through_day">til og með degi %1$d</string>
+    <string name="overview_daily_trend">Dagleg þróun eftir flokki</string>
+    <string name="overview_monthly_spending">Mánaðarleg eyðsla</string>
+    <string name="overview_monthly_trend">Mánaðarleg þróun eftir flokki</string>
+    <string name="overview_avg_day">MEÐAL / DAG</string>
+    <string name="overview_avg_month">MEÐAL / MÁNUÐUR</string>
+    <string name="overview_dialog_select_month">Velja mánuð</string>
+    <string name="overview_dialog_select_year">Velja ár</string>
+    <string name="overview_prev_year_cd">Fyrra ár</string>
+    <string name="overview_next_year_cd">Næsta ár</string>
+    <string name="overview_analyze_cd">Greina með gervigreind</string>
+    <string name="overview_now">Núna</string>
+    <string name="overview_ok">OK</string>
+    <string name="overview_cancel">Hætta við</string>
+    <string name="overview_tx_count_singular">%1$d færsla</string>
+    <string name="overview_tx_count_plural">%1$d færslur</string>
+    <string name="overview_cat_avg_day">meðal/dag</string>
+    <string name="overview_cat_avg_month">meðal/mán</string>
+    <string name="overview_date_range_title">Velja dagsetningarbil</string>
+    <string name="overview_date_range_from">FRÁ</string>
+    <string name="overview_date_range_to">TIL</string>
+    <string name="overview_budgets_title">Fjárhagsáætlanir</string>
+    <string name="overview_budgets_all_categories">Allir flokkar</string>
+    <string name="overview_budgets_remaining_suffix">%1$s eftir</string>
+    <string name="overview_budgets_overrun_suffix">%1$s yfir</string>
+    <string-array name="overview_year_x_labels">
+        <item>jan</item>
+        <item>apr</item>
+        <item>júl</item>
+        <item>okt</item>
+        <item>des</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>
