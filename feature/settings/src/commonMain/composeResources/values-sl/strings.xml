@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Obnovi iz datoteke</string>
     <string name="settings_restore_warning_title">Zamenjati vse podatke?</string>
     <string name="settings_restore_warning_body">To bo trajno zamenjalo vse trenutne podatke z varnostno kopijo. Tega ni mogoče razveljaviti.</string>
-    <string name="settings_restore_app_close_notice">Aplikacija se bo zaprla po obnovitvi. Ročno jo znova odprite za nadaljevanje.</string>
+    <string name="settings_restore_app_close_notice">Aplikacija se bo znova zagnala, da dokonča obnovitev.</string>
     <string name="settings_restore_passphrase_label">Geslo varnostne kopije</string>
     <string name="settings_restore_confirm">Zamenjaj</string>
     <string name="settings_auto_backup">Samodejno varnostno kopiranje</string>

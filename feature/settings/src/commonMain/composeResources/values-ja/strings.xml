@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">ファイルから復元</string>
     <string name="settings_restore_warning_title">すべてのデータを置き換えますか？</string>
     <string name="settings_restore_warning_body">現在のすべてのデータがバックアップで完全に置き換えられます。この操作は元に戻せません。</string>
-    <string name="settings_restore_app_close_notice">復元後にアプリが閉じます。手動で再度開いて続けてください。</string>
+    <string name="settings_restore_app_close_notice">復元を完了するためにアプリが再起動します。</string>
     <string name="settings_restore_passphrase_label">バックアップパスフレーズ</string>
     <string name="settings_restore_confirm">置き換える</string>
     <string name="settings_auto_backup">自動バックアップ</string>

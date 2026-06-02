@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Khôi phục từ tệp</string>
     <string name="settings_restore_warning_title">Thay thế tất cả dữ liệu?</string>
     <string name="settings_restore_warning_body">Thao tác này sẽ thay thế vĩnh viễn tất cả dữ liệu hiện tại bằng bản sao lưu. Không thể hoàn tác.</string>
-    <string name="settings_restore_app_close_notice">Ứng dụng sẽ đóng sau khi khôi phục. Mở lại thủ công để tiếp tục.</string>
+    <string name="settings_restore_app_close_notice">Ứng dụng sẽ khởi động lại để hoàn tất khôi phục.</string>
     <string name="settings_restore_passphrase_label">Cụm mật khẩu sao lưu</string>
     <string name="settings_restore_confirm">Thay thế</string>
     <string name="settings_auto_backup">Tự động sao lưu</string>

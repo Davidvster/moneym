@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Palauta tiedostosta</string>
     <string name="settings_restore_warning_title">Korvataanko kaikki tiedot?</string>
     <string name="settings_restore_warning_body">Tämä korvaa pysyvästi kaikki nykyiset tiedot varmuuskopiolla. Tätä ei voi peruuttaa.</string>
-    <string name="settings_restore_app_close_notice">Sovellus sulkeutuu palautuksen jälkeen. Avaa se manuaalisesti jatkaaksesi.</string>
+    <string name="settings_restore_app_close_notice">Sovellus käynnistyy uudelleen palautuksen viimeistelemiseksi.</string>
     <string name="settings_restore_passphrase_label">Varmuuskopion salasana</string>
     <string name="settings_restore_confirm">Korvaa</string>
     <string name="settings_auto_backup">Automaattinen varmuuskopio</string>

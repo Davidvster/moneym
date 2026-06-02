@@ -166,7 +166,7 @@
     <string name="settings_restore_from_file">Ripristina da file</string>
     <string name="settings_restore_warning_title">Sostituire tutti i dati?</string>
     <string name="settings_restore_warning_body">Tutti i dati attuali verranno sostituiti definitivamente con il backup. Questa operazione non può essere annullata.</string>
-    <string name="settings_restore_app_close_notice">L'app si chiuderà dopo il ripristino. Riaprila manualmente per continuare.</string>
+    <string name="settings_restore_app_close_notice">L'app verrà riavviata per completare il ripristino.</string>
     <string name="settings_restore_passphrase_label">Passphrase del backup</string>
     <string name="settings_restore_confirm">Sostituisci</string>
     <string name="settings_auto_backup">Backup automatico</string>

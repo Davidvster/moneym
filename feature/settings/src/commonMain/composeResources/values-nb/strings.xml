@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Gjenopprett fra fil</string>
     <string name="settings_restore_warning_title">Erstatt alle data?</string>
     <string name="settings_restore_warning_body">Dette erstatter permanent alle gjeldende data med sikkerhetskopien. Dette kan ikke angres.</string>
-    <string name="settings_restore_app_close_notice">Appen lukkes etter gjenoppretting. Åpne den manuelt for å fortsette.</string>
+    <string name="settings_restore_app_close_notice">Appen starter på nytt for å fullføre gjenopprettingen.</string>
     <string name="settings_restore_passphrase_label">Passordfrase for sikkerhetskopi</string>
     <string name="settings_restore_confirm">Erstatt</string>
     <string name="settings_auto_backup">Automatisk sikkerhetskopiering</string>

@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Obnoviť zo súboru</string>
     <string name="settings_restore_warning_title">Nahradiť všetky údaje?</string>
     <string name="settings_restore_warning_body">Toto trvalo nahradí všetky aktuálne údaje zálohou. Toto nie je možné vrátiť späť.</string>
-    <string name="settings_restore_app_close_notice">Aplikácia sa zatvorí po obnovení. Znova ju otvorte ručne pre pokračovanie.</string>
+    <string name="settings_restore_app_close_notice">Aplikácia sa reštartuje, aby dokončila obnovenie.</string>
     <string name="settings_restore_passphrase_label">Heslo zálohy</string>
     <string name="settings_restore_confirm">Nahradiť</string>
     <string name="settings_auto_backup">Automatická záloha</string>

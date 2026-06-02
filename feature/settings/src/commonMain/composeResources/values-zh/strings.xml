@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">从文件恢复</string>
     <string name="settings_restore_warning_title">替换所有数据？</string>
     <string name="settings_restore_warning_body">这将用备份永久替换所有当前数据，此操作无法撤销。</string>
-    <string name="settings_restore_app_close_notice">恢复后应用将关闭，请手动重新打开以继续。</string>
+    <string name="settings_restore_app_close_notice">应用将重新启动以完成恢复。</string>
     <string name="settings_restore_passphrase_label">备份密码短语</string>
     <string name="settings_restore_confirm">替换</string>
     <string name="settings_auto_backup">自动备份</string>

@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Atjaunot no faila</string>
     <string name="settings_restore_warning_title">Aizstāt visus datus?</string>
     <string name="settings_restore_warning_body">Tas neatgriezeniski aizstās visus pašreizējos datus ar dublējumu. To nevar atsaukt.</string>
-    <string name="settings_restore_app_close_notice">Lietotne aizvērsies pēc atjaunošanas. Atveriet to manuāli, lai turpinātu.</string>
+    <string name="settings_restore_app_close_notice">Lietotne tiks restartēta, lai pabeigtu atjaunošanu.</string>
     <string name="settings_restore_passphrase_label">Dublējuma parole</string>
     <string name="settings_restore_confirm">Aizstāt</string>
     <string name="settings_auto_backup">Automātiskā dublēšana</string>

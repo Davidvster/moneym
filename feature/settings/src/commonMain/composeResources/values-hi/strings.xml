@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">फ़ाइल से पुनर्स्थापित करें</string>
     <string name="settings_restore_warning_title">सभी डेटा बदलें?</string>
     <string name="settings_restore_warning_body">इससे सभी मौजूदा डेटा स्थायी रूप से बैकअप से बदल जाएगा। यह पूर्ववत नहीं किया जा सकता।</string>
-    <string name="settings_restore_app_close_notice">पुनर्स्थापना के बाद ऐप बंद हो जाएगी। जारी रखने के लिए इसे मैन्युअली खोलें।</string>
+    <string name="settings_restore_app_close_notice">पुनर्स्थापना पूरी करने के लिए ऐप पुनः आरंभ होगी।</string>
     <string name="settings_restore_passphrase_label">बैकअप पासफ़्रेज़</string>
     <string name="settings_restore_confirm">बदलें</string>
     <string name="settings_auto_backup">ऑटो-बैकअप</string>

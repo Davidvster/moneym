@@ -1,13 +1,9 @@
 package com.dv.moneym.platform
 
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
-import kotlin.system.exitProcess
 
 actual class DbPlatform(private val context: Context) {
     actual val dbDirectory: String
@@ -28,21 +24,5 @@ actual class DbPlatform(private val context: Context) {
     actual suspend fun deleteFile(path: String) = withContext(Dispatchers.IO) {
         runCatching { File(path).delete() }.getOrDefault(false)
         Unit
-    }
-
-    actual fun terminateApp() {
-        val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-            ?.apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK) }
-        if (intent != null) {
-            val pending = PendingIntent.getActivity(
-                context,
-                0,
-                intent,
-                PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE,
-            )
-            (context.getSystemService(Context.ALARM_SERVICE) as AlarmManager)
-                .set(AlarmManager.RTC, System.currentTimeMillis() + 500L, pending)
-        }
-        exitProcess(0)
     }
 }

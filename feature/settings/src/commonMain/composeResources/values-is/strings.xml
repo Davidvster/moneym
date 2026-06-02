@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Endurheimta úr skrá</string>
     <string name="settings_restore_warning_title">Skipta út öllum gögnum?</string>
     <string name="settings_restore_warning_body">Þetta kemur að fullu í stað allra núverandi gagna með öryggisafritið. Þetta er ekki hægt að afturkalla.</string>
-    <string name="settings_restore_app_close_notice">Forritið lokast eftir endurheimtingu. Opnaðu það handvirkt til að halda áfram.</string>
+    <string name="settings_restore_app_close_notice">Forritið endurræsist til að ljúka endurheimtingu.</string>
     <string name="settings_restore_passphrase_label">Lykilsetning öryggisafrit</string>
     <string name="settings_restore_confirm">Skipta út</string>
     <string name="settings_auto_backup">Sjálfvirkt öryggisafrit</string>

@@ -7,6 +7,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.window.DialogProperties
 import com.dv.moneym.core.designsystem.MM
 
 @Composable
@@ -17,6 +18,7 @@ fun MmDialog(
     onDismiss: () -> Unit,
     confirmEnabled: Boolean = true,
     dismissText: String? = null,
+    dismissible: Boolean = true,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val colors = MM.colors
@@ -24,7 +26,11 @@ fun MmDialog(
     val space = MM.dimen
 
     AlertDialog(
-        onDismissRequest = onDismiss,
+        onDismissRequest = { if (dismissible) onDismiss() },
+        properties = DialogProperties(
+            dismissOnBackPress = dismissible,
+            dismissOnClickOutside = dismissible,
+        ),
         title = { Text(text = title, style = type.title3, color = colors.text) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(space.padding_1x), content = content)

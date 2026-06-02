@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Herstellen vanuit bestand</string>
     <string name="settings_restore_warning_title">Alle gegevens vervangen?</string>
     <string name="settings_restore_warning_body">Dit vervangt permanent alle huidige gegevens door de back-up. Dit kan niet ongedaan worden gemaakt.</string>
-    <string name="settings_restore_app_close_notice">De app sluit na het herstellen. Open handmatig opnieuw om door te gaan.</string>
+    <string name="settings_restore_app_close_notice">De app wordt opnieuw opgestart om het herstellen te voltooien.</string>
     <string name="settings_restore_passphrase_label">Back-upwachtwoordzin</string>
     <string name="settings_restore_confirm">Vervangen</string>
     <string name="settings_auto_backup">Automatische back-up</string>

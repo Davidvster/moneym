@@ -4,15 +4,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.datastore.PrefKeys
@@ -23,16 +27,68 @@ import com.dv.moneym.core.ui.LocalUseCurrencySymbol
 import com.dv.moneym.data.sync.SyncEngine
 import com.dv.moneym.di.appModules
 import com.dv.moneym.feature.security.unlock.PinUnlockScreen
-import org.koin.compose.KoinApplication
+import com.dv.moneym.platform.AppRestartCoordinator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import org.koin.compose.koinInject
+import org.koin.core.context.loadKoinModules
+import org.koin.core.context.startKoin
+import org.koin.core.context.unloadKoinModules
 import org.koin.core.module.Module
+import org.koin.mp.KoinPlatformTools
 
 // ── Entry point ───────────────────────────────────────────────────────────────
 
+/**
+ * Starts the global Koin graph once. Called by each platform entry point before [App]. Also wires
+ * [AppRestartCoordinator] so backup restore can restart Koin in-process. Idempotent.
+ */
+fun initKoin(platformModules: List<Module>) {
+    if (KoinPlatformTools.defaultContext().getOrNull() != null) return
+    AppRestartCoordinator.scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    // Reload (not stopKoin) so the '_root_' scope is never closed — closing it crashes any
+    // in-flight composition with ClosedScopeException. unload+load swaps every singleton
+    // (fresh DB + repos) while keeping the scope alive.
+    val allModules = appModules + platformModules
+    AppRestartCoordinator.restartKoin = {
+        unloadKoinModules(allModules)
+        loadKoinModules(allModules)
+    }
+    startKoin { modules(allModules) }
+}
+
 @Composable
-fun App(platformModules: List<Module> = emptyList()) {
-    KoinApplication(application = { modules(appModules + platformModules) }) {
-        AppContent()
+fun App() {
+    val phase by AppRestartCoordinator.phase.collectAsStateWithLifecycle()
+    val epoch by AppRestartCoordinator.epoch.collectAsStateWithLifecycle()
+    when (phase) {
+        AppRestartCoordinator.Phase.Restarting -> RestartingScreen()
+        // key(epoch) remounts after an in-process restore. ViewModels live in the host's
+        // ViewModelStore (not tied to composition), so clear it on each new epoch — otherwise
+        // koinViewModel() would hand back ViewModels built against the old (closed-DB) Koin graph.
+        // Keep the host's own LocalViewModelStoreOwner so SavedStateHandle injection still works.
+        // No-op on first startup (store empty).
+        AppRestartCoordinator.Phase.Idle -> key(epoch) {
+            val storeOwner = LocalViewModelStoreOwner.current
+            remember(epoch) { storeOwner?.viewModelStore?.clear() }
+            AppContent()
+        }
+    }
+}
+
+// Koin-free placeholder shown while the graph is torn down and rebuilt during restore.
+@Composable
+private fun RestartingScreen() {
+    MoneyMTheme(darkTheme = isSystemInDarkTheme()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MM.colors.bg),
+            contentAlignment = Alignment.Center,
+        ) {
+            CircularProgressIndicator(color = MM.colors.accent)
+        }
     }
 }
 

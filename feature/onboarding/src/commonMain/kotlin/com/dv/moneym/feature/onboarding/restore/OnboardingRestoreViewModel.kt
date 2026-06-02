@@ -43,6 +43,7 @@ data class OnboardingRestoreUiState(
     val remotePreview: RemoteBackupMetadata? = null,
     val remotePreviewLoading: Boolean = false,
     val remoteError: String? = null,
+    val restoreRunning: Boolean = false,
     val isLoading: Boolean = false,
 )
 
@@ -98,8 +99,10 @@ class OnboardingRestoreViewModel(
             OnboardingRestoreIntent.ConnectGoogleTapped -> handleConnectGoogle()
             OnboardingRestoreIntent.RemoteRestoreTapped -> handleRemoteRestoreTapped()
             is OnboardingRestoreIntent.RemoteRestoreConfirmed -> handleRemoteRestoreConfirmed(intent.passphrase)
-            OnboardingRestoreIntent.RemoteRestoreDismissed -> _base.update {
-                it.copy(showRemoteRestoreDialog = false, remotePreview = null, remoteError = null)
+            OnboardingRestoreIntent.RemoteRestoreDismissed -> if (!_base.value.restoreRunning) {
+                _base.update {
+                    it.copy(showRemoteRestoreDialog = false, remotePreview = null, remoteError = null)
+                }
             }
         }
     }
@@ -119,7 +122,7 @@ class OnboardingRestoreViewModel(
         val bytes = pendingRestoreBytes ?: return
         val needsPassphrase = backupCodec.isEncrypted(bytes)
         if (needsPassphrase && (passphrase == null || passphrase.isEmpty())) return
-        _base.update { it.copy(isLoading = true, showLocalRestoreDialog = false, localError = null) }
+        _base.update { it.copy(restoreRunning = true, showLocalRestoreDialog = true, localError = null) }
         viewModelScope.launch {
             try {
                 val plain = withContext(dispatchers.io) {
@@ -132,18 +135,19 @@ class OnboardingRestoreViewModel(
             } catch (e: BackupCryptoError) {
                 logger.e(e) { "Local restore crypto error" }
                 _base.update {
-                    it.copy(isLoading = false, showLocalRestoreDialog = true, localError = e.message)
+                    it.copy(restoreRunning = false, showLocalRestoreDialog = true, localError = e.message)
                 }
             } catch (e: Exception) {
                 logger.e(e) { "Local restore failed" }
                 _base.update {
-                    it.copy(isLoading = false, showLocalRestoreDialog = true, localError = e.message)
+                    it.copy(restoreRunning = false, showLocalRestoreDialog = true, localError = e.message)
                 }
             }
         }
     }
 
     private fun handleLocalRestoreDismissed() {
+        if (_base.value.restoreRunning) return
         pendingRestoreBytes = null
         _base.update {
             it.copy(showLocalRestoreDialog = false, localNeedsPassphrase = false, localError = null)
@@ -199,13 +203,13 @@ class OnboardingRestoreViewModel(
 
     private fun handleRemoteRestoreConfirmed(passphrase: CharArray) {
         val manager = remoteBackupManager ?: return
-        _base.update { it.copy(remotePreviewLoading = true, remoteError = null) }
+        _base.update { it.copy(restoreRunning = true, remoteError = null) }
         viewModelScope.launch {
             appSettings.putBoolean(PrefKeys.ONBOARDING_COMPLETED, true)
             manager.restoreLatest(passphrase).onFailure { t ->
                 logger.e(t) { "Remote restore failed" }
                 val msg = t.message ?: getString(Res.string.onboarding_restore_error_restore_failed)
-                _base.update { it.copy(remotePreviewLoading = false, remoteError = msg) }
+                _base.update { it.copy(restoreRunning = false, remoteError = msg) }
             }
             passphrase.fill(' ')
         }

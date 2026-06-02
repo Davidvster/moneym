@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Dosyadan geri yükle</string>
     <string name="settings_restore_warning_title">Tüm veriler değiştirilsin mi?</string>
     <string name="settings_restore_warning_body">Bu işlem tüm mevcut verileri yedekle kalıcı olarak değiştirecek. Bu işlem geri alınamaz.</string>
-    <string name="settings_restore_app_close_notice">Uygulama geri yüklemeden sonra kapanacak. Devam etmek için manuel olarak yeniden açın.</string>
+    <string name="settings_restore_app_close_notice">Geri yüklemeyi tamamlamak için uygulama yeniden başlatılacak.</string>
     <string name="settings_restore_passphrase_label">Yedek parolası</string>
     <string name="settings_restore_confirm">Değiştir</string>
     <string name="settings_auto_backup">Otomatik yedekleme</string>

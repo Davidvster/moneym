@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Vrati iz datoteke</string>
     <string name="settings_restore_warning_title">Zamijeniti sve podatke?</string>
     <string name="settings_restore_warning_body">Ovo će trajno zamijeniti sve trenutne podatke sigurnosnom kopijom. Ovo se ne može poništiti.</string>
-    <string name="settings_restore_app_close_notice">Aplikacija će se zatvoriti nakon vraćanja. Ponovo je otvorite ručno za nastavak.</string>
+    <string name="settings_restore_app_close_notice">Aplikacija će se ponovno pokrenuti kako bi dovršila vraćanje.</string>
     <string name="settings_restore_passphrase_label">Lozinka sigurnosne kopije</string>
     <string name="settings_restore_confirm">Zamijeni</string>
     <string name="settings_auto_backup">Automatska sigurnosna kopija</string>

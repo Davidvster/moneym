@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Återställ från fil</string>
     <string name="settings_restore_warning_title">Ersätt all data?</string>
     <string name="settings_restore_warning_body">Detta ersätter permanent all aktuell data med säkerhetskopian. Det kan inte ångras.</string>
-    <string name="settings_restore_app_close_notice">Appen stängs efter återställningen. Öppna den manuellt för att fortsätta.</string>
+    <string name="settings_restore_app_close_notice">Appen startas om för att slutföra återställningen.</string>
     <string name="settings_restore_passphrase_label">Säkerhetskopieringslösenfras</string>
     <string name="settings_restore_confirm">Ersätt</string>
     <string name="settings_auto_backup">Automatisk säkerhetskopiering</string>

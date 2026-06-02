@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Taasta failist</string>
     <string name="settings_restore_warning_title">Asenda kõik andmed?</string>
     <string name="settings_restore_warning_body">See asendab jäädavalt kõik praegused andmed varukoopiaga. Seda ei saa tagasi võtta.</string>
-    <string name="settings_restore_app_close_notice">Rakendus sulgub pärast taastamist. Jätkamiseks ava see käsitsi.</string>
+    <string name="settings_restore_app_close_notice">Rakendus taaskäivitub taastamise lõpetamiseks.</string>
     <string name="settings_restore_passphrase_label">Varukoopia parool</string>
     <string name="settings_restore_confirm">Asenda</string>
     <string name="settings_auto_backup">Automaatne varundamine</string>

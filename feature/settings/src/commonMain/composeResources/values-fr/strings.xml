@@ -167,7 +167,7 @@
     <string name="settings_restore_from_file">Restaurer depuis un fichier</string>
     <string name="settings_restore_warning_title">Remplacer toutes les données ?</string>
     <string name="settings_restore_warning_body">Cela remplacera définitivement toutes les données actuelles par la sauvegarde. Cette action est irréversible.</string>
-    <string name="settings_restore_app_close_notice">L'application se fermera après la restauration. Rouvrez-la manuellement pour continuer.</string>
+    <string name="settings_restore_app_close_notice">L'application redémarrera pour terminer la restauration.</string>
     <string name="settings_restore_passphrase_label">Phrase de passe de sauvegarde</string>
     <string name="settings_restore_confirm">Remplacer</string>
     <string name="settings_auto_backup">Sauvegarde automatique</string>

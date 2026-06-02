@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Przywróć z pliku</string>
     <string name="settings_restore_warning_title">Zastąpić wszystkie dane?</string>
     <string name="settings_restore_warning_body">Spowoduje to trwałe zastąpienie wszystkich bieżących danych kopią zapasową. Tej operacji nie można cofnąć.</string>
-    <string name="settings_restore_app_close_notice">Aplikacja zamknie się po przywróceniu. Otwórz ją ręcznie, aby kontynuować.</string>
+    <string name="settings_restore_app_close_notice">Aplikacja uruchomi się ponownie, aby zakończyć przywracanie.</string>
     <string name="settings_restore_passphrase_label">Hasło kopii zapasowej</string>
     <string name="settings_restore_confirm">Zastąp</string>
     <string name="settings_auto_backup">Automatyczna kopia</string>

@@ -89,6 +89,7 @@ private fun OnboardingRestoreScreen(
     if (state.showLocalRestoreDialog) {
         LocalRestoreDialog(
             needsPassphrase = state.localNeedsPassphrase,
+            inProgress = state.restoreRunning,
             errorMessage = state.localError,
             onDismiss = { viewModel.onIntent(OnboardingRestoreIntent.LocalRestoreDismissed) },
             onConfirm = { viewModel.onIntent(OnboardingRestoreIntent.LocalRestoreConfirmed(it)) },
@@ -98,6 +99,8 @@ private fun OnboardingRestoreScreen(
     if (state.showRemoteRestoreDialog) {
         RemoteRestoreDialog(
             loading = state.remotePreviewLoading,
+            restoreRunning = state.restoreRunning,
+            encrypted = state.remotePreview?.encrypted == true,
             preview = state.remotePreview,
             errorMessage = state.remoteError,
             onDismiss = { viewModel.onIntent(OnboardingRestoreIntent.RemoteRestoreDismissed) },
@@ -191,6 +194,7 @@ private fun OnboardingRestoreContent(
 @Composable
 private fun LocalRestoreDialog(
     needsPassphrase: Boolean,
+    inProgress: Boolean,
     errorMessage: String?,
     onDismiss: () -> Unit,
     onConfirm: (CharArray?) -> Unit,
@@ -204,10 +208,11 @@ private fun LocalRestoreDialog(
     MmDialog(
         title = stringResource(Res.string.onboarding_restore_warning_title),
         confirmText = stringResource(Res.string.onboarding_restore_confirm),
-        confirmEnabled = !needsPassphrase || passphrase.isNotEmpty(),
+        confirmEnabled = !inProgress && (!needsPassphrase || passphrase.isNotEmpty()),
         onConfirm = { onConfirm(if (needsPassphrase) passphrase.toCharArray() else null) },
         onDismiss = onDismiss,
-        dismissText = stringResource(Res.string.onboarding_restore_cancel),
+        dismissText = if (inProgress) null else stringResource(Res.string.onboarding_restore_cancel),
+        dismissible = !inProgress,
     ) {
         Text(
             stringResource(Res.string.onboarding_restore_warning_body),
@@ -223,7 +228,7 @@ private fun LocalRestoreDialog(
         if (needsPassphrase) {
             MmField(
                 value = passphrase,
-                onValueChange = { passphrase = it },
+                onValueChange = { if (!inProgress) passphrase = it },
                 label = stringResource(Res.string.onboarding_restore_passphrase_label),
                 visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardType = KeyboardType.Password,
@@ -236,6 +241,13 @@ private fun LocalRestoreDialog(
                 },
             )
         }
+        if (inProgress) {
+            CircularProgressIndicator(
+                modifier = Modifier.padding(top = space.padding_1x).size(space.icon_1x),
+                strokeWidth = space.padding_0_25x,
+                color = colors.accent,
+            )
+        }
         if (errorMessage != null) {
             Text(errorMessage, color = colors.danger, style = type.caption)
         }
@@ -245,6 +257,8 @@ private fun LocalRestoreDialog(
 @Composable
 private fun RemoteRestoreDialog(
     loading: Boolean,
+    restoreRunning: Boolean,
+    encrypted: Boolean,
     preview: RemoteBackupMetadata?,
     errorMessage: String?,
     onDismiss: () -> Unit,
@@ -255,21 +269,23 @@ private fun RemoteRestoreDialog(
     val space = MM.dimen
     var input by remember { mutableStateOf("") }
     var visible by remember { mutableStateOf(false) }
+    val busy = loading || restoreRunning
 
     MmDialog(
         title = stringResource(Res.string.onboarding_restore_warning_title),
         confirmText = stringResource(Res.string.onboarding_restore_confirm),
-        confirmEnabled = input.isNotEmpty() && !loading,
-        onConfirm = { onConfirm(input.toCharArray()) },
+        confirmEnabled = !busy && (!encrypted || input.isNotEmpty()),
+        onConfirm = { onConfirm(if (encrypted) input.toCharArray() else CharArray(0)) },
         onDismiss = onDismiss,
-        dismissText = stringResource(Res.string.onboarding_restore_cancel),
+        dismissText = if (restoreRunning) null else stringResource(Res.string.onboarding_restore_cancel),
+        dismissible = !restoreRunning,
     ) {
         Text(
             stringResource(Res.string.onboarding_restore_app_close_notice),
             style = type.caption,
             color = colors.text3,
         )
-        if (loading) {
+        if (busy) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
@@ -291,20 +307,23 @@ private fun RemoteRestoreDialog(
                 Text("${preview.sizeBytes / 1024L} KB", style = type.caption.copy(color = colors.text3))
             }
         }
-        MmField(
-            value = input,
-            onValueChange = { if (!loading) input = it },
-            label = stringResource(Res.string.onboarding_restore_passphrase_label),
-            visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
-            keyboardType = KeyboardType.Password,
-            suffix = {
-                MmIconButton(
-                    icon = if (visible) Icon.EyeOff.imageVector else Icon.Eye.imageVector,
-                    onClick = { visible = !visible },
-                    contentDescription = null,
-                )
-            },
-        )
+        // Only ask for a passphrase once the backup metadata is loaded and it is encrypted.
+        if (!loading && encrypted) {
+            MmField(
+                value = input,
+                onValueChange = { if (!busy) input = it },
+                label = stringResource(Res.string.onboarding_restore_passphrase_label),
+                visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardType = KeyboardType.Password,
+                suffix = {
+                    MmIconButton(
+                        icon = if (visible) Icon.EyeOff.imageVector else Icon.Eye.imageVector,
+                        onClick = { visible = !visible },
+                        contentDescription = null,
+                    )
+                },
+            )
+        }
         if (errorMessage != null) {
             Text(
                 errorMessage,

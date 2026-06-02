@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">الاستعادة من ملف</string>
     <string name="settings_restore_warning_title">استبدال جميع البيانات؟</string>
     <string name="settings_restore_warning_body">سيؤدي ذلك إلى استبدال جميع البيانات الحالية بالنسخة الاحتياطية بشكل دائم. لا يمكن التراجع عن ذلك.</string>
-    <string name="settings_restore_app_close_notice">سيُغلق التطبيق بعد الاستعادة. أعد فتحه يدوياً للمتابعة.</string>
+    <string name="settings_restore_app_close_notice">سيُعاد تشغيل التطبيق لإكمال الاستعادة.</string>
     <string name="settings_restore_passphrase_label">عبارة مرور النسخة الاحتياطية</string>
     <string name="settings_restore_confirm">استبدال</string>
     <string name="settings_auto_backup">النسخ الاحتياطي التلقائي</string>

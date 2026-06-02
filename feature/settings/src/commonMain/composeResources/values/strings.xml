@@ -167,7 +167,7 @@
     <string name="settings_restore_from_file">Restore from file</string>
     <string name="settings_restore_warning_title">Replace all data?</string>
     <string name="settings_restore_warning_body">This will permanently replace all current data with the backup. This cannot be undone.</string>
-    <string name="settings_restore_app_close_notice">The app will close after restoring. Reopen it manually to continue.</string>
+    <string name="settings_restore_app_close_notice">The app will restart to finish restoring.</string>
     <string name="settings_restore_passphrase_label">Backup passphrase</string>
     <string name="settings_restore_confirm">Replace</string>
     <string name="settings_auto_backup">Auto-backup</string>

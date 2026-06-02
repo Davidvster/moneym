@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Restaurar a partir de ficheiro</string>
     <string name="settings_restore_warning_title">Substituir todos os dados?</string>
     <string name="settings_restore_warning_body">Isto irá substituir permanentemente todos os dados actuais pela cópia de segurança. Esta ação não pode ser desfeita.</string>
-    <string name="settings_restore_app_close_notice">A aplicação irá fechar após o restauro. Reabra-a manualmente para continuar.</string>
+    <string name="settings_restore_app_close_notice">A aplicação irá reiniciar para concluir o restauro.</string>
     <string name="settings_restore_passphrase_label">Frase-passe da cópia de segurança</string>
     <string name="settings_restore_confirm">Substituir</string>
     <string name="settings_auto_backup">Cópia automática</string>

@@ -5,5 +5,4 @@ expect class DbPlatform {
     suspend fun readBytes(path: String): ByteArray?
     suspend fun writeBytes(path: String, bytes: ByteArray): Boolean
     suspend fun deleteFile(path: String)
-    fun terminateApp()
 }

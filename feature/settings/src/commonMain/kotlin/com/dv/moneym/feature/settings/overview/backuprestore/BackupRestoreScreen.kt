@@ -169,6 +169,7 @@ private fun BackupRestoreScreen(
     if (state.showRestoreWarning) {
         RestoreWarningDialog(
             needsPassphrase = state.restoreNeedsPassphrase,
+            inProgress = state.restoreInProgress,
             errorMessage = state.restoreError,
             onDismiss = { viewModel.onIntent(BackupRestoreIntent.RestoreDismissed) },
             onConfirm = { viewModel.onIntent(BackupRestoreIntent.RestoreConfirmed(it)) },
@@ -516,6 +517,7 @@ private fun RuntimeStatusLine(
 @Composable
 private fun RestoreWarningDialog(
     needsPassphrase: Boolean,
+    inProgress: Boolean,
     errorMessage: String?,
     onDismiss: () -> Unit,
     onConfirm: (CharArray?) -> Unit,
@@ -529,10 +531,11 @@ private fun RestoreWarningDialog(
     MmDialog(
         title = stringResource(Res.string.settings_restore_warning_title),
         confirmText = stringResource(Res.string.settings_restore_confirm),
-        confirmEnabled = !needsPassphrase || passphrase.isNotEmpty(),
+        confirmEnabled = !inProgress && (!needsPassphrase || passphrase.isNotEmpty()),
         onConfirm = { onConfirm(if (needsPassphrase) passphrase.toCharArray() else null) },
         onDismiss = onDismiss,
-        dismissText = stringResource(Res.string.settings_remote_passphrase_cancel),
+        dismissText = if (inProgress) null else stringResource(Res.string.settings_remote_passphrase_cancel),
+        dismissible = !inProgress,
     ) {
         Text(
             stringResource(Res.string.settings_restore_warning_body),
@@ -548,7 +551,7 @@ private fun RestoreWarningDialog(
         if (needsPassphrase) {
             MmField(
                 value = passphrase,
-                onValueChange = { passphrase = it },
+                onValueChange = { if (!inProgress) passphrase = it },
                 label = stringResource(Res.string.settings_restore_passphrase_label),
                 visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardType = KeyboardType.Password,
@@ -559,6 +562,13 @@ private fun RestoreWarningDialog(
                         contentDescription = null,
                     )
                 },
+            )
+        }
+        if (inProgress) {
+            CircularProgressIndicator(
+                modifier = Modifier.padding(top = space.padding_1x).size(space.icon_1x),
+                strokeWidth = space.padding_0_25x,
+                color = colors.accent,
             )
         }
         if (errorMessage != null) {
@@ -681,7 +691,8 @@ private fun RemoteRestoreDialog(
         confirmEnabled = (!encrypted || input.isNotEmpty()) && !tooNew && !inProgress,
         onConfirm = { onConfirm(if (encrypted) input.toCharArray() else CharArray(0)) },
         onDismiss = onDismiss,
-        dismissText = stringResource(Res.string.settings_remote_passphrase_cancel),
+        dismissText = if (inProgress) null else stringResource(Res.string.settings_remote_passphrase_cancel),
+        dismissible = !inProgress,
     ) {
         Text(stringResource(Res.string.settings_remote_restore_body), style = type.body, color = colors.text2)
         Text(

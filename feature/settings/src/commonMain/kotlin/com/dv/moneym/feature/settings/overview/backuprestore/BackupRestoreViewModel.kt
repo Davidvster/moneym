@@ -47,6 +47,7 @@ data class BackupRestoreUiState(
     val isLocalLoading: Boolean = false,
     val showRestoreWarning: Boolean = false,
     val restoreNeedsPassphrase: Boolean = false,
+    val restoreInProgress: Boolean = false,
     val restoreError: String? = null,
     val autoBackupEnabled: Boolean = false,
     val showBackupSuccess: Boolean = false,
@@ -198,14 +199,16 @@ class BackupRestoreViewModel(
             BackupRestoreIntent.RemoteBackupNowTapped -> handleRemoteBackupNow()
             BackupRestoreIntent.RemoteRestoreTapped -> handleRemoteRestoreTapped()
             is BackupRestoreIntent.RemoteRestoreConfirmed -> handleRemoteRestoreConfirmed(intent.passphrase)
-            BackupRestoreIntent.RemoteRestoreDismissed -> _base.update {
-                it.copy(
-                    showRemoteRestoreDialog = false,
-                    remoteRestorePreview = null,
-                    remoteRestoreEncrypted = false,
-                    remoteRestoreError = null,
-                    remoteRestoreInProgress = false,
-                )
+            BackupRestoreIntent.RemoteRestoreDismissed -> if (!_base.value.remoteRestoreInProgress) {
+                _base.update {
+                    it.copy(
+                        showRemoteRestoreDialog = false,
+                        remoteRestorePreview = null,
+                        remoteRestoreEncrypted = false,
+                        remoteRestoreError = null,
+                        remoteRestoreInProgress = false,
+                    )
+                }
             }
             BackupRestoreIntent.RemoteRestoreErrorDismissed -> _base.update {
                 it.copy(remoteRestoreErrorDialog = null)
@@ -236,7 +239,7 @@ class BackupRestoreViewModel(
         val bytes = pendingRestoreBytes ?: return
         val needsPassphrase = backupCodec.isEncrypted(bytes)
         if (needsPassphrase && (passphrase == null || passphrase.isEmpty())) return
-        _base.update { it.copy(isLocalLoading = true, showRestoreWarning = false, restoreError = null) }
+        _base.update { it.copy(restoreInProgress = true, showRestoreWarning = true, restoreError = null) }
         viewModelScope.launch {
             try {
                 val plain = withContext(dispatchers.io) {
@@ -247,17 +250,18 @@ class BackupRestoreViewModel(
                 withContext(dispatchers.io) { dbBackupManager.restore(plain) }
             } catch (e: BackupCryptoError) {
                 _base.update {
-                    it.copy(isLocalLoading = false, showRestoreWarning = true, restoreError = e.message)
+                    it.copy(restoreInProgress = false, showRestoreWarning = true, restoreError = e.message)
                 }
             } catch (e: Exception) {
                 logger.e(e) { "Local restore failed" }
-                _base.update { it.copy(isLocalLoading = false) }
+                _base.update { it.copy(restoreInProgress = false) }
                 _effects.send(BackupRestoreEffect.RestoreError(e.message ?: getString(Res.string.settings_remote_error_restore_failed)))
             }
         }
     }
 
     private fun handleRestoreDismissed() {
+        if (_base.value.restoreInProgress) return
         pendingRestoreBytes = null
         _base.update { it.copy(showRestoreWarning = false, restoreNeedsPassphrase = false, restoreError = null) }
     }

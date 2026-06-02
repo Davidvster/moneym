@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Врати од датотека</string>
     <string name="settings_restore_warning_title">Да се заменат сите податоци?</string>
     <string name="settings_restore_warning_body">Ова трајно ги заменува сите тековни податоци со резервната копија. Ова не може да се откаже.</string>
-    <string name="settings_restore_app_close_notice">Апликацијата ќе се затвори по враќањето. Отворете ја рачно за да продолжите.</string>
+    <string name="settings_restore_app_close_notice">Апликацијата ќе се рестартира за да го заврши враќањето.</string>
     <string name="settings_restore_passphrase_label">Лозинка за резервна копија</string>
     <string name="settings_restore_confirm">Замени</string>
     <string name="settings_auto_backup">Автоматска резервна копија</string>

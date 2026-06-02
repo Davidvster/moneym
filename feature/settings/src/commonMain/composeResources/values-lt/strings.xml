@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Atkurti iš failo</string>
     <string name="settings_restore_warning_title">Pakeisti visus duomenis?</string>
     <string name="settings_restore_warning_body">Tai visam laikui pakeis visus esamus duomenis atsargine kopija. Šio veiksmo negalima atšaukti.</string>
-    <string name="settings_restore_app_close_notice">Programa bus uždaryta po atkūrimo. Atidarykite ją rankiniu būdu, kad tęstumėte.</string>
+    <string name="settings_restore_app_close_notice">Programa bus paleista iš naujo, kad būtų užbaigtas atkūrimas.</string>
     <string name="settings_restore_passphrase_label">Atsarginės kopijos slaptafrazė</string>
     <string name="settings_restore_confirm">Pakeisti</string>
     <string name="settings_auto_backup">Automatinė kopija</string>

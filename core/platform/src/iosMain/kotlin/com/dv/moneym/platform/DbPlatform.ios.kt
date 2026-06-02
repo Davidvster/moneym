@@ -12,7 +12,6 @@ import platform.Foundation.NSUserDomainMask
 import platform.Foundation.NSURL
 import platform.Foundation.create
 import platform.Foundation.writeToFile
-import platform.posix.exit
 import platform.posix.memcpy
 
 actual class DbPlatform {
@@ -58,6 +57,4 @@ actual class DbPlatform {
         NSFileManager.defaultManager.removeItemAtPath(path, error = null)
         Unit
     }
-
-    actual fun terminateApp() = exit(0)
 }

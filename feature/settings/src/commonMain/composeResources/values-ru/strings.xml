@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Восстановить из файла</string>
     <string name="settings_restore_warning_title">Заменить все данные?</string>
     <string name="settings_restore_warning_body">Это безвозвратно заменит все текущие данные резервной копией. Это действие нельзя отменить.</string>
-    <string name="settings_restore_app_close_notice">Приложение закроется после восстановления. Откройте его вручную для продолжения.</string>
+    <string name="settings_restore_app_close_notice">Приложение перезапустится, чтобы завершить восстановление.</string>
     <string name="settings_restore_passphrase_label">Парольная фраза резервной копии</string>
     <string name="settings_restore_confirm">Заменить</string>
     <string name="settings_auto_backup">Автоматическое резервное копирование</string>

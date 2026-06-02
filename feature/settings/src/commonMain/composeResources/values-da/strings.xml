@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Gendan fra fil</string>
     <string name="settings_restore_warning_title">Erstat alle data?</string>
     <string name="settings_restore_warning_body">Dette erstatter permanent alle aktuelle data med sikkerhedskopien. Dette kan ikke fortrydes.</string>
-    <string name="settings_restore_app_close_notice">Appen lukker efter gendannelse. Åbn manuelt igen for at fortsætte.</string>
+    <string name="settings_restore_app_close_notice">Appen genstarter for at fuldføre gendannelsen.</string>
     <string name="settings_restore_passphrase_label">Adgangssætning til sikkerhedskopi</string>
     <string name="settings_restore_confirm">Erstat</string>
     <string name="settings_auto_backup">Automatisk sikkerhedskopi</string>

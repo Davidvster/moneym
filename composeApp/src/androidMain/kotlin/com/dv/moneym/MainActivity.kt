@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.dv.moneym.core.oauth.GoogleAuthActivityBridge
 import com.dv.moneym.core.security.BiometricAuthenticatorImpl
-import com.dv.moneym.di.androidPlatformModule
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         BiometricAuthenticatorImpl.activityRef = this
         GoogleAuthActivityBridge.register(this)
         setContent {
-            App(platformModules = listOf(androidPlatformModule(applicationContext)))
+            App()
         }
     }
 

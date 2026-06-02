@@ -157,7 +157,7 @@
     <string name="settings_restore_from_file">Visszaállítás fájlból</string>
     <string name="settings_restore_warning_title">Felváltja az összes adatot?</string>
     <string name="settings_restore_warning_body">Ez véglegesen felváltja az összes jelenlegi adatot a biztonsági mentéssel. Ez nem vonható vissza.</string>
-    <string name="settings_restore_app_close_notice">Az alkalmazás bezárul a visszaállítás után. Nyissa meg manuálisan a folytatáshoz.</string>
+    <string name="settings_restore_app_close_notice">Az alkalmazás újraindul a visszaállítás befejezéséhez.</string>
     <string name="settings_restore_passphrase_label">Biztonsági mentés jelszava</string>
     <string name="settings_restore_confirm">Csere</string>
     <string name="settings_auto_backup">Automatikus mentés</string>
