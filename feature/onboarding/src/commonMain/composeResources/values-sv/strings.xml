@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Välkommen till MoneyM</string>
+    <string name="onboarding_currency_title">Välj din standardvaluta</string>
+    <string name="onboarding_continue">Fortsätt</string>
+    <string name="onboarding_security_title">Säkra din app</string>
+    <string name="onboarding_security_subtitle">Skydda din ekonomiska data med en PIN-kod.</string>
+    <string name="onboarding_pin_label">PIN-lås</string>
+    <string name="onboarding_pin_set">PIN är inställd ✓</string>
+    <string name="onboarding_done">Klar</string>
+    <string name="onboarding_skip">Hoppa över för nu</string>
+    <string name="onboarding_skip_short">Hoppa över</string>
+    <string name="onboarding_search_currency">Sök valuta…</string>
+    <string name="onboarding_currencies_header">VALUTOR</string>
+    <string name="onboarding_biometrics_label">Biometri</string>
+    <string name="onboarding_biometrics_subtitle">Lås upp med Face ID eller fingeravtryck</string>
+    <string name="onboarding_restore_from_backup">Återställ från säkerhetskopia</string>
+    <string name="onboarding_import_data">Importera data</string>
+    <string name="onboarding_restore_warning_title">Ersätt all data?</string>
+    <string name="onboarding_restore_warning_body">Detta ersätter din aktuella data med säkerhetskopian och hoppar över inställningen.</string>
+    <string name="onboarding_restore_confirm">Återställ</string>
+    <string name="onboarding_restore_screen_title">Återställ säkerhetskopia</string>
+    <string name="onboarding_restore_local_button">Återställ från fil</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">Anslut Google-konto</string>
+    <string name="onboarding_restore_google_button">Återställ från Google Drive</string>
+    <string name="onboarding_restore_passphrase_label">Säkerhetskopieringslösenord</string>
+    <string name="onboarding_restore_app_close_notice">Appen stängs efter återställningen. Öppna den igen för att fortsätta.</string>
+    <string name="onboarding_restore_cancel">Avbryt</string>
+    <string name="onboarding_restore_remote_loading">Hämtar information om säkerhetskopian…</string>
+    <string name="onboarding_restore_wrong_password">Fel lösenord eller skadad säkerhetskopia.</string>
+</resources>

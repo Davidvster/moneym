@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Budgetar</string>
+    <string name="budgets_empty">Inga budgetar ännu</string>
+    <string name="budgets_new">Ny budget</string>
+    <string name="budgets_new_title">Ny budget</string>
+    <string name="budgets_edit_title">Redigera budget</string>
+    <string name="budgets_name_label">Namn</string>
+    <string name="budgets_amount_label">Belopp</string>
+    <string name="budgets_account_label">Konto</string>
+    <string name="budgets_account_filter_label">Konto</string>
+    <string name="budgets_category_label">Kategori</string>
+    <string name="budgets_all_categories">Alla kategorier</string>
+    <string name="budgets_start_month">Startmånad</string>
+    <string name="budgets_recurring">Återkommande</string>
+    <string name="budgets_recurring_single">Enstaka</string>
+    <string name="budgets_recurring_unlimited">Obegränsat</string>
+    <string name="budgets_recurring_n_months">N månader</string>
+    <string name="budgets_recurring_count_label">Antal månader</string>
+    <string name="budgets_recurring_badge_unlimited">Återkommande</string>
+    <string name="budgets_recurring_badge_n_months">%1$d månader</string>
+    <string name="budgets_save">Spara</string>
+    <string name="budgets_cancel">Avbryt</string>
+    <string name="budgets_delete">Ta bort</string>
+    <string name="budgets_delete_confirm_title">Ta bort "%1$s"?</string>
+    <string name="budgets_delete_confirm_body">Detta tar bort budgeten. Transaktioner påverkas inte.</string>
+    <string name="budgets_placeholder_name">Matvaror</string>
+    <string name="budgets_error_required">Obligatoriskt</string>
+    <string name="budgets_error_amount">Ange ett belopp &gt; 0</string>
+    <string name="budgets_error_count">Måste vara &gt; 0</string>
+    <string name="budgets_prev_month">Föregående månad</string>
+    <string name="budgets_next_month">Nästa månad</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Välj månad</string>
+    <string name="budgets_month_picker_now">Den här månaden</string>
+    <string name="budgets_month_picker_ok">OK</string>
+    <string name="budgets_month_picker_cancel">Avbryt</string>
+    <string name="budgets_month_picker_prev_year_cd">Föregående år</string>
+    <string name="budgets_month_picker_next_year_cd">Nästa år</string>
+</resources>

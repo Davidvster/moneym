@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">Transaktioner</string>
+    <string name="nav_tab_overview">Översikt</string>
+    <string name="nav_tab_settings">Inställningar</string>
+    <string name="category_seed_groceries">Matvaror</string>
+    <string name="category_seed_eating_out">Äta ute</string>
+    <string name="category_seed_rent">Hyra</string>
+    <string name="category_seed_transport">Transport</string>
+    <string name="category_seed_utilities">Hushållstjänster</string>
+    <string name="category_seed_health">Hälsa</string>
+    <string name="category_seed_entertainment">Nöje</string>
+    <string name="category_seed_shopping">Shopping</string>
+    <string name="category_seed_other_expense">Övrigt</string>
+    <string name="category_seed_salary">Lön</string>
+    <string name="category_seed_payment">Betalning</string>
+    <string name="category_seed_gift">Gåva</string>
+    <string name="category_seed_other_income">Övrigt</string>
+</resources>

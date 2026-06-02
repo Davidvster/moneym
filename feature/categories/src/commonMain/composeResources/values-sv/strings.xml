@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Kategorier</string>
+    <string name="categories_add">Lägg till kategori</string>
+    <string name="categories_edit_title">Redigera kategori</string>
+    <string name="categories_new_title">Ny kategori</string>
+    <string name="categories_name_label">Namn</string>
+    <string name="categories_name_error">Namn krävs</string>
+    <string name="categories_icon_label">Ikon</string>
+    <string name="categories_color_label">Färg</string>
+    <string name="categories_archive">Arkivera</string>
+    <string name="categories_restore">Återställ</string>
+    <string name="categories_show_archived">Visa arkiverade</string>
+    <string name="categories_hide_archived">Dölj arkiverade</string>
+    <string name="categories_archived_badge">Arkiverad</string>
+    <string name="categories_empty">Inga kategorier ännu</string>
+    <string name="categories_back">Tillbaka</string>
+    <string name="categories_show_archived_count">Visa arkiverade (%1$d)</string>
+    <string name="categories_cancel">Avbryt</string>
+    <string name="categories_save">Spara</string>
+    <string name="categories_new_button">Ny</string>
+    <string name="categories_tab_expense">Utgift</string>
+    <string name="categories_tab_income">Inkomst</string>
+    <string name="categories_hint">långtryck för att ordna om</string>
+    <string name="categories_new_expense">Ny utgiftskategori</string>
+    <string name="categories_new_income">Ny inkomstkategori</string>
+    <string name="categories_name_placeholder">t.ex. Matvaror</string>
+    <string name="categories_edit_sheet_title">Redigera kategori</string>
+    <string name="categories_new_sheet_title">Ny kategori</string>
+    <string name="categories_delete">Ta bort kategori</string>
+    <string name="categories_save_changes">Spara ändringar</string>
+    <string name="categories_create">Skapa kategori</string>
+    <string name="categories_delete_confirm_title">Ta bort "%1$s"?</string>
+    <string name="categories_delete_confirm_body">Detta tar bort kategorin. Transaktioner som använder den kan påverkas.</string>
+    <string name="categories_delete_button">Ta bort</string>
+    <string name="categories_color_picker_title">Välj färg</string>
+    <string name="categories_color_hue">Nyans</string>
+    <string name="categories_color_saturation">Mättnad</string>
+    <string name="categories_color_brightness">Ljusstyrka</string>
+    <string name="categories_color_hex">Hex-färg</string>
+    <string name="categories_color_select">Välj färg</string>
+    <string name="categories_name_preview_placeholder">Kategorinamn</string>
+</resources>

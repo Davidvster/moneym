@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Transaktioner</string>
+    <string name="transactions_add">Lägg till transaktion</string>
+    <string name="transactions_filter_all">Alla</string>
+    <string name="transactions_filter_expenses">Utgifter</string>
+    <string name="transactions_filter_income">Inkomst</string>
+    <string name="transactions_filter_categories">Filtrera per kategori</string>
+    <string name="transactions_filter_clear">Rensa</string>
+    <string name="transactions_filter_done">Klar</string>
+    <string name="transactions_empty">Inga transaktioner den här månaden</string>
+    <string name="transactions_previous_month">Föregående månad</string>
+    <string name="transactions_next_month">Nästa månad</string>
+    <string name="transactions_loading">Laddar…</string>
+    <string name="transactions_search_placeholder">Sök transaktioner…</string>
+    <string name="transactions_search_cd">Sök</string>
+    <string name="transactions_close_search_cd">Stäng sökning</string>
+    <string name="transactions_net_label">NETTO</string>
+    <string name="transactions_dialog_select_month">Välj månad</string>
+    <string name="transactions_prev_year_cd">Föregående år</string>
+    <string name="transactions_next_year_cd">Nästa år</string>
+    <string name="transactions_now">Nu</string>
+    <string name="transactions_ok">OK</string>
+    <string name="transactions_cancel">Avbryt</string>
+    <string name="transactions_wallet_select">Välj plånbok</string>
+    <string name="transactions_wallet_all">Alla plånböcker</string>
+    <string name="transactions_syncing">Synkroniserar…</string>
+    <string name="transactions_pending_deletions">%1$d objekt borttagna på en annan enhet — granska</string>
+</resources>

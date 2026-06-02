@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Bekräfta borttagningar</string>
+    <string name="sync_deletions_subtitle">En annan enhet tog bort dessa objekt. Välj vilka du även vill ta bort här. Omarkerade objekt behålls och återställs på den andra enheten.</string>
+    <string name="sync_deletions_group_wallets">Plånböcker</string>
+    <string name="sync_deletions_group_transactions">Transaktioner</string>
+    <string name="sync_deletions_group_budgets">Budgetar</string>
+    <string name="sync_deletions_group_recurring">Återkommande</string>
+    <string name="sync_deletions_group_categories">Kategorier</string>
+    <string name="sync_deletions_group_payment_modes">Betalningslägen</string>
+    <string name="sync_deletions_confirm">Ta bort valda</string>
+    <string name="sync_deletions_cancel">Behåll alla</string>
+    <string name="sync_settings_title">Synkronisering mellan enheter</string>
+    <string name="sync_settings_toggle_title">Synka mellan enheter</string>
+    <string name="sync_settings_toggle_subtitle">Håll dina data synkroniserade på varje enhet som är inloggad på samma säkerhetskopia.</string>
+    <string name="sync_settings_rename_label">Det här enhetens namn</string>
+    <string name="sync_settings_rename_save">Spara</string>
+    <string name="sync_settings_rename_cancel">Avbryt</string>
+    <string name="sync_settings_devices_header">ENHETER</string>
+    <string name="sync_settings_this_device">Den här enheten</string>
+    <string name="sync_settings_remove">Ta bort</string>
+    <string name="sync_settings_last_synced_just_now">synkroniserades just nu</string>
+    <string name="sync_settings_last_synced_minutes">synkroniserades %1$d min sedan</string>
+    <string name="sync_settings_last_synced_hours">synkroniserades %1$d h sedan</string>
+    <string name="sync_settings_last_synced_days">synkroniserades %1$d d sedan</string>
+    <string name="sync_settings_last_synced_longer">synkroniserades för ett tag sedan</string>
+</resources>

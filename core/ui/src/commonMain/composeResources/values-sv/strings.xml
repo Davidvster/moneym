@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Transaktioner</string>
+    <string name="tab_overview">Översikt</string>
+    <string name="tab_settings">Inställningar</string>
+    <string name="amount_input_calculator_desc">Öppna kalkylator</string>
+    <string name="month_jan">Januari</string>
+    <string name="month_feb">Februari</string>
+    <string name="month_mar">Mars</string>
+    <string name="month_apr">April</string>
+    <string name="month_may">Maj</string>
+    <string name="month_jun">Juni</string>
+    <string name="month_jul">Juli</string>
+    <string name="month_aug">Augusti</string>
+    <string name="month_sep">September</string>
+    <string name="month_oct">Oktober</string>
+    <string name="month_nov">November</string>
+    <string name="month_dec">December</string>
+    <string name="colorpicker_title">Välj färg</string>
+    <string name="colorpicker_hue">Nyans</string>
+    <string name="colorpicker_saturation">Mättnad</string>
+    <string name="colorpicker_brightness">Ljusstyrka</string>
+    <string name="colorpicker_hex">Hex-färg</string>
+    <string name="colorpicker_select">Välj färg</string>
+    <string name="colorpicker_cancel">Avbryt</string>
+    <string name="wallet_select">Välj plånbok</string>
+    <string name="cancel">Avbryt</string>
+</resources>
