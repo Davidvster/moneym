@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Добредојдовте во MoneyM</string>
+    <string name="onboarding_currency_title">Изберете стандардна валута</string>
+    <string name="onboarding_continue">Продолжи</string>
+    <string name="onboarding_security_title">Обезбедете ја апликацијата</string>
+    <string name="onboarding_security_subtitle">Заштитете ги финансиските податоци со PIN.</string>
+    <string name="onboarding_pin_label">PIN заклучување</string>
+    <string name="onboarding_pin_set">PIN е поставен ✓</string>
+    <string name="onboarding_done">Готово</string>
+    <string name="onboarding_skip">Прескокни засега</string>
+    <string name="onboarding_skip_short">Прескокни</string>
+    <string name="onboarding_search_currency">Пребарај валута…</string>
+    <string name="onboarding_currencies_header">ВАЛУТИ</string>
+    <string name="onboarding_biometrics_label">Биометрија</string>
+    <string name="onboarding_biometrics_subtitle">Отклучете со Face ID или отпечаток</string>
+    <string name="onboarding_restore_from_backup">Врати од резервна копија</string>
+    <string name="onboarding_import_data">Увези податоци</string>
+    <string name="onboarding_restore_warning_title">Да се заменат сите податоци?</string>
+    <string name="onboarding_restore_warning_body">Ова ги заменува тековните податоци со резервната копија и го прескокнува поставувањето.</string>
+    <string name="onboarding_restore_confirm">Врати</string>
+    <string name="onboarding_restore_screen_title">Врати резервна копија</string>
+    <string name="onboarding_restore_local_button">Врати од датотека</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">Поврзи Google сметка</string>
+    <string name="onboarding_restore_google_button">Врати од Google Drive</string>
+    <string name="onboarding_restore_passphrase_label">Лозинка за резервна копија</string>
+    <string name="onboarding_restore_app_close_notice">Апликацијата ќе се затвори по враќањето. Отворете ја повторно за да продолжите.</string>
+    <string name="onboarding_restore_cancel">Откажи</string>
+    <string name="onboarding_restore_remote_loading">Се вчитуваат информации за резервна копија…</string>
+    <string name="onboarding_restore_wrong_password">Погрешна лозинка или оштетена резервна копија.</string>
+</resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Буџети</string>
+    <string name="budgets_empty">Сè уште нема буџети</string>
+    <string name="budgets_new">Нов буџет</string>
+    <string name="budgets_new_title">Нов буџет</string>
+    <string name="budgets_edit_title">Уреди буџет</string>
+    <string name="budgets_name_label">Ime</string>
+    <string name="budgets_amount_label">Износ</string>
+    <string name="budgets_account_label">Сметка</string>
+    <string name="budgets_account_filter_label">Сметка</string>
+    <string name="budgets_category_label">Категорија</string>
+    <string name="budgets_all_categories">Сите категории</string>
+    <string name="budgets_start_month">Почетен месец</string>
+    <string name="budgets_recurring">Повторувачки</string>
+    <string name="budgets_recurring_single">Еднократен</string>
+    <string name="budgets_recurring_unlimited">Неограничен</string>
+    <string name="budgets_recurring_n_months">N месеци</string>
+    <string name="budgets_recurring_count_label">Број на месеци</string>
+    <string name="budgets_recurring_badge_unlimited">Повторувачки</string>
+    <string name="budgets_recurring_badge_n_months">%1$d месеци</string>
+    <string name="budgets_save">Зачувај</string>
+    <string name="budgets_cancel">Откажи</string>
+    <string name="budgets_delete">Избриши</string>
+    <string name="budgets_delete_confirm_title">Избриши „%1$s"?</string>
+    <string name="budgets_delete_confirm_body">Ова ќе го отстрани буџетот. Трансакциите не се засегнати.</string>
+    <string name="budgets_placeholder_name">Намирници</string>
+    <string name="budgets_error_required">Задолжително</string>
+    <string name="budgets_error_amount">Внеси износ &gt; 0</string>
+    <string name="budgets_error_count">Мора да биде &gt; 0</string>
+    <string name="budgets_prev_month">Претходен месец</string>
+    <string name="budgets_next_month">Следен месец</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Избери месец</string>
+    <string name="budgets_month_picker_now">Овој месец</string>
+    <string name="budgets_month_picker_ok">ОК</string>
+    <string name="budgets_month_picker_cancel">Откажи</string>
+    <string name="budgets_month_picker_prev_year_cd">Претходна година</string>
+    <string name="budgets_month_picker_next_year_cd">Следна година</string>
+</resources>

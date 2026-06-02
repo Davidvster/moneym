@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">Постави PIN</string>
+    <string name="security_pin_confirm_title">Потврди PIN</string>
+    <string name="security_pin_enter_title">Внеси PIN</string>
+    <string name="security_pin_subtitle_first">Внеси 4-цифрен PIN</string>
+    <string name="security_pin_subtitle_confirm">Внеси PIN повторно</string>
+    <string name="security_pin_mismatch">PIN-овите не се совпаѓаат</string>
+    <string name="security_pin_incorrect">Неточен PIN</string>
+    <string name="security_pin_locked">Премногу обиди</string>
+    <string name="security_biometric_use">Користи биометрија</string>
+    <string name="security_biometric_reason">Отклучи MoneyM</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Откажи</string>
+    <string name="security_backoff_retry">Обидете се повторно за %1$ds</string>
+    <string name="security_change_pin_title">Промени PIN</string>
+    <string name="security_pin_set_header">Постави PIN</string>
+    <string name="security_pin_confirm_header">Потврди PIN</string>
+    <string name="security_pin_enter_header">Внеси PIN</string>
+    <string name="security_biometric_offer_title">Да се овозможи биометрија?</string>
+    <string name="security_biometric_offer_body">Отклучете MoneyM брзо со Face ID или отпечаток.</string>
+    <string name="security_biometric_offer_enable">Овозможи</string>
+    <string name="security_biometric_offer_skip">Не сега</string>
+    <string name="security_biometric_unlock_prompt">Отклучи MoneyM</string>
+</resources>

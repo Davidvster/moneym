@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Трансакции</string>
+    <string name="tab_overview">Преглед</string>
+    <string name="tab_settings">Поставки</string>
+    <string name="amount_input_calculator_desc">Отвори калкулатор</string>
+    <string name="month_jan">Јануари</string>
+    <string name="month_feb">Февруари</string>
+    <string name="month_mar">Март</string>
+    <string name="month_apr">Април</string>
+    <string name="month_may">Мај</string>
+    <string name="month_jun">Јуни</string>
+    <string name="month_jul">Јули</string>
+    <string name="month_aug">Август</string>
+    <string name="month_sep">Септември</string>
+    <string name="month_oct">Октомври</string>
+    <string name="month_nov">Ноември</string>
+    <string name="month_dec">Декември</string>
+    <string name="colorpicker_title">Избери боја</string>
+    <string name="colorpicker_hue">Нијанса</string>
+    <string name="colorpicker_saturation">Заситеност</string>
+    <string name="colorpicker_brightness">Светлост</string>
+    <string name="colorpicker_hex">Hex боја</string>
+    <string name="colorpicker_select">Избери боја</string>
+    <string name="colorpicker_cancel">Откажи</string>
+    <string name="wallet_select">Избери паричник</string>
+    <string name="cancel">Откажи</string>
+</resources>

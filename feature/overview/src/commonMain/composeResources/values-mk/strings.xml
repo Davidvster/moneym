@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Преглед</string>
+    <string name="overview_income">Приход</string>
+    <string name="overview_expenses">Расходи</string>
+    <string name="overview_by_category">Трошење по категорија</string>
+    <string name="overview_trend">Тренд за 6 месеци</string>
+    <string name="overview_all_categories">Сите категории</string>
+    <string name="overview_empty">Нема трансакции во овој период</string>
+    <string name="overview_previous_month">Претходен месец</string>
+    <string name="overview_next_month">Следен месец</string>
+    <string name="overview_loading">Се вчитува…</string>
+    <string name="overview_more">+ %1$d повеќе</string>
+    <string name="overview_monthly_breakdown">Месечен приказ</string>
+    <string name="overview_daily_breakdown">Дневен приказ</string>
+    <string name="overview_all">Сите</string>
+    <string name="overview_previous">Претходен</string>
+    <string name="overview_next">Следен</string>
+    <string name="overview_switch_to_month">Премини на месечен приказ</string>
+    <string name="overview_switch_to_year">Премини на годишен приказ</string>
+    <string name="overview_period_month">Месец</string>
+    <string name="overview_period_year">Година</string>
+    <string name="overview_period_custom">Прилагодено</string>
+    <string name="overview_label_income">ПРИХОД</string>
+    <string name="overview_label_expenses">РАСХОДИ</string>
+    <string name="overview_label_balance">БИЛАНС</string>
+    <string name="overview_spending_by_category">Трошење по категорија</string>
+    <string name="overview_no_expenses">Нема расходи во овој период</string>
+    <string name="overview_label_total">ВКУПНО</string>
+    <string name="overview_cumulative_spend">Кумулативни трошоци</string>
+    <string name="overview_through_day">до %1$d-ти ден</string>
+    <string name="overview_daily_trend">Дневен тренд по категорија</string>
+    <string name="overview_monthly_spending">Месечни трошоци</string>
+    <string name="overview_monthly_trend">Месечен тренд по категорија</string>
+    <string name="overview_avg_day">ПРОСЕК / ДЕН</string>
+    <string name="overview_avg_month">ПРОСЕК / МЕС</string>
+    <string name="overview_dialog_select_month">Избери месец</string>
+    <string name="overview_dialog_select_year">Избери година</string>
+    <string name="overview_prev_year_cd">Претходна година</string>
+    <string name="overview_next_year_cd">Следна година</string>
+    <string name="overview_analyze_cd">Анализирај со ВИ</string>
+    <string name="overview_now">Сега</string>
+    <string name="overview_ok">ОК</string>
+    <string name="overview_cancel">Откажи</string>
+    <string name="overview_tx_count_singular">%1$d трансакција</string>
+    <string name="overview_tx_count_plural">%1$d трансакции</string>
+    <string name="overview_cat_avg_day">просек/ден</string>
+    <string name="overview_cat_avg_month">просек/мес</string>
+    <string name="overview_date_range_title">Избери временски опсег</string>
+    <string name="overview_date_range_from">ОД</string>
+    <string name="overview_date_range_to">ДО</string>
+    <string name="overview_budgets_title">Буџети</string>
+    <string name="overview_budgets_all_categories">Сите категории</string>
+    <string name="overview_budgets_remaining_suffix">останало %1$s</string>
+    <string name="overview_budgets_overrun_suffix">%1$s над</string>
+    <string-array name="overview_year_x_labels">
+        <item>јан</item>
+        <item>апр</item>
+        <item>јул</item>
+        <item>окт</item>
+        <item>дек</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>

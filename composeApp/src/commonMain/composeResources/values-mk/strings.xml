@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">Трансакции</string>
+    <string name="nav_tab_overview">Преглед</string>
+    <string name="nav_tab_settings">Поставки</string>
+    <string name="category_seed_groceries">Намирници</string>
+    <string name="category_seed_eating_out">Јадење надвор</string>
+    <string name="category_seed_rent">Кирија</string>
+    <string name="category_seed_transport">Транспорт</string>
+    <string name="category_seed_utilities">Комунални услуги</string>
+    <string name="category_seed_health">Здравје</string>
+    <string name="category_seed_entertainment">Забава</string>
+    <string name="category_seed_shopping">Купување</string>
+    <string name="category_seed_other_expense">Друго</string>
+    <string name="category_seed_salary">Плата</string>
+    <string name="category_seed_payment">Плаќање</string>
+    <string name="category_seed_gift">Подарок</string>
+    <string name="category_seed_other_income">Друго</string>
+</resources>

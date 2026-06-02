@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Трансакции</string>
+    <string name="transactions_add">Додај трансакција</string>
+    <string name="transactions_filter_all">Сите</string>
+    <string name="transactions_filter_expenses">Расходи</string>
+    <string name="transactions_filter_income">Приходи</string>
+    <string name="transactions_filter_categories">Филтрирај по категорија</string>
+    <string name="transactions_filter_clear">Исчисти</string>
+    <string name="transactions_filter_done">Готово</string>
+    <string name="transactions_empty">Нема трансакции овој месец</string>
+    <string name="transactions_previous_month">Претходен месец</string>
+    <string name="transactions_next_month">Следен месец</string>
+    <string name="transactions_loading">Се вчитува…</string>
+    <string name="transactions_search_placeholder">Пребарај трансакции…</string>
+    <string name="transactions_search_cd">Пребарај</string>
+    <string name="transactions_close_search_cd">Затвори пребарување</string>
+    <string name="transactions_net_label">НЕТО</string>
+    <string name="transactions_dialog_select_month">Избери месец</string>
+    <string name="transactions_prev_year_cd">Претходна година</string>
+    <string name="transactions_next_year_cd">Следна година</string>
+    <string name="transactions_now">Сега</string>
+    <string name="transactions_ok">ОК</string>
+    <string name="transactions_cancel">Откажи</string>
+    <string name="transactions_wallet_select">Избери паричник</string>
+    <string name="transactions_wallet_all">Сите паричници</string>
+    <string name="transactions_syncing">Се синхронизира…</string>
+    <string name="transactions_pending_deletions">%1$d ставки отстранети на друг уред — прегледај</string>
+</resources>

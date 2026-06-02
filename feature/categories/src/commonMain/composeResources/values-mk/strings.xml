@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Категории</string>
+    <string name="categories_add">Додај категорија</string>
+    <string name="categories_edit_title">Уреди категорија</string>
+    <string name="categories_new_title">Нова категорија</string>
+    <string name="categories_name_label">Ime</string>
+    <string name="categories_name_error">Името е задолжително</string>
+    <string name="categories_icon_label">Икона</string>
+    <string name="categories_color_label">Боја</string>
+    <string name="categories_archive">Архивирај</string>
+    <string name="categories_restore">Врати</string>
+    <string name="categories_show_archived">Прикажи архивирани</string>
+    <string name="categories_hide_archived">Скриј архивирани</string>
+    <string name="categories_archived_badge">Архивирана</string>
+    <string name="categories_empty">Сè уште нема категории</string>
+    <string name="categories_back">Назад</string>
+    <string name="categories_show_archived_count">Прикажи архивирани (%1$d)</string>
+    <string name="categories_cancel">Откажи</string>
+    <string name="categories_save">Зачувај</string>
+    <string name="categories_new_button">Нова</string>
+    <string name="categories_tab_expense">Расход</string>
+    <string name="categories_tab_income">Приход</string>
+    <string name="categories_hint">задржи за да преподредиш</string>
+    <string name="categories_new_expense">Нова категорија за расходи</string>
+    <string name="categories_new_income">Нова категорија за приходи</string>
+    <string name="categories_name_placeholder">пр. Намирници</string>
+    <string name="categories_edit_sheet_title">Уреди категорија</string>
+    <string name="categories_new_sheet_title">Нова категорија</string>
+    <string name="categories_delete">Избриши категорија</string>
+    <string name="categories_save_changes">Зачувај промени</string>
+    <string name="categories_create">Создај категорија</string>
+    <string name="categories_delete_confirm_title">Избриши „%1$s"?</string>
+    <string name="categories_delete_confirm_body">Ова ќе ја отстрани категоријата. Трансакциите кои ја користат може да бидат засегнати.</string>
+    <string name="categories_delete_button">Избриши</string>
+    <string name="categories_color_picker_title">Избери боја</string>
+    <string name="categories_color_hue">Нијанса</string>
+    <string name="categories_color_saturation">Заситеност</string>
+    <string name="categories_color_brightness">Светлост</string>
+    <string name="categories_color_hex">Hex боја</string>
+    <string name="categories_color_select">Избери боја</string>
+    <string name="categories_name_preview_placeholder">Ime на категорија</string>
+</resources>

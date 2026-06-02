@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">За апликацијата</string>
+    <string name="about_terms">Услови за користење</string>
+    <string name="about_privacy">Политика на приватност</string>
+</resources>

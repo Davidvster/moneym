@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Потврди отстранувања</string>
+    <string name="sync_deletions_subtitle">Друг уред ги отстрани овие ставки. Изберете кои да ги отстраните и тука. Неозначените ставки се задржуваат и се враќаат на другиот уред.</string>
+    <string name="sync_deletions_group_wallets">Паричници</string>
+    <string name="sync_deletions_group_transactions">Трансакции</string>
+    <string name="sync_deletions_group_budgets">Буџети</string>
+    <string name="sync_deletions_group_recurring">Повторувачки</string>
+    <string name="sync_deletions_group_categories">Категории</string>
+    <string name="sync_deletions_group_payment_modes">Начини на плаќање</string>
+    <string name="sync_deletions_confirm">Отстрани избрани</string>
+    <string name="sync_deletions_cancel">Задржи ги сите</string>
+    <string name="sync_settings_title">Синхронизација меѓу уреди</string>
+    <string name="sync_settings_toggle_title">Синхронизирај меѓу уреди</string>
+    <string name="sync_settings_toggle_subtitle">Одржувајте ги податоците синхронизирани на секој уред пријавен на истата резервна копија.</string>
+    <string name="sync_settings_rename_label">Ime на овој уред</string>
+    <string name="sync_settings_rename_save">Зачувај</string>
+    <string name="sync_settings_rename_cancel">Откажи</string>
+    <string name="sync_settings_devices_header">УРЕДИ</string>
+    <string name="sync_settings_this_device">Овој уред</string>
+    <string name="sync_settings_remove">Отстрани</string>
+    <string name="sync_settings_last_synced_just_now">синхронизирано токму сега</string>
+    <string name="sync_settings_last_synced_minutes">синхронизирано пред %1$d мин</string>
+    <string name="sync_settings_last_synced_hours">синхронизирано пред %1$d ч</string>
+    <string name="sync_settings_last_synced_days">синхронизирано пред %1$d д</string>
+    <string name="sync_settings_last_synced_longer">синхронизирано пред некое време</string>
+</resources>
