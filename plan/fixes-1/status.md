@@ -3,7 +3,7 @@
 | Phase | Description | Status |
 |-------|-------------|--------|
 | 1 | VM-state refactor (Analyze + SyncSettings) | ✅ done (9 aianalysis + 10 sync tests green) |
-| 2 | Mapper tests (6) | ☐ pending |
+| 2 | Mapper tests (6) | ✅ done (75 tests; +fixed 2 pre-existing budgets failures) |
 | 3 | Repo-impl tests (5, fake DS) | ☐ pending |
 | 4 | Datasource tests (9, Room in-memory) — RISK | ☐ pending |
 | 5 | Feature VM tests (22) | ☐ pending |

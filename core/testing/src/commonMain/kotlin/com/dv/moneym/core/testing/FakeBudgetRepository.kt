@@ -39,7 +39,8 @@ class FakeBudgetRepository : BudgetRepository {
             }
         }
 
-    override suspend fun getById(id: BudgetId): Budget? = _budgets.value.find { it.id == id }
+    override suspend fun getById(id: BudgetId): Budget? =
+        _budgets.value.find { it.id == id && it.id.value !in tombstoned }
 
     override suspend fun insert(budget: Budget): BudgetId {
         val id = BudgetId(nextId++)

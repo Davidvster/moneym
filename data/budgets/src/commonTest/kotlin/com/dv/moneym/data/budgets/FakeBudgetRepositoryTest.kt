@@ -1,6 +1,7 @@
 package com.dv.moneym.data.budgets
 
 import app.cash.turbine.test
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Budget
 import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.core.model.BudgetPeriodType
@@ -23,6 +24,7 @@ class FakeBudgetRepositoryTest {
         name = name,
         amount = Money(40000L, CurrencyCode("EUR")),
         categoryId = CategoryId(1),
+        accountId = AccountId(1),
         periodType = BudgetPeriodType.MONTHLY,
         startYearMonth = YearMonth(2026, 5),
         recurringMonths = Budget.UNLIMITED,
