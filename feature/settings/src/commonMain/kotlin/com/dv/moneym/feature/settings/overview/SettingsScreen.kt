@@ -207,6 +207,7 @@ private fun SettingsContent(
         "it" -> "Italiano"
         "fr" -> "Français"
         "pt" -> "Português"
+        "lt" -> "Lietuvių"
         "sv" -> "Svenska"
         "nb" -> "Norsk bokmål"
         "is" -> "Íslenska"

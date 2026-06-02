@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Operacijos</string>
+    <string name="transactions_add">Pridėti operaciją</string>
+    <string name="transactions_filter_all">Visos</string>
+    <string name="transactions_filter_expenses">Išlaidos</string>
+    <string name="transactions_filter_income">Pajamos</string>
+    <string name="transactions_filter_categories">Filtruoti pagal kategoriją</string>
+    <string name="transactions_filter_clear">Išvalyti</string>
+    <string name="transactions_filter_done">Atlikta</string>
+    <string name="transactions_empty">Šį mėnesį nėra operacijų</string>
+    <string name="transactions_previous_month">Ankstesnis mėnuo</string>
+    <string name="transactions_next_month">Kitas mėnuo</string>
+    <string name="transactions_loading">Kraunama…</string>
+    <string name="transactions_search_placeholder">Ieškoti operacijų…</string>
+    <string name="transactions_search_cd">Ieškoti</string>
+    <string name="transactions_close_search_cd">Uždaryti paiešką</string>
+    <string name="transactions_net_label">GRYNOSIOS</string>
+    <string name="transactions_dialog_select_month">Pasirinkite mėnesį</string>
+    <string name="transactions_prev_year_cd">Ankstesni metai</string>
+    <string name="transactions_next_year_cd">Kiti metai</string>
+    <string name="transactions_now">Dabar</string>
+    <string name="transactions_ok">Gerai</string>
+    <string name="transactions_cancel">Atšaukti</string>
+    <string name="transactions_wallet_select">Pasirinkite piniginę</string>
+    <string name="transactions_wallet_all">Visos piniginės</string>
+    <string name="transactions_syncing">Sinchronizuojama…</string>
+    <string name="transactions_pending_deletions">%1$d elementai pašalinti kitame įrenginyje — peržiūrėti</string>
+</resources>

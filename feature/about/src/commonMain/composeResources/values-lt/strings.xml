@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Apie</string>
+    <string name="about_terms">Naudojimo sąlygos</string>
+    <string name="about_privacy">Privatumo politika</string>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Sveiki atvykę į MoneyM</string>
+    <string name="onboarding_currency_title">Pasirinkite numatytąją valiutą</string>
+    <string name="onboarding_continue">Tęsti</string>
+    <string name="onboarding_security_title">Apsaugokite savo programą</string>
+    <string name="onboarding_security_subtitle">Apsaugokite savo finansinius duomenis PIN kodu.</string>
+    <string name="onboarding_pin_label">PIN užraktas</string>
+    <string name="onboarding_pin_set">PIN nustatytas ✓</string>
+    <string name="onboarding_done">Atlikta</string>
+    <string name="onboarding_skip">Praleisti dabar</string>
+    <string name="onboarding_skip_short">Praleisti</string>
+    <string name="onboarding_search_currency">Ieškoti valiutos…</string>
+    <string name="onboarding_currencies_header">VALIUTOS</string>
+    <string name="onboarding_biometrics_label">Biometrija</string>
+    <string name="onboarding_biometrics_subtitle">Atrakinkite naudodami „Face ID" arba pirštų atspaudus</string>
+    <string name="onboarding_restore_from_backup">Atkurti iš atsarginės kopijos</string>
+    <string name="onboarding_import_data">Importuoti duomenis</string>
+    <string name="onboarding_restore_warning_title">Pakeisti visus duomenis?</string>
+    <string name="onboarding_restore_warning_body">Tai pakeis jūsų esamus duomenis atsargine kopija ir praleisti sąranką.</string>
+    <string name="onboarding_restore_confirm">Atkurti</string>
+    <string name="onboarding_restore_screen_title">Atkurti atsarginę kopiją</string>
+    <string name="onboarding_restore_local_button">Atkurti iš failo</string>
+    <string name="onboarding_restore_google_section">„Google" diskas</string>
+    <string name="onboarding_restore_google_connect">Prisijungti prie „Google" paskyros</string>
+    <string name="onboarding_restore_google_button">Atkurti iš „Google" disko</string>
+    <string name="onboarding_restore_passphrase_label">Atsarginės kopijos slaptažodis</string>
+    <string name="onboarding_restore_app_close_notice">Programa bus uždaryta po atkūrimo. Atidarykite ją iš naujo, kad tęstumėte.</string>
+    <string name="onboarding_restore_cancel">Atšaukti</string>
+    <string name="onboarding_restore_remote_loading">Gaunama atsarginės kopijos informacija…</string>
+    <string name="onboarding_restore_wrong_password">Neteisingas slaptažodis arba sugadinta atsarginė kopija.</string>
+</resources>

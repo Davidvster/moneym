@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">Nustatyti PIN</string>
+    <string name="security_pin_confirm_title">Patvirtinti PIN</string>
+    <string name="security_pin_enter_title">Įveskite PIN</string>
+    <string name="security_pin_subtitle_first">Įveskite 4 skaitmenų PIN</string>
+    <string name="security_pin_subtitle_confirm">Įveskite PIN dar kartą</string>
+    <string name="security_pin_mismatch">PIN kodai nesutampa</string>
+    <string name="security_pin_incorrect">Neteisingas PIN</string>
+    <string name="security_pin_locked">Per daug bandymų</string>
+    <string name="security_biometric_use">Naudoti biometriją</string>
+    <string name="security_biometric_reason">Atrakinti MoneyM</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Atšaukti</string>
+    <string name="security_backoff_retry">Bandykite dar kartą po %1$ds</string>
+    <string name="security_change_pin_title">Keisti PIN</string>
+    <string name="security_pin_set_header">Nustatyti PIN</string>
+    <string name="security_pin_confirm_header">Patvirtinti PIN</string>
+    <string name="security_pin_enter_header">Įveskite PIN</string>
+    <string name="security_biometric_offer_title">Įjungti biometriją?</string>
+    <string name="security_biometric_offer_body">Atrakinkite MoneyM greitai naudodami „Face ID" arba pirštų atspaudus.</string>
+    <string name="security_biometric_offer_enable">Įjungti</string>
+    <string name="security_biometric_offer_skip">Ne dabar</string>
+    <string name="security_biometric_unlock_prompt">Atrakinti MoneyM</string>
+</resources>

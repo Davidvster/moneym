@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">Operacijos</string>
+    <string name="nav_tab_overview">Apžvalga</string>
+    <string name="nav_tab_settings">Nustatymai</string>
+    <string name="category_seed_groceries">Maisto prekės</string>
+    <string name="category_seed_eating_out">Valgymas lauke</string>
+    <string name="category_seed_rent">Nuoma</string>
+    <string name="category_seed_transport">Transportas</string>
+    <string name="category_seed_utilities">Komunalinės paslaugos</string>
+    <string name="category_seed_health">Sveikata</string>
+    <string name="category_seed_entertainment">Pramogos</string>
+    <string name="category_seed_shopping">Apsipirkimas</string>
+    <string name="category_seed_other_expense">Kita</string>
+    <string name="category_seed_salary">Atlyginimas</string>
+    <string name="category_seed_payment">Mokėjimas</string>
+    <string name="category_seed_gift">Dovana</string>
+    <string name="category_seed_other_income">Kita</string>
+</resources>

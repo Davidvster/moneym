@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analizė</string>
+    <string name="analyze_intro">Užduokite klausimą apie savo finansus šiuo laikotarpiu.</string>
+    <string name="analyze_input_hint">Užduokite klausimą…</string>
+    <string name="analyze_send_cd">Siųsti</string>
+    <string name="analyze_grounding_label">Duomenų šaltinis</string>
+    <string name="analyze_grounding_snapshot">Momentinė nuotrauka</string>
+    <string name="analyze_grounding_tools">Įrankiai</string>
+    <string name="analyze_tools_fallback_notice">Šis modelis nepalaiko įrankių. Naudojama momentinė nuotrauka.</string>
+    <string name="analyze_error">Kažkas nutiko ne taip. Bandykite dar kartą.</string>
+    <string name="analyze_generating">Galvojama…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Kiek išleidau šį mėnesį?</item>
+        <item>Kokios mano pagrindinės išlaidų kategorijos?</item>
+        <item>Kaip šis mėnuo palyginti su praėjusiu?</item>
+        <item>Ar yra neįprastų ar didelių išlaidų?</item>
+    </string-array>
+</resources>

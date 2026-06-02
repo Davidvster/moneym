@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Operacijos</string>
+    <string name="tab_overview">Apžvalga</string>
+    <string name="tab_settings">Nustatymai</string>
+    <string name="amount_input_calculator_desc">Atidaryti skaičiuotuvą</string>
+    <string name="month_jan">Sausis</string>
+    <string name="month_feb">Vasaris</string>
+    <string name="month_mar">Kovas</string>
+    <string name="month_apr">Balandis</string>
+    <string name="month_may">Gegužė</string>
+    <string name="month_jun">Birželis</string>
+    <string name="month_jul">Liepa</string>
+    <string name="month_aug">Rugpjūtis</string>
+    <string name="month_sep">Rugsėjis</string>
+    <string name="month_oct">Spalis</string>
+    <string name="month_nov">Lapkritis</string>
+    <string name="month_dec">Gruodis</string>
+    <string name="colorpicker_title">Pasirinkite spalvą</string>
+    <string name="colorpicker_hue">Atspalvis</string>
+    <string name="colorpicker_saturation">Sodrumas</string>
+    <string name="colorpicker_brightness">Ryškumas</string>
+    <string name="colorpicker_hex">Hex spalva</string>
+    <string name="colorpicker_select">Pasirinkti spalvą</string>
+    <string name="colorpicker_cancel">Atšaukti</string>
+    <string name="wallet_select">Pasirinkite piniginę</string>
+    <string name="cancel">Atšaukti</string>
+</resources>

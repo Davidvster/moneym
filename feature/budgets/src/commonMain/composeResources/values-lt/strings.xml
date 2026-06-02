@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Biudžetai</string>
+    <string name="budgets_empty">Dar nėra biudžetų</string>
+    <string name="budgets_new">Naujas biudžetas</string>
+    <string name="budgets_new_title">Naujas biudžetas</string>
+    <string name="budgets_edit_title">Redaguoti biudžetą</string>
+    <string name="budgets_name_label">Pavadinimas</string>
+    <string name="budgets_amount_label">Suma</string>
+    <string name="budgets_account_label">Sąskaita</string>
+    <string name="budgets_account_filter_label">Sąskaita</string>
+    <string name="budgets_category_label">Kategorija</string>
+    <string name="budgets_all_categories">Visos kategorijos</string>
+    <string name="budgets_start_month">Pradžios mėnuo</string>
+    <string name="budgets_recurring">Pasikartojantis</string>
+    <string name="budgets_recurring_single">Vienkartinis</string>
+    <string name="budgets_recurring_unlimited">Neribotai</string>
+    <string name="budgets_recurring_n_months">N mėnesių</string>
+    <string name="budgets_recurring_count_label">Mėnesių skaičius</string>
+    <string name="budgets_recurring_badge_unlimited">Pasikartojantis</string>
+    <string name="budgets_recurring_badge_n_months">%1$d mėn.</string>
+    <string name="budgets_save">Išsaugoti</string>
+    <string name="budgets_cancel">Atšaukti</string>
+    <string name="budgets_delete">Ištrinti</string>
+    <string name="budgets_delete_confirm_title">Ištrinti „%1$s"?</string>
+    <string name="budgets_delete_confirm_body">Biudžetas bus pašalintas. Operacijos nebus paveiktos.</string>
+    <string name="budgets_placeholder_name">Maisto prekės</string>
+    <string name="budgets_error_required">Privaloma</string>
+    <string name="budgets_error_amount">Įveskite sumą &gt; 0</string>
+    <string name="budgets_error_count">Turi būti &gt; 0</string>
+    <string name="budgets_prev_month">Ankstesnis mėnuo</string>
+    <string name="budgets_next_month">Kitas mėnuo</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Pasirinkite mėnesį</string>
+    <string name="budgets_month_picker_now">Šis mėnuo</string>
+    <string name="budgets_month_picker_ok">Gerai</string>
+    <string name="budgets_month_picker_cancel">Atšaukti</string>
+    <string name="budgets_month_picker_prev_year_cd">Ankstesni metai</string>
+    <string name="budgets_month_picker_next_year_cd">Kiti metai</string>
+</resources>

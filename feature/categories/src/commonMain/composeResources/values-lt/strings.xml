@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Kategorijos</string>
+    <string name="categories_add">Pridėti kategoriją</string>
+    <string name="categories_edit_title">Redaguoti kategoriją</string>
+    <string name="categories_new_title">Nauja kategorija</string>
+    <string name="categories_name_label">Pavadinimas</string>
+    <string name="categories_name_error">Pavadinimas yra privalomas</string>
+    <string name="categories_icon_label">Piktograma</string>
+    <string name="categories_color_label">Spalva</string>
+    <string name="categories_archive">Archyvuoti</string>
+    <string name="categories_restore">Atkurti</string>
+    <string name="categories_show_archived">Rodyti archyvuotas</string>
+    <string name="categories_hide_archived">Slėpti archyvuotas</string>
+    <string name="categories_archived_badge">Archyvuota</string>
+    <string name="categories_empty">Dar nėra kategorijų</string>
+    <string name="categories_back">Atgal</string>
+    <string name="categories_show_archived_count">Rodyti archyvuotas (%1$d)</string>
+    <string name="categories_cancel">Atšaukti</string>
+    <string name="categories_save">Išsaugoti</string>
+    <string name="categories_new_button">Nauja</string>
+    <string name="categories_tab_expense">Išlaidos</string>
+    <string name="categories_tab_income">Pajamos</string>
+    <string name="categories_hint">laikykite nuspaudę norėdami pertvarkyti</string>
+    <string name="categories_new_expense">Nauja išlaidų kategorija</string>
+    <string name="categories_new_income">Nauja pajamų kategorija</string>
+    <string name="categories_name_placeholder">pvz. Maisto prekės</string>
+    <string name="categories_edit_sheet_title">Redaguoti kategoriją</string>
+    <string name="categories_new_sheet_title">Nauja kategorija</string>
+    <string name="categories_delete">Ištrinti kategoriją</string>
+    <string name="categories_save_changes">Išsaugoti pakeitimus</string>
+    <string name="categories_create">Sukurti kategoriją</string>
+    <string name="categories_delete_confirm_title">Ištrinti „%1$s"?</string>
+    <string name="categories_delete_confirm_body">Kategorija bus pašalinta. Ją naudojančios operacijos gali būti paveiktos.</string>
+    <string name="categories_delete_button">Ištrinti</string>
+    <string name="categories_color_picker_title">Pasirinkite spalvą</string>
+    <string name="categories_color_hue">Atspalvis</string>
+    <string name="categories_color_saturation">Sodrumas</string>
+    <string name="categories_color_brightness">Ryškumas</string>
+    <string name="categories_color_hex">Hex spalva</string>
+    <string name="categories_color_select">Pasirinkti spalvą</string>
+    <string name="categories_name_preview_placeholder">Kategorijos pavadinimas</string>
+</resources>
