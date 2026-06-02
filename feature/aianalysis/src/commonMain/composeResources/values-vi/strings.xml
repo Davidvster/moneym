@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Phân tích</string>
+    <string name="analyze_intro">Hỏi bất cứ điều gì về tài chính của bạn trong kỳ này.</string>
+    <string name="analyze_input_hint">Đặt câu hỏi…</string>
+    <string name="analyze_send_cd">Gửi</string>
+    <string name="analyze_grounding_label">Nguồn dữ liệu</string>
+    <string name="analyze_grounding_snapshot">Ảnh chụp</string>
+    <string name="analyze_grounding_tools">Công cụ</string>
+    <string name="analyze_tools_fallback_notice">Mô hình này không hỗ trợ công cụ. Sử dụng ảnh chụp thay thế.</string>
+    <string name="analyze_error">Đã xảy ra lỗi. Vui lòng thử lại.</string>
+    <string name="analyze_generating">Đang xử lý…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Tháng này tôi đã chi bao nhiêu?</item>
+        <item>Các danh mục chi tiêu hàng đầu của tôi là gì?</item>
+        <item>Tháng này so với tháng trước thế nào?</item>
+        <item>Có khoản chi bất thường hoặc lớn nào không?</item>
+    </string-array>
+</resources>

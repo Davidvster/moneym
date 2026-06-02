@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Danh mục</string>
+    <string name="categories_add">Thêm danh mục</string>
+    <string name="categories_edit_title">Chỉnh sửa danh mục</string>
+    <string name="categories_new_title">Danh mục mới</string>
+    <string name="categories_name_label">Tên</string>
+    <string name="categories_name_error">Tên là bắt buộc</string>
+    <string name="categories_icon_label">Biểu tượng</string>
+    <string name="categories_color_label">Màu sắc</string>
+    <string name="categories_archive">Lưu trữ</string>
+    <string name="categories_restore">Khôi phục</string>
+    <string name="categories_show_archived">Hiện đã lưu trữ</string>
+    <string name="categories_hide_archived">Ẩn đã lưu trữ</string>
+    <string name="categories_archived_badge">Đã lưu trữ</string>
+    <string name="categories_empty">Chưa có danh mục</string>
+    <string name="categories_back">Quay lại</string>
+    <string name="categories_show_archived_count">Hiện đã lưu trữ (%1$d)</string>
+    <string name="categories_cancel">Hủy</string>
+    <string name="categories_save">Lưu</string>
+    <string name="categories_new_button">Mới</string>
+    <string name="categories_tab_expense">Chi tiêu</string>
+    <string name="categories_tab_income">Thu nhập</string>
+    <string name="categories_hint">nhấn giữ để sắp xếp lại</string>
+    <string name="categories_new_expense">Danh mục chi tiêu mới</string>
+    <string name="categories_new_income">Danh mục thu nhập mới</string>
+    <string name="categories_name_placeholder">vd: Thực phẩm</string>
+    <string name="categories_edit_sheet_title">Chỉnh sửa danh mục</string>
+    <string name="categories_new_sheet_title">Danh mục mới</string>
+    <string name="categories_delete">Xóa danh mục</string>
+    <string name="categories_save_changes">Lưu thay đổi</string>
+    <string name="categories_create">Tạo danh mục</string>
+    <string name="categories_delete_confirm_title">Xóa "%1$s"?</string>
+    <string name="categories_delete_confirm_body">Danh mục này sẽ bị xóa. Các giao dịch sử dụng nó có thể bị ảnh hưởng.</string>
+    <string name="categories_delete_button">Xóa</string>
+    <string name="categories_color_picker_title">Chọn màu</string>
+    <string name="categories_color_hue">Sắc độ</string>
+    <string name="categories_color_saturation">Độ bão hòa</string>
+    <string name="categories_color_brightness">Độ sáng</string>
+    <string name="categories_color_hex">Màu Hex</string>
+    <string name="categories_color_select">Chọn màu</string>
+    <string name="categories_name_preview_placeholder">Tên danh mục</string>
+</resources>

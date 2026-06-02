@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Giao dịch</string>
+    <string name="transactions_add">Thêm giao dịch</string>
+    <string name="transactions_filter_all">Tất cả</string>
+    <string name="transactions_filter_expenses">Chi tiêu</string>
+    <string name="transactions_filter_income">Thu nhập</string>
+    <string name="transactions_filter_categories">Lọc theo danh mục</string>
+    <string name="transactions_filter_clear">Xóa</string>
+    <string name="transactions_filter_done">Xong</string>
+    <string name="transactions_empty">Không có giao dịch tháng này</string>
+    <string name="transactions_previous_month">Tháng trước</string>
+    <string name="transactions_next_month">Tháng sau</string>
+    <string name="transactions_loading">Đang tải…</string>
+    <string name="transactions_search_placeholder">Tìm kiếm giao dịch…</string>
+    <string name="transactions_search_cd">Tìm kiếm</string>
+    <string name="transactions_close_search_cd">Đóng tìm kiếm</string>
+    <string name="transactions_net_label">RÒNG</string>
+    <string name="transactions_dialog_select_month">Chọn tháng</string>
+    <string name="transactions_prev_year_cd">Năm trước</string>
+    <string name="transactions_next_year_cd">Năm sau</string>
+    <string name="transactions_now">Hiện tại</string>
+    <string name="transactions_ok">OK</string>
+    <string name="transactions_cancel">Hủy</string>
+    <string name="transactions_wallet_select">Chọn ví</string>
+    <string name="transactions_wallet_all">Tất cả ví</string>
+    <string name="transactions_syncing">Đang đồng bộ…</string>
+    <string name="transactions_pending_deletions">%1$d mục đã bị xóa trên thiết bị khác — xem lại</string>
+</resources>

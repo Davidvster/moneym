@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Tổng quan</string>
+    <string name="overview_income">Thu nhập</string>
+    <string name="overview_expenses">Chi tiêu</string>
+    <string name="overview_by_category">Chi tiêu theo danh mục</string>
+    <string name="overview_trend">Xu hướng 6 tháng</string>
+    <string name="overview_all_categories">Tất cả danh mục</string>
+    <string name="overview_empty">Không có giao dịch trong kỳ này</string>
+    <string name="overview_previous_month">Tháng trước</string>
+    <string name="overview_next_month">Tháng sau</string>
+    <string name="overview_loading">Đang tải…</string>
+    <string name="overview_more">+ %1$d nữa</string>
+    <string name="overview_monthly_breakdown">Phân tích theo tháng</string>
+    <string name="overview_daily_breakdown">Phân tích theo ngày</string>
+    <string name="overview_all">Tất cả</string>
+    <string name="overview_previous">Trước</string>
+    <string name="overview_next">Sau</string>
+    <string name="overview_switch_to_month">Chuyển sang xem theo tháng</string>
+    <string name="overview_switch_to_year">Chuyển sang xem theo năm</string>
+    <string name="overview_period_month">Tháng</string>
+    <string name="overview_period_year">Năm</string>
+    <string name="overview_period_custom">Tùy chỉnh</string>
+    <string name="overview_label_income">THU NHẬP</string>
+    <string name="overview_label_expenses">CHI TIÊU</string>
+    <string name="overview_label_balance">SỐ DƯ</string>
+    <string name="overview_spending_by_category">Chi tiêu theo danh mục</string>
+    <string name="overview_no_expenses">Không có chi tiêu trong kỳ này</string>
+    <string name="overview_label_total">TỔNG</string>
+    <string name="overview_cumulative_spend">Chi tiêu tích lũy</string>
+    <string name="overview_through_day">đến ngày %1$d</string>
+    <string name="overview_daily_trend">Xu hướng hàng ngày theo danh mục</string>
+    <string name="overview_monthly_spending">Chi tiêu hàng tháng</string>
+    <string name="overview_monthly_trend">Xu hướng hàng tháng theo danh mục</string>
+    <string name="overview_avg_day">TB / NGÀY</string>
+    <string name="overview_avg_month">TB / THÁNG</string>
+    <string name="overview_dialog_select_month">Chọn tháng</string>
+    <string name="overview_dialog_select_year">Chọn năm</string>
+    <string name="overview_prev_year_cd">Năm trước</string>
+    <string name="overview_next_year_cd">Năm sau</string>
+    <string name="overview_analyze_cd">Phân tích bằng AI</string>
+    <string name="overview_now">Hiện tại</string>
+    <string name="overview_ok">OK</string>
+    <string name="overview_cancel">Hủy</string>
+    <string name="overview_tx_count_singular">%1$d giao dịch</string>
+    <string name="overview_tx_count_plural">%1$d giao dịch</string>
+    <string name="overview_cat_avg_day">tb/ngày</string>
+    <string name="overview_cat_avg_month">tb/tháng</string>
+    <string name="overview_date_range_title">Chọn khoảng ngày</string>
+    <string name="overview_date_range_from">TỪ</string>
+    <string name="overview_date_range_to">ĐẾN</string>
+    <string name="overview_budgets_title">Ngân sách</string>
+    <string name="overview_budgets_all_categories">Tất cả danh mục</string>
+    <string name="overview_budgets_remaining_suffix">còn %1$s</string>
+    <string name="overview_budgets_overrun_suffix">vượt %1$s</string>
+    <string-array name="overview_year_x_labels">
+        <item>Th1</item>
+        <item>Th4</item>
+        <item>Th7</item>
+        <item>Th10</item>
+        <item>Th12</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>

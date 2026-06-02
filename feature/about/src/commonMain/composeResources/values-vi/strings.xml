@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Giới thiệu</string>
+    <string name="about_terms">Điều khoản &amp; Điều kiện</string>
+    <string name="about_privacy">Chính sách bảo mật</string>
+</resources>

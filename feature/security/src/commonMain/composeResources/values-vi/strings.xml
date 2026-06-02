@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">Đặt mã PIN</string>
+    <string name="security_pin_confirm_title">Xác nhận mã PIN</string>
+    <string name="security_pin_enter_title">Nhập mã PIN</string>
+    <string name="security_pin_subtitle_first">Nhập mã PIN 4 chữ số</string>
+    <string name="security_pin_subtitle_confirm">Nhập lại mã PIN</string>
+    <string name="security_pin_mismatch">Mã PIN không khớp</string>
+    <string name="security_pin_incorrect">Mã PIN không đúng</string>
+    <string name="security_pin_locked">Quá nhiều lần thử</string>
+    <string name="security_biometric_use">Dùng sinh trắc học</string>
+    <string name="security_biometric_reason">Mở khóa MoneyM</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Hủy</string>
+    <string name="security_backoff_retry">Thử lại sau %1$d giây</string>
+    <string name="security_change_pin_title">Đổi mã PIN</string>
+    <string name="security_pin_set_header">Đặt mã PIN của bạn</string>
+    <string name="security_pin_confirm_header">Xác nhận mã PIN của bạn</string>
+    <string name="security_pin_enter_header">Nhập mã PIN của bạn</string>
+    <string name="security_biometric_offer_title">Bật sinh trắc học?</string>
+    <string name="security_biometric_offer_body">Mở khóa MoneyM nhanh chóng bằng Face ID hoặc vân tay.</string>
+    <string name="security_biometric_offer_enable">Bật</string>
+    <string name="security_biometric_offer_skip">Không phải bây giờ</string>
+    <string name="security_biometric_unlock_prompt">Mở khóa MoneyM</string>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Chào mừng đến với MoneyM</string>
+    <string name="onboarding_currency_title">Chọn đơn vị tiền tệ mặc định</string>
+    <string name="onboarding_continue">Tiếp tục</string>
+    <string name="onboarding_security_title">Bảo mật ứng dụng</string>
+    <string name="onboarding_security_subtitle">Bảo vệ dữ liệu tài chính bằng mã PIN.</string>
+    <string name="onboarding_pin_label">Khóa PIN</string>
+    <string name="onboarding_pin_set">PIN đã được đặt ✓</string>
+    <string name="onboarding_done">Xong</string>
+    <string name="onboarding_skip">Bỏ qua lần này</string>
+    <string name="onboarding_skip_short">Bỏ qua</string>
+    <string name="onboarding_search_currency">Tìm kiếm tiền tệ…</string>
+    <string name="onboarding_currencies_header">TIỀN TỆ</string>
+    <string name="onboarding_biometrics_label">Sinh trắc học</string>
+    <string name="onboarding_biometrics_subtitle">Mở khóa bằng Face ID hoặc vân tay</string>
+    <string name="onboarding_restore_from_backup">Khôi phục từ bản sao lưu</string>
+    <string name="onboarding_import_data">Nhập dữ liệu</string>
+    <string name="onboarding_restore_warning_title">Thay thế tất cả dữ liệu?</string>
+    <string name="onboarding_restore_warning_body">Thao tác này sẽ thay thế dữ liệu hiện tại bằng bản sao lưu và bỏ qua thiết lập.</string>
+    <string name="onboarding_restore_confirm">Khôi phục</string>
+    <string name="onboarding_restore_screen_title">Khôi phục bản sao lưu</string>
+    <string name="onboarding_restore_local_button">Khôi phục từ tệp</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">Kết nối tài khoản Google</string>
+    <string name="onboarding_restore_google_button">Khôi phục từ Google Drive</string>
+    <string name="onboarding_restore_passphrase_label">Mật khẩu sao lưu</string>
+    <string name="onboarding_restore_app_close_notice">Ứng dụng sẽ đóng sau khi khôi phục. Mở lại để tiếp tục.</string>
+    <string name="onboarding_restore_cancel">Hủy</string>
+    <string name="onboarding_restore_remote_loading">Đang tải thông tin sao lưu…</string>
+    <string name="onboarding_restore_wrong_password">Mật khẩu sai hoặc bản sao lưu bị hỏng.</string>
+</resources>

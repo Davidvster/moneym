@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">Giao dịch</string>
+    <string name="nav_tab_overview">Tổng quan</string>
+    <string name="nav_tab_settings">Cài đặt</string>
+    <string name="category_seed_groceries">Thực phẩm</string>
+    <string name="category_seed_eating_out">Ăn ngoài</string>
+    <string name="category_seed_rent">Tiền thuê</string>
+    <string name="category_seed_transport">Đi lại</string>
+    <string name="category_seed_utilities">Tiện ích</string>
+    <string name="category_seed_health">Sức khỏe</string>
+    <string name="category_seed_entertainment">Giải trí</string>
+    <string name="category_seed_shopping">Mua sắm</string>
+    <string name="category_seed_other_expense">Khác</string>
+    <string name="category_seed_salary">Lương</string>
+    <string name="category_seed_payment">Thanh toán</string>
+    <string name="category_seed_gift">Quà tặng</string>
+    <string name="category_seed_other_income">Khác</string>
+</resources>

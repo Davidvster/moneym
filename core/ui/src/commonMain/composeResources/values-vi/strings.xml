@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Giao dịch</string>
+    <string name="tab_overview">Tổng quan</string>
+    <string name="tab_settings">Cài đặt</string>
+    <string name="amount_input_calculator_desc">Mở máy tính</string>
+    <string name="month_jan">Tháng 1</string>
+    <string name="month_feb">Tháng 2</string>
+    <string name="month_mar">Tháng 3</string>
+    <string name="month_apr">Tháng 4</string>
+    <string name="month_may">Tháng 5</string>
+    <string name="month_jun">Tháng 6</string>
+    <string name="month_jul">Tháng 7</string>
+    <string name="month_aug">Tháng 8</string>
+    <string name="month_sep">Tháng 9</string>
+    <string name="month_oct">Tháng 10</string>
+    <string name="month_nov">Tháng 11</string>
+    <string name="month_dec">Tháng 12</string>
+    <string name="colorpicker_title">Chọn màu</string>
+    <string name="colorpicker_hue">Sắc độ</string>
+    <string name="colorpicker_saturation">Độ bão hòa</string>
+    <string name="colorpicker_brightness">Độ sáng</string>
+    <string name="colorpicker_hex">Màu Hex</string>
+    <string name="colorpicker_select">Chọn màu</string>
+    <string name="colorpicker_cancel">Hủy</string>
+    <string name="wallet_select">Chọn ví</string>
+    <string name="cancel">Hủy</string>
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Xác nhận xóa</string>
+    <string name="sync_deletions_subtitle">Thiết bị khác đã xóa những mục này. Chọn mục nào cũng cần xóa ở đây. Mục không được chọn sẽ được giữ và khôi phục trên thiết bị kia.</string>
+    <string name="sync_deletions_group_wallets">Ví</string>
+    <string name="sync_deletions_group_transactions">Giao dịch</string>
+    <string name="sync_deletions_group_budgets">Ngân sách</string>
+    <string name="sync_deletions_group_recurring">Định kỳ</string>
+    <string name="sync_deletions_group_categories">Danh mục</string>
+    <string name="sync_deletions_group_payment_modes">Phương thức thanh toán</string>
+    <string name="sync_deletions_confirm">Xóa đã chọn</string>
+    <string name="sync_deletions_cancel">Giữ tất cả</string>
+    <string name="sync_settings_title">Đồng bộ hóa nhiều thiết bị</string>
+    <string name="sync_settings_toggle_title">Đồng bộ hóa các thiết bị</string>
+    <string name="sync_settings_toggle_subtitle">Giữ dữ liệu đồng bộ trên mọi thiết bị đăng nhập vào cùng một bản sao lưu.</string>
+    <string name="sync_settings_rename_label">Tên thiết bị này</string>
+    <string name="sync_settings_rename_save">Lưu</string>
+    <string name="sync_settings_rename_cancel">Hủy</string>
+    <string name="sync_settings_devices_header">THIẾT BỊ</string>
+    <string name="sync_settings_this_device">Thiết bị này</string>
+    <string name="sync_settings_remove">Xóa</string>
+    <string name="sync_settings_last_synced_just_now">vừa đồng bộ</string>
+    <string name="sync_settings_last_synced_minutes">đồng bộ %1$d phút trước</string>
+    <string name="sync_settings_last_synced_hours">đồng bộ %1$d giờ trước</string>
+    <string name="sync_settings_last_synced_days">đồng bộ %1$d ngày trước</string>
+    <string name="sync_settings_last_synced_longer">đồng bộ từ lâu rồi</string>
+</resources>

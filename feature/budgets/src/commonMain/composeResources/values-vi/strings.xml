@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Ngân sách</string>
+    <string name="budgets_empty">Chưa có ngân sách</string>
+    <string name="budgets_new">Ngân sách mới</string>
+    <string name="budgets_new_title">Ngân sách mới</string>
+    <string name="budgets_edit_title">Chỉnh sửa ngân sách</string>
+    <string name="budgets_name_label">Tên</string>
+    <string name="budgets_amount_label">Số tiền</string>
+    <string name="budgets_account_label">Tài khoản</string>
+    <string name="budgets_account_filter_label">Tài khoản</string>
+    <string name="budgets_category_label">Danh mục</string>
+    <string name="budgets_all_categories">Tất cả danh mục</string>
+    <string name="budgets_start_month">Tháng bắt đầu</string>
+    <string name="budgets_recurring">Định kỳ</string>
+    <string name="budgets_recurring_single">Một lần</string>
+    <string name="budgets_recurring_unlimited">Không giới hạn</string>
+    <string name="budgets_recurring_n_months">N tháng</string>
+    <string name="budgets_recurring_count_label">Số tháng</string>
+    <string name="budgets_recurring_badge_unlimited">Định kỳ</string>
+    <string name="budgets_recurring_badge_n_months">%1$d tháng</string>
+    <string name="budgets_save">Lưu</string>
+    <string name="budgets_cancel">Hủy</string>
+    <string name="budgets_delete">Xóa</string>
+    <string name="budgets_delete_confirm_title">Xóa "%1$s"?</string>
+    <string name="budgets_delete_confirm_body">Ngân sách này sẽ bị xóa. Các giao dịch không bị ảnh hưởng.</string>
+    <string name="budgets_placeholder_name">Thực phẩm</string>
+    <string name="budgets_error_required">Bắt buộc</string>
+    <string name="budgets_error_amount">Nhập số tiền &gt; 0</string>
+    <string name="budgets_error_count">Phải &gt; 0</string>
+    <string name="budgets_prev_month">Tháng trước</string>
+    <string name="budgets_next_month">Tháng sau</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Chọn tháng</string>
+    <string name="budgets_month_picker_now">Tháng này</string>
+    <string name="budgets_month_picker_ok">OK</string>
+    <string name="budgets_month_picker_cancel">Hủy</string>
+    <string name="budgets_month_picker_prev_year_cd">Năm trước</string>
+    <string name="budgets_month_picker_next_year_cd">Năm sau</string>
+</resources>
