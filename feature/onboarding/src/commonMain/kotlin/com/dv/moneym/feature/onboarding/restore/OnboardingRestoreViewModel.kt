@@ -41,7 +41,6 @@ data class OnboardingRestoreUiState(
     val localError: String? = null,
     val showRemoteRestoreDialog: Boolean = false,
     val remotePreview: RemoteBackupMetadata? = null,
-    val remotePreviewLoading: Boolean = false,
     val remoteError: String? = null,
     val restoreRunning: Boolean = false,
     val isLoading: Boolean = false,
@@ -175,8 +174,8 @@ class OnboardingRestoreViewModel(
         val manager = remoteBackupManager ?: return
         _base.update {
             it.copy(
-                showRemoteRestoreDialog = true,
-                remotePreviewLoading = true,
+                isLoading = true,
+                showRemoteRestoreDialog = false,
                 remotePreview = null,
                 remoteError = null,
             )
@@ -184,15 +183,21 @@ class OnboardingRestoreViewModel(
         viewModelScope.launch {
             manager.peekLatestMetadata()
                 .onSuccess { meta ->
-                    _base.update { it.copy(remotePreview = meta, remotePreviewLoading = false) }
+                    _base.update {
+                        it.copy(
+                            isLoading = false,
+                            remotePreview = meta,
+                            showRemoteRestoreDialog = true,
+                        )
+                    }
                 }
                 .onFailure { t ->
                     logger.e(t) { "Remote restore metadata peek failed" }
                     val msg = t.message ?: getString(Res.string.onboarding_restore_error_fetch_info)
                     _base.update {
                         it.copy(
+                            isLoading = false,
                             showRemoteRestoreDialog = true,
-                            remotePreviewLoading = false,
                             remotePreview = null,
                             remoteError = msg,
                         )

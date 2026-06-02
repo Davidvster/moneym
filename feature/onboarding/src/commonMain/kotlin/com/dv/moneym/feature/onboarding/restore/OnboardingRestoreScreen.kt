@@ -98,7 +98,6 @@ private fun OnboardingRestoreScreen(
 
     if (state.showRemoteRestoreDialog) {
         RemoteRestoreDialog(
-            loading = state.remotePreviewLoading,
             restoreRunning = state.restoreRunning,
             encrypted = state.remotePreview?.encrypted == true,
             preview = state.remotePreview,
@@ -256,7 +255,6 @@ private fun LocalRestoreDialog(
 
 @Composable
 private fun RemoteRestoreDialog(
-    loading: Boolean,
     restoreRunning: Boolean,
     encrypted: Boolean,
     preview: RemoteBackupMetadata?,
@@ -269,7 +267,7 @@ private fun RemoteRestoreDialog(
     val space = MM.dimen
     var input by remember { mutableStateOf("") }
     var visible by remember { mutableStateOf(false) }
-    val busy = loading || restoreRunning
+    val busy = restoreRunning
 
     MmDialog(
         title = stringResource(Res.string.onboarding_restore_warning_title),
@@ -307,8 +305,8 @@ private fun RemoteRestoreDialog(
                 Text("${preview.sizeBytes / 1024L} KB", style = type.caption.copy(color = colors.text3))
             }
         }
-        // Only ask for a passphrase once the backup metadata is loaded and it is encrypted.
-        if (!loading && encrypted) {
+        // Backup metadata is loaded before the dialog opens; only ask for a passphrase when encrypted.
+        if (encrypted) {
             MmField(
                 value = input,
                 onValueChange = { if (!busy) input = it },
