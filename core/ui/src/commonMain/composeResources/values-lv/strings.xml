@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Darījumi</string>
+    <string name="tab_overview">Pārskats</string>
+    <string name="tab_settings">Iestatījumi</string>
+    <string name="amount_input_calculator_desc">Atvērt kalkulatoru</string>
+    <string name="month_jan">Janvāris</string>
+    <string name="month_feb">Februāris</string>
+    <string name="month_mar">Marts</string>
+    <string name="month_apr">Aprīlis</string>
+    <string name="month_may">Maijs</string>
+    <string name="month_jun">Jūnijs</string>
+    <string name="month_jul">Jūlijs</string>
+    <string name="month_aug">Augusts</string>
+    <string name="month_sep">Septembris</string>
+    <string name="month_oct">Oktobris</string>
+    <string name="month_nov">Novembris</string>
+    <string name="month_dec">Decembris</string>
+    <string name="colorpicker_title">Izvēlēties krāsu</string>
+    <string name="colorpicker_hue">Nokrāsa</string>
+    <string name="colorpicker_saturation">Piesātinājums</string>
+    <string name="colorpicker_brightness">Spilgtums</string>
+    <string name="colorpicker_hex">Hex krāsa</string>
+    <string name="colorpicker_select">Izvēlēties krāsu</string>
+    <string name="colorpicker_cancel">Atcelt</string>
+    <string name="wallet_select">Izvēlēties maku</string>
+    <string name="cancel">Atcelt</string>
+</resources>

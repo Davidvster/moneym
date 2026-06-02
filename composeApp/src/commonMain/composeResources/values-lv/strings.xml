@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">Darījumi</string>
+    <string name="nav_tab_overview">Pārskats</string>
+    <string name="nav_tab_settings">Iestatījumi</string>
+    <string name="category_seed_groceries">Pārtikas preces</string>
+    <string name="category_seed_eating_out">Ēšana ārpus mājas</string>
+    <string name="category_seed_rent">Īre</string>
+    <string name="category_seed_transport">Transports</string>
+    <string name="category_seed_utilities">Komunālie pakalpojumi</string>
+    <string name="category_seed_health">Veselība</string>
+    <string name="category_seed_entertainment">Izklaide</string>
+    <string name="category_seed_shopping">Iepirkšanās</string>
+    <string name="category_seed_other_expense">Cits</string>
+    <string name="category_seed_salary">Alga</string>
+    <string name="category_seed_payment">Maksājums</string>
+    <string name="category_seed_gift">Dāvana</string>
+    <string name="category_seed_other_income">Cits</string>
+</resources>

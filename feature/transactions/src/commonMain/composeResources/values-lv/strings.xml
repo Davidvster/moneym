@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Darījumi</string>
+    <string name="transactions_add">Pievienot darījumu</string>
+    <string name="transactions_filter_all">Visi</string>
+    <string name="transactions_filter_expenses">Izdevumi</string>
+    <string name="transactions_filter_income">Ienākumi</string>
+    <string name="transactions_filter_categories">Filtrēt pēc kategorijas</string>
+    <string name="transactions_filter_clear">Notīrīt</string>
+    <string name="transactions_filter_done">Gatavs</string>
+    <string name="transactions_empty">Nav darījumu šajā mēnesī</string>
+    <string name="transactions_previous_month">Iepriekšējais mēnesis</string>
+    <string name="transactions_next_month">Nākamais mēnesis</string>
+    <string name="transactions_loading">Ielādē…</string>
+    <string name="transactions_search_placeholder">Meklēt darījumus…</string>
+    <string name="transactions_search_cd">Meklēt</string>
+    <string name="transactions_close_search_cd">Aizvērt meklēšanu</string>
+    <string name="transactions_net_label">NETO</string>
+    <string name="transactions_dialog_select_month">Izvēlēties mēnesi</string>
+    <string name="transactions_prev_year_cd">Iepriekšējais gads</string>
+    <string name="transactions_next_year_cd">Nākamais gads</string>
+    <string name="transactions_now">Tagad</string>
+    <string name="transactions_ok">Labi</string>
+    <string name="transactions_cancel">Atcelt</string>
+    <string name="transactions_wallet_select">Izvēlēties maku</string>
+    <string name="transactions_wallet_all">Visi maki</string>
+    <string name="transactions_syncing">Sinhronizē…</string>
+    <string name="transactions_pending_deletions">%1$d vienumi noņemti citā ierīcē — pārskatīt</string>
+</resources>

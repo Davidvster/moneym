@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Apstiprināt noņemšanas</string>
+    <string name="sync_deletions_subtitle">Cita ierīce noņēma šos vienumus. Izvēlieties, kurus vēlaties noņemt arī šeit. Neatzīmētie vienumi tiek saglabāti un atjaunoti otrā ierīcē.</string>
+    <string name="sync_deletions_group_wallets">Maki</string>
+    <string name="sync_deletions_group_transactions">Darījumi</string>
+    <string name="sync_deletions_group_budgets">Budžeti</string>
+    <string name="sync_deletions_group_recurring">Atkārtotie</string>
+    <string name="sync_deletions_group_categories">Kategorijas</string>
+    <string name="sync_deletions_group_payment_modes">Maksājumu veidi</string>
+    <string name="sync_deletions_confirm">Noņemt atlasītos</string>
+    <string name="sync_deletions_cancel">Saglabāt visus</string>
+    <string name="sync_settings_title">Sinhronizācija starp ierīcēm</string>
+    <string name="sync_settings_toggle_title">Sinhronizēt starp ierīcēm</string>
+    <string name="sync_settings_toggle_subtitle">Uzturiet datus sinhronizētus visās ierīcēs, kas pierakstītas tajā pašā dublējumā.</string>
+    <string name="sync_settings_rename_label">Šīs ierīces nosaukums</string>
+    <string name="sync_settings_rename_save">Saglabāt</string>
+    <string name="sync_settings_rename_cancel">Atcelt</string>
+    <string name="sync_settings_devices_header">IERĪCES</string>
+    <string name="sync_settings_this_device">Šī ierīce</string>
+    <string name="sync_settings_remove">Noņemt</string>
+    <string name="sync_settings_last_synced_just_now">sinhronizēts tikko</string>
+    <string name="sync_settings_last_synced_minutes">sinhronizēts %1$d min. atpakaļ</string>
+    <string name="sync_settings_last_synced_hours">sinhronizēts %1$d st. atpakaļ</string>
+    <string name="sync_settings_last_synced_days">sinhronizēts %1$d d. atpakaļ</string>
+    <string name="sync_settings_last_synced_longer">sinhronizēts sen atpakaļ</string>
+</resources>

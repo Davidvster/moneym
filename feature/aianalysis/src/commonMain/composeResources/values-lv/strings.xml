@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analizēt</string>
+    <string name="analyze_intro">Jautājiet jebko par savām finansēm šajā periodā.</string>
+    <string name="analyze_input_hint">Uzdodiet jautājumu…</string>
+    <string name="analyze_send_cd">Sūtīt</string>
+    <string name="analyze_grounding_label">Datu avots</string>
+    <string name="analyze_grounding_snapshot">Momentuzņēmums</string>
+    <string name="analyze_grounding_tools">Rīki</string>
+    <string name="analyze_tools_fallback_notice">Šis modelis neatbalsta rīkus. Tā vietā tiek izmantots momentuzņēmums.</string>
+    <string name="analyze_error">Kaut kas nogāja greizi. Lūdzu, mēģiniet vēlreiz.</string>
+    <string name="analyze_generating">Domā…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Cik daudz es iztērēju šajā mēnesī?</item>
+        <item>Kādas ir manas lielākās izdevumu kategorijas?</item>
+        <item>Kā šis mēnesis salīdzinās ar pagājušo mēnesi?</item>
+        <item>Vai ir kādi neparasti vai lieli izdevumi?</item>
+    </string-array>
+</resources>

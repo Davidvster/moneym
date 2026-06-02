@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">Iestatīt PIN kodu</string>
+    <string name="security_pin_confirm_title">Apstiprināt PIN kodu</string>
+    <string name="security_pin_enter_title">Ievadiet PIN kodu</string>
+    <string name="security_pin_subtitle_first">Ievadiet 4 ciparu PIN kodu</string>
+    <string name="security_pin_subtitle_confirm">Ievadiet PIN kodu vēlreiz</string>
+    <string name="security_pin_mismatch">PIN kodi nesakrīt</string>
+    <string name="security_pin_incorrect">Nepareizs PIN kods</string>
+    <string name="security_pin_locked">Pārāk daudz mēģinājumu</string>
+    <string name="security_biometric_use">Izmantot biometriju</string>
+    <string name="security_biometric_reason">Atbloķēt MoneyM</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Atcelt</string>
+    <string name="security_backoff_retry">Mēģiniet vēlreiz pēc %1$ds</string>
+    <string name="security_change_pin_title">Mainīt PIN kodu</string>
+    <string name="security_pin_set_header">Iestatiet PIN kodu</string>
+    <string name="security_pin_confirm_header">Apstipriniet PIN kodu</string>
+    <string name="security_pin_enter_header">Ievadiet PIN kodu</string>
+    <string name="security_biometric_offer_title">Iespējot biometriju?</string>
+    <string name="security_biometric_offer_body">Ātri atbloķējiet MoneyM ar Face ID vai pirkstu nospiedumu.</string>
+    <string name="security_biometric_offer_enable">Iespējot</string>
+    <string name="security_biometric_offer_skip">Ne tagad</string>
+    <string name="security_biometric_unlock_prompt">Atbloķēt MoneyM</string>
+</resources>

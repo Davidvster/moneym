@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Pārskats</string>
+    <string name="overview_income">Ienākumi</string>
+    <string name="overview_expenses">Izdevumi</string>
+    <string name="overview_by_category">Tēriņi pēc kategorijas</string>
+    <string name="overview_trend">6 mēnešu tendence</string>
+    <string name="overview_all_categories">Visas kategorijas</string>
+    <string name="overview_empty">Nav darījumu šajā periodā</string>
+    <string name="overview_previous_month">Iepriekšējais mēnesis</string>
+    <string name="overview_next_month">Nākamais mēnesis</string>
+    <string name="overview_loading">Ielādē…</string>
+    <string name="overview_more">+ %1$d vairāk</string>
+    <string name="overview_monthly_breakdown">Mēneša sadalījums</string>
+    <string name="overview_daily_breakdown">Dienas sadalījums</string>
+    <string name="overview_all">Visi</string>
+    <string name="overview_previous">Iepriekšējais</string>
+    <string name="overview_next">Nākamais</string>
+    <string name="overview_switch_to_month">Pārslēgties uz mēneša skatu</string>
+    <string name="overview_switch_to_year">Pārslēgties uz gada skatu</string>
+    <string name="overview_period_month">Mēnesis</string>
+    <string name="overview_period_year">Gads</string>
+    <string name="overview_period_custom">Pielāgots</string>
+    <string name="overview_label_income">IENĀKUMI</string>
+    <string name="overview_label_expenses">IZDEVUMI</string>
+    <string name="overview_label_balance">ATLIKUMS</string>
+    <string name="overview_spending_by_category">Tēriņi pēc kategorijas</string>
+    <string name="overview_no_expenses">Nav izdevumu šajā periodā</string>
+    <string name="overview_label_total">KOPĀ</string>
+    <string name="overview_cumulative_spend">Kumulatīvie tēriņi</string>
+    <string name="overview_through_day">līdz dienai %1$d</string>
+    <string name="overview_daily_trend">Dienas tendence pēc kategorijas</string>
+    <string name="overview_monthly_spending">Mēneša izdevumi</string>
+    <string name="overview_monthly_trend">Mēneša tendence pēc kategorijas</string>
+    <string name="overview_avg_day">VID. / DIENĀ</string>
+    <string name="overview_avg_month">VID. / MĒNESĪ</string>
+    <string name="overview_dialog_select_month">Izvēlēties mēnesi</string>
+    <string name="overview_dialog_select_year">Izvēlēties gadu</string>
+    <string name="overview_prev_year_cd">Iepriekšējais gads</string>
+    <string name="overview_next_year_cd">Nākamais gads</string>
+    <string name="overview_analyze_cd">Analizēt ar MI</string>
+    <string name="overview_now">Tagad</string>
+    <string name="overview_ok">Labi</string>
+    <string name="overview_cancel">Atcelt</string>
+    <string name="overview_tx_count_singular">%1$d darījums</string>
+    <string name="overview_tx_count_plural">%1$d darījumi</string>
+    <string name="overview_cat_avg_day">vid./dienā</string>
+    <string name="overview_cat_avg_month">vid./mēn.</string>
+    <string name="overview_date_range_title">Izvēlēties datumu diapazonu</string>
+    <string name="overview_date_range_from">NO</string>
+    <string name="overview_date_range_to">LĪDZ</string>
+    <string name="overview_budgets_title">Budžeti</string>
+    <string name="overview_budgets_all_categories">Visas kategorijas</string>
+    <string name="overview_budgets_remaining_suffix">%1$s atlicis</string>
+    <string name="overview_budgets_overrun_suffix">%1$s pārsniegts</string>
+    <string-array name="overview_year_x_labels">
+        <item>janv</item>
+        <item>apr</item>
+        <item>jūl</item>
+        <item>okt</item>
+        <item>dec</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>

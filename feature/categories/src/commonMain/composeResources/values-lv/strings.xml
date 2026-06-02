@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Kategorijas</string>
+    <string name="categories_add">Pievienot kategoriju</string>
+    <string name="categories_edit_title">Rediģēt kategoriju</string>
+    <string name="categories_new_title">Jauna kategorija</string>
+    <string name="categories_name_label">Nosaukums</string>
+    <string name="categories_name_error">Nosaukums ir obligāts</string>
+    <string name="categories_icon_label">Ikona</string>
+    <string name="categories_color_label">Krāsa</string>
+    <string name="categories_archive">Arhivēt</string>
+    <string name="categories_restore">Atjaunot</string>
+    <string name="categories_show_archived">Rādīt arhivētās</string>
+    <string name="categories_hide_archived">Slēpt arhivētās</string>
+    <string name="categories_archived_badge">Arhivēts</string>
+    <string name="categories_empty">Vēl nav kategoriju</string>
+    <string name="categories_back">Atpakaļ</string>
+    <string name="categories_show_archived_count">Rādīt arhivētās (%1$d)</string>
+    <string name="categories_cancel">Atcelt</string>
+    <string name="categories_save">Saglabāt</string>
+    <string name="categories_new_button">Jauna</string>
+    <string name="categories_tab_expense">Izdevumi</string>
+    <string name="categories_tab_income">Ienākumi</string>
+    <string name="categories_hint">turiet, lai pārkārtotu</string>
+    <string name="categories_new_expense">Jauna izdevumu kategorija</string>
+    <string name="categories_new_income">Jauna ienākumu kategorija</string>
+    <string name="categories_name_placeholder">piem. Pārtikas preces</string>
+    <string name="categories_edit_sheet_title">Rediģēt kategoriju</string>
+    <string name="categories_new_sheet_title">Jauna kategorija</string>
+    <string name="categories_delete">Dzēst kategoriju</string>
+    <string name="categories_save_changes">Saglabāt izmaiņas</string>
+    <string name="categories_create">Izveidot kategoriju</string>
+    <string name="categories_delete_confirm_title">Dzēst "%1$s"?</string>
+    <string name="categories_delete_confirm_body">Tas noņems kategoriju. Darījumi, kas to izmanto, var tikt ietekmēti.</string>
+    <string name="categories_delete_button">Dzēst</string>
+    <string name="categories_color_picker_title">Izvēlēties krāsu</string>
+    <string name="categories_color_hue">Nokrāsa</string>
+    <string name="categories_color_saturation">Piesātinājums</string>
+    <string name="categories_color_brightness">Spilgtums</string>
+    <string name="categories_color_hex">Hex krāsa</string>
+    <string name="categories_color_select">Izvēlēties krāsu</string>
+    <string name="categories_name_preview_placeholder">Kategorijas nosaukums</string>
+</resources>

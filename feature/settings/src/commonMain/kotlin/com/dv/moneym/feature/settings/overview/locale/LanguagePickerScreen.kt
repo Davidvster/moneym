@@ -59,6 +59,7 @@ private val supportedLanguages = listOf(
     LanguageInfo("sv", "Svenska", "Swedish"),
     LanguageInfo("nb", "Norsk bokmål", "Norwegian"),
     LanguageInfo("is", "Íslenska", "Icelandic"),
+    LanguageInfo("lv", "Latviešu", "Latvian"),
     LanguageInfo("pl", "Polski", "Polish"),
     LanguageInfo("nl", "Nederlands", "Dutch"),
     LanguageInfo("da", "Dansk", "Danish"),

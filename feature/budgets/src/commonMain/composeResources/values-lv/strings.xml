@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Budžeti</string>
+    <string name="budgets_empty">Vēl nav budžetu</string>
+    <string name="budgets_new">Jauns budžets</string>
+    <string name="budgets_new_title">Jauns budžets</string>
+    <string name="budgets_edit_title">Rediģēt budžetu</string>
+    <string name="budgets_name_label">Nosaukums</string>
+    <string name="budgets_amount_label">Summa</string>
+    <string name="budgets_account_label">Konts</string>
+    <string name="budgets_account_filter_label">Konts</string>
+    <string name="budgets_category_label">Kategorija</string>
+    <string name="budgets_all_categories">Visas kategorijas</string>
+    <string name="budgets_start_month">Sākuma mēnesis</string>
+    <string name="budgets_recurring">Atkārtots</string>
+    <string name="budgets_recurring_single">Vienreizējs</string>
+    <string name="budgets_recurring_unlimited">Neierobežots</string>
+    <string name="budgets_recurring_n_months">N mēneši</string>
+    <string name="budgets_recurring_count_label">Mēnešu skaits</string>
+    <string name="budgets_recurring_badge_unlimited">Atkārtots</string>
+    <string name="budgets_recurring_badge_n_months">%1$d mēneši</string>
+    <string name="budgets_save">Saglabāt</string>
+    <string name="budgets_cancel">Atcelt</string>
+    <string name="budgets_delete">Dzēst</string>
+    <string name="budgets_delete_confirm_title">Dzēst "%1$s"?</string>
+    <string name="budgets_delete_confirm_body">Tas noņems budžetu. Darījumi netiek ietekmēti.</string>
+    <string name="budgets_placeholder_name">Pārtikas preces</string>
+    <string name="budgets_error_required">Obligāts</string>
+    <string name="budgets_error_amount">Ievadiet summu &gt; 0</string>
+    <string name="budgets_error_count">Jābūt &gt; 0</string>
+    <string name="budgets_prev_month">Iepriekšējais mēnesis</string>
+    <string name="budgets_next_month">Nākamais mēnesis</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Izvēlēties mēnesi</string>
+    <string name="budgets_month_picker_now">Šis mēnesis</string>
+    <string name="budgets_month_picker_ok">Labi</string>
+    <string name="budgets_month_picker_cancel">Atcelt</string>
+    <string name="budgets_month_picker_prev_year_cd">Iepriekšējais gads</string>
+    <string name="budgets_month_picker_next_year_cd">Nākamais gads</string>
+</resources>
