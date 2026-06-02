@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">PIN Ayarla</string>
+    <string name="security_pin_confirm_title">PIN\'i Onayla</string>
+    <string name="security_pin_enter_title">PIN\'inizi Girin</string>
+    <string name="security_pin_subtitle_first">4 haneli PIN girin</string>
+    <string name="security_pin_subtitle_confirm">PIN\'i tekrar girin</string>
+    <string name="security_pin_mismatch">PIN\'ler eşleşmiyor</string>
+    <string name="security_pin_incorrect">Yanlış PIN</string>
+    <string name="security_pin_locked">Çok fazla deneme</string>
+    <string name="security_biometric_use">Biyometri kullan</string>
+    <string name="security_biometric_reason">MoneyM\'in kilidini aç</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">İptal</string>
+    <string name="security_backoff_retry">%1$d saniye içinde tekrar deneyin</string>
+    <string name="security_change_pin_title">PIN Değiştir</string>
+    <string name="security_pin_set_header">PIN\'inizi ayarlayın</string>
+    <string name="security_pin_confirm_header">PIN\'inizi onaylayın</string>
+    <string name="security_pin_enter_header">PIN\'inizi girin</string>
+    <string name="security_biometric_offer_title">Biyometri etkinleştirilsin mi?</string>
+    <string name="security_biometric_offer_body">MoneyM\'i Face ID veya parmak iziyle hızlıca kilidi açın.</string>
+    <string name="security_biometric_offer_enable">Etkinleştir</string>
+    <string name="security_biometric_offer_skip">Şimdi değil</string>
+    <string name="security_biometric_unlock_prompt">MoneyM\'in kilidini aç</string>
+</resources>

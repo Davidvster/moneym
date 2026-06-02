@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Kaldırmaları onayla</string>
+    <string name="sync_deletions_subtitle">Başka bir cihaz bu öğeleri kaldırdı. Burada da kaldırılacakları seçin. İşaretlenmemiş öğeler saklanır ve diğer cihazda geri yüklenir.</string>
+    <string name="sync_deletions_group_wallets">Cüzdanlar</string>
+    <string name="sync_deletions_group_transactions">İşlemler</string>
+    <string name="sync_deletions_group_budgets">Bütçeler</string>
+    <string name="sync_deletions_group_recurring">Tekrarlayan</string>
+    <string name="sync_deletions_group_categories">Kategoriler</string>
+    <string name="sync_deletions_group_payment_modes">Ödeme modları</string>
+    <string name="sync_deletions_confirm">Seçilenleri kaldır</string>
+    <string name="sync_deletions_cancel">Tümünü sakla</string>
+    <string name="sync_settings_title">Cihazlar arası senkronizasyon</string>
+    <string name="sync_settings_toggle_title">Cihazlar arasında senkronize et</string>
+    <string name="sync_settings_toggle_subtitle">Aynı yedeğe oturum açmış her cihazda verilerinizi senkronize tutun.</string>
+    <string name="sync_settings_rename_label">Bu cihazın adı</string>
+    <string name="sync_settings_rename_save">Kaydet</string>
+    <string name="sync_settings_rename_cancel">İptal</string>
+    <string name="sync_settings_devices_header">CİHAZLAR</string>
+    <string name="sync_settings_this_device">Bu cihaz</string>
+    <string name="sync_settings_remove">Kaldır</string>
+    <string name="sync_settings_last_synced_just_now">az önce senkronize edildi</string>
+    <string name="sync_settings_last_synced_minutes">%1$d dk önce senkronize edildi</string>
+    <string name="sync_settings_last_synced_hours">%1$d sa önce senkronize edildi</string>
+    <string name="sync_settings_last_synced_days">%1$d gün önce senkronize edildi</string>
+    <string name="sync_settings_last_synced_longer">bir süre önce senkronize edildi</string>
+</resources>

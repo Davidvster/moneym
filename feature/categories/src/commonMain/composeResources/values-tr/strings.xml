@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Kategoriler</string>
+    <string name="categories_add">Kategori ekle</string>
+    <string name="categories_edit_title">Kategoriyi Düzenle</string>
+    <string name="categories_new_title">Yeni Kategori</string>
+    <string name="categories_name_label">Ad</string>
+    <string name="categories_name_error">Ad zorunludur</string>
+    <string name="categories_icon_label">Simge</string>
+    <string name="categories_color_label">Renk</string>
+    <string name="categories_archive">Arşivle</string>
+    <string name="categories_restore">Geri yükle</string>
+    <string name="categories_show_archived">Arşivlenenleri göster</string>
+    <string name="categories_hide_archived">Arşivlenenleri gizle</string>
+    <string name="categories_archived_badge">Arşivlendi</string>
+    <string name="categories_empty">Henüz kategori yok</string>
+    <string name="categories_back">Geri</string>
+    <string name="categories_show_archived_count">Arşivlenenleri göster (%1$d)</string>
+    <string name="categories_cancel">İptal</string>
+    <string name="categories_save">Kaydet</string>
+    <string name="categories_new_button">Yeni</string>
+    <string name="categories_tab_expense">Gider</string>
+    <string name="categories_tab_income">Gelir</string>
+    <string name="categories_hint">yeniden sıralamak için uzun basın</string>
+    <string name="categories_new_expense">Yeni gider kategorisi</string>
+    <string name="categories_new_income">Yeni gelir kategorisi</string>
+    <string name="categories_name_placeholder">örn. Market</string>
+    <string name="categories_edit_sheet_title">Kategoriyi düzenle</string>
+    <string name="categories_new_sheet_title">Yeni kategori</string>
+    <string name="categories_delete">Kategoriyi sil</string>
+    <string name="categories_save_changes">Değişiklikleri kaydet</string>
+    <string name="categories_create">Kategori oluştur</string>
+    <string name="categories_delete_confirm_title">"%1$s" silinsin mi?</string>
+    <string name="categories_delete_confirm_body">Bu kategori kaldırılacak. Kullanan işlemler etkilenebilir.</string>
+    <string name="categories_delete_button">Sil</string>
+    <string name="categories_color_picker_title">Renk seç</string>
+    <string name="categories_color_hue">Ton</string>
+    <string name="categories_color_saturation">Doygunluk</string>
+    <string name="categories_color_brightness">Parlaklık</string>
+    <string name="categories_color_hex">Hex rengi</string>
+    <string name="categories_color_select">Renk seç</string>
+    <string name="categories_name_preview_placeholder">Kategori adı</string>
+</resources>

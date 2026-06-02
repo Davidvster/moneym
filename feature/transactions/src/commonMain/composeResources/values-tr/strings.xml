@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">İşlemler</string>
+    <string name="transactions_add">İşlem ekle</string>
+    <string name="transactions_filter_all">Tümü</string>
+    <string name="transactions_filter_expenses">Giderler</string>
+    <string name="transactions_filter_income">Gelir</string>
+    <string name="transactions_filter_categories">Kategoriye göre filtrele</string>
+    <string name="transactions_filter_clear">Temizle</string>
+    <string name="transactions_filter_done">Bitti</string>
+    <string name="transactions_empty">Bu ay işlem yok</string>
+    <string name="transactions_previous_month">Önceki ay</string>
+    <string name="transactions_next_month">Sonraki ay</string>
+    <string name="transactions_loading">Yükleniyor…</string>
+    <string name="transactions_search_placeholder">İşlem ara…</string>
+    <string name="transactions_search_cd">Ara</string>
+    <string name="transactions_close_search_cd">Aramayı kapat</string>
+    <string name="transactions_net_label">NET</string>
+    <string name="transactions_dialog_select_month">Ay Seç</string>
+    <string name="transactions_prev_year_cd">Önceki yıl</string>
+    <string name="transactions_next_year_cd">Sonraki yıl</string>
+    <string name="transactions_now">Şimdi</string>
+    <string name="transactions_ok">Tamam</string>
+    <string name="transactions_cancel">İptal</string>
+    <string name="transactions_wallet_select">Cüzdan Seç</string>
+    <string name="transactions_wallet_all">Tüm cüzdanlar</string>
+    <string name="transactions_syncing">Senkronize ediliyor…</string>
+    <string name="transactions_pending_deletions">Başka bir cihazda %1$d öğe kaldırıldı — incele</string>
+</resources>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Genel Bakış</string>
+    <string name="overview_income">Gelir</string>
+    <string name="overview_expenses">Giderler</string>
+    <string name="overview_by_category">Kategoriye göre harcama</string>
+    <string name="overview_trend">6 aylık eğilim</string>
+    <string name="overview_all_categories">Tüm kategoriler</string>
+    <string name="overview_empty">Bu dönemde işlem yok</string>
+    <string name="overview_previous_month">Önceki ay</string>
+    <string name="overview_next_month">Sonraki ay</string>
+    <string name="overview_loading">Yükleniyor…</string>
+    <string name="overview_more">+ %1$d daha</string>
+    <string name="overview_monthly_breakdown">Aylık döküm</string>
+    <string name="overview_daily_breakdown">Günlük döküm</string>
+    <string name="overview_all">Tümü</string>
+    <string name="overview_previous">Önceki</string>
+    <string name="overview_next">Sonraki</string>
+    <string name="overview_switch_to_month">Aylık görünüme geç</string>
+    <string name="overview_switch_to_year">Yıllık görünüme geç</string>
+    <string name="overview_period_month">Ay</string>
+    <string name="overview_period_year">Yıl</string>
+    <string name="overview_period_custom">Özel</string>
+    <string name="overview_label_income">GELİR</string>
+    <string name="overview_label_expenses">GİDERLER</string>
+    <string name="overview_label_balance">BAKIYE</string>
+    <string name="overview_spending_by_category">Kategoriye göre harcama</string>
+    <string name="overview_no_expenses">Bu dönemde gider yok</string>
+    <string name="overview_label_total">TOPLAM</string>
+    <string name="overview_cumulative_spend">Kümülatif harcama</string>
+    <string name="overview_through_day">%1$d. güne kadar</string>
+    <string name="overview_daily_trend">Kategoriye göre günlük eğilim</string>
+    <string name="overview_monthly_spending">Aylık harcama</string>
+    <string name="overview_monthly_trend">Kategoriye göre aylık eğilim</string>
+    <string name="overview_avg_day">ORT / GÜN</string>
+    <string name="overview_avg_month">ORT / AY</string>
+    <string name="overview_dialog_select_month">Ay Seç</string>
+    <string name="overview_dialog_select_year">Yıl Seç</string>
+    <string name="overview_prev_year_cd">Önceki yıl</string>
+    <string name="overview_next_year_cd">Sonraki yıl</string>
+    <string name="overview_analyze_cd">Yapay Zeka ile analiz et</string>
+    <string name="overview_now">Şimdi</string>
+    <string name="overview_ok">Tamam</string>
+    <string name="overview_cancel">İptal</string>
+    <string name="overview_tx_count_singular">%1$d işlem</string>
+    <string name="overview_tx_count_plural">%1$d işlem</string>
+    <string name="overview_cat_avg_day">ort/gün</string>
+    <string name="overview_cat_avg_month">ort/ay</string>
+    <string name="overview_date_range_title">Tarih Aralığı Seç</string>
+    <string name="overview_date_range_from">BAŞLANGIÇ</string>
+    <string name="overview_date_range_to">BİTİŞ</string>
+    <string name="overview_budgets_title">Bütçeler</string>
+    <string name="overview_budgets_all_categories">Tüm kategoriler</string>
+    <string name="overview_budgets_remaining_suffix">%1$s kaldı</string>
+    <string name="overview_budgets_overrun_suffix">%1$s aşıldı</string>
+    <string-array name="overview_year_x_labels">
+        <item>Oca</item>
+        <item>Nis</item>
+        <item>Tem</item>
+        <item>Eki</item>
+        <item>Ara</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>

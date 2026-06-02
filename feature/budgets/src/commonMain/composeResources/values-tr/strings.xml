@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Bütçeler</string>
+    <string name="budgets_empty">Henüz bütçe yok</string>
+    <string name="budgets_new">Yeni bütçe</string>
+    <string name="budgets_new_title">Yeni Bütçe</string>
+    <string name="budgets_edit_title">Bütçeyi Düzenle</string>
+    <string name="budgets_name_label">Ad</string>
+    <string name="budgets_amount_label">Tutar</string>
+    <string name="budgets_account_label">Hesap</string>
+    <string name="budgets_account_filter_label">Hesap</string>
+    <string name="budgets_category_label">Kategori</string>
+    <string name="budgets_all_categories">Tüm kategoriler</string>
+    <string name="budgets_start_month">Başlangıç ayı</string>
+    <string name="budgets_recurring">Tekrarlayan</string>
+    <string name="budgets_recurring_single">Tek seferlik</string>
+    <string name="budgets_recurring_unlimited">Sınırsız</string>
+    <string name="budgets_recurring_n_months">N ay</string>
+    <string name="budgets_recurring_count_label">Ay sayısı</string>
+    <string name="budgets_recurring_badge_unlimited">Tekrarlayan</string>
+    <string name="budgets_recurring_badge_n_months">%1$d ay</string>
+    <string name="budgets_save">Kaydet</string>
+    <string name="budgets_cancel">İptal</string>
+    <string name="budgets_delete">Sil</string>
+    <string name="budgets_delete_confirm_title">"%1$s" silinsin mi?</string>
+    <string name="budgets_delete_confirm_body">Bu bütçe kaldırılacak. İşlemler etkilenmez.</string>
+    <string name="budgets_placeholder_name">Market</string>
+    <string name="budgets_error_required">Zorunlu</string>
+    <string name="budgets_error_amount">0\'dan büyük bir tutar girin</string>
+    <string name="budgets_error_count">0\'dan büyük olmalı</string>
+    <string name="budgets_prev_month">Önceki ay</string>
+    <string name="budgets_next_month">Sonraki ay</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Ay seç</string>
+    <string name="budgets_month_picker_now">Bu ay</string>
+    <string name="budgets_month_picker_ok">Tamam</string>
+    <string name="budgets_month_picker_cancel">İptal</string>
+    <string name="budgets_month_picker_prev_year_cd">Önceki yıl</string>
+    <string name="budgets_month_picker_next_year_cd">Sonraki yıl</string>
+</resources>

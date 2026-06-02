@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">İşlemler</string>
+    <string name="nav_tab_overview">Genel Bakış</string>
+    <string name="nav_tab_settings">Ayarlar</string>
+    <string name="category_seed_groceries">Market</string>
+    <string name="category_seed_eating_out">Dışarıda Yemek</string>
+    <string name="category_seed_rent">Kira</string>
+    <string name="category_seed_transport">Ulaşım</string>
+    <string name="category_seed_utilities">Faturalar</string>
+    <string name="category_seed_health">Sağlık</string>
+    <string name="category_seed_entertainment">Eğlence</string>
+    <string name="category_seed_shopping">Alışveriş</string>
+    <string name="category_seed_other_expense">Diğer</string>
+    <string name="category_seed_salary">Maaş</string>
+    <string name="category_seed_payment">Ödeme</string>
+    <string name="category_seed_gift">Hediye</string>
+    <string name="category_seed_other_income">Diğer</string>
+</resources>

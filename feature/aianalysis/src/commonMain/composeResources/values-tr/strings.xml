@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analiz Et</string>
+    <string name="analyze_intro">Bu dönem için mali durumunuz hakkında istediğinizi sorun.</string>
+    <string name="analyze_input_hint">Soru sor…</string>
+    <string name="analyze_send_cd">Gönder</string>
+    <string name="analyze_grounding_label">Veri kaynağı</string>
+    <string name="analyze_grounding_snapshot">Anlık görüntü</string>
+    <string name="analyze_grounding_tools">Araçlar</string>
+    <string name="analyze_tools_fallback_notice">Bu model araçları desteklemiyor. Bunun yerine anlık görüntü kullanılıyor.</string>
+    <string name="analyze_error">Bir şeyler ters gitti. Lütfen tekrar deneyin.</string>
+    <string name="analyze_generating">Düşünüyor…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Bu ay ne kadar harcadım?</item>
+        <item>En fazla harcama yaptığım kategoriler neler?</item>
+        <item>Bu ay geçen ayla nasıl karşılaştırılır?</item>
+        <item>Olağandışı veya büyük harcamalar var mı?</item>
+    </string-array>
+</resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">İşlemler</string>
+    <string name="tab_overview">Genel Bakış</string>
+    <string name="tab_settings">Ayarlar</string>
+    <string name="amount_input_calculator_desc">Hesap makinesi aç</string>
+    <string name="month_jan">Ocak</string>
+    <string name="month_feb">Şubat</string>
+    <string name="month_mar">Mart</string>
+    <string name="month_apr">Nisan</string>
+    <string name="month_may">Mayıs</string>
+    <string name="month_jun">Haziran</string>
+    <string name="month_jul">Temmuz</string>
+    <string name="month_aug">Ağustos</string>
+    <string name="month_sep">Eylül</string>
+    <string name="month_oct">Ekim</string>
+    <string name="month_nov">Kasım</string>
+    <string name="month_dec">Aralık</string>
+    <string name="colorpicker_title">Renk seç</string>
+    <string name="colorpicker_hue">Ton</string>
+    <string name="colorpicker_saturation">Doygunluk</string>
+    <string name="colorpicker_brightness">Parlaklık</string>
+    <string name="colorpicker_hex">Hex rengi</string>
+    <string name="colorpicker_select">Renk seç</string>
+    <string name="colorpicker_cancel">İptal</string>
+    <string name="wallet_select">Cüzdan seç</string>
+    <string name="cancel">İptal</string>
+</resources>
