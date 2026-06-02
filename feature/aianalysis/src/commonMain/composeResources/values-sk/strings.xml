@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analýza</string>
+    <string name="analyze_intro">Opýtajte sa čokoľvek o svojich financiách za toto obdobie.</string>
+    <string name="analyze_input_hint">Položiť otázku…</string>
+    <string name="analyze_send_cd">Odoslať</string>
+    <string name="analyze_grounding_label">Zdroj dát</string>
+    <string name="analyze_grounding_snapshot">Snímka</string>
+    <string name="analyze_grounding_tools">Nástroje</string>
+    <string name="analyze_tools_fallback_notice">Tento model nepodporuje nástroje. Namiesto toho sa použije snímka.</string>
+    <string name="analyze_error">Niečo sa pokazilo. Skúste znova.</string>
+    <string name="analyze_generating">Premýšľam…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Koľko som minul/a tento mesiac?</item>
+        <item>Aké sú moje najväčšie kategórie výdavkov?</item>
+        <item>Ako sa tento mesiac porovnáva s predchádzajúcim?</item>
+        <item>Existujú nezvyčajné alebo veľké výdavky?</item>
+    </string-array>
+</resources>

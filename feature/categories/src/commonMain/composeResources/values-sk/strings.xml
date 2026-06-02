@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Kategórie</string>
+    <string name="categories_add">Pridať kategóriu</string>
+    <string name="categories_edit_title">Upraviť kategóriu</string>
+    <string name="categories_new_title">Nová kategória</string>
+    <string name="categories_name_label">Názov</string>
+    <string name="categories_name_error">Názov je povinný</string>
+    <string name="categories_icon_label">Ikona</string>
+    <string name="categories_color_label">Farba</string>
+    <string name="categories_archive">Archivovať</string>
+    <string name="categories_restore">Obnoviť</string>
+    <string name="categories_show_archived">Zobraziť archivované</string>
+    <string name="categories_hide_archived">Skryť archivované</string>
+    <string name="categories_archived_badge">Archivované</string>
+    <string name="categories_empty">Zatiaľ žiadne kategórie</string>
+    <string name="categories_back">Späť</string>
+    <string name="categories_show_archived_count">Zobraziť archivované (%1$d)</string>
+    <string name="categories_cancel">Zrušiť</string>
+    <string name="categories_save">Uložiť</string>
+    <string name="categories_new_button">Nová</string>
+    <string name="categories_tab_expense">Výdavok</string>
+    <string name="categories_tab_income">Príjem</string>
+    <string name="categories_hint">dlhým stlačením zmeňte poradie</string>
+    <string name="categories_new_expense">Nová kategória výdavkov</string>
+    <string name="categories_new_income">Nová kategória príjmov</string>
+    <string name="categories_name_placeholder">napr. Potraviny</string>
+    <string name="categories_edit_sheet_title">Upraviť kategóriu</string>
+    <string name="categories_new_sheet_title">Nová kategória</string>
+    <string name="categories_delete">Odstrániť kategóriu</string>
+    <string name="categories_save_changes">Uložiť zmeny</string>
+    <string name="categories_create">Vytvoriť kategóriu</string>
+    <string name="categories_delete_confirm_title">Odstrániť „%1$s"?</string>
+    <string name="categories_delete_confirm_body">Toto odstráni kategóriu. Transakcie, ktoré ju používajú, môžu byť ovplyvnené.</string>
+    <string name="categories_delete_button">Odstrániť</string>
+    <string name="categories_color_picker_title">Vybrať farbu</string>
+    <string name="categories_color_hue">Odtieň</string>
+    <string name="categories_color_saturation">Sýtosť</string>
+    <string name="categories_color_brightness">Jas</string>
+    <string name="categories_color_hex">Hex farba</string>
+    <string name="categories_color_select">Vybrať farbu</string>
+    <string name="categories_name_preview_placeholder">Názov kategórie</string>
+</resources>

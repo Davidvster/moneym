@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Vitajte v MoneyM</string>
+    <string name="onboarding_currency_title">Zvoľte predvolenú menu</string>
+    <string name="onboarding_continue">Pokračovať</string>
+    <string name="onboarding_security_title">Zabezpečte aplikáciu</string>
+    <string name="onboarding_security_subtitle">Chráňte svoje finančné údaje pomocou PIN-u.</string>
+    <string name="onboarding_pin_label">Zamknutie PIN-om</string>
+    <string name="onboarding_pin_set">PIN je nastavený ✓</string>
+    <string name="onboarding_done">Hotovo</string>
+    <string name="onboarding_skip">Preskočiť zatiaľ</string>
+    <string name="onboarding_skip_short">Preskočiť</string>
+    <string name="onboarding_search_currency">Hľadať menu…</string>
+    <string name="onboarding_currencies_header">MENY</string>
+    <string name="onboarding_biometrics_label">Biometria</string>
+    <string name="onboarding_biometrics_subtitle">Odomknúť pomocou Face ID alebo odtlačku prsta</string>
+    <string name="onboarding_restore_from_backup">Obnoviť zo zálohy</string>
+    <string name="onboarding_import_data">Importovať údaje</string>
+    <string name="onboarding_restore_warning_title">Nahradiť všetky údaje?</string>
+    <string name="onboarding_restore_warning_body">Toto nahradí vaše aktuálne údaje zálohou a preskočí nastavenie.</string>
+    <string name="onboarding_restore_confirm">Obnoviť</string>
+    <string name="onboarding_restore_screen_title">Obnoviť zálohu</string>
+    <string name="onboarding_restore_local_button">Obnoviť zo súboru</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">Pripojiť účet Google</string>
+    <string name="onboarding_restore_google_button">Obnoviť z Google Drive</string>
+    <string name="onboarding_restore_passphrase_label">Heslo zálohy</string>
+    <string name="onboarding_restore_app_close_notice">Aplikácia sa zatvorí po obnovení. Znova ju otvorte pre pokračovanie.</string>
+    <string name="onboarding_restore_cancel">Zrušiť</string>
+    <string name="onboarding_restore_remote_loading">Načítavam informácie o zálohe…</string>
+    <string name="onboarding_restore_wrong_password">Nesprávne heslo alebo poškodená záloha.</string>
+</resources>

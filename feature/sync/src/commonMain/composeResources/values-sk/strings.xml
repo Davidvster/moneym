@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Potvrdiť odstránenia</string>
+    <string name="sync_deletions_subtitle">Iné zariadenie odstránilo tieto položky. Vyberte, ktoré chcete odstrániť aj tu. Nezačiarknuté položky sa zachovajú a obnovia na druhom zariadení.</string>
+    <string name="sync_deletions_group_wallets">Peňaženky</string>
+    <string name="sync_deletions_group_transactions">Transakcie</string>
+    <string name="sync_deletions_group_budgets">Rozpočty</string>
+    <string name="sync_deletions_group_recurring">Opakujúce sa</string>
+    <string name="sync_deletions_group_categories">Kategórie</string>
+    <string name="sync_deletions_group_payment_modes">Spôsoby platby</string>
+    <string name="sync_deletions_confirm">Odstrániť vybrané</string>
+    <string name="sync_deletions_cancel">Zachovať všetko</string>
+    <string name="sync_settings_title">Synchronizácia medzi zariadeniami</string>
+    <string name="sync_settings_toggle_title">Synchronizovať medzi zariadeniami</string>
+    <string name="sync_settings_toggle_subtitle">Udržujte údaje synchronizované na každom zariadení prihlásenom k tej istej zálohe.</string>
+    <string name="sync_settings_rename_label">Názov tohto zariadenia</string>
+    <string name="sync_settings_rename_save">Uložiť</string>
+    <string name="sync_settings_rename_cancel">Zrušiť</string>
+    <string name="sync_settings_devices_header">ZARIADENIA</string>
+    <string name="sync_settings_this_device">Toto zariadenie</string>
+    <string name="sync_settings_remove">Odstrániť</string>
+    <string name="sync_settings_last_synced_just_now">synchronizované práve teraz</string>
+    <string name="sync_settings_last_synced_minutes">synchronizované pred %1$d min</string>
+    <string name="sync_settings_last_synced_hours">synchronizované pred %1$d h</string>
+    <string name="sync_settings_last_synced_days">synchronizované pred %1$d d</string>
+    <string name="sync_settings_last_synced_longer">synchronizované dávno</string>
+</resources>

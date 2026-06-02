@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Transakcie</string>
+    <string name="tab_overview">Prehľad</string>
+    <string name="tab_settings">Nastavenia</string>
+    <string name="amount_input_calculator_desc">Otvoriť kalkulačku</string>
+    <string name="month_jan">Január</string>
+    <string name="month_feb">Február</string>
+    <string name="month_mar">Marec</string>
+    <string name="month_apr">Apríl</string>
+    <string name="month_may">Máj</string>
+    <string name="month_jun">Jún</string>
+    <string name="month_jul">Júl</string>
+    <string name="month_aug">August</string>
+    <string name="month_sep">September</string>
+    <string name="month_oct">Október</string>
+    <string name="month_nov">November</string>
+    <string name="month_dec">December</string>
+    <string name="colorpicker_title">Vybrať farbu</string>
+    <string name="colorpicker_hue">Odtieň</string>
+    <string name="colorpicker_saturation">Sýtosť</string>
+    <string name="colorpicker_brightness">Jas</string>
+    <string name="colorpicker_hex">Hex farba</string>
+    <string name="colorpicker_select">Vybrať farbu</string>
+    <string name="colorpicker_cancel">Zrušiť</string>
+    <string name="wallet_select">Vybrať peňaženku</string>
+    <string name="cancel">Zrušiť</string>
+</resources>
