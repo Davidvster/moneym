@@ -5,7 +5,7 @@
     <string name="security_pin_enter_title">Enter your PIN</string>
     <string name="security_pin_subtitle_first">Enter a 4-digit PIN</string>
     <string name="security_pin_subtitle_confirm">Enter PIN again</string>
-    <string name="security_pin_mismatch">PINs don\'t match</string>
+    <string name="security_pin_mismatch">PINs don't match</string>
     <string name="security_pin_incorrect">Incorrect PIN</string>
     <string name="security_pin_locked">Too many attempts</string>
     <string name="security_biometric_use">Use biometric</string>

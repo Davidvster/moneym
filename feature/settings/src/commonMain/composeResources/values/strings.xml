@@ -243,7 +243,7 @@
     <string name="settings_remote_error_fetch_info">Failed to fetch backup info</string>
     <string name="settings_remote_delete_data">Delete Google Drive data</string>
     <string name="settings_remote_delete_title">Delete Google Drive data?</string>
-    <string name="settings_remote_delete_body">This permanently deletes all cloud backups and sync data from your Google Drive, and turns off automatic backup and cross-device sync. This can\'t be undone.</string>
+    <string name="settings_remote_delete_body">This permanently deletes all cloud backups and sync data from your Google Drive, and turns off automatic backup and cross-device sync. This can't be undone.</string>
     <string name="settings_remote_delete_confirm">Delete</string>
     <string name="settings_import_failed">Import failed</string>
 </resources>
