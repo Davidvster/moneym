@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Transakcije</string>
+    <string name="transactions_add">Dodaj transakciju</string>
+    <string name="transactions_filter_all">Sve</string>
+    <string name="transactions_filter_expenses">Troškovi</string>
+    <string name="transactions_filter_income">Prihodi</string>
+    <string name="transactions_filter_categories">Filtriraj po kategoriji</string>
+    <string name="transactions_filter_clear">Obriši</string>
+    <string name="transactions_filter_done">Gotovo</string>
+    <string name="transactions_empty">Nema transakcija ovaj mjesec</string>
+    <string name="transactions_previous_month">Prethodni mjesec</string>
+    <string name="transactions_next_month">Sljedeći mjesec</string>
+    <string name="transactions_loading">Učitavanje…</string>
+    <string name="transactions_search_placeholder">Pretraži transakcije…</string>
+    <string name="transactions_search_cd">Pretraži</string>
+    <string name="transactions_close_search_cd">Zatvori pretragu</string>
+    <string name="transactions_net_label">NETO</string>
+    <string name="transactions_dialog_select_month">Odaberi mjesec</string>
+    <string name="transactions_prev_year_cd">Prethodna godina</string>
+    <string name="transactions_next_year_cd">Sljedeća godina</string>
+    <string name="transactions_now">Sada</string>
+    <string name="transactions_ok">U redu</string>
+    <string name="transactions_cancel">Odustani</string>
+    <string name="transactions_wallet_select">Odaberi novčanik</string>
+    <string name="transactions_wallet_all">Svi novčanici</string>
+    <string name="transactions_syncing">Sinkronizacija…</string>
+    <string name="transactions_pending_deletions">%1$d stavki uklonjeno na drugom uređaju — pregled</string>
+</resources>

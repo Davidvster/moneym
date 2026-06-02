@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Pregled</string>
+    <string name="overview_income">Prihodi</string>
+    <string name="overview_expenses">Troškovi</string>
+    <string name="overview_by_category">Potrošnja po kategoriji</string>
+    <string name="overview_trend">Trend u 6 mjeseci</string>
+    <string name="overview_all_categories">Sve kategorije</string>
+    <string name="overview_empty">Nema transakcija u ovom razdoblju</string>
+    <string name="overview_previous_month">Prethodni mjesec</string>
+    <string name="overview_next_month">Sljedeći mjesec</string>
+    <string name="overview_loading">Učitavanje…</string>
+    <string name="overview_more">+ %1$d više</string>
+    <string name="overview_monthly_breakdown">Mjesečni pregled</string>
+    <string name="overview_daily_breakdown">Dnevni pregled</string>
+    <string name="overview_all">Sve</string>
+    <string name="overview_previous">Prethodno</string>
+    <string name="overview_next">Sljedeće</string>
+    <string name="overview_switch_to_month">Prebaci na prikaz po mjesecima</string>
+    <string name="overview_switch_to_year">Prebaci na prikaz po godinama</string>
+    <string name="overview_period_month">Mjesec</string>
+    <string name="overview_period_year">Godina</string>
+    <string name="overview_period_custom">Prilagođeno</string>
+    <string name="overview_label_income">PRIHODI</string>
+    <string name="overview_label_expenses">TROŠKOVI</string>
+    <string name="overview_label_balance">STANJE</string>
+    <string name="overview_spending_by_category">Potrošnja po kategoriji</string>
+    <string name="overview_no_expenses">Nema troškova u ovom razdoblju</string>
+    <string name="overview_label_total">UKUPNO</string>
+    <string name="overview_cumulative_spend">Kumulativna potrošnja</string>
+    <string name="overview_through_day">do dana %1$d</string>
+    <string name="overview_daily_trend">Dnevni trend po kategoriji</string>
+    <string name="overview_monthly_spending">Mjesečna potrošnja</string>
+    <string name="overview_monthly_trend">Mjesečni trend po kategoriji</string>
+    <string name="overview_avg_day">PROSJEK / DAN</string>
+    <string name="overview_avg_month">PROSJEK / MJESEC</string>
+    <string name="overview_dialog_select_month">Odaberi mjesec</string>
+    <string name="overview_dialog_select_year">Odaberi godinu</string>
+    <string name="overview_prev_year_cd">Prethodna godina</string>
+    <string name="overview_next_year_cd">Sljedeća godina</string>
+    <string name="overview_analyze_cd">Analiziraj s AI-jem</string>
+    <string name="overview_now">Sada</string>
+    <string name="overview_ok">U redu</string>
+    <string name="overview_cancel">Odustani</string>
+    <string name="overview_tx_count_singular">%1$d transakcija</string>
+    <string name="overview_tx_count_plural">%1$d transakcija</string>
+    <string name="overview_cat_avg_day">prosjek/dan</string>
+    <string name="overview_cat_avg_month">prosjek/mj</string>
+    <string name="overview_date_range_title">Odaberi raspon datuma</string>
+    <string name="overview_date_range_from">OD</string>
+    <string name="overview_date_range_to">DO</string>
+    <string name="overview_budgets_title">Proračuni</string>
+    <string name="overview_budgets_all_categories">Sve kategorije</string>
+    <string name="overview_budgets_remaining_suffix">%1$s preostalo</string>
+    <string name="overview_budgets_overrun_suffix">%1$s prekoračeno</string>
+    <string-array name="overview_year_x_labels">
+        <item>sij</item>
+        <item>tra</item>
+        <item>srp</item>
+        <item>lis</item>
+        <item>pro</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>

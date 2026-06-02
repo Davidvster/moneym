@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Proračuni</string>
+    <string name="budgets_empty">Još nema proračuna</string>
+    <string name="budgets_new">Novi proračun</string>
+    <string name="budgets_new_title">Novi proračun</string>
+    <string name="budgets_edit_title">Uredi proračun</string>
+    <string name="budgets_name_label">Naziv</string>
+    <string name="budgets_amount_label">Iznos</string>
+    <string name="budgets_account_label">Račun</string>
+    <string name="budgets_account_filter_label">Račun</string>
+    <string name="budgets_category_label">Kategorija</string>
+    <string name="budgets_all_categories">Sve kategorije</string>
+    <string name="budgets_start_month">Početni mjesec</string>
+    <string name="budgets_recurring">Ponavljajući</string>
+    <string name="budgets_recurring_single">Jednokratno</string>
+    <string name="budgets_recurring_unlimited">Neograničeno</string>
+    <string name="budgets_recurring_n_months">N mjeseci</string>
+    <string name="budgets_recurring_count_label">Broj mjeseci</string>
+    <string name="budgets_recurring_badge_unlimited">Ponavljajući</string>
+    <string name="budgets_recurring_badge_n_months">%1$d mjeseci</string>
+    <string name="budgets_save">Spremi</string>
+    <string name="budgets_cancel">Odustani</string>
+    <string name="budgets_delete">Obriši</string>
+    <string name="budgets_delete_confirm_title">Obrisati „%1$s"?</string>
+    <string name="budgets_delete_confirm_body">Ovo će ukloniti proračun. Transakcije neće biti pogođene.</string>
+    <string name="budgets_placeholder_name">Namirnice</string>
+    <string name="budgets_error_required">Obavezno</string>
+    <string name="budgets_error_amount">Unesite iznos &gt; 0</string>
+    <string name="budgets_error_count">Mora biti &gt; 0</string>
+    <string name="budgets_prev_month">Prethodni mjesec</string>
+    <string name="budgets_next_month">Sljedeći mjesec</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Odaberi mjesec</string>
+    <string name="budgets_month_picker_now">Ovaj mjesec</string>
+    <string name="budgets_month_picker_ok">U redu</string>
+    <string name="budgets_month_picker_cancel">Odustani</string>
+    <string name="budgets_month_picker_prev_year_cd">Prethodna godina</string>
+    <string name="budgets_month_picker_next_year_cd">Sljedeća godina</string>
+</resources>

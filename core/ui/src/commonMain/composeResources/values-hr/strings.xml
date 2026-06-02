@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Transakcije</string>
+    <string name="tab_overview">Pregled</string>
+    <string name="tab_settings">Postavke</string>
+    <string name="amount_input_calculator_desc">Otvori kalkulator</string>
+    <string name="month_jan">Siječanj</string>
+    <string name="month_feb">Veljača</string>
+    <string name="month_mar">Ožujak</string>
+    <string name="month_apr">Travanj</string>
+    <string name="month_may">Svibanj</string>
+    <string name="month_jun">Lipanj</string>
+    <string name="month_jul">Srpanj</string>
+    <string name="month_aug">Kolovoz</string>
+    <string name="month_sep">Rujan</string>
+    <string name="month_oct">Listopad</string>
+    <string name="month_nov">Studeni</string>
+    <string name="month_dec">Prosinac</string>
+    <string name="colorpicker_title">Odaberi boju</string>
+    <string name="colorpicker_hue">Nijansa</string>
+    <string name="colorpicker_saturation">Zasićenost</string>
+    <string name="colorpicker_brightness">Svjetlina</string>
+    <string name="colorpicker_hex">Hex boja</string>
+    <string name="colorpicker_select">Odaberi boju</string>
+    <string name="colorpicker_cancel">Odustani</string>
+    <string name="wallet_select">Odaberi novčanik</string>
+    <string name="cancel">Odustani</string>
+</resources>

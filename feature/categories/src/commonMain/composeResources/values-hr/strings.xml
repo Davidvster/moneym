@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Kategorije</string>
+    <string name="categories_add">Dodaj kategoriju</string>
+    <string name="categories_edit_title">Uredi kategoriju</string>
+    <string name="categories_new_title">Nova kategorija</string>
+    <string name="categories_name_label">Naziv</string>
+    <string name="categories_name_error">Naziv je obavezan</string>
+    <string name="categories_icon_label">Ikona</string>
+    <string name="categories_color_label">Boja</string>
+    <string name="categories_archive">Arhiviraj</string>
+    <string name="categories_restore">Vrati</string>
+    <string name="categories_show_archived">Prikaži arhivirane</string>
+    <string name="categories_hide_archived">Sakrij arhivirane</string>
+    <string name="categories_archived_badge">Arhivirano</string>
+    <string name="categories_empty">Još nema kategorija</string>
+    <string name="categories_back">Natrag</string>
+    <string name="categories_show_archived_count">Prikaži arhivirane (%1$d)</string>
+    <string name="categories_cancel">Odustani</string>
+    <string name="categories_save">Spremi</string>
+    <string name="categories_new_button">Novo</string>
+    <string name="categories_tab_expense">Trošak</string>
+    <string name="categories_tab_income">Prihod</string>
+    <string name="categories_hint">dugi pritisak za promjenu redoslijeda</string>
+    <string name="categories_new_expense">Nova kategorija troška</string>
+    <string name="categories_new_income">Nova kategorija prihoda</string>
+    <string name="categories_name_placeholder">npr. Namirnice</string>
+    <string name="categories_edit_sheet_title">Uredi kategoriju</string>
+    <string name="categories_new_sheet_title">Nova kategorija</string>
+    <string name="categories_delete">Obriši kategoriju</string>
+    <string name="categories_save_changes">Spremi promjene</string>
+    <string name="categories_create">Stvori kategoriju</string>
+    <string name="categories_delete_confirm_title">Obrisati „%1$s"?</string>
+    <string name="categories_delete_confirm_body">Ovo će ukloniti kategoriju. Transakcije koje je koriste mogu biti pogođene.</string>
+    <string name="categories_delete_button">Obriši</string>
+    <string name="categories_color_picker_title">Odaberi boju</string>
+    <string name="categories_color_hue">Nijansa</string>
+    <string name="categories_color_saturation">Zasićenost</string>
+    <string name="categories_color_brightness">Svjetlina</string>
+    <string name="categories_color_hex">Hex boja</string>
+    <string name="categories_color_select">Odaberi boju</string>
+    <string name="categories_name_preview_placeholder">Naziv kategorije</string>
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Potvrdi uklanjanja</string>
+    <string name="sync_deletions_subtitle">Drugi uređaj je uklonio ove stavke. Odaberite koje ćete također ukloniti ovdje. Neoznačene stavke se zadržavaju i vraćaju na drugi uređaj.</string>
+    <string name="sync_deletions_group_wallets">Novčanici</string>
+    <string name="sync_deletions_group_transactions">Transakcije</string>
+    <string name="sync_deletions_group_budgets">Proračuni</string>
+    <string name="sync_deletions_group_recurring">Ponavljajuće</string>
+    <string name="sync_deletions_group_categories">Kategorije</string>
+    <string name="sync_deletions_group_payment_modes">Načini plaćanja</string>
+    <string name="sync_deletions_confirm">Ukloni odabrano</string>
+    <string name="sync_deletions_cancel">Zadrži sve</string>
+    <string name="sync_settings_title">Sinkronizacija između uređaja</string>
+    <string name="sync_settings_toggle_title">Sinkroniziraj između uređaja</string>
+    <string name="sync_settings_toggle_subtitle">Držite podatke sinkroniziranima na svakom uređaju prijavljenom na istu sigurnosnu kopiju.</string>
+    <string name="sync_settings_rename_label">Naziv ovog uređaja</string>
+    <string name="sync_settings_rename_save">Spremi</string>
+    <string name="sync_settings_rename_cancel">Odustani</string>
+    <string name="sync_settings_devices_header">UREĐAJI</string>
+    <string name="sync_settings_this_device">Ovaj uređaj</string>
+    <string name="sync_settings_remove">Ukloni</string>
+    <string name="sync_settings_last_synced_just_now">sinkronizirano upravo sada</string>
+    <string name="sync_settings_last_synced_minutes">sinkronizirano prije %1$d min</string>
+    <string name="sync_settings_last_synced_hours">sinkronizirano prije %1$d h</string>
+    <string name="sync_settings_last_synced_days">sinkronizirano prije %1$d d</string>
+    <string name="sync_settings_last_synced_longer">sinkronizirano davno</string>
+</resources>

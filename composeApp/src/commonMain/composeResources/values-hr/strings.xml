@@ -1,0 +1,18 @@
+<resources>
+    <string name="nav_tab_transactions">Transakcije</string>
+    <string name="nav_tab_overview">Pregled</string>
+    <string name="nav_tab_settings">Postavke</string>
+    <string name="category_seed_groceries">Namirnice</string>
+    <string name="category_seed_eating_out">Restorani</string>
+    <string name="category_seed_rent">Najam</string>
+    <string name="category_seed_transport">Prijevoz</string>
+    <string name="category_seed_utilities">Režije</string>
+    <string name="category_seed_health">Zdravlje</string>
+    <string name="category_seed_entertainment">Zabava</string>
+    <string name="category_seed_shopping">Kupovina</string>
+    <string name="category_seed_other_expense">Ostalo</string>
+    <string name="category_seed_salary">Plaća</string>
+    <string name="category_seed_payment">Plaćanje</string>
+    <string name="category_seed_gift">Poklon</string>
+    <string name="category_seed_other_income">Ostalo</string>
+</resources>

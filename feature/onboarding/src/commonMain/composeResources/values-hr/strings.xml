@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Dobrodošli u MoneyM</string>
+    <string name="onboarding_currency_title">Odaberite zadanu valutu</string>
+    <string name="onboarding_continue">Nastavi</string>
+    <string name="onboarding_security_title">Zaštitite aplikaciju</string>
+    <string name="onboarding_security_subtitle">Zaštitite svoje financijske podatke PIN-om.</string>
+    <string name="onboarding_pin_label">PIN zaključavanje</string>
+    <string name="onboarding_pin_set">PIN je postavljen ✓</string>
+    <string name="onboarding_done">Gotovo</string>
+    <string name="onboarding_skip">Preskoči za sada</string>
+    <string name="onboarding_skip_short">Preskoči</string>
+    <string name="onboarding_search_currency">Pretraži valutu…</string>
+    <string name="onboarding_currencies_header">VALUTE</string>
+    <string name="onboarding_biometrics_label">Biometrija</string>
+    <string name="onboarding_biometrics_subtitle">Otključaj Face ID-om ili otiskom prsta</string>
+    <string name="onboarding_restore_from_backup">Vrati iz sigurnosne kopije</string>
+    <string name="onboarding_import_data">Uvezi podatke</string>
+    <string name="onboarding_restore_warning_title">Zamijeniti sve podatke?</string>
+    <string name="onboarding_restore_warning_body">Ovo će zamijeniti vaše trenutne podatke sigurnosnom kopijom i preskočiti postavljanje.</string>
+    <string name="onboarding_restore_confirm">Vrati</string>
+    <string name="onboarding_restore_screen_title">Vrati sigurnosnu kopiju</string>
+    <string name="onboarding_restore_local_button">Vrati iz datoteke</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">Poveži Google račun</string>
+    <string name="onboarding_restore_google_button">Vrati s Google Drivea</string>
+    <string name="onboarding_restore_passphrase_label">Lozinka sigurnosne kopije</string>
+    <string name="onboarding_restore_app_close_notice">Aplikacija će se zatvoriti nakon vraćanja. Ponovo je otvorite za nastavak.</string>
+    <string name="onboarding_restore_cancel">Odustani</string>
+    <string name="onboarding_restore_remote_loading">Dohvaćam informacije o sigurnosnoj kopiji…</string>
+    <string name="onboarding_restore_wrong_password">Pogrešna lozinka ili oštećena sigurnosna kopija.</string>
+</resources>
