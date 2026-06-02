@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analyseren</string>
+    <string name="analyze_intro">Stel een vraag over uw financiën voor deze periode.</string>
+    <string name="analyze_input_hint">Stel een vraag…</string>
+    <string name="analyze_send_cd">Verzenden</string>
+    <string name="analyze_grounding_label">Gegevensbron</string>
+    <string name="analyze_grounding_snapshot">Momentopname</string>
+    <string name="analyze_grounding_tools">Hulpmiddelen</string>
+    <string name="analyze_tools_fallback_notice">Hulpmiddelen worden niet ondersteund door dit model. Er wordt een momentopname gebruikt.</string>
+    <string name="analyze_error">Er is iets misgegaan. Probeer het opnieuw.</string>
+    <string name="analyze_generating">Nadenken…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Hoeveel heb ik deze maand uitgegeven?</item>
+        <item>Wat zijn mijn grootste uitgavecategorieën?</item>
+        <item>Hoe verhoudt deze maand zich tot de vorige maand?</item>
+        <item>Zijn er ongewone of grote uitgaven?</item>
+    </string-array>
+</resources>

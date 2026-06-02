@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Categorieën</string>
+    <string name="categories_add">Categorie toevoegen</string>
+    <string name="categories_edit_title">Categorie bewerken</string>
+    <string name="categories_new_title">Nieuwe categorie</string>
+    <string name="categories_name_label">Naam</string>
+    <string name="categories_name_error">Naam is verplicht</string>
+    <string name="categories_icon_label">Pictogram</string>
+    <string name="categories_color_label">Kleur</string>
+    <string name="categories_archive">Archiveren</string>
+    <string name="categories_restore">Herstellen</string>
+    <string name="categories_show_archived">Gearchiveerde weergeven</string>
+    <string name="categories_hide_archived">Gearchiveerde verbergen</string>
+    <string name="categories_archived_badge">Gearchiveerd</string>
+    <string name="categories_empty">Nog geen categorieën</string>
+    <string name="categories_back">Terug</string>
+    <string name="categories_show_archived_count">Gearchiveerde weergeven (%1$d)</string>
+    <string name="categories_cancel">Annuleren</string>
+    <string name="categories_save">Opslaan</string>
+    <string name="categories_new_button">Nieuw</string>
+    <string name="categories_tab_expense">Uitgave</string>
+    <string name="categories_tab_income">Inkomsten</string>
+    <string name="categories_hint">lang indrukken om te herschikken</string>
+    <string name="categories_new_expense">Nieuwe uitgavecategorie</string>
+    <string name="categories_new_income">Nieuwe inkomstencategorie</string>
+    <string name="categories_name_placeholder">bijv. Boodschappen</string>
+    <string name="categories_edit_sheet_title">Categorie bewerken</string>
+    <string name="categories_new_sheet_title">Nieuwe categorie</string>
+    <string name="categories_delete">Categorie verwijderen</string>
+    <string name="categories_save_changes">Wijzigingen opslaan</string>
+    <string name="categories_create">Categorie aanmaken</string>
+    <string name="categories_delete_confirm_title">"%1$s" verwijderen?</string>
+    <string name="categories_delete_confirm_body">Dit verwijdert de categorie. Transacties die deze gebruiken kunnen worden beïnvloed.</string>
+    <string name="categories_delete_button">Verwijderen</string>
+    <string name="categories_color_picker_title">Kies kleur</string>
+    <string name="categories_color_hue">Tint</string>
+    <string name="categories_color_saturation">Verzadiging</string>
+    <string name="categories_color_brightness">Helderheid</string>
+    <string name="categories_color_hex">Hexkleur</string>
+    <string name="categories_color_select">Kleur selecteren</string>
+    <string name="categories_name_preview_placeholder">Categorienaam</string>
+</resources>

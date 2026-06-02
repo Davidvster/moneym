@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">Pincode instellen</string>
+    <string name="security_pin_confirm_title">Pincode bevestigen</string>
+    <string name="security_pin_enter_title">Voer uw pincode in</string>
+    <string name="security_pin_subtitle_first">Voer een 4-cijferige pincode in</string>
+    <string name="security_pin_subtitle_confirm">Voer pincode opnieuw in</string>
+    <string name="security_pin_mismatch">Pincodes komen niet overeen</string>
+    <string name="security_pin_incorrect">Onjuiste pincode</string>
+    <string name="security_pin_locked">Te veel pogingen</string>
+    <string name="security_biometric_use">Biometrie gebruiken</string>
+    <string name="security_biometric_reason">MoneyM ontgrendelen</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Annuleren</string>
+    <string name="security_backoff_retry">Opnieuw proberen over %1$ds</string>
+    <string name="security_change_pin_title">Pincode wijzigen</string>
+    <string name="security_pin_set_header">Uw pincode instellen</string>
+    <string name="security_pin_confirm_header">Uw pincode bevestigen</string>
+    <string name="security_pin_enter_header">Uw pincode invoeren</string>
+    <string name="security_biometric_offer_title">Biometrie inschakelen?</string>
+    <string name="security_biometric_offer_body">Ontgrendel MoneyM snel met Face ID of vingerafdruk.</string>
+    <string name="security_biometric_offer_enable">Inschakelen</string>
+    <string name="security_biometric_offer_skip">Niet nu</string>
+    <string name="security_biometric_unlock_prompt">MoneyM ontgrendelen</string>
+</resources>

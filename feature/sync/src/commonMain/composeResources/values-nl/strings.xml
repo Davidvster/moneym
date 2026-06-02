@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Verwijderingen bevestigen</string>
+    <string name="sync_deletions_subtitle">Een ander apparaat heeft deze items verwijderd. Kies welke u hier ook wilt verwijderen. Niet-aangevinkte items worden bewaard en hersteld op het andere apparaat.</string>
+    <string name="sync_deletions_group_wallets">Portemonnees</string>
+    <string name="sync_deletions_group_transactions">Transacties</string>
+    <string name="sync_deletions_group_budgets">Budgetten</string>
+    <string name="sync_deletions_group_recurring">Terugkerend</string>
+    <string name="sync_deletions_group_categories">Categorieën</string>
+    <string name="sync_deletions_group_payment_modes">Betaalmethoden</string>
+    <string name="sync_deletions_confirm">Geselecteerde verwijderen</string>
+    <string name="sync_deletions_cancel">Alles bewaren</string>
+    <string name="sync_settings_title">Synchronisatie tussen apparaten</string>
+    <string name="sync_settings_toggle_title">Synchroniseren tussen apparaten</string>
+    <string name="sync_settings_toggle_subtitle">Houd uw gegevens gesynchroniseerd op elk apparaat dat is aangemeld bij dezelfde back-up.</string>
+    <string name="sync_settings_rename_label">Naam van dit apparaat</string>
+    <string name="sync_settings_rename_save">Opslaan</string>
+    <string name="sync_settings_rename_cancel">Annuleren</string>
+    <string name="sync_settings_devices_header">APPARATEN</string>
+    <string name="sync_settings_this_device">Dit apparaat</string>
+    <string name="sync_settings_remove">Verwijderen</string>
+    <string name="sync_settings_last_synced_just_now">zojuist gesynchroniseerd</string>
+    <string name="sync_settings_last_synced_minutes">%1$d min geleden gesynchroniseerd</string>
+    <string name="sync_settings_last_synced_hours">%1$d u geleden gesynchroniseerd</string>
+    <string name="sync_settings_last_synced_days">%1$d d geleden gesynchroniseerd</string>
+    <string name="sync_settings_last_synced_longer">lang geleden gesynchroniseerd</string>
+</resources>

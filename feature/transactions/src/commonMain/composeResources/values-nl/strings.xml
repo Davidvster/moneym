@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Transacties</string>
+    <string name="transactions_add">Transactie toevoegen</string>
+    <string name="transactions_filter_all">Alle</string>
+    <string name="transactions_filter_expenses">Uitgaven</string>
+    <string name="transactions_filter_income">Inkomsten</string>
+    <string name="transactions_filter_categories">Filteren op categorie</string>
+    <string name="transactions_filter_clear">Wissen</string>
+    <string name="transactions_filter_done">Klaar</string>
+    <string name="transactions_empty">Geen transacties deze maand</string>
+    <string name="transactions_previous_month">Vorige maand</string>
+    <string name="transactions_next_month">Volgende maand</string>
+    <string name="transactions_loading">Laden…</string>
+    <string name="transactions_search_placeholder">Transacties zoeken…</string>
+    <string name="transactions_search_cd">Zoeken</string>
+    <string name="transactions_close_search_cd">Zoeken sluiten</string>
+    <string name="transactions_net_label">NETTO</string>
+    <string name="transactions_dialog_select_month">Maand selecteren</string>
+    <string name="transactions_prev_year_cd">Vorig jaar</string>
+    <string name="transactions_next_year_cd">Volgend jaar</string>
+    <string name="transactions_now">Nu</string>
+    <string name="transactions_ok">OK</string>
+    <string name="transactions_cancel">Annuleren</string>
+    <string name="transactions_wallet_select">Portemonnee selecteren</string>
+    <string name="transactions_wallet_all">Alle portemonnees</string>
+    <string name="transactions_syncing">Synchroniseren…</string>
+    <string name="transactions_pending_deletions">%1$d items verwijderd op een ander apparaat — controleren</string>
+</resources>

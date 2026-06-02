@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Budgetten</string>
+    <string name="budgets_empty">Nog geen budgetten</string>
+    <string name="budgets_new">Nieuw budget</string>
+    <string name="budgets_new_title">Nieuw budget</string>
+    <string name="budgets_edit_title">Budget bewerken</string>
+    <string name="budgets_name_label">Naam</string>
+    <string name="budgets_amount_label">Bedrag</string>
+    <string name="budgets_account_label">Rekening</string>
+    <string name="budgets_account_filter_label">Rekening</string>
+    <string name="budgets_category_label">Categorie</string>
+    <string name="budgets_all_categories">Alle categorieën</string>
+    <string name="budgets_start_month">Startmaand</string>
+    <string name="budgets_recurring">Terugkerend</string>
+    <string name="budgets_recurring_single">Eenmalig</string>
+    <string name="budgets_recurring_unlimited">Onbeperkt</string>
+    <string name="budgets_recurring_n_months">N maanden</string>
+    <string name="budgets_recurring_count_label">Aantal maanden</string>
+    <string name="budgets_recurring_badge_unlimited">Terugkerend</string>
+    <string name="budgets_recurring_badge_n_months">%1$d maanden</string>
+    <string name="budgets_save">Opslaan</string>
+    <string name="budgets_cancel">Annuleren</string>
+    <string name="budgets_delete">Verwijderen</string>
+    <string name="budgets_delete_confirm_title">"%1$s" verwijderen?</string>
+    <string name="budgets_delete_confirm_body">Dit verwijdert het budget. Transacties worden niet beïnvloed.</string>
+    <string name="budgets_placeholder_name">Boodschappen</string>
+    <string name="budgets_error_required">Verplicht</string>
+    <string name="budgets_error_amount">Voer een bedrag in &gt; 0</string>
+    <string name="budgets_error_count">Moet &gt; 0 zijn</string>
+    <string name="budgets_prev_month">Vorige maand</string>
+    <string name="budgets_next_month">Volgende maand</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Maand selecteren</string>
+    <string name="budgets_month_picker_now">Deze maand</string>
+    <string name="budgets_month_picker_ok">OK</string>
+    <string name="budgets_month_picker_cancel">Annuleren</string>
+    <string name="budgets_month_picker_prev_year_cd">Vorig jaar</string>
+    <string name="budgets_month_picker_next_year_cd">Volgend jaar</string>
+</resources>

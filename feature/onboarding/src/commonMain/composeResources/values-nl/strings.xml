@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Welkom bij MoneyM</string>
+    <string name="onboarding_currency_title">Kies uw standaardvaluta</string>
+    <string name="onboarding_continue">Doorgaan</string>
+    <string name="onboarding_security_title">Beveilig uw app</string>
+    <string name="onboarding_security_subtitle">Bescherm uw financiële gegevens met een pincode.</string>
+    <string name="onboarding_pin_label">Pincodeslot</string>
+    <string name="onboarding_pin_set">Pincode ingesteld ✓</string>
+    <string name="onboarding_done">Klaar</string>
+    <string name="onboarding_skip">Nu overslaan</string>
+    <string name="onboarding_skip_short">Overslaan</string>
+    <string name="onboarding_search_currency">Valuta zoeken…</string>
+    <string name="onboarding_currencies_header">VALUTA\'S</string>
+    <string name="onboarding_biometrics_label">Biometrie</string>
+    <string name="onboarding_biometrics_subtitle">Ontgrendelen met Face ID of vingerafdruk</string>
+    <string name="onboarding_restore_from_backup">Herstellen vanuit back-up</string>
+    <string name="onboarding_import_data">Gegevens importeren</string>
+    <string name="onboarding_restore_warning_title">Alle gegevens vervangen?</string>
+    <string name="onboarding_restore_warning_body">Dit vervangt uw huidige gegevens door de back-up en slaat de installatie over.</string>
+    <string name="onboarding_restore_confirm">Herstellen</string>
+    <string name="onboarding_restore_screen_title">Back-up herstellen</string>
+    <string name="onboarding_restore_local_button">Herstellen vanuit bestand</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">Google-account verbinden</string>
+    <string name="onboarding_restore_google_button">Herstellen vanuit Google Drive</string>
+    <string name="onboarding_restore_passphrase_label">Back-upwachtwoord</string>
+    <string name="onboarding_restore_app_close_notice">De app sluit na het herstellen. Open opnieuw om door te gaan.</string>
+    <string name="onboarding_restore_cancel">Annuleren</string>
+    <string name="onboarding_restore_remote_loading">Back-upinfo ophalen…</string>
+    <string name="onboarding_restore_wrong_password">Verkeerd wachtwoord of beschadigde back-up.</string>
+</resources>

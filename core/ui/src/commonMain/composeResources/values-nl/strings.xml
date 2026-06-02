@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Transacties</string>
+    <string name="tab_overview">Overzicht</string>
+    <string name="tab_settings">Instellingen</string>
+    <string name="amount_input_calculator_desc">Rekenmachine openen</string>
+    <string name="month_jan">Januari</string>
+    <string name="month_feb">Februari</string>
+    <string name="month_mar">Maart</string>
+    <string name="month_apr">April</string>
+    <string name="month_may">Mei</string>
+    <string name="month_jun">Juni</string>
+    <string name="month_jul">Juli</string>
+    <string name="month_aug">Augustus</string>
+    <string name="month_sep">September</string>
+    <string name="month_oct">Oktober</string>
+    <string name="month_nov">November</string>
+    <string name="month_dec">December</string>
+    <string name="colorpicker_title">Kies kleur</string>
+    <string name="colorpicker_hue">Tint</string>
+    <string name="colorpicker_saturation">Verzadiging</string>
+    <string name="colorpicker_brightness">Helderheid</string>
+    <string name="colorpicker_hex">Hexkleur</string>
+    <string name="colorpicker_select">Kleur selecteren</string>
+    <string name="colorpicker_cancel">Annuleren</string>
+    <string name="wallet_select">Portemonnee selecteren</string>
+    <string name="cancel">Annuleren</string>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">Transacties</string>
+    <string name="nav_tab_overview">Overzicht</string>
+    <string name="nav_tab_settings">Instellingen</string>
+    <string name="category_seed_groceries">Boodschappen</string>
+    <string name="category_seed_eating_out">Uit eten</string>
+    <string name="category_seed_rent">Huur</string>
+    <string name="category_seed_transport">Transport</string>
+    <string name="category_seed_utilities">Nutsvoorzieningen</string>
+    <string name="category_seed_health">Gezondheid</string>
+    <string name="category_seed_entertainment">Vermaak</string>
+    <string name="category_seed_shopping">Winkelen</string>
+    <string name="category_seed_other_expense">Overig</string>
+    <string name="category_seed_salary">Salaris</string>
+    <string name="category_seed_payment">Betaling</string>
+    <string name="category_seed_gift">Cadeau</string>
+    <string name="category_seed_other_income">Overig</string>
+</resources>
