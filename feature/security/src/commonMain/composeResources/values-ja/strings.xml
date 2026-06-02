@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">PINを設定</string>
+    <string name="security_pin_confirm_title">PINを確認</string>
+    <string name="security_pin_enter_title">PINを入力</string>
+    <string name="security_pin_subtitle_first">4桁のPINを入力してください</string>
+    <string name="security_pin_subtitle_confirm">PINを再入力してください</string>
+    <string name="security_pin_mismatch">PINが一致しません</string>
+    <string name="security_pin_incorrect">PINが正しくありません</string>
+    <string name="security_pin_locked">試行回数が多すぎます</string>
+    <string name="security_biometric_use">生体認証を使用</string>
+    <string name="security_biometric_reason">MoneyMのロックを解除</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">キャンセル</string>
+    <string name="security_backoff_retry">%1$d秒後に再試行</string>
+    <string name="security_change_pin_title">PINを変更</string>
+    <string name="security_pin_set_header">PINを設定してください</string>
+    <string name="security_pin_confirm_header">PINを確認してください</string>
+    <string name="security_pin_enter_header">PINを入力してください</string>
+    <string name="security_biometric_offer_title">生体認証を有効にしますか？</string>
+    <string name="security_biometric_offer_body">Face IDまたは指紋でMoneyMをすばやくロック解除できます。</string>
+    <string name="security_biometric_offer_enable">有効にする</string>
+    <string name="security_biometric_offer_skip">今はしない</string>
+    <string name="security_biometric_unlock_prompt">MoneyMのロックを解除</string>
+</resources>

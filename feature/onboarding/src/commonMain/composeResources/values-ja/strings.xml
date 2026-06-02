@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">MoneyMへようこそ</string>
+    <string name="onboarding_currency_title">デフォルト通貨を選択</string>
+    <string name="onboarding_continue">続ける</string>
+    <string name="onboarding_security_title">アプリを保護する</string>
+    <string name="onboarding_security_subtitle">PINで財務データを保護してください。</string>
+    <string name="onboarding_pin_label">PINロック</string>
+    <string name="onboarding_pin_set">PINが設定されました ✓</string>
+    <string name="onboarding_done">完了</string>
+    <string name="onboarding_skip">今はスキップ</string>
+    <string name="onboarding_skip_short">スキップ</string>
+    <string name="onboarding_search_currency">通貨を検索…</string>
+    <string name="onboarding_currencies_header">通貨</string>
+    <string name="onboarding_biometrics_label">生体認証</string>
+    <string name="onboarding_biometrics_subtitle">Face IDまたは指紋でロック解除</string>
+    <string name="onboarding_restore_from_backup">バックアップから復元</string>
+    <string name="onboarding_import_data">データをインポート</string>
+    <string name="onboarding_restore_warning_title">すべてのデータを置き換えますか？</string>
+    <string name="onboarding_restore_warning_body">現在のデータがバックアップで置き換えられ、セットアップがスキップされます。</string>
+    <string name="onboarding_restore_confirm">復元</string>
+    <string name="onboarding_restore_screen_title">バックアップを復元</string>
+    <string name="onboarding_restore_local_button">ファイルから復元</string>
+    <string name="onboarding_restore_google_section">Googleドライブ</string>
+    <string name="onboarding_restore_google_connect">Googleアカウントに接続</string>
+    <string name="onboarding_restore_google_button">Googleドライブから復元</string>
+    <string name="onboarding_restore_passphrase_label">バックアップパスワード</string>
+    <string name="onboarding_restore_app_close_notice">復元後にアプリが閉じます。続けるには再度開いてください。</string>
+    <string name="onboarding_restore_cancel">キャンセル</string>
+    <string name="onboarding_restore_remote_loading">バックアップ情報を取得中…</string>
+    <string name="onboarding_restore_wrong_password">パスワードが違うか、バックアップが破損しています。</string>
+</resources>

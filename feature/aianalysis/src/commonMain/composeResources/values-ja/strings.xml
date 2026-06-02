@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">分析</string>
+    <string name="analyze_intro">この期間の家計について何でも質問してください。</string>
+    <string name="analyze_input_hint">質問を入力…</string>
+    <string name="analyze_send_cd">送信</string>
+    <string name="analyze_grounding_label">データソース</string>
+    <string name="analyze_grounding_snapshot">スナップショット</string>
+    <string name="analyze_grounding_tools">ツール</string>
+    <string name="analyze_tools_fallback_notice">このモデルはツールに対応していません。代わりにスナップショットを使用します。</string>
+    <string name="analyze_error">エラーが発生しました。もう一度お試しください。</string>
+    <string name="analyze_generating">考え中…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>今月はいくら使いましたか？</item>
+        <item>支出が多いカテゴリは何ですか？</item>
+        <item>今月と先月を比較するとどうですか？</item>
+        <item>異常な大きな支出はありますか？</item>
+    </string-array>
+</resources>

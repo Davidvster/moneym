@@ -56,6 +56,7 @@ private val supportedLanguages = listOf(
     LanguageInfo("it", "Italiano", "Italian"),
     LanguageInfo("fr", "Français", "French"),
     LanguageInfo("pt", "Português", "Portuguese"),
+    LanguageInfo("ja", "日本語", "Japanese"),
     LanguageInfo("ru", "Русский", "Russian"),
     LanguageInfo("ar", "العربية", "Arabic"),
     LanguageInfo("hi", "हिन्दी", "Hindi"),

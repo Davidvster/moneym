@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">カテゴリ</string>
+    <string name="categories_add">カテゴリを追加</string>
+    <string name="categories_edit_title">カテゴリを編集</string>
+    <string name="categories_new_title">新しいカテゴリ</string>
+    <string name="categories_name_label">名前</string>
+    <string name="categories_name_error">名前は必須です</string>
+    <string name="categories_icon_label">アイコン</string>
+    <string name="categories_color_label">色</string>
+    <string name="categories_archive">アーカイブ</string>
+    <string name="categories_restore">復元</string>
+    <string name="categories_show_archived">アーカイブを表示</string>
+    <string name="categories_hide_archived">アーカイブを非表示</string>
+    <string name="categories_archived_badge">アーカイブ済み</string>
+    <string name="categories_empty">カテゴリがまだありません</string>
+    <string name="categories_back">戻る</string>
+    <string name="categories_show_archived_count">アーカイブを表示 (%1$d)</string>
+    <string name="categories_cancel">キャンセル</string>
+    <string name="categories_save">保存</string>
+    <string name="categories_new_button">新規</string>
+    <string name="categories_tab_expense">支出</string>
+    <string name="categories_tab_income">収入</string>
+    <string name="categories_hint">長押しで並べ替え</string>
+    <string name="categories_new_expense">新しい支出カテゴリ</string>
+    <string name="categories_new_income">新しい収入カテゴリ</string>
+    <string name="categories_name_placeholder">例：食料品</string>
+    <string name="categories_edit_sheet_title">カテゴリを編集</string>
+    <string name="categories_new_sheet_title">新しいカテゴリ</string>
+    <string name="categories_delete">カテゴリを削除</string>
+    <string name="categories_save_changes">変更を保存</string>
+    <string name="categories_create">カテゴリを作成</string>
+    <string name="categories_delete_confirm_title">"%1$s"を削除しますか？</string>
+    <string name="categories_delete_confirm_body">カテゴリが削除されます。使用中の取引に影響する場合があります。</string>
+    <string name="categories_delete_button">削除</string>
+    <string name="categories_color_picker_title">色を選択</string>
+    <string name="categories_color_hue">色相</string>
+    <string name="categories_color_saturation">彩度</string>
+    <string name="categories_color_brightness">明度</string>
+    <string name="categories_color_hex">HEXカラー</string>
+    <string name="categories_color_select">色を選択</string>
+    <string name="categories_name_preview_placeholder">カテゴリ名</string>
+</resources>

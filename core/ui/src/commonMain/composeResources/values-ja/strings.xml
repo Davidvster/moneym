@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">取引</string>
+    <string name="tab_overview">概要</string>
+    <string name="tab_settings">設定</string>
+    <string name="amount_input_calculator_desc">電卓を開く</string>
+    <string name="month_jan">1月</string>
+    <string name="month_feb">2月</string>
+    <string name="month_mar">3月</string>
+    <string name="month_apr">4月</string>
+    <string name="month_may">5月</string>
+    <string name="month_jun">6月</string>
+    <string name="month_jul">7月</string>
+    <string name="month_aug">8月</string>
+    <string name="month_sep">9月</string>
+    <string name="month_oct">10月</string>
+    <string name="month_nov">11月</string>
+    <string name="month_dec">12月</string>
+    <string name="colorpicker_title">色を選択</string>
+    <string name="colorpicker_hue">色相</string>
+    <string name="colorpicker_saturation">彩度</string>
+    <string name="colorpicker_brightness">明度</string>
+    <string name="colorpicker_hex">HEXカラー</string>
+    <string name="colorpicker_select">色を選択</string>
+    <string name="colorpicker_cancel">キャンセル</string>
+    <string name="wallet_select">ウォレットを選択</string>
+    <string name="cancel">キャンセル</string>
+</resources>

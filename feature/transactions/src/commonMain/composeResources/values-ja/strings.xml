@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">取引</string>
+    <string name="transactions_add">取引を追加</string>
+    <string name="transactions_filter_all">すべて</string>
+    <string name="transactions_filter_expenses">支出</string>
+    <string name="transactions_filter_income">収入</string>
+    <string name="transactions_filter_categories">カテゴリでフィルター</string>
+    <string name="transactions_filter_clear">クリア</string>
+    <string name="transactions_filter_done">完了</string>
+    <string name="transactions_empty">今月の取引はありません</string>
+    <string name="transactions_previous_month">前の月</string>
+    <string name="transactions_next_month">次の月</string>
+    <string name="transactions_loading">読み込み中…</string>
+    <string name="transactions_search_placeholder">取引を検索…</string>
+    <string name="transactions_search_cd">検索</string>
+    <string name="transactions_close_search_cd">検索を閉じる</string>
+    <string name="transactions_net_label">純額</string>
+    <string name="transactions_dialog_select_month">月を選択</string>
+    <string name="transactions_prev_year_cd">前の年</string>
+    <string name="transactions_next_year_cd">次の年</string>
+    <string name="transactions_now">現在</string>
+    <string name="transactions_ok">OK</string>
+    <string name="transactions_cancel">キャンセル</string>
+    <string name="transactions_wallet_select">ウォレットを選択</string>
+    <string name="transactions_wallet_all">すべてのウォレット</string>
+    <string name="transactions_syncing">同期中…</string>
+    <string name="transactions_pending_deletions">別のデバイスで %1$d 件削除されました — 確認してください</string>
+</resources>

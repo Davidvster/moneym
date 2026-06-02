@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">削除の確認</string>
+    <string name="sync_deletions_subtitle">別のデバイスがこれらのアイテムを削除しました。こちらでも削除するものを選んでください。チェックしていないアイテムは保持され、他のデバイスに復元されます。</string>
+    <string name="sync_deletions_group_wallets">ウォレット</string>
+    <string name="sync_deletions_group_transactions">取引</string>
+    <string name="sync_deletions_group_budgets">予算</string>
+    <string name="sync_deletions_group_recurring">定期</string>
+    <string name="sync_deletions_group_categories">カテゴリ</string>
+    <string name="sync_deletions_group_payment_modes">支払い方法</string>
+    <string name="sync_deletions_confirm">選択を削除</string>
+    <string name="sync_deletions_cancel">すべて保持</string>
+    <string name="sync_settings_title">デバイス間の同期</string>
+    <string name="sync_settings_toggle_title">デバイス間で同期</string>
+    <string name="sync_settings_toggle_subtitle">同じバックアップにサインインしているすべてのデバイスでデータを同期します。</string>
+    <string name="sync_settings_rename_label">このデバイス名</string>
+    <string name="sync_settings_rename_save">保存</string>
+    <string name="sync_settings_rename_cancel">キャンセル</string>
+    <string name="sync_settings_devices_header">デバイス</string>
+    <string name="sync_settings_this_device">このデバイス</string>
+    <string name="sync_settings_remove">削除</string>
+    <string name="sync_settings_last_synced_just_now">たった今同期しました</string>
+    <string name="sync_settings_last_synced_minutes">%1$d分前に同期しました</string>
+    <string name="sync_settings_last_synced_hours">%1$d時間前に同期しました</string>
+    <string name="sync_settings_last_synced_days">%1$d日前に同期しました</string>
+    <string name="sync_settings_last_synced_longer">しばらく前に同期しました</string>
+</resources>
