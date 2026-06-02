@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Yhteenveto</string>
+    <string name="overview_income">Tulot</string>
+    <string name="overview_expenses">Menot</string>
+    <string name="overview_by_category">Kulutus kategorioittain</string>
+    <string name="overview_trend">6 kuukauden trendi</string>
+    <string name="overview_all_categories">Kaikki kategoriat</string>
+    <string name="overview_empty">Ei tapahtumia tällä ajanjaksolla</string>
+    <string name="overview_previous_month">Edellinen kuukausi</string>
+    <string name="overview_next_month">Seuraava kuukausi</string>
+    <string name="overview_loading">Ladataan…</string>
+    <string name="overview_more">+ %1$d lisää</string>
+    <string name="overview_monthly_breakdown">Kuukausierittely</string>
+    <string name="overview_daily_breakdown">Päivittäinen erittely</string>
+    <string name="overview_all">Kaikki</string>
+    <string name="overview_previous">Edellinen</string>
+    <string name="overview_next">Seuraava</string>
+    <string name="overview_switch_to_month">Vaihda kuukausnäkymään</string>
+    <string name="overview_switch_to_year">Vaihda vuosinäkymään</string>
+    <string name="overview_period_month">Kuukausi</string>
+    <string name="overview_period_year">Vuosi</string>
+    <string name="overview_period_custom">Mukautettu</string>
+    <string name="overview_label_income">TULOT</string>
+    <string name="overview_label_expenses">MENOT</string>
+    <string name="overview_label_balance">SALDO</string>
+    <string name="overview_spending_by_category">Kulutus kategorioittain</string>
+    <string name="overview_no_expenses">Ei menoja tällä ajanjaksolla</string>
+    <string name="overview_label_total">YHTEENSÄ</string>
+    <string name="overview_cumulative_spend">Kumulatiivinen kulutus</string>
+    <string name="overview_through_day">päivään %1$d asti</string>
+    <string name="overview_daily_trend">Päivittäinen trendi kategorioittain</string>
+    <string name="overview_monthly_spending">Kuukausittainen kulutus</string>
+    <string name="overview_monthly_trend">Kuukausittainen trendi kategorioittain</string>
+    <string name="overview_avg_day">KESK / PV</string>
+    <string name="overview_avg_month">KESK / KK</string>
+    <string name="overview_dialog_select_month">Valitse kuukausi</string>
+    <string name="overview_dialog_select_year">Valitse vuosi</string>
+    <string name="overview_prev_year_cd">Edellinen vuosi</string>
+    <string name="overview_next_year_cd">Seuraava vuosi</string>
+    <string name="overview_analyze_cd">Analysoi tekoälyllä</string>
+    <string name="overview_now">Nyt</string>
+    <string name="overview_ok">OK</string>
+    <string name="overview_cancel">Peruuta</string>
+    <string name="overview_tx_count_singular">%1$d tapahtuma</string>
+    <string name="overview_tx_count_plural">%1$d tapahtumaa</string>
+    <string name="overview_cat_avg_day">kesk/pv</string>
+    <string name="overview_cat_avg_month">kesk/kk</string>
+    <string name="overview_date_range_title">Valitse päivämääräväli</string>
+    <string name="overview_date_range_from">ALKAEN</string>
+    <string name="overview_date_range_to">SAAKKA</string>
+    <string name="overview_budgets_title">Budjetit</string>
+    <string name="overview_budgets_all_categories">Kaikki kategoriat</string>
+    <string name="overview_budgets_remaining_suffix">%1$s jäljellä</string>
+    <string name="overview_budgets_overrun_suffix">%1$s yli</string>
+    <string-array name="overview_year_x_labels">
+        <item>tammi</item>
+        <item>huhti</item>
+        <item>heinä</item>
+        <item>loka</item>
+        <item>joulu</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>

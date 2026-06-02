@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Tervetuloa MoneyM:ään</string>
+    <string name="onboarding_currency_title">Valitse oletusvaluuttasi</string>
+    <string name="onboarding_continue">Jatka</string>
+    <string name="onboarding_security_title">Suojaa sovelluksesi</string>
+    <string name="onboarding_security_subtitle">Suojaa taloudelliset tietosi PIN-koodilla.</string>
+    <string name="onboarding_pin_label">PIN-lukko</string>
+    <string name="onboarding_pin_set">PIN asetettu ✓</string>
+    <string name="onboarding_done">Valmis</string>
+    <string name="onboarding_skip">Ohita nyt</string>
+    <string name="onboarding_skip_short">Ohita</string>
+    <string name="onboarding_search_currency">Etsi valuuttaa…</string>
+    <string name="onboarding_currencies_header">VALUUTAT</string>
+    <string name="onboarding_biometrics_label">Biometria</string>
+    <string name="onboarding_biometrics_subtitle">Avaa lukitus Face ID:llä tai sormenjäljellä</string>
+    <string name="onboarding_restore_from_backup">Palauta varmuuskopiosta</string>
+    <string name="onboarding_import_data">Tuo tiedot</string>
+    <string name="onboarding_restore_warning_title">Korvataanko kaikki tiedot?</string>
+    <string name="onboarding_restore_warning_body">Tämä korvaa nykyiset tietosi varmuuskopiolla ja ohittaa asennuksen.</string>
+    <string name="onboarding_restore_confirm">Palauta</string>
+    <string name="onboarding_restore_screen_title">Palauta varmuuskopio</string>
+    <string name="onboarding_restore_local_button">Palauta tiedostosta</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">Yhdistä Google-tili</string>
+    <string name="onboarding_restore_google_button">Palauta Google Drivesta</string>
+    <string name="onboarding_restore_passphrase_label">Varmuuskopion salasana</string>
+    <string name="onboarding_restore_app_close_notice">Sovellus sulkeutuu palautuksen jälkeen. Avaa se uudelleen jatkaaksesi.</string>
+    <string name="onboarding_restore_cancel">Peruuta</string>
+    <string name="onboarding_restore_remote_loading">Haetaan varmuuskopion tietoja…</string>
+    <string name="onboarding_restore_wrong_password">Väärä salasana tai vahingoittunut varmuuskopio.</string>
+</resources>

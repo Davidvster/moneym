@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Budjetit</string>
+    <string name="budgets_empty">Ei vielä budjetteja</string>
+    <string name="budgets_new">Uusi budjetti</string>
+    <string name="budgets_new_title">Uusi budjetti</string>
+    <string name="budgets_edit_title">Muokkaa budjettia</string>
+    <string name="budgets_name_label">Nimi</string>
+    <string name="budgets_amount_label">Summa</string>
+    <string name="budgets_account_label">Tili</string>
+    <string name="budgets_account_filter_label">Tili</string>
+    <string name="budgets_category_label">Kategoria</string>
+    <string name="budgets_all_categories">Kaikki kategoriat</string>
+    <string name="budgets_start_month">Alkukuukausi</string>
+    <string name="budgets_recurring">Toistuva</string>
+    <string name="budgets_recurring_single">Kertasuoritus</string>
+    <string name="budgets_recurring_unlimited">Rajoittamaton</string>
+    <string name="budgets_recurring_n_months">N kuukautta</string>
+    <string name="budgets_recurring_count_label">Kuukausien määrä</string>
+    <string name="budgets_recurring_badge_unlimited">Toistuva</string>
+    <string name="budgets_recurring_badge_n_months">%1$d kuukautta</string>
+    <string name="budgets_save">Tallenna</string>
+    <string name="budgets_cancel">Peruuta</string>
+    <string name="budgets_delete">Poista</string>
+    <string name="budgets_delete_confirm_title">Poistetaanko „%1$s"?</string>
+    <string name="budgets_delete_confirm_body">Tämä poistaa budjetin. Tapahtumat eivät muutu.</string>
+    <string name="budgets_placeholder_name">Ruokaostokset</string>
+    <string name="budgets_error_required">Pakollinen</string>
+    <string name="budgets_error_amount">Syötä summa &gt; 0</string>
+    <string name="budgets_error_count">Täytyy olla &gt; 0</string>
+    <string name="budgets_prev_month">Edellinen kuukausi</string>
+    <string name="budgets_next_month">Seuraava kuukausi</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Valitse kuukausi</string>
+    <string name="budgets_month_picker_now">Tämä kuukausi</string>
+    <string name="budgets_month_picker_ok">OK</string>
+    <string name="budgets_month_picker_cancel">Peruuta</string>
+    <string name="budgets_month_picker_prev_year_cd">Edellinen vuosi</string>
+    <string name="budgets_month_picker_next_year_cd">Seuraava vuosi</string>
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Kategoriat</string>
+    <string name="categories_add">Lisää kategoria</string>
+    <string name="categories_edit_title">Muokkaa kategoriaa</string>
+    <string name="categories_new_title">Uusi kategoria</string>
+    <string name="categories_name_label">Nimi</string>
+    <string name="categories_name_error">Nimi on pakollinen</string>
+    <string name="categories_icon_label">Kuvake</string>
+    <string name="categories_color_label">Väri</string>
+    <string name="categories_archive">Arkistoi</string>
+    <string name="categories_restore">Palauta</string>
+    <string name="categories_show_archived">Näytä arkistoidut</string>
+    <string name="categories_hide_archived">Piilota arkistoidut</string>
+    <string name="categories_archived_badge">Arkistoitu</string>
+    <string name="categories_empty">Ei vielä kategorioita</string>
+    <string name="categories_back">Takaisin</string>
+    <string name="categories_show_archived_count">Näytä arkistoidut (%1$d)</string>
+    <string name="categories_cancel">Peruuta</string>
+    <string name="categories_save">Tallenna</string>
+    <string name="categories_new_button">Uusi</string>
+    <string name="categories_tab_expense">Meno</string>
+    <string name="categories_tab_income">Tulo</string>
+    <string name="categories_hint">pidä painettuna järjestelläksesi</string>
+    <string name="categories_new_expense">Uusi menoategoria</string>
+    <string name="categories_new_income">Uusi tulokategoria</string>
+    <string name="categories_name_placeholder">esim. Ruokaostokset</string>
+    <string name="categories_edit_sheet_title">Muokkaa kategoriaa</string>
+    <string name="categories_new_sheet_title">Uusi kategoria</string>
+    <string name="categories_delete">Poista kategoria</string>
+    <string name="categories_save_changes">Tallenna muutokset</string>
+    <string name="categories_create">Luo kategoria</string>
+    <string name="categories_delete_confirm_title">Poistetaanko „%1$s"?</string>
+    <string name="categories_delete_confirm_body">Tämä poistaa kategorian. Siihen liittyvät tapahtumat saattavat muuttua.</string>
+    <string name="categories_delete_button">Poista</string>
+    <string name="categories_color_picker_title">Valitse väri</string>
+    <string name="categories_color_hue">Sävy</string>
+    <string name="categories_color_saturation">Kylläisyys</string>
+    <string name="categories_color_brightness">Kirkkaus</string>
+    <string name="categories_color_hex">Hex-väri</string>
+    <string name="categories_color_select">Valitse väri</string>
+    <string name="categories_name_preview_placeholder">Kategorian nimi</string>
+</resources>

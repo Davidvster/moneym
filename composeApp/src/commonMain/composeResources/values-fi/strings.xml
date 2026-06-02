@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">Tapahtumat</string>
+    <string name="nav_tab_overview">Yhteenveto</string>
+    <string name="nav_tab_settings">Asetukset</string>
+    <string name="category_seed_groceries">Ruokaostokset</string>
+    <string name="category_seed_eating_out">Ravintolat</string>
+    <string name="category_seed_rent">Vuokra</string>
+    <string name="category_seed_transport">Liikenne</string>
+    <string name="category_seed_utilities">Laskut</string>
+    <string name="category_seed_health">Terveys</string>
+    <string name="category_seed_entertainment">Viihde</string>
+    <string name="category_seed_shopping">Ostokset</string>
+    <string name="category_seed_other_expense">Muut</string>
+    <string name="category_seed_salary">Palkka</string>
+    <string name="category_seed_payment">Maksu</string>
+    <string name="category_seed_gift">Lahja</string>
+    <string name="category_seed_other_income">Muut</string>
+</resources>

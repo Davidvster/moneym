@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">Aseta PIN</string>
+    <string name="security_pin_confirm_title">Vahvista PIN</string>
+    <string name="security_pin_enter_title">Syötä PIN-koodisi</string>
+    <string name="security_pin_subtitle_first">Syötä 4-numeroinen PIN</string>
+    <string name="security_pin_subtitle_confirm">Syötä PIN uudelleen</string>
+    <string name="security_pin_mismatch">PIN-koodit eivät täsmää</string>
+    <string name="security_pin_incorrect">Väärä PIN</string>
+    <string name="security_pin_locked">Liian monta yritystä</string>
+    <string name="security_biometric_use">Käytä biometriaa</string>
+    <string name="security_biometric_reason">Avaa MoneyM</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Peruuta</string>
+    <string name="security_backoff_retry">Yritä uudelleen %1$ds kuluttua</string>
+    <string name="security_change_pin_title">Vaihda PIN</string>
+    <string name="security_pin_set_header">Aseta PIN-koodisi</string>
+    <string name="security_pin_confirm_header">Vahvista PIN-koodisi</string>
+    <string name="security_pin_enter_header">Syötä PIN-koodisi</string>
+    <string name="security_biometric_offer_title">Otetaanko biometria käyttöön?</string>
+    <string name="security_biometric_offer_body">Avaa MoneyM nopeasti Face ID:llä tai sormenjäljellä.</string>
+    <string name="security_biometric_offer_enable">Ota käyttöön</string>
+    <string name="security_biometric_offer_skip">Ei nyt</string>
+    <string name="security_biometric_unlock_prompt">Avaa MoneyM</string>
+</resources>

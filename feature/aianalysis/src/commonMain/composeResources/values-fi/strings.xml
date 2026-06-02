@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analysoi</string>
+    <string name="analyze_intro">Kysy mitä tahansa taloudestasi tältä ajanjaksolta.</string>
+    <string name="analyze_input_hint">Esitä kysymys…</string>
+    <string name="analyze_send_cd">Lähetä</string>
+    <string name="analyze_grounding_label">Tietolähde</string>
+    <string name="analyze_grounding_snapshot">Tilannekuva</string>
+    <string name="analyze_grounding_tools">Työkalut</string>
+    <string name="analyze_tools_fallback_notice">Tämä malli ei tue työkaluja. Käytetään tilannekuvaa.</string>
+    <string name="analyze_error">Jokin meni pieleen. Yritä uudelleen.</string>
+    <string name="analyze_generating">Mietitään…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Kuinka paljon käytin tässä kuussa?</item>
+        <item>Mitkä ovat suurimmat menokatgoriani?</item>
+        <item>Miten tämä kuukausi vertautuu edelliseen?</item>
+        <item>Onko epätavallisia tai suuria menoja?</item>
+    </string-array>
+</resources>

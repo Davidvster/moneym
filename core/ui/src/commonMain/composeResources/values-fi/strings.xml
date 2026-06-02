@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Tapahtumat</string>
+    <string name="tab_overview">Yhteenveto</string>
+    <string name="tab_settings">Asetukset</string>
+    <string name="amount_input_calculator_desc">Avaa laskin</string>
+    <string name="month_jan">Tammikuu</string>
+    <string name="month_feb">Helmikuu</string>
+    <string name="month_mar">Maaliskuu</string>
+    <string name="month_apr">Huhtikuu</string>
+    <string name="month_may">Toukokuu</string>
+    <string name="month_jun">Kesäkuu</string>
+    <string name="month_jul">Heinäkuu</string>
+    <string name="month_aug">Elokuu</string>
+    <string name="month_sep">Syyskuu</string>
+    <string name="month_oct">Lokakuu</string>
+    <string name="month_nov">Marraskuu</string>
+    <string name="month_dec">Joulukuu</string>
+    <string name="colorpicker_title">Valitse väri</string>
+    <string name="colorpicker_hue">Sävy</string>
+    <string name="colorpicker_saturation">Kylläisyys</string>
+    <string name="colorpicker_brightness">Kirkkaus</string>
+    <string name="colorpicker_hex">Hex-väri</string>
+    <string name="colorpicker_select">Valitse väri</string>
+    <string name="colorpicker_cancel">Peruuta</string>
+    <string name="wallet_select">Valitse lompakko</string>
+    <string name="cancel">Peruuta</string>
+</resources>

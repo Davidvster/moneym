@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Vahvista poistot</string>
+    <string name="sync_deletions_subtitle">Toinen laite poisti nämä kohteet. Valitse, mitkä poistetaan myös täältä. Valitsemattomat kohteet säilytetään ja palautetaan toiseen laitteeseen.</string>
+    <string name="sync_deletions_group_wallets">Lompakot</string>
+    <string name="sync_deletions_group_transactions">Tapahtumat</string>
+    <string name="sync_deletions_group_budgets">Budjetit</string>
+    <string name="sync_deletions_group_recurring">Toistuvat</string>
+    <string name="sync_deletions_group_categories">Kategoriat</string>
+    <string name="sync_deletions_group_payment_modes">Maksutavat</string>
+    <string name="sync_deletions_confirm">Poista valitut</string>
+    <string name="sync_deletions_cancel">Säilytä kaikki</string>
+    <string name="sync_settings_title">Laitteiden välinen synkronointi</string>
+    <string name="sync_settings_toggle_title">Synkronoi laitteiden välillä</string>
+    <string name="sync_settings_toggle_subtitle">Pidä tietosi synkronoituina kaikilla laitteilla, jotka on kirjautunut samaan varmuuskopioon.</string>
+    <string name="sync_settings_rename_label">Tämän laitteen nimi</string>
+    <string name="sync_settings_rename_save">Tallenna</string>
+    <string name="sync_settings_rename_cancel">Peruuta</string>
+    <string name="sync_settings_devices_header">LAITTEET</string>
+    <string name="sync_settings_this_device">Tämä laite</string>
+    <string name="sync_settings_remove">Poista</string>
+    <string name="sync_settings_last_synced_just_now">synkronoitu juuri nyt</string>
+    <string name="sync_settings_last_synced_minutes">synkronoitu %1$d min sitten</string>
+    <string name="sync_settings_last_synced_hours">synkronoitu %1$d t sitten</string>
+    <string name="sync_settings_last_synced_days">synkronoitu %1$d pv sitten</string>
+    <string name="sync_settings_last_synced_longer">synkronoitu kauan sitten</string>
+</resources>

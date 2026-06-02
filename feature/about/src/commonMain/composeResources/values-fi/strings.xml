@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Tietoja</string>
+    <string name="about_terms">Käyttöehdot</string>
+    <string name="about_privacy">Tietosuojakäytäntö</string>
+</resources>
