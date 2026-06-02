@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
+import com.dv.moneym.core.common.AppLogger
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
@@ -24,6 +25,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
+import moneym.feature.onboarding.generated.resources.Res
+import moneym.feature.onboarding.generated.resources.onboarding_restore_error_fetch_info
+import moneym.feature.onboarding.generated.resources.onboarding_restore_error_restore_failed
+import moneym.feature.onboarding.generated.resources.onboarding_restore_error_sign_in_failed
+import org.jetbrains.compose.resources.getString
 
 @Serializable
 data class OnboardingRestoreUiState(
@@ -80,6 +86,8 @@ class OnboardingRestoreViewModel(
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, _base.value)
 
+    private val logger = AppLogger.tag("OnboardingRestore")
+
     private var pendingRestoreBytes: ByteArray? = null
 
     fun onIntent(intent: OnboardingRestoreIntent) {
@@ -122,10 +130,12 @@ class OnboardingRestoreViewModel(
                 appSettings.putBoolean(PrefKeys.ONBOARDING_COMPLETED, true)
                 withContext(dispatchers.io) { dbBackupManager.restore(plain) }
             } catch (e: BackupCryptoError) {
+                logger.e(e) { "Local restore crypto error" }
                 _base.update {
                     it.copy(isLoading = false, showLocalRestoreDialog = true, localError = e.message)
                 }
             } catch (e: Exception) {
+                logger.e(e) { "Local restore failed" }
                 _base.update {
                     it.copy(isLoading = false, showLocalRestoreDialog = true, localError = e.message)
                 }
@@ -150,7 +160,9 @@ class OnboardingRestoreViewModel(
                     }
                 }
                 .onFailure { t ->
-                    _base.update { it.copy(remoteError = t.message ?: "Sign-in failed") }
+                    logger.e(t) { "Google sign-in failed" }
+                    val msg = t.message ?: getString(Res.string.onboarding_restore_error_sign_in_failed)
+                    _base.update { it.copy(remoteError = msg) }
                 }
         }
     }
@@ -171,11 +183,14 @@ class OnboardingRestoreViewModel(
                     _base.update { it.copy(remotePreview = meta, remotePreviewLoading = false) }
                 }
                 .onFailure { t ->
+                    logger.e(t) { "Remote restore metadata peek failed" }
+                    val msg = t.message ?: getString(Res.string.onboarding_restore_error_fetch_info)
                     _base.update {
                         it.copy(
-                            showRemoteRestoreDialog = false,
+                            showRemoteRestoreDialog = true,
                             remotePreviewLoading = false,
-                            remoteError = t.message ?: "Failed to fetch backup info",
+                            remotePreview = null,
+                            remoteError = msg,
                         )
                     }
                 }
@@ -184,11 +199,13 @@ class OnboardingRestoreViewModel(
 
     private fun handleRemoteRestoreConfirmed(passphrase: CharArray) {
         val manager = remoteBackupManager ?: return
-        _base.update { it.copy(showRemoteRestoreDialog = false, isLoading = true) }
+        _base.update { it.copy(remotePreviewLoading = true, remoteError = null) }
         viewModelScope.launch {
             appSettings.putBoolean(PrefKeys.ONBOARDING_COMPLETED, true)
             manager.restoreLatest(passphrase).onFailure { t ->
-                _base.update { it.copy(isLoading = false, remoteError = t.message ?: "Restore failed") }
+                logger.e(t) { "Remote restore failed" }
+                val msg = t.message ?: getString(Res.string.onboarding_restore_error_restore_failed)
+                _base.update { it.copy(remotePreviewLoading = false, remoteError = msg) }
             }
             passphrase.fill(' ')
         }

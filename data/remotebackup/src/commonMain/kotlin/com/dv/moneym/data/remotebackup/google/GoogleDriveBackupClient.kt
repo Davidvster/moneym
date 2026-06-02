@@ -152,6 +152,7 @@ class GoogleDriveBackupClient(
         name = name,
         modifiedAtMs = modifiedTime?.parseRfc3339() ?: 0L,
         sizeBytes = size?.toLongOrNull() ?: 0L,
+        appProperties = appProperties ?: emptyMap(),
     )
 
     private fun String.parseRfc3339(): Long? = runCatching { Instant.parse(this).toEpochMilliseconds() }.getOrNull()

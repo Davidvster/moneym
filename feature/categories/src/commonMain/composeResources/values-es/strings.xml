@@ -40,4 +40,6 @@
     <string name="categories_color_hex">Color hexadecimal</string>
     <string name="categories_color_select">Seleccionar color</string>
     <string name="categories_name_preview_placeholder">Nombre de categoría</string>
+    <string name="categories_name_blank">El nombre no puede estar vacío</string>
+    <string name="categories_name_duplicate">Ya existe una categoría con este nombre</string>
 </resources>

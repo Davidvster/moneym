@@ -73,8 +73,8 @@ class RemoteBackupManager(
     suspend fun peekLatestMetadata(): Result<RemoteBackupMetadata?> = runCatching {
         val ref = provider.latest() ?: return@runCatching null
         val bytes = provider.download(ref)
-        if (isEncryptedEnvelope(bytes)) {
-            val envelope: EncryptedBackup = BackupEnvelopeJson.decodeBytes(bytes)
+        if (isEncrypted(ref, bytes)) {
+            val envelope: EncryptedBackup = decodeEnvelope(bytes)
             RemoteBackupMetadata(
                 createdAtMs = envelope.createdAt,
                 appVersion = envelope.appVersion,
@@ -101,9 +101,9 @@ class RemoteBackupManager(
                 _runtime.value = RemoteBackupRuntimeState.Downloading
                 val ref = provider.latest() ?: throw RemoteBackupError.NotFound()
                 val bytes = provider.download(ref)
-                val plain = if (isEncryptedEnvelope(bytes)) {
+                val plain = if (isEncrypted(ref, bytes)) {
                     _runtime.value = RemoteBackupRuntimeState.Decrypting
-                    val envelope = BackupEnvelopeJson.decodeBytes(bytes)
+                    val envelope = decodeEnvelope(bytes)
                     crypto.decrypt(envelope, passphrase)
                 } else {
                     bytes
@@ -186,12 +186,29 @@ class RemoteBackupManager(
         }
     }
 
+    suspend fun deleteAllRemoteData(): Result<Unit> = runCatching {
+        uploadLock.withLock {
+            val all = provider.list(limit = MAX_LIST_LIMIT)
+            all.forEach { file ->
+                runCatching { provider.delete(file) }
+                    .onFailure { logger.w(it) { "Failed to delete remote file ${file.id}" } }
+            }
+        }
+    }.onFailure { logger.e(it) { "Delete all remote data failed" } }
+
     private fun timestampedName(createdAt: Long): String = "moneym-backup-$createdAt.bin"
 
     private fun plaintextName(createdAt: Long): String = "moneym-backup-$createdAt.zip"
 
-    private fun isEncryptedEnvelope(bytes: ByteArray): Boolean =
-        bytes.isNotEmpty() && bytes[0] == '{'.code.toByte()
+    private fun decodeEnvelope(bytes: ByteArray): EncryptedBackup =
+        runCatching { BackupEnvelopeJson.decodeBytes(bytes) }
+            .getOrElse { t ->
+                logger.e(t) { "Failed to decode encrypted backup envelope" }
+                throw RemoteBackupError.CorruptBackup(t)
+            }
+
+    private fun isEncrypted(ref: RemoteFileRef, bytes: ByteArray): Boolean =
+        isEncryptedRemoteBackup(ref.appProperties, ref.name, bytes)
 
     private suspend fun pruneOldBackups() {
         if (retentionCount <= 0) return
@@ -218,6 +235,7 @@ class RemoteBackupManager(
         is BackupCryptoError.PlatformFailure -> "Encryption failed: ${t.message}"
         is RemoteBackupError.NotAuthenticated -> "Google Drive access denied. Please disconnect and reconnect your account."
         is RemoteBackupError.NotFound -> "No remote backup found"
+        is RemoteBackupError.CorruptBackup -> "Backup file is corrupt or unrecognized"
         is RemoteBackupError.Http -> "Server error: HTTP ${t.status}"
         is RemoteBackupError.Network -> "Network error"
         else -> t.message ?: "Unknown error"
@@ -228,5 +246,22 @@ class RemoteBackupManager(
         const val CURRENT_SCHEMA = 1
         const val DEFAULT_DEBOUNCE_MS = 5_000L
         const val DEFAULT_RETENTION_COUNT = 5
+        const val MAX_LIST_LIMIT = 1000
     }
+}
+
+/**
+ * Decides whether a remote backup file is an encrypted envelope.
+ * Precedence: authoritative `encrypted` appProperty → filename suffix
+ * (`.bin` = encrypted, `.zip` = plaintext) → first-byte sniff for legacy files.
+ */
+internal fun isEncryptedRemoteBackup(
+    appProperties: Map<String, String>,
+    name: String,
+    bytes: ByteArray,
+): Boolean {
+    appProperties["encrypted"]?.let { return it.toBoolean() }
+    if (name.endsWith(".bin")) return true
+    if (name.endsWith(".zip")) return false
+    return bytes.isNotEmpty() && bytes[0] == '{'.code.toByte()
 }

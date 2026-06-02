@@ -237,4 +237,13 @@
     <string name="settings_recurring_new">New recurring transaction</string>
     <string name="settings_section_about">ABOUT</string>
     <string name="settings_about">About</string>
+    <string name="settings_remote_error_sign_in_failed">Sign-in failed</string>
+    <string name="settings_remote_error_restore_failed">Restore failed</string>
+    <string name="settings_remote_error_backup_failed">Backup failed</string>
+    <string name="settings_remote_error_fetch_info">Failed to fetch backup info</string>
+    <string name="settings_remote_delete_data">Delete Google Drive data</string>
+    <string name="settings_remote_delete_title">Delete Google Drive data?</string>
+    <string name="settings_remote_delete_body">This permanently deletes all cloud backups and sync data from your Google Drive, and turns off automatic backup and cross-device sync. This can\'t be undone.</string>
+    <string name="settings_remote_delete_confirm">Delete</string>
+    <string name="settings_import_failed">Import failed</string>
 </resources>

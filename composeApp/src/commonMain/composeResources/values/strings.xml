@@ -2,6 +2,7 @@
     <string name="nav_tab_transactions">Transactions</string>
     <string name="nav_tab_overview">Overview</string>
     <string name="nav_tab_settings">Settings</string>
+    <string name="default_account_name">Main</string>
     <string name="category_seed_groceries">Groceries</string>
     <string name="category_seed_eating_out">Eating out</string>
     <string name="category_seed_rent">Rent</string>

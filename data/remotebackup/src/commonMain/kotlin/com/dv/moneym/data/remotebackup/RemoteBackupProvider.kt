@@ -5,6 +5,7 @@ data class RemoteFileRef(
     val name: String,
     val modifiedAtMs: Long,
     val sizeBytes: Long,
+    val appProperties: Map<String, String> = emptyMap(),
 )
 
 interface RemoteBackupProvider {
@@ -43,4 +44,6 @@ sealed class RemoteBackupError(message: String, cause: Throwable? = null) :
     class Http(val status: Int, val body: String) :
         RemoteBackupError("HTTP $status: ${body.take(500)}")
     class NotFound : RemoteBackupError("Backup not found on remote")
+    class CorruptBackup(cause: Throwable? = null) :
+        RemoteBackupError("Remote backup file is corrupt or unrecognized", cause)
 }

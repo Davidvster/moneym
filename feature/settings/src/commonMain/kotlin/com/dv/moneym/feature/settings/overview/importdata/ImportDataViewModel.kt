@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
+import com.dv.moneym.core.common.AppLogger
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
@@ -29,6 +30,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.settings_import_failed
+import org.jetbrains.compose.resources.getString
 
 class ImportDataViewModel(
     private val holder: CsvImportHolder,
@@ -40,6 +44,8 @@ class ImportDataViewModel(
     private val clock: AppClock,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+
+    private val logger = AppLogger.tag("ImportData")
 
     private val _state by savedStateHandle.saved { MutableStateFlow(ImportDataUiState()) }
 
@@ -201,8 +207,9 @@ class ImportDataViewModel(
                 _state.update { it.copy(isImporting = false) }
                 _effects.send(ImportDataEffect.ImportDone)
             } catch (e: Exception) {
+                logger.e(e) { "CSV import failed" }
                 _state.update { it.copy(isImporting = false) }
-                _effects.send(ImportDataEffect.ShowError(e.message ?: "Import failed"))
+                _effects.send(ImportDataEffect.ShowError(e.message ?: getString(Res.string.settings_import_failed)))
             }
         }
     }

@@ -235,4 +235,13 @@
     <string name="settings_recurring_new">Neue Dauertransaktion</string>
     <string name="settings_section_about">ÜBER</string>
     <string name="settings_about">Über</string>
+    <string name="settings_remote_error_sign_in_failed">Anmeldung fehlgeschlagen</string>
+    <string name="settings_remote_error_restore_failed">Wiederherstellung fehlgeschlagen</string>
+    <string name="settings_remote_error_backup_failed">Sicherung fehlgeschlagen</string>
+    <string name="settings_remote_error_fetch_info">Sicherungsinfo konnte nicht abgerufen werden</string>
+    <string name="settings_remote_delete_data">Google Drive-Daten löschen</string>
+    <string name="settings_remote_delete_title">Google Drive-Daten löschen?</string>
+    <string name="settings_remote_delete_body">Dadurch werden alle Cloud-Sicherungen und Synchronisierungsdaten dauerhaft aus deinem Google Drive gelöscht und die automatische Sicherung sowie die geräteübergreifende Synchronisierung deaktiviert. Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="settings_remote_delete_confirm">Löschen</string>
+    <string name="settings_import_failed">Import fehlgeschlagen</string>
 </resources>

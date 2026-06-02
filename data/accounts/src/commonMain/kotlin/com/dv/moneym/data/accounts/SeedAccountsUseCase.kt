@@ -9,7 +9,7 @@ class SeedAccountsUseCase(
     private val repository: AccountRepository,
     private val settings: AppSettings,
     private val clock: AppClock,
-    private val defaultName: String,
+    private val defaultName: suspend () -> String,
 ) {
     suspend operator fun invoke() {
         if (repository.count() > 0L) return
@@ -19,7 +19,7 @@ class SeedAccountsUseCase(
             AccountSyncRow(
                 id = 0,
                 syncId = "seed-account-default",
-                name = defaultName,
+                name = defaultName(),
                 type = AccountType.CASH.name,
                 currency = currency,
                 isDefault = true,

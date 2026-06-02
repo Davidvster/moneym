@@ -235,4 +235,13 @@
     <string name="settings_recurring_new">Nueva transacción recurrente</string>
     <string name="settings_section_about">ACERCA DE</string>
     <string name="settings_about">Acerca de</string>
+    <string name="settings_remote_error_sign_in_failed">Error al iniciar sesión</string>
+    <string name="settings_remote_error_restore_failed">Error al restaurar</string>
+    <string name="settings_remote_error_backup_failed">Error en la copia de seguridad</string>
+    <string name="settings_remote_error_fetch_info">No se pudo obtener la información de la copia</string>
+    <string name="settings_remote_delete_data">Eliminar datos de Google Drive</string>
+    <string name="settings_remote_delete_title">¿Eliminar datos de Google Drive?</string>
+    <string name="settings_remote_delete_body">Esto elimina permanentemente todas las copias de seguridad en la nube y los datos de sincronización de tu Google Drive, y desactiva la copia automática y la sincronización entre dispositivos. No se puede deshacer.</string>
+    <string name="settings_remote_delete_confirm">Eliminar</string>
+    <string name="settings_import_failed">Error al importar</string>
 </resources>

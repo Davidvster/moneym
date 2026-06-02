@@ -17,12 +17,12 @@ class SeedAccountsUseCaseTest {
         repo: FakeAccountRepository = FakeAccountRepository(),
         settings: FakeAppSettings = FakeAppSettings(),
         name: String = "Main",
-    ) = SeedAccountsUseCase(repo, settings, fakeClock, name)
+    ) = SeedAccountsUseCase(repo, settings, fakeClock, { name })
 
     @Test
     fun seedsOneDefaultAccountOnFirstRun() = runTestWithDispatchers {
         val repo = FakeAccountRepository()
-        val useCase = SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, "Main")
+        val useCase = SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, { "Main" })
 
         useCase()
 
@@ -33,7 +33,7 @@ class SeedAccountsUseCaseTest {
     @Test
     fun doesNotSeedWhenAccountAlreadyExists() = runTestWithDispatchers {
         val repo = FakeAccountRepository()
-        val useCase = SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, "Main")
+        val useCase = SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, { "Main" })
 
         useCase()
         useCase()
@@ -46,7 +46,7 @@ class SeedAccountsUseCaseTest {
         val repo = FakeAccountRepository()
         val settings = FakeAppSettings()
         settings.putString("pref.default_currency", "USD")
-        val useCase = SeedAccountsUseCase(repo, settings, fakeClock, "Main")
+        val useCase = SeedAccountsUseCase(repo, settings, fakeClock, { "Main" })
 
         useCase()
 
@@ -56,7 +56,7 @@ class SeedAccountsUseCaseTest {
     @Test
     fun fallsBackToEurWhenNoCurrencySet() = runTestWithDispatchers {
         val repo = FakeAccountRepository()
-        val useCase = SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, "Main")
+        val useCase = SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, { "Main" })
 
         useCase()
 
@@ -66,7 +66,7 @@ class SeedAccountsUseCaseTest {
     @Test
     fun usesProvidedDefaultName() = runTestWithDispatchers {
         val repo = FakeAccountRepository()
-        val useCase = SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, "Wallet")
+        val useCase = SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, { "Wallet" })
         useCase()
         assertEquals("Wallet", repo.accounts.first().name)
     }
@@ -74,7 +74,7 @@ class SeedAccountsUseCaseTest {
     @Test
     fun seedsDeterministicSyncId() = runTestWithDispatchers {
         val repo = FakeAccountRepository()
-        SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, "Main")()
+        SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, { "Main" })()
 
         assertEquals("seed-account-default", repo.exportForSync().single().syncId)
     }
@@ -83,9 +83,9 @@ class SeedAccountsUseCaseTest {
     fun reSeedIsIdempotentBySyncId() = runTestWithDispatchers {
         val repo = FakeAccountRepository()
         // Two devices seeding independently with different localized names must merge to one row.
-        SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, "Main")()
+        SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, { "Main" })()
         repo.deleteAll() // simulate count()==0 guard not firing across a wipe; re-run still stable
-        SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, "Hauptkonto")()
+        SeedAccountsUseCase(repo, FakeAppSettings(), fakeClock, { "Hauptkonto" })()
 
         assertEquals(1, repo.accounts.size)
         assertEquals("seed-account-default", repo.exportForSync().single().syncId)

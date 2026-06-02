@@ -21,6 +21,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import moneym.feature.categories.generated.resources.Res
+import moneym.feature.categories.generated.resources.categories_name_blank
+import moneym.feature.categories.generated.resources.categories_name_duplicate
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.getString
 import kotlin.time.Clock
 
 class CategoryListViewModel(
@@ -175,17 +180,24 @@ class CategoryListViewModel(
         _manualOrder.update { mutable.map { it.id.value } }
     }
 
+    private fun setNameError(res: StringResource) {
+        viewModelScope.launch {
+            val msg = getString(res)
+            _editState.update { it.copy(nameError = msg) }
+        }
+    }
+
     private fun createCategory(name: String, icon: Icon, colorHex: String) {
         val trimmed = name.trim()
         if (trimmed.isBlank()) {
-            _editState.update { it.copy(nameError = "Name cannot be blank") }
+            setNameError(Res.string.categories_name_blank)
             return
         }
         val tabType =
             if (_activeTab.value == CategoryTab.Expense) TransactionType.EXPENSE else TransactionType.INCOME
         val isDuplicate = state.value.active.any { it.name.equals(trimmed, ignoreCase = true) }
         if (isDuplicate) {
-            _editState.update { it.copy(nameError = "A category with this name already exists") }
+            setNameError(Res.string.categories_name_duplicate)
             return
         }
         closeSheet()
@@ -211,14 +223,14 @@ class CategoryListViewModel(
     private fun updateCategory(id: CategoryId, name: String, icon: Icon, colorHex: String) {
         val trimmed = name.trim()
         if (trimmed.isBlank()) {
-            _editState.update { it.copy(nameError = "Name cannot be blank") }
+            setNameError(Res.string.categories_name_blank)
             return
         }
         val isDuplicate = state.value.active.any {
             it.id != id && it.name.equals(trimmed, ignoreCase = true)
         }
         if (isDuplicate) {
-            _editState.update { it.copy(nameError = "A category with this name already exists") }
+            setNameError(Res.string.categories_name_duplicate)
             return
         }
         closeSheet()

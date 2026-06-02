@@ -34,6 +34,7 @@ import com.dv.moneym.core.model.Icon.ChevronRight
 import com.dv.moneym.core.model.Icon.Download
 import com.dv.moneym.core.model.Icon.Folder
 import com.dv.moneym.core.ui.MmCard
+import com.dv.moneym.core.ui.MmDeleteSheet
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmDialog
 import com.dv.moneym.core.ui.MmField
@@ -67,6 +68,10 @@ import moneym.feature.settings.generated.resources.settings_remote_auto_backup_s
 import moneym.feature.settings.generated.resources.settings_remote_backup_now
 import moneym.feature.settings.generated.resources.settings_remote_backup_section
 import moneym.feature.settings.generated.resources.settings_remote_connect
+import moneym.feature.settings.generated.resources.settings_remote_delete_body
+import moneym.feature.settings.generated.resources.settings_remote_delete_confirm
+import moneym.feature.settings.generated.resources.settings_remote_delete_data
+import moneym.feature.settings.generated.resources.settings_remote_delete_title
 import moneym.feature.settings.generated.resources.settings_remote_disconnect
 import moneym.feature.settings.generated.resources.settings_remote_disconnect_body
 import moneym.feature.settings.generated.resources.settings_remote_disconnect_confirm
@@ -205,6 +210,17 @@ private fun BackupRestoreScreen(
         }
     }
 
+    if (state.showDeleteRemoteDialog) {
+        MmDeleteSheet(
+            title = stringResource(Res.string.settings_remote_delete_title),
+            body = stringResource(Res.string.settings_remote_delete_body),
+            cancelText = stringResource(Res.string.settings_remote_passphrase_cancel),
+            confirmText = stringResource(Res.string.settings_remote_delete_confirm),
+            onConfirm = { viewModel.onIntent(BackupRestoreIntent.DeleteRemoteDataConfirmed) },
+            onCancel = { viewModel.onIntent(BackupRestoreIntent.DeleteRemoteDataDismissed) },
+        )
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         BackupRestoreContent(
             state = state,
@@ -220,6 +236,7 @@ private fun BackupRestoreScreen(
             onRemoteBackupNow = { viewModel.onIntent(BackupRestoreIntent.RemoteBackupNowTapped) },
             onRemoteRestoreTapped = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreTapped) },
             onRetryRemoteUpload = { viewModel.onIntent(BackupRestoreIntent.RemoteBackupNowTapped) },
+            onDeleteRemoteData = { viewModel.onIntent(BackupRestoreIntent.DeleteRemoteDataTapped) },
         )
         MmLoadingOverlay(visible = state.isLoading)
     }
@@ -240,6 +257,7 @@ private fun BackupRestoreContent(
     onRemoteBackupNow: () -> Unit,
     onRemoteRestoreTapped: () -> Unit,
     onRetryRemoteUpload: () -> Unit,
+    onDeleteRemoteData: () -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -333,6 +351,7 @@ private fun BackupRestoreContent(
                         onBackupNow = onRemoteBackupNow,
                         onRestore = onRemoteRestoreTapped,
                         onRetryUpload = onRetryRemoteUpload,
+                        onDeleteRemoteData = onDeleteRemoteData,
                     )
                 }
                 if (state.remoteSignedIn) {
@@ -370,6 +389,7 @@ private fun RemoteBackupSection(
     onBackupNow: () -> Unit,
     onRestore: () -> Unit,
     onRetryUpload: () -> Unit,
+    onDeleteRemoteData: () -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -416,9 +436,14 @@ private fun RemoteBackupSection(
                     Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
                 }
             }
-            MmRow(onClick = onRestore, divider = false) {
+            MmRow(onClick = onRestore) {
                 Icon(imageVector = Download.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.icon_1x))
                 Text(stringResource(Res.string.settings_remote_restore), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
+                Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
+            }
+            MmRow(onClick = onDeleteRemoteData, divider = false) {
+                Icon(imageVector = Icon.Trash.imageVector, contentDescription = null, tint = colors.danger, modifier = Modifier.size(space.icon_1x))
+                Text(stringResource(Res.string.settings_remote_delete_data), style = type.body, color = colors.danger, modifier = Modifier.weight(1f))
                 Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
             }
             RuntimeStatusLine(state.remoteRuntime, state.lastRemoteBackupMs, onRetryUpload)
@@ -775,6 +800,7 @@ private fun BackupRestoreContentPreview() {
             onRemoteBackupNow = {},
             onRemoteRestoreTapped = {},
             onRetryRemoteUpload = {},
+            onDeleteRemoteData = {},
         )
     }
 }

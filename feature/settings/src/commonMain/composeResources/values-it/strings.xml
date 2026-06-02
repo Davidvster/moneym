@@ -235,4 +235,13 @@
     <string name="settings_recurring_new">Nuova transazione ricorrente</string>
     <string name="settings_section_about">INFORMAZIONI</string>
     <string name="settings_about">Informazioni</string>
+    <string name="settings_remote_error_sign_in_failed">Accesso non riuscito</string>
+    <string name="settings_remote_error_restore_failed">Ripristino non riuscito</string>
+    <string name="settings_remote_error_backup_failed">Backup non riuscito</string>
+    <string name="settings_remote_error_fetch_info">Impossibile recuperare le info del backup</string>
+    <string name="settings_remote_delete_data">Elimina i dati di Google Drive</string>
+    <string name="settings_remote_delete_title">Eliminare i dati di Google Drive?</string>
+    <string name="settings_remote_delete_body">Questo elimina definitivamente tutti i backup nel cloud e i dati di sincronizzazione dal tuo Google Drive e disattiva il backup automatico e la sincronizzazione tra dispositivi. Non può essere annullato.</string>
+    <string name="settings_remote_delete_confirm">Elimina</string>
+    <string name="settings_import_failed">Importazione non riuscita</string>
 </resources>

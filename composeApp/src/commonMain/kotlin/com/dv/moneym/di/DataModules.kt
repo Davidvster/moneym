@@ -22,6 +22,7 @@ import com.dv.moneym.data.transactions.createTransactionRepository
 import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
 import moneym.composeapp.generated.resources.Res
 import moneym.composeapp.generated.resources.category_seed_eating_out
+import moneym.composeapp.generated.resources.default_account_name
 import moneym.composeapp.generated.resources.category_seed_entertainment
 import moneym.composeapp.generated.resources.category_seed_gift
 import moneym.composeapp.generated.resources.category_seed_groceries
@@ -62,8 +63,7 @@ val dataCategoriesModule = module {
 
 val dataAccountsModule = module {
     single<AccountRepository> { createAccountRepository(get<AccountsRoomDatabase>()) }
-    // TODO: localize via composeResources once a shared resource loader exists
-    single { SeedAccountsUseCase(get(), get(), get(), "Main") }
+    single { SeedAccountsUseCase(get(), get(), get(), { getString(Res.string.default_account_name) }) }
 }
 
 val dataTransactionsModule = module {

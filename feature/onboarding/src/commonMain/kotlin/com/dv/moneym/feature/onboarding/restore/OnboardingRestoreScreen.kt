@@ -99,6 +99,7 @@ private fun OnboardingRestoreScreen(
         RemoteRestoreDialog(
             loading = state.remotePreviewLoading,
             preview = state.remotePreview,
+            errorMessage = state.remoteError,
             onDismiss = { viewModel.onIntent(OnboardingRestoreIntent.RemoteRestoreDismissed) },
             onConfirm = { viewModel.onIntent(OnboardingRestoreIntent.RemoteRestoreConfirmed(it)) },
         )
@@ -245,6 +246,7 @@ private fun LocalRestoreDialog(
 private fun RemoteRestoreDialog(
     loading: Boolean,
     preview: RemoteBackupMetadata?,
+    errorMessage: String?,
     onDismiss: () -> Unit,
     onConfirm: (CharArray) -> Unit,
 ) {
@@ -303,6 +305,14 @@ private fun RemoteRestoreDialog(
                 )
             },
         )
+        if (errorMessage != null) {
+            Text(
+                errorMessage,
+                color = colors.danger,
+                style = type.caption,
+                modifier = Modifier.padding(top = space.padding_1x),
+            )
+        }
     }
 }
 

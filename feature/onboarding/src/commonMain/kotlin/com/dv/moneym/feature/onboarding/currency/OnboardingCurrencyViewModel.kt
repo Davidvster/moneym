@@ -18,6 +18,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import moneym.feature.onboarding.generated.resources.Res
+import moneym.feature.onboarding.generated.resources.default_account_name
+import org.jetbrains.compose.resources.getString
 import kotlin.time.Clock
 
 class OnboardingCurrencyViewModel(
@@ -46,7 +49,7 @@ class OnboardingCurrencyViewModel(
                         accountRepository.insert(
                             Account(
                                 id = AccountId(0),
-                                name = "Main",
+                                name = getString(Res.string.default_account_name),
                                 type = AccountType.CASH,
                                 currency = CurrencyCode(_state.value.selectedCurrency),
                                 isDefault = true,

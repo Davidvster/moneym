@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
+import com.dv.moneym.core.common.AppLogger
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
@@ -29,6 +30,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
+import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.settings_remote_error_backup_failed
+import moneym.feature.settings.generated.resources.settings_remote_error_fetch_info
+import moneym.feature.settings.generated.resources.settings_remote_error_restore_failed
+import moneym.feature.settings.generated.resources.settings_remote_error_sign_in_failed
+import moneym.feature.settings.generated.resources.settings_remote_password_too_short
+import org.jetbrains.compose.resources.getString
 import kotlin.time.Clock
 
 @Serializable
@@ -53,6 +61,7 @@ data class BackupRestoreUiState(
     val passphraseError: String? = null,
     val showRemoteRestoreDialog: Boolean = false,
     val showDisconnectDialog: Boolean = false,
+    val showDeleteRemoteDialog: Boolean = false,
     val remoteRestorePreview: RemoteBackupMetadata? = null,
     val remoteRestorePreviewLoading: Boolean = false,
     val lastLocalMutationMs: Long = 0L,
@@ -84,6 +93,9 @@ sealed interface BackupRestoreIntent {
     data object RemoteRestoreTapped : BackupRestoreIntent
     data class RemoteRestoreConfirmed(val passphrase: CharArray) : BackupRestoreIntent
     data object RemoteRestoreDismissed : BackupRestoreIntent
+    data object DeleteRemoteDataTapped : BackupRestoreIntent
+    data object DeleteRemoteDataConfirmed : BackupRestoreIntent
+    data object DeleteRemoteDataDismissed : BackupRestoreIntent
 }
 
 sealed interface BackupRestoreEffect {
@@ -123,6 +135,8 @@ class BackupRestoreViewModel(
             )
         )
     }
+
+    private val logger = AppLogger.tag("BackupRestore")
 
     private val authFlow = googleAuthManager?.state ?: flowOf(AuthState.SignedOut)
     private val runtimeFlow = remoteBackupManager?.runtime ?: flowOf(RemoteBackupRuntimeState.Idle)
@@ -188,6 +202,9 @@ class BackupRestoreViewModel(
                     remoteRestoreInProgress = false,
                 )
             }
+            BackupRestoreIntent.DeleteRemoteDataTapped -> _base.update { it.copy(showDeleteRemoteDialog = true) }
+            BackupRestoreIntent.DeleteRemoteDataConfirmed -> handleDeleteRemoteData()
+            BackupRestoreIntent.DeleteRemoteDataDismissed -> _base.update { it.copy(showDeleteRemoteDialog = false) }
         }
     }
 
@@ -225,8 +242,9 @@ class BackupRestoreViewModel(
                     it.copy(isLocalLoading = false, showRestoreWarning = true, restoreError = e.message)
                 }
             } catch (e: Exception) {
+                logger.e(e) { "Local restore failed" }
                 _base.update { it.copy(isLocalLoading = false) }
-                _effects.send(BackupRestoreEffect.RestoreError(e.message ?: "Restore failed"))
+                _effects.send(BackupRestoreEffect.RestoreError(e.message ?: getString(Res.string.settings_remote_error_restore_failed)))
             }
         }
     }
@@ -326,20 +344,27 @@ class BackupRestoreViewModel(
                 signedIn.email?.let { appSettings.putString(PrefKeys.REMOTE_BACKUP_ACCOUNT_EMAIL, it) }
                 _effects.send(BackupRestoreEffect.RemoteSignedIn)
             }.onFailure { t ->
-                _effects.send(BackupRestoreEffect.RemoteError(t.message ?: "Sign-in failed"))
+                logger.e(t) { "Google sign-in failed" }
+                _effects.send(BackupRestoreEffect.RemoteError(t.message ?: getString(Res.string.settings_remote_error_sign_in_failed)))
             }
         }
     }
 
     private fun handleDisconnectGoogle() {
         val manager = googleAuthManager ?: return
-        _base.update { it.copy(showDisconnectDialog = false) }
+        _base.update { it.copy(showDisconnectDialog = false, isLoading = true) }
         viewModelScope.launch {
-            manager.signOut()
-            appSettings.putBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, false)
-            appSettings.remove(PrefKeys.REMOTE_BACKUP_ACCOUNT_EMAIL)
-            sessionPassphrase?.clear()
-            _base.update { it.copy(remoteAutoEnabled = false, remotePassphraseSet = false) }
+            try {
+                manager.signOut()
+                appSettings.putBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, false)
+                appSettings.remove(PrefKeys.REMOTE_BACKUP_ACCOUNT_EMAIL)
+                sessionPassphrase?.clear()
+                _base.update { it.copy(remoteAutoEnabled = false, remotePassphraseSet = false) }
+            } catch (t: Throwable) {
+                logger.e(t) { "Google disconnect failed" }
+            } finally {
+                _base.update { it.copy(isLoading = false) }
+            }
         }
     }
 
@@ -359,7 +384,10 @@ class BackupRestoreViewModel(
         val encryptPref = if (isRemote) PrefKeys.REMOTE_BACKUP_ENCRYPT else PrefKeys.LOCAL_BACKUP_ENCRYPT
         if (encrypt) {
             if (value.size < MIN_PASSPHRASE_LENGTH) {
-                _base.update { it.copy(passphraseError = "Password must be at least $MIN_PASSPHRASE_LENGTH characters") }
+                viewModelScope.launch {
+                    val msg = getString(Res.string.settings_remote_password_too_short, MIN_PASSPHRASE_LENGTH)
+                    _base.update { it.copy(passphraseError = msg) }
+                }
                 return
             }
             sessionPassphrase?.set(value)
@@ -402,7 +430,8 @@ class BackupRestoreViewModel(
         val manager = remoteBackupManager ?: return
         viewModelScope.launch {
             manager.flushNow().onFailure { t ->
-                _effects.send(BackupRestoreEffect.RemoteError(t.message ?: "Backup failed"))
+                logger.e(t) { "Remote backup-now failed" }
+                _effects.send(BackupRestoreEffect.RemoteError(t.message ?: getString(Res.string.settings_remote_error_backup_failed)))
             }
         }
     }
@@ -414,6 +443,7 @@ class BackupRestoreViewModel(
                 showRemoteRestoreDialog = true,
                 remoteRestorePreviewLoading = true,
                 remoteRestorePreview = null,
+                remoteRestoreError = null,
             )
         }
         viewModelScope.launch {
@@ -427,13 +457,16 @@ class BackupRestoreViewModel(
                     }
                 }
                 .onFailure { t ->
+                    logger.e(t) { "Remote restore metadata peek failed" }
+                    val msg = t.message ?: getString(Res.string.settings_remote_error_fetch_info)
                     _base.update {
                         it.copy(
-                            showRemoteRestoreDialog = false,
+                            showRemoteRestoreDialog = true,
                             remoteRestorePreviewLoading = false,
+                            remoteRestorePreview = null,
+                            remoteRestoreError = msg,
                         )
                     }
-                    _effects.send(BackupRestoreEffect.RemoteError(t.message ?: "Failed to fetch backup info"))
                 }
         }
     }
@@ -444,15 +477,36 @@ class BackupRestoreViewModel(
         viewModelScope.launch {
             manager.restoreLatest(passphrase)
                 .onFailure { t ->
+                    logger.e(t) { "Remote restore failed" }
+                    val msg = t.message ?: getString(Res.string.settings_remote_error_restore_failed)
                     _base.update {
                         it.copy(
                             remoteRestoreInProgress = false,
-                            remoteRestoreError = t.message ?: "Restore failed",
+                            remoteRestoreError = msg,
                         )
                     }
                 }
                 .onSuccess { _base.update { it.copy(remoteRestoreInProgress = false) } }
             passphrase.fill(' ')
+        }
+    }
+
+    private fun handleDeleteRemoteData() {
+        val manager = remoteBackupManager ?: return
+        _base.update { it.copy(showDeleteRemoteDialog = false, isLoading = true) }
+        viewModelScope.launch {
+            manager.deleteAllRemoteData()
+                .onFailure { logger.e(it) { "Delete remote data failed" } }
+            appSettings.putBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, false)
+            appSettings.putBoolean(PrefKeys.CROSS_DEVICE_SYNC_ENABLED, false)
+            appSettings.putLong(PrefKeys.LAST_REMOTE_BACKUP_TIME_MS, 0L)
+            _base.update {
+                it.copy(
+                    isLoading = false,
+                    remoteAutoEnabled = false,
+                    lastRemoteBackupMs = 0L,
+                )
+            }
         }
     }
 

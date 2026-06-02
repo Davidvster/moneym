@@ -64,7 +64,7 @@ class SeedMergeTest {
 
     private suspend fun seedDevice(device: Device, categoryNames: List<String>, namePrefix: String, accountName: String, now: Long) {
         SeedCategoriesUseCase(device.categories, { categoryNames }, nowMs = { now })()
-        SeedAccountsUseCase(device.accounts, InMemoryAppSettings(), clock, accountName)()
+        SeedAccountsUseCase(device.accounts, InMemoryAppSettings(), clock, { accountName })()
         seedPaymentModes(device, now, namePrefix)
     }
 
