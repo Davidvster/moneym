@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Transakcje</string>
+    <string name="transactions_add">Dodaj transakcję</string>
+    <string name="transactions_filter_all">Wszystkie</string>
+    <string name="transactions_filter_expenses">Wydatki</string>
+    <string name="transactions_filter_income">Przychody</string>
+    <string name="transactions_filter_categories">Filtruj według kategorii</string>
+    <string name="transactions_filter_clear">Wyczyść</string>
+    <string name="transactions_filter_done">Gotowe</string>
+    <string name="transactions_empty">Brak transakcji w tym miesiącu</string>
+    <string name="transactions_previous_month">Poprzedni miesiąc</string>
+    <string name="transactions_next_month">Następny miesiąc</string>
+    <string name="transactions_loading">Ładowanie…</string>
+    <string name="transactions_search_placeholder">Szukaj transakcji…</string>
+    <string name="transactions_search_cd">Szukaj</string>
+    <string name="transactions_close_search_cd">Zamknij wyszukiwanie</string>
+    <string name="transactions_net_label">NETTO</string>
+    <string name="transactions_dialog_select_month">Wybierz miesiąc</string>
+    <string name="transactions_prev_year_cd">Poprzedni rok</string>
+    <string name="transactions_next_year_cd">Następny rok</string>
+    <string name="transactions_now">Teraz</string>
+    <string name="transactions_ok">OK</string>
+    <string name="transactions_cancel">Anuluj</string>
+    <string name="transactions_wallet_select">Wybierz portfel</string>
+    <string name="transactions_wallet_all">Wszystkie portfele</string>
+    <string name="transactions_syncing">Synchronizowanie…</string>
+    <string name="transactions_pending_deletions">%1$d elementów usuniętych na innym urządzeniu — przejrzyj</string>
+</resources>

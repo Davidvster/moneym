@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Transakcje</string>
+    <string name="tab_overview">Przegląd</string>
+    <string name="tab_settings">Ustawienia</string>
+    <string name="amount_input_calculator_desc">Otwórz kalkulator</string>
+    <string name="month_jan">Styczeń</string>
+    <string name="month_feb">Luty</string>
+    <string name="month_mar">Marzec</string>
+    <string name="month_apr">Kwiecień</string>
+    <string name="month_may">Maj</string>
+    <string name="month_jun">Czerwiec</string>
+    <string name="month_jul">Lipiec</string>
+    <string name="month_aug">Sierpień</string>
+    <string name="month_sep">Wrzesień</string>
+    <string name="month_oct">Październik</string>
+    <string name="month_nov">Listopad</string>
+    <string name="month_dec">Grudzień</string>
+    <string name="colorpicker_title">Wybierz kolor</string>
+    <string name="colorpicker_hue">Barwa</string>
+    <string name="colorpicker_saturation">Nasycenie</string>
+    <string name="colorpicker_brightness">Jasność</string>
+    <string name="colorpicker_hex">Kolor hex</string>
+    <string name="colorpicker_select">Wybierz kolor</string>
+    <string name="colorpicker_cancel">Anuluj</string>
+    <string name="wallet_select">Wybierz portfel</string>
+    <string name="cancel">Anuluj</string>
+</resources>

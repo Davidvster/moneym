@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">Ustaw PIN</string>
+    <string name="security_pin_confirm_title">Potwierdź PIN</string>
+    <string name="security_pin_enter_title">Wprowadź swój PIN</string>
+    <string name="security_pin_subtitle_first">Wprowadź 4-cyfrowy PIN</string>
+    <string name="security_pin_subtitle_confirm">Wprowadź PIN ponownie</string>
+    <string name="security_pin_mismatch">Kody PIN nie są zgodne</string>
+    <string name="security_pin_incorrect">Nieprawidłowy PIN</string>
+    <string name="security_pin_locked">Zbyt wiele prób</string>
+    <string name="security_biometric_use">Użyj biometrii</string>
+    <string name="security_biometric_reason">Odblokuj MoneyM</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Anuluj</string>
+    <string name="security_backoff_retry">Spróbuj ponownie za %1$ds</string>
+    <string name="security_change_pin_title">Zmień PIN</string>
+    <string name="security_pin_set_header">Ustaw PIN</string>
+    <string name="security_pin_confirm_header">Potwierdź PIN</string>
+    <string name="security_pin_enter_header">Wprowadź PIN</string>
+    <string name="security_biometric_offer_title">Włączyć biometrię?</string>
+    <string name="security_biometric_offer_body">Odblokuj MoneyM szybko za pomocą Face ID lub odcisku palca.</string>
+    <string name="security_biometric_offer_enable">Włącz</string>
+    <string name="security_biometric_offer_skip">Nie teraz</string>
+    <string name="security_biometric_unlock_prompt">Odblokuj MoneyM</string>
+</resources>

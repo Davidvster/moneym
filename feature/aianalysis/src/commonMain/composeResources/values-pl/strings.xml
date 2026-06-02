@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analiza</string>
+    <string name="analyze_intro">Zadaj dowolne pytanie dotyczące swoich finansów w tym okresie.</string>
+    <string name="analyze_input_hint">Zadaj pytanie…</string>
+    <string name="analyze_send_cd">Wyślij</string>
+    <string name="analyze_grounding_label">Źródło danych</string>
+    <string name="analyze_grounding_snapshot">Migawka</string>
+    <string name="analyze_grounding_tools">Narzędzia</string>
+    <string name="analyze_tools_fallback_notice">Narzędzia nie są obsługiwane przez ten model. Używam migawki.</string>
+    <string name="analyze_error">Coś poszło nie tak. Spróbuj ponownie.</string>
+    <string name="analyze_generating">Myślę…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Ile wydałem w tym miesiącu?</item>
+        <item>Jakie są moje główne kategorie wydatków?</item>
+        <item>Jak ten miesiąc wypada w porównaniu z poprzednim?</item>
+        <item>Czy były jakieś niezwykłe lub duże wydatki?</item>
+    </string-array>
+</resources>

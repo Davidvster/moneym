@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Przegląd</string>
+    <string name="overview_income">Przychody</string>
+    <string name="overview_expenses">Wydatki</string>
+    <string name="overview_by_category">Wydatki według kategorii</string>
+    <string name="overview_trend">Trend 6-miesięczny</string>
+    <string name="overview_all_categories">Wszystkie kategorie</string>
+    <string name="overview_empty">Brak transakcji w tym okresie</string>
+    <string name="overview_previous_month">Poprzedni miesiąc</string>
+    <string name="overview_next_month">Następny miesiąc</string>
+    <string name="overview_loading">Ładowanie…</string>
+    <string name="overview_more">+ %1$d więcej</string>
+    <string name="overview_monthly_breakdown">Zestawienie miesięczne</string>
+    <string name="overview_daily_breakdown">Zestawienie dzienne</string>
+    <string name="overview_all">Wszystkie</string>
+    <string name="overview_previous">Poprzedni</string>
+    <string name="overview_next">Następny</string>
+    <string name="overview_switch_to_month">Przełącz na widok miesięczny</string>
+    <string name="overview_switch_to_year">Przełącz na widok roczny</string>
+    <string name="overview_period_month">Miesiąc</string>
+    <string name="overview_period_year">Rok</string>
+    <string name="overview_period_custom">Własny</string>
+    <string name="overview_label_income">PRZYCHODY</string>
+    <string name="overview_label_expenses">WYDATKI</string>
+    <string name="overview_label_balance">SALDO</string>
+    <string name="overview_spending_by_category">Wydatki według kategorii</string>
+    <string name="overview_no_expenses">Brak wydatków w tym okresie</string>
+    <string name="overview_label_total">ŁĄCZNIE</string>
+    <string name="overview_cumulative_spend">Skumulowane wydatki</string>
+    <string name="overview_through_day">przez dzień %1$d</string>
+    <string name="overview_daily_trend">Dzienny trend według kategorii</string>
+    <string name="overview_monthly_spending">Wydatki miesięczne</string>
+    <string name="overview_monthly_trend">Miesięczny trend według kategorii</string>
+    <string name="overview_avg_day">ŚR / DZIEŃ</string>
+    <string name="overview_avg_month">ŚR / MIESIĄC</string>
+    <string name="overview_dialog_select_month">Wybierz miesiąc</string>
+    <string name="overview_dialog_select_year">Wybierz rok</string>
+    <string name="overview_prev_year_cd">Poprzedni rok</string>
+    <string name="overview_next_year_cd">Następny rok</string>
+    <string name="overview_analyze_cd">Analizuj z AI</string>
+    <string name="overview_now">Teraz</string>
+    <string name="overview_ok">OK</string>
+    <string name="overview_cancel">Anuluj</string>
+    <string name="overview_tx_count_singular">%1$d transakcja</string>
+    <string name="overview_tx_count_plural">%1$d transakcji</string>
+    <string name="overview_cat_avg_day">śr/dzień</string>
+    <string name="overview_cat_avg_month">śr/mies.</string>
+    <string name="overview_date_range_title">Wybierz zakres dat</string>
+    <string name="overview_date_range_from">OD</string>
+    <string name="overview_date_range_to">DO</string>
+    <string name="overview_budgets_title">Budżety</string>
+    <string name="overview_budgets_all_categories">Wszystkie kategorie</string>
+    <string name="overview_budgets_remaining_suffix">%1$s pozostało</string>
+    <string name="overview_budgets_overrun_suffix">%1$s przekroczono</string>
+    <string-array name="overview_year_x_labels">
+        <item>sty</item>
+        <item>kwi</item>
+        <item>lip</item>
+        <item>paź</item>
+        <item>gru</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Potwierdź usunięcia</string>
+    <string name="sync_deletions_subtitle">Inne urządzenie usunęło te elementy. Wybierz, które z nich usunąć tutaj. Niezaznaczone elementy są zachowane i przywrócone na drugim urządzeniu.</string>
+    <string name="sync_deletions_group_wallets">Portfele</string>
+    <string name="sync_deletions_group_transactions">Transakcje</string>
+    <string name="sync_deletions_group_budgets">Budżety</string>
+    <string name="sync_deletions_group_recurring">Cykliczne</string>
+    <string name="sync_deletions_group_categories">Kategorie</string>
+    <string name="sync_deletions_group_payment_modes">Metody płatności</string>
+    <string name="sync_deletions_confirm">Usuń zaznaczone</string>
+    <string name="sync_deletions_cancel">Zachowaj wszystko</string>
+    <string name="sync_settings_title">Synchronizacja między urządzeniami</string>
+    <string name="sync_settings_toggle_title">Synchronizuj między urządzeniami</string>
+    <string name="sync_settings_toggle_subtitle">Synchronizuj dane na każdym urządzeniu zalogowanym do tej samej kopii zapasowej.</string>
+    <string name="sync_settings_rename_label">Nazwa tego urządzenia</string>
+    <string name="sync_settings_rename_save">Zapisz</string>
+    <string name="sync_settings_rename_cancel">Anuluj</string>
+    <string name="sync_settings_devices_header">URZĄDZENIA</string>
+    <string name="sync_settings_this_device">To urządzenie</string>
+    <string name="sync_settings_remove">Usuń</string>
+    <string name="sync_settings_last_synced_just_now">zsynchronizowano właśnie teraz</string>
+    <string name="sync_settings_last_synced_minutes">zsynchronizowano %1$d min temu</string>
+    <string name="sync_settings_last_synced_hours">zsynchronizowano %1$d godz. temu</string>
+    <string name="sync_settings_last_synced_days">zsynchronizowano %1$d dni temu</string>
+    <string name="sync_settings_last_synced_longer">zsynchronizowano dawno temu</string>
+</resources>

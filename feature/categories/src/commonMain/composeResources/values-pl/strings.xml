@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Kategorie</string>
+    <string name="categories_add">Dodaj kategorię</string>
+    <string name="categories_edit_title">Edytuj kategorię</string>
+    <string name="categories_new_title">Nowa kategoria</string>
+    <string name="categories_name_label">Nazwa</string>
+    <string name="categories_name_error">Nazwa jest wymagana</string>
+    <string name="categories_icon_label">Ikona</string>
+    <string name="categories_color_label">Kolor</string>
+    <string name="categories_archive">Archiwizuj</string>
+    <string name="categories_restore">Przywróć</string>
+    <string name="categories_show_archived">Pokaż zarchiwizowane</string>
+    <string name="categories_hide_archived">Ukryj zarchiwizowane</string>
+    <string name="categories_archived_badge">Zarchiwizowane</string>
+    <string name="categories_empty">Brak kategorii</string>
+    <string name="categories_back">Wstecz</string>
+    <string name="categories_show_archived_count">Pokaż zarchiwizowane (%1$d)</string>
+    <string name="categories_cancel">Anuluj</string>
+    <string name="categories_save">Zapisz</string>
+    <string name="categories_new_button">Nowa</string>
+    <string name="categories_tab_expense">Wydatek</string>
+    <string name="categories_tab_income">Przychód</string>
+    <string name="categories_hint">przytrzymaj, aby zmienić kolejność</string>
+    <string name="categories_new_expense">Nowa kategoria wydatków</string>
+    <string name="categories_new_income">Nowa kategoria przychodów</string>
+    <string name="categories_name_placeholder">np. Zakupy spożywcze</string>
+    <string name="categories_edit_sheet_title">Edytuj kategorię</string>
+    <string name="categories_new_sheet_title">Nowa kategoria</string>
+    <string name="categories_delete">Usuń kategorię</string>
+    <string name="categories_save_changes">Zapisz zmiany</string>
+    <string name="categories_create">Utwórz kategorię</string>
+    <string name="categories_delete_confirm_title">Usunąć „%1$s"?</string>
+    <string name="categories_delete_confirm_body">Spowoduje to usunięcie kategorii. Transakcje jej używające mogą być objęte zmianami.</string>
+    <string name="categories_delete_button">Usuń</string>
+    <string name="categories_color_picker_title">Wybierz kolor</string>
+    <string name="categories_color_hue">Barwa</string>
+    <string name="categories_color_saturation">Nasycenie</string>
+    <string name="categories_color_brightness">Jasność</string>
+    <string name="categories_color_hex">Kolor hex</string>
+    <string name="categories_color_select">Wybierz kolor</string>
+    <string name="categories_name_preview_placeholder">Nazwa kategorii</string>
+</resources>

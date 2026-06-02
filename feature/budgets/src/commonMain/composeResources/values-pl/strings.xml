@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Budżety</string>
+    <string name="budgets_empty">Brak budżetów</string>
+    <string name="budgets_new">Nowy budżet</string>
+    <string name="budgets_new_title">Nowy budżet</string>
+    <string name="budgets_edit_title">Edytuj budżet</string>
+    <string name="budgets_name_label">Nazwa</string>
+    <string name="budgets_amount_label">Kwota</string>
+    <string name="budgets_account_label">Konto</string>
+    <string name="budgets_account_filter_label">Konto</string>
+    <string name="budgets_category_label">Kategoria</string>
+    <string name="budgets_all_categories">Wszystkie kategorie</string>
+    <string name="budgets_start_month">Miesiąc rozpoczęcia</string>
+    <string name="budgets_recurring">Cykliczny</string>
+    <string name="budgets_recurring_single">Jednorazowy</string>
+    <string name="budgets_recurring_unlimited">Bezterminowy</string>
+    <string name="budgets_recurring_n_months">N miesięcy</string>
+    <string name="budgets_recurring_count_label">Liczba miesięcy</string>
+    <string name="budgets_recurring_badge_unlimited">Cykliczny</string>
+    <string name="budgets_recurring_badge_n_months">%1$d miesięcy</string>
+    <string name="budgets_save">Zapisz</string>
+    <string name="budgets_cancel">Anuluj</string>
+    <string name="budgets_delete">Usuń</string>
+    <string name="budgets_delete_confirm_title">Usunąć „%1$s"?</string>
+    <string name="budgets_delete_confirm_body">Spowoduje to usunięcie budżetu. Transakcje nie zostaną zmienione.</string>
+    <string name="budgets_placeholder_name">Zakupy spożywcze</string>
+    <string name="budgets_error_required">Wymagane</string>
+    <string name="budgets_error_amount">Podaj kwotę &gt; 0</string>
+    <string name="budgets_error_count">Musi być &gt; 0</string>
+    <string name="budgets_prev_month">Poprzedni miesiąc</string>
+    <string name="budgets_next_month">Następny miesiąc</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Wybierz miesiąc</string>
+    <string name="budgets_month_picker_now">Ten miesiąc</string>
+    <string name="budgets_month_picker_ok">OK</string>
+    <string name="budgets_month_picker_cancel">Anuluj</string>
+    <string name="budgets_month_picker_prev_year_cd">Poprzedni rok</string>
+    <string name="budgets_month_picker_next_year_cd">Następny rok</string>
+</resources>
