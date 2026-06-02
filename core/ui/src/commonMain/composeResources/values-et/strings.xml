@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Tehingud</string>
+    <string name="tab_overview">Ülevaade</string>
+    <string name="tab_settings">Seaded</string>
+    <string name="amount_input_calculator_desc">Ava kalkulaator</string>
+    <string name="month_jan">Jaanuar</string>
+    <string name="month_feb">Veebruar</string>
+    <string name="month_mar">Märts</string>
+    <string name="month_apr">Aprill</string>
+    <string name="month_may">Mai</string>
+    <string name="month_jun">Juuni</string>
+    <string name="month_jul">Juuli</string>
+    <string name="month_aug">August</string>
+    <string name="month_sep">September</string>
+    <string name="month_oct">Oktoober</string>
+    <string name="month_nov">November</string>
+    <string name="month_dec">Detsember</string>
+    <string name="colorpicker_title">Vali värv</string>
+    <string name="colorpicker_hue">Toon</string>
+    <string name="colorpicker_saturation">Küllastus</string>
+    <string name="colorpicker_brightness">Heledus</string>
+    <string name="colorpicker_hex">Hex värv</string>
+    <string name="colorpicker_select">Vali värv</string>
+    <string name="colorpicker_cancel">Tühista</string>
+    <string name="wallet_select">Vali rahakott</string>
+    <string name="cancel">Tühista</string>
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Tehingud</string>
+    <string name="transactions_add">Lisa tehing</string>
+    <string name="transactions_filter_all">Kõik</string>
+    <string name="transactions_filter_expenses">Kulud</string>
+    <string name="transactions_filter_income">Tulu</string>
+    <string name="transactions_filter_categories">Filtreeri kategooria järgi</string>
+    <string name="transactions_filter_clear">Tühjenda</string>
+    <string name="transactions_filter_done">Valmis</string>
+    <string name="transactions_empty">Sel kuul pole tehinguid</string>
+    <string name="transactions_previous_month">Eelmine kuu</string>
+    <string name="transactions_next_month">Järgmine kuu</string>
+    <string name="transactions_loading">Laadin…</string>
+    <string name="transactions_search_placeholder">Otsi tehinguid…</string>
+    <string name="transactions_search_cd">Otsi</string>
+    <string name="transactions_close_search_cd">Sulge otsing</string>
+    <string name="transactions_net_label">NETO</string>
+    <string name="transactions_dialog_select_month">Vali kuu</string>
+    <string name="transactions_prev_year_cd">Eelmine aasta</string>
+    <string name="transactions_next_year_cd">Järgmine aasta</string>
+    <string name="transactions_now">Praegu</string>
+    <string name="transactions_ok">OK</string>
+    <string name="transactions_cancel">Tühista</string>
+    <string name="transactions_wallet_select">Vali rahakott</string>
+    <string name="transactions_wallet_all">Kõik rahakotid</string>
+    <string name="transactions_syncing">Sünkroonin…</string>
+    <string name="transactions_pending_deletions">%1$d üksust eemaldatud teisel seadmel — vaata üle</string>
+</resources>

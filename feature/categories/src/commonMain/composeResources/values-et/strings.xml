@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Kategooriad</string>
+    <string name="categories_add">Lisa kategooria</string>
+    <string name="categories_edit_title">Muuda kategooriat</string>
+    <string name="categories_new_title">Uus kategooria</string>
+    <string name="categories_name_label">Nimi</string>
+    <string name="categories_name_error">Nimi on nõutud</string>
+    <string name="categories_icon_label">Ikoon</string>
+    <string name="categories_color_label">Värv</string>
+    <string name="categories_archive">Arhiveeri</string>
+    <string name="categories_restore">Taasta</string>
+    <string name="categories_show_archived">Näita arhiveeritud</string>
+    <string name="categories_hide_archived">Peida arhiveeritud</string>
+    <string name="categories_archived_badge">Arhiveeritud</string>
+    <string name="categories_empty">Kategooriaid pole veel</string>
+    <string name="categories_back">Tagasi</string>
+    <string name="categories_show_archived_count">Näita arhiveeritud (%1$d)</string>
+    <string name="categories_cancel">Tühista</string>
+    <string name="categories_save">Salvesta</string>
+    <string name="categories_new_button">Uus</string>
+    <string name="categories_tab_expense">Kulu</string>
+    <string name="categories_tab_income">Tulu</string>
+    <string name="categories_hint">hoia all järjestamiseks</string>
+    <string name="categories_new_expense">Uus kulukategooria</string>
+    <string name="categories_new_income">Uus tulukategooria</string>
+    <string name="categories_name_placeholder">nt. Toidukaubad</string>
+    <string name="categories_edit_sheet_title">Muuda kategooriat</string>
+    <string name="categories_new_sheet_title">Uus kategooria</string>
+    <string name="categories_delete">Kustuta kategooria</string>
+    <string name="categories_save_changes">Salvesta muudatused</string>
+    <string name="categories_create">Loo kategooria</string>
+    <string name="categories_delete_confirm_title">Kustuta „%1$s"?</string>
+    <string name="categories_delete_confirm_body">See eemaldab kategooria. Seda kasutavad tehingud võivad mõjutuda.</string>
+    <string name="categories_delete_button">Kustuta</string>
+    <string name="categories_color_picker_title">Vali värv</string>
+    <string name="categories_color_hue">Toon</string>
+    <string name="categories_color_saturation">Küllastus</string>
+    <string name="categories_color_brightness">Heledus</string>
+    <string name="categories_color_hex">Hex värv</string>
+    <string name="categories_color_select">Vali värv</string>
+    <string name="categories_name_preview_placeholder">Kategooria nimi</string>
+</resources>

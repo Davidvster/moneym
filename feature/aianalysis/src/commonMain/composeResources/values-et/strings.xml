@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analüüs</string>
+    <string name="analyze_intro">Küsi midagi oma rahanduse kohta sel perioodil.</string>
+    <string name="analyze_input_hint">Esita küsimus…</string>
+    <string name="analyze_send_cd">Saada</string>
+    <string name="analyze_grounding_label">Andmeallikas</string>
+    <string name="analyze_grounding_snapshot">Hetktõmmis</string>
+    <string name="analyze_grounding_tools">Tööriistad</string>
+    <string name="analyze_tools_fallback_notice">See mudel ei toeta tööriistu. Kasutatakse hetktõmmist.</string>
+    <string name="analyze_error">Midagi läks valesti. Proovi uuesti.</string>
+    <string name="analyze_generating">Mõtlen…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Kui palju kulutasin sel kuul?</item>
+        <item>Millised on minu peamised kulukategooriad?</item>
+        <item>Kuidas see kuu võrreldes eelmisega?</item>
+        <item>Kas on ebatavalisi või suuri kulutusi?</item>
+    </string-array>
+</resources>

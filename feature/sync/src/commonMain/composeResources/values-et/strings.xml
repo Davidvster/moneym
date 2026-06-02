@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Kinnita eemaldamised</string>
+    <string name="sync_deletions_subtitle">Teine seade eemaldas need üksused. Vali, milliseid siit ka eemaldada. Märkimata üksused jäetakse alles ja taastatakse teisel seadmel.</string>
+    <string name="sync_deletions_group_wallets">Rahakotid</string>
+    <string name="sync_deletions_group_transactions">Tehingud</string>
+    <string name="sync_deletions_group_budgets">Eelarved</string>
+    <string name="sync_deletions_group_recurring">Korduvad</string>
+    <string name="sync_deletions_group_categories">Kategooriad</string>
+    <string name="sync_deletions_group_payment_modes">Makseviisid</string>
+    <string name="sync_deletions_confirm">Eemalda valitud</string>
+    <string name="sync_deletions_cancel">Jäta kõik alles</string>
+    <string name="sync_settings_title">Seadmeteülene sünkroonimine</string>
+    <string name="sync_settings_toggle_title">Sünkrooni seadmetes</string>
+    <string name="sync_settings_toggle_subtitle">Hoia andmeid sünkroonituna kõigis sama varukoopiaga sisselogitud seadmetes.</string>
+    <string name="sync_settings_rename_label">Selle seadme nimi</string>
+    <string name="sync_settings_rename_save">Salvesta</string>
+    <string name="sync_settings_rename_cancel">Tühista</string>
+    <string name="sync_settings_devices_header">SEADMED</string>
+    <string name="sync_settings_this_device">See seade</string>
+    <string name="sync_settings_remove">Eemalda</string>
+    <string name="sync_settings_last_synced_just_now">sünkroonitud just nüüd</string>
+    <string name="sync_settings_last_synced_minutes">sünkroonitud %1$d min tagasi</string>
+    <string name="sync_settings_last_synced_hours">sünkroonitud %1$d h tagasi</string>
+    <string name="sync_settings_last_synced_days">sünkroonitud %1$d p tagasi</string>
+    <string name="sync_settings_last_synced_longer">sünkroonitud mõnda aega tagasi</string>
+</resources>

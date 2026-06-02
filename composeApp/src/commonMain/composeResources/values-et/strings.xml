@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_tab_transactions">Tehingud</string>
+    <string name="nav_tab_overview">Ülevaade</string>
+    <string name="nav_tab_settings">Seaded</string>
+    <string name="category_seed_groceries">Toidukaubad</string>
+    <string name="category_seed_eating_out">Väljas söömine</string>
+    <string name="category_seed_rent">Üür</string>
+    <string name="category_seed_transport">Transport</string>
+    <string name="category_seed_utilities">Kommunaalteenused</string>
+    <string name="category_seed_health">Tervis</string>
+    <string name="category_seed_entertainment">Meelelahutus</string>
+    <string name="category_seed_shopping">Ostlemine</string>
+    <string name="category_seed_other_expense">Muu</string>
+    <string name="category_seed_salary">Palk</string>
+    <string name="category_seed_payment">Makse</string>
+    <string name="category_seed_gift">Kingitus</string>
+    <string name="category_seed_other_income">Muu</string>
+</resources>

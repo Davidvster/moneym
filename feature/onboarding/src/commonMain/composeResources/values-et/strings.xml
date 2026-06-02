@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Tere tulemast MoneyM-i</string>
+    <string name="onboarding_currency_title">Vali vaikimisi valuuta</string>
+    <string name="onboarding_continue">Jätka</string>
+    <string name="onboarding_security_title">Kaitse oma rakendust</string>
+    <string name="onboarding_security_subtitle">Kaitse oma finantsandmeid PIN-koodiga.</string>
+    <string name="onboarding_pin_label">PIN-lukk</string>
+    <string name="onboarding_pin_set">PIN on seadistatud ✓</string>
+    <string name="onboarding_done">Valmis</string>
+    <string name="onboarding_skip">Jäta praegu vahele</string>
+    <string name="onboarding_skip_short">Jäta vahele</string>
+    <string name="onboarding_search_currency">Otsi valuutat…</string>
+    <string name="onboarding_currencies_header">VALUUTAD</string>
+    <string name="onboarding_biometrics_label">Biomeetria</string>
+    <string name="onboarding_biometrics_subtitle">Ava Face ID või sõrmejäljega</string>
+    <string name="onboarding_restore_from_backup">Taasta varukoopiast</string>
+    <string name="onboarding_import_data">Impordi andmed</string>
+    <string name="onboarding_restore_warning_title">Asenda kõik andmed?</string>
+    <string name="onboarding_restore_warning_body">See asendab sinu praegused andmed varukoopiaga ja jätab seadistuse vahele.</string>
+    <string name="onboarding_restore_confirm">Taasta</string>
+    <string name="onboarding_restore_screen_title">Taasta varukoopia</string>
+    <string name="onboarding_restore_local_button">Taasta failist</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">Ühenda Google'i konto</string>
+    <string name="onboarding_restore_google_button">Taasta Google Drive'ist</string>
+    <string name="onboarding_restore_passphrase_label">Varukoopiа parool</string>
+    <string name="onboarding_restore_app_close_notice">Rakendus sulgub pärast taastamist. Jätkamiseks ava see uuesti.</string>
+    <string name="onboarding_restore_cancel">Tühista</string>
+    <string name="onboarding_restore_remote_loading">Laen varukoopia teavet…</string>
+    <string name="onboarding_restore_wrong_password">Vale parool või rikutud varukoopia.</string>
+</resources>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Ülevaade</string>
+    <string name="overview_income">Tulu</string>
+    <string name="overview_expenses">Kulud</string>
+    <string name="overview_by_category">Kulutused kategooriate järgi</string>
+    <string name="overview_trend">6 kuu trend</string>
+    <string name="overview_all_categories">Kõik kategooriad</string>
+    <string name="overview_empty">Sel perioodil pole tehinguid</string>
+    <string name="overview_previous_month">Eelmine kuu</string>
+    <string name="overview_next_month">Järgmine kuu</string>
+    <string name="overview_loading">Laadin…</string>
+    <string name="overview_more">+ %1$d veel</string>
+    <string name="overview_monthly_breakdown">Kuu kokkuvõte</string>
+    <string name="overview_daily_breakdown">Päeva kokkuvõte</string>
+    <string name="overview_all">Kõik</string>
+    <string name="overview_previous">Eelmine</string>
+    <string name="overview_next">Järgmine</string>
+    <string name="overview_switch_to_month">Lülitu kuuvaatesse</string>
+    <string name="overview_switch_to_year">Lülitu aastaatesse</string>
+    <string name="overview_period_month">Kuu</string>
+    <string name="overview_period_year">Aasta</string>
+    <string name="overview_period_custom">Kohandatud</string>
+    <string name="overview_label_income">TULU</string>
+    <string name="overview_label_expenses">KULUD</string>
+    <string name="overview_label_balance">SALDO</string>
+    <string name="overview_spending_by_category">Kulutused kategooriate järgi</string>
+    <string name="overview_no_expenses">Sel perioodil pole kulusid</string>
+    <string name="overview_label_total">KOKKU</string>
+    <string name="overview_cumulative_spend">Kumulatiivsed kulud</string>
+    <string name="overview_through_day">läbi %1$d. päeva</string>
+    <string name="overview_daily_trend">Päevane trend kategooriate järgi</string>
+    <string name="overview_monthly_spending">Kuu kulutused</string>
+    <string name="overview_monthly_trend">Kuu trend kategooriate järgi</string>
+    <string name="overview_avg_day">KESK. / PÄEV</string>
+    <string name="overview_avg_month">KESK. / KUU</string>
+    <string name="overview_dialog_select_month">Vali kuu</string>
+    <string name="overview_dialog_select_year">Vali aasta</string>
+    <string name="overview_prev_year_cd">Eelmine aasta</string>
+    <string name="overview_next_year_cd">Järgmine aasta</string>
+    <string name="overview_analyze_cd">Analüüsi tehisintellektiga</string>
+    <string name="overview_now">Praegu</string>
+    <string name="overview_ok">OK</string>
+    <string name="overview_cancel">Tühista</string>
+    <string name="overview_tx_count_singular">%1$d tehing</string>
+    <string name="overview_tx_count_plural">%1$d tehingut</string>
+    <string name="overview_cat_avg_day">kesk./päev</string>
+    <string name="overview_cat_avg_month">kesk./kuu</string>
+    <string name="overview_date_range_title">Vali kuupäevavahemik</string>
+    <string name="overview_date_range_from">ALATES</string>
+    <string name="overview_date_range_to">KUNI</string>
+    <string name="overview_budgets_title">Eelarved</string>
+    <string name="overview_budgets_all_categories">Kõik kategooriad</string>
+    <string name="overview_budgets_remaining_suffix">%1$s jäänud</string>
+    <string name="overview_budgets_overrun_suffix">%1$s üle</string>
+    <string-array name="overview_year_x_labels">
+        <item>jaan</item>
+        <item>apr</item>
+        <item>juuli</item>
+        <item>okt</item>
+        <item>dets</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>

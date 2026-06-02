@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">Seadista PIN</string>
+    <string name="security_pin_confirm_title">Kinnita PIN</string>
+    <string name="security_pin_enter_title">Sisesta PIN</string>
+    <string name="security_pin_subtitle_first">Sisesta 4-kohaline PIN</string>
+    <string name="security_pin_subtitle_confirm">Sisesta PIN uuesti</string>
+    <string name="security_pin_mismatch">PIN-koodid ei ühti</string>
+    <string name="security_pin_incorrect">Vale PIN</string>
+    <string name="security_pin_locked">Liiga palju katseid</string>
+    <string name="security_biometric_use">Kasuta biomeetriat</string>
+    <string name="security_biometric_reason">Ava MoneyM</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Tühista</string>
+    <string name="security_backoff_retry">Proovi uuesti %1$ds pärast</string>
+    <string name="security_change_pin_title">Muuda PIN</string>
+    <string name="security_pin_set_header">Seadista PIN</string>
+    <string name="security_pin_confirm_header">Kinnita PIN</string>
+    <string name="security_pin_enter_header">Sisesta PIN</string>
+    <string name="security_biometric_offer_title">Luba biomeetria?</string>
+    <string name="security_biometric_offer_body">Ava MoneyM kiiresti Face ID või sõrmejäljega.</string>
+    <string name="security_biometric_offer_enable">Luba</string>
+    <string name="security_biometric_offer_skip">Mitte praegu</string>
+    <string name="security_biometric_unlock_prompt">Ava MoneyM</string>
+</resources>
