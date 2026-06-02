@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Potrdi odstranitve</string>
+    <string name="sync_deletions_subtitle">Druga naprava je odstranila te elemente. Izberite, katere želite odstraniti tudi tukaj. Neoznačeni elementi se ohranijo in obnovijo na drugi napravi.</string>
+    <string name="sync_deletions_group_wallets">Denarnice</string>
+    <string name="sync_deletions_group_transactions">Transakcije</string>
+    <string name="sync_deletions_group_budgets">Proračuni</string>
+    <string name="sync_deletions_group_recurring">Ponavljajoče</string>
+    <string name="sync_deletions_group_categories">Kategorije</string>
+    <string name="sync_deletions_group_payment_modes">Načini plačila</string>
+    <string name="sync_deletions_confirm">Odstrani izbrane</string>
+    <string name="sync_deletions_cancel">Ohrani vse</string>
+    <string name="sync_settings_title">Sinhronizacija med napravami</string>
+    <string name="sync_settings_toggle_title">Sinhroniziraj med napravami</string>
+    <string name="sync_settings_toggle_subtitle">Ohranite podatke sinhronizirane na vsaki napravi, prijavljeni v isto varnostno kopijo.</string>
+    <string name="sync_settings_rename_label">Ime te naprave</string>
+    <string name="sync_settings_rename_save">Shrani</string>
+    <string name="sync_settings_rename_cancel">Prekliči</string>
+    <string name="sync_settings_devices_header">NAPRAVE</string>
+    <string name="sync_settings_this_device">Ta naprava</string>
+    <string name="sync_settings_remove">Odstrani</string>
+    <string name="sync_settings_last_synced_just_now">pravkar sinhronizirano</string>
+    <string name="sync_settings_last_synced_minutes">sinhronizirano pred %1$d min</string>
+    <string name="sync_settings_last_synced_hours">sinhronizirano pred %1$d ur</string>
+    <string name="sync_settings_last_synced_days">sinhronizirano pred %1$d dnevi</string>
+    <string name="sync_settings_last_synced_longer">sinhronizirano pred časom</string>
+</resources>

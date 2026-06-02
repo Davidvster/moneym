@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Transakcije</string>
+    <string name="transactions_add">Dodaj transakcijo</string>
+    <string name="transactions_filter_all">Vse</string>
+    <string name="transactions_filter_expenses">Stroški</string>
+    <string name="transactions_filter_income">Prihodki</string>
+    <string name="transactions_filter_categories">Filtriraj po kategoriji</string>
+    <string name="transactions_filter_clear">Počisti</string>
+    <string name="transactions_filter_done">Končano</string>
+    <string name="transactions_empty">Ta mesec ni transakcij</string>
+    <string name="transactions_previous_month">Prejšnji mesec</string>
+    <string name="transactions_next_month">Naslednji mesec</string>
+    <string name="transactions_loading">Nalaganje…</string>
+    <string name="transactions_search_placeholder">Iskanje transakcij…</string>
+    <string name="transactions_search_cd">Iskanje</string>
+    <string name="transactions_close_search_cd">Zapri iskanje</string>
+    <string name="transactions_net_label">NETO</string>
+    <string name="transactions_dialog_select_month">Izberi mesec</string>
+    <string name="transactions_prev_year_cd">Prejšnje leto</string>
+    <string name="transactions_next_year_cd">Naslednje leto</string>
+    <string name="transactions_now">Zdaj</string>
+    <string name="transactions_ok">V redu</string>
+    <string name="transactions_cancel">Prekliči</string>
+    <string name="transactions_wallet_select">Izberi denarnico</string>
+    <string name="transactions_wallet_all">Vse denarnice</string>
+    <string name="transactions_syncing">Sinhronizacija…</string>
+    <string name="transactions_pending_deletions">%1$d elementov odstranjenih na drugi napravi — preglej</string>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analiza</string>
+    <string name="analyze_intro">Vprašajte karkoli o svojih financah za to obdobje.</string>
+    <string name="analyze_input_hint">Zastavite vprašanje…</string>
+    <string name="analyze_send_cd">Pošlji</string>
+    <string name="analyze_grounding_label">Vir podatkov</string>
+    <string name="analyze_grounding_snapshot">Posnetek</string>
+    <string name="analyze_grounding_tools">Orodja</string>
+    <string name="analyze_tools_fallback_notice">Ta model ne podpira orodij. Namesto tega se uporablja posnetek.</string>
+    <string name="analyze_error">Prišlo je do napake. Prosimo, poskusite znova.</string>
+    <string name="analyze_generating">Razmišljam…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Koliko sem porabil ta mesec?</item>
+        <item>Katere so moje glavne kategorije porabe?</item>
+        <item>Kako se ta mesec primerja s prejšnjim?</item>
+        <item>Ali so kakšni nenavadni ali veliki stroški?</item>
+    </string-array>
+</resources>

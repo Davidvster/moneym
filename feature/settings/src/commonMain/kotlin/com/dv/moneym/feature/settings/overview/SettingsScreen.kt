@@ -210,6 +210,7 @@ private fun SettingsContent(
         "ja" -> "日本語"
         "vi" -> "Tiếng Việt"
         "tr" -> "Türkçe"
+        "sl" -> "Slovenščina"
         "ru" -> "Русский"
         "ar" -> "العربية"
         "hi" -> "हिन्दी"

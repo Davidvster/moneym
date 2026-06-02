@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">Nastavi PIN</string>
+    <string name="security_pin_confirm_title">Potrdi PIN</string>
+    <string name="security_pin_enter_title">Vnesite PIN</string>
+    <string name="security_pin_subtitle_first">Vnesite 4-mestno kodo PIN</string>
+    <string name="security_pin_subtitle_confirm">Vnesite PIN znova</string>
+    <string name="security_pin_mismatch">Kodi PIN se ne ujemata</string>
+    <string name="security_pin_incorrect">Napačna koda PIN</string>
+    <string name="security_pin_locked">Preveč poskusov</string>
+    <string name="security_biometric_use">Uporabi biometrijo</string>
+    <string name="security_biometric_reason">Odkleni MoneyM</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Prekliči</string>
+    <string name="security_backoff_retry">Poskusite znova čez %1$d s</string>
+    <string name="security_change_pin_title">Sprememba kode PIN</string>
+    <string name="security_pin_set_header">Nastavite svojo kodo PIN</string>
+    <string name="security_pin_confirm_header">Potrdite svojo kodo PIN</string>
+    <string name="security_pin_enter_header">Vnesite svojo kodo PIN</string>
+    <string name="security_biometric_offer_title">Omogočiti biometrijo?</string>
+    <string name="security_biometric_offer_body">Hitro odklenite MoneyM z Face ID ali prstnim odtisom.</string>
+    <string name="security_biometric_offer_enable">Omogoči</string>
+    <string name="security_biometric_offer_skip">Ne zdaj</string>
+    <string name="security_biometric_unlock_prompt">Odkleni MoneyM</string>
+</resources>

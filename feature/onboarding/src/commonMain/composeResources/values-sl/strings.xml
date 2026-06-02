@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Dobrodošli v MoneyM</string>
+    <string name="onboarding_currency_title">Izberite privzeto valuto</string>
+    <string name="onboarding_continue">Nadaljuj</string>
+    <string name="onboarding_security_title">Zavarujte svojo aplikacijo</string>
+    <string name="onboarding_security_subtitle">Zaščitite svoje finančne podatke s kodo PIN.</string>
+    <string name="onboarding_pin_label">Zaklepanje s PIN</string>
+    <string name="onboarding_pin_set">PIN je nastavljen ✓</string>
+    <string name="onboarding_done">Končano</string>
+    <string name="onboarding_skip">Preskoči za zdaj</string>
+    <string name="onboarding_skip_short">Preskoči</string>
+    <string name="onboarding_search_currency">Iskanje valute…</string>
+    <string name="onboarding_currencies_header">VALUTE</string>
+    <string name="onboarding_biometrics_label">Biometrija</string>
+    <string name="onboarding_biometrics_subtitle">Odkleni z Face ID ali prstnim odtisom</string>
+    <string name="onboarding_restore_from_backup">Obnovi iz varnostne kopije</string>
+    <string name="onboarding_import_data">Uvozi podatke</string>
+    <string name="onboarding_restore_warning_title">Zamenjati vse podatke?</string>
+    <string name="onboarding_restore_warning_body">To bo zamenjalo vaše trenutne podatke z varnostno kopijo in preskočilo nastavitev.</string>
+    <string name="onboarding_restore_confirm">Obnovi</string>
+    <string name="onboarding_restore_screen_title">Obnovi varnostno kopijo</string>
+    <string name="onboarding_restore_local_button">Obnovi iz datoteke</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">Poveži Google račun</string>
+    <string name="onboarding_restore_google_button">Obnovi iz Google Drive</string>
+    <string name="onboarding_restore_passphrase_label">Geslo za varnostno kopijo</string>
+    <string name="onboarding_restore_app_close_notice">Aplikacija se bo zaprla po obnovitvi. Znova jo odprite za nadaljevanje.</string>
+    <string name="onboarding_restore_cancel">Prekliči</string>
+    <string name="onboarding_restore_remote_loading">Pridobivanje informacij o varnostni kopiji…</string>
+    <string name="onboarding_restore_wrong_password">Napačno geslo ali poškodovana varnostna kopija.</string>
+</resources>
