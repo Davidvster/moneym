@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="security_pin_setup_title">PIN beállítása</string>
+    <string name="security_pin_confirm_title">PIN megerősítése</string>
+    <string name="security_pin_enter_title">Adja meg a PIN-t</string>
+    <string name="security_pin_subtitle_first">Adjon meg egy 4 jegyű PIN-t</string>
+    <string name="security_pin_subtitle_confirm">Adja meg a PIN-t újra</string>
+    <string name="security_pin_mismatch">A PIN-kódok nem egyeznek</string>
+    <string name="security_pin_incorrect">Helytelen PIN</string>
+    <string name="security_pin_locked">Túl sok kísérlet</string>
+    <string name="security_biometric_use">Biometria használata</string>
+    <string name="security_biometric_reason">MoneyM feloldása</string>
+    <string name="security_app_name">MoneyM</string>
+    <string name="security_cancel">Mégsem</string>
+    <string name="security_backoff_retry">Próbálkozzon újra %1$d mp múlva</string>
+    <string name="security_change_pin_title">PIN módosítása</string>
+    <string name="security_pin_set_header">PIN beállítása</string>
+    <string name="security_pin_confirm_header">PIN megerősítése</string>
+    <string name="security_pin_enter_header">Adja meg a PIN-t</string>
+    <string name="security_biometric_offer_title">Engedélyezi a biometriát?</string>
+    <string name="security_biometric_offer_body">Gyorsan oldja fel a MoneyM-et Face ID-vel vagy ujjlenyomattal.</string>
+    <string name="security_biometric_offer_enable">Engedélyezés</string>
+    <string name="security_biometric_offer_skip">Nem most</string>
+    <string name="security_biometric_unlock_prompt">MoneyM feloldása</string>
+</resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Költségvetések</string>
+    <string name="budgets_empty">Még nincs költségvetés</string>
+    <string name="budgets_new">Új költségvetés</string>
+    <string name="budgets_new_title">Új költségvetés</string>
+    <string name="budgets_edit_title">Költségvetés szerkesztése</string>
+    <string name="budgets_name_label">Név</string>
+    <string name="budgets_amount_label">Összeg</string>
+    <string name="budgets_account_label">Fiók</string>
+    <string name="budgets_account_filter_label">Fiók</string>
+    <string name="budgets_category_label">Kategória</string>
+    <string name="budgets_all_categories">Minden kategória</string>
+    <string name="budgets_start_month">Kezdő hónap</string>
+    <string name="budgets_recurring">Ismétlődő</string>
+    <string name="budgets_recurring_single">Egyszeri</string>
+    <string name="budgets_recurring_unlimited">Korlátlan</string>
+    <string name="budgets_recurring_n_months">N hónap</string>
+    <string name="budgets_recurring_count_label">Hónapok száma</string>
+    <string name="budgets_recurring_badge_unlimited">Ismétlődő</string>
+    <string name="budgets_recurring_badge_n_months">%1$d hónap</string>
+    <string name="budgets_save">Mentés</string>
+    <string name="budgets_cancel">Mégsem</string>
+    <string name="budgets_delete">Törlés</string>
+    <string name="budgets_delete_confirm_title">Törli: „%1$s"?</string>
+    <string name="budgets_delete_confirm_body">Ez eltávolítja a költségvetést. A tranzakciók érintetlenek maradnak.</string>
+    <string name="budgets_placeholder_name">Élelmiszer</string>
+    <string name="budgets_error_required">Kötelező</string>
+    <string name="budgets_error_amount">Adjon meg 0-nál nagyobb összeget</string>
+    <string name="budgets_error_count">0-nál nagyobbnak kell lennie</string>
+    <string name="budgets_prev_month">Előző hónap</string>
+    <string name="budgets_next_month">Következő hónap</string>
+    <string name="budgets_no_month">—</string>
+    <string name="budgets_month_picker_title">Hónap kiválasztása</string>
+    <string name="budgets_month_picker_now">Ez a hónap</string>
+    <string name="budgets_month_picker_ok">OK</string>
+    <string name="budgets_month_picker_cancel">Mégsem</string>
+    <string name="budgets_month_picker_prev_year_cd">Előző év</string>
+    <string name="budgets_month_picker_next_year_cd">Következő év</string>
+</resources>

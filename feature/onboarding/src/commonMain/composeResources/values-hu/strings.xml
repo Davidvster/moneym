@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_welcome">Üdvözli a MoneyM</string>
+    <string name="onboarding_currency_title">Válassza ki az alapértelmezett pénznemet</string>
+    <string name="onboarding_continue">Folytatás</string>
+    <string name="onboarding_security_title">Védje meg az alkalmazást</string>
+    <string name="onboarding_security_subtitle">Védje pénzügyi adatait PIN-kóddal.</string>
+    <string name="onboarding_pin_label">PIN-zárolás</string>
+    <string name="onboarding_pin_set">PIN beállítva ✓</string>
+    <string name="onboarding_done">Kész</string>
+    <string name="onboarding_skip">Kihagyás most</string>
+    <string name="onboarding_skip_short">Kihagyás</string>
+    <string name="onboarding_search_currency">Pénznem keresése…</string>
+    <string name="onboarding_currencies_header">PÉNZNEMEK</string>
+    <string name="onboarding_biometrics_label">Biometria</string>
+    <string name="onboarding_biometrics_subtitle">Feloldás Face ID-vel vagy ujjlenyomattal</string>
+    <string name="onboarding_restore_from_backup">Visszaállítás biztonsági mentésből</string>
+    <string name="onboarding_import_data">Adatok importálása</string>
+    <string name="onboarding_restore_warning_title">Felváltja az összes adatot?</string>
+    <string name="onboarding_restore_warning_body">Ez a biztonsági mentéssel felváltja a jelenlegi adatait és kihagyja a beállítást.</string>
+    <string name="onboarding_restore_confirm">Visszaállítás</string>
+    <string name="onboarding_restore_screen_title">Biztonsági mentés visszaállítása</string>
+    <string name="onboarding_restore_local_button">Visszaállítás fájlból</string>
+    <string name="onboarding_restore_google_section">Google Drive</string>
+    <string name="onboarding_restore_google_connect">Google fiók csatlakoztatása</string>
+    <string name="onboarding_restore_google_button">Visszaállítás Google Drive-ból</string>
+    <string name="onboarding_restore_passphrase_label">Biztonsági mentés jelszava</string>
+    <string name="onboarding_restore_app_close_notice">Az alkalmazás bezárul a visszaállítás után. Nyissa meg újra a folytatáshoz.</string>
+    <string name="onboarding_restore_cancel">Mégsem</string>
+    <string name="onboarding_restore_remote_loading">Biztonsági mentés adatainak betöltése…</string>
+    <string name="onboarding_restore_wrong_password">Helytelen jelszó vagy sérült biztonsági mentés.</string>
+</resources>

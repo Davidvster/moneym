@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Elemzés</string>
+    <string name="analyze_intro">Kérdezzen bármit a pénzügyeiről ebben az időszakban.</string>
+    <string name="analyze_input_hint">Tegyen fel kérdést…</string>
+    <string name="analyze_send_cd">Küldés</string>
+    <string name="analyze_grounding_label">Adatforrás</string>
+    <string name="analyze_grounding_snapshot">Pillanatkép</string>
+    <string name="analyze_grounding_tools">Eszközök</string>
+    <string name="analyze_tools_fallback_notice">Ez a modell nem támogatja az eszközöket. Ehelyett pillanatkép kerül felhasználásra.</string>
+    <string name="analyze_error">Valami hiba történt. Próbálja újra.</string>
+    <string name="analyze_generating">Gondolkodom…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Mennyit költöttem ebben a hónapban?</item>
+        <item>Melyek a legmagasabb kiadási kategóriáim?</item>
+        <item>Hogyan viszonyul ez a hónap az előzőhöz?</item>
+        <item>Vannak szokatlan vagy nagy kiadások?</item>
+    </string-array>
+</resources>

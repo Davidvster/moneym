@@ -1,0 +1,18 @@
+<resources>
+    <string name="nav_tab_transactions">Tranzakciók</string>
+    <string name="nav_tab_overview">Áttekintés</string>
+    <string name="nav_tab_settings">Beállítások</string>
+    <string name="category_seed_groceries">Élelmiszer</string>
+    <string name="category_seed_eating_out">Étterem</string>
+    <string name="category_seed_rent">Lakbér</string>
+    <string name="category_seed_transport">Közlekedés</string>
+    <string name="category_seed_utilities">Közüzemi díjak</string>
+    <string name="category_seed_health">Egészség</string>
+    <string name="category_seed_entertainment">Szórakozás</string>
+    <string name="category_seed_shopping">Vásárlás</string>
+    <string name="category_seed_other_expense">Egyéb</string>
+    <string name="category_seed_salary">Fizetés</string>
+    <string name="category_seed_payment">Kifizetés</string>
+    <string name="category_seed_gift">Ajándék</string>
+    <string name="category_seed_other_income">Egyéb</string>
+</resources>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview_title">Áttekintés</string>
+    <string name="overview_income">Bevételek</string>
+    <string name="overview_expenses">Kiadások</string>
+    <string name="overview_by_category">Kiadások kategóriánként</string>
+    <string name="overview_trend">6 hónapos trend</string>
+    <string name="overview_all_categories">Minden kategória</string>
+    <string name="overview_empty">Nincs tranzakció ebben az időszakban</string>
+    <string name="overview_previous_month">Előző hónap</string>
+    <string name="overview_next_month">Következő hónap</string>
+    <string name="overview_loading">Betöltés…</string>
+    <string name="overview_more">+ %1$d több</string>
+    <string name="overview_monthly_breakdown">Havi bontás</string>
+    <string name="overview_daily_breakdown">Napi bontás</string>
+    <string name="overview_all">Mind</string>
+    <string name="overview_previous">Előző</string>
+    <string name="overview_next">Következő</string>
+    <string name="overview_switch_to_month">Váltás havi nézetre</string>
+    <string name="overview_switch_to_year">Váltás éves nézetre</string>
+    <string name="overview_period_month">Hónap</string>
+    <string name="overview_period_year">Év</string>
+    <string name="overview_period_custom">Egyéni</string>
+    <string name="overview_label_income">BEVÉTELEK</string>
+    <string name="overview_label_expenses">KIADÁSOK</string>
+    <string name="overview_label_balance">EGYENLEG</string>
+    <string name="overview_spending_by_category">Kiadások kategóriánként</string>
+    <string name="overview_no_expenses">Nincs kiadás ebben az időszakban</string>
+    <string name="overview_label_total">ÖSSZESEN</string>
+    <string name="overview_cumulative_spend">Kumulatív kiadás</string>
+    <string name="overview_through_day">%1$d. napig</string>
+    <string name="overview_daily_trend">Napi trend kategóriánként</string>
+    <string name="overview_monthly_spending">Havi kiadás</string>
+    <string name="overview_monthly_trend">Havi trend kategóriánként</string>
+    <string name="overview_avg_day">ÁTLAG / NAP</string>
+    <string name="overview_avg_month">ÁTLAG / HÓNAP</string>
+    <string name="overview_dialog_select_month">Hónap kiválasztása</string>
+    <string name="overview_dialog_select_year">Év kiválasztása</string>
+    <string name="overview_prev_year_cd">Előző év</string>
+    <string name="overview_next_year_cd">Következő év</string>
+    <string name="overview_analyze_cd">Elemzés AI-val</string>
+    <string name="overview_now">Most</string>
+    <string name="overview_ok">OK</string>
+    <string name="overview_cancel">Mégsem</string>
+    <string name="overview_tx_count_singular">%1$d tranzakció</string>
+    <string name="overview_tx_count_plural">%1$d tranzakció</string>
+    <string name="overview_cat_avg_day">átlag/nap</string>
+    <string name="overview_cat_avg_month">átlag/hó</string>
+    <string name="overview_date_range_title">Dátumtartomány kiválasztása</string>
+    <string name="overview_date_range_from">ETTŐL</string>
+    <string name="overview_date_range_to">EDDIG</string>
+    <string name="overview_budgets_title">Költségvetések</string>
+    <string name="overview_budgets_all_categories">Minden kategória</string>
+    <string name="overview_budgets_remaining_suffix">%1$s maradt</string>
+    <string name="overview_budgets_overrun_suffix">%1$s túllépve</string>
+    <string-array name="overview_year_x_labels">
+        <item>jan</item>
+        <item>ápr</item>
+        <item>júl</item>
+        <item>okt</item>
+        <item>dec</item>
+    </string-array>
+    <string-array name="overview_month_x_labels">
+        <item>1</item>
+        <item>8</item>
+        <item>15</item>
+        <item>22</item>
+        <item>31</item>
+    </string-array>
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Kategóriák</string>
+    <string name="categories_add">Kategória hozzáadása</string>
+    <string name="categories_edit_title">Kategória szerkesztése</string>
+    <string name="categories_new_title">Új kategória</string>
+    <string name="categories_name_label">Név</string>
+    <string name="categories_name_error">A név kötelező</string>
+    <string name="categories_icon_label">Ikon</string>
+    <string name="categories_color_label">Szín</string>
+    <string name="categories_archive">Archiválás</string>
+    <string name="categories_restore">Visszaállítás</string>
+    <string name="categories_show_archived">Archivált megjelenítése</string>
+    <string name="categories_hide_archived">Archivált elrejtése</string>
+    <string name="categories_archived_badge">Archivált</string>
+    <string name="categories_empty">Még nincs kategória</string>
+    <string name="categories_back">Vissza</string>
+    <string name="categories_show_archived_count">Archivált megjelenítése (%1$d)</string>
+    <string name="categories_cancel">Mégsem</string>
+    <string name="categories_save">Mentés</string>
+    <string name="categories_new_button">Új</string>
+    <string name="categories_tab_expense">Kiadás</string>
+    <string name="categories_tab_income">Bevétel</string>
+    <string name="categories_hint">hosszan nyomva átrendezhet</string>
+    <string name="categories_new_expense">Új kiadási kategória</string>
+    <string name="categories_new_income">Új bevételi kategória</string>
+    <string name="categories_name_placeholder">pl. Élelmiszer</string>
+    <string name="categories_edit_sheet_title">Kategória szerkesztése</string>
+    <string name="categories_new_sheet_title">Új kategória</string>
+    <string name="categories_delete">Kategória törlése</string>
+    <string name="categories_save_changes">Változtatások mentése</string>
+    <string name="categories_create">Kategória létrehozása</string>
+    <string name="categories_delete_confirm_title">Törli: „%1$s"?</string>
+    <string name="categories_delete_confirm_body">Ez eltávolítja a kategóriát. Az azt használó tranzakciók érintve lehetnek.</string>
+    <string name="categories_delete_button">Törlés</string>
+    <string name="categories_color_picker_title">Szín kiválasztása</string>
+    <string name="categories_color_hue">Árnyalat</string>
+    <string name="categories_color_saturation">Telítettség</string>
+    <string name="categories_color_brightness">Fényerő</string>
+    <string name="categories_color_hex">Hex szín</string>
+    <string name="categories_color_select">Szín kiválasztása</string>
+    <string name="categories_name_preview_placeholder">Kategória neve</string>
+</resources>

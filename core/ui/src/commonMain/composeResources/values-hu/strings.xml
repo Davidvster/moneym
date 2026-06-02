@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_transactions">Tranzakciók</string>
+    <string name="tab_overview">Áttekintés</string>
+    <string name="tab_settings">Beállítások</string>
+    <string name="amount_input_calculator_desc">Számológép megnyitása</string>
+    <string name="month_jan">Január</string>
+    <string name="month_feb">Február</string>
+    <string name="month_mar">Március</string>
+    <string name="month_apr">Április</string>
+    <string name="month_may">Május</string>
+    <string name="month_jun">Június</string>
+    <string name="month_jul">Július</string>
+    <string name="month_aug">Augusztus</string>
+    <string name="month_sep">Szeptember</string>
+    <string name="month_oct">Október</string>
+    <string name="month_nov">November</string>
+    <string name="month_dec">December</string>
+    <string name="colorpicker_title">Szín kiválasztása</string>
+    <string name="colorpicker_hue">Árnyalat</string>
+    <string name="colorpicker_saturation">Telítettség</string>
+    <string name="colorpicker_brightness">Fényerő</string>
+    <string name="colorpicker_hex">Hex szín</string>
+    <string name="colorpicker_select">Szín kiválasztása</string>
+    <string name="colorpicker_cancel">Mégsem</string>
+    <string name="wallet_select">Tárca kiválasztása</string>
+    <string name="cancel">Mégsem</string>
+</resources>

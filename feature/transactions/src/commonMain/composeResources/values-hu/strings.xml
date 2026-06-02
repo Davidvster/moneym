@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Tranzakciók</string>
+    <string name="transactions_add">Tranzakció hozzáadása</string>
+    <string name="transactions_filter_all">Mind</string>
+    <string name="transactions_filter_expenses">Kiadások</string>
+    <string name="transactions_filter_income">Bevételek</string>
+    <string name="transactions_filter_categories">Szűrés kategória szerint</string>
+    <string name="transactions_filter_clear">Törlés</string>
+    <string name="transactions_filter_done">Kész</string>
+    <string name="transactions_empty">Nincs tranzakció ebben a hónapban</string>
+    <string name="transactions_previous_month">Előző hónap</string>
+    <string name="transactions_next_month">Következő hónap</string>
+    <string name="transactions_loading">Betöltés…</string>
+    <string name="transactions_search_placeholder">Tranzakciók keresése…</string>
+    <string name="transactions_search_cd">Keresés</string>
+    <string name="transactions_close_search_cd">Keresés bezárása</string>
+    <string name="transactions_net_label">NETTÓ</string>
+    <string name="transactions_dialog_select_month">Hónap kiválasztása</string>
+    <string name="transactions_prev_year_cd">Előző év</string>
+    <string name="transactions_next_year_cd">Következő év</string>
+    <string name="transactions_now">Most</string>
+    <string name="transactions_ok">OK</string>
+    <string name="transactions_cancel">Mégsem</string>
+    <string name="transactions_wallet_select">Tárca kiválasztása</string>
+    <string name="transactions_wallet_all">Összes tárca</string>
+    <string name="transactions_syncing">Szinkronizálás…</string>
+    <string name="transactions_pending_deletions">%1$d elem eltávolítva egy másik eszközön — áttekintés</string>
+</resources>

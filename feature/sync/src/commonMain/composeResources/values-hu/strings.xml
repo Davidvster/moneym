@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sync_deletions_title">Eltávolítások megerősítése</string>
+    <string name="sync_deletions_subtitle">Egy másik eszköz eltávolította ezeket az elemeket. Válassza ki, melyeket szeretné itt is eltávolítani. A nem bejelölt elemek megmaradnak és visszaállnak a másik eszközre.</string>
+    <string name="sync_deletions_group_wallets">Tárcák</string>
+    <string name="sync_deletions_group_transactions">Tranzakciók</string>
+    <string name="sync_deletions_group_budgets">Költségvetések</string>
+    <string name="sync_deletions_group_recurring">Ismétlődők</string>
+    <string name="sync_deletions_group_categories">Kategóriák</string>
+    <string name="sync_deletions_group_payment_modes">Fizetési módok</string>
+    <string name="sync_deletions_confirm">Kijelöltek eltávolítása</string>
+    <string name="sync_deletions_cancel">Összes megtartása</string>
+    <string name="sync_settings_title">Eszközök közötti szinkronizálás</string>
+    <string name="sync_settings_toggle_title">Szinkronizálás eszközök között</string>
+    <string name="sync_settings_toggle_subtitle">Tartsa szinkronban adatait minden eszközön, amely ugyanahhoz a mentéshez van bejelentkezve.</string>
+    <string name="sync_settings_rename_label">Az eszköz neve</string>
+    <string name="sync_settings_rename_save">Mentés</string>
+    <string name="sync_settings_rename_cancel">Mégsem</string>
+    <string name="sync_settings_devices_header">ESZKÖZÖK</string>
+    <string name="sync_settings_this_device">Ez az eszköz</string>
+    <string name="sync_settings_remove">Eltávolítás</string>
+    <string name="sync_settings_last_synced_just_now">szinkronizálva most</string>
+    <string name="sync_settings_last_synced_minutes">szinkronizálva %1$d perce</string>
+    <string name="sync_settings_last_synced_hours">szinkronizálva %1$d órája</string>
+    <string name="sync_settings_last_synced_days">szinkronizálva %1$d napja</string>
+    <string name="sync_settings_last_synced_longer">szinkronizálva régen</string>
+</resources>
