@@ -9,7 +9,7 @@
 | 5 | Feature VM tests (22) | ✅ done (130 tests, 20/22; OnboardingRestore+BackupRestore blocked) |
 | 6 | UseCase tests (12) | ✅ done (~70 tests) |
 | 7 | Previews (10 core:ui + screens) | ✅ done (10 core:ui + 8 screens added; most screens already had previews) |
-| 8 | Build verify Android + iOS | ☐ pending |
+| 8 | Build verify Android + iOS | ✅ done (all tests + assembleDebug + iOS link + xcodebuild green) |
 
 ## Phase 4 blocker note
 Direct in-memory Room tests are not feasible from `commonTest`. On the Android
@@ -27,5 +27,17 @@ indirectly: the repo layer above them is fully covered (Phase 3), and the
 entity↔domain mappers they rely on are covered (Phase 2). Future option: a
 Robolectric-based `androidUnitTest` source set, or native-only `iosSimulatorArm64Test`
 where the reified builder resolves.
+
+## Phase 8 result
+- `./gradlew testDebugUnitTest` — all green. Fixed one pre-existing failure:
+  `FakeBudgetRepository.delete()` tombstoned via a plain `Set`, so the mapped
+  `observeAll()` StateFlow never re-emitted → `BudgetListViewModelTest.
+  delete_request_then_confirm_removes_budget` timed out. Converted `tombstoned`
+  to a `MutableStateFlow<Set<Long>>` and `combine`d it into `observeAll`/
+  `observeByAccount` so deletes re-emit.
+- `:composeApp:assembleDebug` — SUCCESS.
+- `:composeApp:linkDebugFrameworkIosArm64` + `IosSimulatorArm64` — SUCCESS.
+- `xcodebuild -scheme iosApp -destination "generic/platform=iOS Simulator"` —
+  ** BUILD SUCCEEDED **.
 
 Plan: `~/.claude/plans/ultra-1-i-see-splendid-deer.md`

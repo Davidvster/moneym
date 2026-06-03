@@ -12,6 +12,7 @@ import com.dv.moneym.data.budgets.BudgetRepository
 import com.dv.moneym.data.budgets.BudgetSyncRow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlin.time.Instant
@@ -22,25 +23,25 @@ class FakeBudgetRepository : BudgetRepository {
 
     private val syncIds = mutableMapOf<Long, String>()
 
-    private val tombstoned = mutableSetOf<Long>()
+    private val _tombstoned = MutableStateFlow<Set<Long>>(emptySet())
     private val updatedAtOverrides = mutableMapOf<Long, Long>()
 
-    val budgets: List<Budget> get() = _budgets.value.filter { it.id.value !in tombstoned }
+    val budgets: List<Budget> get() = _budgets.value.filter { it.id.value !in _tombstoned.value }
 
     fun addAll(budgets: List<Budget>) = _budgets.update { it + budgets }
 
     override fun observeAll(): Flow<List<Budget>> =
-        _budgets.map { list -> list.filter { it.id.value !in tombstoned } }
+        combine(_budgets, _tombstoned) { list, tomb -> list.filter { it.id.value !in tomb } }
 
     override fun observeByAccount(accountId: AccountId): Flow<List<Budget>> =
-        _budgets.map { list ->
+        combine(_budgets, _tombstoned) { list, tomb ->
             list.filter {
-                (it.accountId == accountId || it.accountId.value == 0L) && it.id.value !in tombstoned
+                (it.accountId == accountId || it.accountId.value == 0L) && it.id.value !in tomb
             }
         }
 
     override suspend fun getById(id: BudgetId): Budget? =
-        _budgets.value.find { it.id == id && it.id.value !in tombstoned }
+        _budgets.value.find { it.id == id && it.id.value !in _tombstoned.value }
 
     override suspend fun insert(budget: Budget): BudgetId {
         val id = BudgetId(nextId++)
@@ -53,19 +54,19 @@ class FakeBudgetRepository : BudgetRepository {
     }
 
     override suspend fun delete(id: BudgetId) {
-        tombstoned.add(id.value)
+        _tombstoned.update { it + id.value }
     }
 
     override suspend fun markDeletedBySyncId(syncId: String, now: Long) {
         idForSyncId(syncId)?.let { id ->
-            tombstoned.add(id)
+            _tombstoned.update { it + id }
             updatedAtOverrides[id] = now
         }
     }
 
     override suspend fun reviveBySyncId(syncId: String, now: Long) {
         idForSyncId(syncId)?.let { id ->
-            tombstoned.remove(id)
+            _tombstoned.update { it - id }
             updatedAtOverrides[id] = now
         }
     }
@@ -83,7 +84,7 @@ class FakeBudgetRepository : BudgetRepository {
                 periodType = b.periodType.name,
                 startYearMonth = b.startYearMonth.toString(),
                 recurringMonths = b.recurringMonths,
-                deleted = b.id.value in tombstoned,
+                deleted = b.id.value in _tombstoned.value,
                 createdAt = b.createdAt.toEpochMilliseconds(),
                 updatedAt = updatedAtOverrides[b.id.value] ?: b.updatedAt.toEpochMilliseconds(),
             )
