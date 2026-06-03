@@ -8,7 +8,7 @@
 | 4 | Datasource tests (9, Room in-memory) — RISK | ⛔ blocked/skipped (see note) |
 | 5 | Feature VM tests (22) | ✅ done (130 tests, 20/22; OnboardingRestore+BackupRestore blocked) |
 | 6 | UseCase tests (12) | ✅ done (~70 tests) |
-| 7 | Previews (10 core:ui + ~27 screens) | ☐ pending |
+| 7 | Previews (10 core:ui + screens) | ✅ done (10 core:ui + 8 screens added; most screens already had previews) |
 | 8 | Build verify Android + iOS | ☐ pending |
 
 ## Phase 4 blocker note

@@ -198,3 +198,17 @@ private fun EditWalletContent(
         )
     }
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun EditWalletContentPreview() {
+    com.dv.moneym.core.designsystem.MoneyMTheme {
+        EditWalletContent(
+            state = EditWalletUiState(name = "Travel", colorHex = "#3B82F6", loaded = true),
+            currency = "EUR",
+            onIntent = {},
+            onBack = {},
+            onNavigateToCurrency = {},
+        )
+    }
+}
