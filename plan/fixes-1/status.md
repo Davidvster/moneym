@@ -6,8 +6,8 @@
 | 2 | Mapper tests (6) | ✅ done (75 tests; +fixed 2 pre-existing budgets failures) |
 | 3 | Repo-impl tests (5, fake DS) | ✅ done (62 tests, no prod edits) |
 | 4 | Datasource tests (9, Room in-memory) — RISK | ⛔ blocked/skipped (see note) |
-| 5 | Feature VM tests (22) | ☐ pending |
-| 6 | UseCase tests (12) | ☐ pending |
+| 5 | Feature VM tests (22) | ✅ done (130 tests, 20/22; OnboardingRestore+BackupRestore blocked) |
+| 6 | UseCase tests (12) | ✅ done (~70 tests) |
 | 7 | Previews (10 core:ui + ~27 screens) | ☐ pending |
 | 8 | Build verify Android + iOS | ☐ pending |
 
