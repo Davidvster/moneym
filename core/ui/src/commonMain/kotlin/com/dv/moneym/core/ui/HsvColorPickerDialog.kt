@@ -41,11 +41,13 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMColors
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import moneym.core.ui.generated.resources.Res
 import moneym.core.ui.generated.resources.colorpicker_brightness
 import moneym.core.ui.generated.resources.colorpicker_cancel
@@ -110,6 +112,18 @@ fun HsvColorPickerDialog(
                 onColorSelected = onColorSelected,
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun HsvColorPickerDialogPreview() {
+    MoneyMTheme {
+        HsvColorPickerDialog(
+            initialColor = Color(0.29f, 0.56f, 0.36f),
+            onDismiss = {},
+            onColorSelected = {},
+        )
     }
 }
 

@@ -11,7 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Icon
@@ -84,4 +86,21 @@ fun WalletSwitcherDialog(
         containerColor = colors.surface,
         titleContentColor = colors.text,
     )
+}
+
+@Preview
+@Composable
+private fun WalletSwitcherDialogPreview() {
+    val accounts = listOf(
+        previewAccount(1L, "Cash", "#3B82F6", isDefault = true),
+        previewAccount(2L, "Bank", "#22C55E"),
+    )
+    MoneyMTheme {
+        WalletSwitcherDialog(
+            accounts = accounts,
+            selectedAccountId = AccountId(1L),
+            onDismiss = {},
+            onSelect = {},
+        )
+    }
 }

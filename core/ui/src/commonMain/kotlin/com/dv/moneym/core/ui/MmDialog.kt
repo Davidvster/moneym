@@ -7,8 +7,10 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.DialogProperties
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 
 @Composable
 fun MmDialog(
@@ -50,4 +52,20 @@ fun MmDialog(
         containerColor = colors.surface,
         titleContentColor = colors.text,
     )
+}
+
+@Preview
+@Composable
+private fun MmDialogPreview() {
+    MoneyMTheme {
+        MmDialog(
+            title = "Discard changes?",
+            confirmText = "Discard",
+            onConfirm = {},
+            onDismiss = {},
+            dismissText = "Cancel",
+        ) {
+            Text("Your edits will be lost.", style = MM.type.body, color = MM.colors.text2)
+        }
+    }
 }

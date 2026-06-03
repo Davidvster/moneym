@@ -20,8 +20,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -98,5 +100,21 @@ fun MmDeleteSheet(
             }
             Spacer(modifier = Modifier.height(MM.dimen.padding_1x))
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview
+@Composable
+private fun MmDeleteSheetPreview() {
+    MoneyMTheme {
+        MmDeleteSheet(
+            title = "Delete wallet?",
+            body = "This permanently removes the wallet and its transactions.",
+            cancelText = "Cancel",
+            confirmText = "Delete",
+            onConfirm = {},
+            onCancel = {},
+        )
     }
 }

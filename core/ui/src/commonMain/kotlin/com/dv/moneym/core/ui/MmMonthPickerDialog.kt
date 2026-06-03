@@ -26,7 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.Icon
 
 @Composable
@@ -193,5 +195,26 @@ private fun MonthGrid(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun MmMonthPickerDialogPreview() {
+    MoneyMTheme {
+        MmMonthPickerDialog(
+            currentYear = 2026,
+            currentMonth = 6,
+            nowYear = 2026,
+            nowMonth = 6,
+            title = "Select month",
+            nowLabel = "Now",
+            okLabel = "OK",
+            cancelLabel = "Cancel",
+            prevYearContentDescription = "Previous year",
+            nextYearContentDescription = "Next year",
+            onDismiss = {},
+            onConfirm = { _, _ -> },
+        )
     }
 }
