@@ -23,11 +23,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.CommonCurrencies
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmButton
@@ -271,5 +273,19 @@ private fun OnboardingCurrencyRow(
                 modifier = Modifier.size(16.dp),
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun CurrencyStepPreview() {
+    MoneyMTheme {
+        CurrencyStep(
+            selected = "EUR",
+            searchQuery = "",
+            onSelect = {},
+            onSearchQueryChanged = {},
+            onContinue = {},
+        )
     }
 }

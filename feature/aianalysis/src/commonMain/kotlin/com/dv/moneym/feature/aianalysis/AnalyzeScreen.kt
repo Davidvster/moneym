@@ -18,11 +18,15 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.ai.AiGroundingMode
+import com.dv.moneym.core.ai.ChatMessage
+import com.dv.moneym.core.ai.ChatRole
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.navigation.ModalKey
@@ -160,6 +164,23 @@ private fun AnalyzeContent(
             enabled = !state.isGenerating,
             onInputChange = { onIntent(AnalyzeIntent.InputChanged(it)) },
             onSend = { onIntent(AnalyzeIntent.SendMessage(state.input)) },
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun AnalyzeContentPreview() {
+    MoneyMTheme {
+        AnalyzeContent(
+            state = AnalyzeUiState(
+                messages = listOf(
+                    ChatMessage(ChatRole.USER, "How much did I spend on groceries?"),
+                    ChatMessage(ChatRole.ASSISTANT, "You spent 240 EUR on groceries this month."),
+                ),
+            ),
+            onIntent = {},
+            onBack = {},
         )
     }
 }

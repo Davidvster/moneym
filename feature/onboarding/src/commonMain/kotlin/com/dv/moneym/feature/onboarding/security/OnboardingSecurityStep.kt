@@ -19,11 +19,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
@@ -200,5 +202,20 @@ internal fun SecurityStep(
                 fullWidth = true,
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun SecurityStepPreview() {
+    MoneyMTheme {
+        SecurityStep(
+            pinEnabled = true,
+            biometricAvailable = true,
+            biometricEnabled = false,
+            onSetupPin = {},
+            onFinish = {},
+            onBiometricToggle = {},
+        )
     }
 }

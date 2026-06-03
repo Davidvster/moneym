@@ -9,7 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmSettingsRow
@@ -61,5 +63,13 @@ private fun AboutScreen(onBack: () -> Unit) {
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun AboutScreenPreview() {
+    MoneyMTheme {
+        AboutScreen(onBack = {})
     }
 }

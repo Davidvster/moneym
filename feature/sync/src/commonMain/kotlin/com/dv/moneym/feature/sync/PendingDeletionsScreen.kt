@@ -21,11 +21,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmCard
@@ -183,6 +185,34 @@ private fun DeletionGroupCard(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun PendingDeletionsContentPreview() {
+    MoneyMTheme {
+        PendingDeletionsContent(
+            state = PendingDeletionsUiState(
+                groups = listOf(
+                    DeletionGroup(
+                        type = SyncEntityType.TRANSACTION,
+                        items = listOf(
+                            DeletionItem("t1", "Coffee · 3.50 EUR", checked = true),
+                            DeletionItem("t2", "Groceries · 42.10 EUR", checked = false),
+                        ),
+                    ),
+                    DeletionGroup(
+                        type = SyncEntityType.CATEGORY,
+                        items = listOf(
+                            DeletionItem("c1", "Subscriptions", checked = true),
+                        ),
+                    ),
+                ),
+                selectedCount = 2,
+            ),
+            onIntent = {},
+        )
     }
 }
 

@@ -23,10 +23,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
@@ -330,6 +332,24 @@ private fun RemoteRestoreDialog(
                 modifier = Modifier.padding(top = space.padding_1x),
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun OnboardingRestoreContentPreview() {
+    MoneyMTheme {
+        OnboardingRestoreContent(
+            state = OnboardingRestoreUiState(
+                remoteAvailable = true,
+                remoteSignedIn = true,
+                remoteAccountEmail = "user@example.com",
+            ),
+            onBack = {},
+            onRestoreFromFile = {},
+            onConnectGoogle = {},
+            onRemoteRestore = {},
+        )
     }
 }
 

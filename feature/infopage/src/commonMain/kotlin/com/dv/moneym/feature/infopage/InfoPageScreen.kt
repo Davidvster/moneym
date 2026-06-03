@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.ui.ScreenHeader
 import moneym.feature.infopage.generated.resources.Res
 import moneym.feature.infopage.generated.resources.info_backup_content
@@ -35,5 +37,13 @@ internal fun InfoPageScreen(pageId: String, onBack: () -> Unit) {
                 HtmlText(html = htmlContent)
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun InfoPageScreenPreview() {
+    MoneyMTheme {
+        InfoPageScreen(pageId = "backup", onBack = {})
     }
 }
