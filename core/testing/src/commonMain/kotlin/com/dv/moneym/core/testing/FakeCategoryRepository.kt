@@ -25,9 +25,9 @@ class FakeCategoryRepository : CategoryRepository {
     fun addAll(categories: List<Category>) = _categories.update { it + categories }
 
     override fun observeAll(): Flow<List<Category>> =
-        _categories.map { list -> list.filter { it.id.value !in tombstoned } }
+        _categories.map { list -> list.filter { it.id.value !in tombstoned }.sortedBy { it.sortOrder } }
     override fun observeActive(): Flow<List<Category>> =
-        _categories.map { it.filter { c -> !c.archived && c.id.value !in tombstoned } }
+        _categories.map { it.filter { c -> !c.archived && c.id.value !in tombstoned }.sortedBy { it.sortOrder } }
     override suspend fun getById(id: CategoryId): Category? = _categories.value.find { it.id == id }
     override suspend fun count(): Long = _categories.value.count { it.id.value !in tombstoned }.toLong()
     override suspend fun insert(category: Category): CategoryId {
@@ -37,6 +37,12 @@ class FakeCategoryRepository : CategoryRepository {
     }
     override suspend fun update(category: Category) {
         _categories.update { list -> list.map { if (it.id == category.id) category else it } }
+    }
+    override suspend fun reorder(orderedIds: List<CategoryId>) {
+        val orderMap = orderedIds.mapIndexed { index, id -> id to index }.toMap()
+        _categories.update { list ->
+            list.map { cat -> orderMap[cat.id]?.let { cat.copy(sortOrder = it) } ?: cat }
+        }
     }
     override suspend fun delete(id: CategoryId) {
         tombstoned.add(id.value)
@@ -77,6 +83,7 @@ class FakeCategoryRepository : CategoryRepository {
                 deleted = c.id.value in tombstoned,
                 createdAt = c.createdAt.toEpochMilliseconds(),
                 updatedAt = updatedAtOverrides[c.id.value] ?: c.updatedAt.toEpochMilliseconds(),
+                sortOrder = c.sortOrder,
             )
         }
 
@@ -104,6 +111,7 @@ class FakeCategoryRepository : CategoryRepository {
         createdAt = Instant.fromEpochMilliseconds(createdAt),
         updatedAt = Instant.fromEpochMilliseconds(updatedAt),
         type = if (categoryType == "INCOME") TransactionType.INCOME else TransactionType.EXPENSE,
+        sortOrder = sortOrder,
     )
 
     private fun syncIdFor(id: Long): String = syncIds.getOrPut(id) { "sync-cat-$id" }

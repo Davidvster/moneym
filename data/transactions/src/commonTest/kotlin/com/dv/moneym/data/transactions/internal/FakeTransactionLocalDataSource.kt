@@ -96,6 +96,18 @@ internal class FakeTransactionLocalDataSource : TransactionLocalDataSource {
         mutate { list -> list.map { if (it.accountId == accountId) it.copy(deleted = true, updatedAt = now) else it } }
     }
 
+    override suspend fun reassignCategory(from: Long, to: Long, now: Long) {
+        mutate { list ->
+            list.map { if (it.categoryId == from && !it.deleted) it.copy(categoryId = to, updatedAt = now) else it }
+        }
+    }
+
+    override suspend fun softDeleteByCategory(categoryId: Long, now: Long) {
+        mutate { list ->
+            list.map { if (it.categoryId == categoryId && !it.deleted) it.copy(deleted = true, updatedAt = now) else it }
+        }
+    }
+
     override suspend fun markDeletedBySyncId(syncId: String, now: Long) {
         mutate { list -> list.map { if (it.syncId == syncId) it.copy(deleted = true, updatedAt = now) else it } }
     }

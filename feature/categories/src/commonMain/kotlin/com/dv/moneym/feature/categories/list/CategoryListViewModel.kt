@@ -8,14 +8,18 @@ import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.data.categories.CategoryRepository
-import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
+import com.dv.moneym.data.transactions.TransactionRepository
+import com.dv.moneym.feature.categories.domain.DeleteCategoryUseCase
+import com.dv.moneym.feature.categories.domain.DeleteStrategy
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -30,7 +34,8 @@ import kotlin.time.Clock
 
 class CategoryListViewModel(
     private val categoryRepository: CategoryRepository,
-    private val archiveCategory: ArchiveCategoryUseCase,
+    private val transactionRepository: TransactionRepository,
+    private val deleteCategory: DeleteCategoryUseCase,
     private val dispatchers: DispatcherProvider,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -38,11 +43,7 @@ class CategoryListViewModel(
     private val _showArchived by savedStateHandle.saved { MutableStateFlow(false) }
     private val _activeTab by savedStateHandle.saved { MutableStateFlow(CategoryTab.Expense) }
 
-    // local ordering: maps category id to its display index (for in-memory reorder)
-    // TODO order should be persisted to disk - the category in the database should have an order index
-    private val _manualOrder by savedStateHandle.saved { MutableStateFlow<List<Long>>(emptyList()) }
-
-    private data class EditState(
+    private data class Transient(
         val showCategoryEditSheet: Boolean = false,
         val editingCategory: Category? = null,
         val editingName: String = "",
@@ -51,49 +52,50 @@ class CategoryListViewModel(
         val nameError: String? = null,
         val showDeleteConfirm: Boolean = false,
         val showColorPicker: Boolean = false,
+        val isSaving: Boolean = false,
+        val deleteOptionsFor: Category? = null,
+        val deleteTxCount: Int = 0,
+        val showMigratePicker: Boolean = false,
+        val migrateTargets: List<Category> = emptyList(),
+        val typeConfirmFor: Category? = null,
+        val typeConfirmInput: String = "",
     )
 
-    private val _editState = MutableStateFlow(EditState())
+    private val _transient = MutableStateFlow(Transient())
 
     internal val state: StateFlow<CategoryListUiState> = combine(
         categoryRepository.observeAll(),
         _showArchived,
         _activeTab,
-        _manualOrder,
-        _editState,
-    ) { categories, showArchived, tab, manualOrder, edit ->
+        _transient,
+    ) { categories, showArchived, tab, t ->
         val tabType =
             if (tab == CategoryTab.Expense) TransactionType.EXPENSE else TransactionType.INCOME
         val active = categories.filter { !it.archived && it.type == tabType }
         val archived = categories.filter { it.archived && it.type == tabType }
 
-        // Apply manual ordering: categories not yet in manualOrder go to the end
-        val orderedActive = if (manualOrder.isEmpty()) {
-            active
-        } else {
-            val orderMap = manualOrder.mapIndexed { i, id -> id to i }.toMap()
-            active.sortedWith(Comparator { a, b ->
-                val ia = orderMap[a.id.value] ?: Int.MAX_VALUE
-                val ib = orderMap[b.id.value] ?: Int.MAX_VALUE
-                ia.compareTo(ib)
-            })
-        }
-
         CategoryListUiState(
             isLoading = false,
-            active = orderedActive,
+            active = active,
             archived = archived,
             showArchived = showArchived,
             activeTab = tab,
-            orderedCategories = orderedActive,
-            showCategoryEditSheet = edit.showCategoryEditSheet,
-            editingCategory = edit.editingCategory,
-            editingName = edit.editingName,
-            editingIcon = edit.editingIcon,
-            editingColorHex = edit.editingColorHex,
-            nameError = edit.nameError,
-            showDeleteConfirm = edit.showDeleteConfirm,
-            showColorPicker = edit.showColorPicker,
+            orderedCategories = active,
+            showCategoryEditSheet = t.showCategoryEditSheet,
+            editingCategory = t.editingCategory,
+            editingName = t.editingName,
+            editingIcon = t.editingIcon,
+            editingColorHex = t.editingColorHex,
+            nameError = t.nameError,
+            showDeleteConfirm = t.showDeleteConfirm,
+            showColorPicker = t.showColorPicker,
+            isSaving = t.isSaving,
+            deleteOptionsFor = t.deleteOptionsFor,
+            deleteTxCount = t.deleteTxCount,
+            showMigratePicker = t.showMigratePicker,
+            migrateTargets = t.migrateTargets,
+            typeConfirmFor = t.typeConfirmFor,
+            typeConfirmInput = t.typeConfirmInput,
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, CategoryListUiState())
 
@@ -103,87 +105,195 @@ class CategoryListViewModel(
     internal fun onIntent(intent: CategoryListIntent) {
         when (intent) {
             CategoryListIntent.ToggleShowArchived -> _showArchived.update { !it }
-            is CategoryListIntent.ArchiveRequested -> {
-                viewModelScope.launch {
-                    withContext(dispatchers.io) { archiveCategory(intent.id) }
-                }
-            }
-
-            is CategoryListIntent.UnarchiveRequested -> {
-                viewModelScope.launch {
-                    val cat = withContext(dispatchers.io) { categoryRepository.getById(intent.id) }
-                        ?: return@launch
-                    withContext(dispatchers.io) { categoryRepository.update(cat.copy(archived = false)) }
-                }
-            }
-
-            is CategoryListIntent.SetTab -> setTab(intent.tab)
-            is CategoryListIntent.Reorder -> reorder(intent.fromIndex, intent.toIndex)
+            is CategoryListIntent.ArchiveRequested -> archive(intent.id)
+            is CategoryListIntent.UnarchiveRequested -> unarchive(intent.id)
+            is CategoryListIntent.SetTab -> _activeTab.update { intent.tab }
+            is CategoryListIntent.Reorder -> reorder(intent.orderedIds)
             is CategoryListIntent.CreateCategory ->
                 createCategory(intent.name, intent.icon, intent.colorHex)
 
             is CategoryListIntent.UpdateCategory ->
                 updateCategory(intent.id, intent.name, intent.icon, intent.colorHex)
 
-            is CategoryListIntent.DeleteCategory -> deleteCategory(intent.id)
+            is CategoryListIntent.DeleteCategory -> requestDelete(intent.id)
 
             is CategoryListIntent.ShowCategoryEditSheet -> {
                 if (intent.visible) {
-                    _editState.update {
-                        EditState(showCategoryEditSheet = true)
-                    }
+                    _transient.update { it.copy(showCategoryEditSheet = true) }
                 } else {
-                    _editState.update { EditState() }
+                    closeSheet()
                 }
             }
 
-            is CategoryListIntent.StartEditCategory -> _editState.update {
-                EditState(
+            is CategoryListIntent.StartEditCategory -> _transient.update {
+                it.copy(
                     showCategoryEditSheet = true,
                     editingCategory = intent.category,
                     editingName = intent.category.name,
                     editingIcon = Icon.fromKey(intent.category.iconKey) ?: Icon.Basket,
                     editingColorHex = intent.category.colorHex,
+                    nameError = null,
                 )
             }
 
-            is CategoryListIntent.EditingNameChanged -> _editState.update {
+            is CategoryListIntent.EditingNameChanged -> _transient.update {
                 it.copy(editingName = intent.name, nameError = null)
             }
 
-            is CategoryListIntent.EditingIconChanged -> _editState.update {
+            is CategoryListIntent.EditingIconChanged -> _transient.update {
                 it.copy(editingIcon = intent.icon)
             }
 
-            is CategoryListIntent.EditingColorChanged -> _editState.update {
+            is CategoryListIntent.EditingColorChanged -> _transient.update {
                 it.copy(editingColorHex = intent.colorHex)
             }
 
             is CategoryListIntent.ShowDeleteConfirm ->
-                _editState.update { it.copy(showDeleteConfirm = intent.visible) }
+                _transient.update { it.copy(showDeleteConfirm = intent.visible) }
 
             is CategoryListIntent.ShowColorPicker ->
-                _editState.update { it.copy(showColorPicker = intent.visible) }
+                _transient.update { it.copy(showColorPicker = intent.visible) }
+
+            CategoryListIntent.ConfirmSimpleDelete -> confirmSimpleDelete()
+            is CategoryListIntent.OpenDeleteOptions -> openDeleteOptions(intent.category)
+            CategoryListIntent.DismissDeleteOptions ->
+                _transient.update { it.copy(deleteOptionsFor = null, deleteTxCount = 0) }
+
+            CategoryListIntent.DeleteArchive -> deleteArchive()
+            CategoryListIntent.OpenMigratePicker -> openMigratePicker()
+            CategoryListIntent.DismissMigratePicker ->
+                _transient.update { it.copy(showMigratePicker = false) }
+
+            is CategoryListIntent.MigrateTo -> migrateTo(intent.target)
+            CategoryListIntent.OpenDeleteAllConfirm -> openDeleteAllConfirm()
+            is CategoryListIntent.TypeConfirmChanged ->
+                _transient.update { it.copy(typeConfirmInput = intent.text) }
+
+            CategoryListIntent.DismissDeleteAllConfirm ->
+                _transient.update { it.copy(typeConfirmFor = null, typeConfirmInput = "") }
+
+            CategoryListIntent.ConfirmDeleteAll -> confirmDeleteAll()
         }
     }
 
-    private fun setTab(tab: CategoryTab) {
-        _activeTab.update { tab }
+    private fun reorder(orderedIds: List<CategoryId>) {
+        if (orderedIds.isEmpty()) return
+        _transient.update { it.copy(isSaving = true) }
+        viewModelScope.launch {
+            withContext(dispatchers.io) { categoryRepository.reorder(orderedIds) }
+            _transient.update { it.copy(isSaving = false) }
+        }
     }
 
-    private fun reorder(fromIndex: Int, toIndex: Int) {
-        val current = state.value.orderedCategories
-        if (fromIndex < 0 || toIndex < 0 || fromIndex >= current.size || toIndex >= current.size) return
-        val mutable = current.toMutableList()
-        val moved = mutable.removeAt(fromIndex)
-        mutable.add(toIndex, moved)
-        _manualOrder.update { mutable.map { it.id.value } }
+    private fun archive(id: CategoryId) {
+        viewModelScope.launch {
+            val cat = withContext(dispatchers.io) { categoryRepository.getById(id) } ?: return@launch
+            withContext(dispatchers.io) { categoryRepository.update(cat.copy(archived = true)) }
+        }
+    }
+
+    private fun unarchive(id: CategoryId) {
+        _transient.update { it.copy(deleteOptionsFor = null) }
+        viewModelScope.launch {
+            val cat = withContext(dispatchers.io) { categoryRepository.getById(id) } ?: return@launch
+            withContext(dispatchers.io) { categoryRepository.update(cat.copy(archived = false)) }
+        }
+    }
+
+    private fun requestDelete(id: CategoryId) {
+        viewModelScope.launch {
+            val category = withContext(dispatchers.io) { categoryRepository.getById(id) } ?: return@launch
+            val count = withContext(dispatchers.io) {
+                transactionRepository.observeFiltered(TransactionFilter.ByCategory(id)).first().size
+            }
+            if (count == 0) {
+                _transient.update { it.copy(showDeleteConfirm = true) }
+            } else {
+                _transient.update {
+                    it.copy(
+                        showCategoryEditSheet = false,
+                        showDeleteConfirm = false,
+                        deleteOptionsFor = category,
+                        deleteTxCount = count,
+                    )
+                }
+            }
+        }
+    }
+
+    private fun confirmSimpleDelete() {
+        val id = _transient.value.editingCategory?.id ?: return
+        closeSheet()
+        viewModelScope.launch {
+            withContext(dispatchers.io) { categoryRepository.delete(id) }
+        }
+    }
+
+    private fun openDeleteOptions(category: Category) {
+        _transient.update { it.copy(deleteOptionsFor = category, deleteTxCount = 0) }
+        viewModelScope.launch {
+            val count = withContext(dispatchers.io) {
+                transactionRepository.observeFiltered(TransactionFilter.ByCategory(category.id)).first().size
+            }
+            _transient.update { it.copy(deleteTxCount = count) }
+        }
+    }
+
+    private fun deleteArchive() {
+        val id = _transient.value.deleteOptionsFor?.id ?: return
+        closeDeleteFlow()
+        runOnIo { deleteCategory(id, DeleteStrategy.Archive) }
+    }
+
+    private fun openMigratePicker() {
+        val target = _transient.value.deleteOptionsFor ?: return
+        val targets = state.value.active.filter { it.id != target.id && it.type == target.type }
+        _transient.update { it.copy(showMigratePicker = true, migrateTargets = targets) }
+    }
+
+    private fun migrateTo(targetId: CategoryId) {
+        val id = _transient.value.deleteOptionsFor?.id ?: return
+        closeDeleteFlow()
+        runOnIo { deleteCategory(id, DeleteStrategy.Migrate(targetId)) }
+    }
+
+    private fun openDeleteAllConfirm() {
+        val category = _transient.value.deleteOptionsFor ?: return
+        _transient.update { it.copy(typeConfirmFor = category, typeConfirmInput = "") }
+    }
+
+    private fun confirmDeleteAll() {
+        val category = _transient.value.typeConfirmFor ?: return
+        if (!_transient.value.typeConfirmInput.trim().equals(category.name, ignoreCase = true)) return
+        closeDeleteFlow()
+        runOnIo { deleteCategory(category.id, DeleteStrategy.DeleteWithTransactions) }
+    }
+
+    private fun runOnIo(block: suspend () -> Unit) {
+        _transient.update { it.copy(isSaving = true) }
+        viewModelScope.launch {
+            withContext(dispatchers.io) { block() }
+            _transient.update { it.copy(isSaving = false) }
+        }
+    }
+
+    private fun closeDeleteFlow() {
+        _transient.update {
+            it.copy(
+                deleteOptionsFor = null,
+                deleteTxCount = 0,
+                showMigratePicker = false,
+                migrateTargets = emptyList(),
+                typeConfirmFor = null,
+                typeConfirmInput = "",
+            )
+        }
     }
 
     private fun setNameError(res: StringResource) {
         viewModelScope.launch {
             val msg = getString(res)
-            _editState.update { it.copy(nameError = msg) }
+            _transient.update { it.copy(nameError = msg) }
         }
     }
 
@@ -251,15 +361,19 @@ class CategoryListViewModel(
         }
     }
 
-    private fun deleteCategory(id: CategoryId) {
-        closeSheet()
-        viewModelScope.launch {
-            withContext(dispatchers.io) { archiveCategory(id) }
-        }
-    }
-
     private fun closeSheet() {
-        _editState.update { EditState() }
+        _transient.update {
+            it.copy(
+                showCategoryEditSheet = false,
+                editingCategory = null,
+                editingName = "",
+                editingIcon = Icon.Basket,
+                editingColorHex = DEFAULT_COLOR_HEX,
+                nameError = null,
+                showDeleteConfirm = false,
+                showColorPicker = false,
+            )
+        }
     }
 
     private companion object {

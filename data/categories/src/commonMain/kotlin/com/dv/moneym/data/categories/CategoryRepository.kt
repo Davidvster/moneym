@@ -11,6 +11,7 @@ interface CategoryRepository {
     suspend fun count(): Long
     suspend fun insert(category: Category): CategoryId
     suspend fun update(category: Category)
+    suspend fun reorder(orderedIds: List<CategoryId>)
     suspend fun delete(id: CategoryId)
     suspend fun markDeletedBySyncId(syncId: String, now: Long)
     suspend fun reviveBySyncId(syncId: String, now: Long)

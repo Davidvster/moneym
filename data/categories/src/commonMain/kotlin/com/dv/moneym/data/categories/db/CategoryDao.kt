@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CategoryDao {
-    @Query("SELECT * FROM Category WHERE deleted = 0 ORDER BY name ASC")
+    @Query("SELECT * FROM Category WHERE deleted = 0 ORDER BY sort_order ASC, name ASC")
     fun selectAll(): Flow<List<CategoryEntity>>
 
-    @Query("SELECT * FROM Category WHERE archived = 0 AND deleted = 0 ORDER BY name ASC")
+    @Query("SELECT * FROM Category WHERE archived = 0 AND deleted = 0 ORDER BY sort_order ASC, name ASC")
     fun selectActive(): Flow<List<CategoryEntity>>
 
     @Query("SELECT * FROM Category WHERE id = :id")
@@ -23,6 +23,9 @@ interface CategoryDao {
     @Query("SELECT COUNT(*) FROM Category WHERE deleted = 0")
     suspend fun countAll(): Long
 
+    @Query("SELECT COALESCE(MAX(sort_order), -1) FROM Category WHERE deleted = 0")
+    suspend fun maxSortOrder(): Int
+
     @Query("SELECT * FROM Category")
     suspend fun selectAllForSync(): List<CategoryEntity>
 
@@ -31,6 +34,9 @@ interface CategoryDao {
 
     @Update
     suspend fun update(entity: CategoryEntity)
+
+    @Query("UPDATE Category SET sort_order = :order, updated_at = :now WHERE id = :id")
+    suspend fun updateSortOrder(id: Long, order: Int, now: Long)
 
     @Query("DELETE FROM Category WHERE id = :id")
     suspend fun deleteById(id: Long)

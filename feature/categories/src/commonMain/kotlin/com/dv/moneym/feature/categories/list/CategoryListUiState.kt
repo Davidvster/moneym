@@ -24,6 +24,13 @@ internal data class CategoryListUiState(
     val nameError: String? = null,
     val showDeleteConfirm: Boolean = false,
     val showColorPicker: Boolean = false,
+    val isSaving: Boolean = false,
+    val deleteOptionsFor: Category? = null,
+    val deleteTxCount: Int = 0,
+    val showMigratePicker: Boolean = false,
+    val migrateTargets: List<Category> = emptyList(),
+    val typeConfirmFor: Category? = null,
+    val typeConfirmInput: String = "",
 )
 
 internal sealed interface CategoryListIntent {
@@ -31,7 +38,7 @@ internal sealed interface CategoryListIntent {
     data class ArchiveRequested(val id: CategoryId) : CategoryListIntent
     data class UnarchiveRequested(val id: CategoryId) : CategoryListIntent
     data class SetTab(val tab: CategoryTab) : CategoryListIntent
-    data class Reorder(val fromIndex: Int, val toIndex: Int) : CategoryListIntent
+    data class Reorder(val orderedIds: List<CategoryId>) : CategoryListIntent
     data class CreateCategory(
         val name: String,
         val icon: Icon,
@@ -53,6 +60,19 @@ internal sealed interface CategoryListIntent {
     data class EditingColorChanged(val colorHex: String) : CategoryListIntent
     data class ShowDeleteConfirm(val visible: Boolean) : CategoryListIntent
     data class ShowColorPicker(val visible: Boolean) : CategoryListIntent
+
+    // Delete-with-options flow
+    data object ConfirmSimpleDelete : CategoryListIntent
+    data class OpenDeleteOptions(val category: Category) : CategoryListIntent
+    data object DismissDeleteOptions : CategoryListIntent
+    data object DeleteArchive : CategoryListIntent
+    data object OpenMigratePicker : CategoryListIntent
+    data object DismissMigratePicker : CategoryListIntent
+    data class MigrateTo(val target: CategoryId) : CategoryListIntent
+    data object OpenDeleteAllConfirm : CategoryListIntent
+    data class TypeConfirmChanged(val text: String) : CategoryListIntent
+    data object DismissDeleteAllConfirm : CategoryListIntent
+    data object ConfirmDeleteAll : CategoryListIntent
 }
 
 internal sealed interface CategoryListEffect

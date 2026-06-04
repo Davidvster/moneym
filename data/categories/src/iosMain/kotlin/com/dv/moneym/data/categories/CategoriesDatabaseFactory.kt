@@ -19,7 +19,7 @@ fun createCategoriesDatabase(): CategoriesRoomDatabase {
     )
     return Room.databaseBuilder<CategoriesRoomDatabase>(name = "$appSupport/moneym_categories.db")
         .setDriver(BundledSQLiteDriver())
-        .addMigrations(CategoriesRoomDatabase.MIGRATION_1_2)
+        .addMigrations(CategoriesRoomDatabase.MIGRATION_1_2, CategoriesRoomDatabase.MIGRATION_2_3)
         .setQueryCoroutineContext(Dispatchers.Default)
         .build()
 }

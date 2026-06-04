@@ -21,7 +21,7 @@
     <string name="categories_new_button">Nuova</string>
     <string name="categories_tab_expense">Spesa</string>
     <string name="categories_tab_income">Entrata</string>
-    <string name="categories_hint">Tieni premuto per riordinare</string>
+    <string name="categories_hint">Trascina la maniglia per riordinare</string>
     <string name="categories_new_expense">Nuova categoria di spesa</string>
     <string name="categories_new_income">Nuova categoria di entrata</string>
     <string name="categories_name_placeholder">es. Spesa alimentare</string>
@@ -42,4 +42,14 @@
     <string name="categories_name_preview_placeholder">Nome categoria</string>
     <string name="categories_name_blank">Il nome non può essere vuoto</string>
     <string name="categories_name_duplicate">Esiste già una categoria con questo nome</string>
+    <string name="categories_options_subtitle">%1$d transazioni usano questa categoria</string>
+    <string name="categories_option_migrate">Sposta le transazioni in un'altra categoria</string>
+    <string name="categories_option_archive">Mantienila, archiviala invece</string>
+    <string name="categories_option_unarchive">Ripristina categoria</string>
+    <string name="categories_option_delete_all">Elimina categoria e tutte le transazioni</string>
+    <string name="categories_migrate_title">Sposta le transazioni in…</string>
+    <string name="categories_delete_all_title">Eliminare "%1$s" e le sue transazioni?</string>
+    <string name="categories_delete_all_warning">Questo elimina definitivamente la categoria e le sue %1$d transazioni. Questa azione non può essere annullata.</string>
+    <string name="categories_delete_all_input_label">Digita il nome della categoria per confermare</string>
+    <string name="categories_delete_all_confirm">Elimina definitivamente</string>
 </resources>

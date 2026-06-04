@@ -26,6 +26,7 @@ class SeedCategoriesUseCase(
                     deleted = false,
                     createdAt = now,
                     updatedAt = now,
+                    sortOrder = index,
                 )
             )
         }

@@ -44,6 +44,12 @@ interface TransactionDao {
     @Query("UPDATE TransactionEntry SET deleted = 1, updated_at = :now WHERE account_id = :accountId")
     suspend fun softDeleteByAccountId(accountId: Long, now: Long)
 
+    @Query("UPDATE TransactionEntry SET category_id = :to, updated_at = :now WHERE category_id = :from AND deleted = 0")
+    suspend fun reassignCategory(from: Long, to: Long, now: Long)
+
+    @Query("UPDATE TransactionEntry SET deleted = 1, updated_at = :now WHERE category_id = :id AND deleted = 0")
+    suspend fun softDeleteByCategory(id: Long, now: Long)
+
     @Query("UPDATE TransactionEntry SET deleted = 1, updated_at = :now WHERE sync_id = :syncId")
     suspend fun markDeletedBySyncId(syncId: String, now: Long)
 

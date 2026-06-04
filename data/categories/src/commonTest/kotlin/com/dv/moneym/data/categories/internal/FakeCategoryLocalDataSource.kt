@@ -67,6 +67,11 @@ internal class FakeCategoryLocalDataSource : CategoryLocalDataSource {
         }
     }
 
+    override suspend fun setSortOrders(orderedIds: List<Long>) {
+        val orderMap = orderedIds.mapIndexed { index, id -> id to index }.toMap()
+        mutate { list -> list.map { e -> orderMap[e.id]?.let { e.copy(sortOrder = it) } ?: e } }
+    }
+
     override suspend fun softDelete(id: Long, now: Long) {
         mutate { list -> list.map { if (it.id == id) it.copy(deleted = true, updatedAt = now) else it } }
     }

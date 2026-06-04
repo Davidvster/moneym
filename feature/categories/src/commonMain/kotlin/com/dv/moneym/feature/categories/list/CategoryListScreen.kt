@@ -5,12 +5,19 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,24 +34,43 @@ import com.dv.moneym.core.designsystem.categoryColor
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.navigation.ModalKey
+import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.HsvColorPickerDialog
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
+import com.dv.moneym.core.ui.MmLoadingOverlay
+import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.colorToHex
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.categories.list.components.CategoryListHeader
+import com.dv.moneym.feature.categories.list.components.DeleteAllTransactionsConfirmSheet
+import com.dv.moneym.feature.categories.list.components.DeleteCategoryOptionsSheet
 import com.dv.moneym.feature.categories.list.components.DeleteConfirmSheet
 import com.dv.moneym.feature.categories.list.components.DraggableCategoryList
+import com.dv.moneym.feature.categories.list.components.MigratePickerSheet
 import com.dv.moneym.feature.categories.list.components.NewCategorySaveButton
 import com.dv.moneym.feature.categories.list.components.NewCategorySheetBody
 import com.dv.moneym.feature.categories.list.components.NewCategorySheetHeader
 import kotlinx.serialization.Serializable
 import moneym.feature.categories.generated.resources.Res
+import moneym.feature.categories.generated.resources.categories_cancel
+import moneym.feature.categories.generated.resources.categories_delete_all_confirm
+import moneym.feature.categories.generated.resources.categories_delete_all_input_label
+import moneym.feature.categories.generated.resources.categories_delete_all_title
+import moneym.feature.categories.generated.resources.categories_delete_all_warning
+import moneym.feature.categories.generated.resources.categories_delete_confirm_title
 import moneym.feature.categories.generated.resources.categories_edit_sheet_title
+import moneym.feature.categories.generated.resources.categories_migrate_title
 import moneym.feature.categories.generated.resources.categories_new_expense
 import moneym.feature.categories.generated.resources.categories_new_income
 import moneym.feature.categories.generated.resources.categories_new_sheet_title
+import moneym.feature.categories.generated.resources.categories_option_archive
+import moneym.feature.categories.generated.resources.categories_option_delete_all
+import moneym.feature.categories.generated.resources.categories_option_migrate
+import moneym.feature.categories.generated.resources.categories_option_unarchive
+import moneym.feature.categories.generated.resources.categories_options_subtitle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -84,49 +110,105 @@ private fun ManageCategoriesScreen(
     val colors = MM.colors
     val categories = state.orderedCategories
     val activeTab = state.activeTab
+    val showArchived = state.showArchived
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colors.bg),
-    ) {
-        CategoryListHeader(
-            activeTab = activeTab,
-            categoryCount = categories.size,
-            onBack = onBack,
-            onSetTab = { onIntent(CategoryListIntent.SetTab(it)) },
-        )
-
-        DraggableCategoryList(
-            categories = categories,
-            onReorder = { from, to -> onIntent(CategoryListIntent.Reorder(from, to)) },
-            onCategoryClick = { cat -> onIntent(CategoryListIntent.StartEditCategory(cat)) },
-            modifier = Modifier.weight(1f),
-        )
-
-        val newCategoryButtonText = if (activeTab == CategoryTab.Expense)
-            stringResource(Res.string.categories_new_expense)
-        else
-            stringResource(Res.string.categories_new_income)
-
-        Box(
-            modifier = Modifier
-                .padding(
-                    horizontal = MM.dimen.padding_2_5x,
-                    vertical = MM.dimen.padding_2x
-                )
-                .navigationBarsPadding()
-        ) {
-            MmButton(
-                text = newCategoryButtonText,
-                onClick = { onIntent(CategoryListIntent.ShowCategoryEditSheet(true)) },
-                variant = MmButtonVariant.Primary,
-                fullWidth = true,
-                leadingIcon = Icon.Plus.imageVector,
+    Box(modifier = Modifier.fillMaxSize().background(colors.bg)) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            CategoryListHeader(
+                activeTab = activeTab,
+                categoryCount = if (showArchived) state.archived.size else categories.size,
+                archivedCount = state.archived.size,
+                showArchived = showArchived,
+                onBack = onBack,
+                onSetTab = { onIntent(CategoryListIntent.SetTab(it)) },
+                onToggleArchived = { onIntent(CategoryListIntent.ToggleShowArchived) },
             )
+
+            if (showArchived) {
+                ArchivedCategoryList(
+                    categories = state.archived,
+                    onCategoryClick = { cat -> onIntent(CategoryListIntent.OpenDeleteOptions(cat)) },
+                    modifier = Modifier.weight(1f),
+                )
+            } else {
+                DraggableCategoryList(
+                    categories = categories,
+                    onReorder = { ordered ->
+                        onIntent(CategoryListIntent.Reorder(ordered.map { it.id }))
+                    },
+                    onCategoryClick = { cat -> onIntent(CategoryListIntent.StartEditCategory(cat)) },
+                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                )
+
+                val newCategoryButtonText = if (activeTab == CategoryTab.Expense)
+                    stringResource(Res.string.categories_new_expense)
+                else
+                    stringResource(Res.string.categories_new_income)
+
+                Box(
+                    modifier = Modifier
+                        .padding(
+                            horizontal = MM.dimen.padding_2_5x,
+                            vertical = MM.dimen.padding_2x
+                        )
+                        .navigationBarsPadding()
+                ) {
+                    MmButton(
+                        text = newCategoryButtonText,
+                        onClick = { onIntent(CategoryListIntent.ShowCategoryEditSheet(true)) },
+                        variant = MmButtonVariant.Primary,
+                        fullWidth = true,
+                        leadingIcon = Icon.Plus.imageVector,
+                    )
+                }
+            }
         }
+
+        MmLoadingOverlay(visible = state.isSaving)
+    }
+
+    state.deleteOptionsFor?.let { category ->
+        DeleteCategoryOptionsSheet(
+            category = category,
+            transactionCount = state.deleteTxCount,
+            title = stringResource(Res.string.categories_delete_confirm_title, category.name),
+            subtitle = stringResource(Res.string.categories_options_subtitle, state.deleteTxCount),
+            migrateLabel = stringResource(Res.string.categories_option_migrate),
+            archiveLabel = stringResource(Res.string.categories_option_archive),
+            unarchiveLabel = stringResource(Res.string.categories_option_unarchive),
+            deleteAllLabel = stringResource(Res.string.categories_option_delete_all),
+            onMigrate = { onIntent(CategoryListIntent.OpenMigratePicker) },
+            onArchive = { onIntent(CategoryListIntent.DeleteArchive) },
+            onUnarchive = { onIntent(CategoryListIntent.UnarchiveRequested(category.id)) },
+            onDeleteAll = { onIntent(CategoryListIntent.OpenDeleteAllConfirm) },
+            onDismiss = { onIntent(CategoryListIntent.DismissDeleteOptions) },
+        )
+    }
+
+    if (state.showMigratePicker) {
+        MigratePickerSheet(
+            title = stringResource(Res.string.categories_migrate_title),
+            targets = state.migrateTargets,
+            onSelect = { onIntent(CategoryListIntent.MigrateTo(it)) },
+            onDismiss = { onIntent(CategoryListIntent.DismissMigratePicker) },
+        )
+    }
+
+    state.typeConfirmFor?.let { category ->
+        DeleteAllTransactionsConfirmSheet(
+            title = stringResource(Res.string.categories_delete_all_title, category.name),
+            warning = stringResource(Res.string.categories_delete_all_warning, state.deleteTxCount),
+            inputLabel = stringResource(Res.string.categories_delete_all_input_label),
+            confirmLabel = stringResource(Res.string.categories_delete_all_confirm),
+            cancelLabel = stringResource(Res.string.categories_cancel),
+            categoryName = category.name,
+            input = state.typeConfirmInput,
+            onInputChange = { onIntent(CategoryListIntent.TypeConfirmChanged(it)) },
+            onConfirm = { onIntent(CategoryListIntent.ConfirmDeleteAll) },
+            onCancel = { onIntent(CategoryListIntent.DismissDeleteAllConfirm) },
+        )
     }
 
     if (state.showCategoryEditSheet) {
@@ -211,7 +293,7 @@ private fun NewCategorySheet(
             onColorSelected = { onIntent(CategoryListIntent.EditingColorChanged(colorToHex(it))) },
             onCustomColorClick = { onIntent(CategoryListIntent.ShowColorPicker(true)) },
             onIconSelected = { onIntent(CategoryListIntent.EditingIconChanged(it)) },
-            onDeleteClick = { onIntent(CategoryListIntent.ShowDeleteConfirm(true)) },
+            onDeleteClick = { categoryToEdit?.let { onDelete(it.id) } },
         )
         NewCategorySaveButton(
             isEditMode = isEditMode,
@@ -239,12 +321,46 @@ private fun NewCategorySheet(
     if (state.showDeleteConfirm && categoryToEdit != null) {
         DeleteConfirmSheet(
             categoryName = categoryToEdit.name,
-            onConfirm = {
-                onDelete(categoryToEdit.id)
-                onIntent(CategoryListIntent.ShowDeleteConfirm(false))
-            },
+            onConfirm = { onIntent(CategoryListIntent.ConfirmSimpleDelete) },
             onCancel = { onIntent(CategoryListIntent.ShowDeleteConfirm(false)) },
         )
+    }
+}
+
+@Composable
+private fun ArchivedCategoryList(
+    categories: List<Category>,
+    onCategoryClick: (Category) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val colors = MM.colors
+    LazyColumn(modifier = modifier.fillMaxWidth()) {
+        items(categories, key = { it.id.value }) { cat ->
+            MmRow(
+                onClick = { onCategoryClick(cat) },
+                divider = cat.id != categories.lastOrNull()?.id,
+            ) {
+                CategoryIconTile(
+                    categoryName = cat.name,
+                    categoryColor = categoryColor(cat.colorHex),
+                    categoryIcon = Icon.fromKeyOrDefault(cat.iconKey).imageVector,
+                    size = 36.dp,
+                    variant = IndicatorStyle.IconTile,
+                )
+                Text(
+                    text = cat.name,
+                    style = MM.type.body,
+                    color = colors.text2,
+                    modifier = Modifier.weight(1f),
+                )
+                Icon(
+                    imageVector = Icon.ChevronRight.imageVector,
+                    contentDescription = null,
+                    tint = colors.text3,
+                    modifier = Modifier.size(MM.dimen.padding_2x),
+                )
+            }
+        }
     }
 }
 

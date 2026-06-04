@@ -21,7 +21,7 @@
     <string name="categories_new_button">New</string>
     <string name="categories_tab_expense">Expense</string>
     <string name="categories_tab_income">Income</string>
-    <string name="categories_hint">long-press to reorder</string>
+    <string name="categories_hint">drag the handle to reorder</string>
     <string name="categories_new_expense">New expense category</string>
     <string name="categories_new_income">New income category</string>
     <string name="categories_name_placeholder">e.g. Groceries</string>
@@ -42,4 +42,14 @@
     <string name="categories_name_preview_placeholder">Category name</string>
     <string name="categories_name_blank">Name cannot be blank</string>
     <string name="categories_name_duplicate">A category with this name already exists</string>
+    <string name="categories_options_subtitle">%1$d transactions use this category</string>
+    <string name="categories_option_migrate">Move transactions to another category</string>
+    <string name="categories_option_archive">Keep it, archive instead</string>
+    <string name="categories_option_unarchive">Unarchive category</string>
+    <string name="categories_option_delete_all">Delete category and all transactions</string>
+    <string name="categories_migrate_title">Move transactions to…</string>
+    <string name="categories_delete_all_title">Delete "%1$s" and its transactions?</string>
+    <string name="categories_delete_all_warning">This permanently deletes the category and its %1$d transactions. This action cannot be undone.</string>
+    <string name="categories_delete_all_input_label">Type the category name to confirm</string>
+    <string name="categories_delete_all_confirm">Permanently delete</string>
 </resources>

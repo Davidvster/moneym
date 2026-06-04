@@ -21,7 +21,7 @@
     <string name="categories_new_button">Neu</string>
     <string name="categories_tab_expense">Ausgabe</string>
     <string name="categories_tab_income">Einnahme</string>
-    <string name="categories_hint">Gedrückt halten zum Sortieren</string>
+    <string name="categories_hint">Zum Sortieren am Griff ziehen</string>
     <string name="categories_new_expense">Neue Ausgabenkategorie</string>
     <string name="categories_new_income">Neue Einnahmekategorie</string>
     <string name="categories_name_placeholder">z.B. Lebensmittel</string>
@@ -42,4 +42,14 @@
     <string name="categories_name_preview_placeholder">Kategoriename</string>
     <string name="categories_name_blank">Name darf nicht leer sein</string>
     <string name="categories_name_duplicate">Eine Kategorie mit diesem Namen existiert bereits</string>
+    <string name="categories_options_subtitle">%1$d Transaktionen verwenden diese Kategorie</string>
+    <string name="categories_option_migrate">Transaktionen in andere Kategorie verschieben</string>
+    <string name="categories_option_archive">Behalten, stattdessen archivieren</string>
+    <string name="categories_option_unarchive">Kategorie wiederherstellen</string>
+    <string name="categories_option_delete_all">Kategorie und alle Transaktionen löschen</string>
+    <string name="categories_migrate_title">Transaktionen verschieben nach…</string>
+    <string name="categories_delete_all_title">"%1$s" und ihre Transaktionen löschen?</string>
+    <string name="categories_delete_all_warning">Dies löscht die Kategorie und ihre %1$d Transaktionen dauerhaft. Diese Aktion kann nicht rückgängig gemacht werden.</string>
+    <string name="categories_delete_all_input_label">Kategoriename zur Bestätigung eingeben</string>
+    <string name="categories_delete_all_confirm">Endgültig löschen</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.dv.moneym.data.transactions
 
 import com.dv.moneym.core.model.AccountId
+import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.Transaction
@@ -17,6 +18,8 @@ interface TransactionRepository {
     suspend fun upsert(transaction: Transaction): TransactionId
     suspend fun delete(id: TransactionId)
     suspend fun deleteByAccountId(id: AccountId)
+    suspend fun reassignCategory(from: CategoryId, to: CategoryId)
+    suspend fun deleteByCategory(id: CategoryId)
     suspend fun markDeletedBySyncId(syncId: String, now: Long)
     suspend fun reviveBySyncId(syncId: String, now: Long)
     suspend fun deleteAll()

@@ -1,6 +1,7 @@
 package com.dv.moneym.data.transactions.internal
 
 import com.dv.moneym.core.model.AccountId
+import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.Transaction
@@ -83,6 +84,12 @@ internal class TransactionRepositoryImpl(
 
     override suspend fun deleteByAccountId(id: AccountId) =
         dataSource.softDeleteByAccountId(id.value, Clock.System.now().toEpochMilliseconds())
+
+    override suspend fun reassignCategory(from: CategoryId, to: CategoryId) =
+        dataSource.reassignCategory(from.value, to.value, Clock.System.now().toEpochMilliseconds())
+
+    override suspend fun deleteByCategory(id: CategoryId) =
+        dataSource.softDeleteByCategory(id.value, Clock.System.now().toEpochMilliseconds())
 
     override suspend fun markDeletedBySyncId(syncId: String, now: Long) =
         dataSource.markDeletedBySyncId(syncId, now)

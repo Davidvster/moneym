@@ -77,6 +77,16 @@ class FakeTransactionRepository : TransactionRepository {
         _transactions.value.filter { it.accountId == id }.forEach { tombstoned.add(it.id.value) }
     }
 
+    override suspend fun reassignCategory(from: CategoryId, to: CategoryId) {
+        _transactions.update { list ->
+            list.map { if (it.categoryId == from && it.id.value !in tombstoned) it.copy(categoryId = to) else it }
+        }
+    }
+
+    override suspend fun deleteByCategory(id: CategoryId) {
+        _transactions.value.filter { it.categoryId == id }.forEach { tombstoned.add(it.id.value) }
+    }
+
     override suspend fun markDeletedBySyncId(syncId: String, now: Long) {
         idForSyncId(syncId)?.let { id ->
             tombstoned.add(id)

@@ -24,6 +24,7 @@ import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceToolsetUseCase
 import com.dv.moneym.feature.budgets.create.BudgetCreateViewModel
 import com.dv.moneym.feature.budgets.list.BudgetListViewModel
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
+import com.dv.moneym.feature.categories.domain.DeleteCategoryUseCase
 import com.dv.moneym.feature.categories.list.CategoryListViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
 import com.dv.moneym.feature.onboarding.restore.OnboardingRestoreViewModel
@@ -293,6 +294,7 @@ val featureWalletModule = module {
 
 val featureCategoriesModule = module {
     single { ArchiveCategoryUseCase(get(), get()) }
+    single { DeleteCategoryUseCase(get(), get()) }
     viewModelOf(::CategoryListViewModel)
 }
 

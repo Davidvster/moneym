@@ -12,4 +12,5 @@ data class CategorySyncRow(
     val deleted: Boolean,
     val createdAt: Long,
     val updatedAt: Long,
+    val sortOrder: Int = 0,
 )

@@ -17,4 +17,5 @@ data class CategoryEntity(
     @ColumnInfo(name = "category_type", defaultValue = "'EXPENSE'") val categoryType: String = "EXPENSE",
     @ColumnInfo(name = "sync_id") val syncId: String? = null,
     @ColumnInfo(name = "deleted", defaultValue = "0") val deleted: Boolean = false,
+    @ColumnInfo(name = "sort_order", defaultValue = "0") val sortOrder: Int = 0,
 )

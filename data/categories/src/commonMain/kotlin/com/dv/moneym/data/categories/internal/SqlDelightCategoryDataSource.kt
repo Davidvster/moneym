@@ -36,6 +36,7 @@ internal class SqlDelightCategoryDataSource(
             updatedAt = updatedAt,
             categoryType = categoryType,
             syncId = Uuid.random().toString(),
+            sortOrder = dao.maxSortOrder() + 1,
         )
     )
 
@@ -45,6 +46,11 @@ internal class SqlDelightCategoryDataSource(
     ) {
         val existing = dao.selectById(id) ?: return
         dao.update(existing.copy(name = name, iconKey = iconKey, colorHex = colorHex, archived = archived, updatedAt = updatedAt))
+    }
+
+    override suspend fun setSortOrders(orderedIds: List<Long>) {
+        val now = kotlin.time.Clock.System.now().toEpochMilliseconds()
+        orderedIds.forEachIndexed { index, id -> dao.updateSortOrder(id, index, now) }
     }
 
     override suspend fun softDelete(id: Long, now: Long) = dao.softDeleteById(id, now)
@@ -76,6 +82,7 @@ internal class SqlDelightCategoryDataSource(
                     categoryType = row.categoryType,
                     syncId = syncId,
                     deleted = row.deleted,
+                    sortOrder = row.sortOrder,
                 )
             )
         } else {
@@ -89,6 +96,7 @@ internal class SqlDelightCategoryDataSource(
                     categoryType = row.categoryType,
                     updatedAt = row.updatedAt,
                     deleted = row.deleted,
+                    sortOrder = row.sortOrder,
                 )
             )
             existing.id

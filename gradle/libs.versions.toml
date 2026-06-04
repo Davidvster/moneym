@@ -47,6 +47,9 @@ composeCharts = "0.1.4"
 # Icons
 composeIconsCore = "1.7.3"
 
+# Drag-and-drop reorderable lists (KMP)
+reorderable = "2.4.3"
+
 # Crypto (KMP)
 cryptographyKotlin = "0.5.0"
 
@@ -96,6 +99,7 @@ compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", v
 compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeMultiplatform" }
+reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
 
 # Lifecycle / ViewModel (KMP)
 androidx-lifecycle-viewmodelCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }

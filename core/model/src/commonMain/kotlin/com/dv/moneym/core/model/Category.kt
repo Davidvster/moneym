@@ -14,4 +14,5 @@ data class Category(
     @Serializable(with = InstantSerializer::class) val createdAt: Instant,
     @Serializable(with = InstantSerializer::class) val updatedAt: Instant,
     val type: TransactionType = TransactionType.EXPENSE,
+    val sortOrder: Int = 0,
 )

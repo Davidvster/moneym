@@ -49,6 +49,9 @@ internal class CategoryRepositoryImpl(
         )
     }
 
+    override suspend fun reorder(orderedIds: List<CategoryId>) =
+        dataSource.setSortOrders(orderedIds.map { it.value })
+
     override suspend fun delete(id: CategoryId) =
         dataSource.softDelete(id.value, Clock.System.now().toEpochMilliseconds())
 

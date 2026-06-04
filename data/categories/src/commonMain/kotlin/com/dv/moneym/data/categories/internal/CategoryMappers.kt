@@ -17,6 +17,7 @@ internal fun CategoryEntity.toDomain() = DomainCategory(
     createdAt = Instant.fromEpochMilliseconds(createdAt),
     updatedAt = Instant.fromEpochMilliseconds(updatedAt),
     type = if (categoryType == "INCOME") TransactionType.INCOME else TransactionType.EXPENSE,
+    sortOrder = sortOrder,
 )
 
 internal fun CategoryEntity.toSyncRow() = CategorySyncRow(
@@ -31,4 +32,5 @@ internal fun CategoryEntity.toSyncRow() = CategorySyncRow(
     deleted = deleted,
     createdAt = createdAt,
     updatedAt = updatedAt,
+    sortOrder = sortOrder,
 )

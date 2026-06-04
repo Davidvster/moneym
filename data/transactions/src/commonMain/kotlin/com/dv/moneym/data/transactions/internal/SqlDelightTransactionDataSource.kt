@@ -78,6 +78,12 @@ internal class SqlDelightTransactionDataSource(
     override suspend fun softDeleteByAccountId(accountId: Long, now: Long) =
         dao.softDeleteByAccountId(accountId, now)
 
+    override suspend fun reassignCategory(from: Long, to: Long, now: Long) =
+        dao.reassignCategory(from, to, now)
+
+    override suspend fun softDeleteByCategory(categoryId: Long, now: Long) =
+        dao.softDeleteByCategory(categoryId, now)
+
     override suspend fun markDeletedBySyncId(syncId: String, now: Long) =
         dao.markDeletedBySyncId(syncId, now)
 

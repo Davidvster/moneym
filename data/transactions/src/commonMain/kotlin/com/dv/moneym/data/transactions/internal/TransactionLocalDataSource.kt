@@ -25,6 +25,8 @@ internal interface TransactionLocalDataSource {
 
     suspend fun softDelete(id: Long, now: Long)
     suspend fun softDeleteByAccountId(accountId: Long, now: Long)
+    suspend fun reassignCategory(from: Long, to: Long, now: Long)
+    suspend fun softDeleteByCategory(categoryId: Long, now: Long)
     suspend fun markDeletedBySyncId(syncId: String, now: Long)
     suspend fun reviveBySyncId(syncId: String, now: Long)
     suspend fun deleteAll()
