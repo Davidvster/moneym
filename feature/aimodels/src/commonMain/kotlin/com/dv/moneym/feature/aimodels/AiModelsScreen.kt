@@ -36,7 +36,6 @@ import com.dv.moneym.core.ui.SectionLabel
 import kotlinx.serialization.Serializable
 import moneym.feature.aimodels.generated.resources.Res
 import moneym.feature.aimodels.generated.resources.ai_model_gemma3_1b_it
-import moneym.feature.aimodels.generated.resources.ai_model_gemma3n_e2b_it
 import moneym.feature.aimodels.generated.resources.ai_model_gemma4_e2b_it
 import moneym.feature.aimodels.generated.resources.ai_models_active
 import moneym.feature.aimodels.generated.resources.ai_models_cancel
@@ -224,7 +223,6 @@ private fun TokenSection(token: String, saved: Boolean, onIntent: (AiModelsInten
 private fun String.modelNameRes(): StringResource = when (this) {
     "ai_model_gemma3_1b_it" -> Res.string.ai_model_gemma3_1b_it
     "ai_model_gemma4_e2b_it" -> Res.string.ai_model_gemma4_e2b_it
-    "ai_model_gemma3n_e2b_it" -> Res.string.ai_model_gemma3n_e2b_it
     else -> Res.string.ai_models_title
 }
 
@@ -242,8 +240,7 @@ private fun AiModelsContentPreview() {
             state = AiModelsUiState(
                 models = listOf(
                     ModelRowUi("gemma3-1b-it", "ai_model_gemma3_1b_it", "0.6 GB", ModelStatus.NotDownloaded),
-                    ModelRowUi("gemma4-e2b-it", "ai_model_gemma4_e2b_it", "3.0 GB", ModelStatus.Downloading(0.4f)),
-                    ModelRowUi("gemma3n-e2b-it", "ai_model_gemma3n_e2b_it", "3.0 GB", ModelStatus.Active),
+                    ModelRowUi("gemma4-e2b-it", "ai_model_gemma4_e2b_it", "2.6 GB", ModelStatus.Downloading(0.4f)),
                 ),
                 hfToken = "hf_xxx",
                 tokenSaved = true,

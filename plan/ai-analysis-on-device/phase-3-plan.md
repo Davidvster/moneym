@@ -1,6 +1,6 @@
 # Phase 3 — `data/llmmodels`: catalog + downloader + repository
 
-**Status:** ✅ Done — module builds android+ios, 9/9 tests pass. `ModelFileStore` seam keeps repo/downloader testable without DbPlatform. Catalog metadata filled from HF API: **gemma3-1b-it** (`gemma3-1b-it-int4.litertlm`, 584,417,280 B, real sha256) and **gemma4-e2b-it** (`gemma-4-E2B-it.litertlm`, 2,588,147,712 B, real sha256) now verify on download. **gemma3n-e2b-it** is HF-gated (HTTP 401) → `requiresToken = true`, sha256 empty (skip verify), filename unverified until a token confirms it. `isDownloaded` size-match now active for the two hashed models; test store gained `sizeOverrides` to assert that without allocating GB.
+**Status:** ✅ Done — module builds android+ios, 9/9 tests pass. `ModelFileStore` seam keeps repo/downloader testable without DbPlatform. Catalog metadata filled from HF API: **gemma3-1b-it** (`gemma3-1b-it-int4.litertlm`, 584,417,280 B, real sha256) and **gemma4-e2b-it** (`gemma-4-E2B-it.litertlm`, 2,588,147,712 B, real sha256) now verify on download. Catalog is **2 models** — the gated **gemma3n-e2b-it** (HF 401) was removed (unavailable anonymously; Gemma 4 E2B supersedes it). `isDownloaded` size-match active for both hashed models; test store gained `sizeOverrides` to assert that without allocating GB. HF-token plumbing kept (no current model needs it; future-proof for a gated addition).
 **Depends on:** Phase 2 (appFilesDirectory)
 
 ## Goal

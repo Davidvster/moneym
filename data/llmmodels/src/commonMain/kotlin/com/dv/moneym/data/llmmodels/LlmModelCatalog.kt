@@ -27,20 +27,6 @@ object LlmModelCatalog {
             format = FORMAT_LITERTLM,
             requiresToken = false,
         ),
-        // Gemma 3n E2B is gated on HuggingFace: the user must accept the Gemma license
-        // and supply an HF token. sha256 left empty (cannot be read anonymously) so the
-        // downloader skips verification; fileName is unverified until a token confirms it.
-        LlmModel(
-            id = "gemma3n-e2b-it",
-            displayNameKey = "ai_model_gemma3n_e2b_it",
-            fileName = "gemma-3n-E2B-it-int4.litertlm",
-            url = "https://huggingface.co/litert-community/gemma-3n-E2B-it-litert-lm/resolve/main/" +
-                "gemma-3n-E2B-it-int4.litertlm",
-            sizeBytes = 3_000_000_000L,
-            sha256 = "",
-            format = FORMAT_LITERTLM,
-            requiresToken = true,
-        ),
     )
 
     fun byId(id: String): LlmModel? = models.firstOrNull { it.id == id }
