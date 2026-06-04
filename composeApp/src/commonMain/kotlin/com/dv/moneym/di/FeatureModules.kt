@@ -21,6 +21,7 @@ import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
 import com.dv.moneym.feature.aianalysis.AnalyzeViewModel
 import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceSnapshotUseCase
 import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceToolsetUseCase
+import com.dv.moneym.feature.aimodels.AiModelsViewModel
 import com.dv.moneym.feature.budgets.create.BudgetCreateViewModel
 import com.dv.moneym.feature.budgets.list.BudgetListViewModel
 import com.dv.moneym.feature.categories.domain.ArchiveCategoryUseCase
@@ -383,7 +384,7 @@ val featureAianalysisModule = module {
         AnalyzeViewModel(
             year = params.get(),
             month = params.get(),
-            engine = get(),
+            registry = get(),
             buildSnapshot = get(),
             buildToolset = get(),
             appSettings = get(),
@@ -391,4 +392,8 @@ val featureAianalysisModule = module {
             savedStateHandle = get(),
         )
     }
+}
+
+val featureAiModelsModule = module {
+    viewModel { AiModelsViewModel(get()) }
 }

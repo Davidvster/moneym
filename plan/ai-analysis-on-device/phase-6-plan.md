@@ -1,6 +1,6 @@
 # Phase 6 — Koin wiring + navigation
 
-**Status:** Not started
+**Status:** ✅ Done — assembleDebug PASS, composeApp iOS compile PASS, full testDebugUnitTest PASS. Added `coreAiModule` (LocalLlmAiEngine + AiEngineRegistry(getAll())), `dataLlmModelsModule`, `featureAiModelsModule`; LocalLlmRunner in both platform modules; AnalyzeViewModel factory now `registry=get()`; MainNav registers `aiModelsEntry` + passes `onManageModels`. Also added composeApp gradle deps on `data:llmmodels` + `feature:aimodels` (were missing). HF token read from SecureStore `"hf_token"`.
 **Depends on:** Phases 1–5
 
 ## Goal
