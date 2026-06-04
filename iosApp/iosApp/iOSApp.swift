@@ -7,6 +7,7 @@ struct iOSApp: App {
     init() {
         GoogleSignInBridgeHolder.shared.instance = GoogleSignInBridgeImpl()
         IosAiBridgeHolder.shared.instance = FoundationModelsBridgeImpl()
+        IosLocalLlmBridgeHolder.shared.instance = MediaPipeBridgeImpl()
         GIDSignIn.sharedInstance.restorePreviousSignIn()
     }
 

@@ -1,6 +1,6 @@
 # Phase 7 — iOS native bridge (STUB) + build gate
 
-**Status:** Not started
+**Status:** ✅ Done — `MediaPipeBridge.swift` (canImport-guarded stub) + `iOSApp.swift` holder wiring + `IOS_MANUAL_STEPS.md`. Final gate green: Android `assembleDebug` PASS, iOS framework link PASS, **`xcodebuild ... ** BUILD SUCCEEDED **`**, full `testDebugUnitTest` PASS. On-device engine reports unavailable on iOS until the user links the MediaPipe/LiteRT-LM framework per IOS_MANUAL_STEPS.md.
 **Depends on:** Phases 1–6
 
 ## Goal
