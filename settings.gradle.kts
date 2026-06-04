@@ -53,6 +53,7 @@ include(":data:backup")
 include(":data:budgets")
 include(":data:remotebackup")
 include(":data:sync")
+include(":data:llmmodels")
 include(":core:oauth")
 
 // Features

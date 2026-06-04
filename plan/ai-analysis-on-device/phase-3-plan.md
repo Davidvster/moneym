@@ -1,6 +1,6 @@
 # Phase 3 — `data/llmmodels`: catalog + downloader + repository
 
-**Status:** Not started
+**Status:** ✅ Done — module builds android+ios, 9/9 tests pass. `ModelFileStore` seam keeps repo/downloader testable without DbPlatform. sha256 empty for all 3 catalog entries → verification skipped (hashes unconfirmed offline; downloader verifies once real hashes filled). Catalog `.litertlm` filenames are best-guess — confirm against HF before shipping.
 **Depends on:** Phase 2 (appFilesDirectory)
 
 ## Goal

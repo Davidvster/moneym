@@ -24,6 +24,7 @@ kotlin {
             api(projects.data.accounts)
             api(projects.data.transactions)
             api(projects.data.budgets)
+            api(projects.data.llmmodels)
             api(libs.kotlin.test)
             api(libs.kotlinx.coroutines.test)
             api(libs.kotlinx.datetime)

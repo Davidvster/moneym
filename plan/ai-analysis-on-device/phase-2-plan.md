@@ -1,6 +1,6 @@
 # Phase 2 — `core/platform`: app files directory for model storage
 
-**Status:** Not started
+**Status:** ✅ Done — `appFilesDirectory` added to DbPlatform + both actuals; compiles android+ios.
 **Depends on:** none
 
 ## Goal

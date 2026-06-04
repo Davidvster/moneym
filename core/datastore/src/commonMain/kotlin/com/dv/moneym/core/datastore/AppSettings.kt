@@ -75,4 +75,7 @@ object PrefKeys {
 
     // AI analysis grounding mode (SNAPSHOT / TOOLS)
     const val AI_GROUNDING_MODE = "pref.ai_grounding_mode"
+
+    // On-device LLM: active model id
+    const val AI_ACTIVE_MODEL_ID = "pref.ai_active_model_id"
 }

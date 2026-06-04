@@ -22,6 +22,12 @@ actual class DbPlatform {
         )?.path ?: ""
 
     @OptIn(ExperimentalForeignApi::class)
+    actual val appFilesDirectory: String
+        get() = NSFileManager.defaultManager.URLForDirectory(
+            NSApplicationSupportDirectory, NSUserDomainMask, null, true, null
+        )?.path ?: ""
+
+    @OptIn(ExperimentalForeignApi::class)
     actual suspend fun readBytes(path: String): ByteArray? = withContext(Dispatchers.Default) {
         try {
             val data = NSData.create(contentsOfURL = NSURL.fileURLWithPath(path))

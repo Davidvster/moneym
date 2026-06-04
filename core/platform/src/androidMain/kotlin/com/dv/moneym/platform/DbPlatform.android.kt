@@ -9,6 +9,9 @@ actual class DbPlatform(private val context: Context) {
     actual val dbDirectory: String
         get() = context.getDatabasePath("x").parentFile?.absolutePath ?: context.filesDir.absolutePath
 
+    actual val appFilesDirectory: String
+        get() = context.filesDir.absolutePath
+
     actual suspend fun readBytes(path: String): ByteArray? = withContext(Dispatchers.IO) {
         runCatching { File(path).readBytes() }.getOrNull()
     }
