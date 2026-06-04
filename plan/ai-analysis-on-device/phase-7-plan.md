@@ -1,6 +1,6 @@
 # Phase 7 — iOS native bridge (STUB) + build gate
 
-**Status:** ✅ Done — `MediaPipeBridge.swift` (canImport-guarded stub) + `iOSApp.swift` holder wiring + `IOS_MANUAL_STEPS.md`. Final gate green: Android `assembleDebug` PASS, iOS framework link PASS, **`xcodebuild ... ** BUILD SUCCEEDED **`**, full `testDebugUnitTest` PASS. On-device engine reports unavailable on iOS until the user links the MediaPipe/LiteRT-LM framework per IOS_MANUAL_STEPS.md.
+**Status:** ✅ Done — `LiteRtLmBridge.swift` (`#if canImport(LiteRTLM)` stub, LiteRT-LM Swift API: EngineConfig→Engine→createConversation→sendMessageStream) + `iOSApp.swift` holder wiring + `IOS_MANUAL_STEPS.md` (SPM, ~4 clicks — no CocoaPods). Gate green: Android compile+tests PASS, **iOS `xcodebuild ** BUILD SUCCEEDED **`**. On-device engine reports unavailable on iOS until the user adds the LiteRT-LM SPM package per IOS_MANUAL_STEPS.md.
 **Depends on:** Phases 1–6
 
 ## Goal

@@ -1,58 +1,53 @@
-# iOS — linking the on-device LLM runtime (manual)
+# iOS — linking the LiteRT-LM runtime (manual, ~4 clicks)
 
-The Kotlin + Swift code for the on-device model engine is complete, but the **native
-inference runtime is not linked yet**. Until you link it, `MediaPipeBridge.swift`'s
-`#if canImport(MediaPipeTasksGenAI)` is false, so the bridge reports the engine as
-*unavailable* and the app builds/runs fine — the on-device engine simply won't appear as
-AVAILABLE on iOS (Apple Intelligence still works where supported; Android is fully wired).
+The Kotlin + Swift code for the on-device model engine is complete and uses **LiteRT-LM**
+(non-deprecated). The native runtime is added via **Swift Package Manager** — no CocoaPods,
+no `.xcworkspace` conversion. Until you add the package, `LiteRtLmBridge.swift`'s
+`#if canImport(LiteRTLM)` is false, so the bridge reports the engine *unavailable* and the
+app builds/runs fine (Apple Intelligence still works where supported; Android is fully
+wired). Adding the package flips the branch on — **no further Kotlin/Swift edits**.
 
-Linking the framework flips the `#if canImport` branch on automatically — **no Kotlin or
-Swift edits required afterward**.
+## Add the package in Xcode
 
-## Option A — CocoaPods (most documented for MediaPipe)
-
-The Xcode project currently links the Kotlin framework directly and has **no CocoaPods**.
-Adding a pod means switching to a `.xcworkspace`:
-
-1. Create `iosApp/Podfile`:
-   ```ruby
-   platform :ios, '15.0'
-   target 'iosApp' do
-     use_frameworks!
-     pod 'MediaPipeTasksGenAI'      # or 'MediaPipeTasksGenAIC'
-   end
+1. Open `iosApp/iosApp.xcodeproj` (the normal project — no workspace needed).
+2. **File ▸ Add Package Dependencies…**
+3. In the search/URL field enter:
    ```
-2. `cd iosApp && pod install`
-3. Open `iosApp/iosApp.xcworkspace` (not the `.xcodeproj`) from now on.
-4. Ensure the existing "Run Script" phase that links the Kotlin `ComposeApp` framework
-   (`embedAndSignAppleFrameworkForXcode` / the gradle link task) is preserved.
+   https://github.com/google-ai-edge/LiteRT-LM
+   ```
+4. Dependency Rule: **Up to Next Major**, starting from **0.13.0** (matches the Android
+   `litertLm = "0.13.0"` in `gradle/libs.versions.toml` — keep them in sync).
+5. **Add Package**, then add the **`LiteRTLM`** library product to the **`iosApp`** target.
+6. Build & run on a **physical device** (Metal/GPU backend; the simulator may not support
+   the GPU backend — if a simulator build fails inside LiteRTLM, run on device, or set
+   `backend: .cpu` in `LiteRtLmBridge.swift`).
 
-## Option B — LiteRT-LM / prebuilt `.xcframework` (SPM or manual)
+That's it. `LiteRtLmBridge.swift` already implements the real path:
+`EngineConfig(modelPath:backend:cacheDir:)` → `Engine(engineConfig:)` → `initialize()` →
+`createConversation()` → `for try await chunk in conversation.sendMessageStream(Message(...))`.
 
-The catalog models are `.litertlm`. If you prefer the LiteRT-LM runtime, add its iOS
-`.xcframework` (Swift Package or drag-in) and change the import in
-`MediaPipeBridge.swift` from `MediaPipeTasksGenAI` to the LiteRT-LM module name, plus the
-`LlmInference` API calls to that SDK's equivalents.
+## CLI alternative (no GUI)
 
-## After linking — verify the real branch
+SPM deps are stored in the `.xcodeproj`; adding them from pure CLI means editing
+`project.pbxproj` (fiddly). The GUI flow above is the supported path. After it's added once,
+`xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp ... build` resolves the package
+automatically.
 
-`MediaPipeBridge.swift`'s active branch uses, for the MediaPipe pod:
-`LlmInference.Options(modelPath:)` → `LlmInference(options:)` →
-`generateResponseAsync(inputText:progress:completion:)`. **Confirm these signatures
-against the pod version you installed** (the GenAI iOS API has shifted between releases,
-e.g. session-based APIs). Adjust the bridge's `#if canImport` branch if the installed
-version differs. The Kotlin contract (`IosLocalLlmBridge`) does not change.
+## Model storage & catalog
 
-## Model storage
-
-Downloaded `.litertlm` files live under the app's Application Support directory
+Downloaded `.litertlm` files live under the app's Application Support dir
 (`DbPlatform.appFilesDirectory` + `/models/`). The model-manager screen handles download,
-checksum (when a sha256 is set in `LlmModelCatalog`), activation, and deletion. Active
+checksum (when a sha256 is set in `LlmModelCatalog`), activation, and deletion; the active
 model path is what `loadModel(path:)` receives.
 
-## Catalog note
+`LlmModelCatalog` ships the 3 model URLs (Gemma 3 1B, Gemma 4 E2B, Gemma 3n E2B) with
+**empty sha256** (verification skipped) and approximate sizes. Before shipping, fill in real
+`sha256` + `sizeBytes` from the HuggingFace `litert-community` repos and confirm the exact
+`.litertlm` filenames in the `resolve/main/...` URLs.
 
-`LlmModelCatalog` ships the 3 model URLs with **empty sha256** (verification skipped) and
-approximate sizes. Before shipping, fill in the real `sha256` + `sizeBytes` from the
-HuggingFace `litert-community` repos and confirm the exact `.litertlm` filenames in the
-`resolve/main/...` URLs.
+## Keep Android + iOS in sync
+
+- Android runtime: `com.google.ai.edge.litertlm:litertlm-android` (version `litertLm` in the
+  version catalog).
+- iOS runtime: SPM `LiteRTLM` at the matching version.
+Bump both together.

@@ -1,6 +1,6 @@
 # Phase 1 — `core/ai`: multi-engine abstraction
 
-**Status:** ✅ Done — `tasks-genai:0.10.24`; module compiles (android+ios) + tests pass. iOS runner is holder-stub (Swift in Phase 7).
+**Status:** ✅ Done — Android runner uses **LiteRT-LM** `com.google.ai.edge.litertlm:litertlm-android:0.13.0` (Engine/EngineConfig/Conversation, `sendMessageAsync: Flow<Message>`). Module compiles (android+ios) + tests pass. iOS runner is holder-stub (Swift bridge → LiteRT-LM SPM, Phase 7). (Originally drafted against MediaPipe tasks-genai; swapped off the deprecated API.)
 **Depends on:** none
 
 ## Goal
