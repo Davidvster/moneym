@@ -1,6 +1,6 @@
 # Phase 5 — `feature/aianalysis`: engine switcher
 
-**Status:** Not started
+**Status:** ✅ Done — module builds android+ios, 10/10 tests. VM now registry-driven; `OpenModelManager` intent dropped (button calls `onManageModels` directly). Selector row shows only when >1 engine. `analyzeEntry` gained required `onManageModels` param → composeApp call site fixed in Phase 6 (composeApp does NOT compile until then, as expected).
 **Depends on:** Phase 1 (registry), Phase 3 (repo for active-model check)
 
 ## Goal

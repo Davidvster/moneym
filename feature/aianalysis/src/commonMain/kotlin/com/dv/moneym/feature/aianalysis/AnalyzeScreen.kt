@@ -22,11 +22,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.dv.moneym.core.ai.AiEngineId
 import com.dv.moneym.core.ai.AiGroundingMode
 import com.dv.moneym.core.ai.ChatMessage
 import com.dv.moneym.core.ai.ChatRole
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
+import com.dv.moneym.core.ui.MmButton
+import com.dv.moneym.core.ui.MmButtonSize
+import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.navigation.ModalKey
@@ -35,6 +39,12 @@ import com.dv.moneym.feature.aianalysis.components.MessageBubble
 import com.dv.moneym.feature.aianalysis.components.SuggestedPrompts
 import kotlinx.serialization.Serializable
 import moneym.feature.aianalysis.generated.resources.Res
+import moneym.feature.aianalysis.generated.resources.analyze_download_model
+import moneym.feature.aianalysis.generated.resources.analyze_engine_apple_intelligence
+import moneym.feature.aianalysis.generated.resources.analyze_engine_gemini_nano
+import moneym.feature.aianalysis.generated.resources.analyze_engine_label
+import moneym.feature.aianalysis.generated.resources.analyze_engine_local_llm
+import moneym.feature.aianalysis.generated.resources.analyze_engine_needs_download_notice
 import moneym.feature.aianalysis.generated.resources.analyze_error
 import moneym.feature.aianalysis.generated.resources.analyze_generating
 import moneym.feature.aianalysis.generated.resources.analyze_grounding_label
@@ -51,9 +61,10 @@ data class AnalyzeKey(val year: Int, val month: Int) : ModalKey
 
 fun EntryProviderScope<NavKey>.analyzeEntry(
     onBack: () -> Unit,
+    onManageModels: () -> Unit,
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<AnalyzeKey>(metadata = metadata) { key ->
-    AnalyzeScreen(year = key.year, month = key.month, onBack = onBack)
+    AnalyzeScreen(year = key.year, month = key.month, onBack = onBack, onManageModels = onManageModels)
 }
 
 @Composable
@@ -61,6 +72,7 @@ fun AnalyzeScreen(
     year: Int,
     month: Int,
     onBack: () -> Unit,
+    onManageModels: () -> Unit,
     viewModel: AnalyzeViewModel = koinViewModel { parametersOf(year, month) },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -69,6 +81,7 @@ fun AnalyzeScreen(
         state = state,
         onIntent = viewModel::onIntent,
         onBack = onBack,
+        onManageModels = onManageModels,
     )
 }
 
@@ -77,6 +90,7 @@ private fun AnalyzeContent(
     state: AnalyzeUiState,
     onIntent: (AnalyzeIntent) -> Unit,
     onBack: () -> Unit,
+    onManageModels: () -> Unit,
 ) {
     val colors = MM.colors
     val listState = rememberLazyListState()
@@ -93,6 +107,54 @@ private fun AnalyzeContent(
             .background(colors.bg),
     ) {
         ScreenHeader(title = stringResource(Res.string.analyze_title), onBack = onBack)
+
+        if (state.engines.size > 1) {
+            val engineLabels = state.engines.map { stringResource(engineLabelRes(it.id)) }
+            val selectedEngineIndex = state.engines.indexOfFirst { it.id == state.selectedEngine }
+                .coerceAtLeast(0)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_1x),
+                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(Res.string.analyze_engine_label),
+                    style = MM.type.caption,
+                    color = colors.text2,
+                    modifier = Modifier.weight(1f),
+                )
+                MmSegmented(
+                    options = engineLabels,
+                    selectedIndex = selectedEngineIndex,
+                    onOptionSelected = { index ->
+                        onIntent(AnalyzeIntent.EngineChanged(state.engines[index].id))
+                    },
+                )
+            }
+        }
+
+        if (state.needsModelDownload) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_1x),
+                verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+            ) {
+                Text(
+                    text = stringResource(Res.string.analyze_engine_needs_download_notice),
+                    style = MM.type.caption,
+                    color = colors.text2,
+                )
+                MmButton(
+                    text = stringResource(Res.string.analyze_download_model),
+                    onClick = onManageModels,
+                    variant = MmButtonVariant.Secondary,
+                    size = MmButtonSize.Sm,
+                )
+            }
+        }
 
         val groundingOptions = listOf(
             stringResource(Res.string.analyze_grounding_snapshot),
@@ -181,8 +243,15 @@ private fun AnalyzeContentPreview() {
             ),
             onIntent = {},
             onBack = {},
+            onManageModels = {},
         )
     }
+}
+
+private fun engineLabelRes(id: AiEngineId) = when (id) {
+    AiEngineId.GEMINI_NANO -> Res.string.analyze_engine_gemini_nano
+    AiEngineId.APPLE_INTELLIGENCE -> Res.string.analyze_engine_apple_intelligence
+    AiEngineId.LOCAL_LLM -> Res.string.analyze_engine_local_llm
 }
 
 @Composable

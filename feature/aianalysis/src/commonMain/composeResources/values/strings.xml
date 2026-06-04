@@ -8,6 +8,12 @@
     <string name="analyze_grounding_snapshot">Snapshot</string>
     <string name="analyze_grounding_tools">Tools</string>
     <string name="analyze_tools_fallback_notice">Tools are not supported by this model. Using a snapshot instead.</string>
+    <string name="analyze_engine_label">AI engine</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_local_llm">On-device model</string>
+    <string name="analyze_engine_needs_download_notice">This engine is unavailable. Download a model to continue.</string>
+    <string name="analyze_download_model">Download a model</string>
     <string name="analyze_error">Something went wrong. Please try again.</string>
     <string name="analyze_generating">Thinking…</string>
     <string-array name="analyze_suggested_prompts">

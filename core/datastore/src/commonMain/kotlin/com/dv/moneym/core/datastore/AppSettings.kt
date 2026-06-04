@@ -78,4 +78,7 @@ object PrefKeys {
 
     // On-device LLM: active model id
     const val AI_ACTIVE_MODEL_ID = "pref.ai_active_model_id"
+
+    // AI analysis selected engine id
+    const val AI_ENGINE_ID = "pref.ai_engine_id"
 }

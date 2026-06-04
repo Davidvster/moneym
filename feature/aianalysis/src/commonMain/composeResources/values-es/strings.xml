@@ -8,6 +8,12 @@
     <string name="analyze_grounding_snapshot">Resumen</string>
     <string name="analyze_grounding_tools">Herramientas</string>
     <string name="analyze_tools_fallback_notice">Este modelo no admite herramientas. Se usará un resumen en su lugar.</string>
+    <string name="analyze_engine_label">Motor de IA</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_local_llm">Modelo en el dispositivo</string>
+    <string name="analyze_engine_needs_download_notice">Este motor no está disponible. Descarga un modelo para continuar.</string>
+    <string name="analyze_download_model">Descargar un modelo</string>
     <string name="analyze_error">Algo salió mal. Inténtalo de nuevo.</string>
     <string name="analyze_generating">Pensando…</string>
     <string-array name="analyze_suggested_prompts">

@@ -1,11 +1,13 @@
 package com.dv.moneym.feature.aianalysis
 
+import androidx.lifecycle.SavedStateHandle
 import com.dv.moneym.core.ai.AiAvailability
 import com.dv.moneym.core.ai.AiEngine
+import com.dv.moneym.core.ai.AiEngineId
+import com.dv.moneym.core.ai.AiEngineRegistry
 import com.dv.moneym.core.ai.AiGroundingMode
 import com.dv.moneym.core.ai.ChatMessage
 import com.dv.moneym.core.ai.ChatRole
-import androidx.lifecycle.SavedStateHandle
 import com.dv.moneym.core.ai.Grounding
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.core.testing.FakeAccountRepository
@@ -35,6 +37,7 @@ import kotlin.test.assertTrue
 import kotlin.time.Instant
 
 private class FakeAiEngine(
+    override val id: AiEngineId,
     override val supportsTools: Boolean = false,
     private val availability: AiAvailability = AiAvailability.AVAILABLE,
     private val deltas: List<String> = listOf("Hello", " ", "world"),
@@ -57,6 +60,7 @@ class AnalyzeViewModelTest {
     @BeforeTest
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
+        appSettings = FakeAppSettings()
     }
 
     @AfterTest
@@ -65,7 +69,7 @@ class AnalyzeViewModelTest {
     }
 
     private val clock = FixedClock(Instant.parse("2026-05-15T12:00:00Z"))
-    private val appSettings = FakeAppSettings()
+    private var appSettings = FakeAppSettings()
 
     private fun snapshotUseCase() = BuildFinanceSnapshotUseCase(
         transactionRepository = FakeTransactionRepository(),
@@ -83,10 +87,10 @@ class AnalyzeViewModelTest {
         clock = clock,
     )
 
-    private fun makeVm(engine: AiEngine) = AnalyzeViewModel(
+    private fun makeVm(registry: AiEngineRegistry) = AnalyzeViewModel(
         year = 2026,
         month = 5,
-        engine = engine,
+        registry = registry,
         buildSnapshot = snapshotUseCase(),
         buildToolset = toolsetUseCase(),
         appSettings = appSettings,
@@ -94,10 +98,73 @@ class AnalyzeViewModelTest {
         savedStateHandle = SavedStateHandle(),
     )
 
+    private fun registryOf(vararg engines: AiEngine) = AiEngineRegistry(engines.toList())
+
+    private fun availableEngine(
+        id: AiEngineId = AiEngineId.GEMINI_NANO,
+        supportsTools: Boolean = false,
+        deltas: List<String> = listOf("Hello", " ", "world"),
+    ) = FakeAiEngine(id = id, supportsTools = supportsTools, deltas = deltas)
+
+    private fun downloadableLocalEngine() = FakeAiEngine(
+        id = AiEngineId.LOCAL_LLM,
+        availability = AiAvailability.DOWNLOADABLE,
+    )
+
     @Test
-    fun sendMessageAppendsUserAndStreamsAssistantDeltas() = runTest(testDispatcher) {
-        val vm = makeVm(FakeAiEngine(deltas = listOf("Hel", "lo")))
-        backgroundScope.launch { vm.state.collect {} }
+    fun enginesListBuiltFromRegistry() = runTest(testDispatcher) {
+        val vm = makeVm(registryOf(availableEngine(), downloadableLocalEngine()))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        val state = vm.state.value
+        assertEquals(2, state.engines.size)
+        val nano = state.engines.first { it.id == AiEngineId.GEMINI_NANO }
+        val local = state.engines.first { it.id == AiEngineId.LOCAL_LLM }
+        assertTrue(nano.available)
+        assertFalse(local.available)
+        assertTrue(local.needsDownload)
+        assertEquals(AiEngineId.GEMINI_NANO, state.selectedEngine)
+        job.cancel()
+    }
+
+    @Test
+    fun engineChangedPersistsAndSwitches() = runTest(testDispatcher) {
+        val vm = makeVm(registryOf(availableEngine(), downloadableLocalEngine()))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        vm.onIntent(AnalyzeIntent.EngineChanged(AiEngineId.LOCAL_LLM))
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertEquals(AiEngineId.LOCAL_LLM, vm.state.value.selectedEngine)
+        assertEquals(AiEngineId.LOCAL_LLM.name, appSettings.getString(PrefKeys.AI_ENGINE_ID))
+        assertTrue(vm.state.value.needsModelDownload)
+        job.cancel()
+    }
+
+    @Test
+    fun selectingDownloadableLocalEngineThenSendShowsNeedsDownload() = runTest(testDispatcher) {
+        val vm = makeVm(registryOf(availableEngine(), downloadableLocalEngine()))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        vm.onIntent(AnalyzeIntent.EngineChanged(AiEngineId.LOCAL_LLM))
+        vm.onIntent(AnalyzeIntent.SendMessage("hi"))
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertTrue(vm.state.value.needsModelDownload)
+        assertTrue(vm.state.value.messages.none { it.role == ChatRole.ASSISTANT })
+        assertFalse(vm.state.value.isGenerating)
+        job.cancel()
+    }
+
+    @Test
+    fun selectingAvailableEngineThenSendStreamsDeltas() = runTest(testDispatcher) {
+        val vm = makeVm(registryOf(availableEngine(deltas = listOf("Hel", "lo")), downloadableLocalEngine()))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
+
         vm.onIntent(AnalyzeIntent.SendMessage("hi"))
         testDispatcher.scheduler.advanceUntilIdle()
 
@@ -108,11 +175,12 @@ class AnalyzeViewModelTest {
         assertEquals(ChatRole.ASSISTANT, state.messages[1].role)
         assertEquals("Hello", state.messages[1].content)
         assertFalse(state.isGenerating)
+        job.cancel()
     }
 
     @Test
     fun blankMessageIgnored() = runTest(testDispatcher) {
-        val vm = makeVm(FakeAiEngine())
+        val vm = makeVm(registryOf(availableEngine()))
         backgroundScope.launch { vm.state.collect {} }
         vm.onIntent(AnalyzeIntent.SendMessage("   "))
         testDispatcher.scheduler.advanceUntilIdle()
@@ -121,7 +189,7 @@ class AnalyzeViewModelTest {
 
     @Test
     fun groundingModeChangePersistsToAppSettings() = runTest(testDispatcher) {
-        val vm = makeVm(FakeAiEngine())
+        val vm = makeVm(registryOf(availableEngine()))
         val job = launch { vm.state.collect {} }
         testDispatcher.scheduler.advanceUntilIdle()
         vm.onIntent(AnalyzeIntent.GroundingModeChanged(AiGroundingMode.TOOLS))
@@ -135,39 +203,43 @@ class AnalyzeViewModelTest {
     @Test
     fun groundingModeLoadedFromAppSettingsOnInit() = runTest(testDispatcher) {
         appSettings.putString(PrefKeys.AI_GROUNDING_MODE, AiGroundingMode.TOOLS.name)
-        val vm = makeVm(FakeAiEngine(supportsTools = false))
+        val vm = makeVm(registryOf(availableEngine(supportsTools = false)))
         assertEquals(AiGroundingMode.TOOLS, vm.state.value.groundingMode)
     }
 
     @Test
     fun toolsModeFallsBackToSnapshotWhenEngineHasNoToolSupport() = runTest(testDispatcher) {
         appSettings.putString(PrefKeys.AI_GROUNDING_MODE, AiGroundingMode.TOOLS.name)
-        val engine = FakeAiEngine(supportsTools = false)
-        val vm = makeVm(engine)
-        backgroundScope.launch { vm.state.collect {} }
+        val engine = availableEngine(supportsTools = false)
+        val vm = makeVm(registryOf(engine))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
         vm.onIntent(AnalyzeIntent.SendMessage("analyze"))
         testDispatcher.scheduler.advanceUntilIdle()
 
         assertTrue(vm.state.value.showToolsFallbackNotice)
         assertTrue(engine.lastGrounding is Grounding.Snapshot)
+        job.cancel()
     }
 
     @Test
     fun toolsModeUsesToolsWhenEngineSupportsThem() = runTest(testDispatcher) {
         appSettings.putString(PrefKeys.AI_GROUNDING_MODE, AiGroundingMode.TOOLS.name)
-        val engine = FakeAiEngine(supportsTools = true)
-        val vm = makeVm(engine)
-        backgroundScope.launch { vm.state.collect {} }
+        val engine = availableEngine(supportsTools = true)
+        val vm = makeVm(registryOf(engine))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
         vm.onIntent(AnalyzeIntent.SendMessage("analyze"))
         testDispatcher.scheduler.advanceUntilIdle()
 
         assertFalse(vm.state.value.showToolsFallbackNotice)
         assertTrue(engine.lastGrounding is Grounding.Tools)
+        job.cancel()
     }
 
     @Test
-    fun availabilityReflectedFromEngine() = runTest(testDispatcher) {
-        val vm = makeVm(FakeAiEngine(availability = AiAvailability.UNAVAILABLE))
+    fun availabilityReflectedFromSelectedEngine() = runTest(testDispatcher) {
+        val vm = makeVm(registryOf(FakeAiEngine(id = AiEngineId.GEMINI_NANO, availability = AiAvailability.UNAVAILABLE)))
         val job = launch { vm.state.collect {} }
         testDispatcher.scheduler.advanceUntilIdle()
         assertFalse(vm.state.value.available)

@@ -8,6 +8,12 @@
     <string name="analyze_grounding_snapshot">Snapshot</string>
     <string name="analyze_grounding_tools">Tools</string>
     <string name="analyze_tools_fallback_notice">Tools werden von diesem Modell nicht unterstützt. Stattdessen wird ein Snapshot verwendet.</string>
+    <string name="analyze_engine_label">KI-Engine</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_local_llm">Modell auf dem Gerät</string>
+    <string name="analyze_engine_needs_download_notice">Diese Engine ist nicht verfügbar. Lade ein Modell herunter, um fortzufahren.</string>
+    <string name="analyze_download_model">Modell herunterladen</string>
     <string name="analyze_error">Etwas ist schiefgelaufen. Bitte versuche es erneut.</string>
     <string name="analyze_generating">Denkt nach…</string>
     <string-array name="analyze_suggested_prompts">
