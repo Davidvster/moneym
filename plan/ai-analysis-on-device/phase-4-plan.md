@@ -1,6 +1,6 @@
 # Phase 4 — `feature/aimodels`: model manager screen
 
-**Status:** Not started
+**Status:** ✅ Done — module builds android+ios, 5/5 VM tests pass. 16 strings ×4 langs. Token field rendered always-visible (not collapsible — no extra UiState). VM not yet Koin-registered (Phase 6). `ai_models_verifying` string unused until repo exposes a verifying state.
 **Depends on:** Phase 3 (`LlmModelRepository`)
 
 ## Goal

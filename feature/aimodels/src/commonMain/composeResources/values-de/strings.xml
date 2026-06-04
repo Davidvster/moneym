@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ai_models_title">KI-Modelle</string>
+    <string name="ai_model_gemma3_1b_it">Gemma 3 1B</string>
+    <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="ai_model_gemma3n_e2b_it">Gemma 3n E2B</string>
+    <string name="ai_models_download">Herunterladen</string>
+    <string name="ai_models_cancel">Abbrechen</string>
+    <string name="ai_models_delete">Löschen</string>
+    <string name="ai_models_active">Aktiv</string>
+    <string name="ai_models_save">Speichern</string>
+    <string name="ai_models_token_label">Hugging-Face-Token</string>
+    <string name="ai_models_token_hint">Optionales Token für eingeschränkte Modelle</string>
+    <string name="ai_models_token_section">Zugriffstoken</string>
+    <string name="ai_models_verifying">Wird überprüft…</string>
+    <string name="ai_models_error_download">Download fehlgeschlagen. Bitte erneut versuchen.</string>
+    <string name="ai_models_error_delete">Modell konnte nicht gelöscht werden.</string>
+    <string name="ai_models_error_token">Token konnte nicht gespeichert werden.</string>
+</resources>
