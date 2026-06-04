@@ -1,6 +1,6 @@
 # Phase 1 — `core/ai`: multi-engine abstraction
 
-**Status:** Not started
+**Status:** ✅ Done — `tasks-genai:0.10.24`; module compiles (android+ios) + tests pass. iOS runner is holder-stub (Swift in Phase 7).
 **Depends on:** none
 
 ## Goal

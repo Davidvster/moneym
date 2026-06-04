@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.callbackFlow
 
 class IosFoundationModelsAiEngine : AiEngine {
 
+    override val id = AiEngineId.APPLE_INTELLIGENCE
+
     override val supportsTools = false
 
     override suspend fun availability(): AiAvailability =
@@ -33,12 +35,5 @@ class IosFoundationModelsAiEngine : AiEngine {
             onError = { message -> close(IllegalStateException(message)) },
         )
         awaitClose { }
-    }
-
-    private companion object {
-        const val SYSTEM_INSTRUCTION =
-            "You are a personal finance assistant inside a budgeting app. " +
-                "Answer questions about the user's spending, income, accounts, and budgets " +
-                "using only the financial data provided. Be concise and never invent numbers."
     }
 }

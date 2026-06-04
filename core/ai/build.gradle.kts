@@ -23,9 +23,11 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(libs.mlkit.genai.prompt)
+            implementation(libs.mediapipe.tasks.genai)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
         }
     }
 }
