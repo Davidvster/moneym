@@ -20,6 +20,7 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.kermit)
             implementation(projects.core.common)
+            implementation(projects.core.model)
             implementation(projects.core.security)
             implementation(projects.core.datastore)
             implementation(projects.core.platform)

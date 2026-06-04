@@ -126,6 +126,16 @@ private fun AppContent() {
         else autoBackupManager.stop()
     }
 
+    // Sync lifecycle is independent of local auto-backup: it rides on the cross-device-sync flag
+    // so an edit on this device pushes even when local file backup is off.
+    val syncEnabled by appSettings.observeBoolean(PrefKeys.CROSS_DEVICE_SYNC_ENABLED)
+        .collectAsStateWithLifecycle(initialValue = appSettings.getBoolean(PrefKeys.CROSS_DEVICE_SYNC_ENABLED))
+
+    LaunchedEffect(syncEnabled) {
+        if (syncEnabled) syncEngine.start(this)
+        else syncEngine.stop()
+    }
+
     val themeMode by appSettingsRepo.observeThemeMode()
         .collectAsStateWithLifecycle(initialValue = ThemeMode.Auto)
     val isDark = when (themeMode) {

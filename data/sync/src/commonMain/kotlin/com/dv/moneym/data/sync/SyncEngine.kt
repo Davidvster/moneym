@@ -19,7 +19,9 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -70,9 +72,27 @@ class SyncEngine(
     fun start(scope: CoroutineScope) {
         job?.cancel()
         job = scope.launch(dispatchers.io) {
-            pushPulse.debounce(debounceMs).collect { push() }
+            launch { pushPulse.debounce(debounceMs).collect { push() } }
+            launch {
+                dataChanges()
+                    .drop(1)
+                    .debounce(debounceMs)
+                    .collect { enqueuePush() }
+            }
         }
     }
+
+    /** Emits whenever any synced entity changes, so an edit on this device pushes without
+     *  riding on the local-backup lifecycle. */
+    private fun dataChanges(): Flow<Unit> =
+        combine(
+            accountRepository.observeAll(),
+            categoryRepository.observeAll(),
+            paymentModeRepository.observeAll(),
+            transactionRepository.observeAll(),
+            recurringTransactionRepository.observeAll(),
+        ) { _, _, _, _, _ -> Unit }
+            .combine(budgetRepository.observeAll()) { _, _ -> Unit }
 
     fun stop() {
         job?.cancel()

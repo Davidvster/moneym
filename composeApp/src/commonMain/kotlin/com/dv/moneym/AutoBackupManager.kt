@@ -9,7 +9,6 @@ import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.remotebackup.RemoteBackupManager
 import com.dv.moneym.data.remotebackup.SessionPassphrase
-import com.dv.moneym.data.sync.SyncEngine
 import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.platform.FilePlatform
 import kotlinx.coroutines.CoroutineScope
@@ -33,7 +32,6 @@ class AutoBackupManager(
     private val backupCodec: BackupCodec,
     private val sessionPassphrase: SessionPassphrase,
     private val remoteBackupManager: RemoteBackupManager? = null,
-    private val syncEngine: SyncEngine? = null,
 ) {
     private var job: Job? = null
 
@@ -72,18 +70,15 @@ class AutoBackupManager(
                         Clock.System.now().toEpochMilliseconds(),
                     )
                     remoteBackupManager?.enqueueUpload()
-                    syncEngine?.enqueuePush()
                 }
         }
         remoteBackupManager?.start(scope)
-        syncEngine?.start(scope)
     }
 
     fun stop() {
         job?.cancel()
         job = null
         remoteBackupManager?.stop()
-        syncEngine?.stop()
     }
 
     fun recordBackup(path: String) {
