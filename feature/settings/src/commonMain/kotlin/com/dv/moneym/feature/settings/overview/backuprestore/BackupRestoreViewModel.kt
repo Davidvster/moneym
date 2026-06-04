@@ -17,6 +17,7 @@ import com.dv.moneym.data.remotebackup.RemoteBackupManager
 import com.dv.moneym.data.remotebackup.RemoteBackupMetadata
 import com.dv.moneym.data.remotebackup.RemoteBackupRuntimeState
 import com.dv.moneym.data.remotebackup.SessionPassphrase
+import com.dv.moneym.data.remotebackup.SyncPassphraseStore
 import com.dv.moneym.platform.FilePlatform
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -120,6 +121,7 @@ class BackupRestoreViewModel(
     private val googleAuthManager: GoogleAuthManager? = null,
     private val remoteBackupManager: RemoteBackupManager? = null,
     private val sessionPassphrase: SessionPassphrase? = null,
+    private val syncPassphraseStore: SyncPassphraseStore? = null,
     private val filePlatform: FilePlatform,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -371,6 +373,7 @@ class BackupRestoreViewModel(
                 appSettings.putBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, false)
                 appSettings.remove(PrefKeys.REMOTE_BACKUP_ACCOUNT_EMAIL)
                 sessionPassphrase?.clear()
+                syncPassphraseStore?.clear()
                 _base.update { it.copy(remoteAutoEnabled = false, remotePassphraseSet = false) }
             } catch (t: Throwable) {
                 logger.e(t) { "Google disconnect failed" }
@@ -403,9 +406,12 @@ class BackupRestoreViewModel(
                 return
             }
             sessionPassphrase?.set(value)
+            val persistCopy = value.copyOf()
+            viewModelScope.launch { syncPassphraseStore?.persist(persistCopy); persistCopy.fill(' ') }
             appSettings.putBoolean(encryptPref, true)
         } else {
             appSettings.putBoolean(encryptPref, false)
+            viewModelScope.launch { syncPassphraseStore?.clear() }
         }
         value.fill(' ')
         pendingBackup = null

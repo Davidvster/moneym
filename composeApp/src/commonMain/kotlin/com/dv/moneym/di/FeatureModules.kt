@@ -78,7 +78,7 @@ val coreSecurityModule = module {
     single { PinHasher() }
     single { PinManager(get(), get(), get()) }
     single { AppLockController(get()) }
-    single { AppInitializer(get(), get(), get(), get(), get(), get()) }
+    single { AppInitializer(get(), get(), get(), get(), get(), get(), get(), get()) }
 }
 
 val featureTransactionsModule = module {
@@ -241,6 +241,7 @@ val featureSettingsModule = module {
             googleAuthManager = getOrNull(),
             remoteBackupManager = getOrNull(),
             sessionPassphrase = getOrNull(),
+            syncPassphraseStore = getOrNull(),
             filePlatform = get(),
             savedStateHandle = get(),
         )

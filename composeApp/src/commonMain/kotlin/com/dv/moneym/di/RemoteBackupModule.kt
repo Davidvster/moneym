@@ -7,6 +7,7 @@ import com.dv.moneym.data.backup.BackupCodec
 import com.dv.moneym.data.remotebackup.RemoteBackupManager
 import com.dv.moneym.data.remotebackup.RemoteBackupProvider
 import com.dv.moneym.data.remotebackup.SessionPassphrase
+import com.dv.moneym.data.remotebackup.SyncPassphraseStore
 import com.dv.moneym.data.remotebackup.google.GoogleDriveBackupClient
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
@@ -26,6 +27,7 @@ val remoteBackupCommonModule: Module = module {
     single<BackupCrypto> { DefaultBackupCrypto(dispatchers = get()) }
     single { BackupCodec(crypto = get(), appVersion = APP_VERSION) }
     single { SessionPassphrase() }
+    single { SyncPassphraseStore(secureStore = get()) }
     single {
         HttpClient(createHttpEngine()) {
             install(ContentNegotiation) {
