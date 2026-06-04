@@ -65,6 +65,7 @@ class DefaultLlmModelRepositoryTest {
         val repository = repo(store = store, appSettings = appSettings, scope = backgroundScope)
 
         store.finals[model.fileName] = ByteArray(10)
+        store.sizeOverrides[model.fileName] = model.sizeBytes
         repository.setActive(model.id)
 
         repository.observeModels().test {

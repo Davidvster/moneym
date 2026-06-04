@@ -5,11 +5,16 @@ class InMemoryModelFileStore : ModelFileStore {
     val finals = mutableMapOf<String, ByteArray>()
     val parts = mutableMapOf<String, ByteArray>()
 
+    /** Report a final-file size without allocating the bytes (catalog sizes are ~GB). */
+    val sizeOverrides = mutableMapOf<String, Long>()
+
     override fun finalPath(fileName: String): String = "/mem/models/$fileName"
 
-    override suspend fun finalExists(fileName: String): Boolean = finals.containsKey(fileName)
+    override suspend fun finalExists(fileName: String): Boolean =
+        finals.containsKey(fileName) || sizeOverrides.containsKey(fileName)
 
-    override suspend fun finalSize(fileName: String): Long = finals[fileName]?.size?.toLong() ?: 0L
+    override suspend fun finalSize(fileName: String): Long =
+        sizeOverrides[fileName] ?: finals[fileName]?.size?.toLong() ?: 0L
 
     override suspend fun partSize(fileName: String): Long = parts[fileName]?.size?.toLong() ?: 0L
 
@@ -35,5 +40,6 @@ class InMemoryModelFileStore : ModelFileStore {
 
     override suspend fun deleteFinal(fileName: String) {
         finals.remove(fileName)
+        sizeOverrides.remove(fileName)
     }
 }

@@ -8,11 +8,11 @@ object LlmModelCatalog {
         LlmModel(
             id = "gemma3-1b-it",
             displayNameKey = "ai_model_gemma3_1b_it",
-            fileName = "Gemma3-1B-IT_multi-prefill-seq_q4_ekv2048.litertlm",
+            fileName = "gemma3-1b-it-int4.litertlm",
             url = "https://huggingface.co/litert-community/Gemma3-1B-IT/resolve/main/" +
-                "Gemma3-1B-IT_multi-prefill-seq_q4_ekv2048.litertlm",
-            sizeBytes = 555_000_000L,
-            sha256 = "",
+                "gemma3-1b-it-int4.litertlm",
+            sizeBytes = 584417280L,
+            sha256 = "****************************************************************",
             format = FORMAT_LITERTLM,
             requiresToken = false,
         ),
@@ -22,11 +22,14 @@ object LlmModelCatalog {
             fileName = "gemma-4-E2B-it.litertlm",
             url = "https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm/resolve/main/" +
                 "gemma-4-E2B-it.litertlm",
-            sizeBytes = 3_000_000_000L,
-            sha256 = "",
+            sizeBytes = 2588147712L,
+            sha256 = "181938105e0eefd105961417e8da75903eacda102c4fce9ce90f50b97139a63c",
             format = FORMAT_LITERTLM,
             requiresToken = false,
         ),
+        // Gemma 3n E2B is gated on HuggingFace: the user must accept the Gemma license
+        // and supply an HF token. sha256 left empty (cannot be read anonymously) so the
+        // downloader skips verification; fileName is unverified until a token confirms it.
         LlmModel(
             id = "gemma3n-e2b-it",
             displayNameKey = "ai_model_gemma3n_e2b_it",
@@ -36,7 +39,7 @@ object LlmModelCatalog {
             sizeBytes = 3_000_000_000L,
             sha256 = "",
             format = FORMAT_LITERTLM,
-            requiresToken = false,
+            requiresToken = true,
         ),
     )
 
