@@ -4,6 +4,7 @@ import com.dv.moneym.data.sync.DeviceIdentity
 import com.dv.moneym.data.sync.DeviceRegistryManager
 import com.dv.moneym.data.sync.PendingDeletionStore
 import com.dv.moneym.data.sync.SyncApplier
+import com.dv.moneym.data.sync.SyncBootstrap
 import com.dv.moneym.data.sync.SyncConflictController
 import com.dv.moneym.data.sync.SyncConflictStore
 import com.dv.moneym.data.sync.SyncDeletionController
@@ -53,8 +54,10 @@ val syncCommonModule: Module = module {
             recurringTransactionRepository = get(),
             budgetRepository = get(),
             deviceRegistryManager = get(),
+            remoteBackupManager = getOrNull(),
         )
     }
     single<SyncDeletionController> { get<SyncEngine>() }
     single<SyncConflictController> { get<SyncEngine>() }
+    single<SyncBootstrap> { get<SyncEngine>() }
 }

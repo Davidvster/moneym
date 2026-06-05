@@ -7,7 +7,6 @@ import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
-import com.dv.moneym.data.remotebackup.RemoteBackupManager
 import com.dv.moneym.data.remotebackup.SessionPassphrase
 import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.platform.FilePlatform
@@ -31,7 +30,6 @@ class AutoBackupManager(
     private val dispatchers: DispatcherProvider,
     private val backupCodec: BackupCodec,
     private val sessionPassphrase: SessionPassphrase,
-    private val remoteBackupManager: RemoteBackupManager? = null,
 ) {
     private var job: Job? = null
 
@@ -69,16 +67,13 @@ class AutoBackupManager(
                         PrefKeys.LAST_LOCAL_MUTATION_MS,
                         Clock.System.now().toEpochMilliseconds(),
                     )
-                    remoteBackupManager?.enqueueUpload()
                 }
         }
-        remoteBackupManager?.start(scope)
     }
 
     fun stop() {
         job?.cancel()
         job = null
-        remoteBackupManager?.stop()
     }
 
     fun recordBackup(path: String) {

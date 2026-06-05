@@ -179,7 +179,7 @@ val dataBackupModule = module {
             get<BudgetsRoomDatabase>().close()
         }
     }
-    single { AutoBackupManager(get(), get(), get(), get(), get(), get(), get(), get(), get(), getOrNull()) }
+    single { AutoBackupManager(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 }
 
 val featureSettingsModule = module {

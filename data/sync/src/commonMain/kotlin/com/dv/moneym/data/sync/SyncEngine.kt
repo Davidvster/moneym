@@ -8,6 +8,7 @@ import com.dv.moneym.core.security.BackupCryptoError
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.budgets.BudgetRepository
 import com.dv.moneym.data.categories.CategoryRepository
+import com.dv.moneym.data.remotebackup.RemoteBackupManager
 import com.dv.moneym.data.remotebackup.SessionPassphrase
 import com.dv.moneym.data.remotebackup.SyncPassphraseStore
 import com.dv.moneym.data.transactions.PaymentModeRepository
@@ -53,9 +54,10 @@ class SyncEngine(
     private val recurringTransactionRepository: RecurringTransactionRepository,
     private val budgetRepository: BudgetRepository,
     private val deviceRegistryManager: DeviceRegistryManager? = null,
+    private val remoteBackupManager: RemoteBackupManager? = null,
     private val nowMs: () -> Long = { kotlin.time.Clock.System.now().toEpochMilliseconds() },
     private val debounceMs: Long = DEFAULT_DEBOUNCE_MS,
-) : SyncDeletionController, SyncStatusProvider, SyncPuller, SyncConflictController {
+) : SyncDeletionController, SyncStatusProvider, SyncPuller, SyncConflictController, SyncBootstrap {
 
     private val logger = Logger.withTag("SyncEngine")
     private val lock = Mutex()
@@ -83,9 +85,14 @@ class SyncEngine(
                 dataChanges()
                     .drop(1)
                     .debounce(debounceMs)
-                    .collect { enqueuePush() }
+                    .collect {
+                        enqueuePush()
+                        // Cloud sync also drives the point-in-time snapshot-history safety net.
+                        remoteBackupManager?.enqueueUpload()
+                    }
             }
         }
+        remoteBackupManager?.start(scope)
     }
 
     /** Emits whenever any synced entity changes, so an edit on this device pushes without
@@ -103,6 +110,7 @@ class SyncEngine(
     fun stop() {
         job?.cancel()
         job = null
+        remoteBackupManager?.stop()
     }
 
     fun enqueuePush() {
@@ -218,6 +226,17 @@ class SyncEngine(
             conflictStore.clear()
         }
         return if (overrideUnreadable) push() else pull()
+    }
+
+    override suspend fun remoteState(): RemoteSyncState {
+        val bytes = withContext(dispatchers.io) { store.readSnapshotBytes() } ?: return RemoteSyncState.NONE
+        return if (codec.isEncryptedEnvelope(bytes)) RemoteSyncState.ENCRYPTED else RemoteSyncState.PLAINTEXT
+    }
+
+    override suspend fun canDecrypt(passphrase: CharArray): Boolean {
+        val bytes = withContext(dispatchers.io) { store.readSnapshotBytes() } ?: return true
+        if (!codec.isEncryptedEnvelope(bytes)) return true
+        return runCatching { withContext(dispatchers.io) { codec.open(bytes, passphrase) } }.isSuccess
     }
 
     private suspend fun route(type: SyncEntityType, syncId: String, now: Long, confirmed: Boolean) {
