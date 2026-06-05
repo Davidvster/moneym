@@ -4,12 +4,13 @@ Guidance for Claude Code working in this repository.
 
 ## Project Overview
 
-MoneyM is a Kotlin Multiplatform (KMP) project targeting Android and iOS. Shared UI is built with Compose Multiplatform. The codebase is split into `core/`, `data/`, `feature/` modules consumed by the `composeApp` shell. Uses Room for persistence, Koin for DI, navigation3, kotlinx-serialization, kotlinx-datetime.
+MoneyM is a Kotlin Multiplatform (KMP) project targeting Android and iOS. Shared UI is built with Compose Multiplatform. The codebase is split into `core/`, `data/`, `feature/` modules consumed by the `shared` KMP library, with thin per-platform app entry points (`androidApp`, `iosApp`). Uses Room for persistence, Koin for DI, navigation3, kotlinx-serialization, kotlinx-datetime.
 
 ## Module Layout
 
 ```
-composeApp/                    # App shell — Koin wiring, MainNav, OnboardingNav, MainActivity, iOS entry
+shared/                        # KMP library — Koin wiring, MainNav, OnboardingNav, App(), iOS MainViewController, Android library code
+androidApp/                    # com.android.application — MainActivity, MoneyMApp, AndroidManifest, res/, signing
 core/
 ├── common/                    # AppClock, AppLogger, DispatcherProvider
 ├── datastore/                 # AppSettings, AppSettingsRepository, PrefKeys
@@ -34,7 +35,7 @@ feature/
 ├── settings/                  # SettingsOverviewViewModel + sub-screens (wallet, paymentmodes, importdata, ...)
 ├── transactionEdit/           # TransactionEditViewModel + usecase/
 └── transactions/              # TransactionListViewModel, TransactionPageViewModel
-iosApp/                        # Xcode project that consumes the Kotlin/Native framework
+iosApp/                        # Xcode project that consumes the `Shared` Kotlin/Native framework
 ```
 
 Each module's source is under `src/commonMain/kotlin/...`, with `commonTest/`, `androidMain/`, `iosMain/` where applicable.
@@ -45,12 +46,12 @@ Gradle task names of the form `compileKotlinAndroid` are **ambiguous** — alway
 
 ```bash
 # Android
-./gradlew :composeApp:assembleDebug
+./gradlew :androidApp:assembleDebug
 
 # iOS — no XCFramework task is configured. Link the framework binaries directly,
 # then let the Xcode project consume them.
-./gradlew :composeApp:linkDebugFrameworkIosArm64 \
-          :composeApp:linkDebugFrameworkIosSimulatorArm64
+./gradlew :shared:linkDebugFrameworkIosArm64 \
+          :shared:linkDebugFrameworkIosSimulatorArm64
 
 # Open in Xcode: iosApp/iosApp.xcodeproj, scheme iosApp
 # Or build from CLI for the simulator (no signing):
@@ -79,12 +80,12 @@ Composables should not hold domain state in `remember { mutableStateOf(...) }`. 
 Composable → ViewModel → UseCase. If a composable computes anything beyond presentation, push it to the VM. If a VM's body grows past ~250 lines or any function past ~60 lines, extract pure logic into a use case under `feature/<module>/.../usecase/`. Use cases are plain classes with constructor-injected dependencies and no Compose/Flow/Coroutine deps inside their bodies.
 
 ### ViewModel visibility for Koin
-Any ViewModel registered in `composeApp/src/commonMain/kotlin/com/dv/moneym/di/FeatureModules.kt` must be **`public`** (the default — do not mark with `internal`). `composeApp` cannot reference an `internal` class across a module boundary. Same for UseCases registered there.
+Any ViewModel registered in `shared/src/commonMain/kotlin/com/dv/moneym/di/FeatureModules.kt` must be **`public`** (the default — do not mark with `internal`). `shared` cannot reference an `internal` class across a module boundary. Same for UseCases registered there.
 
 ### Koin module locations
-- `composeApp/.../di/DataModules.kt` — repositories, seeders, `AppClock` (`single<AppClock> { DefaultAppClock() }` in `coreCommonModule`).
-- `composeApp/.../di/FeatureModules.kt` — every ViewModel + every use case.
-- The platform `actual` constructors (e.g. `DbPlatform`) are wired in platform-specific Koin modules under `composeApp/androidMain/` and `composeApp/iosMain/`.
+- `shared/.../di/DataModules.kt` — repositories, seeders, `AppClock` (`single<AppClock> { DefaultAppClock() }` in `coreCommonModule`).
+- `shared/.../di/FeatureModules.kt` — every ViewModel + every use case.
+- The platform `actual` constructors (e.g. `DbPlatform`) are wired in platform-specific Koin modules under `shared/androidMain/` and `shared/iosMain/`.
 
 ### Repository ↔ fake parity
 When adding a method to a `*Repository` interface in `data/`, also add the matching override in the corresponding `core/testing/Fake*Repository`. Otherwise every `:*:compileDebugUnitTestKotlinAndroid` task starts failing. Same for `AppSettingsRepository` → `FakeAppSettingsRepository`.
@@ -120,4 +121,4 @@ Compose-multiplatform string resources live per module under `src/commonMain/com
 
 ## Localized seed values
 
-`SeedAccountsUseCase` takes `defaultName: String` and reads currency from `PrefKeys.DEFAULT_CURRENCY` (fallback `"EUR"`). Currently `composeApp` passes the literal `"Main"` (see TODO in `DataModules.kt`); once a shared resource loader exists, this should be localized.
+`SeedAccountsUseCase` takes `defaultName: String` and reads currency from `PrefKeys.DEFAULT_CURRENCY` (fallback `"EUR"`). Currently `shared` passes the literal `"Main"` (see TODO in `DataModules.kt`); once a shared resource loader exists, this should be localized.

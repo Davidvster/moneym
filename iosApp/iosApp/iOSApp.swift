@@ -1,6 +1,6 @@
 import SwiftUI
 import GoogleSignIn
-import ComposeApp
+import Shared
 
 @main
 struct iOSApp: App {

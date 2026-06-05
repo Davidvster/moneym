@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import GoogleSignIn
-import ComposeApp
+import Shared
 
 final class GoogleSignInBridgeImpl: NSObject, GoogleSignInBridge {
 

@@ -1,5 +1,5 @@
 import Foundation
-import ComposeApp
+import Shared
 #if canImport(LiteRTLM)
 import LiteRTLM
 #endif
