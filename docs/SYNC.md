@@ -1,11 +1,31 @@
-# Multi-device sync
+# Cloud sync
 
-MoneyM's optional cross-device sync keeps the same dataset in step across a user's devices by
-exchanging a single JSON snapshot through the user's Google Drive `appDataFolder`. It is a separate
-mechanism from full `.db-zip` remote backup (disaster recovery); the two share the Drive connection
-and passphrase but serve different purposes.
+MoneyM's optional **Cloud sync** keeps the same dataset in step across a user's devices by exchanging
+a single JSON snapshot through the user's Google Drive `appDataFolder`.
+
+It is presented as **one feature with one toggle** (see `BackupRestoreScreen` → "Cloud sync"). With a
+single device it behaves as a continuous cloud backup; when a second device joins, the same mechanism
+becomes cross-device sync — there is no separate "remote auto-backup" switch. Enabling the toggle
+turns on both `PrefKeys.CROSS_DEVICE_SYNC_ENABLED` (the merge engine) and
+`PrefKeys.AUTO_REMOTE_BACKUP_ENABLED` (the periodic `.db-zip` snapshot-history safety net), and both
+run off the cloud flag independently of the local *file* backup toggle.
 
 Sync is off by default and gated on `PrefKeys.CROSS_DEVICE_SYNC_ENABLED`.
+
+## Enabling / joining (same password on every device)
+
+The enable flow inspects the remote first (`SyncBootstrap.remoteState()`):
+
+- **No remote yet** (first device) → "create a password" (or choose plaintext); the local snapshot
+  seeds the remote.
+- **Encrypted remote exists** (joining device) → prompt for the **same password set on the other
+  device**, validated by decrypting the remote (`SyncBootstrap.canDecrypt`) before sync is turned on;
+  a wrong password shows an inline error. There is no "pick a new password" path when joining.
+- **Plaintext remote** → a confirm dialog, no password.
+
+The passphrase is **persisted in the platform `SecureStore`** (`SyncPassphraseStore`, iOS Keychain /
+Android EncryptedSharedPreferences) and hydrated into `SessionPassphrase` at boot
+(`AppInitializer`) before the first pull, so sync survives app restarts without re-prompting.
 
 ## Snapshot model
 
@@ -41,10 +61,18 @@ Push (`push()` / `enqueuePush()`) seals the local snapshot and writes it to Driv
 
 ## Triggers
 
-- **Startup** — `AppInitializer.initialize()` calls `syncEngine.pullNow()` after seeding.
+`SyncEngine` is started/stopped by a dedicated `App` effect keyed on `CROSS_DEVICE_SYNC_ENABLED`,
+**independent of the local file-backup lifecycle** (a past bug tied push to local auto-backup, so an
+edit on device A never uploaded unless local backup happened to be on). `SyncEngine` owns its own
+debounced data-change observer (a `combine` of all six repositories) and also pulses the snapshot
+history.
+
+- **Startup** — `AppInitializer.initialize()` hydrates the passphrase then calls `syncEngine.pullNow()`.
 - **Foreground** — `AppLifecycleObserver` calls `pullNow()` on `ON_RESUME`.
 - **On change** — local writes feed `enqueuePush()`, which **debounces** (`DEFAULT_DEBOUNCE_MS`,
   3 s) before pushing, coalescing bursts of edits into one upload.
+- **Manual** — the transaction-list sync banner is tappable → a bottom sheet with last-synced time
+  and a **Sync now** button (`SyncPuller.syncNow()` = pull then push).
 
 ## Deterministic seed syncIds (no double-seeding)
 
@@ -69,14 +97,35 @@ the same rows (at most an LWW name edit), never new adds.
 in sync and when each last synced. `SyncEngine` touches the current device's entry after each
 successful pull/push.
 
-## Encryption (shared with remote backup)
+## Encryption is shared state — mismatches surface as a conflict
 
-Sync reuses the remote-backup encryption setting and **session passphrase**:
+The remote sync-state file is **self-describing**: an encrypted envelope and a plaintext snapshot are
+both JSON, so `SyncSnapshotCodec.isEncryptedEnvelope()` distinguishes them by the envelope's required
+fields. The remote's mode is treated as authoritative shared state — there is no way to silently end
+up with two devices configured differently.
 
-- `PrefKeys.REMOTE_BACKUP_ENCRYPT` toggles encryption (default on).
-- The passphrase lives in `SessionPassphrase` (in memory, set after unlock).
-- When encryption is on but the session passphrase is **unset**, `SyncEngine` **skips and logs**
-  both `pull` and `push` (no plaintext is ever written). Sync resumes once the passphrase is set.
+On `pull()`, when this device cannot reconcile its configuration with the remote, `SyncEngine` raises
+a durable `SyncConflict` (stored in `SyncConflictStore`, surfaced in the tx-list banner) instead of
+silently skipping, and **pauses both pull and push** until resolved — mirroring how pending deletions
+are surfaced:
+
+- remote encrypted + no/wrong password → `SyncConflict(remoteEncrypted = true)`
+- remote plaintext + this device configured encrypted → `SyncConflict(remoteEncrypted = false)`
+
+`SyncConflictController` offers three resolutions:
+
+- **Enter the other device's password** — validated by decrypting the remote; a wrong password keeps
+  the conflict.
+- **Override with a new password** — re-encrypts the remote; other devices then hit the conflict and
+  must re-enter (same model as a deletion override).
+- **Use plaintext** — drops encryption; adopts a readable plaintext remote (pull/merge) or rewrites
+  an unreadable one as the new plaintext remote.
+
+A successful decrypt **adopts** the remote's mode. Network/parse failures still surface as
+`SyncRuntimeState.Error`, not a false password conflict — only a decrypt/auth failure is a conflict.
+
+The passphrase is persisted (see "Enabling / joining" above) and shared with `.db-zip` remote backup
+via `SessionPassphrase` + `PrefKeys.REMOTE_BACKUP_ENCRYPT`.
 
 ## Files in Drive `appDataFolder`
 
@@ -102,7 +151,11 @@ retention pruning **never** deletes `moneym-sync-state.json` or `moneym-devices.
 
 ## Phase plans
 
-The design and per-phase detail live under [`plan/backup-sync/`](../plan/backup-sync/):
+The UX revisit (unified toggle, persistent passphrase, password-conflict model, lifecycle
+decoupling, status sheet) is detailed under
+[`plan/backup-sync-revisit/`](../plan/backup-sync-revisit/).
+
+The original design and per-phase detail live under [`plan/backup-sync/`](../plan/backup-sync/):
 
 - [Phase 1 — schema: syncId + tombstones](../plan/backup-sync/phase-1-plan.md)
 - [Phase 2 — snapshot export/import](../plan/backup-sync/phase-2-plan.md)

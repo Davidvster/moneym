@@ -2,6 +2,12 @@
 
 This document explains how the remote-backup feature is wired, how to enable it for a local build, and how the safety/encryption properties work.
 
+> **Note:** the periodic `.db-zip` snapshot history described here is no longer a separate
+> user-facing toggle. It now runs as the safety-net half of the unified **Cloud sync** feature
+> (one toggle enables both cross-device sync and snapshot history), and its lifecycle is driven by
+> `CROSS_DEVICE_SYNC_ENABLED` via `SyncEngine`, not by the local file-backup toggle. See
+> [SYNC.md](SYNC.md) for the unified model, persistent passphrase, and password-conflict handling.
+
 ## TL;DR
 
 - **No `google-services.json`. No Firebase. No Google Services Gradle plugin.**
