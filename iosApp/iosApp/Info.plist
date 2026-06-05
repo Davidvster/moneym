@@ -12,7 +12,7 @@
 	<string>MoneyM uses Face ID to unlock the app.</string>
 
     <key>GIDClientID</key>
-    <string>YOUR_IOS_CLIENT_ID.apps.googleusercontent.com</string>
+    <string>$(GID_CLIENT_ID)</string>
 
     <key>CFBundleURLTypes</key>
     <array>
@@ -21,7 +21,7 @@
             <string>com.dv.moneym.oauth</string>
             <key>CFBundleURLSchemes</key>
             <array>
-                <string>com.googleusercontent.apps.YOUR_IOS_CLIENT_ID</string>
+                <string>$(GID_REVERSED_CLIENT_ID)</string>
             </array>
         </dict>
     </array>

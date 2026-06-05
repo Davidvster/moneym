@@ -1,3 +1,6 @@
+// Optional include — build still works if Secrets.xcconfig is absent (vars resolve empty).
+#include? "Secrets.xcconfig"
+
 TEAM_ID=
 
 PRODUCT_NAME=MoneyM
