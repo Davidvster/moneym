@@ -49,6 +49,10 @@ private class FakePuller : SyncPuller {
         pullCount++
         return Result.success(Unit)
     }
+    override suspend fun syncNow(): Result<Unit> {
+        pullCount++
+        return Result.success(Unit)
+    }
 }
 
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)

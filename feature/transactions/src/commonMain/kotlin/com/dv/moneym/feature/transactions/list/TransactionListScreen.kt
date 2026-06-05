@@ -20,11 +20,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -73,8 +76,12 @@ import com.dv.moneym.core.ui.monthLabel
 import com.dv.moneym.feature.transactions.list.components.CategoryFilterSheet
 import com.dv.moneym.feature.transactions.list.components.DayGroupHeader
 import com.dv.moneym.feature.transactions.list.page.TransactionPageScreen
+import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Instant
 import kotlinx.serialization.Serializable
 import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.transactions_add
@@ -97,6 +104,13 @@ import moneym.feature.transactions.generated.resources.transactions_previous_mon
 import moneym.feature.transactions.generated.resources.transactions_search_cd
 import moneym.feature.transactions.generated.resources.transactions_search_placeholder
 import moneym.feature.transactions.generated.resources.transactions_syncing
+import moneym.feature.transactions.generated.resources.transactions_synced
+import moneym.feature.transactions.generated.resources.transactions_sync_paused
+import moneym.feature.transactions.generated.resources.transactions_sync_sheet_title
+import moneym.feature.transactions.generated.resources.transactions_sync_now
+import moneym.feature.transactions.generated.resources.transactions_sync_last
+import moneym.feature.transactions.generated.resources.transactions_sync_never
+import moneym.feature.transactions.generated.resources.transactions_sync_conflict_body
 import moneym.feature.transactions.generated.resources.transactions_title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -206,6 +220,21 @@ private fun TransactionListContent(
         )
     }
 
+    if (state.showSyncSheet) {
+        SyncStatusSheet(
+            isSyncing = state.isSyncInProgress,
+            hasConflict = state.hasSyncConflict,
+            lastSyncedMs = state.lastSyncedMs,
+            pendingDeletionCount = state.pendingDeletionCount,
+            onSyncNow = { onIntent(TransactionListIntent.SyncNow) },
+            onReviewDeletions = {
+                onIntent(TransactionListIntent.ShowSyncSheet(false))
+                onNavigateToPendingDeletions()
+            },
+            onDismiss = { onIntent(TransactionListIntent.ShowSyncSheet(false)) },
+        )
+    }
+
     val pagerState = rememberPagerState(
         initialPage = state.currentPage,
         pageCount = { state.pageCount },
@@ -238,8 +267,10 @@ private fun TransactionListContent(
     ) {
         SyncBanner(
             isSyncInProgress = state.isSyncInProgress,
+            hasSyncConflict = state.hasSyncConflict,
             pendingDeletionCount = state.pendingDeletionCount,
             onNavigateToPendingDeletions = onNavigateToPendingDeletions,
+            onOpenSyncSheet = { onIntent(TransactionListIntent.ShowSyncSheet(true)) },
         )
         TransactionListHeader(
             state = state,
@@ -277,11 +308,25 @@ private fun TransactionListContent(
 @Composable
 private fun SyncBanner(
     isSyncInProgress: Boolean,
+    hasSyncConflict: Boolean,
     pendingDeletionCount: Int,
     onNavigateToPendingDeletions: () -> Unit,
+    onOpenSyncSheet: () -> Unit,
 ) {
     val colors = MM.colors
     val type = MM.type
+
+    // Transient "Synced" confirmation shown for a moment after syncing finishes.
+    var showSynced by remember { mutableStateOf(false) }
+    LaunchedEffect(isSyncInProgress) {
+        if (!isSyncInProgress && showSynced) {
+            delay(2500)
+            showSynced = false
+        }
+    }
+    LaunchedEffect(isSyncInProgress) {
+        if (isSyncInProgress) showSynced = true
+    }
 
     AnimatedVisibility(visible = isSyncInProgress) {
         Row(
@@ -289,6 +334,7 @@ private fun SyncBanner(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(colors.surface2)
+                .clickable(onClick = onOpenSyncSheet)
                 .statusBarsPadding()
                 .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1x),
         ) {
@@ -302,6 +348,56 @@ private fun SyncBanner(
                 text = stringResource(Res.string.transactions_syncing),
                 style = type.body,
                 color = colors.text2,
+            )
+        }
+    }
+
+    AnimatedVisibility(visible = !isSyncInProgress && showSynced && !hasSyncConflict) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(colors.surface2)
+                .clickable(onClick = onOpenSyncSheet)
+                .statusBarsPadding()
+                .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1x),
+        ) {
+            Icon(
+                imageVector = Icon.Check.imageVector,
+                contentDescription = null,
+                tint = colors.accent,
+                modifier = Modifier.size(MM.dimen.icon_1x),
+            )
+            Spacer(Modifier.width(MM.dimen.padding_1x))
+            Text(
+                text = stringResource(Res.string.transactions_synced),
+                style = type.body,
+                color = colors.text2,
+            )
+        }
+    }
+
+    AnimatedVisibility(visible = !isSyncInProgress && hasSyncConflict) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(colors.surface2)
+                .clickable(onClick = onOpenSyncSheet)
+                .statusBarsPadding()
+                .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1x),
+        ) {
+            Icon(
+                imageVector = Icon.Info.imageVector,
+                contentDescription = null,
+                tint = colors.danger,
+                modifier = Modifier.size(MM.dimen.icon_1x),
+            )
+            Spacer(Modifier.width(MM.dimen.padding_1x))
+            Text(
+                text = stringResource(Res.string.transactions_sync_paused),
+                style = type.body,
+                color = colors.text,
             )
         }
     }
@@ -331,6 +427,96 @@ private fun SyncBanner(
             )
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SyncStatusSheet(
+    isSyncing: Boolean,
+    hasConflict: Boolean,
+    lastSyncedMs: Long,
+    pendingDeletionCount: Int,
+    onSyncNow: () -> Unit,
+    onReviewDeletions: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    val space = MM.dimen
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    val statusText = when {
+        isSyncing -> stringResource(Res.string.transactions_syncing)
+        hasConflict -> stringResource(Res.string.transactions_sync_paused)
+        lastSyncedMs > 0L -> stringResource(Res.string.transactions_sync_last, formatSyncTime(lastSyncedMs))
+        else -> stringResource(Res.string.transactions_sync_never)
+    }
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        shape = RoundedCornerShape(topStart = space.padding_2_5x, topEnd = space.padding_2_5x),
+        containerColor = colors.bg,
+        dragHandle = null,
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = space.padding_2_5x, vertical = space.padding_3x),
+            verticalArrangement = Arrangement.spacedBy(space.padding_2x),
+        ) {
+            Text(
+                text = stringResource(Res.string.transactions_sync_sheet_title),
+                style = type.title3,
+                color = colors.text,
+            )
+            Text(text = statusText, style = type.body, color = colors.text2)
+
+            if (hasConflict) {
+                Text(
+                    text = stringResource(Res.string.transactions_sync_conflict_body),
+                    style = type.caption,
+                    color = colors.danger,
+                )
+            }
+
+            if (pendingDeletionCount > 0) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(onClick = onReviewDeletions)
+                        .padding(vertical = space.padding_1x),
+                ) {
+                    Icon(
+                        imageVector = Icon.Info.imageVector,
+                        contentDescription = null,
+                        tint = colors.accent,
+                        modifier = Modifier.size(MM.dimen.icon_1x),
+                    )
+                    Spacer(Modifier.width(space.padding_1x))
+                    Text(
+                        text = stringResource(Res.string.transactions_pending_deletions, pendingDeletionCount),
+                        style = type.body,
+                        color = colors.text,
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+            }
+
+            MmButton(
+                text = stringResource(Res.string.transactions_sync_now),
+                onClick = onSyncNow,
+                enabled = !isSyncing && !hasConflict,
+                fullWidth = true,
+            )
+        }
+    }
+}
+
+private fun formatSyncTime(ms: Long): String {
+    val dt = Instant.fromEpochMilliseconds(ms).toLocalDateTime(TimeZone.currentSystemDefault())
+    val h = dt.hour.toString().padStart(2, '0')
+    val m = dt.minute.toString().padStart(2, '0')
+    return "${dt.date} $h:$m"
 }
 
 @Composable

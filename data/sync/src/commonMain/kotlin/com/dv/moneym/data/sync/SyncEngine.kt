@@ -76,6 +76,9 @@ class SyncEngine(
 
     override val conflict: Flow<SyncConflict?> = conflictStore.conflict
 
+    private val _lastSyncedMs = MutableStateFlow(appSettings.getLong(PrefKeys.LAST_SYNC_PULL_MS))
+    override val lastSyncedMs: Flow<Long> = _lastSyncedMs.asStateFlow()
+
     @OptIn(FlowPreview::class)
     fun start(scope: CoroutineScope) {
         job?.cancel()
@@ -123,6 +126,11 @@ class SyncEngine(
         return pull()
     }
 
+    override suspend fun syncNow(): Result<Unit> {
+        if (!enabled()) return Result.success(Unit)
+        return pull().also { if (it.isSuccess) push() }
+    }
+
     private fun enabled(): Boolean =
         appSettings.getBoolean(PrefKeys.CROSS_DEVICE_SYNC_ENABLED, defaultValue = false)
 
@@ -149,7 +157,9 @@ class SyncEngine(
             _runtime.value = SyncRuntimeState.Applying
             applier.apply(result.toApply)
             pendingDeletionStore.replaceAll(result.pendingDeletions)
-            appSettings.putLong(PrefKeys.LAST_SYNC_PULL_MS, nowMs())
+            val syncedAt = nowMs()
+            appSettings.putLong(PrefKeys.LAST_SYNC_PULL_MS, syncedAt)
+            _lastSyncedMs.value = syncedAt
             _runtime.value = SyncRuntimeState.Idle
             touchSelfQuietly()
         }.onFailure { t ->

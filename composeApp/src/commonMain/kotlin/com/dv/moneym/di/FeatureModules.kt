@@ -91,6 +91,7 @@ val featureTransactionsModule = module {
             appSettingsRepository = get(),
             ephemeralState = get(),
             syncStatus = get<SyncEngine>(),
+            syncPuller = get<SyncEngine>(),
             clock = get(),
             savedStateHandle = get(),
         )

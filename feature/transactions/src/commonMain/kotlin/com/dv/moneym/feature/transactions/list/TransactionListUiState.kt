@@ -50,6 +50,9 @@ internal data class TransactionListUiState(
     val showCategoryFilter: Boolean = false,
     val isSyncInProgress: Boolean = false,
     val pendingDeletionCount: Int = 0,
+    val hasSyncConflict: Boolean = false,
+    val lastSyncedMs: Long = 0L,
+    val showSyncSheet: Boolean = false,
 )
 
 @Serializable

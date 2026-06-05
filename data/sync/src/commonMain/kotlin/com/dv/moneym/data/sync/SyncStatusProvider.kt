@@ -11,4 +11,5 @@ interface SyncStatusProvider {
     val isSyncing: Flow<Boolean>
     val pendingDeletionCount: Flow<Int>
     val conflict: Flow<SyncConflict?>
+    val lastSyncedMs: Flow<Long>
 }

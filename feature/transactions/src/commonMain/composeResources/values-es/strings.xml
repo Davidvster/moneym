@@ -27,4 +27,11 @@
     <!-- Sync -->
     <string name="transactions_syncing">Sincronizando…</string>
     <string name="transactions_pending_deletions">%1$d elementos eliminados en otro dispositivo: revisar</string>
+    <string name="transactions_synced">Sincronizado</string>
+    <string name="transactions_sync_paused">Sincronización en pausa: acción necesaria</string>
+    <string name="transactions_sync_sheet_title">Sincronización en la nube</string>
+    <string name="transactions_sync_now">Sincronizar ahora</string>
+    <string name="transactions_sync_last">Última sincronización %1$s</string>
+    <string name="transactions_sync_never">Aún no sincronizado</string>
+    <string name="transactions_sync_conflict_body">La sincronización está en pausa. Abre Copia y restauración en Ajustes para introducir la contraseña.</string>
 </resources>

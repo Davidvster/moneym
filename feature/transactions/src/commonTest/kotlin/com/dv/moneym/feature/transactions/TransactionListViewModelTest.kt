@@ -44,6 +44,7 @@ private class FakeSyncStatusProvider(
     override val isSyncing: Flow<Boolean> = syncingFlow
     override val pendingDeletionCount: Flow<Int> = pendingCountFlow
     override val conflict: Flow<SyncConflict?> = MutableStateFlow(null)
+    override val lastSyncedMs: Flow<Long> = MutableStateFlow(0L)
 }
 
 class TransactionListViewModelTest {

@@ -27,5 +27,12 @@
     <string name="transactions_wallet_all">All wallets</string>
     <!-- Sync -->
     <string name="transactions_syncing">Syncing…</string>
+    <string name="transactions_synced">Synced</string>
+    <string name="transactions_sync_paused">Sync paused — action needed</string>
     <string name="transactions_pending_deletions">%1$d items removed on another device — review</string>
+    <string name="transactions_sync_sheet_title">Cloud sync</string>
+    <string name="transactions_sync_now">Sync now</string>
+    <string name="transactions_sync_last">Last synced %1$s</string>
+    <string name="transactions_sync_never">Not synced yet</string>
+    <string name="transactions_sync_conflict_body">Sync is paused. Open Backup &amp; Restore in Settings to enter the password.</string>
 </resources>

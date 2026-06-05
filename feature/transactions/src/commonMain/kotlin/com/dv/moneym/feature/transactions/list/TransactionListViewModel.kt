@@ -12,6 +12,7 @@ import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
+import com.dv.moneym.data.sync.SyncPuller
 import com.dv.moneym.data.sync.SyncStatusProvider
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -36,6 +37,7 @@ class TransactionListViewModel(
     private val appSettingsRepository: AppSettingsRepository,
     private val ephemeralState: TransactionListEphemeralState,
     private val syncStatus: SyncStatusProvider,
+    private val syncPuller: SyncPuller? = null,
     private val clock: AppClock,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -61,6 +63,8 @@ class TransactionListViewModel(
     )
 
     private val _uiBooleans = MutableStateFlow(UiBooleans())
+
+    private val _showSyncSheet = MutableStateFlow(false)
 
     private val _earliestMonth: StateFlow<YearMonth?> = transactionRepository
         .getTransactionDates()
@@ -138,6 +142,9 @@ class TransactionListViewModel(
         }
         .combine(syncStatus.isSyncing) { state, syncing -> state.copy(isSyncInProgress = syncing) }
         .combine(syncStatus.pendingDeletionCount) { state, count -> state.copy(pendingDeletionCount = count) }
+        .combine(syncStatus.conflict) { state, c -> state.copy(hasSyncConflict = c != null) }
+        .combine(syncStatus.lastSyncedMs) { state, ms -> state.copy(lastSyncedMs = ms) }
+        .combine(_showSyncSheet) { state, show -> state.copy(showSyncSheet = show) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
@@ -211,6 +218,12 @@ class TransactionListViewModel(
 
             is TransactionListIntent.ShowCategoryFilter ->
                 _uiBooleans.update { it.copy(showCategoryFilter = intent.visible) }
+
+            is TransactionListIntent.ShowSyncSheet ->
+                _showSyncSheet.update { intent.visible }
+
+            TransactionListIntent.SyncNow ->
+                viewModelScope.launch { syncPuller?.syncNow() }
         }
     }
 }

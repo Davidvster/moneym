@@ -27,4 +27,11 @@
     <!-- Sync -->
     <string name="transactions_syncing">Synchronisierung…</string>
     <string name="transactions_pending_deletions">%1$d Einträge auf einem anderen Gerät entfernt – prüfen</string>
+    <string name="transactions_synced">Synchronisiert</string>
+    <string name="transactions_sync_paused">Sync pausiert – Aktion erforderlich</string>
+    <string name="transactions_sync_sheet_title">Cloud-Sync</string>
+    <string name="transactions_sync_now">Jetzt synchronisieren</string>
+    <string name="transactions_sync_last">Zuletzt synchronisiert %1$s</string>
+    <string name="transactions_sync_never">Noch nicht synchronisiert</string>
+    <string name="transactions_sync_conflict_body">Sync ist pausiert. Öffne „Backup &amp; Wiederherstellung“ in den Einstellungen, um das Passwort einzugeben.</string>
 </resources>

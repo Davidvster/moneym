@@ -6,4 +6,7 @@ package com.dv.moneym.data.sync
  */
 interface SyncPuller {
     suspend fun pullNow(): Result<Unit>
+
+    /** Manual "Sync now": pull then push, so local changes upload immediately too. */
+    suspend fun syncNow(): Result<Unit>
 }
