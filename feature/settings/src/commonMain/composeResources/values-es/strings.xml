@@ -162,6 +162,15 @@
     <string name="settings_backup_restore">Copia de seguridad y restaurar</string>
     <string name="settings_cross_device_sync">Sincronización entre dispositivos</string>
     <string name="settings_cross_device_sync_subtitle">Gestiona los dispositivos que sincronizan mediante tu copia de Google Drive.</string>
+    <string name="settings_cloud_sync">Sincronización en la nube</string>
+    <string name="settings_cloud_sync_subtitle">Haz copia y sincroniza tus datos entre dispositivos mediante Google Drive.</string>
+    <string name="settings_cloud_devices">Dispositivos</string>
+    <string name="settings_cloud_join_title">Conecta tu otro dispositivo</string>
+    <string name="settings_cloud_join_body">Introduce la misma contraseña que configuraste en tu otro dispositivo para que este pueda leer los datos de la nube.</string>
+    <string name="settings_cloud_join_confirm">Conectar</string>
+    <string name="settings_cloud_join_plaintext_title">Activar sincronización en la nube</string>
+    <string name="settings_cloud_join_plaintext_body">Los datos en la nube de tu otro dispositivo no están cifrados. ¿Activar la sincronización en la nube también en este dispositivo?</string>
+    <string name="settings_cloud_wrong_password">Esa contraseña no coincide con los datos de la nube.</string>
     <string name="settings_backup_to_file">Guardar copia en archivo</string>
     <string name="settings_restore_from_file">Restaurar desde archivo</string>
     <string name="settings_restore_warning_title">¿Reemplazar todos los datos?</string>

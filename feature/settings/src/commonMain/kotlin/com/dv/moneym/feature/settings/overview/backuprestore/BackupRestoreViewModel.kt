@@ -18,6 +18,9 @@ import com.dv.moneym.data.remotebackup.RemoteBackupMetadata
 import com.dv.moneym.data.remotebackup.RemoteBackupRuntimeState
 import com.dv.moneym.data.remotebackup.SessionPassphrase
 import com.dv.moneym.data.remotebackup.SyncPassphraseStore
+import com.dv.moneym.data.sync.RemoteSyncState
+import com.dv.moneym.data.sync.SyncBootstrap
+import com.dv.moneym.data.sync.SyncPuller
 import com.dv.moneym.platform.FilePlatform
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,6 +35,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.settings_cloud_wrong_password
 import moneym.feature.settings.generated.resources.settings_remote_error_backup_failed
 import moneym.feature.settings.generated.resources.settings_remote_error_fetch_info
 import moneym.feature.settings.generated.resources.settings_remote_error_restore_failed
@@ -73,7 +77,15 @@ data class BackupRestoreUiState(
     val remoteRuntime: RemoteBackupRuntimeState = RemoteBackupRuntimeState.Idle,
     val remoteRestoreInProgress: Boolean = false,
     val remoteRestoreError: String? = null,
+    // Unified cloud sync
+    val cloudSyncEnabled: Boolean = false,
+    val cloudEnableStep: CloudEnableStep? = null,
+    val cloudBusy: Boolean = false,
+    val cloudJoinError: String? = null,
 )
+
+/** Which enable dialog to show after the user turns on cloud sync, decided by the remote state. */
+enum class CloudEnableStep { Create, JoinEncrypted, JoinPlaintext }
 
 enum class PendingBackup { RemoteAuto, RemoteNow, LocalAuto, LocalNow }
 
@@ -102,6 +114,12 @@ sealed interface BackupRestoreIntent {
     data object DeleteRemoteDataTapped : BackupRestoreIntent
     data object DeleteRemoteDataConfirmed : BackupRestoreIntent
     data object DeleteRemoteDataDismissed : BackupRestoreIntent
+    // Unified cloud sync
+    data class CloudSyncToggled(val enabled: Boolean) : BackupRestoreIntent
+    data class CloudCreateSubmitted(val value: CharArray, val encrypt: Boolean) : BackupRestoreIntent
+    data class CloudJoinSubmitted(val value: CharArray) : BackupRestoreIntent
+    data object CloudJoinPlaintextConfirmed : BackupRestoreIntent
+    data object CloudEnableDismissed : BackupRestoreIntent
 }
 
 sealed interface BackupRestoreEffect {
@@ -122,6 +140,8 @@ class BackupRestoreViewModel(
     private val remoteBackupManager: RemoteBackupManager? = null,
     private val sessionPassphrase: SessionPassphrase? = null,
     private val syncPassphraseStore: SyncPassphraseStore? = null,
+    private val syncBootstrap: SyncBootstrap? = null,
+    private val syncPuller: SyncPuller? = null,
     private val filePlatform: FilePlatform,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -139,6 +159,7 @@ class BackupRestoreViewModel(
                 remoteAccountEmail = appSettings.getString(PrefKeys.REMOTE_BACKUP_ACCOUNT_EMAIL),
                 remotePassphraseSet = sessionPassphrase?.isSet?.value == true,
                 lastLocalMutationMs = appSettings.getLong(PrefKeys.LAST_LOCAL_MUTATION_MS),
+                cloudSyncEnabled = appSettings.getBoolean(PrefKeys.CROSS_DEVICE_SYNC_ENABLED),
             )
         )
     }
@@ -218,7 +239,98 @@ class BackupRestoreViewModel(
             BackupRestoreIntent.DeleteRemoteDataTapped -> _base.update { it.copy(showDeleteRemoteDialog = true) }
             BackupRestoreIntent.DeleteRemoteDataConfirmed -> handleDeleteRemoteData()
             BackupRestoreIntent.DeleteRemoteDataDismissed -> _base.update { it.copy(showDeleteRemoteDialog = false) }
+            is BackupRestoreIntent.CloudSyncToggled -> handleCloudSyncToggled(intent.enabled)
+            is BackupRestoreIntent.CloudCreateSubmitted -> handleCloudCreate(intent.value, intent.encrypt)
+            is BackupRestoreIntent.CloudJoinSubmitted -> handleCloudJoin(intent.value)
+            BackupRestoreIntent.CloudJoinPlaintextConfirmed -> handleCloudJoinPlaintext()
+            BackupRestoreIntent.CloudEnableDismissed ->
+                _base.update { it.copy(cloudEnableStep = null, cloudJoinError = null, cloudBusy = false) }
         }
+    }
+
+    private fun handleCloudSyncToggled(enabled: Boolean) {
+        if (!enabled) {
+            appSettings.putBoolean(PrefKeys.CROSS_DEVICE_SYNC_ENABLED, false)
+            appSettings.putBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, false)
+            _base.update { it.copy(cloudSyncEnabled = false) }
+            return
+        }
+        // Decide create-vs-join from the remote state before turning anything on.
+        _base.update { it.copy(cloudBusy = true, cloudJoinError = null) }
+        viewModelScope.launch {
+            val step = when (syncBootstrap?.remoteState() ?: RemoteSyncState.NONE) {
+                RemoteSyncState.NONE -> CloudEnableStep.Create
+                RemoteSyncState.ENCRYPTED -> CloudEnableStep.JoinEncrypted
+                RemoteSyncState.PLAINTEXT -> CloudEnableStep.JoinPlaintext
+            }
+            _base.update { it.copy(cloudBusy = false, cloudEnableStep = step) }
+        }
+    }
+
+    private fun handleCloudCreate(value: CharArray, encrypt: Boolean) {
+        if (encrypt && value.size < MIN_PASSPHRASE_LENGTH) {
+            viewModelScope.launch {
+                val msg = getString(Res.string.settings_remote_password_too_short, MIN_PASSPHRASE_LENGTH)
+                _base.update { it.copy(cloudJoinError = msg) }
+            }
+            return
+        }
+        viewModelScope.launch {
+            if (encrypt) {
+                sessionPassphrase?.set(value)
+                syncPassphraseStore?.persist(value)
+                appSettings.putBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, true)
+            } else {
+                appSettings.putBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, false)
+                syncPassphraseStore?.clear()
+            }
+            value.fill(' ')
+            enableCloud()
+        }
+    }
+
+    private fun handleCloudJoin(value: CharArray) {
+        _base.update { it.copy(cloudBusy = true, cloudJoinError = null) }
+        viewModelScope.launch {
+            val ok = syncBootstrap?.canDecrypt(value) ?: false
+            if (!ok) {
+                value.fill(' ')
+                val msg = getString(Res.string.settings_cloud_wrong_password)
+                _base.update { it.copy(cloudBusy = false, cloudJoinError = msg) }
+                return@launch
+            }
+            sessionPassphrase?.set(value)
+            syncPassphraseStore?.persist(value)
+            appSettings.putBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, true)
+            value.fill(' ')
+            enableCloud()
+        }
+    }
+
+    private fun handleCloudJoinPlaintext() {
+        viewModelScope.launch {
+            appSettings.putBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, false)
+            syncPassphraseStore?.clear()
+            sessionPassphrase?.clear()
+            enableCloud()
+        }
+    }
+
+    /** Flip the unified flags on, dismiss the dialog, and kick an immediate pull (seeds remote on
+     *  the first device, merges on a joining device). */
+    private suspend fun enableCloud() {
+        appSettings.putBoolean(PrefKeys.CROSS_DEVICE_SYNC_ENABLED, true)
+        appSettings.putBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, true)
+        _base.update {
+            it.copy(
+                cloudSyncEnabled = true,
+                cloudEnableStep = null,
+                cloudBusy = false,
+                cloudJoinError = null,
+                remoteAutoEnabled = true,
+            )
+        }
+        syncPuller?.pullNow()
     }
 
     private fun handleBackupTapped() {
@@ -371,10 +483,11 @@ class BackupRestoreViewModel(
             try {
                 manager.signOut()
                 appSettings.putBoolean(PrefKeys.AUTO_REMOTE_BACKUP_ENABLED, false)
+                appSettings.putBoolean(PrefKeys.CROSS_DEVICE_SYNC_ENABLED, false)
                 appSettings.remove(PrefKeys.REMOTE_BACKUP_ACCOUNT_EMAIL)
                 sessionPassphrase?.clear()
                 syncPassphraseStore?.clear()
-                _base.update { it.copy(remoteAutoEnabled = false, remotePassphraseSet = false) }
+                _base.update { it.copy(remoteAutoEnabled = false, remotePassphraseSet = false, cloudSyncEnabled = false) }
             } catch (t: Throwable) {
                 logger.e(t) { "Google disconnect failed" }
             } finally {
@@ -533,6 +646,7 @@ class BackupRestoreViewModel(
                 it.copy(
                     isLoading = false,
                     remoteAutoEnabled = false,
+                    cloudSyncEnabled = false,
                     lastRemoteBackupMs = 0L,
                 )
             }

@@ -61,11 +61,15 @@ import moneym.feature.settings.generated.resources.settings_auto_backup_subtitle
 import moneym.feature.settings.generated.resources.settings_backup_restore
 import moneym.feature.settings.generated.resources.settings_backup_saved
 import moneym.feature.settings.generated.resources.settings_backup_to_file
-import moneym.feature.settings.generated.resources.settings_cross_device_sync
-import moneym.feature.settings.generated.resources.settings_cross_device_sync_subtitle
+import moneym.feature.settings.generated.resources.settings_cloud_sync
+import moneym.feature.settings.generated.resources.settings_cloud_sync_subtitle
+import moneym.feature.settings.generated.resources.settings_cloud_devices
+import moneym.feature.settings.generated.resources.settings_cloud_join_title
+import moneym.feature.settings.generated.resources.settings_cloud_join_body
+import moneym.feature.settings.generated.resources.settings_cloud_join_confirm
+import moneym.feature.settings.generated.resources.settings_cloud_join_plaintext_title
+import moneym.feature.settings.generated.resources.settings_cloud_join_plaintext_body
 import moneym.feature.settings.generated.resources.settings_last_backup
-import moneym.feature.settings.generated.resources.settings_remote_auto_backup
-import moneym.feature.settings.generated.resources.settings_remote_auto_backup_subtitle
 import moneym.feature.settings.generated.resources.settings_remote_backup_now
 import moneym.feature.settings.generated.resources.settings_remote_backup_section
 import moneym.feature.settings.generated.resources.settings_remote_connect
@@ -186,6 +190,34 @@ private fun BackupRestoreScreen(
         )
     }
 
+    when (state.cloudEnableStep) {
+        CloudEnableStep.Create -> PasswordDialog(
+            errorMessage = state.cloudJoinError,
+            onDismiss = { viewModel.onIntent(BackupRestoreIntent.CloudEnableDismissed) },
+            onSubmit = { value, encrypt -> viewModel.onIntent(BackupRestoreIntent.CloudCreateSubmitted(value, encrypt)) },
+        )
+        CloudEnableStep.JoinEncrypted -> CloudJoinDialog(
+            busy = state.cloudBusy,
+            errorMessage = state.cloudJoinError,
+            onDismiss = { viewModel.onIntent(BackupRestoreIntent.CloudEnableDismissed) },
+            onSubmit = { viewModel.onIntent(BackupRestoreIntent.CloudJoinSubmitted(it)) },
+        )
+        CloudEnableStep.JoinPlaintext -> MmDialog(
+            title = stringResource(Res.string.settings_cloud_join_plaintext_title),
+            confirmText = stringResource(Res.string.settings_cloud_join_confirm),
+            onConfirm = { viewModel.onIntent(BackupRestoreIntent.CloudJoinPlaintextConfirmed) },
+            onDismiss = { viewModel.onIntent(BackupRestoreIntent.CloudEnableDismissed) },
+            dismissText = stringResource(Res.string.settings_remote_passphrase_cancel),
+        ) {
+            Text(
+                stringResource(Res.string.settings_cloud_join_plaintext_body),
+                style = MM.type.body,
+                color = MM.colors.text2,
+            )
+        }
+        null -> Unit
+    }
+
     if (state.showRemoteRestoreDialog) {
         RemoteRestoreDialog(
             encrypted = state.remoteRestoreEncrypted,
@@ -245,7 +277,7 @@ private fun BackupRestoreScreen(
             onAutoBackupToggled = { viewModel.onIntent(BackupRestoreIntent.AutoBackupToggled(it)) },
             onConnectGoogle = { viewModel.onIntent(BackupRestoreIntent.ConnectGoogleTapped) },
             onDisconnectGoogle = { viewModel.onIntent(BackupRestoreIntent.DisconnectGoogleTapped) },
-            onRemoteAutoToggled = { viewModel.onIntent(BackupRestoreIntent.RemoteAutoBackupToggled(it)) },
+            onCloudSyncToggled = { viewModel.onIntent(BackupRestoreIntent.CloudSyncToggled(it)) },
             onRemoteBackupNow = { viewModel.onIntent(BackupRestoreIntent.RemoteBackupNowTapped) },
             onRemoteRestoreTapped = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreTapped) },
             onRetryRemoteUpload = { viewModel.onIntent(BackupRestoreIntent.RemoteBackupNowTapped) },
@@ -266,7 +298,7 @@ private fun BackupRestoreContent(
     onAutoBackupToggled: (Boolean) -> Unit,
     onConnectGoogle: () -> Unit,
     onDisconnectGoogle: () -> Unit,
-    onRemoteAutoToggled: (Boolean) -> Unit,
+    onCloudSyncToggled: (Boolean) -> Unit,
     onRemoteBackupNow: () -> Unit,
     onRemoteRestoreTapped: () -> Unit,
     onRetryRemoteUpload: () -> Unit,
@@ -360,32 +392,13 @@ private fun BackupRestoreContent(
                         lastRemoteLabel = lastRemoteLabel,
                         onConnect = onConnectGoogle,
                         onDisconnect = onDisconnectGoogle,
-                        onRemoteAutoToggled = onRemoteAutoToggled,
+                        onCloudSyncToggled = onCloudSyncToggled,
+                        onNavigateToSync = onNavigateToSync,
                         onBackupNow = onRemoteBackupNow,
                         onRestore = onRemoteRestoreTapped,
                         onRetryUpload = onRetryRemoteUpload,
                         onDeleteRemoteData = onDeleteRemoteData,
                     )
-                }
-                if (state.remoteSignedIn) {
-                    item(key = "sync_label") {
-                        SectionLabel(
-                            text = stringResource(Res.string.settings_cross_device_sync),
-                            modifier = Modifier.padding(horizontal = space.padding_2_5x, vertical = space.padding_0_5x),
-                        )
-                    }
-                    item(key = "sync_card") {
-                        MmCard(Modifier.padding(horizontal = space.padding_2x)) {
-                            MmRow(onClick = onNavigateToSync, divider = false) {
-                                Icon(imageVector = Icon.Bolt.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.icon_1x))
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(stringResource(Res.string.settings_cross_device_sync), style = type.body, color = colors.text)
-                                    Text(stringResource(Res.string.settings_cross_device_sync_subtitle), style = type.caption.copy(color = colors.text2))
-                                }
-                                Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -398,7 +411,8 @@ private fun RemoteBackupSection(
     lastRemoteLabel: String?,
     onConnect: () -> Unit,
     onDisconnect: () -> Unit,
-    onRemoteAutoToggled: (Boolean) -> Unit,
+    onCloudSyncToggled: (Boolean) -> Unit,
+    onNavigateToSync: () -> Unit,
     onBackupNow: () -> Unit,
     onRestore: () -> Unit,
     onRetryUpload: () -> Unit,
@@ -430,12 +444,27 @@ private fun RemoteBackupSection(
                     Text(stringResource(Res.string.settings_remote_disconnect), style = type.caption.copy(color = colors.text3))
                 }
             }
-            MmRow(onClick = { if (!busy) onRemoteAutoToggled(!state.remoteAutoEnabled) }) {
+            MmRow(onClick = { if (!busy && !state.cloudBusy) onCloudSyncToggled(!state.cloudSyncEnabled) }) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(stringResource(Res.string.settings_remote_auto_backup), style = type.body, color = colors.text)
-                    Text(stringResource(Res.string.settings_remote_auto_backup_subtitle), style = type.caption.copy(color = colors.text2))
+                    Text(stringResource(Res.string.settings_cloud_sync), style = type.body, color = colors.text)
+                    Text(stringResource(Res.string.settings_cloud_sync_subtitle), style = type.caption.copy(color = colors.text2))
                 }
-                MmToggle(checked = state.remoteAutoEnabled, onCheckedChange = onRemoteAutoToggled, enabled = !busy)
+                if (state.cloudBusy) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(space.icon_1x),
+                        strokeWidth = space.padding_0_25x,
+                        color = colors.accent,
+                    )
+                } else {
+                    MmToggle(checked = state.cloudSyncEnabled, onCheckedChange = onCloudSyncToggled, enabled = !busy)
+                }
+            }
+            if (state.cloudSyncEnabled) {
+                MmRow(onClick = onNavigateToSync) {
+                    Icon(imageVector = Icon.Bolt.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.icon_1x))
+                    Text(stringResource(Res.string.settings_cloud_devices), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
+                    Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
+                }
             }
             MmRow(onClick = onBackupNow) {
                 Text(stringResource(Res.string.settings_remote_backup_now), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
@@ -665,6 +694,48 @@ private fun PasswordDialog(
     }
 }
 
+@Composable
+private fun CloudJoinDialog(
+    busy: Boolean,
+    errorMessage: String?,
+    onDismiss: () -> Unit,
+    onSubmit: (CharArray) -> Unit,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    var password by remember { mutableStateOf("") }
+    var visible by remember { mutableStateOf(false) }
+
+    MmDialog(
+        title = stringResource(Res.string.settings_cloud_join_title),
+        confirmText = stringResource(Res.string.settings_cloud_join_confirm),
+        confirmEnabled = password.isNotEmpty() && !busy,
+        onConfirm = { onSubmit(password.toCharArray()) },
+        onDismiss = onDismiss,
+        dismissText = if (busy) null else stringResource(Res.string.settings_remote_passphrase_cancel),
+        dismissible = !busy,
+    ) {
+        Text(stringResource(Res.string.settings_cloud_join_body), style = type.body, color = colors.text2)
+        MmField(
+            value = password,
+            onValueChange = { if (!busy) password = it },
+            label = stringResource(Res.string.settings_remote_password_label),
+            visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
+            keyboardType = KeyboardType.Password,
+            suffix = {
+                MmIconButton(
+                    icon = if (visible) Icon.EyeOff.imageVector else Icon.Eye.imageVector,
+                    onClick = { visible = !visible },
+                    contentDescription = null,
+                )
+            },
+        )
+        if (errorMessage != null) {
+            Text(errorMessage, color = colors.danger, style = type.caption)
+        }
+    }
+}
+
 private const val MIN_PASSWORD_LENGTH = 4
 
 @Composable
@@ -821,7 +892,7 @@ private fun BackupRestoreContentPreview() {
             onAutoBackupToggled = {},
             onConnectGoogle = {},
             onDisconnectGoogle = {},
-            onRemoteAutoToggled = {},
+            onCloudSyncToggled = {},
             onRemoteBackupNow = {},
             onRemoteRestoreTapped = {},
             onRetryRemoteUpload = {},

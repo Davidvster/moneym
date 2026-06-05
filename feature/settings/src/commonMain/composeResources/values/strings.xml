@@ -163,6 +163,15 @@
     <string name="settings_backup_restore">Backup &amp; Restore</string>
     <string name="settings_cross_device_sync">Cross-device sync</string>
     <string name="settings_cross_device_sync_subtitle">Manage devices syncing through your Google Drive backup.</string>
+    <string name="settings_cloud_sync">Cloud sync</string>
+    <string name="settings_cloud_sync_subtitle">Back up and sync your data across devices through Google Drive.</string>
+    <string name="settings_cloud_devices">Devices</string>
+    <string name="settings_cloud_join_title">Join your other device</string>
+    <string name="settings_cloud_join_body">Enter the same password you set on your other device so this device can read the cloud data.</string>
+    <string name="settings_cloud_join_confirm">Join</string>
+    <string name="settings_cloud_join_plaintext_title">Turn on cloud sync</string>
+    <string name="settings_cloud_join_plaintext_body">Your other device\'s cloud data is not encrypted. Turn on cloud sync on this device too?</string>
+    <string name="settings_cloud_wrong_password">That password does not match the cloud data.</string>
     <string name="settings_backup_to_file">Back up to file</string>
     <string name="settings_restore_from_file">Restore from file</string>
     <string name="settings_restore_warning_title">Replace all data?</string>

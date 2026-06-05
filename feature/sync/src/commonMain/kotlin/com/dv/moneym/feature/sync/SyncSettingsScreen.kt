@@ -100,7 +100,6 @@ private fun SyncSettingsContent(
                 ),
                 verticalArrangement = Arrangement.spacedBy(space.padding_2x),
             ) {
-                item { SyncToggleCard(enabled = state.crossDeviceSyncEnabled, onIntent = onIntent) }
                 item { RenameCard(state = state, onIntent = onIntent) }
                 item {
                     Text(
@@ -114,30 +113,6 @@ private fun SyncSettingsContent(
                     DeviceCard(device = device, onIntent = onIntent)
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun SyncToggleCard(
-    enabled: Boolean,
-    onIntent: (SyncSettingsIntent) -> Unit,
-) {
-    val colors = MM.colors
-    MmCard(modifier = Modifier.fillMaxWidth(), padded = true) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = stringResource(Res.string.sync_settings_toggle_title),
-                    style = MM.type.body,
-                    color = colors.text,
-                )
-                Text(
-                    text = stringResource(Res.string.sync_settings_toggle_subtitle),
-                    style = MM.type.caption.copy(color = colors.text2),
-                )
-            }
-            MmToggle(checked = enabled, onCheckedChange = { onIntent(SyncSettingsIntent.ToggleSync) })
         }
     }
 }

@@ -43,6 +43,7 @@ kotlin {
             implementation(projects.data.categories)
             implementation(projects.data.transactions)
             implementation(projects.data.remotebackup)
+            implementation(projects.data.sync)
             implementation(projects.core.oauth)
             implementation(projects.feature.infopage)
         }

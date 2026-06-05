@@ -242,6 +242,8 @@ val featureSettingsModule = module {
             remoteBackupManager = getOrNull(),
             sessionPassphrase = getOrNull(),
             syncPassphraseStore = getOrNull(),
+            syncBootstrap = getOrNull(),
+            syncPuller = getOrNull<SyncEngine>(),
             filePlatform = get(),
             savedStateHandle = get(),
         )

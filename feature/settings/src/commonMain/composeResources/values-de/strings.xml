@@ -162,6 +162,15 @@
     <string name="settings_backup_restore">Sichern &amp; Wiederherstellen</string>
     <string name="settings_cross_device_sync">Geräteübergreifende Synchronisierung</string>
     <string name="settings_cross_device_sync_subtitle">Verwalte Geräte, die über dein Google-Drive-Backup synchronisieren.</string>
+    <string name="settings_cloud_sync">Cloud-Sync</string>
+    <string name="settings_cloud_sync_subtitle">Sichere und synchronisiere deine Daten geräteübergreifend über Google Drive.</string>
+    <string name="settings_cloud_devices">Geräte</string>
+    <string name="settings_cloud_join_title">Mit deinem anderen Gerät verbinden</string>
+    <string name="settings_cloud_join_body">Gib dasselbe Passwort ein, das du auf deinem anderen Gerät festgelegt hast, damit dieses Gerät die Cloud-Daten lesen kann.</string>
+    <string name="settings_cloud_join_confirm">Verbinden</string>
+    <string name="settings_cloud_join_plaintext_title">Cloud-Sync aktivieren</string>
+    <string name="settings_cloud_join_plaintext_body">Die Cloud-Daten deines anderen Geräts sind nicht verschlüsselt. Cloud-Sync auch auf diesem Gerät aktivieren?</string>
+    <string name="settings_cloud_wrong_password">Das Passwort passt nicht zu den Cloud-Daten.</string>
     <string name="settings_backup_to_file">In Datei sichern</string>
     <string name="settings_restore_from_file">Aus Datei wiederherstellen</string>
     <string name="settings_restore_warning_title">Alle Daten ersetzen?</string>
