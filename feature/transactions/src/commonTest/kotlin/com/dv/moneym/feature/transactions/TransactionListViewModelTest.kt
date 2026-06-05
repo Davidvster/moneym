@@ -16,6 +16,7 @@ import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.FixedClock
 import com.dv.moneym.core.testing.runTestWithDispatchers
+import com.dv.moneym.data.sync.SyncConflict
 import com.dv.moneym.data.sync.SyncStatusProvider
 import com.dv.moneym.feature.transactions.list.TransactionListEphemeralState
 import com.dv.moneym.feature.transactions.list.TransactionListIntent
@@ -42,6 +43,7 @@ private class FakeSyncStatusProvider(
     val pendingCountFlow = MutableStateFlow(pendingCount)
     override val isSyncing: Flow<Boolean> = syncingFlow
     override val pendingDeletionCount: Flow<Int> = pendingCountFlow
+    override val conflict: Flow<SyncConflict?> = MutableStateFlow(null)
 }
 
 class TransactionListViewModelTest {

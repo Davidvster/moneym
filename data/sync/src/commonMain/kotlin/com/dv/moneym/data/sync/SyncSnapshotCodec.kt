@@ -41,4 +41,14 @@ class SyncSnapshotCodec(
         val plain = crypto.decrypt(envelope, passphrase)
         return decode(plain)
     }
+
+    /**
+     * A plaintext [SyncSnapshot] and an encrypted envelope both serialize to JSON starting with
+     * `{`, so the first-byte trick used for zip-based backups is ambiguous here. Detect an envelope
+     * by trying to parse the required `EncryptedBackup` fields — a plaintext snapshot lacks them.
+     */
+    fun isEncryptedEnvelope(bytes: ByteArray): Boolean =
+        runCatching { BackupEnvelopeJson.decodeBytes(bytes) }
+            .map { it.cipher.ctB64.isNotBlank() }
+            .getOrDefault(false)
 }

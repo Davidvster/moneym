@@ -4,6 +4,8 @@ import com.dv.moneym.data.sync.DeviceIdentity
 import com.dv.moneym.data.sync.DeviceRegistryManager
 import com.dv.moneym.data.sync.PendingDeletionStore
 import com.dv.moneym.data.sync.SyncApplier
+import com.dv.moneym.data.sync.SyncConflictController
+import com.dv.moneym.data.sync.SyncConflictStore
 import com.dv.moneym.data.sync.SyncDeletionController
 import com.dv.moneym.data.sync.SyncEngine
 import com.dv.moneym.data.sync.SyncExporter
@@ -23,6 +25,7 @@ val syncCommonModule: Module = module {
     single { SyncReconciler() }
     single { SyncApplier(get(), get(), get(), get(), get(), get()) }
     single { PendingDeletionStore(appSettings = get()) }
+    single { SyncConflictStore(appSettings = get()) }
     single {
         DeviceRegistryManager(
             store = get(),
@@ -39,8 +42,10 @@ val syncCommonModule: Module = module {
             store = get(),
             appSettings = get(),
             sessionPassphrase = get(),
+            syncPassphraseStore = get(),
             dispatchers = get(),
             pendingDeletionStore = get(),
+            conflictStore = get(),
             accountRepository = get(),
             categoryRepository = get(),
             paymentModeRepository = get(),
@@ -51,4 +56,5 @@ val syncCommonModule: Module = module {
         )
     }
     single<SyncDeletionController> { get<SyncEngine>() }
+    single<SyncConflictController> { get<SyncEngine>() }
 }

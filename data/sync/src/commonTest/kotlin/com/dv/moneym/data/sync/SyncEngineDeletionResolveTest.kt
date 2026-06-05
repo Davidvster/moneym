@@ -11,8 +11,10 @@ import com.dv.moneym.core.testing.FakeBudgetRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeRecurringTransactionRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
+import com.dv.moneym.core.testing.InMemorySecureStore
 import com.dv.moneym.core.testing.runTestWithDispatchers
 import com.dv.moneym.data.remotebackup.SessionPassphrase
+import com.dv.moneym.data.remotebackup.SyncPassphraseStore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -74,8 +76,10 @@ class SyncEngineDeletionResolveTest {
             store = SyncRemoteStore(FakeRemoteBackupProvider()),
             appSettings = settings,
             sessionPassphrase = SessionPassphrase(),
+            syncPassphraseStore = SyncPassphraseStore(InMemorySecureStore()),
             dispatchers = dispatchers,
             pendingDeletionStore = pendingDeletionStore,
+            conflictStore = SyncConflictStore(settings),
             accountRepository = device.accounts,
             categoryRepository = device.categories,
             paymentModeRepository = device.paymentModes,

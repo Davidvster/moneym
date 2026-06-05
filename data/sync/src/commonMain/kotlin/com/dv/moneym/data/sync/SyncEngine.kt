@@ -4,10 +4,12 @@ import co.touchlab.kermit.Logger
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
+import com.dv.moneym.core.security.BackupCryptoError
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.budgets.BudgetRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.remotebackup.SessionPassphrase
+import com.dv.moneym.data.remotebackup.SyncPassphraseStore
 import com.dv.moneym.data.transactions.PaymentModeRepository
 import com.dv.moneym.data.transactions.RecurringTransactionRepository
 import com.dv.moneym.data.transactions.TransactionRepository
@@ -40,8 +42,10 @@ class SyncEngine(
     private val store: SyncRemoteStore,
     private val appSettings: AppSettings,
     private val sessionPassphrase: SessionPassphrase,
+    private val syncPassphraseStore: SyncPassphraseStore,
     private val dispatchers: DispatcherProvider,
     private val pendingDeletionStore: PendingDeletionStore,
+    private val conflictStore: SyncConflictStore,
     private val accountRepository: AccountRepository,
     private val categoryRepository: CategoryRepository,
     private val paymentModeRepository: PaymentModeRepository,
@@ -51,7 +55,7 @@ class SyncEngine(
     private val deviceRegistryManager: DeviceRegistryManager? = null,
     private val nowMs: () -> Long = { kotlin.time.Clock.System.now().toEpochMilliseconds() },
     private val debounceMs: Long = DEFAULT_DEBOUNCE_MS,
-) : SyncDeletionController, SyncStatusProvider, SyncPuller {
+) : SyncDeletionController, SyncStatusProvider, SyncPuller, SyncConflictController {
 
     private val logger = Logger.withTag("SyncEngine")
     private val lock = Mutex()
@@ -67,6 +71,8 @@ class SyncEngine(
     override val pendingDeletionCount: Flow<Int> = pendingDeletionStore.count
 
     override val pendingDeletions: Flow<List<PendingDeletion>> = pendingDeletionStore.pending
+
+    override val conflict: Flow<SyncConflict?> = conflictStore.conflict
 
     @OptIn(FlowPreview::class)
     fun start(scope: CoroutineScope) {
@@ -114,8 +120,8 @@ class SyncEngine(
 
     suspend fun pull(): Result<Unit> = lock.withLock {
         runCatching {
-            if (encryptEnabled() && sessionPassphrase.get() == null) {
-                logger.w { "Sync pull skipped: encryption on but no session passphrase" }
+            if (conflictStore.current() != null) {
+                logger.w { "Sync pull paused: unresolved password conflict" }
                 return@runCatching
             }
             _runtime.value = SyncRuntimeState.Pulling
@@ -126,7 +132,10 @@ class SyncEngine(
                 touchSelfQuietly()
                 return@runCatching
             }
-            val remote = withContext(dispatchers.io) { codec.open(bytes, passphrase()) }
+            val remote = decodeRemoteOrRaiseConflict(bytes) ?: run {
+                _runtime.value = SyncRuntimeState.Idle
+                return@runCatching
+            }
             val local = exporter.export()
             val result = reconciler.reconcile(local = local, remote = remote)
             _runtime.value = SyncRuntimeState.Applying
@@ -172,6 +181,45 @@ class SyncEngine(
         }
     }
 
+    override suspend fun resolveWithPassword(passphrase: CharArray, makeAuthoritative: Boolean): Result<Unit> {
+        val prepared = lock.withLock {
+            runCatching {
+                if (!makeAuthoritative) {
+                    // Validate the password against the current remote; codec.open throws
+                    // BackupCryptoError.WrongPassphrase on a mismatch, leaving the conflict intact.
+                    val bytes = withContext(dispatchers.io) { store.readSnapshotBytes() }
+                    if (bytes != null && codec.isEncryptedEnvelope(bytes)) {
+                        withContext(dispatchers.io) { codec.open(bytes, passphrase) }
+                    }
+                }
+                sessionPassphrase.set(passphrase)
+                syncPassphraseStore.persist(passphrase)
+                appSettings.putBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, true)
+                conflictStore.clear()
+            }
+        }
+        return prepared.fold(
+            onSuccess = { if (makeAuthoritative) push() else pull() },
+            onFailure = { t ->
+                logger.w(t) { "resolveWithPassword failed" }
+                Result.failure(t)
+            },
+        )
+    }
+
+    override suspend fun resolveWithPlaintext(): Result<Unit> {
+        // If the remote is already plaintext (a downgrade we can read), pull to merge it; if it is
+        // encrypted and unreadable, overriding to plaintext means our local state becomes the remote.
+        val overrideUnreadable = conflictStore.current()?.remoteEncrypted ?: false
+        lock.withLock {
+            sessionPassphrase.clear()
+            syncPassphraseStore.clear()
+            appSettings.putBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, false)
+            conflictStore.clear()
+        }
+        return if (overrideUnreadable) push() else pull()
+    }
+
     private suspend fun route(type: SyncEntityType, syncId: String, now: Long, confirmed: Boolean) {
         when (type) {
             SyncEntityType.ACCOUNT ->
@@ -189,7 +237,45 @@ class SyncEngine(
         }
     }
 
+    /**
+     * Decode the remote snapshot, or raise a durable [SyncConflict] and return null when this
+     * device cannot reconcile its encryption config with the remote's. Network/parse failures are
+     * left to the caller's runCatching (they surface as [SyncRuntimeState.Error], not a conflict).
+     */
+    private suspend fun decodeRemoteOrRaiseConflict(bytes: ByteArray): SyncSnapshot? {
+        val remoteEncrypted = codec.isEncryptedEnvelope(bytes)
+        if (remoteEncrypted) {
+            val pass = sessionPassphrase.get()
+            if (pass == null) {
+                logger.w { "Sync conflict: remote encrypted, no session passphrase" }
+                conflictStore.set(SyncConflict(remoteEncrypted = true))
+                return null
+            }
+            return try {
+                val snapshot = withContext(dispatchers.io) { codec.open(bytes, pass) }
+                if (!encryptEnabled()) appSettings.putBoolean(PrefKeys.REMOTE_BACKUP_ENCRYPT, true)
+                snapshot
+            } catch (_: BackupCryptoError.WrongPassphrase) {
+                logger.w { "Sync conflict: wrong passphrase for remote" }
+                conflictStore.set(SyncConflict(remoteEncrypted = true))
+                null
+            }
+        }
+        // remote plaintext
+        if (encryptEnabled()) {
+            logger.w { "Sync conflict: remote plaintext but this device is configured encrypted" }
+            conflictStore.set(SyncConflict(remoteEncrypted = false))
+            return null
+        }
+        return codec.decode(bytes)
+    }
+
     private suspend fun pushInternal() {
+        if (conflictStore.current() != null) {
+            logger.w { "push paused: unresolved password conflict" }
+            _runtime.value = SyncRuntimeState.Idle
+            return
+        }
         val pending = pendingDeletionStore.current()
         if (pending.isNotEmpty()) {
             logger.w { "push paused: ${pending.size} pending deletions" }

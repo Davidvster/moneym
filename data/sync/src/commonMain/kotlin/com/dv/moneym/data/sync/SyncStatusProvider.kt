@@ -10,4 +10,5 @@ import kotlinx.coroutines.flow.Flow
 interface SyncStatusProvider {
     val isSyncing: Flow<Boolean>
     val pendingDeletionCount: Flow<Int>
+    val conflict: Flow<SyncConflict?>
 }
