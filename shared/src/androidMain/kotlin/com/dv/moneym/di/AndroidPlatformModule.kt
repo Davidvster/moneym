@@ -17,6 +17,7 @@ import com.dv.moneym.data.transactions.createTransactionsDatabase
 import com.dv.moneym.locale.AndroidLocaleController
 import com.dv.moneym.platform.DbPlatform
 import com.dv.moneym.platform.FilePlatform
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 fun androidPlatformModule(context: Context) = module {
@@ -30,6 +31,6 @@ fun androidPlatformModule(context: Context) = module {
     single<LocaleController> { AndroidLocaleController(get()) }
     single { FilePlatform(context) }
     single { DbPlatform(context) }
-    single<AiEngine> { GeminiNanoAiEngine() }
+    single<AiEngine>(named("geminiNano")) { GeminiNanoAiEngine() }
     single<LocalLlmRunner> { AndroidLocalLlmRunner(get()) }
 }

@@ -7,6 +7,7 @@ import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentLength
+import io.ktor.http.isSuccess
 import io.ktor.utils.io.readRemaining
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -17,10 +18,12 @@ import kotlinx.io.readByteArray
 class ModelChecksumMismatchException(modelId: String) :
     Exception("Checksum mismatch for model '$modelId'")
 
+class ModelDownloadHttpException(modelId: String, val status: Int) :
+    Exception("Download failed for model '$modelId' (HTTP $status)")
+
 class LlmModelDownloader(
     private val client: HttpClient,
     private val fileStore: ModelFileStore,
-    private val tokenProvider: suspend () -> String?,
 ) {
 
     fun download(model: LlmModel): Flow<DownloadProgress> = flow {
@@ -32,14 +35,13 @@ class LlmModelDownloader(
             }
         }
 
-        val token = tokenProvider()
-
         client.prepareGet(model.url) {
             if (resumeFrom > 0L) header(HttpHeaders.Range, "bytes=$resumeFrom-")
-            if (model.requiresToken && !token.isNullOrEmpty()) {
-                header(HttpHeaders.Authorization, "Bearer $token")
-            }
         }.execute { response ->
+            if (!response.status.isSuccess()) {
+                if (resumeFrom > 0L) fileStore.resetPart(model.fileName)
+                throw ModelDownloadHttpException(model.id, response.status.value)
+            }
             val resumed = response.status == HttpStatusCode.PartialContent
             if (!resumed && resumeFrom > 0L) {
                 fileStore.resetPart(model.fileName)

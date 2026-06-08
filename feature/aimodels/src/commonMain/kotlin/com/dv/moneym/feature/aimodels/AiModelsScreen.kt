@@ -10,16 +10,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
@@ -29,26 +33,28 @@ import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
+import com.dv.moneym.core.ui.KeepScreenOn
 import com.dv.moneym.core.ui.MmCard
-import com.dv.moneym.core.ui.MmField
+import com.dv.moneym.core.ui.MmDeleteSheet
 import com.dv.moneym.core.ui.ScreenHeader
-import com.dv.moneym.core.ui.SectionLabel
 import kotlinx.serialization.Serializable
 import moneym.feature.aimodels.generated.resources.Res
-import moneym.feature.aimodels.generated.resources.ai_model_gemma3_1b_it
+import moneym.feature.aimodels.generated.resources.ai_model_qwen25_1_5b
+import moneym.feature.aimodels.generated.resources.ai_model_smollm2_135m
 import moneym.feature.aimodels.generated.resources.ai_model_gemma4_e2b_it
 import moneym.feature.aimodels.generated.resources.ai_models_active
 import moneym.feature.aimodels.generated.resources.ai_models_cancel
 import moneym.feature.aimodels.generated.resources.ai_models_delete
+import moneym.feature.aimodels.generated.resources.ai_models_delete_body
+import moneym.feature.aimodels.generated.resources.ai_models_delete_title
 import moneym.feature.aimodels.generated.resources.ai_models_download
 import moneym.feature.aimodels.generated.resources.ai_models_error_delete
 import moneym.feature.aimodels.generated.resources.ai_models_error_download
-import moneym.feature.aimodels.generated.resources.ai_models_error_token
-import moneym.feature.aimodels.generated.resources.ai_models_save
+import moneym.feature.aimodels.generated.resources.ai_models_eta_hours
+import moneym.feature.aimodels.generated.resources.ai_models_eta_minutes
+import moneym.feature.aimodels.generated.resources.ai_models_eta_seconds
+import moneym.feature.aimodels.generated.resources.ai_models_keep_awake
 import moneym.feature.aimodels.generated.resources.ai_models_title
-import moneym.feature.aimodels.generated.resources.ai_models_token_hint
-import moneym.feature.aimodels.generated.resources.ai_models_token_label
-import moneym.feature.aimodels.generated.resources.ai_models_token_section
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -80,6 +86,20 @@ private fun AiModelsContent(
 ) {
     val colors = MM.colors
     val space = MM.dimen
+    val isDownloading = state.models.any { it.status is ModelStatus.Downloading }
+
+    KeepScreenOn(isDownloading)
+
+    if (state.pendingDeleteId != null) {
+        MmDeleteSheet(
+            title = stringResource(Res.string.ai_models_delete_title),
+            body = stringResource(Res.string.ai_models_delete_body),
+            cancelText = stringResource(Res.string.ai_models_cancel),
+            confirmText = stringResource(Res.string.ai_models_delete),
+            onConfirm = { onIntent(AiModelsIntent.DeleteConfirmed) },
+            onCancel = { onIntent(AiModelsIntent.DeleteCancelled) },
+        )
+    }
 
     Column(modifier = Modifier.fillMaxSize().background(colors.bg)) {
         ScreenHeader(title = stringResource(Res.string.ai_models_title), onBack = onBack)
@@ -96,21 +116,25 @@ private fun AiModelsContent(
             )
         }
 
+        if (isDownloading) {
+            Text(
+                text = stringResource(Res.string.ai_models_keep_awake),
+                style = MM.type.caption,
+                color = colors.text2,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(colors.surface)
+                    .padding(horizontal = space.padding_2x, vertical = space.padding_1_5x),
+            )
+        }
+
         LazyColumn(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).navigationBarsPadding(),
             contentPadding = PaddingValues(space.padding_2x),
             verticalArrangement = Arrangement.spacedBy(space.padding_1_5x),
         ) {
             items(state.models, key = { it.id }) { row ->
                 ModelRow(row = row, onIntent = onIntent)
-            }
-
-            item(key = "token_section") {
-                TokenSection(
-                    token = state.hfToken,
-                    saved = state.tokenSaved,
-                    onIntent = onIntent,
-                )
             }
         }
     }
@@ -123,72 +147,108 @@ private fun ModelRow(row: ModelRowUi, onIntent: (AiModelsIntent) -> Unit) {
     val space = MM.dimen
 
     MmCard(padded = true, modifier = Modifier.fillMaxWidth()) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = stringResource(row.displayNameKey.modelNameRes()),
-                    style = type.body,
-                    color = colors.text,
-                )
-                Text(text = row.sizeLabel, style = type.caption, color = colors.text2)
-            }
-
-            when (val status = row.status) {
-                ModelStatus.NotDownloaded -> MmButton(
-                    text = stringResource(Res.string.ai_models_download),
-                    onClick = { onIntent(AiModelsIntent.Download(row.id)) },
-                    variant = MmButtonVariant.Secondary,
-                    size = MmButtonSize.Sm,
-                )
-
-                is ModelStatus.Downloading -> Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
-                ) {
-                    LinearProgressIndicator(
-                        progress = { status.progress },
-                        color = colors.accent,
-                        modifier = Modifier.weight(1f),
+        Column(verticalArrangement = Arrangement.spacedBy(space.padding_1x)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = stringResource(row.displayNameKey.modelNameRes()),
+                        style = type.body,
+                        color = colors.text,
                     )
-                    MmButton(
+                    Text(text = row.sizeLabel, style = type.caption, color = colors.text2)
+                }
+
+                when (val status = row.status) {
+                    ModelStatus.NotDownloaded -> MmButton(
+                        text = stringResource(Res.string.ai_models_download),
+                        onClick = { onIntent(AiModelsIntent.Download(row.id)) },
+                        variant = MmButtonVariant.Secondary,
+                        size = MmButtonSize.Sm,
+                    )
+
+                    is ModelStatus.Downloading -> MmButton(
                         text = stringResource(Res.string.ai_models_cancel),
                         onClick = { onIntent(AiModelsIntent.Cancel(row.id)) },
                         variant = MmButtonVariant.Ghost,
                         size = MmButtonSize.Sm,
                     )
-                }
 
-                ModelStatus.Downloaded -> Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
-                ) {
-                    RadioButton(
-                        selected = false,
-                        onClick = { onIntent(AiModelsIntent.SetActive(row.id)) },
-                    )
-                    MmButton(
-                        text = stringResource(Res.string.ai_models_delete),
-                        onClick = { onIntent(AiModelsIntent.Delete(row.id)) },
-                        variant = MmButtonVariant.Danger,
-                        size = MmButtonSize.Sm,
-                    )
-                }
+                    ModelStatus.Downloaded -> Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
+                    ) {
+                        ModelRadio(selected = false, onClick = { onIntent(AiModelsIntent.SetActive(row.id)) })
+                        MmButton(
+                            text = stringResource(Res.string.ai_models_delete),
+                            onClick = { onIntent(AiModelsIntent.Delete(row.id)) },
+                            variant = MmButtonVariant.Danger,
+                            size = MmButtonSize.Sm,
+                        )
+                    }
 
-                ModelStatus.Active -> Row(
+                    ModelStatus.Active -> Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
+                    ) {
+                        ModelRadio(selected = true, onClick = {})
+                        Text(
+                            text = stringResource(Res.string.ai_models_active),
+                            style = type.caption,
+                            color = colors.accent,
+                        )
+                        MmButton(
+                            text = stringResource(Res.string.ai_models_delete),
+                            onClick = { onIntent(AiModelsIntent.Delete(row.id)) },
+                            variant = MmButtonVariant.Danger,
+                            size = MmButtonSize.Sm,
+                        )
+                    }
+                }
+            }
+
+            (row.status as? ModelStatus.Downloading)?.let { status ->
+                LinearProgressIndicator(
+                    progress = { status.progress },
+                    color = colors.accent,
+                    trackColor = colors.surface,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
                 ) {
-                    RadioButton(selected = true, onClick = {})
                     Text(
-                        text = stringResource(Res.string.ai_models_active),
+                        text = status.speedText,
                         style = type.caption,
-                        color = colors.accent,
+                        color = colors.text2,
+                        maxLines = 1,
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier.weight(1f),
                     )
-                    MmButton(
-                        text = stringResource(Res.string.ai_models_delete),
-                        onClick = { onIntent(AiModelsIntent.Delete(row.id)) },
-                        variant = MmButtonVariant.Danger,
-                        size = MmButtonSize.Sm,
+                    Text(
+                        text = status.sizeText,
+                        style = type.caption,
+                        color = colors.text2,
+                        maxLines = 1,
+                        textAlign = TextAlign.End,
+                        modifier = Modifier.weight(1f),
+                    )
+                    Text(
+                        text = status.percentText,
+                        style = type.caption,
+                        color = colors.text,
+                        maxLines = 1,
+                        textAlign = TextAlign.End,
+                        modifier = Modifier
+                            .padding(start = space.padding_1x)
+                            .width(48.dp),
+                    )
+                }
+                status.etaSeconds?.let { seconds ->
+                    Text(
+                        text = etaLabel(seconds),
+                        style = type.caption,
+                        color = colors.text3,
                     )
                 }
             }
@@ -197,31 +257,32 @@ private fun ModelRow(row: ModelRowUi, onIntent: (AiModelsIntent) -> Unit) {
 }
 
 @Composable
-private fun TokenSection(token: String, saved: Boolean, onIntent: (AiModelsIntent) -> Unit) {
-    val space = MM.dimen
+private fun etaLabel(seconds: Long): String = when {
+    seconds >= 3600 -> stringResource(
+        Res.string.ai_models_eta_hours,
+        (seconds / 3600).toInt(),
+        ((seconds % 3600) / 60).toInt(),
+    )
+    seconds >= 60 -> stringResource(Res.string.ai_models_eta_minutes, (seconds / 60).toInt())
+    else -> stringResource(Res.string.ai_models_eta_seconds, seconds.toInt())
+}
 
-    Column(
-        modifier = Modifier.navigationBarsPadding(),
-        verticalArrangement = Arrangement.spacedBy(space.padding_1x),
-    ) {
-        SectionLabel(text = stringResource(Res.string.ai_models_token_section))
-        MmField(
-            value = token,
-            onValueChange = { onIntent(AiModelsIntent.HfTokenChanged(it)) },
-            label = stringResource(Res.string.ai_models_token_label),
-            placeholder = stringResource(Res.string.ai_models_token_hint),
-        )
-        MmButton(
-            text = stringResource(Res.string.ai_models_save),
-            onClick = { onIntent(AiModelsIntent.SaveToken) },
-            variant = if (saved) MmButtonVariant.Secondary else MmButtonVariant.Primary,
-            size = MmButtonSize.Sm,
-        )
-    }
+@Composable
+private fun ModelRadio(selected: Boolean, onClick: () -> Unit) {
+    val colors = MM.colors
+    RadioButton(
+        selected = selected,
+        onClick = onClick,
+        colors = RadioButtonDefaults.colors(
+            selectedColor = colors.accent,
+            unselectedColor = colors.text3,
+        ),
+    )
 }
 
 private fun String.modelNameRes(): StringResource = when (this) {
-    "ai_model_gemma3_1b_it" -> Res.string.ai_model_gemma3_1b_it
+    "ai_model_smollm2_135m" -> Res.string.ai_model_smollm2_135m
+    "ai_model_qwen25_1_5b" -> Res.string.ai_model_qwen25_1_5b
     "ai_model_gemma4_e2b_it" -> Res.string.ai_model_gemma4_e2b_it
     else -> Res.string.ai_models_title
 }
@@ -229,7 +290,6 @@ private fun String.modelNameRes(): StringResource = when (this) {
 private fun AiModelsError.messageRes(): StringResource = when (this) {
     AiModelsError.Download -> Res.string.ai_models_error_download
     AiModelsError.Delete -> Res.string.ai_models_error_delete
-    AiModelsError.Token -> Res.string.ai_models_error_token
 }
 
 @Preview
@@ -239,11 +299,20 @@ private fun AiModelsContentPreview() {
         AiModelsContent(
             state = AiModelsUiState(
                 models = listOf(
-                    ModelRowUi("gemma3-1b-it", "ai_model_gemma3_1b_it", "0.6 GB", ModelStatus.NotDownloaded),
-                    ModelRowUi("gemma4-e2b-it", "ai_model_gemma4_e2b_it", "2.6 GB", ModelStatus.Downloading(0.4f)),
+                    ModelRowUi("qwen2.5-1.5b-it", "ai_model_qwen25_1_5b", "1.5 GB", ModelStatus.NotDownloaded),
+                    ModelRowUi(
+                        "gemma4-e2b-it",
+                        "ai_model_gemma4_e2b_it",
+                        "2.6 GB",
+                        ModelStatus.Downloading(
+                            progress = 0.4f,
+                            percentText = "40%",
+                            sizeText = "1.0 GB / 2.6 GB",
+                            speedText = "7.2 MB/s",
+                            etaSeconds = 222L,
+                        ),
+                    ),
                 ),
-                hfToken = "hf_xxx",
-                tokenSaved = true,
             ),
             onBack = {},
             onIntent = {},

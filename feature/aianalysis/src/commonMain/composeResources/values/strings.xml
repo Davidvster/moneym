@@ -15,6 +15,11 @@
     <string name="analyze_engine_needs_download_notice">This engine is unavailable. Download a model to continue.</string>
     <string name="analyze_download_model">Download a model</string>
     <string name="analyze_error">Something went wrong. Please try again.</string>
+    <string name="analyze_model_picker_cd">Select model</string>
+    <string name="analyze_manage_models">Manage models…</string>
+    <string name="analyze_engine_status_ready">Ready</string>
+    <string name="analyze_engine_status_download">Tap to download</string>
+    <string name="analyze_engine_status_unavailable">Unavailable</string>
     <string name="analyze_generating">Thinking…</string>
     <string-array name="analyze_suggested_prompts">
         <item>How much did I spend this month?</item>

@@ -4,5 +4,5 @@ data class LlmModelState(
     val model: LlmModel,
     val downloaded: Boolean,
     val active: Boolean,
-    val progress: Float?,
+    val progress: DownloadProgress?,
 )

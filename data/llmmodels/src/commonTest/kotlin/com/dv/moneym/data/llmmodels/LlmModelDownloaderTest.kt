@@ -17,7 +17,7 @@ class LlmModelDownloaderTest {
 
     private val payload = ByteArray(200_000) { (it % 251).toByte() }
 
-    private fun model(sha256: String = "", requiresToken: Boolean = false) = LlmModel(
+    private fun model(sha256: String = "") = LlmModel(
         id = "test-model",
         displayNameKey = "ai_model_test",
         fileName = "test.litertlm",
@@ -25,7 +25,6 @@ class LlmModelDownloaderTest {
         sizeBytes = payload.size.toLong(),
         sha256 = sha256,
         format = "litertlm",
-        requiresToken = requiresToken,
     )
 
     private fun client(onRequest: (io.ktor.client.request.HttpRequestData) -> Unit = {}): HttpClient {
@@ -42,7 +41,7 @@ class LlmModelDownloaderTest {
     @Test
     fun emitsIncreasingProgressAndPromotesFile() = runTest {
         val store = InMemoryModelFileStore()
-        val downloader = LlmModelDownloader(client(), store) { null }
+        val downloader = LlmModelDownloader(client(), store)
 
         val progress = downloader.download(model()).toList()
 
@@ -58,7 +57,7 @@ class LlmModelDownloaderTest {
     fun verifiesSha256OnSuccess() = runTest {
         val expected = sha256Hex(payload)
         val store = InMemoryModelFileStore()
-        val downloader = LlmModelDownloader(client(), store) { null }
+        val downloader = LlmModelDownloader(client(), store)
 
         downloader.download(model(sha256 = expected)).toList()
 
@@ -68,40 +67,12 @@ class LlmModelDownloaderTest {
     @Test
     fun failsOnSha256Mismatch() = runTest {
         val store = InMemoryModelFileStore()
-        val downloader = LlmModelDownloader(client(), store) { null }
+        val downloader = LlmModelDownloader(client(), store)
 
         assertFailsWith<ModelChecksumMismatchException> {
             downloader.download(model(sha256 = "deadbeef")).toList()
         }
         assertTrue(!store.finalExists("test.litertlm"))
         assertNull(store.parts["test.litertlm"])
-    }
-
-    @Test
-    fun addsAuthHeaderWhenTokenAndRequiresToken() = runTest {
-        var seenAuth: String? = null
-        val store = InMemoryModelFileStore()
-        val httpClient = client { request ->
-            seenAuth = request.headers[HttpHeaders.Authorization]
-        }
-        val downloader = LlmModelDownloader(httpClient, store) { "secret-token" }
-
-        downloader.download(model(requiresToken = true)).toList()
-
-        assertEquals("Bearer secret-token", seenAuth)
-    }
-
-    @Test
-    fun omitsAuthHeaderWhenModelDoesNotRequireToken() = runTest {
-        var seenAuth: String? = null
-        val store = InMemoryModelFileStore()
-        val httpClient = client { request ->
-            seenAuth = request.headers[HttpHeaders.Authorization]
-        }
-        val downloader = LlmModelDownloader(httpClient, store) { "secret-token" }
-
-        downloader.download(model(requiresToken = false)).toList()
-
-        assertNull(seenAuth)
     }
 }

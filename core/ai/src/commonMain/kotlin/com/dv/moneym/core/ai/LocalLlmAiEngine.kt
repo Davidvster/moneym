@@ -14,9 +14,12 @@ class LocalLlmAiEngine(
 
     override val supportsTools = false
 
+    // A cheap, non-blocking check: an active downloaded model means the engine is usable. The
+    // actual (potentially slow) native load is deferred to streamReply so the availability probe
+    // never stalls the caller.
     override suspend fun availability(): AiAvailability {
-        val path = activeModelPath() ?: return AiAvailability.DOWNLOADABLE
-        return if (runner.loadModel(path)) AiAvailability.AVAILABLE else AiAvailability.UNAVAILABLE
+        activeModelPath() ?: return AiAvailability.DOWNLOADABLE
+        return AiAvailability.AVAILABLE
     }
 
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)

@@ -3,15 +3,16 @@ package com.dv.moneym.data.llmmodels
 import app.cash.turbine.test
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.core.testing.FakeAppSettings
-import com.dv.moneym.core.testing.InMemorySecureStore
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -23,15 +24,14 @@ class DefaultLlmModelRepositoryTest {
     private fun repo(
         store: InMemoryModelFileStore = InMemoryModelFileStore(),
         appSettings: FakeAppSettings = FakeAppSettings(),
-        secureStore: InMemorySecureStore = InMemorySecureStore(),
         scope: kotlinx.coroutines.CoroutineScope,
     ): DefaultLlmModelRepository {
         val payload = ByteArray(128) { it.toByte() }
         val engine = MockEngine {
             respond(payload, headers = headersOf(HttpHeaders.ContentLength, payload.size.toString()))
         }
-        val downloader = LlmModelDownloader(HttpClient(engine), store) { null }
-        return DefaultLlmModelRepository(appSettings, secureStore, store, downloader, scope)
+        val downloader = LlmModelDownloader(HttpClient(engine), store)
+        return DefaultLlmModelRepository(appSettings, store, downloader, scope)
     }
 
     @Test
@@ -89,15 +89,44 @@ class DefaultLlmModelRepositoryTest {
     }
 
     @Test
-    fun setHfTokenUpdatesObserveHasToken() = runTest {
-        val secureStore = InMemorySecureStore()
-        val repository = repo(secureStore = secureStore, scope = backgroundScope)
+    fun downloadFailurePropagatesToCallerWithoutCrashing() = runTest {
+        val store = InMemoryModelFileStore()
+        val engine = MockEngine { respond(ByteArray(0), HttpStatusCode.Forbidden) }
+        val downloader = LlmModelDownloader(HttpClient(engine), store)
+        val repository = DefaultLlmModelRepository(
+            FakeAppSettings(), store, downloader, backgroundScope,
+        )
 
-        repository.observeHasToken().test {
-            assertFalse(awaitItem())
-            repository.setHfToken("hf_abc")
-            assertTrue(awaitItem())
-            cancelAndIgnoreRemainingEvents()
-        }
+        val error = assertFailsWith<ModelDownloadHttpException> { repository.download(model.id) }
+        assertEquals(403, error.status)
+        assertFalse(store.finals.containsKey(model.fileName))
     }
+
+    @Test
+    fun successfulDownloadMarksModelActive() = runTest {
+        val testModel = LlmModel(
+            id = "m1",
+            displayNameKey = "k",
+            fileName = "m1.litertlm",
+            url = "https://example/m1",
+            sizeBytes = 0L,
+            sha256 = "",
+            format = "litertlm",
+        )
+        val store = InMemoryModelFileStore()
+        val payload = ByteArray(64) { it.toByte() }
+        val engine = MockEngine {
+            respond(payload, headers = headersOf(HttpHeaders.ContentLength, payload.size.toString()))
+        }
+        val downloader = LlmModelDownloader(HttpClient(engine), store)
+        val appSettings = FakeAppSettings()
+        val repository = DefaultLlmModelRepository(
+            appSettings, store, downloader, backgroundScope, catalog = listOf(testModel),
+        )
+
+        repository.download("m1")
+
+        assertEquals(store.finalPath("m1.litertlm"), repository.activeModelPath())
+    }
+
 }

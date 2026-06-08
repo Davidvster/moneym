@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 
 class AnalyzeViewModel(
     private val year: Int,
@@ -38,23 +39,50 @@ class AnalyzeViewModel(
 ) : ViewModel() {
 
     private val _state by savedStateHandle.saved { MutableStateFlow(AnalyzeUiState(groundingMode = loadGroundingMode())) }
-    internal val state = _state.onStart { init() }.stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
+    internal val state = _state.onStart { startEngineProbe() }.stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
-    private suspend fun init() {
-        val availabilities = withContext(dispatchers.io) { registry.availabilities() }
-        val options = registry.all().map { engine ->
-            val availability = availabilities[engine.id]
-            AiEngineOption(
-                id = engine.id,
-                available = availability == AiAvailability.AVAILABLE,
-                needsDownload = engine.id == AiEngineId.LOCAL_LLM &&
-                    availability == AiAvailability.DOWNLOADABLE,
-            )
+    // The on-device (custom) engine never blocks, so it is emitted immediately and the picker
+    // shows right away. Built-in engines (Gemini Nano on Android, Apple Intelligence on iOS) are
+    // probed afterwards in the background — their availability check can block on a device without
+    // platform support, and must never stall the UI. They are added only when actually available.
+    private fun startEngineProbe() {
+        viewModelScope.launch {
+            val local = localOption()
+            emitEngines(listOfNotNull(local))
+
+            val builtIns = registry.all()
+                .filter { it.id != AiEngineId.LOCAL_LLM }
+                .mapNotNull { engine ->
+                    val availability = withTimeoutOrNull(BUILTIN_PROBE_TIMEOUT_MS) {
+                        withContext(dispatchers.io) { runCatching { engine.availability() }.getOrNull() }
+                    }
+                    if (availability == AiAvailability.AVAILABLE) {
+                        AiEngineOption(id = engine.id, available = true, needsDownload = false)
+                    } else {
+                        null
+                    }
+                }
+            if (builtIns.isNotEmpty()) emitEngines(builtIns + listOfNotNull(local))
         }
-        val selected = resolveSelection(options)
-        _state.update {
-            it.copy(
-                engines = options,
+    }
+
+    private suspend fun localOption(): AiEngineOption? {
+        val engine = registry.byId(AiEngineId.LOCAL_LLM) ?: return null
+        val availability = withContext(dispatchers.io) { runCatching { engine.availability() }.getOrNull() }
+        return AiEngineOption(
+            id = engine.id,
+            available = availability == AiAvailability.AVAILABLE,
+            needsDownload = availability == AiAvailability.DOWNLOADABLE,
+        )
+    }
+
+    private fun emitEngines(engines: List<AiEngineOption>) {
+        _state.update { st ->
+            // resolveSelection already honours the user's persisted choice, then prefers an
+            // available engine over a merely downloadable one.
+            val selected = resolveSelection(engines)
+            st.copy(
+                engines = engines,
                 selectedEngine = selected?.id,
                 available = selected?.available ?: false,
                 needsModelDownload = selected?.needsDownload ?: false,
@@ -65,7 +93,9 @@ class AnalyzeViewModel(
     private fun resolveSelection(options: List<AiEngineOption>): AiEngineOption? {
         val persisted = appSettings.getString(PrefKeys.AI_ENGINE_ID)
         options.firstOrNull { it.id.name == persisted }?.let { return it }
-        return options.firstOrNull { it.available } ?: options.firstOrNull()
+        return options.firstOrNull { it.available }
+            ?: options.firstOrNull { it.needsDownload }
+            ?: options.firstOrNull()
     }
 
     fun onIntent(intent: AnalyzeIntent) {
@@ -74,6 +104,7 @@ class AnalyzeViewModel(
             is AnalyzeIntent.SendMessage -> sendMessage(intent.text)
             is AnalyzeIntent.GroundingModeChanged -> changeGroundingMode(intent.mode)
             is AnalyzeIntent.EngineChanged -> changeEngine(intent.id)
+            AnalyzeIntent.RefreshEngines -> startEngineProbe()
             AnalyzeIntent.DismissFallbackNotice -> _state.update { it.copy(showToolsFallbackNotice = false) }
             AnalyzeIntent.ClearError -> _state.update { it.copy(error = null) }
         }
@@ -164,5 +195,9 @@ class AnalyzeViewModel(
     private fun loadGroundingMode(): AiGroundingMode {
         val raw = appSettings.getString(PrefKeys.AI_GROUNDING_MODE)
         return AiGroundingMode.entries.firstOrNull { it.name == raw } ?: AiGroundingMode.SNAPSHOT
+    }
+
+    private companion object {
+        const val BUILTIN_PROBE_TIMEOUT_MS = 3000L
     }
 }

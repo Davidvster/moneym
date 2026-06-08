@@ -2,8 +2,7 @@ package com.dv.moneym.feature.aimodels
 
 data class AiModelsUiState(
     val models: List<ModelRowUi> = emptyList(),
-    val hfToken: String = "",
-    val tokenSaved: Boolean = false,
+    val pendingDeleteId: String? = null,
     val error: AiModelsError? = null,
 )
 
@@ -16,19 +15,25 @@ data class ModelRowUi(
 
 sealed interface ModelStatus {
     data object NotDownloaded : ModelStatus
-    data class Downloading(val progress: Float) : ModelStatus
+    data class Downloading(
+        val progress: Float,
+        val percentText: String,
+        val sizeText: String,
+        val speedText: String,
+        val etaSeconds: Long?,
+    ) : ModelStatus
     data object Downloaded : ModelStatus
     data object Active : ModelStatus
 }
 
-enum class AiModelsError { Download, Delete, Token }
+enum class AiModelsError { Download, Delete }
 
 sealed interface AiModelsIntent {
     data class Download(val id: String) : AiModelsIntent
     data class Cancel(val id: String) : AiModelsIntent
     data class Delete(val id: String) : AiModelsIntent
+    data object DeleteConfirmed : AiModelsIntent
+    data object DeleteCancelled : AiModelsIntent
     data class SetActive(val id: String) : AiModelsIntent
-    data class HfTokenChanged(val text: String) : AiModelsIntent
-    data object SaveToken : AiModelsIntent
     data object ClearError : AiModelsIntent
 }

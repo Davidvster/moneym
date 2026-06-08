@@ -40,7 +40,6 @@ import moneym.composeapp.generated.resources.category_seed_salary
 import moneym.composeapp.generated.resources.category_seed_shopping
 import moneym.composeapp.generated.resources.category_seed_transport
 import moneym.composeapp.generated.resources.category_seed_utilities
-import com.dv.moneym.core.security.SecureStore
 import com.dv.moneym.platform.DbPlatform
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -88,8 +87,6 @@ val dataBudgetsModule = module {
     single<BudgetRepository> { createBudgetRepository(get<BudgetsRoomDatabase>()) }
 }
 
-private const val HF_TOKEN_KEY = "hf_token"
-
 val dataLlmModelsModule = module {
     single { createModelFileStore(get<DbPlatform>().appFilesDirectory) }
     single { llmHttpClient() }
@@ -97,13 +94,11 @@ val dataLlmModelsModule = module {
         LlmModelDownloader(
             client = get(),
             fileStore = get(),
-            tokenProvider = { get<SecureStore>().get(HF_TOKEN_KEY)?.decodeToString() },
         )
     }
     single<LlmModelRepository> {
         DefaultLlmModelRepository(
             appSettings = get(),
-            secureStore = get(),
             fileStore = get(),
             downloader = get(),
             scope = CoroutineScope(SupervisorJob() + Dispatchers.Default),

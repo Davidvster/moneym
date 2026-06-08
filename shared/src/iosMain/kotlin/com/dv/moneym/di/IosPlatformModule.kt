@@ -16,6 +16,7 @@ import com.dv.moneym.data.transactions.createTransactionsDatabase
 import com.dv.moneym.locale.IosLocaleController
 import com.dv.moneym.platform.DbPlatform
 import com.dv.moneym.platform.FilePlatform
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 fun iosPlatformModule() = module {
@@ -28,6 +29,6 @@ fun iosPlatformModule() = module {
     single<LocaleController> { IosLocaleController() }
     single { FilePlatform() }
     single { DbPlatform() }
-    single<AiEngine> { IosFoundationModelsAiEngine() }
+    single<AiEngine>(named("appleIntelligence")) { IosFoundationModelsAiEngine() }
     single<LocalLlmRunner> { IosLocalLlmRunner() }
 }

@@ -129,6 +129,39 @@ class AnalyzeViewModelTest {
     }
 
     @Test
+    fun unavailableEngineHiddenAndDownloadableSelected() = runTest(testDispatcher) {
+        val unavailableNano = FakeAiEngine(
+            id = AiEngineId.GEMINI_NANO,
+            availability = AiAvailability.UNAVAILABLE,
+        )
+        val vm = makeVm(registryOf(unavailableNano, downloadableLocalEngine()))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        val state = vm.state.value
+        assertEquals(1, state.engines.size)
+        assertEquals(AiEngineId.LOCAL_LLM, state.engines.single().id)
+        assertEquals(AiEngineId.LOCAL_LLM, state.selectedEngine)
+        assertTrue(state.needsModelDownload)
+        job.cancel()
+    }
+
+    @Test
+    fun staleUnavailablePersistedEngineIgnored() = runTest(testDispatcher) {
+        appSettings.putString(PrefKeys.AI_ENGINE_ID, AiEngineId.GEMINI_NANO.name)
+        val unavailableNano = FakeAiEngine(
+            id = AiEngineId.GEMINI_NANO,
+            availability = AiAvailability.UNAVAILABLE,
+        )
+        val vm = makeVm(registryOf(unavailableNano, downloadableLocalEngine()))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertEquals(AiEngineId.LOCAL_LLM, vm.state.value.selectedEngine)
+        job.cancel()
+    }
+
+    @Test
     fun engineChangedPersistsAndSwitches() = runTest(testDispatcher) {
         val vm = makeVm(registryOf(availableEngine(), downloadableLocalEngine()))
         val job = launch { vm.state.collect {} }

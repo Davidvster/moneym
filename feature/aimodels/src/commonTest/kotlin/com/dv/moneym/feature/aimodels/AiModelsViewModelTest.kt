@@ -31,7 +31,6 @@ class AiModelsViewModelTest {
         sizeBytes = 2_000_000_000L,
         sha256 = "",
         format = "litertlm",
-        requiresToken = false,
     )
 
     private val catalog = listOf(model("a"), model("b"))
@@ -88,24 +87,6 @@ class AiModelsViewModelTest {
     }
 
     @Test
-    fun saveTokenReflectedInState() = runTest(testDispatcher) {
-        val vm = vm()
-        vm.state.test {
-            var s = awaitItem()
-            while (s.models.size != 2) s = awaitItem()
-            vm.onIntent(AiModelsIntent.HfTokenChanged("hf_secret"))
-            var typed = awaitItem()
-            while (typed.hfToken != "hf_secret") typed = awaitItem()
-            assertTrue(!typed.tokenSaved)
-            vm.onIntent(AiModelsIntent.SaveToken)
-            var saved = awaitItem()
-            while (!saved.tokenSaved) saved = awaitItem()
-            assertTrue(saved.tokenSaved)
-            cancelAndIgnoreRemainingEvents()
-        }
-    }
-
-    @Test
     fun errorSurfacesAndClears() = runTest(testDispatcher) {
         val repo = ThrowingDeleteRepository(catalog)
         val vm = AiModelsViewModel(repo)
@@ -113,6 +94,9 @@ class AiModelsViewModelTest {
             var s = awaitItem()
             while (s.models.size != 2) s = awaitItem()
             vm.onIntent(AiModelsIntent.Delete("a"))
+            var pending = awaitItem()
+            while (pending.pendingDeleteId != "a") pending = awaitItem()
+            vm.onIntent(AiModelsIntent.DeleteConfirmed)
             var err = awaitItem()
             while (err.error == null) err = awaitItem()
             assertEquals(AiModelsError.Delete, err.error)
@@ -133,7 +117,5 @@ class AiModelsViewModelTest {
         override suspend fun delete(id: String) { throw IllegalStateException("boom") }
         override suspend fun setActive(id: String) = delegate.setActive(id)
         override suspend fun activeModelPath() = delegate.activeModelPath()
-        override suspend fun setHfToken(token: String) = delegate.setHfToken(token)
-        override fun observeHasToken() = delegate.observeHasToken()
     }
 }

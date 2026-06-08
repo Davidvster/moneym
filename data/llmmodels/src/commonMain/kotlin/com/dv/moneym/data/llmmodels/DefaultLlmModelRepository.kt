@@ -2,30 +2,26 @@ package com.dv.moneym.data.llmmodels
 
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
-import com.dv.moneym.core.security.SecureStore
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-private const val HF_TOKEN_KEY = "hf_token"
-
 class DefaultLlmModelRepository(
     private val appSettings: AppSettings,
-    private val secureStore: SecureStore,
     private val fileStore: ModelFileStore,
     private val downloader: LlmModelDownloader,
     private val scope: CoroutineScope,
     private val catalog: List<LlmModel> = LlmModelCatalog.models,
 ) : LlmModelRepository {
 
-    private val progress = MutableStateFlow<Map<String, Float?>>(emptyMap())
+    private val progress = MutableStateFlow<Map<String, DownloadProgress?>>(emptyMap())
     private val downloadedRevision = MutableStateFlow(0)
-    private val tokenRevision = MutableStateFlow(0)
     private val jobs = mutableMapOf<String, Job>()
 
     override fun observeModels(): Flow<List<LlmModelState>> =
@@ -47,22 +43,31 @@ class DefaultLlmModelRepository(
     override suspend fun download(id: String) {
         val model = catalog.firstOrNull { it.id == id } ?: return
         jobs[id]?.cancel()
-        progress.update { it + (id to 0f) }
+        progress.update { it + (id to DownloadProgress(0L, model.sizeBytes)) }
+        val result = CompletableDeferred<Unit>()
         val job = scope.launch {
+            val speed = DownloadSpeedMeter()
             try {
                 downloader.download(model).collect { p ->
-                    progress.update { it + (id to p.fraction) }
+                    progress.update { it + (id to p.copy(bytesPerSecond = speed.update(p.bytesRead))) }
                 }
+                // A freshly downloaded model becomes the active one automatically.
+                appSettings.putString(PrefKeys.AI_ACTIVE_MODEL_ID, id)
                 progress.update { it - id }
                 downloadedRevision.update { it + 1 }
+                result.complete(Unit)
+            } catch (e: CancellationException) {
+                progress.update { it - id }
+                result.complete(Unit)
+                throw e
             } catch (e: Throwable) {
                 progress.update { it - id }
                 downloadedRevision.update { it + 1 }
-                throw e
+                result.completeExceptionally(e)
             }
         }
         jobs[id] = job
-        job.join()
+        result.await()
     }
 
     override fun cancel(id: String) {
@@ -93,14 +98,6 @@ class DefaultLlmModelRepository(
         if (!fileStore.finalExists(model.fileName)) return null
         return fileStore.finalPath(model.fileName)
     }
-
-    override suspend fun setHfToken(token: String) {
-        secureStore.put(HF_TOKEN_KEY, token.encodeToByteArray())
-        tokenRevision.update { it + 1 }
-    }
-
-    override fun observeHasToken(): Flow<Boolean> =
-        tokenRevision.map { secureStore.get(HF_TOKEN_KEY) != null }
 
     private suspend fun isDownloaded(model: LlmModel): Boolean {
         if (!fileStore.finalExists(model.fileName)) return false

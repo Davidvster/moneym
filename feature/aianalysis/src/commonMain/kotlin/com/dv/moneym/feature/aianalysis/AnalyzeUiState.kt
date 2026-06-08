@@ -37,6 +37,7 @@ sealed interface AnalyzeIntent {
     data class SendMessage(val text: String) : AnalyzeIntent
     data class GroundingModeChanged(val mode: AiGroundingMode) : AnalyzeIntent
     data class EngineChanged(val id: AiEngineId) : AnalyzeIntent
+    data object RefreshEngines : AnalyzeIntent
     data object DismissFallbackNotice : AnalyzeIntent
     data object ClearError : AnalyzeIntent
 }

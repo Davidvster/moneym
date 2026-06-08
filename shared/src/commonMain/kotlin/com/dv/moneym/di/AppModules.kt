@@ -14,6 +14,7 @@ import com.dv.moneym.core.datastore.DefaultAppSettings
 import com.dv.moneym.core.datastore.DefaultAppSettingsRepository
 import com.russhwolf.settings.Settings
 import org.koin.core.module.Module
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val coreCommonModule: Module = module {
@@ -22,7 +23,7 @@ val coreCommonModule: Module = module {
 }
 
 val coreAiModule: Module = module {
-    single<AiEngine> {
+    single<AiEngine>(named("localLlm")) {
         LocalLlmAiEngine(
             runner = get(),
             activeModelPath = { get<LlmModelRepository>().activeModelPath() },

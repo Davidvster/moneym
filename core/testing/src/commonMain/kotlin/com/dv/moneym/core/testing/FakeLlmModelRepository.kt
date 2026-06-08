@@ -1,5 +1,6 @@
 package com.dv.moneym.core.testing
 
+import com.dv.moneym.data.llmmodels.DownloadProgress
 import com.dv.moneym.data.llmmodels.LlmModel
 import com.dv.moneym.data.llmmodels.LlmModelCatalog
 import com.dv.moneym.data.llmmodels.LlmModelRepository
@@ -13,11 +14,10 @@ class FakeLlmModelRepository(
     private val catalog: List<LlmModel> = LlmModelCatalog.models,
 ) : LlmModelRepository {
 
-    private data class Entry(val downloaded: Boolean = false, val progress: Float? = null)
+    private data class Entry(val downloaded: Boolean = false, val progress: DownloadProgress? = null)
 
     private val entries = MutableStateFlow(catalog.associate { it.id to Entry() })
     private val activeId = MutableStateFlow<String?>(null)
-    private val hasToken = MutableStateFlow(false)
 
     override fun observeModels(): Flow<List<LlmModelState>> =
         entries.map { map ->
@@ -56,10 +56,4 @@ class FakeLlmModelRepository(
         val model = catalog.firstOrNull { it.id == id } ?: return null
         return "/fake/models/${model.fileName}"
     }
-
-    override suspend fun setHfToken(token: String) {
-        hasToken.value = token.isNotEmpty()
-    }
-
-    override fun observeHasToken(): Flow<Boolean> = hasToken
 }

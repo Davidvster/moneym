@@ -38,9 +38,11 @@ class LocalLlmAiEngineTest {
     }
 
     @Test
-    fun activePathAndFailedLoadIsUnavailable() = runTest {
+    fun activePathIsAvailableWithoutLoading() = runTest {
+        // availability() must not trigger a native load; an active downloaded model is reported
+        // available and the actual load is deferred to streamReply.
         val engine = LocalLlmAiEngine(FakeLocalLlmRunner(loads = false)) { "/models/m.task" }
-        assertEquals(AiAvailability.UNAVAILABLE, engine.availability())
+        assertEquals(AiAvailability.AVAILABLE, engine.availability())
     }
 
     @Test

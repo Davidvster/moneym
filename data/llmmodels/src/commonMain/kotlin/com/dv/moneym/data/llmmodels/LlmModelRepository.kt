@@ -9,6 +9,4 @@ interface LlmModelRepository {
     suspend fun delete(id: String)
     suspend fun setActive(id: String)
     suspend fun activeModelPath(): String?
-    suspend fun setHfToken(token: String)
-    fun observeHasToken(): Flow<Boolean>
 }

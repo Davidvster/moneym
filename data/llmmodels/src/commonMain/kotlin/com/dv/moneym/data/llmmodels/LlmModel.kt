@@ -8,5 +8,4 @@ data class LlmModel(
     val sizeBytes: Long,
     val sha256: String,
     val format: String,
-    val requiresToken: Boolean,
 )

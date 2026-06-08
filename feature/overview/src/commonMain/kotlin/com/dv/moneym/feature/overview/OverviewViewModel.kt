@@ -4,8 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
-import com.dv.moneym.core.ai.AiAvailability
-import com.dv.moneym.core.ai.AiEngine
+import com.dv.moneym.core.ai.AiEngineRegistry
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.AccountId
@@ -34,7 +33,7 @@ class OverviewViewModel(
     private val transactionRepository: TransactionRepository,
     private val accountRepository: AccountRepository,
     private val appSettingsRepository: AppSettingsRepository,
-    private val aiEngine: AiEngine,
+    private val aiEngineRegistry: AiEngineRegistry,
     private val clock: AppClock,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -97,11 +96,7 @@ class OverviewViewModel(
         appSettingsRepository.observeLastOverviewFilter()
             .onEach { filter -> _spendingFilter.value = filter }
             .launchIn(viewModelScope)
-        viewModelScope.launch {
-            _aiAvailable.value = runCatching {
-                aiEngine.availability() == AiAvailability.AVAILABLE
-            }.getOrDefault(false)
-        }
+        _aiAvailable.value = aiEngineRegistry.all().isNotEmpty()
     }
 
     internal val state: StateFlow<OverviewUiState> = combine(

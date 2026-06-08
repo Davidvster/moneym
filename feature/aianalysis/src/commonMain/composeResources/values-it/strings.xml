@@ -15,6 +15,11 @@
     <string name="analyze_engine_needs_download_notice">Questo motore non è disponibile. Scarica un modello per continuare.</string>
     <string name="analyze_download_model">Scarica un modello</string>
     <string name="analyze_error">Qualcosa è andato storto. Riprova.</string>
+    <string name="analyze_model_picker_cd">Seleziona modello</string>
+    <string name="analyze_manage_models">Gestisci modelli…</string>
+    <string name="analyze_engine_status_ready">Pronto</string>
+    <string name="analyze_engine_status_download">Tocca per scaricare</string>
+    <string name="analyze_engine_status_unavailable">Non disponibile</string>
     <string name="analyze_generating">Sto pensando…</string>
     <string-array name="analyze_suggested_prompts">
         <item>Quanto ho speso questo mese?</item>

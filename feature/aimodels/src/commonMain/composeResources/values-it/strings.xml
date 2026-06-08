@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ai_models_title">Modelli IA</string>
-    <string name="ai_model_gemma3_1b_it">Gemma 3 1B</string>
+    <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
+    <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
     <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
     <string name="ai_models_download">Scarica</string>
     <string name="ai_models_cancel">Annulla</string>
     <string name="ai_models_delete">Elimina</string>
     <string name="ai_models_active">Attivo</string>
-    <string name="ai_models_save">Salva</string>
-    <string name="ai_models_token_label">Token Hugging Face</string>
-    <string name="ai_models_token_hint">Token facoltativo per modelli con accesso limitato</string>
-    <string name="ai_models_token_section">Token di accesso</string>
+    <string name="ai_models_delete_title">Eliminare il modello?</string>
+    <string name="ai_models_delete_body">Rimuove il file del modello scaricato da questo dispositivo.</string>
     <string name="ai_models_verifying">Verifica in corso…</string>
+    <string name="ai_models_keep_awake">Tieni l\'app aperta e lo schermo acceso. Non lasciare questa schermata finché il download non è completato.</string>
+    <string name="ai_models_eta_seconds">~%1$d s rimasti</string>
+    <string name="ai_models_eta_minutes">~%1$d min rimasti</string>
+    <string name="ai_models_eta_hours">~%1$d h %2$d min rimasti</string>
     <string name="ai_models_error_download">Download non riuscito. Riprova.</string>
     <string name="ai_models_error_delete">Impossibile eliminare il modello.</string>
-    <string name="ai_models_error_token">Impossibile salvare il token.</string>
 </resources>
