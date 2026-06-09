@@ -86,6 +86,7 @@ kotlin {
             implementation(projects.data.remotebackup)
             implementation(projects.data.sync)
             implementation(projects.data.llmmodels)
+            implementation(projects.data.aichat)
             api(projects.core.oauth)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)

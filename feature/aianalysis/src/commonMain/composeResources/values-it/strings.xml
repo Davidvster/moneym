@@ -21,6 +21,16 @@
     <string name="analyze_engine_status_download">Tocca per scaricare</string>
     <string name="analyze_engine_status_unavailable">Non disponibile</string>
     <string name="analyze_generating">Sto pensando…</string>
+    <string name="analyze_history_cd">Cronologia chat</string>
+    <string name="analyze_new_chat_cd">Nuova chat</string>
+    <string name="analyze_history_title">Cronologia chat</string>
+    <string name="analyze_history_empty">Ancora nessuna conversazione. Le tue chat appariranno qui.</string>
+    <string name="analyze_history_new_chat_cd">Nuova chat</string>
+    <string name="analyze_history_delete_cd">Elimina conversazione</string>
+    <string name="analyze_history_delete_title">Eliminare la conversazione?</string>
+    <string name="analyze_history_delete_body">Questa azione rimuove definitivamente questa conversazione e i suoi messaggi.</string>
+    <string name="analyze_history_delete_cancel">Annulla</string>
+    <string name="analyze_history_delete_confirm">Elimina</string>
     <string-array name="analyze_suggested_prompts">
         <item>Quanto ho speso questo mese?</item>
         <item>Quali sono le mie principali categorie di spesa?</item>

@@ -21,6 +21,16 @@
     <string name="analyze_engine_status_download">Tap to download</string>
     <string name="analyze_engine_status_unavailable">Unavailable</string>
     <string name="analyze_generating">Thinking…</string>
+    <string name="analyze_history_cd">Chat history</string>
+    <string name="analyze_new_chat_cd">New chat</string>
+    <string name="analyze_history_title">Chat history</string>
+    <string name="analyze_history_empty">No conversations yet. Your chats will appear here.</string>
+    <string name="analyze_history_new_chat_cd">New chat</string>
+    <string name="analyze_history_delete_cd">Delete conversation</string>
+    <string name="analyze_history_delete_title">Delete conversation?</string>
+    <string name="analyze_history_delete_body">This permanently removes this conversation and its messages.</string>
+    <string name="analyze_history_delete_cancel">Cancel</string>
+    <string name="analyze_history_delete_confirm">Delete</string>
     <string-array name="analyze_suggested_prompts">
         <item>How much did I spend this month?</item>
         <item>What are my top spending categories?</item>

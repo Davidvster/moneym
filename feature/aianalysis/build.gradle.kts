@@ -40,6 +40,7 @@ kotlin {
             implementation(projects.data.accounts)
             implementation(projects.data.categories)
             implementation(projects.data.budgets)
+            implementation(projects.data.aichat)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

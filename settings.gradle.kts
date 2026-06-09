@@ -55,6 +55,7 @@ include(":data:budgets")
 include(":data:remotebackup")
 include(":data:sync")
 include(":data:llmmodels")
+include(":data:aichat")
 include(":core:oauth")
 
 // Features

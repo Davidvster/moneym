@@ -21,6 +21,16 @@
     <string name="analyze_engine_status_download">Zum Herunterladen tippen</string>
     <string name="analyze_engine_status_unavailable">Nicht verfügbar</string>
     <string name="analyze_generating">Denkt nach…</string>
+    <string name="analyze_history_cd">Chatverlauf</string>
+    <string name="analyze_new_chat_cd">Neuer Chat</string>
+    <string name="analyze_history_title">Chatverlauf</string>
+    <string name="analyze_history_empty">Noch keine Unterhaltungen. Deine Chats erscheinen hier.</string>
+    <string name="analyze_history_new_chat_cd">Neuer Chat</string>
+    <string name="analyze_history_delete_cd">Unterhaltung löschen</string>
+    <string name="analyze_history_delete_title">Unterhaltung löschen?</string>
+    <string name="analyze_history_delete_body">Dadurch werden diese Unterhaltung und ihre Nachrichten dauerhaft entfernt.</string>
+    <string name="analyze_history_delete_cancel">Abbrechen</string>
+    <string name="analyze_history_delete_confirm">Löschen</string>
     <string-array name="analyze_suggested_prompts">
         <item>Wie viel habe ich diesen Monat ausgegeben?</item>
         <item>Was sind meine größten Ausgabenkategorien?</item>

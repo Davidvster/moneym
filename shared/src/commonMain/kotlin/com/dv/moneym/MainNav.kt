@@ -22,6 +22,8 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.feature.aianalysis.AnalyzeKey
 import com.dv.moneym.feature.aianalysis.analyzeEntry
+import com.dv.moneym.feature.aianalysis.history.AnalyzeHistoryKey
+import com.dv.moneym.feature.aianalysis.history.analyzeHistoryEntry
 import com.dv.moneym.feature.aimodels.AiModelsKey
 import com.dv.moneym.feature.aimodels.aiModelsEntry
 import com.dv.moneym.feature.budgets.create.BudgetCreateKey
@@ -204,6 +206,11 @@ internal fun MainNav(lockController: AppLockController) {
             analyzeEntry(
                 onBack = { tabBackStack.removeLast() },
                 onManageModels = { tabBackStack.push(AiModelsKey) },
+                onShowHistory = { year, month -> tabBackStack.push(AnalyzeHistoryKey(year, month)) },
+                metadata = modalTransitionMeta,
+            )
+            analyzeHistoryEntry(
+                onBack = { tabBackStack.removeLast() },
                 metadata = modalTransitionMeta,
             )
             aiModelsEntry(

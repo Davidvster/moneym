@@ -11,9 +11,11 @@ import com.dv.moneym.core.ai.AiGroundingMode
 import com.dv.moneym.core.ai.ChatMessage
 import com.dv.moneym.core.ai.ChatRole
 import com.dv.moneym.core.ai.Grounding
+import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
+import com.dv.moneym.data.aichat.AiChatRepository
 import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceSnapshotUseCase
 import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceToolsetUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,6 +37,9 @@ class AnalyzeViewModel(
     private val buildToolset: BuildFinanceToolsetUseCase,
     private val appSettings: AppSettings,
     private val dispatchers: DispatcherProvider,
+    private val aiChatRepository: AiChatRepository,
+    private val clock: AppClock,
+    private val activeChatHolder: ActiveChatHolder,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -107,6 +112,38 @@ class AnalyzeViewModel(
             AnalyzeIntent.RefreshEngines -> startEngineProbe()
             AnalyzeIntent.DismissFallbackNotice -> _state.update { it.copy(showToolsFallbackNotice = false) }
             AnalyzeIntent.ClearError -> _state.update { it.copy(error = null) }
+            AnalyzeIntent.NewChat -> newChat()
+            is AnalyzeIntent.ResumeConversation -> resumeConversation(intent.id)
+            AnalyzeIntent.CheckPending -> checkPending()
+        }
+    }
+
+    private fun newChat() {
+        _state.update {
+            it.copy(messages = emptyList(), currentConversationId = null, input = "", error = null, isGenerating = false)
+        }
+    }
+
+    private fun resumeConversation(id: Long) {
+        viewModelScope.launch {
+            val messages = aiChatRepository.loadMessages(id)
+            _state.update { it.copy(messages = messages, currentConversationId = id, input = "", error = null) }
+        }
+    }
+
+    // Picks up a resume/new-chat action chosen on the full-screen history (delivered via the
+    // holder), invoked when the analyze screen resumes after the history is popped.
+    private fun checkPending() {
+        when {
+            activeChatHolder.pendingNewChat -> {
+                activeChatHolder.pendingNewChat = false
+                newChat()
+            }
+            activeChatHolder.pendingConversationId != null -> {
+                val id = activeChatHolder.pendingConversationId!!
+                activeChatHolder.pendingConversationId = null
+                resumeConversation(id)
+            }
         }
     }
 
@@ -158,6 +195,8 @@ class AnalyzeViewModel(
                 }
             }
 
+            ensureConversation(trimmed, selectedId)
+
             val useTools = _state.value.groundingMode == AiGroundingMode.TOOLS && engine.supportsTools
             val grounding = if (useTools) {
                 Grounding.Tools(buildToolset(year, month))
@@ -173,9 +212,25 @@ class AnalyzeViewModel(
 
             engine.streamReply(_state.value.messages.dropLast(1), grounding)
                 .catch { _state.update { it.copy(error = AnalyzeError.GenerationFailed, isGenerating = false) } }
-                .onCompletion { _state.update { it.copy(isGenerating = false) } }
+                .onCompletion {
+                    _state.update { it.copy(isGenerating = false) }
+                    persistConversation()
+                }
                 .collect { delta -> appendDelta(assistantIndex, delta) }
         }
+    }
+
+    private suspend fun ensureConversation(firstUserText: String, engineId: AiEngineId?) {
+        if (_state.value.currentConversationId != null) return
+        val now = clock.now().toEpochMilliseconds()
+        val title = firstUserText.take(CONVERSATION_TITLE_MAX).trim()
+        val id = aiChatRepository.createConversation(title, engineId?.name, year, month, now)
+        _state.update { it.copy(currentConversationId = id) }
+    }
+
+    private suspend fun persistConversation() {
+        val id = _state.value.currentConversationId ?: return
+        aiChatRepository.replaceMessages(id, _state.value.messages, clock.now().toEpochMilliseconds())
     }
 
     private fun appendDelta(index: Int, delta: String) {
@@ -199,5 +254,6 @@ class AnalyzeViewModel(
 
     private companion object {
         const val BUILTIN_PROBE_TIMEOUT_MS = 3000L
+        const val CONVERSATION_TITLE_MAX = 40
     }
 }

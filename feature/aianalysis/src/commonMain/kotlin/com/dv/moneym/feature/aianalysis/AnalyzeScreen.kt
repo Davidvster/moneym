@@ -37,6 +37,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
@@ -71,6 +73,7 @@ import moneym.feature.aianalysis.generated.resources.analyze_engine_status_ready
 import moneym.feature.aianalysis.generated.resources.analyze_engine_status_unavailable
 import moneym.feature.aianalysis.generated.resources.analyze_error
 import moneym.feature.aianalysis.generated.resources.analyze_generating
+import moneym.feature.aianalysis.generated.resources.analyze_history_cd
 import moneym.feature.aianalysis.generated.resources.analyze_manage_models
 import moneym.feature.aianalysis.generated.resources.analyze_model_picker_cd
 import moneym.feature.aianalysis.generated.resources.analyze_grounding_label
@@ -88,9 +91,16 @@ data class AnalyzeKey(val year: Int, val month: Int) : ModalKey
 fun EntryProviderScope<NavKey>.analyzeEntry(
     onBack: () -> Unit,
     onManageModels: () -> Unit,
+    onShowHistory: (year: Int, month: Int) -> Unit,
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<AnalyzeKey>(metadata = metadata) { key ->
-    AnalyzeScreen(year = key.year, month = key.month, onBack = onBack, onManageModels = onManageModels)
+    AnalyzeScreen(
+        year = key.year,
+        month = key.month,
+        onBack = onBack,
+        onManageModels = onManageModels,
+        onShowHistory = { onShowHistory(key.year, key.month) },
+    )
 }
 
 @Composable
@@ -99,15 +109,22 @@ fun AnalyzeScreen(
     month: Int,
     onBack: () -> Unit,
     onManageModels: () -> Unit,
+    onShowHistory: () -> Unit,
     viewModel: AnalyzeViewModel = koinViewModel { parametersOf(year, month) },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    // Pick up a resume / new-chat action chosen on the full-screen history when it is popped.
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        viewModel.onIntent(AnalyzeIntent.CheckPending)
+    }
 
     AnalyzeContent(
         state = state,
         onIntent = viewModel::onIntent,
         onBack = onBack,
         onManageModels = onManageModels,
+        onShowHistory = onShowHistory,
     )
 }
 
@@ -118,6 +135,7 @@ private fun AnalyzeContent(
     onIntent: (AnalyzeIntent) -> Unit,
     onBack: () -> Unit,
     onManageModels: () -> Unit,
+    onShowHistory: () -> Unit,
 ) {
     val colors = MM.colors
     val listState = rememberLazyListState()
@@ -157,18 +175,26 @@ private fun AnalyzeContent(
         ScreenHeader(
             title = stringResource(Res.string.analyze_title),
             onBack = onBack,
-            trailingContent = if (state.engines.isNotEmpty()) {
-                {
-                    ModelPicker(
-                        engines = state.engines,
-                        selectedEngine = state.selectedEngine,
-                        onSelect = { onIntent(AnalyzeIntent.EngineChanged(it)) },
-                        onManageModels = onManageModels,
-                        onRefresh = { onIntent(AnalyzeIntent.RefreshEngines) },
+            trailingContent = {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_0_5x),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    MmIconButton(
+                        icon = Icon.List.imageVector,
+                        onClick = onShowHistory,
+                        contentDescription = stringResource(Res.string.analyze_history_cd),
                     )
+                    if (state.engines.isNotEmpty()) {
+                        ModelPicker(
+                            engines = state.engines,
+                            selectedEngine = state.selectedEngine,
+                            onSelect = { onIntent(AnalyzeIntent.EngineChanged(it)) },
+                            onManageModels = onManageModels,
+                            onRefresh = { onIntent(AnalyzeIntent.RefreshEngines) },
+                        )
+                    }
                 }
-            } else {
-                null
             },
         )
 
@@ -281,6 +307,7 @@ private fun AnalyzeContentPreview() {
             onIntent = {},
             onBack = {},
             onManageModels = {},
+            onShowHistory = {},
         )
     }
 }

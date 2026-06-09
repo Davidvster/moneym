@@ -11,6 +11,7 @@ import com.dv.moneym.core.ai.ChatRole
 import com.dv.moneym.core.ai.Grounding
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.core.testing.FakeAccountRepository
+import com.dv.moneym.core.testing.FakeAiChatRepository
 import com.dv.moneym.core.testing.FakeAppSettings
 import com.dv.moneym.core.testing.FakeBudgetRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
@@ -23,6 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -61,6 +63,8 @@ class AnalyzeViewModelTest {
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
         appSettings = FakeAppSettings()
+        aiChatRepository = FakeAiChatRepository()
+        activeChatHolder = ActiveChatHolder()
     }
 
     @AfterTest
@@ -70,6 +74,8 @@ class AnalyzeViewModelTest {
 
     private val clock = FixedClock(Instant.parse("2026-05-15T12:00:00Z"))
     private var appSettings = FakeAppSettings()
+    private var aiChatRepository = FakeAiChatRepository()
+    private var activeChatHolder = ActiveChatHolder()
 
     private fun snapshotUseCase() = BuildFinanceSnapshotUseCase(
         transactionRepository = FakeTransactionRepository(),
@@ -95,6 +101,9 @@ class AnalyzeViewModelTest {
         buildToolset = toolsetUseCase(),
         appSettings = appSettings,
         dispatchers = TestDispatcherProvider(testDispatcher),
+        aiChatRepository = aiChatRepository,
+        clock = clock,
+        activeChatHolder = activeChatHolder,
         savedStateHandle = SavedStateHandle(),
     )
 
@@ -267,6 +276,80 @@ class AnalyzeViewModelTest {
 
         assertFalse(vm.state.value.showToolsFallbackNotice)
         assertTrue(engine.lastGrounding is Grounding.Tools)
+        job.cancel()
+    }
+
+    @Test
+    fun sendingMessagePersistsConversation() = runTest(testDispatcher) {
+        val vm = makeVm(registryOf(availableEngine(deltas = listOf("Hi"))))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        vm.onIntent(AnalyzeIntent.SendMessage("how much did I spend?"))
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        val id = vm.state.value.currentConversationId
+        assertTrue(id != null)
+        val conversations = aiChatRepository.observeConversations().first()
+        assertEquals(1, conversations.size)
+        assertEquals("how much did I spend?", conversations.single().title)
+        assertEquals(2, aiChatRepository.loadMessages(id).size)
+        job.cancel()
+    }
+
+    @Test
+    fun resumeConversationLoadsMessages() = runTest(testDispatcher) {
+        val id = aiChatRepository.createConversation("Old chat", null, 2026, 5, 0L)
+        aiChatRepository.replaceMessages(
+            id,
+            listOf(ChatMessage(ChatRole.USER, "earlier question"), ChatMessage(ChatRole.ASSISTANT, "earlier answer")),
+            0L,
+        )
+        val vm = makeVm(registryOf(availableEngine()))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        vm.onIntent(AnalyzeIntent.ResumeConversation(id))
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertEquals(id, vm.state.value.currentConversationId)
+        assertEquals(2, vm.state.value.messages.size)
+        assertEquals("earlier question", vm.state.value.messages[0].content)
+        job.cancel()
+    }
+
+    @Test
+    fun newChatResetsConversation() = runTest(testDispatcher) {
+        val vm = makeVm(registryOf(availableEngine(deltas = listOf("Hi"))))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        vm.onIntent(AnalyzeIntent.SendMessage("first"))
+        testDispatcher.scheduler.advanceUntilIdle()
+        assertTrue(vm.state.value.currentConversationId != null)
+
+        vm.onIntent(AnalyzeIntent.NewChat)
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertEquals(null, vm.state.value.currentConversationId)
+        assertTrue(vm.state.value.messages.isEmpty())
+        job.cancel()
+    }
+
+    @Test
+    fun checkPendingConsumesHolderResume() = runTest(testDispatcher) {
+        val id = aiChatRepository.createConversation("Resumed", null, 2026, 5, 0L)
+        aiChatRepository.replaceMessages(id, listOf(ChatMessage(ChatRole.USER, "q")), 0L)
+        activeChatHolder.pendingConversationId = id
+        val vm = makeVm(registryOf(availableEngine()))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        vm.onIntent(AnalyzeIntent.CheckPending)
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertEquals(id, vm.state.value.currentConversationId)
+        assertEquals(null, activeChatHolder.pendingConversationId)
         job.cancel()
     }
 

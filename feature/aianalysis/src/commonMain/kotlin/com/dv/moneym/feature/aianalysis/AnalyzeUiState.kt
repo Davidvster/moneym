@@ -17,6 +17,7 @@ data class AnalyzeUiState(
     val selectedEngine: AiEngineId? = null,
     val needsModelDownload: Boolean = false,
     val error: AnalyzeError? = null,
+    val currentConversationId: Long? = null,
 )
 
 @Serializable
@@ -40,4 +41,7 @@ sealed interface AnalyzeIntent {
     data object RefreshEngines : AnalyzeIntent
     data object DismissFallbackNotice : AnalyzeIntent
     data object ClearError : AnalyzeIntent
+    data object NewChat : AnalyzeIntent
+    data class ResumeConversation(val id: Long) : AnalyzeIntent
+    data object CheckPending : AnalyzeIntent
 }

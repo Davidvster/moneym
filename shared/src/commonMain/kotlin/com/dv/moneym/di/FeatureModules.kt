@@ -9,6 +9,7 @@ import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.security.PinHasher
 import com.dv.moneym.core.security.PinManager
 import com.dv.moneym.data.accounts.db.AccountsRoomDatabase
+import com.dv.moneym.data.aichat.db.AiChatRoomDatabase
 import com.dv.moneym.data.sync.DeviceRegistryManager
 import com.dv.moneym.data.sync.SyncEngine
 import com.dv.moneym.data.backup.BackupExporter
@@ -18,7 +19,9 @@ import com.dv.moneym.data.backup.DbBackupManager
 import com.dv.moneym.data.budgets.db.BudgetsRoomDatabase
 import com.dv.moneym.data.categories.db.CategoriesRoomDatabase
 import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
+import com.dv.moneym.feature.aianalysis.ActiveChatHolder
 import com.dv.moneym.feature.aianalysis.AnalyzeViewModel
+import com.dv.moneym.feature.aianalysis.history.AnalyzeHistoryViewModel
 import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceSnapshotUseCase
 import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceToolsetUseCase
 import com.dv.moneym.feature.aimodels.AiModelsViewModel
@@ -178,6 +181,7 @@ val dataBackupModule = module {
             get<AccountsRoomDatabase>().close()
             get<TransactionsRoomDatabase>().close()
             get<BudgetsRoomDatabase>().close()
+            get<AiChatRoomDatabase>().close()
         }
     }
     single { AutoBackupManager(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
@@ -393,9 +397,14 @@ val featureAianalysisModule = module {
             buildToolset = get(),
             appSettings = get(),
             dispatchers = get(),
+            aiChatRepository = get(),
+            clock = get(),
+            activeChatHolder = get(),
             savedStateHandle = get(),
         )
     }
+    single { ActiveChatHolder() }
+    viewModel { AnalyzeHistoryViewModel(aiChatRepository = get(), activeChatHolder = get()) }
 }
 
 val featureAiModelsModule = module {

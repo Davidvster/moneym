@@ -4,6 +4,9 @@ import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.accounts.SeedAccountsUseCase
 import com.dv.moneym.data.accounts.createAccountRepository
 import com.dv.moneym.data.accounts.db.AccountsRoomDatabase
+import com.dv.moneym.data.aichat.AiChatRepository
+import com.dv.moneym.data.aichat.createAiChatRepository
+import com.dv.moneym.data.aichat.db.AiChatRoomDatabase
 import com.dv.moneym.data.budgets.BudgetRepository
 import com.dv.moneym.data.budgets.createBudgetRepository
 import com.dv.moneym.data.budgets.db.BudgetsRoomDatabase
@@ -85,6 +88,10 @@ val dataTransactionsModule = module {
 
 val dataBudgetsModule = module {
     single<BudgetRepository> { createBudgetRepository(get<BudgetsRoomDatabase>()) }
+}
+
+val dataAichatModule = module {
+    single<AiChatRepository> { createAiChatRepository(get<AiChatRoomDatabase>()) }
 }
 
 val dataLlmModelsModule = module {
