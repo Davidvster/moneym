@@ -53,4 +53,28 @@ class LocalLlmAiEngineTest {
         val collected = engine.streamReply(messages, grounding).toList()
         assertEquals(listOf("Hello", " world"), collected)
     }
+
+    @Test
+    fun streamReplyStopsWhenModelStartsNewTurn() = runTest {
+        // A model with no native stop token keeps the hand-rolled transcript going by writing the
+        // next "User:" turn and answering itself. The engine must cut the stream at that boundary.
+        val engine = LocalLlmAiEngine(
+            FakeLocalLlmRunner(
+                loads = true,
+                deltas = listOf("You spent 100 EUR.", "\nUser:", " and next month?", "\nAssistant:", " 200"),
+            ),
+        ) { "/models/m.task" }
+        val collected = engine.streamReply(messages, grounding).toList()
+        assertEquals("You spent 100 EUR.", collected.joinToString(""))
+    }
+
+    @Test
+    fun streamReplyHoldsBackPartialStopFragmentThenFlushes() = runTest {
+        // A lone trailing "\n" might still grow into "\nUser:"; if it does not, it must be emitted.
+        val engine = LocalLlmAiEngine(
+            FakeLocalLlmRunner(loads = true, deltas = listOf("Line one", "\n", "Line two")),
+        ) { "/models/m.task" }
+        val collected = engine.streamReply(messages, grounding).toList()
+        assertEquals("Line one\nLine two", collected.joinToString(""))
+    }
 }

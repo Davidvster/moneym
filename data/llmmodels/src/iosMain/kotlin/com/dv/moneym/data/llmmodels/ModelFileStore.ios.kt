@@ -12,12 +12,15 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Foundation.NSNumber
 import platform.Foundation.create
-import platform.Foundation.dataWithContentsOfFile
+import platform.Foundation.fileHandleForReadingAtPath
 import platform.Foundation.fileHandleForWritingAtPath
+import platform.Foundation.readDataOfLength
 import platform.Foundation.seekToEndOfFile
 import platform.Foundation.writeData
 import platform.Foundation.closeFile
 import platform.posix.memcpy
+
+private const val HASH_CHUNK_BYTES: ULong = 65536u
 
 actual fun createModelFileStore(rootDir: String): ModelFileStore = IosModelFileStore(rootDir)
 
@@ -79,15 +82,25 @@ private class IosModelFileStore(rootDir: String) : ModelFileStore {
     }
 
     override suspend fun sha256OfPart(fileName: String): String = withContext(Dispatchers.Default) {
-        val data = NSData.dataWithContentsOfFile(partPathOf(fileName)) ?: NSData()
-        val length = data.length.toInt()
-        val bytes = ByteArray(length)
-        if (length > 0) {
-            bytes.usePinned { pinned ->
-                memcpy(pinned.addressOf(0), data.bytes, data.length)
+        // Stream the file in chunks through an incremental digest; loading the whole multi-GB
+        // model into one NSData/ByteArray overflows Int and exhausts memory.
+        val handle = NSFileHandle.fileHandleForReadingAtPath(partPathOf(fileName))
+            ?: return@withContext ByteArray(0).let { sha256Hex(it) }
+        sha256HashFunction().use { fn ->
+            try {
+                while (true) {
+                    val data = handle.readDataOfLength(HASH_CHUNK_BYTES)
+                    val len = data.length.toInt()
+                    if (len == 0) break
+                    val chunk = ByteArray(len)
+                    chunk.usePinned { pinned -> memcpy(pinned.addressOf(0), data.bytes, data.length) }
+                    fn.update(chunk, 0, len)
+                }
+            } finally {
+                handle.closeFile()
             }
+            fn.hashToByteArray().toSha256Hex()
         }
-        sha256Hex(bytes)
     }
 
     override suspend fun promotePart(fileName: String) = withContext(Dispatchers.Default) {

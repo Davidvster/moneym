@@ -4,6 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
+import java.security.MessageDigest
 
 actual fun createModelFileStore(rootDir: String): ModelFileStore = AndroidModelFileStore(rootDir)
 
@@ -42,7 +43,18 @@ private class AndroidModelFileStore(rootDir: String) : ModelFileStore {
     }
 
     override suspend fun sha256OfPart(fileName: String): String = withContext(Dispatchers.IO) {
-        sha256Hex(partFile(fileName).readBytes())
+        // Stream the file through the digest. readBytes() would load the whole model into one
+        // ByteArray, which OOMs (or exceeds the 2 GB array limit) for multi-GB models.
+        val digest = MessageDigest.getInstance("SHA-256")
+        partFile(fileName).inputStream().buffered().use { input ->
+            val buffer = ByteArray(1 shl 16)
+            while (true) {
+                val read = input.read(buffer)
+                if (read < 0) break
+                digest.update(buffer, 0, read)
+            }
+        }
+        digest.digest().joinToString("") { (it.toInt() and 0xFF).toString(16).padStart(2, '0') }
     }
 
     override suspend fun promotePart(fileName: String) = withContext(Dispatchers.IO) {

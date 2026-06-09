@@ -96,27 +96,31 @@ internal fun OverviewHeader(
                     accounts = accounts,
                     selectedAccountId = selectedAccountId,
                     onSelect = onAccountSelected,
-                    modifier = Modifier.padding(end = MM.dimen.padding_1x),
                 )
             }
-            MmSegmented(
-                options = listOf(
-                    stringResource(Res.string.overview_period_month),
-                    stringResource(Res.string.overview_period_year),
-                    stringResource(Res.string.overview_period_custom),
-                ),
-                selectedIndex = segmentIndex,
-                onOptionSelected = { idx ->
-                    when (idx) {
-                        0 -> { if (!isMonthMode) onTogglePeriod() }
-                        1 -> { if (!isYearMode) onTogglePeriod() }
-                        2 -> { onShowDateRangePicker() }
-                    }
-                },
-            )
         }
 
-        // All / Expenses / Income filter — top of screen
+        // Month / Year / Custom period selector — own row below title
+        MmSegmented(
+            options = listOf(
+                stringResource(Res.string.overview_period_month),
+                stringResource(Res.string.overview_period_year),
+                stringResource(Res.string.overview_period_custom),
+            ),
+            selectedIndex = segmentIndex,
+            onOptionSelected = { idx ->
+                when (idx) {
+                    0 -> { if (!isMonthMode) onTogglePeriod() }
+                    1 -> { if (!isYearMode) onTogglePeriod() }
+                    2 -> { onShowDateRangePicker() }
+                }
+            },
+            size = MmSegmentedSize.Md,
+            fillWidth = true,
+            modifier = Modifier.fillMaxWidth().padding(top = MM.dimen.padding_1x),
+        )
+
+        // All / Expenses / Income filter
         MmSegmented(
             options = listOf(
                 stringResource(Res.string.overview_all),
