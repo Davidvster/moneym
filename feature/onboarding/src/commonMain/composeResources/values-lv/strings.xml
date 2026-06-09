@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">Atcelt</string>
     <string name="onboarding_restore_remote_loading">Iegūst dublējuma informāciju…</string>
     <string name="onboarding_restore_wrong_password">Nepareiza parole vai bojāts dublējums.</string>
+    <string name="default_account_name">Galvenais</string>
+    <string name="onboarding_get_started">Sākt</string>
+    <string name="onboarding_restore_error_fetch_info">Neizdevās iegūt dublējuma informāciju</string>
+    <string name="onboarding_restore_error_restore_failed">Atjaunošana neizdevās</string>
+    <string name="onboarding_restore_error_sign_in_failed">Pieteikšanās neizdevās</string>
+    <string name="onboarding_welcome_subtitle">Jūsu privātais, galvenokārt bezsaistē strādājošais naudas uzskaitītājs.</string>
+    <string name="onboarding_welcome_feature_track_title">Sekojiet katram darījumam</string>
+    <string name="onboarding_welcome_feature_track_desc">Reģistrējiet ienākumus un izdevumus dažās sekundēs visos savos kontos.</string>
+    <string name="onboarding_welcome_feature_insights_title">Redziet, kur aiziet jūsu nauda</string>
+    <string name="onboarding_welcome_feature_insights_desc">Skaidri pārskati un diagrammas sadala tēriņus pa kategorijām un mēnešiem.</string>
+    <string name="onboarding_welcome_feature_ai_title">Ar MI darbināti ieskati</string>
+    <string name="onboarding_welcome_feature_ai_desc">Uzdodiet jautājumus par savām finansēm un saņemiet gudru analīzi.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Privāti un droši</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Viss paliek jūsu ierīcē, aizsargāts ar PIN kodu vai biometriju.</string>
 </resources>

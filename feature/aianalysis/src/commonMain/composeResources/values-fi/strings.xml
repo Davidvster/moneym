@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Tietolähde</string>
     <string name="analyze_grounding_snapshot">Tilannekuva</string>
     <string name="analyze_grounding_tools">Työkalut</string>
+    <string name="analyze_grounding_snapshot_hint">Lähettää yhteenvedon valitusta vuodesta. Paras kysymyksiin tältä ajalta.</string>
+    <string name="analyze_grounding_tools_hint">Antaa tekoälyn hakea koko historiaasi ja noutaa tarvitsemansa. Paras avoimiin kysymyksiin.</string>
+    <string name="analyze_year_label">Tilannekuvan vuosi</string>
+    <string name="analyze_year_prev_cd">Edellinen vuosi</string>
+    <string name="analyze_year_next_cd">Seuraava vuosi</string>
     <string name="analyze_tools_fallback_notice">Tämä malli ei tue työkaluja. Käytetään tilannekuvaa.</string>
     <string name="analyze_error">Jokin meni pieleen. Yritä uudelleen.</string>
     <string name="analyze_generating">Mietitään…</string>
@@ -16,4 +21,25 @@
         <item>Miten tämä kuukausi vertautuu edelliseen?</item>
         <item>Onko epätavallisia tai suuria menoja?</item>
     </string-array>
+    <string name="analyze_download_model">Lataa malli</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">Tekoälymoottori</string>
+    <string name="analyze_engine_local_llm">Laitteella oleva malli</string>
+    <string name="analyze_engine_needs_download_notice">Tämä moottori ei ole käytettävissä. Jatka lataamalla malli.</string>
+    <string name="analyze_engine_status_download">Lataa napauttamalla</string>
+    <string name="analyze_engine_status_ready">Valmis</string>
+    <string name="analyze_engine_status_unavailable">Ei käytettävissä</string>
+    <string name="analyze_history_cd">Keskusteluhistoria</string>
+    <string name="analyze_history_delete_body">Tämä poistaa pysyvästi tämän keskustelun ja sen viestit.</string>
+    <string name="analyze_history_delete_cancel">Peruuta</string>
+    <string name="analyze_history_delete_cd">Poista keskustelu</string>
+    <string name="analyze_history_delete_confirm">Poista</string>
+    <string name="analyze_history_delete_title">Poistetaanko keskustelu?</string>
+    <string name="analyze_history_empty">Ei vielä keskusteluja. Keskustelusi näkyvät tässä.</string>
+    <string name="analyze_history_new_chat_cd">Uusi keskustelu</string>
+    <string name="analyze_history_title">Keskusteluhistoria</string>
+    <string name="analyze_manage_models">Hallitse malleja…</string>
+    <string name="analyze_model_picker_cd">Valitse malli</string>
+    <string name="analyze_new_chat_cd">Uusi keskustelu</string>
 </resources>

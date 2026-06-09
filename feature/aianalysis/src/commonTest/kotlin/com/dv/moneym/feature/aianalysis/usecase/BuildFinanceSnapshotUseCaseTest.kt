@@ -80,7 +80,7 @@ class BuildFinanceSnapshotUseCaseTest {
     )
 
     @Test
-    fun snapshotContainsTotalsTopCategoriesAndHistory() = runTest {
+    fun snapshotCoversWholeYearTotalsTopCategoriesAndMonthlyBreakdown() = runTest {
         accountRepo.addAll(listOf(account()))
         catRepo.addAll(listOf(category(1, "Groceries"), category(2, "Transport")))
 
@@ -90,25 +90,32 @@ class BuildFinanceSnapshotUseCaseTest {
         txnRepo.upsert(txn(TransactionType.EXPENSE, 30000, LocalDate(2026, 5, 3), 1))
         txnRepo.upsert(txn(TransactionType.EXPENSE, 10000, LocalDate(2026, 5, 4), 2))
 
-        // previous months
+        // other months of the same year — must be included in the year snapshot
         txnRepo.upsert(txn(TransactionType.EXPENSE, 50000, LocalDate(2026, 4, 10), 1))
         txnRepo.upsert(txn(TransactionType.EXPENSE, 20000, LocalDate(2026, 3, 10), 1))
 
+        // a different year — must be excluded
+        txnRepo.upsert(txn(TransactionType.EXPENSE, 99000, LocalDate(2025, 12, 1), 1))
+
         val snapshot = useCase(2026, 5)
 
-        assertTrue(snapshot.contains("EUR"), snapshot)
-        assertTrue(snapshot.contains("Income: 2000.00 EUR"), snapshot)
-        // expense total 60000+30000+10000 = 100000 minor => 1000.00
-        assertTrue(snapshot.contains("Expense: 1000.00 EUR"), snapshot)
-        // Groceries (900.00) ranks above Transport (100.00)
-        val groceriesIndex = snapshot.indexOf("Groceries")
-        val transportIndex = snapshot.indexOf("Transport")
+        assertTrue(snapshot.contains("Year: 2026"), snapshot)
+        assertTrue(snapshot.contains("currently viewing 2026-05"), snapshot)
+        assertTrue(snapshot.contains("Year income: 2000.00 EUR"), snapshot)
+        // year expense 60000+30000+10000+50000+20000 = 170000 => 1700.00 (2025 excluded)
+        assertTrue(snapshot.contains("Year expense: 1700.00 EUR"), snapshot)
+        // Groceries (60000+30000+50000+20000 = 1600.00) ranks above Transport (100.00)
+        val groceriesIndex = snapshot.indexOf("Groceries:")
+        val transportIndex = snapshot.indexOf("Transport:")
         assertTrue(groceriesIndex in 0 until transportIndex, snapshot)
-        assertTrue(snapshot.contains("Groceries: 900.00 EUR"), snapshot)
-        // recent history lines for the prior 3 months
-        assertTrue(snapshot.contains("2026-04: 500.00 EUR"), snapshot)
-        assertTrue(snapshot.contains("2026-03: 200.00 EUR"), snapshot)
-        assertTrue(snapshot.contains("2026-02: 0.00 EUR"), snapshot)
+        assertTrue(snapshot.contains("Groceries: 1600.00 EUR"), snapshot)
+        // monthly breakdown income / expense / net
+        assertTrue(snapshot.contains("2026-05: 2000.00 EUR / 1000.00 EUR / 1000.00 EUR"), snapshot)
+        assertTrue(snapshot.contains("2026-04: 0.00 EUR / 500.00 EUR / -500.00 EUR"), snapshot)
+        assertTrue(snapshot.contains("2026-03: 0.00 EUR / 200.00 EUR / -200.00 EUR"), snapshot)
+        // a year with no activity in a month simply omits that month
+        assertTrue(!snapshot.contains("2026-02"), snapshot)
+        assertTrue(!snapshot.contains("2025-12"), snapshot)
     }
 
     @Test

@@ -71,6 +71,8 @@
     <string name="settings_change_pin">Cambia PIN</string>
     <string name="settings_biometrics">Sblocca con biometria</string>
     <string name="settings_biometrics_subtitle">Face ID / Impronta digitale</string>
+    <string name="settings_allow_screenshots">Consenti screenshot</string>
+    <string name="settings_allow_screenshots_subtitle">Consenti screenshot e registrazione schermo</string>
     <string name="settings_lock_immediately">Subito</string>
     <string name="settings_section_preferences">PREFERENZE</string>
     <string name="settings_currency">Valuta predefinita</string>

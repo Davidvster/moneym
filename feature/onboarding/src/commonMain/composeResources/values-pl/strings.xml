@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">Anuluj</string>
     <string name="onboarding_restore_remote_loading">Pobieranie informacji o kopii…</string>
     <string name="onboarding_restore_wrong_password">Błędne hasło lub uszkodzona kopia.</string>
+    <string name="default_account_name">Główne</string>
+    <string name="onboarding_get_started">Rozpocznij</string>
+    <string name="onboarding_restore_error_fetch_info">Nie udało się pobrać informacji o kopii zapasowej</string>
+    <string name="onboarding_restore_error_restore_failed">Przywracanie nie powiodło się</string>
+    <string name="onboarding_restore_error_sign_in_failed">Logowanie nie powiodło się</string>
+    <string name="onboarding_welcome_subtitle">Twój prywatny, działający przede wszystkim offline menedżer pieniędzy.</string>
+    <string name="onboarding_welcome_feature_track_title">Śledź każdą transakcję</string>
+    <string name="onboarding_welcome_feature_track_desc">Zapisuj przychody i wydatki w kilka sekund na wszystkich kontach.</string>
+    <string name="onboarding_welcome_feature_insights_title">Zobacz, na co idą Twoje pieniądze</string>
+    <string name="onboarding_welcome_feature_insights_desc">Przejrzyste podsumowania i wykresy dzielą wydatki według kategorii i miesiąca.</string>
+    <string name="onboarding_welcome_feature_ai_title">Analizy oparte na AI</string>
+    <string name="onboarding_welcome_feature_ai_desc">Zadawaj pytania o swoje finanse i otrzymuj inteligentną analizę.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Prywatnie i bezpiecznie</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Wszystko pozostaje na Twoim urządzeniu, chronione kodem PIN lub biometrią.</string>
 </resources>

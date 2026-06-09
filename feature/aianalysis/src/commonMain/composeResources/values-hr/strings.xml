@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Izvor podataka</string>
     <string name="analyze_grounding_snapshot">Snimak</string>
     <string name="analyze_grounding_tools">Alati</string>
+    <string name="analyze_grounding_snapshot_hint">Šalje sažetak odabrane godine. Najbolje za pitanja o tom razdoblju.</string>
+    <string name="analyze_grounding_tools_hint">Omogućuje AI-u pretraživanje cijele povijesti i dohvaćanje onoga što treba. Najbolje za otvorena pitanja.</string>
+    <string name="analyze_year_label">Godina snimke</string>
+    <string name="analyze_year_prev_cd">Prethodna godina</string>
+    <string name="analyze_year_next_cd">Sljedeća godina</string>
     <string name="analyze_tools_fallback_notice">Ovaj model ne podržava alate. Koristi se snimak umjesto toga.</string>
     <string name="analyze_error">Nešto je pošlo po krivu. Pokušajte ponovo.</string>
     <string name="analyze_generating">Razmišljam…</string>
@@ -16,4 +21,25 @@
         <item>Kako se ovaj mjesec uspoređuje s prošlim?</item>
         <item>Ima li neuobičajenih ili velikih troškova?</item>
     </string-array>
+    <string name="analyze_download_model">Preuzmi model</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">AI mehanizam</string>
+    <string name="analyze_engine_local_llm">Model na uređaju</string>
+    <string name="analyze_engine_needs_download_notice">Ovaj mehanizam nije dostupan. Preuzmite model za nastavak.</string>
+    <string name="analyze_engine_status_download">Dodirnite za preuzimanje</string>
+    <string name="analyze_engine_status_ready">Spremno</string>
+    <string name="analyze_engine_status_unavailable">Nedostupno</string>
+    <string name="analyze_history_cd">Povijest razgovora</string>
+    <string name="analyze_history_delete_body">Ovo trajno uklanja ovaj razgovor i njegove poruke.</string>
+    <string name="analyze_history_delete_cancel">Odustani</string>
+    <string name="analyze_history_delete_cd">Izbriši razgovor</string>
+    <string name="analyze_history_delete_confirm">Izbriši</string>
+    <string name="analyze_history_delete_title">Izbrisati razgovor?</string>
+    <string name="analyze_history_empty">Još nema razgovora. Vaši razgovori prikazat će se ovdje.</string>
+    <string name="analyze_history_new_chat_cd">Novi razgovor</string>
+    <string name="analyze_history_title">Povijest razgovora</string>
+    <string name="analyze_manage_models">Upravljanje modelima…</string>
+    <string name="analyze_model_picker_cd">Odaberi model</string>
+    <string name="analyze_new_chat_cd">Novi razgovor</string>
 </resources>

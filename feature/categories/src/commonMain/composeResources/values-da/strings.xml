@@ -40,4 +40,16 @@
     <string name="categories_color_hex">Hex-farve</string>
     <string name="categories_color_select">Vælg farve</string>
     <string name="categories_name_preview_placeholder">Kategorinavn</string>
+    <string name="categories_name_blank">Navnet må ikke være tomt</string>
+    <string name="categories_name_duplicate">Der findes allerede en kategori med dette navn</string>
+    <string name="categories_options_subtitle">%1$d transaktioner bruger denne kategori</string>
+    <string name="categories_option_archive">Behold den, arkivér i stedet</string>
+    <string name="categories_option_unarchive">Fjern kategori fra arkiv</string>
+    <string name="categories_option_migrate">Flyt transaktioner til en anden kategori</string>
+    <string name="categories_option_delete_all">Slet kategori og alle transaktioner</string>
+    <string name="categories_migrate_title">Flyt transaktioner til…</string>
+    <string name="categories_delete_all_title">Slet "%1$s" og dens transaktioner?</string>
+    <string name="categories_delete_all_warning">Dette sletter permanent kategorien og dens %1$d transaktioner. Handlingen kan ikke fortrydes.</string>
+    <string name="categories_delete_all_input_label">Skriv kategoriens navn for at bekræfte</string>
+    <string name="categories_delete_all_confirm">Slet permanent</string>
 </resources>

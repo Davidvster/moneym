@@ -26,4 +26,11 @@
     <string name="transactions_wallet_all">جميع المحافظ</string>
     <string name="transactions_syncing">جارٍ المزامنة…</string>
     <string name="transactions_pending_deletions">تمت إزالة %1$d عنصر على جهاز آخر — مراجعة</string>
+    <string name="transactions_sync_conflict_body">المزامنة متوقفة. افتح النسخ الاحتياطي والاستعادة في الإعدادات لإدخال كلمة المرور.</string>
+    <string name="transactions_sync_last">آخر مزامنة %1$s</string>
+    <string name="transactions_sync_never">لم تتم المزامنة بعد</string>
+    <string name="transactions_sync_now">المزامنة الآن</string>
+    <string name="transactions_sync_paused">المزامنة متوقفة — يلزم اتخاذ إجراء</string>
+    <string name="transactions_sync_sheet_title">المزامنة السحابية</string>
+    <string name="transactions_synced">تمت المزامنة</string>
 </resources>

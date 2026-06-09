@@ -26,4 +26,11 @@
     <string name="transactions_wallet_all">Alla plånböcker</string>
     <string name="transactions_syncing">Synkroniserar…</string>
     <string name="transactions_pending_deletions">%1$d objekt borttagna på en annan enhet — granska</string>
+    <string name="transactions_sync_conflict_body">Synkroniseringen är pausad. Öppna Säkerhetskopiering och återställning i Inställningar för att ange lösenordet.</string>
+    <string name="transactions_sync_last">Senast synkroniserad %1$s</string>
+    <string name="transactions_sync_never">Inte synkroniserad ännu</string>
+    <string name="transactions_sync_now">Synkronisera nu</string>
+    <string name="transactions_sync_paused">Synkronisering pausad — åtgärd krävs</string>
+    <string name="transactions_sync_sheet_title">Molnsynkronisering</string>
+    <string name="transactions_synced">Synkroniserad</string>
 </resources>

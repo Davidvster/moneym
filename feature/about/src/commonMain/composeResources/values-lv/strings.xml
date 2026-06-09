@@ -3,4 +3,6 @@
     <string name="about_title">Par</string>
     <string name="about_terms">Noteikumi &amp; Nosacījumi</string>
     <string name="about_privacy">Privātuma politika</string>
+    <string name="about_libraries">Atvērtā koda bibliotēkas</string>
+    <string name="libraries_title">Bibliotēkas</string>
 </resources>

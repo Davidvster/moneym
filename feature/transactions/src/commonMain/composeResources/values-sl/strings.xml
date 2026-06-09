@@ -26,4 +26,11 @@
     <string name="transactions_wallet_all">Vse denarnice</string>
     <string name="transactions_syncing">Sinhronizacija…</string>
     <string name="transactions_pending_deletions">%1$d elementov odstranjenih na drugi napravi — preglej</string>
+    <string name="transactions_sync_conflict_body">Sinhronizacija je zaustavljena. Odprite Varnostno kopiranje in obnovitev v Nastavitvah in vnesite geslo.</string>
+    <string name="transactions_sync_last">Zadnja sinhronizacija %1$s</string>
+    <string name="transactions_sync_never">Še ni sinhronizirano</string>
+    <string name="transactions_sync_now">Sinhroniziraj zdaj</string>
+    <string name="transactions_sync_paused">Sinhronizacija zaustavljena — potrebno je dejanje</string>
+    <string name="transactions_sync_sheet_title">Sinhronizacija v oblaku</string>
+    <string name="transactions_synced">Sinhronizirano</string>
 </resources>

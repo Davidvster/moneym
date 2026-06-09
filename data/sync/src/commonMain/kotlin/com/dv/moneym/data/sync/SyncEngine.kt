@@ -67,6 +67,9 @@ class SyncEngine(
     private val _runtime = MutableStateFlow<SyncRuntimeState>(SyncRuntimeState.Idle)
     val runtime: StateFlow<SyncRuntimeState> = _runtime.asStateFlow()
 
+    override val isEnabled: Flow<Boolean> =
+        appSettings.observeBoolean(PrefKeys.CROSS_DEVICE_SYNC_ENABLED, defaultValue = false)
+
     override val isSyncing: Flow<Boolean> =
         runtime.map { it != SyncRuntimeState.Idle && it !is SyncRuntimeState.Error }
 

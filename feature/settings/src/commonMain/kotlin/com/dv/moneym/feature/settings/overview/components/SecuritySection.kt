@@ -23,6 +23,8 @@ import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.feature.settings.overview.SecuritySettingsIntent
 import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.settings_allow_screenshots
+import moneym.feature.settings.generated.resources.settings_allow_screenshots_subtitle
 import moneym.feature.settings.generated.resources.settings_biometrics
 import moneym.feature.settings.generated.resources.settings_biometrics_subtitle
 import moneym.feature.settings.generated.resources.settings_change_pin
@@ -35,6 +37,7 @@ internal fun SecuritySection(
     pinEnabled: Boolean,
     biometricAvailable: Boolean,
     biometricEnabled: Boolean,
+    allowScreenshots: Boolean,
     lockAfterLabel: String,
     onIntent: (SecuritySettingsIntent) -> Unit,
     onShowLockPicker: () -> Unit,
@@ -106,7 +109,7 @@ internal fun SecuritySection(
                 )
             }
         }
-        MmRow(onClick = onShowLockPicker, divider = false) {
+        MmRow(onClick = onShowLockPicker, divider = true) {
             Text(
                 stringResource(Res.string.settings_lock_after),
                 style = type.body,
@@ -119,6 +122,32 @@ internal fun SecuritySection(
                 contentDescription = null,
                 tint = colors.text3,
                 modifier = Modifier.size(MM.dimen.padding_2x),
+            )
+        }
+        MmRow(
+            divider = false,
+            onClick = { onIntent(SecuritySettingsIntent.ScreenshotsToggled(!allowScreenshots)) },
+        ) {
+            Icon(
+                imageVector = Icon.EyeOff.imageVector,
+                contentDescription = null,
+                tint = colors.text,
+                modifier = Modifier.size(MM.dimen.icon_1x),
+            )
+            Column(Modifier.weight(1f)) {
+                Text(
+                    stringResource(Res.string.settings_allow_screenshots),
+                    style = type.body,
+                    color = colors.text
+                )
+                Text(
+                    stringResource(Res.string.settings_allow_screenshots_subtitle),
+                    style = type.caption.copy(color = colors.text2)
+                )
+            }
+            MmToggle(
+                checked = allowScreenshots,
+                onCheckedChange = { onIntent(SecuritySettingsIntent.ScreenshotsToggled(it)) },
             )
         }
     }

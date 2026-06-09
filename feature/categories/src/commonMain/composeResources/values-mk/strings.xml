@@ -40,4 +40,16 @@
     <string name="categories_color_hex">Hex боја</string>
     <string name="categories_color_select">Избери боја</string>
     <string name="categories_name_preview_placeholder">Ime на категорија</string>
+    <string name="categories_name_blank">Името не може да биде празно</string>
+    <string name="categories_name_duplicate">Веќе постои категорија со ова име</string>
+    <string name="categories_options_subtitle">%1$d трансакции ја користат оваа категорија</string>
+    <string name="categories_option_archive">Задржи ја, наместо тоа архивирај ја</string>
+    <string name="categories_option_unarchive">Врати ја категоријата од архива</string>
+    <string name="categories_option_migrate">Премести ги трансакциите во друга категорија</string>
+    <string name="categories_option_delete_all">Избриши ја категоријата и сите трансакции</string>
+    <string name="categories_migrate_title">Премести ги трансакциите во…</string>
+    <string name="categories_delete_all_title">Да се избрише „%1$s“ и нејзините трансакции?</string>
+    <string name="categories_delete_all_warning">Ова трајно ја брише категоријата и нејзините %1$d трансакции. Ова дејство не може да се врати.</string>
+    <string name="categories_delete_all_input_label">Внесете го името на категоријата за да потврдите</string>
+    <string name="categories_delete_all_confirm">Избриши трајно</string>
 </resources>

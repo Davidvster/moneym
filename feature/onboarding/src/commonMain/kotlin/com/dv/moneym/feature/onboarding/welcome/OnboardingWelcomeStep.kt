@@ -1,6 +1,7 @@
 package com.dv.moneym.feature.onboarding.welcome
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,6 +41,8 @@ import com.dv.moneym.core.ui.imageVector
 import kotlinx.serialization.Serializable
 import moneym.feature.onboarding.generated.resources.Res
 import moneym.feature.onboarding.generated.resources.onboarding_get_started
+import moneym.feature.onboarding.generated.resources.onboarding_privacy
+import moneym.feature.onboarding.generated.resources.onboarding_terms
 import moneym.feature.onboarding.generated.resources.onboarding_welcome
 import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_ai_desc
 import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_ai_title
@@ -50,6 +54,8 @@ import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_
 import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_track_title
 import moneym.feature.onboarding.generated.resources.onboarding_welcome_subtitle
 import org.jetbrains.compose.resources.stringResource
+
+private const val LEGAL_URL = "https://davidvster.github.io/moneym.github.io/"
 
 @Serializable
 data object OnboardingWelcomeKey : NavKey
@@ -73,6 +79,7 @@ internal fun WelcomeStep(
 ) {
     val colors = MM.colors
     val type = MM.type
+    val uriHandler = LocalUriHandler.current
 
     val capabilities = listOf(
         Capability(
@@ -138,6 +145,24 @@ internal fun WelcomeStep(
                 .padding(horizontal = MM.dimen.padding_2x, vertical = 16.dp)
                 .navigationBarsPadding(),
         ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x, Alignment.CenterHorizontally),
+            ) {
+                Text(
+                    text = stringResource(Res.string.onboarding_terms),
+                    style = type.caption,
+                    color = colors.accent,
+                    modifier = Modifier.clickable { uriHandler.openUri(LEGAL_URL) },
+                )
+                Text(
+                    text = stringResource(Res.string.onboarding_privacy),
+                    style = type.caption,
+                    color = colors.accent,
+                    modifier = Modifier.clickable { uriHandler.openUri(LEGAL_URL) },
+                )
+            }
+            Spacer(Modifier.height(MM.dimen.padding_1_5x))
             MmButton(
                 text = stringResource(Res.string.onboarding_get_started),
                 onClick = onGetStarted,

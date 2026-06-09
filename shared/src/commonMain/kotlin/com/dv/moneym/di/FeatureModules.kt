@@ -96,6 +96,7 @@ val featureTransactionsModule = module {
             syncStatus = get<SyncEngine>(),
             syncPuller = get<SyncEngine>(),
             clock = get(),
+            transactionSavedSignal = get(),
             savedStateHandle = get(),
         )
     }
@@ -138,6 +139,7 @@ val featureTransactionEditModule = module {
             suggestNotes = get(),
             dispatchers = get(),
             clock = get(),
+            transactionSavedSignal = get(),
             savedStateHandle = get(),
         )
     }
@@ -398,6 +400,8 @@ val featureAianalysisModule = module {
             appSettings = get(),
             dispatchers = get(),
             aiChatRepository = get(),
+            transactionRepository = get(),
+            localeController = get(),
             clock = get(),
             activeChatHolder = get(),
             savedStateHandle = get(),

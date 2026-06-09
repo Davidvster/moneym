@@ -91,6 +91,7 @@ internal fun SettingsLazyList(
                 pinEnabled = securityState.pinEnabled,
                 biometricAvailable = securityState.biometricAvailable,
                 biometricEnabled = securityState.biometricEnabled,
+                allowScreenshots = securityState.allowScreenshots,
                 lockAfterLabel = lockAfterLabel,
                 onIntent = onSecurityIntent,
                 onShowLockPicker = onShowLockPicker,

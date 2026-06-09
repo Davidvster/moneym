@@ -26,4 +26,11 @@
     <string name="transactions_wallet_all">Alle punge</string>
     <string name="transactions_syncing">Synkroniserer…</string>
     <string name="transactions_pending_deletions">%1$d elementer fjernet på en anden enhed — gennemse</string>
+    <string name="transactions_sync_conflict_body">Synkronisering er sat på pause. Åbn Sikkerhedskopiering og gendannelse i Indstillinger for at indtaste adgangskoden.</string>
+    <string name="transactions_sync_last">Sidst synkroniseret %1$s</string>
+    <string name="transactions_sync_never">Endnu ikke synkroniseret</string>
+    <string name="transactions_sync_now">Synkroniser nu</string>
+    <string name="transactions_sync_paused">Synkronisering sat på pause — handling kræves</string>
+    <string name="transactions_sync_sheet_title">Cloud-synkronisering</string>
+    <string name="transactions_synced">Synkroniseret</string>
 </resources>

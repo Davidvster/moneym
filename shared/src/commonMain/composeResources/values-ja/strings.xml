@@ -16,4 +16,5 @@
     <string name="category_seed_payment">支払い</string>
     <string name="category_seed_gift">ギフト</string>
     <string name="category_seed_other_income">その他</string>
+    <string name="default_account_name">メイン</string>
 </resources>

@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Источник данных</string>
     <string name="analyze_grounding_snapshot">Снимок</string>
     <string name="analyze_grounding_tools">Инструменты</string>
+    <string name="analyze_grounding_snapshot_hint">Отправляет сводку за выбранный год. Лучше всего для вопросов об этом периоде.</string>
+    <string name="analyze_grounding_tools_hint">Позволяет ИИ искать по всей истории и извлекать нужное. Лучше всего для открытых вопросов.</string>
+    <string name="analyze_year_label">Год снимка</string>
+    <string name="analyze_year_prev_cd">Предыдущий год</string>
+    <string name="analyze_year_next_cd">Следующий год</string>
     <string name="analyze_tools_fallback_notice">Инструменты не поддерживаются этой моделью. Используется снимок.</string>
     <string name="analyze_error">Что-то пошло не так. Попробуйте ещё раз.</string>
     <string name="analyze_generating">Думаю…</string>
@@ -16,4 +21,25 @@
         <item>Как этот месяц сравнивается с прошлым?</item>
         <item>Есть ли необычные или крупные расходы?</item>
     </string-array>
+    <string name="analyze_download_model">Загрузить модель</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">Движок ИИ</string>
+    <string name="analyze_engine_local_llm">Модель на устройстве</string>
+    <string name="analyze_engine_needs_download_notice">Этот движок недоступен. Загрузите модель, чтобы продолжить.</string>
+    <string name="analyze_engine_status_download">Нажмите, чтобы загрузить</string>
+    <string name="analyze_engine_status_ready">Готово</string>
+    <string name="analyze_engine_status_unavailable">Недоступно</string>
+    <string name="analyze_history_cd">История чатов</string>
+    <string name="analyze_history_delete_body">Это навсегда удалит этот разговор и его сообщения.</string>
+    <string name="analyze_history_delete_cancel">Отмена</string>
+    <string name="analyze_history_delete_cd">Удалить разговор</string>
+    <string name="analyze_history_delete_confirm">Удалить</string>
+    <string name="analyze_history_delete_title">Удалить разговор?</string>
+    <string name="analyze_history_empty">Пока нет разговоров. Ваши чаты появятся здесь.</string>
+    <string name="analyze_history_new_chat_cd">Новый чат</string>
+    <string name="analyze_history_title">История чатов</string>
+    <string name="analyze_manage_models">Управление моделями…</string>
+    <string name="analyze_model_picker_cd">Выбрать модель</string>
+    <string name="analyze_new_chat_cd">Новый чат</string>
 </resources>

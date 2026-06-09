@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">Annuler</string>
     <string name="onboarding_restore_remote_loading">Récupération des informations de sauvegarde…</string>
     <string name="onboarding_restore_wrong_password">Mot de passe incorrect ou sauvegarde corrompue.</string>
+    <string name="default_account_name">Principal</string>
+    <string name="onboarding_get_started">Commencer</string>
+    <string name="onboarding_restore_error_fetch_info">Échec de la récupération des informations de sauvegarde</string>
+    <string name="onboarding_restore_error_restore_failed">Échec de la restauration</string>
+    <string name="onboarding_restore_error_sign_in_failed">Échec de la connexion</string>
+    <string name="onboarding_welcome_subtitle">Votre suivi d\'argent privé, qui fonctionne d\'abord hors ligne.</string>
+    <string name="onboarding_welcome_feature_track_title">Suivez chaque transaction</string>
+    <string name="onboarding_welcome_feature_track_desc">Enregistrez revenus et dépenses en quelques secondes sur tous vos comptes.</string>
+    <string name="onboarding_welcome_feature_insights_title">Voyez où va votre argent</string>
+    <string name="onboarding_welcome_feature_insights_desc">Des aperçus et graphiques clairs détaillent vos dépenses par catégorie et par mois.</string>
+    <string name="onboarding_welcome_feature_ai_title">Analyses optimisées par l\'IA</string>
+    <string name="onboarding_welcome_feature_ai_desc">Posez des questions sur vos finances et obtenez une analyse intelligente.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Privé et sécurisé</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Tout reste sur votre appareil, protégé par un code PIN ou la biométrie.</string>
 </resources>

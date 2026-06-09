@@ -237,4 +237,27 @@
     <string name="settings_recurring_new">Nouvelle transaction récurrente</string>
     <string name="settings_section_about">À PROPOS</string>
     <string name="settings_about">À propos</string>
+    <string name="settings_allow_screenshots">Autoriser les captures d\'écran</string>
+    <string name="settings_allow_screenshots_subtitle">Autoriser les captures et l\'enregistrement d\'écran</string>
+    <string name="settings_cloud_devices">Appareils</string>
+    <string name="settings_cloud_join_body">Saisissez le même mot de passe que celui défini sur votre autre appareil afin que cet appareil puisse lire les données du cloud.</string>
+    <string name="settings_cloud_join_confirm">Rejoindre</string>
+    <string name="settings_cloud_join_plaintext_body">Les données cloud de votre autre appareil ne sont pas chiffrées. Activer la synchronisation cloud sur cet appareil aussi ?</string>
+    <string name="settings_cloud_join_plaintext_title">Activer la synchronisation cloud</string>
+    <string name="settings_cloud_join_title">Rejoindre votre autre appareil</string>
+    <string name="settings_cloud_sync">Synchronisation cloud</string>
+    <string name="settings_cloud_sync_subtitle">Sauvegardez et synchronisez vos données entre appareils via Google Drive.</string>
+    <string name="settings_cloud_wrong_password">Ce mot de passe ne correspond pas aux données du cloud.</string>
+    <string name="settings_import_failed">Échec de l\'importation</string>
+    <string name="settings_remote_delete_body">Cela supprime définitivement toutes les sauvegardes cloud et les données de synchronisation de votre Google Drive, et désactive la sauvegarde automatique et la synchronisation entre appareils. Cette action est irréversible.</string>
+    <string name="settings_remote_delete_confirm">Supprimer</string>
+    <string name="settings_remote_delete_data">Supprimer les données Google Drive</string>
+    <string name="settings_remote_delete_title">Supprimer les données Google Drive ?</string>
+    <string name="settings_remote_error_backup_failed">Échec de la sauvegarde</string>
+    <string name="settings_remote_error_fetch_info">Échec de la récupération des informations de sauvegarde</string>
+    <string name="settings_remote_error_restore_failed">Échec de la restauration</string>
+    <string name="settings_remote_error_sign_in_failed">Échec de la connexion</string>
+    <string name="settings_remote_restore_error_title">Impossible de charger la sauvegarde</string>
+    <string name="settings_remote_restore_no_backup">Aucune sauvegarde n\'a été trouvée sur Google Drive.</string>
+    <string name="settings_remote_restore_try_again">Veuillez réessayer.</string>
 </resources>

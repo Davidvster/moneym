@@ -40,4 +40,16 @@
     <string name="categories_color_hex">Hex krāsa</string>
     <string name="categories_color_select">Izvēlēties krāsu</string>
     <string name="categories_name_preview_placeholder">Kategorijas nosaukums</string>
+    <string name="categories_name_blank">Nosaukums nedrīkst būt tukšs</string>
+    <string name="categories_name_duplicate">Kategorija ar šādu nosaukumu jau pastāv</string>
+    <string name="categories_options_subtitle">Šo kategoriju izmanto %1$d darījumi</string>
+    <string name="categories_option_archive">Paturēt un arhivēt to vietā</string>
+    <string name="categories_option_unarchive">Atjaunot kategoriju no arhīva</string>
+    <string name="categories_option_migrate">Pārvietot darījumus uz citu kategoriju</string>
+    <string name="categories_option_delete_all">Dzēst kategoriju un visus darījumus</string>
+    <string name="categories_migrate_title">Pārvietot darījumus uz…</string>
+    <string name="categories_delete_all_title">Dzēst "%1$s" un tās darījumus?</string>
+    <string name="categories_delete_all_warning">Tas neatgriezeniski dzēš kategoriju un tās %1$d darījumus. Šo darbību nevar atsaukt.</string>
+    <string name="categories_delete_all_input_label">Lai apstiprinātu, ievadiet kategorijas nosaukumu</string>
+    <string name="categories_delete_all_confirm">Dzēst neatgriezeniski</string>
 </resources>

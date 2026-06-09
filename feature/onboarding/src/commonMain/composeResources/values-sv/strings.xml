@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">Avbryt</string>
     <string name="onboarding_restore_remote_loading">Hämtar information om säkerhetskopian…</string>
     <string name="onboarding_restore_wrong_password">Fel lösenord eller skadad säkerhetskopia.</string>
+    <string name="default_account_name">Huvud</string>
+    <string name="onboarding_get_started">Kom igång</string>
+    <string name="onboarding_restore_error_fetch_info">Det gick inte att hämta information om säkerhetskopian</string>
+    <string name="onboarding_restore_error_restore_failed">Återställningen misslyckades</string>
+    <string name="onboarding_restore_error_sign_in_failed">Inloggningen misslyckades</string>
+    <string name="onboarding_welcome_subtitle">Din privata, offline-först pengaspårare.</string>
+    <string name="onboarding_welcome_feature_track_title">Spåra varje transaktion</string>
+    <string name="onboarding_welcome_feature_track_desc">Registrera inkomster och utgifter på sekunder för alla dina konton.</string>
+    <string name="onboarding_welcome_feature_insights_title">Se vart dina pengar tar vägen</string>
+    <string name="onboarding_welcome_feature_insights_desc">Tydliga översikter och diagram delar upp utgifterna per kategori och månad.</string>
+    <string name="onboarding_welcome_feature_ai_title">AI-baserade insikter</string>
+    <string name="onboarding_welcome_feature_ai_desc">Ställ frågor om din ekonomi och få smart analys.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Privat och säker</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Allt stannar på din enhet, skyddat med en PIN-kod eller biometri.</string>
 </resources>

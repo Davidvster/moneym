@@ -2,7 +2,7 @@ package com.dv.moneym.feature.aianalysis.usecase
 
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.model.Budget
-import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
@@ -28,47 +28,63 @@ class BuildFinanceSnapshotUseCase(
         val currency = (accounts.firstOrNull { it.isDefault } ?: accounts.firstOrNull())
             ?.currency?.value ?: DEFAULT_CURRENCY
 
-        val selectedTxns = transactionRepository.observeByMonth(year, month).first()
-        val income = selectedTxns.filter { it.type == TransactionType.INCOME }.sumOf { it.amount.minorUnits }
-        val expense = selectedTxns.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount.minorUnits }
-
         val categoryNames = categories.associate { it.id to it.name }
-        val topCategories = topExpenseCategories(selectedTxns, categoryNames)
 
+        // Snapshot covers the whole selected year so the model can answer anything across it,
+        // not only the month the user happens to be viewing.
+        val yearTxns = transactionRepository.observeAll().first()
+            .filter { it.occurredOn.year == year }
+        val selectedTxns = yearTxns.filter { it.occurredOn.monthNumber == month }
+
+        val yearIncome = yearTxns.filter { it.type == TransactionType.INCOME }.sumOf { it.amount.minorUnits }
+        val yearExpense = yearTxns.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount.minorUnits }
+
+        val monthlyLines = monthlyBreakdown(yearTxns, currency)
+        val topCategories = topExpenseCategories(yearTxns, categoryNames)
         val budgetLines = budgetStatus(budgets, selectedTxns, selected, categoryNames, currency)
-
-        val noteLines = transactionNotes(selectedTxns, categoryNames, currency)
-
-        val historyLines = recentHistory(selected, currency)
+        val noteLines = transactionNotes(yearTxns, categoryNames, currency)
 
         return buildString {
             appendLine("Currency: $currency")
-            appendLine("Period: $selected")
-            appendLine("Income: ${money(income, currency)}")
-            appendLine("Expense: ${money(expense, currency)}")
-            appendLine("Net: ${money(income - expense, currency)}")
+            appendLine("Year: $year (the user is currently viewing $selected)")
+            appendLine("Year income: ${money(yearIncome, currency)}")
+            appendLine("Year expense: ${money(yearExpense, currency)}")
+            appendLine("Year net: ${money(yearIncome - yearExpense, currency)}")
+            if (monthlyLines.isNotEmpty()) {
+                appendLine("Monthly breakdown (income / expense / net):")
+                monthlyLines.forEach { appendLine("- $it") }
+            }
             if (topCategories.isNotEmpty()) {
-                appendLine("Top expense categories:")
+                appendLine("Top expense categories (year):")
                 topCategories.forEach { (name, amount) ->
                     appendLine("- $name: ${money(amount, currency)}")
                 }
             }
             if (budgetLines.isNotEmpty()) {
-                appendLine("Budgets:")
+                appendLine("Budgets active in $selected:")
                 budgetLines.forEach { appendLine("- $it") }
             }
             if (noteLines.isNotEmpty()) {
                 appendLine("Transactions with notes (the user's own description of what each was for):")
                 noteLines.forEach { appendLine("- $it") }
             }
-            appendLine("Recent history (expense per month):")
-            historyLines.forEach { appendLine("- $it") }
         }.trimEnd()
     }
 
+    private fun monthlyBreakdown(yearTxns: List<Transaction>, currency: String): List<String> =
+        yearTxns.groupBy { it.occurredOn.monthNumber }
+            .entries
+            .sortedBy { it.key }
+            .map { (monthNumber, list) ->
+                val income = list.filter { it.type == TransactionType.INCOME }.sumOf { it.amount.minorUnits }
+                val expense = list.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount.minorUnits }
+                val ym = YearMonth(list.first().occurredOn.year, monthNumber)
+                "$ym: ${money(income, currency)} / ${money(expense, currency)} / ${money(income - expense, currency)}"
+            }
+
     private fun topExpenseCategories(
         txns: List<Transaction>,
-        categoryNames: Map<com.dv.moneym.core.model.CategoryId, String>,
+        categoryNames: Map<CategoryId, String>,
     ): List<Pair<String, Long>> =
         txns.filter { it.type == TransactionType.EXPENSE }
             .groupBy { it.categoryId }
@@ -80,7 +96,7 @@ class BuildFinanceSnapshotUseCase(
         budgets: List<Budget>,
         selectedTxns: List<Transaction>,
         selected: YearMonth,
-        categoryNames: Map<com.dv.moneym.core.model.CategoryId, String>,
+        categoryNames: Map<CategoryId, String>,
         currency: String,
     ): List<String> =
         budgets.filter { it.isActiveIn(selected) }.map { budget ->
@@ -94,7 +110,7 @@ class BuildFinanceSnapshotUseCase(
 
     private fun transactionNotes(
         txns: List<Transaction>,
-        categoryNames: Map<com.dv.moneym.core.model.CategoryId, String>,
+        categoryNames: Map<CategoryId, String>,
         currency: String,
     ): List<String> =
         txns.filter { !it.note.isNullOrBlank() }
@@ -106,25 +122,12 @@ class BuildFinanceSnapshotUseCase(
                 "${tx.occurredOn} $name $sign${money(tx.amount.minorUnits, currency)}: ${tx.note}"
             }
 
-    private suspend fun recentHistory(selected: YearMonth, currency: String): List<String> {
-        var cursor = selected.previous()
-        val lines = mutableListOf<String>()
-        repeat(RECENT_MONTHS) {
-            val txns = transactionRepository.observeByMonth(cursor.year, cursor.monthNumber).first()
-            val monthExpense = txns.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount.minorUnits }
-            lines += "$cursor: ${money(monthExpense, currency)}"
-            cursor = cursor.previous()
-        }
-        return lines
-    }
-
     private fun money(minorUnits: Long, currency: String): String =
         formatMinor(minorUnits, currency)
 
     private companion object {
-        const val MAX_TOP_CATEGORIES = 5
-        const val MAX_NOTES = 25
-        const val RECENT_MONTHS = 3
+        const val MAX_TOP_CATEGORIES = 8
+        const val MAX_NOTES = 40
         const val DEFAULT_CURRENCY = "EUR"
         const val UNKNOWN_CATEGORY = "Other"
         const val ALL_CATEGORIES = "all"

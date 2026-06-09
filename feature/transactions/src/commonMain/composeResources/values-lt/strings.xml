@@ -26,4 +26,11 @@
     <string name="transactions_wallet_all">Visos piniginės</string>
     <string name="transactions_syncing">Sinchronizuojama…</string>
     <string name="transactions_pending_deletions">%1$d elementai pašalinti kitame įrenginyje — peržiūrėti</string>
+    <string name="transactions_sync_conflict_body">Sinchronizavimas pristabdytas. Atidarykite „Atsarginė kopija ir atkūrimas“ nustatymuose ir įveskite slaptažodį.</string>
+    <string name="transactions_sync_last">Paskutinį kartą sinchronizuota %1$s</string>
+    <string name="transactions_sync_never">Dar nesinchronizuota</string>
+    <string name="transactions_sync_now">Sinchronizuoti dabar</string>
+    <string name="transactions_sync_paused">Sinchronizavimas pristabdytas — reikia veiksmo</string>
+    <string name="transactions_sync_sheet_title">Debesų sinchronizavimas</string>
+    <string name="transactions_synced">Sinchronizuota</string>
 </resources>

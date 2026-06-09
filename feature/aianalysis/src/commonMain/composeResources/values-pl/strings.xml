@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Źródło danych</string>
     <string name="analyze_grounding_snapshot">Migawka</string>
     <string name="analyze_grounding_tools">Narzędzia</string>
+    <string name="analyze_grounding_snapshot_hint">Wysyła podsumowanie wybranego roku. Najlepsze do pytań o ten okres.</string>
+    <string name="analyze_grounding_tools_hint">Pozwala SI przeszukać całą historię i pobrać to, czego potrzebuje. Najlepsze do pytań otwartych.</string>
+    <string name="analyze_year_label">Rok migawki</string>
+    <string name="analyze_year_prev_cd">Poprzedni rok</string>
+    <string name="analyze_year_next_cd">Następny rok</string>
     <string name="analyze_tools_fallback_notice">Narzędzia nie są obsługiwane przez ten model. Używam migawki.</string>
     <string name="analyze_error">Coś poszło nie tak. Spróbuj ponownie.</string>
     <string name="analyze_generating">Myślę…</string>
@@ -16,4 +21,25 @@
         <item>Jak ten miesiąc wypada w porównaniu z poprzednim?</item>
         <item>Czy były jakieś niezwykłe lub duże wydatki?</item>
     </string-array>
+    <string name="analyze_download_model">Pobierz model</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">Silnik AI</string>
+    <string name="analyze_engine_local_llm">Model na urządzeniu</string>
+    <string name="analyze_engine_needs_download_notice">Ten silnik jest niedostępny. Pobierz model, aby kontynuować.</string>
+    <string name="analyze_engine_status_download">Dotknij, aby pobrać</string>
+    <string name="analyze_engine_status_ready">Gotowe</string>
+    <string name="analyze_engine_status_unavailable">Niedostępne</string>
+    <string name="analyze_history_cd">Historia czatu</string>
+    <string name="analyze_history_delete_body">Spowoduje to trwałe usunięcie tej rozmowy i jej wiadomości.</string>
+    <string name="analyze_history_delete_cancel">Anuluj</string>
+    <string name="analyze_history_delete_cd">Usuń rozmowę</string>
+    <string name="analyze_history_delete_confirm">Usuń</string>
+    <string name="analyze_history_delete_title">Usunąć rozmowę?</string>
+    <string name="analyze_history_empty">Brak rozmów. Twoje czaty pojawią się tutaj.</string>
+    <string name="analyze_history_new_chat_cd">Nowy czat</string>
+    <string name="analyze_history_title">Historia czatu</string>
+    <string name="analyze_manage_models">Zarządzaj modelami…</string>
+    <string name="analyze_model_picker_cd">Wybierz model</string>
+    <string name="analyze_new_chat_cd">Nowy czat</string>
 </resources>

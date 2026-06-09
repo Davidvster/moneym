@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Новая повторяющаяся транзакция</string>
     <string name="settings_section_about">О ПРИЛОЖЕНИИ</string>
     <string name="settings_about">О приложении</string>
+    <string name="settings_allow_screenshots">Разрешить снимки экрана</string>
+    <string name="settings_allow_screenshots_subtitle">Разрешить снимки и запись экрана</string>
+    <string name="settings_cloud_devices">Устройства</string>
+    <string name="settings_cloud_join_body">Введите тот же пароль, что и на другом устройстве, чтобы это устройство могло читать данные из облака.</string>
+    <string name="settings_cloud_join_confirm">Присоединиться</string>
+    <string name="settings_cloud_join_plaintext_body">Облачные данные другого устройства не зашифрованы. Включить облачную синхронизацию и на этом устройстве?</string>
+    <string name="settings_cloud_join_plaintext_title">Включить облачную синхронизацию</string>
+    <string name="settings_cloud_join_title">Подключиться к другому устройству</string>
+    <string name="settings_cloud_sync">Облачная синхронизация</string>
+    <string name="settings_cloud_sync_subtitle">Создавайте резервные копии и синхронизируйте данные между устройствами через Google Диск.</string>
+    <string name="settings_cloud_wrong_password">Этот пароль не подходит к данным в облаке.</string>
+    <string name="settings_import_failed">Не удалось импортировать</string>
+    <string name="settings_remote_delete_body">Это навсегда удалит все облачные резервные копии и данные синхронизации с вашего Google Диска и отключит автоматическое резервное копирование и синхронизацию между устройствами. Это нельзя отменить.</string>
+    <string name="settings_remote_delete_confirm">Удалить</string>
+    <string name="settings_remote_delete_data">Удалить данные с Google Диска</string>
+    <string name="settings_remote_delete_title">Удалить данные с Google Диска?</string>
+    <string name="settings_remote_error_backup_failed">Не удалось создать резервную копию</string>
+    <string name="settings_remote_error_fetch_info">Не удалось получить сведения о резервной копии</string>
+    <string name="settings_remote_error_restore_failed">Не удалось восстановить</string>
+    <string name="settings_remote_error_sign_in_failed">Не удалось войти</string>
+    <string name="settings_remote_restore_error_title">Не удалось загрузить резервную копию</string>
+    <string name="settings_remote_restore_no_backup">На Google Диске резервная копия не найдена.</string>
+    <string name="settings_remote_restore_try_again">Повторите попытку.</string>
 </resources>

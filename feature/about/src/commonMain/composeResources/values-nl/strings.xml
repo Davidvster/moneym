@@ -3,4 +3,6 @@
     <string name="about_title">Over</string>
     <string name="about_terms">Algemene voorwaarden</string>
     <string name="about_privacy">Privacybeleid</string>
+    <string name="about_libraries">Opensourcebibliotheken</string>
+    <string name="libraries_title">Bibliotheken</string>
 </resources>

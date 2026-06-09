@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Data source</string>
     <string name="analyze_grounding_snapshot">Snapshot</string>
     <string name="analyze_grounding_tools">Tools</string>
+    <string name="analyze_grounding_snapshot_hint">Sends a summary of the selected year. Best for questions about that period.</string>
+    <string name="analyze_grounding_tools_hint">Lets the AI search your full history and pull what it needs. Best for open-ended questions.</string>
+    <string name="analyze_year_label">Snapshot year</string>
+    <string name="analyze_year_prev_cd">Previous year</string>
+    <string name="analyze_year_next_cd">Next year</string>
     <string name="analyze_tools_fallback_notice">Tools are not supported by this model. Using a snapshot instead.</string>
     <string name="analyze_engine_label">AI engine</string>
     <string name="analyze_engine_gemini_nano">Gemini Nano</string>

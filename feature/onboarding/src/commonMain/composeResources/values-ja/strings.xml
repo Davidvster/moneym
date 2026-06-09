@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">キャンセル</string>
     <string name="onboarding_restore_remote_loading">バックアップ情報を取得中…</string>
     <string name="onboarding_restore_wrong_password">パスワードが違うか、バックアップが破損しています。</string>
+    <string name="default_account_name">メイン</string>
+    <string name="onboarding_get_started">始める</string>
+    <string name="onboarding_restore_error_fetch_info">バックアップ情報の取得に失敗しました</string>
+    <string name="onboarding_restore_error_restore_failed">復元に失敗しました</string>
+    <string name="onboarding_restore_error_sign_in_failed">サインインに失敗しました</string>
+    <string name="onboarding_welcome_subtitle">プライバシーを守る、オフライン優先のお金管理アプリ。</string>
+    <string name="onboarding_welcome_feature_track_title">すべての取引を記録</string>
+    <string name="onboarding_welcome_feature_track_desc">すべての口座で収入と支出を数秒で記録。</string>
+    <string name="onboarding_welcome_feature_insights_title">お金の使い道を把握</string>
+    <string name="onboarding_welcome_feature_insights_desc">分かりやすい概要とグラフで、支出をカテゴリーや月ごとに把握。</string>
+    <string name="onboarding_welcome_feature_ai_title">AIによる分析</string>
+    <string name="onboarding_welcome_feature_ai_desc">家計について質問して、スマートな分析を受け取りましょう。</string>
+    <string name="onboarding_welcome_feature_privacy_title">プライベートで安全</string>
+    <string name="onboarding_welcome_feature_privacy_desc">すべてのデータは端末内に保存され、PINや生体認証で保護されます。</string>
 </resources>

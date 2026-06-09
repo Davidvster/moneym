@@ -16,4 +16,5 @@
     <string name="category_seed_payment">Плаќање</string>
     <string name="category_seed_gift">Подарок</string>
     <string name="category_seed_other_income">Друго</string>
+    <string name="default_account_name">Главна</string>
 </resources>

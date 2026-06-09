@@ -7,6 +7,7 @@ import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.common.DefaultAppClock
 import com.dv.moneym.core.common.DefaultDispatcherProvider
 import com.dv.moneym.core.common.DispatcherProvider
+import com.dv.moneym.core.common.TransactionSavedSignal
 import com.dv.moneym.data.llmmodels.LlmModelRepository
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.AppSettingsRepository
@@ -20,6 +21,7 @@ import org.koin.dsl.module
 val coreCommonModule: Module = module {
     single<DispatcherProvider> { DefaultDispatcherProvider() }
     single<AppClock> { DefaultAppClock() }
+    single { TransactionSavedSignal() }
 }
 
 val coreAiModule: Module = module {

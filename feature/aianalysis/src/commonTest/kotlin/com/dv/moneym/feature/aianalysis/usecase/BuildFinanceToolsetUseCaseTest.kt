@@ -86,7 +86,19 @@ class BuildFinanceToolsetUseCaseTest {
     fun builds_expected_tool_definitions() {
         val tools = useCase(2026, 5)
         assertEquals(
-            listOf("totals", "spendingByCategory", "topExpenses", "comparePreviousMonths", "transactions"),
+            listOf(
+                "totals",
+                "spendingByCategory",
+                "topExpenses",
+                "comparePreviousMonths",
+                "transactions",
+                "dataRange",
+                "categories",
+                "accounts",
+                "searchTransactions",
+                "totalsForRange",
+                "budgets",
+            ),
             tools.map { it.name },
         )
         assertEquals("""{"n":"integer"}""", tools.first { it.name == "topExpenses" }.paramsSchema)
@@ -186,6 +198,105 @@ class BuildFinanceToolsetUseCaseTest {
     fun transactions_no_data() = runTest {
         accountRepo.addAll(listOf(account()))
         val out = toolset().getValue("transactions").invoke(emptyMap())
+        assertEquals("No data.", out)
+    }
+
+    @Test
+    fun search_transactions_spans_all_history_and_filters() = runTest {
+        accountRepo.addAll(listOf(account()))
+        catRepo.addAll(listOf(category(1, "Food"), category(2, "Travel")))
+        // outside the selected month (May 2026) on purpose
+        txnRepo.upsert(txn(TransactionType.EXPENSE, 5000, LocalDate(2025, 1, 2), 1, note = "team lunch"))
+        txnRepo.upsert(txn(TransactionType.EXPENSE, 8000, LocalDate(2024, 7, 3), 2, note = "flight to Berlin"))
+
+        val all = toolset().getValue("searchTransactions").invoke(emptyMap())
+        assertTrue(all.contains("team lunch"), all)
+        assertTrue(all.contains("flight to Berlin"), all)
+
+        val byText = toolset().getValue("searchTransactions").invoke(mapOf("q" to "berlin"))
+        assertTrue(byText.contains("flight to Berlin"), byText)
+        assertTrue(!byText.contains("team lunch"), byText)
+
+        val byRange = toolset().getValue("searchTransactions")
+            .invoke(mapOf("from" to "2025-01-01", "to" to "2025-12-31"))
+        assertTrue(byRange.contains("team lunch"), byRange)
+        assertTrue(!byRange.contains("flight to Berlin"), byRange)
+
+        val byType = toolset().getValue("searchTransactions").invoke(mapOf("type" to "income"))
+        assertEquals("No data.", byType)
+    }
+
+    @Test
+    fun totals_for_range_sums_across_history() = runTest {
+        accountRepo.addAll(listOf(account()))
+        catRepo.addAll(listOf(category(1, "Food")))
+        txnRepo.upsert(txn(TransactionType.INCOME, 100000, LocalDate(2025, 1, 2), 1))
+        txnRepo.upsert(txn(TransactionType.EXPENSE, 40000, LocalDate(2025, 6, 3), 1))
+
+        val out = toolset().getValue("totalsForRange")
+            .invoke(mapOf("from" to "2025-01-01", "to" to "2025-12-31"))
+        assertTrue(out.contains("Income 1000.00 EUR"), out)
+        assertTrue(out.contains("Expense 400.00 EUR"), out)
+        assertTrue(out.contains("Net 600.00 EUR"), out)
+    }
+
+    @Test
+    fun data_range_reports_span_and_count() = runTest {
+        accountRepo.addAll(listOf(account()))
+        catRepo.addAll(listOf(category(1, "Food")))
+        txnRepo.upsert(txn(TransactionType.EXPENSE, 5000, LocalDate(2024, 7, 3), 1))
+        txnRepo.upsert(txn(TransactionType.EXPENSE, 8000, LocalDate(2025, 1, 2), 1))
+
+        val out = toolset().getValue("dataRange").invoke(emptyMap())
+        assertTrue(out.contains("2024-07-03"), out)
+        assertTrue(out.contains("2025-01-02"), out)
+        assertTrue(out.contains("2 total"), out)
+    }
+
+    @Test
+    fun categories_and_accounts_list_metadata() = runTest {
+        accountRepo.addAll(listOf(account()))
+        catRepo.addAll(listOf(category(1, "Food")))
+
+        val cats = toolset().getValue("categories").invoke(emptyMap())
+        assertTrue(cats.contains("Food (expense)"), cats)
+
+        val accs = toolset().getValue("accounts").invoke(emptyMap())
+        assertTrue(accs.contains("Main"), accs)
+        assertTrue(accs.contains("EUR"), accs)
+        assertTrue(accs.contains("default"), accs)
+    }
+
+    @Test
+    fun budgets_reports_active_budget_spent_and_limit() = runTest {
+        accountRepo.addAll(listOf(account()))
+        catRepo.addAll(listOf(category(1, "Food")))
+        budgetRepo.addAll(
+            listOf(
+                com.dv.moneym.core.model.Budget(
+                    id = com.dv.moneym.core.model.BudgetId(1),
+                    name = "Groceries",
+                    amount = Money(100000, CurrencyCode("EUR")),
+                    categoryId = CategoryId(1),
+                    accountId = AccountId(1),
+                    periodType = com.dv.moneym.core.model.BudgetPeriodType.MONTHLY,
+                    startYearMonth = com.dv.moneym.core.model.YearMonth(2026, 5),
+                    recurringMonths = com.dv.moneym.core.model.Budget.UNLIMITED,
+                    createdAt = epoch,
+                    updatedAt = epoch,
+                ),
+            ),
+        )
+        txnRepo.upsert(txn(TransactionType.EXPENSE, 40000, LocalDate(2026, 5, 2), 1))
+
+        val out = toolset().getValue("budgets").invoke(emptyMap())
+        assertTrue(out.contains("Groceries (Food): 400.00 EUR / 1000.00 EUR"), out)
+    }
+
+    @Test
+    fun budgets_no_data_when_none_active() = runTest {
+        accountRepo.addAll(listOf(account()))
+        val out = toolset().getValue("budgets").invoke(emptyMap())
         assertEquals("No data.", out)
     }
 

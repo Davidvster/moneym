@@ -26,4 +26,11 @@
     <string name="transactions_wallet_all">Alle lommebøker</string>
     <string name="transactions_syncing">Synkroniserer…</string>
     <string name="transactions_pending_deletions">%1$d elementer fjernet på en annen enhet — gjennomgå</string>
+    <string name="transactions_sync_conflict_body">Synkronisering er satt på pause. Åpne Sikkerhetskopiering og gjenoppretting i Innstillinger for å skrive inn passordet.</string>
+    <string name="transactions_sync_last">Sist synkronisert %1$s</string>
+    <string name="transactions_sync_never">Ikke synkronisert ennå</string>
+    <string name="transactions_sync_now">Synkroniser nå</string>
+    <string name="transactions_sync_paused">Synkronisering satt på pause — handling kreves</string>
+    <string name="transactions_sync_sheet_title">Skysynkronisering</string>
+    <string name="transactions_synced">Synkronisert</string>
 </resources>

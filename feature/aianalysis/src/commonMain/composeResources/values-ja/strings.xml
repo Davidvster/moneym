@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">データソース</string>
     <string name="analyze_grounding_snapshot">スナップショット</string>
     <string name="analyze_grounding_tools">ツール</string>
+    <string name="analyze_grounding_snapshot_hint">選択した年の要約を送信します。その期間に関する質問に最適です。</string>
+    <string name="analyze_grounding_tools_hint">AIが全履歴を検索し、必要な情報を取得できます。自由な質問に最適です。</string>
+    <string name="analyze_year_label">スナップショットの年</string>
+    <string name="analyze_year_prev_cd">前の年</string>
+    <string name="analyze_year_next_cd">次の年</string>
     <string name="analyze_tools_fallback_notice">このモデルはツールに対応していません。代わりにスナップショットを使用します。</string>
     <string name="analyze_error">エラーが発生しました。もう一度お試しください。</string>
     <string name="analyze_generating">考え中…</string>
@@ -16,4 +21,25 @@
         <item>今月と先月を比較するとどうですか？</item>
         <item>異常な大きな支出はありますか？</item>
     </string-array>
+    <string name="analyze_download_model">モデルをダウンロード</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">AIエンジン</string>
+    <string name="analyze_engine_local_llm">端末内モデル</string>
+    <string name="analyze_engine_needs_download_notice">このエンジンは利用できません。続けるにはモデルをダウンロードしてください。</string>
+    <string name="analyze_engine_status_download">タップしてダウンロード</string>
+    <string name="analyze_engine_status_ready">準備完了</string>
+    <string name="analyze_engine_status_unavailable">利用不可</string>
+    <string name="analyze_history_cd">チャット履歴</string>
+    <string name="analyze_history_delete_body">この会話とそのメッセージを完全に削除します。</string>
+    <string name="analyze_history_delete_cancel">キャンセル</string>
+    <string name="analyze_history_delete_cd">会話を削除</string>
+    <string name="analyze_history_delete_confirm">削除</string>
+    <string name="analyze_history_delete_title">会話を削除しますか？</string>
+    <string name="analyze_history_empty">まだ会話はありません。チャットはここに表示されます。</string>
+    <string name="analyze_history_new_chat_cd">新しいチャット</string>
+    <string name="analyze_history_title">チャット履歴</string>
+    <string name="analyze_manage_models">モデルを管理…</string>
+    <string name="analyze_model_picker_cd">モデルを選択</string>
+    <string name="analyze_new_chat_cd">新しいチャット</string>
 </resources>

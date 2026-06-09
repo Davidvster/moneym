@@ -26,4 +26,11 @@
     <string name="transactions_wallet_all">Todas as carteiras</string>
     <string name="transactions_syncing">A sincronizar…</string>
     <string name="transactions_pending_deletions">%1$d itens removidos noutro dispositivo — rever</string>
+    <string name="transactions_sync_conflict_body">A sincronização está pausada. Abra Backup e restauração nas Definições para inserir a palavra-passe.</string>
+    <string name="transactions_sync_last">Última sincronização %1$s</string>
+    <string name="transactions_sync_never">Ainda não sincronizado</string>
+    <string name="transactions_sync_now">Sincronizar agora</string>
+    <string name="transactions_sync_paused">Sincronização pausada — ação necessária</string>
+    <string name="transactions_sync_sheet_title">Sincronização na nuvem</string>
+    <string name="transactions_synced">Sincronizado</string>
 </resources>

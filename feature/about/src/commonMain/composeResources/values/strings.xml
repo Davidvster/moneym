@@ -3,4 +3,6 @@
     <string name="about_title">About</string>
     <string name="about_terms">Terms &amp; Conditions</string>
     <string name="about_privacy">Privacy Policy</string>
+    <string name="about_libraries">Open Source Libraries</string>
+    <string name="libraries_title">Libraries</string>
 </resources>

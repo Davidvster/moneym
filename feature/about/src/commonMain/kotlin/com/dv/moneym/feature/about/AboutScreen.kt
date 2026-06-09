@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,6 +20,7 @@ import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.imageVector
 import kotlinx.serialization.Serializable
 import moneym.feature.about.generated.resources.Res
+import moneym.feature.about.generated.resources.about_libraries
 import moneym.feature.about.generated.resources.about_privacy
 import moneym.feature.about.generated.resources.about_terms
 import moneym.feature.about.generated.resources.about_title
@@ -31,14 +33,15 @@ data object AboutKey : NavKey
 
 fun EntryProviderScope<NavKey>.aboutEntry(
     onBack: () -> Unit,
+    onNavigateToLibraries: () -> Unit = {},
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<AboutKey>(metadata = metadata) {
-    AboutScreen(onBack = onBack)
+    AboutScreen(onBack = onBack, onNavigateToLibraries = onNavigateToLibraries)
 }
 
 @Composable
-private fun AboutScreen(onBack: () -> Unit) {
-    val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
+private fun AboutScreen(onBack: () -> Unit, onNavigateToLibraries: () -> Unit = {}) {
+    val uriHandler = LocalUriHandler.current
     val space = MM.dimen
 
     Column(modifier = Modifier.fillMaxSize().background(MM.colors.bg)) {
@@ -58,6 +61,11 @@ private fun AboutScreen(onBack: () -> Unit) {
                         title = stringResource(Res.string.about_privacy),
                         leadingIcon = Icon.Info.imageVector,
                         onClick = { uriHandler.openUri(ABOUT_URL) },
+                    )
+                    MmSettingsRow(
+                        title = stringResource(Res.string.about_libraries),
+                        leadingIcon = Icon.List.imageVector,
+                        onClick = onNavigateToLibraries,
                         divider = false,
                     )
                 }

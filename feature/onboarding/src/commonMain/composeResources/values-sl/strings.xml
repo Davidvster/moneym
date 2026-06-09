@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">Prekliči</string>
     <string name="onboarding_restore_remote_loading">Pridobivanje informacij o varnostni kopiji…</string>
     <string name="onboarding_restore_wrong_password">Napačno geslo ali poškodovana varnostna kopija.</string>
+    <string name="default_account_name">Glavni</string>
+    <string name="onboarding_get_started">Začni</string>
+    <string name="onboarding_restore_error_fetch_info">Pridobivanje podatkov o varnostni kopiji ni uspelo</string>
+    <string name="onboarding_restore_error_restore_failed">Obnovitev ni uspela</string>
+    <string name="onboarding_restore_error_sign_in_failed">Prijava ni uspela</string>
+    <string name="onboarding_welcome_subtitle">Vaš zasebni sledilnik denarja, ki deluje predvsem brez povezave.</string>
+    <string name="onboarding_welcome_feature_track_title">Spremljajte vsako transakcijo</string>
+    <string name="onboarding_welcome_feature_track_desc">Zabeležite prihodke in odhodke v nekaj sekundah na vseh računih.</string>
+    <string name="onboarding_welcome_feature_insights_title">Poglejte, kam gre vaš denar</string>
+    <string name="onboarding_welcome_feature_insights_desc">Pregledni povzetki in grafi razčlenijo porabo po kategoriji in mesecu.</string>
+    <string name="onboarding_welcome_feature_ai_title">Vpogledi z umetno inteligenco</string>
+    <string name="onboarding_welcome_feature_ai_desc">Postavljajte vprašanja o svojih financah in prejmite pametno analizo.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Zasebno in varno</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Vse ostane v vaši napravi, zaščiteno s kodo PIN ali biometrijo.</string>
 </resources>

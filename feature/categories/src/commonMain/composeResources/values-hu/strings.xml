@@ -40,4 +40,16 @@
     <string name="categories_color_hex">Hex szín</string>
     <string name="categories_color_select">Szín kiválasztása</string>
     <string name="categories_name_preview_placeholder">Kategória neve</string>
+    <string name="categories_name_blank">A név nem lehet üres</string>
+    <string name="categories_name_duplicate">Már létezik ilyen nevű kategória</string>
+    <string name="categories_options_subtitle">%1$d tranzakció használja ezt a kategóriát</string>
+    <string name="categories_option_archive">Megtartás, helyette archiválás</string>
+    <string name="categories_option_unarchive">Kategória visszaállítása az archívumból</string>
+    <string name="categories_option_migrate">Tranzakciók áthelyezése másik kategóriába</string>
+    <string name="categories_option_delete_all">Kategória és minden tranzakció törlése</string>
+    <string name="categories_migrate_title">Tranzakciók áthelyezése ide…</string>
+    <string name="categories_delete_all_title">Törölhető a(z) „%1$s“ és a tranzakciói?</string>
+    <string name="categories_delete_all_warning">Ez véglegesen törli a kategóriát és a hozzá tartozó %1$d tranzakciót. A művelet nem vonható vissza.</string>
+    <string name="categories_delete_all_input_label">A megerősítéshez írd be a kategória nevét</string>
+    <string name="categories_delete_all_confirm">Végleges törlés</string>
 </resources>

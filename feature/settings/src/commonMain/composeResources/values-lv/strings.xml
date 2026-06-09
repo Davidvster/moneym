@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Jauns atkārtots darījums</string>
     <string name="settings_section_about">PAR</string>
     <string name="settings_about">Par</string>
+    <string name="settings_allow_screenshots">Atļaut ekrānuzņēmumus</string>
+    <string name="settings_allow_screenshots_subtitle">Atļaut ekrānuzņēmumus un ekrāna ierakstīšanu</string>
+    <string name="settings_cloud_devices">Ierīces</string>
+    <string name="settings_cloud_join_body">Ievadiet to pašu paroli, ko iestatījāt citā ierīcē, lai šī ierīce varētu lasīt mākoņa datus.</string>
+    <string name="settings_cloud_join_confirm">Pievienoties</string>
+    <string name="settings_cloud_join_plaintext_body">Jūsu otras ierīces mākoņa dati nav šifrēti. Vai ieslēgt mākoņa sinhronizāciju arī šajā ierīcē?</string>
+    <string name="settings_cloud_join_plaintext_title">Ieslēgt mākoņa sinhronizāciju</string>
+    <string name="settings_cloud_join_title">Pievienojieties savai otrai ierīcei</string>
+    <string name="settings_cloud_sync">Mākoņa sinhronizācija</string>
+    <string name="settings_cloud_sync_subtitle">Dublējiet un sinhronizējiet datus starp ierīcēm, izmantojot Google Drive.</string>
+    <string name="settings_cloud_wrong_password">Šī parole neatbilst mākoņa datiem.</string>
+    <string name="settings_import_failed">Importēšana neizdevās</string>
+    <string name="settings_remote_delete_body">Tas neatgriezeniski dzēš visus mākoņa dublējumus un sinhronizācijas datus no jūsu Google Drive un izslēdz automātisko dublēšanu un sinhronizāciju starp ierīcēm. To nevar atsaukt.</string>
+    <string name="settings_remote_delete_confirm">Dzēst</string>
+    <string name="settings_remote_delete_data">Dzēst Google Drive datus</string>
+    <string name="settings_remote_delete_title">Dzēst Google Drive datus?</string>
+    <string name="settings_remote_error_backup_failed">Dublēšana neizdevās</string>
+    <string name="settings_remote_error_fetch_info">Neizdevās iegūt dublējuma informāciju</string>
+    <string name="settings_remote_error_restore_failed">Atjaunošana neizdevās</string>
+    <string name="settings_remote_error_sign_in_failed">Pieteikšanās neizdevās</string>
+    <string name="settings_remote_restore_error_title">Neizdevās ielādēt dublējumu</string>
+    <string name="settings_remote_restore_no_backup">Google Drive netika atrasts neviens dublējums.</string>
+    <string name="settings_remote_restore_try_again">Lūdzu, mēģiniet vēlreiz.</string>
 </resources>

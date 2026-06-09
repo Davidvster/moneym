@@ -40,4 +40,16 @@
     <string name="categories_color_hex">Hex barva</string>
     <string name="categories_color_select">Izberi barvo</string>
     <string name="categories_name_preview_placeholder">Ime kategorije</string>
+    <string name="categories_name_blank">Ime ne sme biti prazno</string>
+    <string name="categories_name_duplicate">Kategorija s tem imenom že obstaja</string>
+    <string name="categories_options_subtitle">To kategorijo uporablja %1$d transakcij</string>
+    <string name="categories_option_archive">Obdrži in namesto tega arhiviraj</string>
+    <string name="categories_option_unarchive">Razarhiviraj kategorijo</string>
+    <string name="categories_option_migrate">Premakni transakcije v drugo kategorijo</string>
+    <string name="categories_option_delete_all">Izbriši kategorijo in vse transakcije</string>
+    <string name="categories_migrate_title">Premakni transakcije v…</string>
+    <string name="categories_delete_all_title">Izbrišem »%1$s« in njene transakcije?</string>
+    <string name="categories_delete_all_warning">To trajno izbriše kategorijo in njenih %1$d transakcij. Tega dejanja ni mogoče razveljaviti.</string>
+    <string name="categories_delete_all_input_label">Za potrditev vnesite ime kategorije</string>
+    <string name="categories_delete_all_confirm">Trajno izbriši</string>
 </resources>

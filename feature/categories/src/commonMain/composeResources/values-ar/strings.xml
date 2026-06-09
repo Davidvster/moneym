@@ -40,4 +40,16 @@
     <string name="categories_color_hex">لون هيكساديسيمال</string>
     <string name="categories_color_select">اختر اللون</string>
     <string name="categories_name_preview_placeholder">اسم الفئة</string>
+    <string name="categories_name_blank">لا يمكن أن يكون الاسم فارغًا</string>
+    <string name="categories_name_duplicate">توجد فئة بهذا الاسم بالفعل</string>
+    <string name="categories_options_subtitle">%1$d معاملة تستخدم هذه الفئة</string>
+    <string name="categories_option_archive">احتفظ بها، وأرشِفها بدلاً من ذلك</string>
+    <string name="categories_option_unarchive">إلغاء أرشفة الفئة</string>
+    <string name="categories_option_migrate">نقل المعاملات إلى فئة أخرى</string>
+    <string name="categories_option_delete_all">حذف الفئة وجميع المعاملات</string>
+    <string name="categories_migrate_title">نقل المعاملات إلى…</string>
+    <string name="categories_delete_all_title">حذف "%1$s" ومعاملاتها؟</string>
+    <string name="categories_delete_all_warning">يؤدي هذا إلى حذف الفئة و%1$d من معاملاتها نهائيًا. لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="categories_delete_all_input_label">اكتب اسم الفئة للتأكيد</string>
+    <string name="categories_delete_all_confirm">حذف نهائي</string>
 </resources>

@@ -6,5 +6,9 @@ interface AiEngine {
     val id: AiEngineId
     val supportsTools: Boolean
     suspend fun availability(): AiAvailability
-    fun streamReply(messages: List<ChatMessage>, grounding: Grounding): Flow<String>
+    fun streamReply(
+        messages: List<ChatMessage>,
+        grounding: Grounding,
+        responseLanguage: String? = null,
+    ): Flow<String>
 }

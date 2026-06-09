@@ -13,5 +13,8 @@ object SecurityPrefs {
     const val FAILED_PIN_ATTEMPTS = "pref.failed_pin_attempts"
     const val LAST_FAILED_ATTEMPT_AT = "pref.last_failed_attempt_at"
 
+    // Allow screenshots / screen recording (default false = blocked via FLAG_SECURE)
+    const val ALLOW_SCREENSHOTS = "pref.allow_screenshots"
+
     const val DEFAULT_LOCK_SECONDS = 30
 }

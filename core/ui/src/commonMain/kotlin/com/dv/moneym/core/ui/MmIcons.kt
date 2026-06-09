@@ -1257,6 +1257,91 @@ internal object MmIcons {
         }.build()
     }
 
+    private val sync: ImageVector by lazy {
+        ImageVector.Builder(
+            name = "sync",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+        ).apply {
+            addPath(
+                pathData = addPathNodes("M3 12 A9 9 0 0 1 18.74 5.74 L21 8"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+            addPath(
+                pathData = addPathNodes("M21 3 L21 8 L16 8"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+            addPath(
+                pathData = addPathNodes("M21 12 A9 9 0 0 1 5.26 18.26 L3 16"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+            addPath(
+                pathData = addPathNodes("M3 21 L3 16 L8 16"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+        }.build()
+    }
+
+    private val warning: ImageVector by lazy {
+        ImageVector.Builder(
+            name = "warning",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+        ).apply {
+            addPath(
+                pathData = addPathNodes("M10.3 4 A2 2 0 0 1 13.7 4 L21 18 A2 2 0 0 1 19.3 21 L4.7 21 A2 2 0 0 1 3 18 Z"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+            addPath(
+                pathData = addPathNodes("M12 10 L12 14"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+            addPath(
+                pathData = addPathNodes("M12 17 L12 17.01"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+        }.build()
+    }
+
     internal fun forIcon(icon: Icon): ImageVector = when (icon) {
         Icon.Plus -> plus
         Icon.Close -> close
@@ -1308,5 +1393,7 @@ internal object MmIcons {
         Icon.Eye -> eye
         Icon.EyeOff -> eyeOff
         Icon.Sparkles -> sparkles
+        Icon.Sync -> sync
+        Icon.Warning -> warning
     }
 }

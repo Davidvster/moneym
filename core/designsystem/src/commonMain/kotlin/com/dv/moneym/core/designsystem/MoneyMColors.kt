@@ -17,6 +17,7 @@ data class MoneyMColors(
     val text3: Color,
     val accent: Color = Color(0xFF16A34A),
     val danger: Color = Color(0xFFDC2626),
+    val warning: Color = Color(0xFFF59E0B),
     // Category palette — same in both modes
     val catHealth: Color = Color(0xFFC2566B),
     val catEntertainment: Color = Color(0xFF8B6FB0),

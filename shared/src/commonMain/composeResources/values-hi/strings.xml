@@ -16,4 +16,5 @@
     <string name="category_seed_payment">भुगतान</string>
     <string name="category_seed_gift">उपहार</string>
     <string name="category_seed_other_income">अन्य</string>
+    <string name="default_account_name">मुख्य</string>
 </resources>

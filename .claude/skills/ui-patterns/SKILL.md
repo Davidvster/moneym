@@ -169,18 +169,26 @@ string literals in composables — not even "OK", "Cancel", or button labels.**
 
 Strings live in the owning feature module under `commonMain/composeResources/values/strings.xml`.
 
-**Every new string key MUST be added to all four locale files in the same change:**
+**Every new string key MUST be added to the English base AND all 27 translation locales in the
+same change:**
 
 | File | Locale |
 |------|--------|
-| `composeResources/values/strings.xml` | English (default) |
-| `composeResources/values-de/strings.xml` | German |
-| `composeResources/values-es/strings.xml` | Spanish |
-| `composeResources/values-it/strings.xml` | Italian |
+| `composeResources/values/strings.xml` | English (default / base) |
+| `composeResources/values-<locale>/strings.xml` | one per translation locale |
+
+The 27 translation locales:
+
+```
+ar cs da de es et fi fr hi hr hu is it ja lt lv mk nb nl pl pt ru sk sl sv tr vi zh
+```
+
+`de` / `es` / `it` are the most carefully curated; treat them as the quality reference. The rest
+are full but machine-assisted — keep them in parity.
 
 If you add a key to `values/` but not the others, the task is incomplete. Missing translations
-fall back to English at runtime, but all four files must be updated before a task is considered
-done.
+fall back to English at runtime, but every locale file must be updated before a task is considered
+done. To audit, diff each `values-<locale>` key set against `values/` per module.
 
 Format arguments use `%1$s` / `%1$d` placeholders:
 

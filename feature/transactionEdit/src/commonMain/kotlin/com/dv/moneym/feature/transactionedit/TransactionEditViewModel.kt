@@ -6,6 +6,7 @@ import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.common.DispatcherProvider
+import com.dv.moneym.core.common.TransactionSavedSignal
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
@@ -60,6 +61,7 @@ class TransactionEditViewModel(
     private val suggestNotes: SuggestNotesUseCase,
     private val dispatchers: DispatcherProvider,
     private val clock: AppClock,
+    private val transactionSavedSignal: TransactionSavedSignal = TransactionSavedSignal(),
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -389,20 +391,25 @@ class TransactionEditViewModel(
             is ValidationOutcome.Ok -> {
                 _state.update { it.copy(isSaving = true) }
                 viewModelScope.launch {
-                    withContext(dispatchers.io) {
+                    val insertedDate = withContext(dispatchers.io) {
                         val rule = outcome.rule
                         if (rule == null) {
                             upsertTransaction(outcome.transaction)
+                            outcome.transaction.occurredOn
                         } else {
                             val ruleId = recurringTransactionRepository.upsert(rule)
                             val startDate = rule.startDate
                             if (startDate <= today) {
                                 upsertTransaction(outcome.transaction.copy(recurringId = ruleId))
                                 recurringTransactionRepository.updateCursor(ruleId, startDate)
-                            }
+                                outcome.transaction.occurredOn
+                            } else null
                         }
                     }
                     _state.update { it.copy(isSaving = false) }
+                    if (isNewTransaction && insertedDate != null) {
+                        transactionSavedSignal.notifySaved(insertedDate)
+                    }
                     _effects.send(TransactionEditEffect.Saved)
                 }
             }

@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Nova ponavljajuća transakcija</string>
     <string name="settings_section_about">O APLIKACIJI</string>
     <string name="settings_about">O aplikaciji</string>
+    <string name="settings_allow_screenshots">Dopusti snimke zaslona</string>
+    <string name="settings_allow_screenshots_subtitle">Dopusti snimke zaslona i snimanje zaslona</string>
+    <string name="settings_cloud_devices">Uređaji</string>
+    <string name="settings_cloud_join_body">Unesite istu lozinku koju ste postavili na drugom uređaju kako bi ovaj uređaj mogao čitati podatke u oblaku.</string>
+    <string name="settings_cloud_join_confirm">Pridruži se</string>
+    <string name="settings_cloud_join_plaintext_body">Podaci u oblaku vašeg drugog uređaja nisu šifrirani. Želite li uključiti sinkronizaciju u oblaku i na ovom uređaju?</string>
+    <string name="settings_cloud_join_plaintext_title">Uključi sinkronizaciju u oblaku</string>
+    <string name="settings_cloud_join_title">Pridruži se drugom uređaju</string>
+    <string name="settings_cloud_sync">Sinkronizacija u oblaku</string>
+    <string name="settings_cloud_sync_subtitle">Sigurnosno kopirajte i sinkronizirajte podatke među uređajima putem Google Drivea.</string>
+    <string name="settings_cloud_wrong_password">Ta lozinka ne odgovara podacima u oblaku.</string>
+    <string name="settings_import_failed">Uvoz nije uspio</string>
+    <string name="settings_remote_delete_body">Ovo trajno briše sve sigurnosne kopije u oblaku i podatke sinkronizacije s vašeg Google Drivea te isključuje automatsku izradu sigurnosnih kopija i sinkronizaciju među uređajima. Ovo se ne može poništiti.</string>
+    <string name="settings_remote_delete_confirm">Izbriši</string>
+    <string name="settings_remote_delete_data">Izbriši podatke s Google Drivea</string>
+    <string name="settings_remote_delete_title">Izbrisati podatke s Google Drivea?</string>
+    <string name="settings_remote_error_backup_failed">Izrada sigurnosne kopije nije uspjela</string>
+    <string name="settings_remote_error_fetch_info">Dohvaćanje podataka o sigurnosnoj kopiji nije uspjelo</string>
+    <string name="settings_remote_error_restore_failed">Vraćanje nije uspjelo</string>
+    <string name="settings_remote_error_sign_in_failed">Prijava nije uspjela</string>
+    <string name="settings_remote_restore_error_title">Učitavanje sigurnosne kopije nije uspjelo</string>
+    <string name="settings_remote_restore_no_backup">Na Google Driveu nije pronađena sigurnosna kopija.</string>
+    <string name="settings_remote_restore_try_again">Pokušajte ponovno.</string>
 </resources>

@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Andmeallikas</string>
     <string name="analyze_grounding_snapshot">Hetktõmmis</string>
     <string name="analyze_grounding_tools">Tööriistad</string>
+    <string name="analyze_grounding_snapshot_hint">Saadab valitud aasta kokkuvõtte. Sobib selle perioodi küsimusteks.</string>
+    <string name="analyze_grounding_tools_hint">Laseb tehisintellektil otsida kogu ajaloost ja tuua vajaliku. Sobib avatud küsimusteks.</string>
+    <string name="analyze_year_label">Hetktõmmise aasta</string>
+    <string name="analyze_year_prev_cd">Eelmine aasta</string>
+    <string name="analyze_year_next_cd">Järgmine aasta</string>
     <string name="analyze_tools_fallback_notice">See mudel ei toeta tööriistu. Kasutatakse hetktõmmist.</string>
     <string name="analyze_error">Midagi läks valesti. Proovi uuesti.</string>
     <string name="analyze_generating">Mõtlen…</string>
@@ -16,4 +21,25 @@
         <item>Kuidas see kuu võrreldes eelmisega?</item>
         <item>Kas on ebatavalisi või suuri kulutusi?</item>
     </string-array>
+    <string name="analyze_download_model">Laadi mudel alla</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">Tehisintellekti mootor</string>
+    <string name="analyze_engine_local_llm">Seadmesisene mudel</string>
+    <string name="analyze_engine_needs_download_notice">See mootor pole saadaval. Jätkamiseks laadi mudel alla.</string>
+    <string name="analyze_engine_status_download">Allalaadimiseks puuduta</string>
+    <string name="analyze_engine_status_ready">Valmis</string>
+    <string name="analyze_engine_status_unavailable">Pole saadaval</string>
+    <string name="analyze_history_cd">Vestluste ajalugu</string>
+    <string name="analyze_history_delete_body">See eemaldab jäädavalt selle vestluse ja selle sõnumid.</string>
+    <string name="analyze_history_delete_cancel">Tühista</string>
+    <string name="analyze_history_delete_cd">Kustuta vestlus</string>
+    <string name="analyze_history_delete_confirm">Kustuta</string>
+    <string name="analyze_history_delete_title">Kustutada vestlus?</string>
+    <string name="analyze_history_empty">Vestlusi veel pole. Sinu vestlused ilmuvad siia.</string>
+    <string name="analyze_history_new_chat_cd">Uus vestlus</string>
+    <string name="analyze_history_title">Vestluste ajalugu</string>
+    <string name="analyze_manage_models">Halda mudeleid…</string>
+    <string name="analyze_model_picker_cd">Vali mudel</string>
+    <string name="analyze_new_chat_cd">Uus vestlus</string>
 </resources>

@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Uus korduv tehing</string>
     <string name="settings_section_about">TEAVE</string>
     <string name="settings_about">Teave</string>
+    <string name="settings_allow_screenshots">Luba ekraanipildid</string>
+    <string name="settings_allow_screenshots_subtitle">Luba ekraanipildid ja ekraanisalvestus</string>
+    <string name="settings_cloud_devices">Seadmed</string>
+    <string name="settings_cloud_join_body">Sisesta sama parool, mille seadsid oma teises seadmes, et see seade saaks pilveandmeid lugeda.</string>
+    <string name="settings_cloud_join_confirm">Liitu</string>
+    <string name="settings_cloud_join_plaintext_body">Sinu teise seadme pilveandmed pole krüptitud. Kas lülitada pilvesünkroonimine sisse ka selles seadmes?</string>
+    <string name="settings_cloud_join_plaintext_title">Lülita pilvesünkroonimine sisse</string>
+    <string name="settings_cloud_join_title">Liitu oma teise seadmega</string>
+    <string name="settings_cloud_sync">Pilvesünkroonimine</string>
+    <string name="settings_cloud_sync_subtitle">Varunda ja sünkrooni andmeid eri seadmete vahel Google Drive\'i kaudu.</string>
+    <string name="settings_cloud_wrong_password">See parool ei ühti pilveandmetega.</string>
+    <string name="settings_import_failed">Importimine ebaõnnestus</string>
+    <string name="settings_remote_delete_body">See kustutab jäädavalt kõik pilvevarundused ja sünkroonimisandmed sinu Google Drive\'ist ning lülitab välja automaatse varunduse ja seadmetevahelise sünkroonimise. Seda ei saa tagasi võtta.</string>
+    <string name="settings_remote_delete_confirm">Kustuta</string>
+    <string name="settings_remote_delete_data">Kustuta Google Drive\'i andmed</string>
+    <string name="settings_remote_delete_title">Kustutada Google Drive\'i andmed?</string>
+    <string name="settings_remote_error_backup_failed">Varundamine ebaõnnestus</string>
+    <string name="settings_remote_error_fetch_info">Varunduse teabe toomine ebaõnnestus</string>
+    <string name="settings_remote_error_restore_failed">Taastamine ebaõnnestus</string>
+    <string name="settings_remote_error_sign_in_failed">Sisselogimine ebaõnnestus</string>
+    <string name="settings_remote_restore_error_title">Varukoopiat ei õnnestunud laadida</string>
+    <string name="settings_remote_restore_no_backup">Google Drive\'ist ei leitud varukoopiat.</string>
+    <string name="settings_remote_restore_try_again">Palun proovi uuesti.</string>
 </resources>

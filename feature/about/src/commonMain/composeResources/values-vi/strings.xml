@@ -3,4 +3,6 @@
     <string name="about_title">Giới thiệu</string>
     <string name="about_terms">Điều khoản &amp; Điều kiện</string>
     <string name="about_privacy">Chính sách bảo mật</string>
+    <string name="about_libraries">Thư viện mã nguồn mở</string>
+    <string name="libraries_title">Thư viện</string>
 </resources>

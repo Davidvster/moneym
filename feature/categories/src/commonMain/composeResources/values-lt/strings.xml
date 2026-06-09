@@ -40,4 +40,16 @@
     <string name="categories_color_hex">Hex spalva</string>
     <string name="categories_color_select">Pasirinkti spalvą</string>
     <string name="categories_name_preview_placeholder">Kategorijos pavadinimas</string>
+    <string name="categories_name_blank">Pavadinimas negali būti tuščias</string>
+    <string name="categories_name_duplicate">Kategorija tokiu pavadinimu jau yra</string>
+    <string name="categories_options_subtitle">Šią kategoriją naudoja %1$d operacijų</string>
+    <string name="categories_option_archive">Palikti ir vietoj to suarchyvuoti</string>
+    <string name="categories_option_unarchive">Grąžinti kategoriją iš archyvo</string>
+    <string name="categories_option_migrate">Perkelti operacijas į kitą kategoriją</string>
+    <string name="categories_option_delete_all">Ištrinti kategoriją ir visas operacijas</string>
+    <string name="categories_migrate_title">Perkelti operacijas į…</string>
+    <string name="categories_delete_all_title">Ištrinti „%1$s“ ir jos operacijas?</string>
+    <string name="categories_delete_all_warning">Tai visam laikui ištrina kategoriją ir jos %1$d operacijų. Šio veiksmo anuliuoti negalima.</string>
+    <string name="categories_delete_all_input_label">Norėdami patvirtinti, įveskite kategorijos pavadinimą</string>
+    <string name="categories_delete_all_confirm">Ištrinti visam laikui</string>
 </resources>

@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">Отмена</string>
     <string name="onboarding_restore_remote_loading">Загрузка информации о резервной копии…</string>
     <string name="onboarding_restore_wrong_password">Неверный пароль или повреждённая резервная копия.</string>
+    <string name="default_account_name">Основной</string>
+    <string name="onboarding_get_started">Начать</string>
+    <string name="onboarding_restore_error_fetch_info">Не удалось получить сведения о резервной копии</string>
+    <string name="onboarding_restore_error_restore_failed">Не удалось восстановить</string>
+    <string name="onboarding_restore_error_sign_in_failed">Не удалось войти</string>
+    <string name="onboarding_welcome_subtitle">Ваш личный трекер денег, работающий прежде всего офлайн.</string>
+    <string name="onboarding_welcome_feature_track_title">Отслеживайте каждую операцию</string>
+    <string name="onboarding_welcome_feature_track_desc">Записывайте доходы и расходы за секунды по всем счетам.</string>
+    <string name="onboarding_welcome_feature_insights_title">Узнайте, куда уходят деньги</string>
+    <string name="onboarding_welcome_feature_insights_desc">Наглядные сводки и графики разбивают траты по категориям и месяцам.</string>
+    <string name="onboarding_welcome_feature_ai_title">Аналитика на базе ИИ</string>
+    <string name="onboarding_welcome_feature_ai_desc">Задавайте вопросы о финансах и получайте умную аналитику.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Конфиденциально и безопасно</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Все данные остаются на устройстве под защитой PIN-кода или биометрии.</string>
 </resources>

@@ -40,4 +40,16 @@
     <string name="categories_color_hex">Cor hexadecimal</string>
     <string name="categories_color_select">Selecionar cor</string>
     <string name="categories_name_preview_placeholder">Nome da categoria</string>
+    <string name="categories_name_blank">O nome não pode estar vazio</string>
+    <string name="categories_name_duplicate">Já existe uma categoria com este nome</string>
+    <string name="categories_options_subtitle">%1$d transações usam esta categoria</string>
+    <string name="categories_option_archive">Manter e arquivar em vez disso</string>
+    <string name="categories_option_unarchive">Desarquivar categoria</string>
+    <string name="categories_option_migrate">Mover transações para outra categoria</string>
+    <string name="categories_option_delete_all">Eliminar categoria e todas as transações</string>
+    <string name="categories_migrate_title">Mover transações para…</string>
+    <string name="categories_delete_all_title">Eliminar "%1$s" e as suas transações?</string>
+    <string name="categories_delete_all_warning">Isto elimina permanentemente a categoria e as suas %1$d transações. Esta ação não pode ser anulada.</string>
+    <string name="categories_delete_all_input_label">Escreva o nome da categoria para confirmar</string>
+    <string name="categories_delete_all_confirm">Eliminar permanentemente</string>
 </resources>

@@ -3,4 +3,6 @@
     <string name="about_title">حول</string>
     <string name="about_terms">الشروط &amp; الأحكام</string>
     <string name="about_privacy">سياسة الخصوصية</string>
+    <string name="about_libraries">مكتبات مفتوحة المصدر</string>
+    <string name="libraries_title">المكتبات</string>
 </resources>

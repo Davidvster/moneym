@@ -40,4 +40,16 @@
     <string name="categories_color_hex">Hex-väri</string>
     <string name="categories_color_select">Valitse väri</string>
     <string name="categories_name_preview_placeholder">Kategorian nimi</string>
+    <string name="categories_name_blank">Nimi ei voi olla tyhjä</string>
+    <string name="categories_name_duplicate">Tämän niminen luokka on jo olemassa</string>
+    <string name="categories_options_subtitle">%1$d tapahtumaa käyttää tätä luokkaa</string>
+    <string name="categories_option_archive">Säilytä ja arkistoi sen sijaan</string>
+    <string name="categories_option_unarchive">Poista luokka arkistosta</string>
+    <string name="categories_option_migrate">Siirrä tapahtumat toiseen luokkaan</string>
+    <string name="categories_option_delete_all">Poista luokka ja kaikki tapahtumat</string>
+    <string name="categories_migrate_title">Siirrä tapahtumat kohteeseen…</string>
+    <string name="categories_delete_all_title">Poistetaanko "%1$s" ja sen tapahtumat?</string>
+    <string name="categories_delete_all_warning">Tämä poistaa pysyvästi luokan ja sen %1$d tapahtumaa. Toimintoa ei voi kumota.</string>
+    <string name="categories_delete_all_input_label">Vahvista kirjoittamalla luokan nimi</string>
+    <string name="categories_delete_all_confirm">Poista pysyvästi</string>
 </resources>

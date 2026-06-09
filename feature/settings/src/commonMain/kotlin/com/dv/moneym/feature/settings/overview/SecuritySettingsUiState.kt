@@ -9,12 +9,14 @@ data class SecuritySettingsUiState(
     val biometricEnabled: Boolean = false,
     val biometricAvailable: Boolean = false,
     val backgroundLockSeconds: Int = SecurityPrefs.DEFAULT_LOCK_SECONDS,
+    val allowScreenshots: Boolean = false,
 )
 
 sealed interface SecuritySettingsIntent {
     data class PinToggled(val enable: Boolean) : SecuritySettingsIntent
     data class BiometricToggled(val enable: Boolean) : SecuritySettingsIntent
     data class LockTimeoutChanged(val seconds: Int) : SecuritySettingsIntent
+    data class ScreenshotsToggled(val enable: Boolean) : SecuritySettingsIntent
     data object ChangePinRequested : SecuritySettingsIntent
     data object RefreshPinState : SecuritySettingsIntent
 }

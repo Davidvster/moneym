@@ -40,4 +40,16 @@
     <string name="categories_color_hex">Màu Hex</string>
     <string name="categories_color_select">Chọn màu</string>
     <string name="categories_name_preview_placeholder">Tên danh mục</string>
+    <string name="categories_name_blank">Tên không được để trống</string>
+    <string name="categories_name_duplicate">Đã có danh mục với tên này</string>
+    <string name="categories_options_subtitle">%1$d giao dịch dùng danh mục này</string>
+    <string name="categories_option_archive">Giữ lại, lưu trữ thay vì xóa</string>
+    <string name="categories_option_unarchive">Bỏ lưu trữ danh mục</string>
+    <string name="categories_option_migrate">Chuyển giao dịch sang danh mục khác</string>
+    <string name="categories_option_delete_all">Xóa danh mục và mọi giao dịch</string>
+    <string name="categories_migrate_title">Chuyển giao dịch sang…</string>
+    <string name="categories_delete_all_title">Xóa "%1$s" và các giao dịch của nó?</string>
+    <string name="categories_delete_all_warning">Thao tác này sẽ xóa vĩnh viễn danh mục và %1$d giao dịch của nó. Không thể hoàn tác.</string>
+    <string name="categories_delete_all_input_label">Nhập tên danh mục để xác nhận</string>
+    <string name="categories_delete_all_confirm">Xóa vĩnh viễn</string>
 </resources>

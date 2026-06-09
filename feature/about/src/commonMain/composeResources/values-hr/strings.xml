@@ -3,4 +3,6 @@
     <string name="about_title">O aplikaciji</string>
     <string name="about_terms">Uvjeti &amp; Odredbe</string>
     <string name="about_privacy">Politika privatnosti</string>
+    <string name="about_libraries">Biblioteke otvorenog koda</string>
+    <string name="libraries_title">Biblioteke</string>
 </resources>

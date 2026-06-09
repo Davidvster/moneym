@@ -40,4 +40,16 @@
     <string name="categories_color_hex">HEXカラー</string>
     <string name="categories_color_select">色を選択</string>
     <string name="categories_name_preview_placeholder">カテゴリ名</string>
+    <string name="categories_name_blank">名前を入力してください</string>
+    <string name="categories_name_duplicate">この名前のカテゴリーはすでに存在します</string>
+    <string name="categories_options_subtitle">%1$d 件の取引がこのカテゴリーを使用しています</string>
+    <string name="categories_option_archive">削除せずアーカイブする</string>
+    <string name="categories_option_unarchive">カテゴリーのアーカイブを解除</string>
+    <string name="categories_option_migrate">取引を別のカテゴリーに移動</string>
+    <string name="categories_option_delete_all">カテゴリーとすべての取引を削除</string>
+    <string name="categories_migrate_title">取引の移動先…</string>
+    <string name="categories_delete_all_title">「%1$s」とその取引を削除しますか？</string>
+    <string name="categories_delete_all_warning">カテゴリーとその %1$d 件の取引を完全に削除します。この操作は取り消せません。</string>
+    <string name="categories_delete_all_input_label">確認のためカテゴリー名を入力してください</string>
+    <string name="categories_delete_all_confirm">完全に削除</string>
 </resources>

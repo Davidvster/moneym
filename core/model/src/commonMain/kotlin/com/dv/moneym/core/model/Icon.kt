@@ -54,6 +54,8 @@ enum class Icon(val key: String) {
     Eye("eye"),
     EyeOff("eye_off"),
     Sparkles("sparkles"),
+    Sync("sync"),
+    Warning("warning"),
     ;
 
     companion object {

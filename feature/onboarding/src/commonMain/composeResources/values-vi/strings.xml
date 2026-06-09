@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">Hủy</string>
     <string name="onboarding_restore_remote_loading">Đang tải thông tin sao lưu…</string>
     <string name="onboarding_restore_wrong_password">Mật khẩu sai hoặc bản sao lưu bị hỏng.</string>
+    <string name="default_account_name">Chính</string>
+    <string name="onboarding_get_started">Bắt đầu</string>
+    <string name="onboarding_restore_error_fetch_info">Không lấy được thông tin sao lưu</string>
+    <string name="onboarding_restore_error_restore_failed">Khôi phục thất bại</string>
+    <string name="onboarding_restore_error_sign_in_failed">Đăng nhập thất bại</string>
+    <string name="onboarding_welcome_subtitle">Trình theo dõi tiền riêng tư, ưu tiên hoạt động ngoại tuyến của bạn.</string>
+    <string name="onboarding_welcome_feature_track_title">Theo dõi mọi giao dịch</string>
+    <string name="onboarding_welcome_feature_track_desc">Ghi lại thu nhập và chi tiêu trong vài giây trên mọi tài khoản.</string>
+    <string name="onboarding_welcome_feature_insights_title">Xem tiền của bạn đi đâu</string>
+    <string name="onboarding_welcome_feature_insights_desc">Tổng quan và biểu đồ rõ ràng phân tích chi tiêu theo danh mục và tháng.</string>
+    <string name="onboarding_welcome_feature_ai_title">Thông tin chi tiết hỗ trợ bởi AI</string>
+    <string name="onboarding_welcome_feature_ai_desc">Đặt câu hỏi về tài chính của bạn và nhận phân tích thông minh.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Riêng tư và bảo mật</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Mọi thứ được lưu trên thiết bị của bạn, khóa bằng mã PIN hoặc sinh trắc học.</string>
 </resources>

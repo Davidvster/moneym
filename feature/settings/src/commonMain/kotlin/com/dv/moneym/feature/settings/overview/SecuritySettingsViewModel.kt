@@ -38,6 +38,7 @@ class SecuritySettingsViewModel(
                     SecurityPrefs.BACKGROUND_LOCK_SECONDS,
                     SecurityPrefs.DEFAULT_LOCK_SECONDS
                 ),
+                allowScreenshots = settings.getBoolean(SecurityPrefs.ALLOW_SCREENSHOTS),
             )
         )
     }
@@ -71,6 +72,11 @@ class SecuritySettingsViewModel(
             is SecuritySettingsIntent.LockTimeoutChanged -> {
                 settings.putInt(SecurityPrefs.BACKGROUND_LOCK_SECONDS, intent.seconds)
                 _state.update { it.copy(backgroundLockSeconds = intent.seconds) }
+            }
+
+            is SecuritySettingsIntent.ScreenshotsToggled -> {
+                settings.putBoolean(SecurityPrefs.ALLOW_SCREENSHOTS, intent.enable)
+                _state.update { it.copy(allowScreenshots = intent.enable) }
             }
 
             SecuritySettingsIntent.ChangePinRequested ->

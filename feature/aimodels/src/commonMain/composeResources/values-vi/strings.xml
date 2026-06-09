@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ai_models_title">Mô hình AI</string>
+    <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
+    <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
+    <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="ai_models_download">Tải xuống</string>
+    <string name="ai_models_cancel">Hủy</string>
+    <string name="ai_models_delete">Xóa</string>
+    <string name="ai_models_active">Đang hoạt động</string>
+    <string name="ai_models_delete_title">Xóa mô hình?</string>
+    <string name="ai_models_delete_body">Xóa tệp mô hình đã tải xuống khỏi thiết bị này.</string>
+    <string name="ai_models_verifying">Đang xác minh…</string>
+    <string name="ai_models_keep_awake">Giữ ứng dụng mở và màn hình bật. Đừng rời màn hình này cho đến khi tải xuống xong.</string>
+    <string name="ai_models_eta_seconds">~còn %1$d giây</string>
+    <string name="ai_models_eta_minutes">~còn %1$d phút</string>
+    <string name="ai_models_eta_hours">~còn %1$d giờ %2$d phút</string>
+    <string name="ai_models_error_download">Tải xuống thất bại. Vui lòng thử lại.</string>
+    <string name="ai_models_error_delete">Không thể xóa mô hình.</string>
+</resources>

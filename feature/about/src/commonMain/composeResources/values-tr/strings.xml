@@ -3,4 +3,6 @@
     <string name="about_title">Hakkında</string>
     <string name="about_terms">Kullanım Şartları</string>
     <string name="about_privacy">Gizlilik Politikası</string>
+    <string name="about_libraries">Açık kaynak kütüphaneler</string>
+    <string name="libraries_title">Kütüphaneler</string>
 </resources>

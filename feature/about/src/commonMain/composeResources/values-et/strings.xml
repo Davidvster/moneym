@@ -3,4 +3,6 @@
     <string name="about_title">Teave</string>
     <string name="about_terms">Kasutustingimused</string>
     <string name="about_privacy">Privaatsuspoliitika</string>
+    <string name="about_libraries">Avatud lähtekoodiga teegid</string>
+    <string name="libraries_title">Teegid</string>
 </resources>

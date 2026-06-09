@@ -18,6 +18,9 @@ data class AnalyzeUiState(
     val needsModelDownload: Boolean = false,
     val error: AnalyzeError? = null,
     val currentConversationId: Long? = null,
+    val selectedYear: Int? = null,
+    val minYear: Int? = null,
+    val maxYear: Int? = null,
 )
 
 @Serializable
@@ -37,6 +40,7 @@ sealed interface AnalyzeIntent {
     data class InputChanged(val text: String) : AnalyzeIntent
     data class SendMessage(val text: String) : AnalyzeIntent
     data class GroundingModeChanged(val mode: AiGroundingMode) : AnalyzeIntent
+    data class YearChanged(val year: Int) : AnalyzeIntent
     data class EngineChanged(val id: AiEngineId) : AnalyzeIntent
     data object RefreshEngines : AnalyzeIntent
     data object DismissFallbackNotice : AnalyzeIntent

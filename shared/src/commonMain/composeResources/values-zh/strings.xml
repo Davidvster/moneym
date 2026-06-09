@@ -16,4 +16,5 @@
     <string name="category_seed_payment">付款</string>
     <string name="category_seed_gift">礼金</string>
     <string name="category_seed_other_income">其他</string>
+    <string name="default_account_name">主账户</string>
 </resources>

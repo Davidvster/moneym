@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Ny gjentakende transaksjon</string>
     <string name="settings_section_about">OM</string>
     <string name="settings_about">Om</string>
+    <string name="settings_allow_screenshots">Tillat skjermbilder</string>
+    <string name="settings_allow_screenshots_subtitle">Tillat skjermbilder og skjermopptak</string>
+    <string name="settings_cloud_devices">Enheter</string>
+    <string name="settings_cloud_join_body">Skriv inn det samme passordet du angav på den andre enheten, slik at denne enheten kan lese skydataene.</string>
+    <string name="settings_cloud_join_confirm">Bli med</string>
+    <string name="settings_cloud_join_plaintext_body">Skydataene på den andre enheten din er ikke kryptert. Vil du slå på skysynkronisering på denne enheten også?</string>
+    <string name="settings_cloud_join_plaintext_title">Slå på skysynkronisering</string>
+    <string name="settings_cloud_join_title">Bli med på den andre enheten din</string>
+    <string name="settings_cloud_sync">Skysynkronisering</string>
+    <string name="settings_cloud_sync_subtitle">Sikkerhetskopier og synkroniser dataene dine på tvers av enheter via Google Disk.</string>
+    <string name="settings_cloud_wrong_password">Det passordet stemmer ikke med skydataene.</string>
+    <string name="settings_import_failed">Importen mislyktes</string>
+    <string name="settings_remote_delete_body">Dette sletter alle skysikkerhetskopier og synkroniseringsdata fra Google Disk permanent, og slår av automatisk sikkerhetskopiering og synkronisering på tvers av enheter. Dette kan ikke angres.</string>
+    <string name="settings_remote_delete_confirm">Slett</string>
+    <string name="settings_remote_delete_data">Slett Google Disk-data</string>
+    <string name="settings_remote_delete_title">Slette Google Disk-data?</string>
+    <string name="settings_remote_error_backup_failed">Sikkerhetskopiering mislyktes</string>
+    <string name="settings_remote_error_fetch_info">Kunne ikke hente sikkerhetskopiinformasjon</string>
+    <string name="settings_remote_error_restore_failed">Gjenoppretting mislyktes</string>
+    <string name="settings_remote_error_sign_in_failed">Innlogging mislyktes</string>
+    <string name="settings_remote_restore_error_title">Kunne ikke laste inn sikkerhetskopien</string>
+    <string name="settings_remote_restore_no_backup">Fant ingen sikkerhetskopi på Google Disk.</string>
+    <string name="settings_remote_restore_try_again">Prøv igjen.</string>
 </resources>

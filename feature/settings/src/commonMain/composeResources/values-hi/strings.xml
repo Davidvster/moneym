@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">नया आवर्ती लेन-देन</string>
     <string name="settings_section_about">परिचय</string>
     <string name="settings_about">परिचय</string>
+    <string name="settings_allow_screenshots">स्क्रीनशॉट की अनुमति दें</string>
+    <string name="settings_allow_screenshots_subtitle">स्क्रीनशॉट और स्क्रीन रिकॉर्डिंग की अनुमति दें</string>
+    <string name="settings_cloud_devices">डिवाइस</string>
+    <string name="settings_cloud_join_body">वही पासवर्ड दर्ज करें जो आपने अपने दूसरे डिवाइस पर सेट किया था ताकि यह डिवाइस क्लाउड डेटा पढ़ सके.</string>
+    <string name="settings_cloud_join_confirm">जुड़ें</string>
+    <string name="settings_cloud_join_plaintext_body">आपके दूसरे डिवाइस का क्लाउड डेटा एन्क्रिप्टेड नहीं है. इस डिवाइस पर भी क्लाउड सिंक चालू करें?</string>
+    <string name="settings_cloud_join_plaintext_title">क्लाउड सिंक चालू करें</string>
+    <string name="settings_cloud_join_title">अपने दूसरे डिवाइस से जुड़ें</string>
+    <string name="settings_cloud_sync">क्लाउड सिंक</string>
+    <string name="settings_cloud_sync_subtitle">Google Drive के माध्यम से अपने डेटा का बैकअप लें और डिवाइसों में सिंक करें.</string>
+    <string name="settings_cloud_wrong_password">यह पासवर्ड क्लाउड डेटा से मेल नहीं खाता.</string>
+    <string name="settings_import_failed">आयात विफल</string>
+    <string name="settings_remote_delete_body">यह आपके Google Drive से सभी क्लाउड बैकअप और सिंक डेटा को स्थायी रूप से हटा देता है, और स्वचालित बैकअप व डिवाइसों के बीच सिंक बंद कर देता है. इसे पूर्ववत नहीं किया जा सकता.</string>
+    <string name="settings_remote_delete_confirm">हटाएं</string>
+    <string name="settings_remote_delete_data">Google Drive डेटा हटाएं</string>
+    <string name="settings_remote_delete_title">Google Drive डेटा हटाएं?</string>
+    <string name="settings_remote_error_backup_failed">बैकअप विफल</string>
+    <string name="settings_remote_error_fetch_info">बैकअप जानकारी प्राप्त करने में विफल</string>
+    <string name="settings_remote_error_restore_failed">पुनर्स्थापना विफल</string>
+    <string name="settings_remote_error_sign_in_failed">साइन-इन विफल</string>
+    <string name="settings_remote_restore_error_title">बैकअप लोड नहीं हो सका</string>
+    <string name="settings_remote_restore_no_backup">Google Drive पर कोई बैकअप नहीं मिला.</string>
+    <string name="settings_remote_restore_try_again">कृपया पुनः प्रयास करें.</string>
 </resources>

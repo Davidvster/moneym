@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">Avbryt</string>
     <string name="onboarding_restore_remote_loading">Henter sikkerhetskopieringsinformasjon…</string>
     <string name="onboarding_restore_wrong_password">Feil passord eller ødelagt sikkerhetskopi.</string>
+    <string name="default_account_name">Hoved</string>
+    <string name="onboarding_get_started">Kom i gang</string>
+    <string name="onboarding_restore_error_fetch_info">Kunne ikke hente sikkerhetskopiinformasjon</string>
+    <string name="onboarding_restore_error_restore_failed">Gjenoppretting mislyktes</string>
+    <string name="onboarding_restore_error_sign_in_failed">Innlogging mislyktes</string>
+    <string name="onboarding_welcome_subtitle">Din private pengeoversikt som fungerer offline først.</string>
+    <string name="onboarding_welcome_feature_track_title">Følg hver transaksjon</string>
+    <string name="onboarding_welcome_feature_track_desc">Registrer inntekter og utgifter på sekunder på tvers av alle kontoene dine.</string>
+    <string name="onboarding_welcome_feature_insights_title">Se hvor pengene dine går</string>
+    <string name="onboarding_welcome_feature_insights_desc">Tydelige oversikter og diagrammer bryter ned forbruket etter kategori og måned.</string>
+    <string name="onboarding_welcome_feature_ai_title">AI-drevet innsikt</string>
+    <string name="onboarding_welcome_feature_ai_desc">Still spørsmål om økonomien din og få smart analyse.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Privat og sikker</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Alt forblir på enheten din, låst bak en PIN-kode eller biometri.</string>
 </resources>

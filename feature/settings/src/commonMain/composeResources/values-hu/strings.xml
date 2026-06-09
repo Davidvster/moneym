@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Új ismétlődő tranzakció</string>
     <string name="settings_section_about">AZ ALKALMAZÁSRÓL</string>
     <string name="settings_about">Az alkalmazásról</string>
+    <string name="settings_allow_screenshots">Képernyőképek engedélyezése</string>
+    <string name="settings_allow_screenshots_subtitle">Képernyőképek és képernyőfelvétel engedélyezése</string>
+    <string name="settings_cloud_devices">Eszközök</string>
+    <string name="settings_cloud_join_body">Add meg ugyanazt a jelszót, amelyet a másik eszközödön beállítottál, hogy ez az eszköz olvashassa a felhőadatokat.</string>
+    <string name="settings_cloud_join_confirm">Csatlakozás</string>
+    <string name="settings_cloud_join_plaintext_body">A másik eszközöd felhőadatai nincsenek titkosítva. Bekapcsolod a felhőszinkronizálást ezen az eszközön is?</string>
+    <string name="settings_cloud_join_plaintext_title">Felhőszinkronizálás bekapcsolása</string>
+    <string name="settings_cloud_join_title">Csatlakozás a másik eszközödhöz</string>
+    <string name="settings_cloud_sync">Felhőszinkronizálás</string>
+    <string name="settings_cloud_sync_subtitle">Készíts biztonsági mentést és szinkronizáld az adataidat az eszközök között a Google Drive-on keresztül.</string>
+    <string name="settings_cloud_wrong_password">Ez a jelszó nem egyezik a felhőadatokkal.</string>
+    <string name="settings_import_failed">Az importálás sikertelen</string>
+    <string name="settings_remote_delete_body">Ez véglegesen törli az összes felhős biztonsági mentést és szinkronizálási adatot a Google Drive-odról, és kikapcsolja az automatikus biztonsági mentést és az eszközök közötti szinkronizálást. Ez nem vonható vissza.</string>
+    <string name="settings_remote_delete_confirm">Törlés</string>
+    <string name="settings_remote_delete_data">Google Drive-adatok törlése</string>
+    <string name="settings_remote_delete_title">Törölhetők a Google Drive-adatok?</string>
+    <string name="settings_remote_error_backup_failed">A biztonsági mentés sikertelen</string>
+    <string name="settings_remote_error_fetch_info">A biztonsági mentés adatainak lekérése sikertelen</string>
+    <string name="settings_remote_error_restore_failed">A visszaállítás sikertelen</string>
+    <string name="settings_remote_error_sign_in_failed">A bejelentkezés sikertelen</string>
+    <string name="settings_remote_restore_error_title">Nem sikerült betölteni a biztonsági mentést</string>
+    <string name="settings_remote_restore_no_backup">Nem található biztonsági mentés a Google Drive-on.</string>
+    <string name="settings_remote_restore_try_again">Próbáld újra.</string>
 </resources>

@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Vir podatkov</string>
     <string name="analyze_grounding_snapshot">Posnetek</string>
     <string name="analyze_grounding_tools">Orodja</string>
+    <string name="analyze_grounding_snapshot_hint">Pošlje povzetek izbranega leta. Najbolje za vprašanja o tem obdobju.</string>
+    <string name="analyze_grounding_tools_hint">Omogoča UI, da preišče celotno zgodovino in pridobi, kar potrebuje. Najbolje za odprta vprašanja.</string>
+    <string name="analyze_year_label">Leto posnetka</string>
+    <string name="analyze_year_prev_cd">Prejšnje leto</string>
+    <string name="analyze_year_next_cd">Naslednje leto</string>
     <string name="analyze_tools_fallback_notice">Ta model ne podpira orodij. Namesto tega se uporablja posnetek.</string>
     <string name="analyze_error">Prišlo je do napake. Prosimo, poskusite znova.</string>
     <string name="analyze_generating">Razmišljam…</string>
@@ -16,4 +21,25 @@
         <item>Kako se ta mesec primerja s prejšnjim?</item>
         <item>Ali so kakšni nenavadni ali veliki stroški?</item>
     </string-array>
+    <string name="analyze_download_model">Prenesi model</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">Pogon UI</string>
+    <string name="analyze_engine_local_llm">Model v napravi</string>
+    <string name="analyze_engine_needs_download_notice">Ta pogon ni na voljo. Za nadaljevanje prenesite model.</string>
+    <string name="analyze_engine_status_download">Tapnite za prenos</string>
+    <string name="analyze_engine_status_ready">Pripravljeno</string>
+    <string name="analyze_engine_status_unavailable">Ni na voljo</string>
+    <string name="analyze_history_cd">Zgodovina klepetov</string>
+    <string name="analyze_history_delete_body">To trajno odstrani ta pogovor in njegova sporočila.</string>
+    <string name="analyze_history_delete_cancel">Prekliči</string>
+    <string name="analyze_history_delete_cd">Izbriši pogovor</string>
+    <string name="analyze_history_delete_confirm">Izbriši</string>
+    <string name="analyze_history_delete_title">Izbrišem pogovor?</string>
+    <string name="analyze_history_empty">Še ni pogovorov. Vaši klepeti se bodo prikazali tukaj.</string>
+    <string name="analyze_history_new_chat_cd">Nov klepet</string>
+    <string name="analyze_history_title">Zgodovina klepetov</string>
+    <string name="analyze_manage_models">Upravljanje modelov…</string>
+    <string name="analyze_model_picker_cd">Izberi model</string>
+    <string name="analyze_new_chat_cd">Nov klepet</string>
 </resources>

@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">مصدر البيانات</string>
     <string name="analyze_grounding_snapshot">لقطة</string>
     <string name="analyze_grounding_tools">أدوات</string>
+    <string name="analyze_grounding_snapshot_hint">يرسل ملخصًا للسنة المحددة. الأفضل للأسئلة حول تلك الفترة.</string>
+    <string name="analyze_grounding_tools_hint">يتيح للذكاء الاصطناعي البحث في سجلك الكامل وجلب ما يحتاجه. الأفضل للأسئلة المفتوحة.</string>
+    <string name="analyze_year_label">سنة اللقطة</string>
+    <string name="analyze_year_prev_cd">السنة السابقة</string>
+    <string name="analyze_year_next_cd">السنة التالية</string>
     <string name="analyze_tools_fallback_notice">الأدوات غير مدعومة من قِبَل هذا النموذج. سيتم استخدام لقطة بديلاً.</string>
     <string name="analyze_error">حدث خطأ ما. يرجى المحاولة مرة أخرى.</string>
     <string name="analyze_generating">جارٍ التفكير…</string>
@@ -16,4 +21,25 @@
         <item>كيف يقارن هذا الشهر بالشهر الماضي؟</item>
         <item>هل هناك نفقات غير عادية أو كبيرة؟</item>
     </string-array>
+    <string name="analyze_download_model">تنزيل نموذج</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">محرّك الذكاء الاصطناعي</string>
+    <string name="analyze_engine_local_llm">نموذج على الجهاز</string>
+    <string name="analyze_engine_needs_download_notice">هذا المحرك غير متاح. نزّل نموذجًا للمتابعة.</string>
+    <string name="analyze_engine_status_download">انقر للتنزيل</string>
+    <string name="analyze_engine_status_ready">جاهز</string>
+    <string name="analyze_engine_status_unavailable">غير متاح</string>
+    <string name="analyze_history_cd">سجل المحادثات</string>
+    <string name="analyze_history_delete_body">يؤدي هذا إلى إزالة هذه المحادثة ورسائلها نهائيًا.</string>
+    <string name="analyze_history_delete_cancel">إلغاء</string>
+    <string name="analyze_history_delete_cd">حذف المحادثة</string>
+    <string name="analyze_history_delete_confirm">حذف</string>
+    <string name="analyze_history_delete_title">حذف المحادثة؟</string>
+    <string name="analyze_history_empty">لا توجد محادثات بعد. ستظهر دردشاتك هنا.</string>
+    <string name="analyze_history_new_chat_cd">محادثة جديدة</string>
+    <string name="analyze_history_title">سجل المحادثات</string>
+    <string name="analyze_manage_models">إدارة النماذج…</string>
+    <string name="analyze_model_picker_cd">اختيار النموذج</string>
+    <string name="analyze_new_chat_cd">محادثة جديدة</string>
 </resources>

@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">Cancelar</string>
     <string name="onboarding_restore_remote_loading">A obter informações da cópia de segurança…</string>
     <string name="onboarding_restore_wrong_password">Palavra-passe errada ou cópia de segurança corrompida.</string>
+    <string name="default_account_name">Principal</string>
+    <string name="onboarding_get_started">Começar</string>
+    <string name="onboarding_restore_error_fetch_info">Falha ao obter informações do backup</string>
+    <string name="onboarding_restore_error_restore_failed">Falha na restauração</string>
+    <string name="onboarding_restore_error_sign_in_failed">Falha ao iniciar sessão</string>
+    <string name="onboarding_welcome_subtitle">O teu rastreador de dinheiro privado, que funciona primeiro offline.</string>
+    <string name="onboarding_welcome_feature_track_title">Acompanhe cada transação</string>
+    <string name="onboarding_welcome_feature_track_desc">Registe receitas e despesas em segundos em todas as suas contas.</string>
+    <string name="onboarding_welcome_feature_insights_title">Veja para onde vai o seu dinheiro</string>
+    <string name="onboarding_welcome_feature_insights_desc">Resumos e gráficos claros detalham os gastos por categoria e mês.</string>
+    <string name="onboarding_welcome_feature_ai_title">Análises com tecnologia de IA</string>
+    <string name="onboarding_welcome_feature_ai_desc">Faça perguntas sobre as suas finanças e obtenha uma análise inteligente.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Privado e seguro</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Tudo permanece no seu dispositivo, protegido por um PIN ou biometria.</string>
 </resources>

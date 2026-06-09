@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Adatforrás</string>
     <string name="analyze_grounding_snapshot">Pillanatkép</string>
     <string name="analyze_grounding_tools">Eszközök</string>
+    <string name="analyze_grounding_snapshot_hint">Elküldi a kiválasztott év összegzését. Ideális az adott időszakra vonatkozó kérdésekhez.</string>
+    <string name="analyze_grounding_tools_hint">Lehetővé teszi, hogy az MI az egész előzményt átkutassa, és lekérje, amire szüksége van. Ideális nyitott kérdésekhez.</string>
+    <string name="analyze_year_label">Pillanatkép éve</string>
+    <string name="analyze_year_prev_cd">Előző év</string>
+    <string name="analyze_year_next_cd">Következő év</string>
     <string name="analyze_tools_fallback_notice">Ez a modell nem támogatja az eszközöket. Ehelyett pillanatkép kerül felhasználásra.</string>
     <string name="analyze_error">Valami hiba történt. Próbálja újra.</string>
     <string name="analyze_generating">Gondolkodom…</string>
@@ -16,4 +21,25 @@
         <item>Hogyan viszonyul ez a hónap az előzőhöz?</item>
         <item>Vannak szokatlan vagy nagy kiadások?</item>
     </string-array>
+    <string name="analyze_download_model">Modell letöltése</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">MI-motor</string>
+    <string name="analyze_engine_local_llm">Eszközön futó modell</string>
+    <string name="analyze_engine_needs_download_notice">Ez a motor nem érhető el. A folytatáshoz tölts le egy modellt.</string>
+    <string name="analyze_engine_status_download">Koppints a letöltéshez</string>
+    <string name="analyze_engine_status_ready">Kész</string>
+    <string name="analyze_engine_status_unavailable">Nem érhető el</string>
+    <string name="analyze_history_cd">Csevegési előzmények</string>
+    <string name="analyze_history_delete_body">Ez véglegesen eltávolítja ezt a beszélgetést és az üzeneteit.</string>
+    <string name="analyze_history_delete_cancel">Mégse</string>
+    <string name="analyze_history_delete_cd">Beszélgetés törlése</string>
+    <string name="analyze_history_delete_confirm">Törlés</string>
+    <string name="analyze_history_delete_title">Törölhető a beszélgetés?</string>
+    <string name="analyze_history_empty">Még nincsenek beszélgetések. A csevegéseid itt jelennek meg.</string>
+    <string name="analyze_history_new_chat_cd">Új csevegés</string>
+    <string name="analyze_history_title">Csevegési előzmények</string>
+    <string name="analyze_manage_models">Modellek kezelése…</string>
+    <string name="analyze_model_picker_cd">Modell kiválasztása</string>
+    <string name="analyze_new_chat_cd">Új csevegés</string>
 </resources>

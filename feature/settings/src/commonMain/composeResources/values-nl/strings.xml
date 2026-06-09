@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Nieuwe terugkerende transactie</string>
     <string name="settings_section_about">OVER</string>
     <string name="settings_about">Over</string>
+    <string name="settings_allow_screenshots">Schermafbeeldingen toestaan</string>
+    <string name="settings_allow_screenshots_subtitle">Schermafbeeldingen en schermopname toestaan</string>
+    <string name="settings_cloud_devices">Apparaten</string>
+    <string name="settings_cloud_join_body">Voer hetzelfde wachtwoord in dat je op je andere apparaat hebt ingesteld, zodat dit apparaat de clouddata kan lezen.</string>
+    <string name="settings_cloud_join_confirm">Deelnemen</string>
+    <string name="settings_cloud_join_plaintext_body">De clouddata van je andere apparaat zijn niet versleuteld. Cloudsynchronisatie ook op dit apparaat inschakelen?</string>
+    <string name="settings_cloud_join_plaintext_title">Cloudsynchronisatie inschakelen</string>
+    <string name="settings_cloud_join_title">Deelnemen met je andere apparaat</string>
+    <string name="settings_cloud_sync">Cloudsynchronisatie</string>
+    <string name="settings_cloud_sync_subtitle">Maak een back-up en synchroniseer je gegevens tussen apparaten via Google Drive.</string>
+    <string name="settings_cloud_wrong_password">Dat wachtwoord komt niet overeen met de clouddata.</string>
+    <string name="settings_import_failed">Importeren mislukt</string>
+    <string name="settings_remote_delete_body">Hiermee worden alle cloudback-ups en synchronisatiegegevens permanent van je Google Drive verwijderd en worden automatische back-ups en synchronisatie tussen apparaten uitgeschakeld. Dit kan niet ongedaan worden gemaakt.</string>
+    <string name="settings_remote_delete_confirm">Verwijderen</string>
+    <string name="settings_remote_delete_data">Google Drive-gegevens verwijderen</string>
+    <string name="settings_remote_delete_title">Google Drive-gegevens verwijderen?</string>
+    <string name="settings_remote_error_backup_failed">Back-up mislukt</string>
+    <string name="settings_remote_error_fetch_info">Back-upinformatie ophalen mislukt</string>
+    <string name="settings_remote_error_restore_failed">Herstellen mislukt</string>
+    <string name="settings_remote_error_sign_in_failed">Aanmelden mislukt</string>
+    <string name="settings_remote_restore_error_title">Kan back-up niet laden</string>
+    <string name="settings_remote_restore_no_backup">Er is geen back-up gevonden op Google Drive.</string>
+    <string name="settings_remote_restore_try_again">Probeer het opnieuw.</string>
 </resources>

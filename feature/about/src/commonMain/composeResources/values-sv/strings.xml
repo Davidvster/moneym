@@ -3,4 +3,6 @@
     <string name="about_title">Om</string>
     <string name="about_terms">Villkor &amp; Bestämmelser</string>
     <string name="about_privacy">Integritetspolicy</string>
+    <string name="about_libraries">Bibliotek med öppen källkod</string>
+    <string name="libraries_title">Bibliotek</string>
 </resources>

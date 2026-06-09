@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ai_models_title">AI मॉडल</string>
+    <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
+    <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
+    <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="ai_models_download">डाउनलोड करें</string>
+    <string name="ai_models_cancel">रद्द करें</string>
+    <string name="ai_models_delete">हटाएं</string>
+    <string name="ai_models_active">सक्रिय</string>
+    <string name="ai_models_delete_title">मॉडल हटाएं?</string>
+    <string name="ai_models_delete_body">डाउनलोड की गई मॉडल फ़ाइल को इस डिवाइस से हटा देता है.</string>
+    <string name="ai_models_verifying">सत्यापित किया जा रहा है…</string>
+    <string name="ai_models_keep_awake">ऐप को खुला और स्क्रीन को चालू रखें. डाउनलोड पूरा होने तक इस स्क्रीन से न जाएं.</string>
+    <string name="ai_models_eta_seconds">~%1$d सेकंड शेष</string>
+    <string name="ai_models_eta_minutes">~%1$d मिनट शेष</string>
+    <string name="ai_models_eta_hours">~%1$d घं %2$d मि शेष</string>
+    <string name="ai_models_error_download">डाउनलोड विफल. कृपया पुनः प्रयास करें.</string>
+    <string name="ai_models_error_delete">मॉडल हटाया नहीं जा सका.</string>
+</resources>

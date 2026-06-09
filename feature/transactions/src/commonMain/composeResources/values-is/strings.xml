@@ -26,4 +26,11 @@
     <string name="transactions_wallet_all">Öll veski</string>
     <string name="transactions_syncing">Samstillir…</string>
     <string name="transactions_pending_deletions">%1$d atriðum eytt á öðru tæki — yfirfara</string>
+    <string name="transactions_sync_conflict_body">Samstilling er í bið. Opnaðu Afrit og endurheimt í Stillingum til að slá inn lykilorðið.</string>
+    <string name="transactions_sync_last">Síðast samstillt %1$s</string>
+    <string name="transactions_sync_never">Ekki enn samstillt</string>
+    <string name="transactions_sync_now">Samstilla núna</string>
+    <string name="transactions_sync_paused">Samstilling í bið — aðgerða þörf</string>
+    <string name="transactions_sync_sheet_title">Skýjasamstilling</string>
+    <string name="transactions_synced">Samstillt</string>
 </resources>

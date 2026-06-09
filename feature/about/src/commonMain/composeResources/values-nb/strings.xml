@@ -3,4 +3,6 @@
     <string name="about_title">Om</string>
     <string name="about_terms">Vilkår &amp; Betingelser</string>
     <string name="about_privacy">Personvernregler</string>
+    <string name="about_libraries">Åpen kildekode-biblioteker</string>
+    <string name="libraries_title">Biblioteker</string>
 </resources>

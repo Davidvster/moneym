@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">Zrušit</string>
     <string name="onboarding_restore_remote_loading">Načítám informace o záloze…</string>
     <string name="onboarding_restore_wrong_password">Nesprávné heslo nebo poškozená záloha.</string>
+    <string name="default_account_name">Hlavní</string>
+    <string name="onboarding_get_started">Začít</string>
+    <string name="onboarding_restore_error_fetch_info">Nepodařilo se načíst informace o záloze</string>
+    <string name="onboarding_restore_error_restore_failed">Obnovení selhalo</string>
+    <string name="onboarding_restore_error_sign_in_failed">Přihlášení selhalo</string>
+    <string name="onboarding_welcome_subtitle">Váš soukromý sledovač financí, který funguje hlavně offline.</string>
+    <string name="onboarding_welcome_feature_track_title">Sledujte každou transakci</string>
+    <string name="onboarding_welcome_feature_track_desc">Zaznamenejte příjmy a výdaje během několika sekund na všech účtech.</string>
+    <string name="onboarding_welcome_feature_insights_title">Zjistěte, kam jdou vaše peníze</string>
+    <string name="onboarding_welcome_feature_insights_desc">Přehledné souhrny a grafy rozdělí výdaje podle kategorie a měsíce.</string>
+    <string name="onboarding_welcome_feature_ai_title">Přehledy s podporou AI</string>
+    <string name="onboarding_welcome_feature_ai_desc">Ptejte se na své finance a získejte chytrou analýzu.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Soukromé a bezpečné</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Vše zůstává ve vašem zařízení, chráněno PINem nebo biometrikou.</string>
 </resources>

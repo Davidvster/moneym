@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.isImeVisible
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -78,7 +79,12 @@ import moneym.feature.aianalysis.generated.resources.analyze_manage_models
 import moneym.feature.aianalysis.generated.resources.analyze_model_picker_cd
 import moneym.feature.aianalysis.generated.resources.analyze_grounding_label
 import moneym.feature.aianalysis.generated.resources.analyze_grounding_snapshot
+import moneym.feature.aianalysis.generated.resources.analyze_grounding_snapshot_hint
 import moneym.feature.aianalysis.generated.resources.analyze_grounding_tools
+import moneym.feature.aianalysis.generated.resources.analyze_grounding_tools_hint
+import moneym.feature.aianalysis.generated.resources.analyze_year_label
+import moneym.feature.aianalysis.generated.resources.analyze_year_next_cd
+import moneym.feature.aianalysis.generated.resources.analyze_year_prev_cd
 import moneym.feature.aianalysis.generated.resources.analyze_title
 import moneym.feature.aianalysis.generated.resources.analyze_tools_fallback_notice
 import org.jetbrains.compose.resources.stringResource
@@ -160,7 +166,7 @@ private fun AnalyzeContent(
 
     // Re-pin to the newest message when the keyboard opens, so focusing the input keeps the
     // latest reply in view instead of snapping the list back to the top of the conversation.
-    val imeVisible = WindowInsets.isImeVisible
+    val imeVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
     LaunchedEffect(imeVisible) {
         if (imeVisible && state.messages.isNotEmpty()) {
             listState.scrollToItem(state.messages.lastIndex, Int.MAX_VALUE)
@@ -223,27 +229,53 @@ private fun AnalyzeContent(
             stringResource(Res.string.analyze_grounding_snapshot),
             stringResource(Res.string.analyze_grounding_tools),
         )
-        Row(
+        val isSnapshot = state.groundingMode != AiGroundingMode.TOOLS
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_1x),
-            horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_0_5x),
         ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(Res.string.analyze_grounding_label),
+                    style = MM.type.caption,
+                    color = colors.text2,
+                    modifier = Modifier.weight(1f),
+                )
+                MmSegmented(
+                    options = groundingOptions,
+                    selectedIndex = if (isSnapshot) 0 else 1,
+                    onOptionSelected = { index ->
+                        val mode = if (index == 1) AiGroundingMode.TOOLS else AiGroundingMode.SNAPSHOT
+                        onIntent(AnalyzeIntent.GroundingModeChanged(mode))
+                    },
+                )
+            }
             Text(
-                text = stringResource(Res.string.analyze_grounding_label),
+                text = stringResource(
+                    if (isSnapshot) {
+                        Res.string.analyze_grounding_snapshot_hint
+                    } else {
+                        Res.string.analyze_grounding_tools_hint
+                    },
+                ),
                 style = MM.type.caption,
-                color = colors.text2,
-                modifier = Modifier.weight(1f),
+                color = colors.text3,
             )
-            MmSegmented(
-                options = groundingOptions,
-                selectedIndex = if (state.groundingMode == AiGroundingMode.TOOLS) 1 else 0,
-                onOptionSelected = { index ->
-                    val mode = if (index == 1) AiGroundingMode.TOOLS else AiGroundingMode.SNAPSHOT
-                    onIntent(AnalyzeIntent.GroundingModeChanged(mode))
-                },
-            )
+            if (isSnapshot && state.selectedYear != null) {
+                YearStepper(
+                    year = state.selectedYear,
+                    canGoPrev = state.minYear == null || state.selectedYear > state.minYear,
+                    canGoNext = state.maxYear == null || state.selectedYear < state.maxYear,
+                    onPrev = { onIntent(AnalyzeIntent.YearChanged(state.selectedYear - 1)) },
+                    onNext = { onIntent(AnalyzeIntent.YearChanged(state.selectedYear + 1)) },
+                )
+            }
         }
 
         if (state.showToolsFallbackNotice) {
@@ -465,6 +497,54 @@ private fun engineStatusRes(option: AiEngineOption) = when {
     option.available -> Res.string.analyze_engine_status_ready
     option.needsDownload -> Res.string.analyze_engine_status_download
     else -> Res.string.analyze_engine_status_unavailable
+}
+
+@Composable
+private fun YearStepper(
+    year: Int,
+    canGoPrev: Boolean,
+    canGoNext: Boolean,
+    onPrev: () -> Unit,
+    onNext: () -> Unit,
+) {
+    val colors = MM.colors
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = stringResource(Res.string.analyze_year_label),
+            style = MM.type.caption,
+            color = colors.text2,
+            modifier = Modifier.weight(1f),
+        )
+        if (canGoPrev) {
+            MmIconButton(
+                icon = Icon.ChevronLeft.imageVector,
+                onClick = onPrev,
+                size = MM.dimen.padding_4x,
+                contentDescription = stringResource(Res.string.analyze_year_prev_cd),
+            )
+        } else {
+            Spacer(Modifier.size(MM.dimen.padding_4x))
+        }
+        Text(
+            text = year.toString(),
+            style = MM.type.body,
+            color = colors.text,
+        )
+        if (canGoNext) {
+            MmIconButton(
+                icon = Icon.ChevronRight.imageVector,
+                onClick = onNext,
+                size = MM.dimen.padding_4x,
+                contentDescription = stringResource(Res.string.analyze_year_next_cd),
+            )
+        } else {
+            Spacer(Modifier.size(MM.dimen.padding_4x))
+        }
+    }
 }
 
 @Composable

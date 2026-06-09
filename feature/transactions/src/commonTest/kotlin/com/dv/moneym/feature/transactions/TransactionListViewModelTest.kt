@@ -38,9 +38,11 @@ import kotlin.time.Instant
 private class FakeSyncStatusProvider(
     syncing: Boolean = false,
     pendingCount: Int = 0,
+    enabled: Boolean = true,
 ) : SyncStatusProvider {
     val syncingFlow = MutableStateFlow(syncing)
     val pendingCountFlow = MutableStateFlow(pendingCount)
+    override val isEnabled: Flow<Boolean> = MutableStateFlow(enabled)
     override val isSyncing: Flow<Boolean> = syncingFlow
     override val pendingDeletionCount: Flow<Int> = pendingCountFlow
     override val conflict: Flow<SyncConflict?> = MutableStateFlow(null)

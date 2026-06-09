@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">إلغاء</string>
     <string name="onboarding_restore_remote_loading">جارٍ جلب معلومات النسخ الاحتياطي…</string>
     <string name="onboarding_restore_wrong_password">كلمة المرور خاطئة أو النسخة الاحتياطية تالفة.</string>
+    <string name="default_account_name">الرئيسي</string>
+    <string name="onboarding_get_started">ابدأ</string>
+    <string name="onboarding_restore_error_fetch_info">تعذّر جلب معلومات النسخة الاحتياطية</string>
+    <string name="onboarding_restore_error_restore_failed">فشلت الاستعادة</string>
+    <string name="onboarding_restore_error_sign_in_failed">فشل تسجيل الدخول</string>
+    <string name="onboarding_welcome_subtitle">متتبّع أموالك الخاص الذي يعمل دون اتصال أولاً.</string>
+    <string name="onboarding_welcome_feature_track_title">تتبّع كل معاملة</string>
+    <string name="onboarding_welcome_feature_track_desc">سجّل الدخل والمصروفات في ثوانٍ عبر جميع حساباتك.</string>
+    <string name="onboarding_welcome_feature_insights_title">اعرف أين تذهب أموالك</string>
+    <string name="onboarding_welcome_feature_insights_desc">نظرات عامة ورسوم بيانية واضحة تُفصّل الإنفاق حسب الفئة والشهر.</string>
+    <string name="onboarding_welcome_feature_ai_title">رؤى مدعومة بالذكاء الاصطناعي</string>
+    <string name="onboarding_welcome_feature_ai_desc">اطرح أسئلة عن أموالك واحصل على تحليل ذكي.</string>
+    <string name="onboarding_welcome_feature_privacy_title">خاص وآمن</string>
+    <string name="onboarding_welcome_feature_privacy_desc">يبقى كل شيء على جهازك، محميًا برمز PIN أو القياسات الحيوية.</string>
 </resources>

@@ -23,8 +23,12 @@ class LocalLlmAiEngine(
     }
 
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
-    override fun streamReply(messages: List<ChatMessage>, grounding: Grounding): Flow<String> {
-        val prompt = PromptBuilder.build(messages, grounding, SYSTEM_INSTRUCTION)
+    override fun streamReply(
+        messages: List<ChatMessage>,
+        grounding: Grounding,
+        responseLanguage: String?,
+    ): Flow<String> {
+        val prompt = PromptBuilder.build(messages, grounding, aiSystemInstruction(responseLanguage))
         return flow {
             val path = activeModelPath()
             val ready = path != null && (runner.isModelLoaded() || runner.loadModel(path))

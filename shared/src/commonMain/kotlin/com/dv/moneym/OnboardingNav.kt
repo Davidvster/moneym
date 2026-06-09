@@ -56,24 +56,13 @@ internal fun OnboardingNav() {
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
         transitionSpec = {
-            when (targetState.key) {
-                is OnboardingPinSetupKey ->
-                    (slideInVertically(tween(300)) { it } + fadeIn(tween(300))) togetherWith fadeOut(
-                        tween(150)
-                    )
-
-                else -> fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-            }
+            fadeIn(tween(220)) togetherWith fadeOut(tween(220))
         },
         popTransitionSpec = {
-            when (initialState.key) {
-                is OnboardingPinSetupKey ->
-                    fadeIn(tween(220)) togetherWith (slideOutVertically(tween(300)) { it } + fadeOut(
-                        tween(200)
-                    ))
-
-                else -> fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-            }
+            fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+        },
+        predictivePopTransitionSpec = { _ ->
+            fadeIn(tween(220)) togetherWith fadeOut(tween(220))
         },
         entryProvider = entryProvider {
             onboardingWelcomeEntry(

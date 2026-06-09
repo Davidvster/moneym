@@ -16,4 +16,5 @@
     <string name="category_seed_payment">Ödeme</string>
     <string name="category_seed_gift">Hediye</string>
     <string name="category_seed_other_income">Diğer</string>
+    <string name="default_account_name">Ana</string>
 </resources>

@@ -17,12 +17,16 @@ class IosFoundationModelsAiEngine : AiEngine {
             AiAvailability.UNAVAILABLE
         }
 
-    override fun streamReply(messages: List<ChatMessage>, grounding: Grounding): Flow<String> = callbackFlow {
+    override fun streamReply(
+        messages: List<ChatMessage>,
+        grounding: Grounding,
+        responseLanguage: String?,
+    ): Flow<String> = callbackFlow {
         val bridge = IosAiBridgeHolder.instance ?: run {
             close()
             return@callbackFlow
         }
-        val prompt = PromptBuilder.build(messages, grounding, SYSTEM_INSTRUCTION)
+        val prompt = PromptBuilder.build(messages, grounding, aiSystemInstruction(responseLanguage))
         var last = ""
         bridge.streamReply(
             prompt = prompt,

@@ -16,4 +16,5 @@
     <string name="category_seed_payment">Betaling</string>
     <string name="category_seed_gift">Gave</string>
     <string name="category_seed_other_income">Annet</string>
+    <string name="default_account_name">Hoved</string>
 </resources>

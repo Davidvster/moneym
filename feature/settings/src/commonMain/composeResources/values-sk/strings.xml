@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Nová opakujúca sa transakcia</string>
     <string name="settings_section_about">O APLIKÁCII</string>
     <string name="settings_about">O aplikácii</string>
+    <string name="settings_allow_screenshots">Povoliť snímky obrazovky</string>
+    <string name="settings_allow_screenshots_subtitle">Povoliť snímky obrazovky a nahrávanie obrazovky</string>
+    <string name="settings_cloud_devices">Zariadenia</string>
+    <string name="settings_cloud_join_body">Zadajte rovnaké heslo, aké ste nastavili na druhom zariadení, aby toto zariadenie mohlo čítať údaje v cloude.</string>
+    <string name="settings_cloud_join_confirm">Pripojiť sa</string>
+    <string name="settings_cloud_join_plaintext_body">Cloudové údaje vášho druhého zariadenia nie sú šifrované. Zapnúť synchronizáciu v cloude aj na tomto zariadení?</string>
+    <string name="settings_cloud_join_plaintext_title">Zapnúť synchronizáciu v cloude</string>
+    <string name="settings_cloud_join_title">Pripojiť sa k druhému zariadeniu</string>
+    <string name="settings_cloud_sync">Synchronizácia v cloude</string>
+    <string name="settings_cloud_sync_subtitle">Zálohujte a synchronizujte údaje medzi zariadeniami cez Google Drive.</string>
+    <string name="settings_cloud_wrong_password">Toto heslo nezodpovedá údajom v cloude.</string>
+    <string name="settings_import_failed">Import zlyhal</string>
+    <string name="settings_remote_delete_body">Týmto sa natrvalo odstránia všetky cloudové zálohy a synchronizačné údaje z vášho Google Drive a vypne sa automatické zálohovanie a synchronizácia medzi zariadeniami. Túto akciu nie je možné vrátiť späť.</string>
+    <string name="settings_remote_delete_confirm">Odstrániť</string>
+    <string name="settings_remote_delete_data">Odstrániť údaje z Google Drive</string>
+    <string name="settings_remote_delete_title">Odstrániť údaje z Google Drive?</string>
+    <string name="settings_remote_error_backup_failed">Zálohovanie zlyhalo</string>
+    <string name="settings_remote_error_fetch_info">Nepodarilo sa načítať informácie o zálohe</string>
+    <string name="settings_remote_error_restore_failed">Obnovenie zlyhalo</string>
+    <string name="settings_remote_error_sign_in_failed">Prihlásenie zlyhalo</string>
+    <string name="settings_remote_restore_error_title">Nepodarilo sa načítať zálohu</string>
+    <string name="settings_remote_restore_no_backup">Na Google Drive sa nenašla žiadna záloha.</string>
+    <string name="settings_remote_restore_try_again">Skúste to znova.</string>
 </resources>

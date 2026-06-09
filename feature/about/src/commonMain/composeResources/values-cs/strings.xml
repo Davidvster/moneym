@@ -3,4 +3,6 @@
     <string name="about_title">O aplikaci</string>
     <string name="about_terms">Podmínky &amp; Pravidla</string>
     <string name="about_privacy">Zásady ochrany soukromí</string>
+    <string name="about_libraries">Open source knihovny</string>
+    <string name="libraries_title">Knihovny</string>
 </resources>

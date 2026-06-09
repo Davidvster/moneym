@@ -126,9 +126,11 @@ class FakeTransactionRepository : TransactionRepository {
         }
     }
 
-    override suspend fun getEarliestTransactionDate(): LocalDate? = null
+    override suspend fun getEarliestTransactionDate(): LocalDate? =
+        _transactions.value.live().minByOrNull { it.occurredOn }?.occurredOn
 
-    override suspend fun getLatestTransactionDate(): LocalDate? = null
+    override suspend fun getLatestTransactionDate(): LocalDate? =
+        _transactions.value.live().maxByOrNull { it.occurredOn }?.occurredOn
 
     override fun getTransactionDates(): Flow<Set<LocalDate>> =
         _transactions.map { list -> list.live().map { it.occurredOn }.toSet() }

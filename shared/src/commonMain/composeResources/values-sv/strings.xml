@@ -16,4 +16,5 @@
     <string name="category_seed_payment">Betalning</string>
     <string name="category_seed_gift">Gåva</string>
     <string name="category_seed_other_income">Övrigt</string>
+    <string name="default_account_name">Huvud</string>
 </resources>

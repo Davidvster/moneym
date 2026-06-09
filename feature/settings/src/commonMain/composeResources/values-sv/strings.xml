@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Ny återkommande transaktion</string>
     <string name="settings_section_about">OM</string>
     <string name="settings_about">Om</string>
+    <string name="settings_allow_screenshots">Tillåt skärmbilder</string>
+    <string name="settings_allow_screenshots_subtitle">Tillåt skärmbilder och skärminspelning</string>
+    <string name="settings_cloud_devices">Enheter</string>
+    <string name="settings_cloud_join_body">Ange samma lösenord som du angav på din andra enhet så att den här enheten kan läsa molndata.</string>
+    <string name="settings_cloud_join_confirm">Anslut</string>
+    <string name="settings_cloud_join_plaintext_body">Molndata på din andra enhet är inte krypterade. Vill du aktivera molnsynkronisering på den här enheten också?</string>
+    <string name="settings_cloud_join_plaintext_title">Aktivera molnsynkronisering</string>
+    <string name="settings_cloud_join_title">Anslut till din andra enhet</string>
+    <string name="settings_cloud_sync">Molnsynkronisering</string>
+    <string name="settings_cloud_sync_subtitle">Säkerhetskopiera och synkronisera dina data mellan enheter via Google Drive.</string>
+    <string name="settings_cloud_wrong_password">Det lösenordet matchar inte molndata.</string>
+    <string name="settings_import_failed">Importen misslyckades</string>
+    <string name="settings_remote_delete_body">Detta raderar permanent alla molnsäkerhetskopior och synkroniseringsdata från din Google Drive och stänger av automatisk säkerhetskopiering och synkronisering mellan enheter. Detta kan inte ångras.</string>
+    <string name="settings_remote_delete_confirm">Radera</string>
+    <string name="settings_remote_delete_data">Radera Google Drive-data</string>
+    <string name="settings_remote_delete_title">Radera Google Drive-data?</string>
+    <string name="settings_remote_error_backup_failed">Säkerhetskopieringen misslyckades</string>
+    <string name="settings_remote_error_fetch_info">Det gick inte att hämta information om säkerhetskopian</string>
+    <string name="settings_remote_error_restore_failed">Återställningen misslyckades</string>
+    <string name="settings_remote_error_sign_in_failed">Inloggningen misslyckades</string>
+    <string name="settings_remote_restore_error_title">Det gick inte att läsa in säkerhetskopian</string>
+    <string name="settings_remote_restore_no_backup">Ingen säkerhetskopia hittades på Google Drive.</string>
+    <string name="settings_remote_restore_try_again">Försök igen.</string>
 </resources>

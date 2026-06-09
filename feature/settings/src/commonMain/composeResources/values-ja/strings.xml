@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">新しい定期取引</string>
     <string name="settings_section_about">このアプリについて</string>
     <string name="settings_about">このアプリについて</string>
+    <string name="settings_allow_screenshots">スクリーンショットを許可</string>
+    <string name="settings_allow_screenshots_subtitle">スクリーンショットと画面録画を許可します</string>
+    <string name="settings_cloud_devices">デバイス</string>
+    <string name="settings_cloud_join_body">この端末がクラウドのデータを読み取れるよう、別の端末で設定したのと同じパスワードを入力してください。</string>
+    <string name="settings_cloud_join_confirm">参加</string>
+    <string name="settings_cloud_join_plaintext_body">もう一方の端末のクラウドデータは暗号化されていません。この端末でもクラウド同期をオンにしますか？</string>
+    <string name="settings_cloud_join_plaintext_title">クラウド同期をオンにする</string>
+    <string name="settings_cloud_join_title">もう一方の端末に参加</string>
+    <string name="settings_cloud_sync">クラウド同期</string>
+    <string name="settings_cloud_sync_subtitle">Google ドライブを通じて、データをバックアップし複数の端末間で同期します。</string>
+    <string name="settings_cloud_wrong_password">そのパスワードはクラウドのデータと一致しません。</string>
+    <string name="settings_import_failed">インポートに失敗しました</string>
+    <string name="settings_remote_delete_body">これにより、Google ドライブ上のすべてのクラウドバックアップと同期データが完全に削除され、自動バックアップと端末間同期がオフになります。この操作は取り消せません。</string>
+    <string name="settings_remote_delete_confirm">削除</string>
+    <string name="settings_remote_delete_data">Google ドライブのデータを削除</string>
+    <string name="settings_remote_delete_title">Google ドライブのデータを削除しますか？</string>
+    <string name="settings_remote_error_backup_failed">バックアップに失敗しました</string>
+    <string name="settings_remote_error_fetch_info">バックアップ情報の取得に失敗しました</string>
+    <string name="settings_remote_error_restore_failed">復元に失敗しました</string>
+    <string name="settings_remote_error_sign_in_failed">サインインに失敗しました</string>
+    <string name="settings_remote_restore_error_title">バックアップを読み込めませんでした</string>
+    <string name="settings_remote_restore_no_backup">Google ドライブにバックアップが見つかりませんでした。</string>
+    <string name="settings_remote_restore_try_again">もう一度お試しください。</string>
 </resources>

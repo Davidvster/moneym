@@ -15,4 +15,5 @@
     <string name="category_seed_payment">Platba</string>
     <string name="category_seed_gift">Darček</string>
     <string name="category_seed_other_income">Ostatné</string>
+    <string name="default_account_name">Hlavný</string>
 </resources>

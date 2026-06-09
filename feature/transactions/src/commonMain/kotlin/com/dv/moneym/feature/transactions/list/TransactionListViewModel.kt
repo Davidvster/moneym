@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
+import com.dv.moneym.core.common.TransactionSavedSignal
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.TransactionFilter
@@ -39,6 +40,7 @@ class TransactionListViewModel(
     private val syncStatus: SyncStatusProvider,
     private val syncPuller: SyncPuller? = null,
     private val clock: AppClock,
+    private val transactionSavedSignal: TransactionSavedSignal = TransactionSavedSignal(),
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -140,6 +142,7 @@ class TransactionListViewModel(
                 showCategoryFilter = ui.showCategoryFilter,
             )
         }
+        .combine(syncStatus.isEnabled) { state, enabled -> state.copy(isSyncEnabled = enabled) }
         .combine(syncStatus.isSyncing) { state, syncing -> state.copy(isSyncInProgress = syncing) }
         .combine(syncStatus.pendingDeletionCount) { state, count -> state.copy(pendingDeletionCount = count) }
         .combine(syncStatus.conflict) { state, c -> state.copy(hasSyncConflict = c != null) }
@@ -158,6 +161,10 @@ class TransactionListViewModel(
 
         appSettingsRepository.observeSelectedAccountId()
             .onEach { id -> _selectedAccountId.value = id }
+            .launchIn(viewModelScope)
+
+        transactionSavedSignal.savedDates
+            .onEach { date -> _currentMonth.value = YearMonth(date.year, date.month.number) }
             .launchIn(viewModelScope)
     }
 

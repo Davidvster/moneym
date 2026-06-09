@@ -26,4 +26,11 @@
     <string name="transactions_wallet_all">सभी वॉलेट</string>
     <string name="transactions_syncing">सिंक हो रहा है…</string>
     <string name="transactions_pending_deletions">%1$d आइटम दूसरे डिवाइस पर हटाए गए — समीक्षा करें</string>
+    <string name="transactions_sync_conflict_body">सिंक रुका हुआ है. पासवर्ड दर्ज करने के लिए सेटिंग में बैकअप और पुनर्स्थापना खोलें.</string>
+    <string name="transactions_sync_last">अंतिम सिंक %1$s</string>
+    <string name="transactions_sync_never">अभी तक सिंक नहीं हुआ</string>
+    <string name="transactions_sync_now">अभी सिंक करें</string>
+    <string name="transactions_sync_paused">सिंक रुका हुआ — कार्रवाई आवश्यक</string>
+    <string name="transactions_sync_sheet_title">क्लाउड सिंक</string>
+    <string name="transactions_synced">सिंक किया गया</string>
 </resources>

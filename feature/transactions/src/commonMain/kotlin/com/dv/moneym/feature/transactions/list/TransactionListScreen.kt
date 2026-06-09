@@ -1,6 +1,17 @@
 package com.dv.moneym.feature.transactions.list
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -38,6 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -265,13 +277,6 @@ private fun TransactionListContent(
             .fillMaxSize()
             .background(MM.colors.bg),
     ) {
-        SyncBanner(
-            isSyncInProgress = state.isSyncInProgress,
-            hasSyncConflict = state.hasSyncConflict,
-            pendingDeletionCount = state.pendingDeletionCount,
-            onNavigateToPendingDeletions = onNavigateToPendingDeletions,
-            onOpenSyncSheet = { onIntent(TransactionListIntent.ShowSyncSheet(true)) },
-        )
         TransactionListHeader(
             state = state,
             isSearchActive = state.isSearchActive,
@@ -279,9 +284,17 @@ private fun TransactionListContent(
             onShowMonthPicker = { onIntent(TransactionListIntent.ShowMonthPicker(true)) },
             onShowWalletSwitcher = { onIntent(TransactionListIntent.ShowWalletSwitcher(true)) },
             onShowCategoryFilter = { onIntent(TransactionListIntent.ShowCategoryFilter(true)) },
+            onOpenSyncSheet = { onIntent(TransactionListIntent.ShowSyncSheet(true)) },
             onIntent = onIntent,
             onPreviousMonth = { onIntent(TransactionListIntent.PreviousMonth) },
             onNextMonth = { onIntent(TransactionListIntent.NextMonth) },
+        )
+
+        SyncBanner(
+            hasSyncConflict = state.hasSyncConflict,
+            pendingDeletionCount = state.pendingDeletionCount,
+            onNavigateToPendingDeletions = onNavigateToPendingDeletions,
+            onOpenSyncSheet = { onIntent(TransactionListIntent.ShowSyncSheet(true)) },
         )
 
         HorizontalPager(
@@ -305,9 +318,103 @@ private fun TransactionListContent(
     }
 }
 
+private enum class SyncVisual { Idle, Syncing, Synced, Conflict }
+
+// Compact sync control that lives in the header action row. Only shown when cross-device sync
+// is enabled, so a manual sync is one tap away; reflects progress/conflict inline without
+// pushing the list down. Crossfades+scales between states for a smooth idle→sync→done flow.
+@Composable
+private fun SyncActionButton(
+    isSyncInProgress: Boolean,
+    hasSyncConflict: Boolean,
+    onClick: () -> Unit,
+) {
+    val colors = MM.colors
+
+    // Transient "Synced" check shown for a moment after syncing finishes.
+    var showSynced by remember { mutableStateOf(false) }
+    LaunchedEffect(isSyncInProgress) {
+        if (isSyncInProgress) {
+            showSynced = true
+        } else if (showSynced) {
+            delay(2000)
+            showSynced = false
+        }
+    }
+
+    val target = when {
+        hasSyncConflict -> SyncVisual.Conflict
+        isSyncInProgress -> SyncVisual.Syncing
+        showSynced -> SyncVisual.Synced
+        else -> SyncVisual.Idle
+    }
+
+    Box(
+        modifier = Modifier
+            .size(MM.dimen.padding_5x)
+            .clip(CircleShape)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) {
+        AnimatedContent(
+            targetState = target,
+            transitionSpec = {
+                (fadeIn(tween(220)) + scaleIn(initialScale = 0.6f, animationSpec = tween(220)))
+                    .togetherWith(fadeOut(tween(140)) + scaleOut(targetScale = 0.6f, animationSpec = tween(140)))
+            },
+            label = "syncVisual",
+        ) { visual ->
+            when (visual) {
+                SyncVisual.Syncing -> CircularProgressIndicator(
+                    strokeWidth = 2.dp,
+                    color = colors.accent,
+                    modifier = Modifier.size(MM.dimen.icon_1x),
+                )
+
+                SyncVisual.Synced -> Icon(
+                    imageVector = Icon.Check.imageVector,
+                    contentDescription = stringResource(Res.string.transactions_synced),
+                    tint = colors.accent,
+                    modifier = Modifier.size(MM.dimen.icon_1x),
+                )
+
+                SyncVisual.Conflict -> {
+                    // Gentle pulse to draw the eye to the actionable conflict state.
+                    val pulse = rememberInfiniteTransition(label = "conflictPulse")
+                    val scale by pulse.animateFloat(
+                        initialValue = 1f,
+                        targetValue = 1.18f,
+                        animationSpec = infiniteRepeatable(
+                            animation = tween(720),
+                            repeatMode = RepeatMode.Reverse,
+                        ),
+                        label = "conflictScale",
+                    )
+                    Icon(
+                        imageVector = Icon.Warning.imageVector,
+                        contentDescription = stringResource(Res.string.transactions_sync_paused),
+                        tint = colors.warning,
+                        modifier = Modifier
+                            .size(MM.dimen.icon_1x)
+                            .graphicsLayer { scaleX = scale; scaleY = scale },
+                    )
+                }
+
+                SyncVisual.Idle -> Icon(
+                    imageVector = Icon.Sync.imageVector,
+                    contentDescription = stringResource(Res.string.transactions_sync_now),
+                    tint = colors.text2,
+                    modifier = Modifier.size(MM.dimen.icon_1x),
+                )
+            }
+        }
+    }
+}
+
+// Prominent, full-width rows for states that warrant action: a sync conflict (needs the
+// user) and pending deletions. Rendered below the header so they only appear when relevant.
 @Composable
 private fun SyncBanner(
-    isSyncInProgress: Boolean,
     hasSyncConflict: Boolean,
     pendingDeletionCount: Int,
     onNavigateToPendingDeletions: () -> Unit,
@@ -316,100 +423,50 @@ private fun SyncBanner(
     val colors = MM.colors
     val type = MM.type
 
-    // Transient "Synced" confirmation shown for a moment after syncing finishes.
-    var showSynced by remember { mutableStateOf(false) }
-    LaunchedEffect(isSyncInProgress) {
-        if (!isSyncInProgress && showSynced) {
-            delay(2500)
-            showSynced = false
-        }
-    }
-    LaunchedEffect(isSyncInProgress) {
-        if (isSyncInProgress) showSynced = true
-    }
-
-    AnimatedVisibility(visible = isSyncInProgress) {
+    AnimatedVisibility(visible = hasSyncConflict) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
                 .background(colors.surface2)
                 .clickable(onClick = onOpenSyncSheet)
-                .statusBarsPadding()
-                .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1x),
-        ) {
-            CircularProgressIndicator(
-                strokeWidth = 2.dp,
-                color = colors.accent,
-                modifier = Modifier.size(MM.dimen.icon_1x),
-            )
-            Spacer(Modifier.width(MM.dimen.padding_1x))
-            Text(
-                text = stringResource(Res.string.transactions_syncing),
-                style = type.body,
-                color = colors.text2,
-            )
-        }
-    }
-
-    AnimatedVisibility(visible = !isSyncInProgress && showSynced && !hasSyncConflict) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(colors.surface2)
-                .clickable(onClick = onOpenSyncSheet)
-                .statusBarsPadding()
-                .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1x),
+                .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_2x),
         ) {
             Icon(
-                imageVector = Icon.Check.imageVector,
+                imageVector = Icon.Warning.imageVector,
                 contentDescription = null,
-                tint = colors.accent,
+                tint = colors.warning,
                 modifier = Modifier.size(MM.dimen.icon_1x),
             )
-            Spacer(Modifier.width(MM.dimen.padding_1x))
-            Text(
-                text = stringResource(Res.string.transactions_synced),
-                style = type.body,
-                color = colors.text2,
-            )
-        }
-    }
-
-    AnimatedVisibility(visible = !isSyncInProgress && hasSyncConflict) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(colors.surface2)
-                .clickable(onClick = onOpenSyncSheet)
-                .statusBarsPadding()
-                .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1x),
-        ) {
+            Spacer(Modifier.width(MM.dimen.padding_1_5x))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(Res.string.transactions_sync_paused),
+                    style = type.body,
+                    color = colors.text,
+                )
+                Text(
+                    text = stringResource(Res.string.transactions_sync_conflict_body),
+                    style = type.caption,
+                    color = colors.text2,
+                )
+            }
             Icon(
-                imageVector = Icon.Info.imageVector,
+                imageVector = Icon.ChevronRight.imageVector,
                 contentDescription = null,
-                tint = colors.danger,
+                tint = colors.text3,
                 modifier = Modifier.size(MM.dimen.icon_1x),
-            )
-            Spacer(Modifier.width(MM.dimen.padding_1x))
-            Text(
-                text = stringResource(Res.string.transactions_sync_paused),
-                style = type.body,
-                color = colors.text,
             )
         }
     }
 
-    AnimatedVisibility(visible = !isSyncInProgress && pendingDeletionCount > 0) {
+    AnimatedVisibility(visible = pendingDeletionCount > 0) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
                 .background(colors.surface2)
                 .clickable(onClick = onNavigateToPendingDeletions)
-                .statusBarsPadding()
                 .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1x),
         ) {
             Icon(
@@ -527,6 +584,7 @@ private fun TransactionListHeader(
     onShowMonthPicker: () -> Unit,
     onShowWalletSwitcher: () -> Unit,
     onShowCategoryFilter: () -> Unit,
+    onOpenSyncSheet: () -> Unit,
     onIntent: (TransactionListIntent) -> Unit,
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
@@ -611,6 +669,13 @@ private fun TransactionListHeader(
                     onClick = { onSearchActiveChange(true) },
                     contentDescription = stringResource(Res.string.transactions_search_cd),
                 )
+                if (state.isSyncEnabled) {
+                    SyncActionButton(
+                        isSyncInProgress = state.isSyncInProgress,
+                        hasSyncConflict = state.hasSyncConflict,
+                        onClick = onOpenSyncSheet,
+                    )
+                }
             }
         }
 

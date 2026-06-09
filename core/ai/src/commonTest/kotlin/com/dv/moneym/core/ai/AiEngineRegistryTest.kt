@@ -16,7 +16,11 @@ class AiEngineRegistryTest {
     ) : AiEngine {
         override val supportsTools = false
         override suspend fun availability(): AiAvailability = availability
-        override fun streamReply(messages: List<ChatMessage>, grounding: Grounding): Flow<String> = emptyFlow()
+        override fun streamReply(
+            messages: List<ChatMessage>,
+            grounding: Grounding,
+            responseLanguage: String?,
+        ): Flow<String> = emptyFlow()
     }
 
     private val gemini = StubEngine(AiEngineId.GEMINI_NANO, AiAvailability.AVAILABLE)

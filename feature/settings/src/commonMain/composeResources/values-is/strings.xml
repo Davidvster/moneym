@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Ný endurtekin færsla</string>
     <string name="settings_section_about">UM</string>
     <string name="settings_about">Um</string>
+    <string name="settings_allow_screenshots">Leyfa skjámyndir</string>
+    <string name="settings_allow_screenshots_subtitle">Leyfa skjámyndir og skjáupptöku</string>
+    <string name="settings_cloud_devices">Tæki</string>
+    <string name="settings_cloud_join_body">Sláðu inn sama lykilorð og þú stilltir á hinu tækinu svo þetta tæki geti lesið skýjagögnin.</string>
+    <string name="settings_cloud_join_confirm">Tengjast</string>
+    <string name="settings_cloud_join_plaintext_body">Skýjagögn hins tækisins eru ekki dulkóðuð. Kveikja á skýjasamstillingu á þessu tæki líka?</string>
+    <string name="settings_cloud_join_plaintext_title">Kveikja á skýjasamstillingu</string>
+    <string name="settings_cloud_join_title">Tengstu hinu tækinu þínu</string>
+    <string name="settings_cloud_sync">Skýjasamstilling</string>
+    <string name="settings_cloud_sync_subtitle">Taktu afrit og samstilltu gögnin þín milli tækja í gegnum Google Drive.</string>
+    <string name="settings_cloud_wrong_password">Þetta lykilorð passar ekki við skýjagögnin.</string>
+    <string name="settings_import_failed">Innflutningur mistókst</string>
+    <string name="settings_remote_delete_body">Þetta eyðir öllum skýjaafritum og samstillingargögnum varanlega af Google Drive þínu og slekkur á sjálfvirku afriti og samstillingu milli tækja. Ekki er hægt að afturkalla þetta.</string>
+    <string name="settings_remote_delete_confirm">Eyða</string>
+    <string name="settings_remote_delete_data">Eyða Google Drive-gögnum</string>
+    <string name="settings_remote_delete_title">Eyða Google Drive-gögnum?</string>
+    <string name="settings_remote_error_backup_failed">Afritun mistókst</string>
+    <string name="settings_remote_error_fetch_info">Mistókst að sækja afritsupplýsingar</string>
+    <string name="settings_remote_error_restore_failed">Endurheimt mistókst</string>
+    <string name="settings_remote_error_sign_in_failed">Innskráning mistókst</string>
+    <string name="settings_remote_restore_error_title">Tókst ekki að hlaða afrit</string>
+    <string name="settings_remote_restore_no_backup">Ekkert afrit fannst á Google Drive.</string>
+    <string name="settings_remote_restore_try_again">Reyndu aftur.</string>
 </resources>

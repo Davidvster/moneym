@@ -40,4 +40,16 @@
     <string name="categories_color_hex">十六进制颜色</string>
     <string name="categories_color_select">选择颜色</string>
     <string name="categories_name_preview_placeholder">类别名称</string>
+    <string name="categories_name_blank">名称不能为空</string>
+    <string name="categories_name_duplicate">已存在同名类别</string>
+    <string name="categories_options_subtitle">%1$d 笔交易使用此类别</string>
+    <string name="categories_option_archive">保留并改为归档</string>
+    <string name="categories_option_unarchive">取消归档类别</string>
+    <string name="categories_option_migrate">将交易移至其他类别</string>
+    <string name="categories_option_delete_all">删除类别及所有交易</string>
+    <string name="categories_migrate_title">将交易移至…</string>
+    <string name="categories_delete_all_title">删除“%1$s”及其交易？</string>
+    <string name="categories_delete_all_warning">这将永久删除该类别及其 %1$d 笔交易。此操作无法撤销。</string>
+    <string name="categories_delete_all_input_label">输入类别名称以确认</string>
+    <string name="categories_delete_all_confirm">永久删除</string>
 </resources>

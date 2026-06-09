@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">Mégsem</string>
     <string name="onboarding_restore_remote_loading">Biztonsági mentés adatainak betöltése…</string>
     <string name="onboarding_restore_wrong_password">Helytelen jelszó vagy sérült biztonsági mentés.</string>
+    <string name="default_account_name">Fő</string>
+    <string name="onboarding_get_started">Kezdés</string>
+    <string name="onboarding_restore_error_fetch_info">A biztonsági mentés adatainak lekérése sikertelen</string>
+    <string name="onboarding_restore_error_restore_failed">A visszaállítás sikertelen</string>
+    <string name="onboarding_restore_error_sign_in_failed">A bejelentkezés sikertelen</string>
+    <string name="onboarding_welcome_subtitle">A privát, elsősorban offline pénzkövetőd.</string>
+    <string name="onboarding_welcome_feature_track_title">Kövess minden tranzakciót</string>
+    <string name="onboarding_welcome_feature_track_desc">Rögzítsd a bevételeket és kiadásokat másodpercek alatt minden számládon.</string>
+    <string name="onboarding_welcome_feature_insights_title">Lásd, hová megy a pénzed</string>
+    <string name="onboarding_welcome_feature_insights_desc">Áttekinthető összesítések és diagramok kategória és hónap szerint bontják a kiadásokat.</string>
+    <string name="onboarding_welcome_feature_ai_title">MI-alapú elemzések</string>
+    <string name="onboarding_welcome_feature_ai_desc">Tegyél fel kérdéseket a pénzügyeidről, és kapj okos elemzést.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Privát és biztonságos</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Minden a készülékeden marad, PIN-kóddal vagy biometriával védve.</string>
 </resources>

@@ -16,4 +16,5 @@
     <string name="category_seed_payment">Plačilo</string>
     <string name="category_seed_gift">Darilo</string>
     <string name="category_seed_other_income">Drugo</string>
+    <string name="default_account_name">Glavni</string>
 </resources>

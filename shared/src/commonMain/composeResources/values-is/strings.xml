@@ -16,4 +16,5 @@
     <string name="category_seed_payment">Greiðsla</string>
     <string name="category_seed_gift">Gjöf</string>
     <string name="category_seed_other_income">Annað</string>
+    <string name="default_account_name">Aðal</string>
 </resources>

@@ -3,4 +3,6 @@
     <string name="about_title">Apie</string>
     <string name="about_terms">Naudojimo sąlygos</string>
     <string name="about_privacy">Privatumo politika</string>
+    <string name="about_libraries">Atvirojo kodo bibliotekos</string>
+    <string name="libraries_title">Bibliotekos</string>
 </resources>

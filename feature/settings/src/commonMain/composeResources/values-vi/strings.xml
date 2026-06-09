@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Giao dịch định kỳ mới</string>
     <string name="settings_section_about">GIỚI THIỆU</string>
     <string name="settings_about">Giới thiệu</string>
+    <string name="settings_allow_screenshots">Cho phép chụp màn hình</string>
+    <string name="settings_allow_screenshots_subtitle">Cho phép chụp và quay màn hình</string>
+    <string name="settings_cloud_devices">Thiết bị</string>
+    <string name="settings_cloud_join_body">Nhập cùng mật khẩu bạn đã đặt trên thiết bị kia để thiết bị này có thể đọc dữ liệu trên đám mây.</string>
+    <string name="settings_cloud_join_confirm">Tham gia</string>
+    <string name="settings_cloud_join_plaintext_body">Dữ liệu đám mây trên thiết bị kia của bạn chưa được mã hóa. Bật đồng bộ đám mây trên thiết bị này luôn nhé?</string>
+    <string name="settings_cloud_join_plaintext_title">Bật đồng bộ đám mây</string>
+    <string name="settings_cloud_join_title">Tham gia với thiết bị kia của bạn</string>
+    <string name="settings_cloud_sync">Đồng bộ đám mây</string>
+    <string name="settings_cloud_sync_subtitle">Sao lưu và đồng bộ dữ liệu của bạn trên các thiết bị qua Google Drive.</string>
+    <string name="settings_cloud_wrong_password">Mật khẩu đó không khớp với dữ liệu trên đám mây.</string>
+    <string name="settings_import_failed">Nhập thất bại</string>
+    <string name="settings_remote_delete_body">Thao tác này sẽ xóa vĩnh viễn mọi bản sao lưu đám mây và dữ liệu đồng bộ khỏi Google Drive của bạn, đồng thời tắt sao lưu tự động và đồng bộ giữa các thiết bị. Không thể hoàn tác.</string>
+    <string name="settings_remote_delete_confirm">Xóa</string>
+    <string name="settings_remote_delete_data">Xóa dữ liệu Google Drive</string>
+    <string name="settings_remote_delete_title">Xóa dữ liệu Google Drive?</string>
+    <string name="settings_remote_error_backup_failed">Sao lưu thất bại</string>
+    <string name="settings_remote_error_fetch_info">Không lấy được thông tin sao lưu</string>
+    <string name="settings_remote_error_restore_failed">Khôi phục thất bại</string>
+    <string name="settings_remote_error_sign_in_failed">Đăng nhập thất bại</string>
+    <string name="settings_remote_restore_error_title">Không thể tải bản sao lưu</string>
+    <string name="settings_remote_restore_no_backup">Không tìm thấy bản sao lưu nào trên Google Drive.</string>
+    <string name="settings_remote_restore_try_again">Vui lòng thử lại.</string>
 </resources>

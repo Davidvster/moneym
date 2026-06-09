@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">Откажи</string>
     <string name="onboarding_restore_remote_loading">Се вчитуваат информации за резервна копија…</string>
     <string name="onboarding_restore_wrong_password">Погрешна лозинка или оштетена резервна копија.</string>
+    <string name="default_account_name">Главна</string>
+    <string name="onboarding_get_started">Започни</string>
+    <string name="onboarding_restore_error_fetch_info">Не успеа да се преземат податоците за резервната копија</string>
+    <string name="onboarding_restore_error_restore_failed">Враќањето не успеа</string>
+    <string name="onboarding_restore_error_sign_in_failed">Најавата не успеа</string>
+    <string name="onboarding_welcome_subtitle">Вашиот приватен следач на пари што работи првенствено офлајн.</string>
+    <string name="onboarding_welcome_feature_track_title">Следете ја секоја трансакција</string>
+    <string name="onboarding_welcome_feature_track_desc">Запишувајте приходи и трошоци за неколку секунди на сите ваши сметки.</string>
+    <string name="onboarding_welcome_feature_insights_title">Видете каде одат вашите пари</string>
+    <string name="onboarding_welcome_feature_insights_desc">Јасни прегледи и графикони ги разложуваат трошоците по категорија и месец.</string>
+    <string name="onboarding_welcome_feature_ai_title">Увиди со помош на вештачка интелигенција</string>
+    <string name="onboarding_welcome_feature_ai_desc">Поставувајте прашања за вашите финансии и добијте паметна анализа.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Приватно и безбедно</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Сè останува на вашиот уред, заклучено со PIN или биометрија.</string>
 </resources>

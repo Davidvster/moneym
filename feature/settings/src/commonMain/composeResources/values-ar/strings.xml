@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">معاملة متكررة جديدة</string>
     <string name="settings_section_about">حول</string>
     <string name="settings_about">حول</string>
+    <string name="settings_allow_screenshots">السماح بلقطات الشاشة</string>
+    <string name="settings_allow_screenshots_subtitle">السماح بلقطات الشاشة وتسجيل الشاشة</string>
+    <string name="settings_cloud_devices">الأجهزة</string>
+    <string name="settings_cloud_join_body">أدخل كلمة المرور نفسها التي عيّنتها على جهازك الآخر حتى يتمكن هذا الجهاز من قراءة بيانات السحابة.</string>
+    <string name="settings_cloud_join_confirm">انضمام</string>
+    <string name="settings_cloud_join_plaintext_body">بيانات السحابة لجهازك الآخر غير مشفّرة. هل تريد تشغيل المزامنة السحابية على هذا الجهاز أيضًا؟</string>
+    <string name="settings_cloud_join_plaintext_title">تشغيل المزامنة السحابية</string>
+    <string name="settings_cloud_join_title">انضم إلى جهازك الآخر</string>
+    <string name="settings_cloud_sync">المزامنة السحابية</string>
+    <string name="settings_cloud_sync_subtitle">انسخ بياناتك احتياطيًا وزامنها عبر الأجهزة من خلال Google Drive.</string>
+    <string name="settings_cloud_wrong_password">كلمة المرور هذه لا تطابق بيانات السحابة.</string>
+    <string name="settings_import_failed">فشل الاستيراد</string>
+    <string name="settings_remote_delete_body">يؤدي هذا إلى حذف جميع النسخ الاحتياطية السحابية وبيانات المزامنة نهائيًا من Google Drive، وإيقاف النسخ الاحتياطي التلقائي والمزامنة بين الأجهزة. لا يمكن التراجع عن ذلك.</string>
+    <string name="settings_remote_delete_confirm">حذف</string>
+    <string name="settings_remote_delete_data">حذف بيانات Google Drive</string>
+    <string name="settings_remote_delete_title">حذف بيانات Google Drive؟</string>
+    <string name="settings_remote_error_backup_failed">فشل النسخ الاحتياطي</string>
+    <string name="settings_remote_error_fetch_info">تعذّر جلب معلومات النسخة الاحتياطية</string>
+    <string name="settings_remote_error_restore_failed">فشلت الاستعادة</string>
+    <string name="settings_remote_error_sign_in_failed">فشل تسجيل الدخول</string>
+    <string name="settings_remote_restore_error_title">تعذّر تحميل النسخة الاحتياطية</string>
+    <string name="settings_remote_restore_no_backup">لم يتم العثور على نسخة احتياطية على Google Drive.</string>
+    <string name="settings_remote_restore_try_again">يرجى المحاولة مرة أخرى.</string>
 </resources>

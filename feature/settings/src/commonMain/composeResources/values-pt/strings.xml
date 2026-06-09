@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Nova transação recorrente</string>
     <string name="settings_section_about">SOBRE</string>
     <string name="settings_about">Sobre</string>
+    <string name="settings_allow_screenshots">Permitir capturas de ecrã</string>
+    <string name="settings_allow_screenshots_subtitle">Permitir capturas de ecrã e gravação de ecrã</string>
+    <string name="settings_cloud_devices">Dispositivos</string>
+    <string name="settings_cloud_join_body">Introduza a mesma palavra-passe que definiu no seu outro dispositivo para que este dispositivo possa ler os dados na nuvem.</string>
+    <string name="settings_cloud_join_confirm">Juntar-se</string>
+    <string name="settings_cloud_join_plaintext_body">Os dados na nuvem do seu outro dispositivo não estão encriptados. Ativar a sincronização na nuvem também neste dispositivo?</string>
+    <string name="settings_cloud_join_plaintext_title">Ativar sincronização na nuvem</string>
+    <string name="settings_cloud_join_title">Juntar-se ao seu outro dispositivo</string>
+    <string name="settings_cloud_sync">Sincronização na nuvem</string>
+    <string name="settings_cloud_sync_subtitle">Faça backup e sincronize os seus dados entre dispositivos através do Google Drive.</string>
+    <string name="settings_cloud_wrong_password">Essa palavra-passe não corresponde aos dados na nuvem.</string>
+    <string name="settings_import_failed">Falha na importação</string>
+    <string name="settings_remote_delete_body">Isto elimina permanentemente todos os backups na nuvem e dados de sincronização do seu Google Drive e desativa o backup automático e a sincronização entre dispositivos. Isto não pode ser anulado.</string>
+    <string name="settings_remote_delete_confirm">Eliminar</string>
+    <string name="settings_remote_delete_data">Eliminar dados do Google Drive</string>
+    <string name="settings_remote_delete_title">Eliminar dados do Google Drive?</string>
+    <string name="settings_remote_error_backup_failed">Falha no backup</string>
+    <string name="settings_remote_error_fetch_info">Falha ao obter informações do backup</string>
+    <string name="settings_remote_error_restore_failed">Falha na restauração</string>
+    <string name="settings_remote_error_sign_in_failed">Falha ao iniciar sessão</string>
+    <string name="settings_remote_restore_error_title">Não foi possível carregar o backup</string>
+    <string name="settings_remote_restore_no_backup">Não foi encontrado nenhum backup no Google Drive.</string>
+    <string name="settings_remote_restore_try_again">Tente novamente.</string>
 </resources>

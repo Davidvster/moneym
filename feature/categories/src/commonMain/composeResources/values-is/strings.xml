@@ -40,4 +40,16 @@
     <string name="categories_color_hex">Hex-litur</string>
     <string name="categories_color_select">Velja lit</string>
     <string name="categories_name_preview_placeholder">Nafn flokks</string>
+    <string name="categories_name_blank">Nafnið má ekki vera autt</string>
+    <string name="categories_name_duplicate">Flokkur með þessu nafni er þegar til</string>
+    <string name="categories_options_subtitle">%1$d færslur nota þennan flokk</string>
+    <string name="categories_option_archive">Halda honum, geyma í safni í staðinn</string>
+    <string name="categories_option_unarchive">Taka flokk úr safni</string>
+    <string name="categories_option_migrate">Færa færslur í annan flokk</string>
+    <string name="categories_option_delete_all">Eyða flokki og öllum færslum</string>
+    <string name="categories_migrate_title">Færa færslur í…</string>
+    <string name="categories_delete_all_title">Eyða "%1$s" og færslum hennar?</string>
+    <string name="categories_delete_all_warning">Þetta eyðir flokknum og %1$d færslum hans varanlega. Ekki er hægt að afturkalla þessa aðgerð.</string>
+    <string name="categories_delete_all_input_label">Sláðu inn nafn flokksins til að staðfesta</string>
+    <string name="categories_delete_all_confirm">Eyða varanlega</string>
 </resources>

@@ -26,4 +26,11 @@
     <string name="transactions_wallet_all">Tất cả ví</string>
     <string name="transactions_syncing">Đang đồng bộ…</string>
     <string name="transactions_pending_deletions">%1$d mục đã bị xóa trên thiết bị khác — xem lại</string>
+    <string name="transactions_sync_conflict_body">Đồng bộ đang tạm dừng. Mở Sao lưu và khôi phục trong Cài đặt để nhập mật khẩu.</string>
+    <string name="transactions_sync_last">Đồng bộ lần cuối %1$s</string>
+    <string name="transactions_sync_never">Chưa đồng bộ</string>
+    <string name="transactions_sync_now">Đồng bộ ngay</string>
+    <string name="transactions_sync_paused">Đã tạm dừng đồng bộ — cần thao tác</string>
+    <string name="transactions_sync_sheet_title">Đồng bộ đám mây</string>
+    <string name="transactions_synced">Đã đồng bộ</string>
 </resources>

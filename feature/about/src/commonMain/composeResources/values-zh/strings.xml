@@ -3,4 +3,6 @@
     <string name="about_title">关于</string>
     <string name="about_terms">条款与条件</string>
     <string name="about_privacy">隐私政策</string>
+    <string name="about_libraries">开源库</string>
+    <string name="libraries_title">库</string>
 </resources>

@@ -3,4 +3,6 @@
     <string name="about_title">Um</string>
     <string name="about_terms">Skilmálar &amp; Skilyrði</string>
     <string name="about_privacy">Persónuverndarstefna</string>
+    <string name="about_libraries">Opinn hugbúnaður (söfn)</string>
+    <string name="libraries_title">Söfn</string>
 </resources>

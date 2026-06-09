@@ -40,4 +40,16 @@
     <string name="categories_color_hex">Hex farba</string>
     <string name="categories_color_select">Vybrať farbu</string>
     <string name="categories_name_preview_placeholder">Názov kategórie</string>
+    <string name="categories_name_blank">Názov nemôže byť prázdny</string>
+    <string name="categories_name_duplicate">Kategória s týmto názvom už existuje</string>
+    <string name="categories_options_subtitle">Túto kategóriu používa %1$d transakcií</string>
+    <string name="categories_option_archive">Ponechať a namiesto toho archivovať</string>
+    <string name="categories_option_unarchive">Zrušiť archiváciu kategórie</string>
+    <string name="categories_option_migrate">Presunúť transakcie do inej kategórie</string>
+    <string name="categories_option_delete_all">Odstrániť kategóriu a všetky transakcie</string>
+    <string name="categories_migrate_title">Presunúť transakcie do…</string>
+    <string name="categories_delete_all_title">Odstrániť „%1$s“ a jej transakcie?</string>
+    <string name="categories_delete_all_warning">Týmto sa natrvalo odstráni kategória a jej %1$d transakcií. Túto akciu nie je možné vrátiť späť.</string>
+    <string name="categories_delete_all_input_label">Na potvrdenie zadajte názov kategórie</string>
+    <string name="categories_delete_all_confirm">Trvalo odstrániť</string>
 </resources>

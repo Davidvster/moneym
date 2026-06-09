@@ -15,4 +15,5 @@
     <string name="category_seed_payment">Kifizetés</string>
     <string name="category_seed_gift">Ajándék</string>
     <string name="category_seed_other_income">Egyéb</string>
+    <string name="default_account_name">Fő</string>
 </resources>

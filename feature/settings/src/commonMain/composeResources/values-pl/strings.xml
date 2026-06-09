@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Nowa transakcja cykliczna</string>
     <string name="settings_section_about">O APLIKACJI</string>
     <string name="settings_about">O aplikacji</string>
+    <string name="settings_allow_screenshots">Zezwalaj na zrzuty ekranu</string>
+    <string name="settings_allow_screenshots_subtitle">Zezwalaj na zrzuty ekranu i nagrywanie ekranu</string>
+    <string name="settings_cloud_devices">Urządzenia</string>
+    <string name="settings_cloud_join_body">Wprowadź to samo hasło, które ustawiono na drugim urządzeniu, aby to urządzenie mogło odczytać dane w chmurze.</string>
+    <string name="settings_cloud_join_confirm">Dołącz</string>
+    <string name="settings_cloud_join_plaintext_body">Dane w chmurze drugiego urządzenia nie są zaszyfrowane. Włączyć synchronizację w chmurze również na tym urządzeniu?</string>
+    <string name="settings_cloud_join_plaintext_title">Włącz synchronizację w chmurze</string>
+    <string name="settings_cloud_join_title">Dołącz do drugiego urządzenia</string>
+    <string name="settings_cloud_sync">Synchronizacja w chmurze</string>
+    <string name="settings_cloud_sync_subtitle">Twórz kopię zapasową i synchronizuj dane między urządzeniami przez Google Drive.</string>
+    <string name="settings_cloud_wrong_password">To hasło nie pasuje do danych w chmurze.</string>
+    <string name="settings_import_failed">Importowanie nie powiodło się</string>
+    <string name="settings_remote_delete_body">Spowoduje to trwałe usunięcie wszystkich kopii zapasowych w chmurze i danych synchronizacji z Twojego Dysku Google oraz wyłączenie automatycznej kopii zapasowej i synchronizacji między urządzeniami. Tej operacji nie można cofnąć.</string>
+    <string name="settings_remote_delete_confirm">Usuń</string>
+    <string name="settings_remote_delete_data">Usuń dane z Dysku Google</string>
+    <string name="settings_remote_delete_title">Usunąć dane z Dysku Google?</string>
+    <string name="settings_remote_error_backup_failed">Tworzenie kopii zapasowej nie powiodło się</string>
+    <string name="settings_remote_error_fetch_info">Nie udało się pobrać informacji o kopii zapasowej</string>
+    <string name="settings_remote_error_restore_failed">Przywracanie nie powiodło się</string>
+    <string name="settings_remote_error_sign_in_failed">Logowanie nie powiodło się</string>
+    <string name="settings_remote_restore_error_title">Nie udało się wczytać kopii zapasowej</string>
+    <string name="settings_remote_restore_no_backup">Nie znaleziono kopii zapasowej na Dysku Google.</string>
+    <string name="settings_remote_restore_try_again">Spróbuj ponownie.</string>
 </resources>

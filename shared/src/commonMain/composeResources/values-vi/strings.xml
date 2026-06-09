@@ -16,4 +16,5 @@
     <string name="category_seed_payment">Thanh toán</string>
     <string name="category_seed_gift">Quà tặng</string>
     <string name="category_seed_other_income">Khác</string>
+    <string name="default_account_name">Chính</string>
 </resources>

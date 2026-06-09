@@ -40,4 +40,16 @@
     <string name="categories_color_hex">हेक्स रंग</string>
     <string name="categories_color_select">रंग चुनें</string>
     <string name="categories_name_preview_placeholder">श्रेणी का नाम</string>
+    <string name="categories_name_blank">नाम खाली नहीं हो सकता</string>
+    <string name="categories_name_duplicate">इस नाम की श्रेणी पहले से मौजूद है</string>
+    <string name="categories_options_subtitle">%1$d लेन-देन इस श्रेणी का उपयोग करते हैं</string>
+    <string name="categories_option_archive">इसे रखें, इसके बजाय संग्रह करें</string>
+    <string name="categories_option_unarchive">श्रेणी को संग्रह से हटाएं</string>
+    <string name="categories_option_migrate">लेन-देन को दूसरी श्रेणी में ले जाएं</string>
+    <string name="categories_option_delete_all">श्रेणी और सभी लेन-देन हटाएं</string>
+    <string name="categories_migrate_title">लेन-देन यहाँ ले जाएं…</string>
+    <string name="categories_delete_all_title">"%1$s" और इसके लेन-देन हटाएं?</string>
+    <string name="categories_delete_all_warning">यह श्रेणी और इसके %1$d लेन-देन को स्थायी रूप से हटा देता है. इस क्रिया को पूर्ववत नहीं किया जा सकता.</string>
+    <string name="categories_delete_all_input_label">पुष्टि के लिए श्रेणी का नाम टाइप करें</string>
+    <string name="categories_delete_all_confirm">स्थायी रूप से हटाएं</string>
 </resources>

@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Fonte de dados</string>
     <string name="analyze_grounding_snapshot">Instantâneo</string>
     <string name="analyze_grounding_tools">Ferramentas</string>
+    <string name="analyze_grounding_snapshot_hint">Envia um resumo do ano selecionado. Ideal para perguntas sobre esse período.</string>
+    <string name="analyze_grounding_tools_hint">Permite que a IA pesquise todo o seu histórico e busque o que precisa. Ideal para perguntas abertas.</string>
+    <string name="analyze_year_label">Ano do resumo</string>
+    <string name="analyze_year_prev_cd">Ano anterior</string>
+    <string name="analyze_year_next_cd">Próximo ano</string>
     <string name="analyze_tools_fallback_notice">As ferramentas não são suportadas por este modelo. A utilizar um instantâneo em alternativa.</string>
     <string name="analyze_error">Ocorreu um erro. Por favor tente novamente.</string>
     <string name="analyze_generating">A processar…</string>
@@ -16,4 +21,25 @@
         <item>Como se compara este mês ao anterior?</item>
         <item>Existem despesas invulgares ou elevadas?</item>
     </string-array>
+    <string name="analyze_download_model">Descarregar um modelo</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">Motor de IA</string>
+    <string name="analyze_engine_local_llm">Modelo no dispositivo</string>
+    <string name="analyze_engine_needs_download_notice">Este motor não está disponível. Descarregue um modelo para continuar.</string>
+    <string name="analyze_engine_status_download">Toque para descarregar</string>
+    <string name="analyze_engine_status_ready">Pronto</string>
+    <string name="analyze_engine_status_unavailable">Indisponível</string>
+    <string name="analyze_history_cd">Histórico de conversas</string>
+    <string name="analyze_history_delete_body">Isto remove permanentemente esta conversa e as suas mensagens.</string>
+    <string name="analyze_history_delete_cancel">Cancelar</string>
+    <string name="analyze_history_delete_cd">Eliminar conversa</string>
+    <string name="analyze_history_delete_confirm">Eliminar</string>
+    <string name="analyze_history_delete_title">Eliminar conversa?</string>
+    <string name="analyze_history_empty">Ainda não há conversas. As suas conversas aparecerão aqui.</string>
+    <string name="analyze_history_new_chat_cd">Nova conversa</string>
+    <string name="analyze_history_title">Histórico de conversas</string>
+    <string name="analyze_manage_models">Gerir modelos…</string>
+    <string name="analyze_model_picker_cd">Selecionar modelo</string>
+    <string name="analyze_new_chat_cd">Nova conversa</string>
 </resources>

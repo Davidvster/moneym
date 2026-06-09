@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ai_models_title">Modele AI</string>
+    <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
+    <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
+    <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="ai_models_download">Pobierz</string>
+    <string name="ai_models_cancel">Anuluj</string>
+    <string name="ai_models_delete">Usuń</string>
+    <string name="ai_models_active">Aktywny</string>
+    <string name="ai_models_delete_title">Usunąć model?</string>
+    <string name="ai_models_delete_body">Usuwa pobrany plik modelu z tego urządzenia.</string>
+    <string name="ai_models_verifying">Weryfikowanie…</string>
+    <string name="ai_models_keep_awake">Pozostaw aplikację otwartą, a ekran włączony. Nie opuszczaj tego ekranu, dopóki pobieranie się nie zakończy.</string>
+    <string name="ai_models_eta_seconds">~pozostało %1$d s</string>
+    <string name="ai_models_eta_minutes">~pozostało %1$d min</string>
+    <string name="ai_models_eta_hours">~pozostało %1$d h %2$d min</string>
+    <string name="ai_models_error_download">Pobieranie nie powiodło się. Spróbuj ponownie.</string>
+    <string name="ai_models_error_delete">Nie udało się usunąć modelu.</string>
+</resources>

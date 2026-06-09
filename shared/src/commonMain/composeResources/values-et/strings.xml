@@ -16,4 +16,5 @@
     <string name="category_seed_payment">Makse</string>
     <string name="category_seed_gift">Kingitus</string>
     <string name="category_seed_other_income">Muu</string>
+    <string name="default_account_name">Peamine</string>
 </resources>

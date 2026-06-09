@@ -3,4 +3,6 @@
     <string name="about_title">O aplikacji</string>
     <string name="about_terms">Regulamin</string>
     <string name="about_privacy">Polityka prywatności</string>
+    <string name="about_libraries">Biblioteki open source</string>
+    <string name="libraries_title">Biblioteki</string>
 </resources>

@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
  * graph.
  */
 interface SyncStatusProvider {
+    val isEnabled: Flow<Boolean>
     val isSyncing: Flow<Boolean>
     val pendingDeletionCount: Flow<Int>
     val conflict: Flow<SyncConflict?>

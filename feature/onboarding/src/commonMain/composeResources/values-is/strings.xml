@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">Hætta við</string>
     <string name="onboarding_restore_remote_loading">Sæki öryggisafritsupp­lýsingar…</string>
     <string name="onboarding_restore_wrong_password">Rangt lykilorð eða skemmt öryggisafrit.</string>
+    <string name="default_account_name">Aðal</string>
+    <string name="onboarding_get_started">Byrja</string>
+    <string name="onboarding_restore_error_fetch_info">Mistókst að sækja afritsupplýsingar</string>
+    <string name="onboarding_restore_error_restore_failed">Endurheimt mistókst</string>
+    <string name="onboarding_restore_error_sign_in_failed">Innskráning mistókst</string>
+    <string name="onboarding_welcome_subtitle">Þinn eigin peningamælir sem virkar fyrst og fremst án nettengingar.</string>
+    <string name="onboarding_welcome_feature_track_title">Fylgstu með hverri færslu</string>
+    <string name="onboarding_welcome_feature_track_desc">Skráðu tekjur og útgjöld á sekúndum á öllum reikningunum þínum.</string>
+    <string name="onboarding_welcome_feature_insights_title">Sjáðu hvert peningarnir þínir fara</string>
+    <string name="onboarding_welcome_feature_insights_desc">Skýr yfirlit og gröf sundurliða útgjöld eftir flokki og mánuði.</string>
+    <string name="onboarding_welcome_feature_ai_title">Innsýn knúin gervigreind</string>
+    <string name="onboarding_welcome_feature_ai_desc">Spurðu um fjármálin þín og fáðu snjalla greiningu.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Einkamál og öruggt</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Allt er áfram í tækinu þínu, læst með PIN-númeri eða lífkenni.</string>
 </resources>

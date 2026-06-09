@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Извор на податоци</string>
     <string name="analyze_grounding_snapshot">Снимка</string>
     <string name="analyze_grounding_tools">Алатки</string>
+    <string name="analyze_grounding_snapshot_hint">Испраќа резиме за избраната година. Најдобро за прашања за тој период.</string>
+    <string name="analyze_grounding_tools_hint">Овозможува вештачката интелигенција да пребарува низ целата историја и да го извлече потребното. Најдобро за отворени прашања.</string>
+    <string name="analyze_year_label">Година на снимката</string>
+    <string name="analyze_year_prev_cd">Претходна година</string>
+    <string name="analyze_year_next_cd">Следна година</string>
     <string name="analyze_tools_fallback_notice">Алатките не се поддржани од овој модел. Се користи снимка наместо тоа.</string>
     <string name="analyze_error">Нешто тргна наопаку. Обидете се повторно.</string>
     <string name="analyze_generating">Размислувам…</string>
@@ -16,4 +21,25 @@
         <item>Kako овој месец се споредува со минатиот?</item>
         <item>Дали има необични или големи трошоци?</item>
     </string-array>
+    <string name="analyze_download_model">Преземи модел</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">AI мотор</string>
+    <string name="analyze_engine_local_llm">Модел на уредот</string>
+    <string name="analyze_engine_needs_download_notice">Овој мотор не е достапен. Преземете модел за да продолжите.</string>
+    <string name="analyze_engine_status_download">Допрете за преземање</string>
+    <string name="analyze_engine_status_ready">Подготвено</string>
+    <string name="analyze_engine_status_unavailable">Недостапно</string>
+    <string name="analyze_history_cd">Историја на разговори</string>
+    <string name="analyze_history_delete_body">Ова трајно го отстранува овој разговор и неговите пораки.</string>
+    <string name="analyze_history_delete_cancel">Откажи</string>
+    <string name="analyze_history_delete_cd">Избриши разговор</string>
+    <string name="analyze_history_delete_confirm">Избриши</string>
+    <string name="analyze_history_delete_title">Да се избрише разговорот?</string>
+    <string name="analyze_history_empty">Сè уште нема разговори. Вашите разговори ќе се појават тука.</string>
+    <string name="analyze_history_new_chat_cd">Нов разговор</string>
+    <string name="analyze_history_title">Историја на разговори</string>
+    <string name="analyze_manage_models">Управувај со модели…</string>
+    <string name="analyze_model_picker_cd">Избери модел</string>
+    <string name="analyze_new_chat_cd">Нов разговор</string>
 </resources>

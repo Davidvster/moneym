@@ -16,4 +16,5 @@
     <string name="category_seed_payment">Maksājums</string>
     <string name="category_seed_gift">Dāvana</string>
     <string name="category_seed_other_income">Cits</string>
+    <string name="default_account_name">Galvenais</string>
 </resources>

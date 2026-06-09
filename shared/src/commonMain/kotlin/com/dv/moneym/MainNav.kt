@@ -46,7 +46,9 @@ import com.dv.moneym.feature.settings.overview.SecuritySettingsIntent
 import com.dv.moneym.feature.settings.overview.SecuritySettingsViewModel
 import com.dv.moneym.feature.settings.overview.SettingsKey
 import com.dv.moneym.feature.about.AboutKey
+import com.dv.moneym.feature.about.LibrariesKey
 import com.dv.moneym.feature.about.aboutEntry
+import com.dv.moneym.feature.about.librariesEntry
 import com.dv.moneym.feature.infopage.InfoPageKey
 import com.dv.moneym.feature.infopage.infoPageEntry
 import com.dv.moneym.feature.settings.overview.TxListDisplayKey
@@ -113,7 +115,6 @@ internal fun MainNav(lockController: AppLockController) {
             tabBackStack.push(ImportDataKey)
         }
     }
-
 
     Box(modifier = Modifier.fillMaxSize().background(MM.colors.bg)) {
     NavDisplay(
@@ -265,6 +266,11 @@ internal fun MainNav(lockController: AppLockController) {
                 onBack = { tabBackStack.removeLast() },
             )
             aboutEntry(
+                onBack = { tabBackStack.removeLast() },
+                onNavigateToLibraries = { tabBackStack.push(LibrariesKey) },
+                metadata = modalTransitionMeta,
+            )
+            librariesEntry(
                 onBack = { tabBackStack.removeLast() },
                 metadata = modalTransitionMeta,
             )

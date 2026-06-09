@@ -3,4 +3,6 @@
     <string name="about_title">О приложении</string>
     <string name="about_terms">Условия &amp; Положения</string>
     <string name="about_privacy">Политика конфиденциальности</string>
+    <string name="about_libraries">Библиотеки с открытым кодом</string>
+    <string name="libraries_title">Библиотеки</string>
 </resources>

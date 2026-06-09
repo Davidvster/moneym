@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">新建重复交易</string>
     <string name="settings_section_about">关于</string>
     <string name="settings_about">关于</string>
+    <string name="settings_allow_screenshots">允许截屏</string>
+    <string name="settings_allow_screenshots_subtitle">允许截屏和录屏</string>
+    <string name="settings_cloud_devices">设备</string>
+    <string name="settings_cloud_join_body">输入您在另一台设备上设置的相同密码，以便此设备可以读取云端数据。</string>
+    <string name="settings_cloud_join_confirm">加入</string>
+    <string name="settings_cloud_join_plaintext_body">您另一台设备的云端数据未加密。是否也在此设备上开启云同步？</string>
+    <string name="settings_cloud_join_plaintext_title">开启云同步</string>
+    <string name="settings_cloud_join_title">加入您的另一台设备</string>
+    <string name="settings_cloud_sync">云同步</string>
+    <string name="settings_cloud_sync_subtitle">通过 Google Drive 备份并在设备间同步您的数据。</string>
+    <string name="settings_cloud_wrong_password">该密码与云端数据不匹配。</string>
+    <string name="settings_import_failed">导入失败</string>
+    <string name="settings_remote_delete_body">这将永久删除您 Google Drive 中的所有云端备份和同步数据，并关闭自动备份和跨设备同步。此操作无法撤销。</string>
+    <string name="settings_remote_delete_confirm">删除</string>
+    <string name="settings_remote_delete_data">删除 Google Drive 数据</string>
+    <string name="settings_remote_delete_title">删除 Google Drive 数据？</string>
+    <string name="settings_remote_error_backup_failed">备份失败</string>
+    <string name="settings_remote_error_fetch_info">无法获取备份信息</string>
+    <string name="settings_remote_error_restore_failed">恢复失败</string>
+    <string name="settings_remote_error_sign_in_failed">登录失败</string>
+    <string name="settings_remote_restore_error_title">无法加载备份</string>
+    <string name="settings_remote_restore_no_backup">在 Google Drive 上未找到备份。</string>
+    <string name="settings_remote_restore_try_again">请重试。</string>
 </resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ai_models_title">Modeli UI</string>
+    <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
+    <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
+    <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="ai_models_download">Prenesi</string>
+    <string name="ai_models_cancel">Prekliči</string>
+    <string name="ai_models_delete">Izbriši</string>
+    <string name="ai_models_active">Aktivno</string>
+    <string name="ai_models_delete_title">Izbrišem model?</string>
+    <string name="ai_models_delete_body">Odstrani preneseno datoteko modela iz te naprave.</string>
+    <string name="ai_models_verifying">Preverjanje…</string>
+    <string name="ai_models_keep_awake">Pustite aplikacijo odprto in zaslon vklopljen. Ne zapuščajte tega zaslona, dokler se prenos ne konča.</string>
+    <string name="ai_models_eta_seconds">~še %1$d s</string>
+    <string name="ai_models_eta_minutes">~še %1$d min</string>
+    <string name="ai_models_eta_hours">~še %1$d h %2$d min</string>
+    <string name="ai_models_error_download">Prenos ni uspel. Poskusite znova.</string>
+    <string name="ai_models_error_delete">Modela ni bilo mogoče izbrisati.</string>
+</resources>

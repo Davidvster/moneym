@@ -16,4 +16,5 @@
     <string name="category_seed_payment">الدفع</string>
     <string name="category_seed_gift">هدية</string>
     <string name="category_seed_other_income">أخرى</string>
+    <string name="default_account_name">الرئيسي</string>
 </resources>

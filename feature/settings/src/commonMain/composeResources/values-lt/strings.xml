@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Nauja pasikartojanti operacija</string>
     <string name="settings_section_about">APIE</string>
     <string name="settings_about">Apie</string>
+    <string name="settings_allow_screenshots">Leisti ekrano nuotraukas</string>
+    <string name="settings_allow_screenshots_subtitle">Leisti ekrano nuotraukas ir ekrano įrašymą</string>
+    <string name="settings_cloud_devices">Įrenginiai</string>
+    <string name="settings_cloud_join_body">Įveskite tą patį slaptažodį, kurį nustatėte kitame įrenginyje, kad šis įrenginys galėtų skaityti debesų duomenis.</string>
+    <string name="settings_cloud_join_confirm">Prisijungti</string>
+    <string name="settings_cloud_join_plaintext_body">Kito jūsų įrenginio debesų duomenys nėra užšifruoti. Įjungti debesų sinchronizavimą ir šiame įrenginyje?</string>
+    <string name="settings_cloud_join_plaintext_title">Įjungti debesų sinchronizavimą</string>
+    <string name="settings_cloud_join_title">Prisijunkite prie kito įrenginio</string>
+    <string name="settings_cloud_sync">Debesų sinchronizavimas</string>
+    <string name="settings_cloud_sync_subtitle">Kurkite atsarginę kopiją ir sinchronizuokite duomenis tarp įrenginių per „Google Drive“.</string>
+    <string name="settings_cloud_wrong_password">Šis slaptažodis neatitinka debesų duomenų.</string>
+    <string name="settings_import_failed">Importuoti nepavyko</string>
+    <string name="settings_remote_delete_body">Tai visam laikui ištrina visas debesų atsargines kopijas ir sinchronizavimo duomenis iš jūsų „Google Drive“ ir išjungia automatinį atsarginį kopijavimą bei sinchronizavimą tarp įrenginių. To anuliuoti negalima.</string>
+    <string name="settings_remote_delete_confirm">Ištrinti</string>
+    <string name="settings_remote_delete_data">Ištrinti „Google Drive“ duomenis</string>
+    <string name="settings_remote_delete_title">Ištrinti „Google Drive“ duomenis?</string>
+    <string name="settings_remote_error_backup_failed">Sukurti atsarginės kopijos nepavyko</string>
+    <string name="settings_remote_error_fetch_info">Nepavyko gauti atsarginės kopijos informacijos</string>
+    <string name="settings_remote_error_restore_failed">Atkūrimas nepavyko</string>
+    <string name="settings_remote_error_sign_in_failed">Prisijungti nepavyko</string>
+    <string name="settings_remote_restore_error_title">Nepavyko įkelti atsarginės kopijos</string>
+    <string name="settings_remote_restore_no_backup">„Google Drive“ nerasta jokios atsarginės kopijos.</string>
+    <string name="settings_remote_restore_try_again">Bandykite dar kartą.</string>
 </resources>

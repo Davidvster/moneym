@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">Odustani</string>
     <string name="onboarding_restore_remote_loading">Dohvaćam informacije o sigurnosnoj kopiji…</string>
     <string name="onboarding_restore_wrong_password">Pogrešna lozinka ili oštećena sigurnosna kopija.</string>
+    <string name="default_account_name">Glavni</string>
+    <string name="onboarding_get_started">Započni</string>
+    <string name="onboarding_restore_error_fetch_info">Dohvaćanje podataka o sigurnosnoj kopiji nije uspjelo</string>
+    <string name="onboarding_restore_error_restore_failed">Vraćanje nije uspjelo</string>
+    <string name="onboarding_restore_error_sign_in_failed">Prijava nije uspjela</string>
+    <string name="onboarding_welcome_subtitle">Vaš privatni pratitelj novca koji prvo radi offline.</string>
+    <string name="onboarding_welcome_feature_track_title">Pratite svaku transakciju</string>
+    <string name="onboarding_welcome_feature_track_desc">Zabilježite prihode i rashode u nekoliko sekundi na svim računima.</string>
+    <string name="onboarding_welcome_feature_insights_title">Vidite kamo odlazi vaš novac</string>
+    <string name="onboarding_welcome_feature_insights_desc">Jasni pregledi i grafikoni razlažu potrošnju po kategoriji i mjesecu.</string>
+    <string name="onboarding_welcome_feature_ai_title">Uvidi temeljeni na umjetnoj inteligenciji</string>
+    <string name="onboarding_welcome_feature_ai_desc">Postavljajte pitanja o svojim financijama i dobijte pametnu analizu.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Privatno i sigurno</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Sve ostaje na vašem uređaju, zaštićeno PIN-om ili biometrijom.</string>
 </resources>

@@ -16,4 +16,5 @@
     <string name="category_seed_payment">Maksu</string>
     <string name="category_seed_gift">Lahja</string>
     <string name="category_seed_other_income">Muut</string>
+    <string name="default_account_name">Päätili</string>
 </resources>

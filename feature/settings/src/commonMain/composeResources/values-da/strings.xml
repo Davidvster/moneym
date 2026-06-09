@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Ny tilbagevendende transaktion</string>
     <string name="settings_section_about">OM</string>
     <string name="settings_about">Om</string>
+    <string name="settings_allow_screenshots">Tillad skærmbilleder</string>
+    <string name="settings_allow_screenshots_subtitle">Tillad skærmbilleder og skærmoptagelse</string>
+    <string name="settings_cloud_devices">Enheder</string>
+    <string name="settings_cloud_join_body">Indtast den samme adgangskode, som du angav på din anden enhed, så denne enhed kan læse cloud-dataene.</string>
+    <string name="settings_cloud_join_confirm">Tilslut</string>
+    <string name="settings_cloud_join_plaintext_body">Cloud-dataene på din anden enhed er ikke krypteret. Vil du også slå cloud-synkronisering til på denne enhed?</string>
+    <string name="settings_cloud_join_plaintext_title">Slå cloud-synkronisering til</string>
+    <string name="settings_cloud_join_title">Tilslut din anden enhed</string>
+    <string name="settings_cloud_sync">Cloud-synkronisering</string>
+    <string name="settings_cloud_sync_subtitle">Sikkerhedskopiér og synkroniser dine data på tværs af enheder via Google Drive.</string>
+    <string name="settings_cloud_wrong_password">Adgangskoden matcher ikke cloud-dataene.</string>
+    <string name="settings_import_failed">Import mislykkedes</string>
+    <string name="settings_remote_delete_body">Dette sletter permanent alle cloud-sikkerhedskopier og synkroniseringsdata fra dit Google Drive og slår automatisk sikkerhedskopiering og synkronisering på tværs af enheder fra. Dette kan ikke fortrydes.</string>
+    <string name="settings_remote_delete_confirm">Slet</string>
+    <string name="settings_remote_delete_data">Slet Google Drive-data</string>
+    <string name="settings_remote_delete_title">Slet Google Drive-data?</string>
+    <string name="settings_remote_error_backup_failed">Sikkerhedskopiering mislykkedes</string>
+    <string name="settings_remote_error_fetch_info">Kunne ikke hente sikkerhedskopioplysninger</string>
+    <string name="settings_remote_error_restore_failed">Gendannelse mislykkedes</string>
+    <string name="settings_remote_error_sign_in_failed">Login mislykkedes</string>
+    <string name="settings_remote_restore_error_title">Kunne ikke indlæse sikkerhedskopi</string>
+    <string name="settings_remote_restore_no_backup">Der blev ikke fundet nogen sikkerhedskopi på Google Drive.</string>
+    <string name="settings_remote_restore_try_again">Prøv igen.</string>
 </resources>

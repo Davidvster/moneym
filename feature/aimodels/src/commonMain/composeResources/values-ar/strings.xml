@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ai_models_title">نماذج الذكاء الاصطناعي</string>
+    <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
+    <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
+    <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="ai_models_download">تنزيل</string>
+    <string name="ai_models_cancel">إلغاء</string>
+    <string name="ai_models_delete">حذف</string>
+    <string name="ai_models_active">نشط</string>
+    <string name="ai_models_delete_title">حذف النموذج؟</string>
+    <string name="ai_models_delete_body">يزيل ملف النموذج المنزَّل من هذا الجهاز.</string>
+    <string name="ai_models_verifying">جارٍ التحقق…</string>
+    <string name="ai_models_keep_awake">أبقِ التطبيق مفتوحًا والشاشة قيد التشغيل. لا تغادر هذه الشاشة حتى ينتهي التنزيل.</string>
+    <string name="ai_models_eta_seconds">~%1$d ثانية متبقية</string>
+    <string name="ai_models_eta_minutes">~%1$d دقيقة متبقية</string>
+    <string name="ai_models_eta_hours">~%1$d س %2$d د متبقية</string>
+    <string name="ai_models_error_download">فشل التنزيل. يرجى المحاولة مرة أخرى.</string>
+    <string name="ai_models_error_delete">تعذّر حذف النموذج.</string>
+</resources>

@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Gagnaveita</string>
     <string name="analyze_grounding_snapshot">Skyndimynd</string>
     <string name="analyze_grounding_tools">Verkfæri</string>
+    <string name="analyze_grounding_snapshot_hint">Sendir samantekt valda ársins. Best fyrir spurningar um það tímabil.</string>
+    <string name="analyze_grounding_tools_hint">Leyfir gervigreindinni að leita í allri sögunni þinni og sækja það sem hún þarf. Best fyrir opnar spurningar.</string>
+    <string name="analyze_year_label">Ár skyndimyndar</string>
+    <string name="analyze_year_prev_cd">Fyrra ár</string>
+    <string name="analyze_year_next_cd">Næsta ár</string>
     <string name="analyze_tools_fallback_notice">Verkfæri eru ekki studd af þessu líkani. Notar skyndimynd í staðinn.</string>
     <string name="analyze_error">Eitthvað fór úrskeiðis. Reyndu aftur.</string>
     <string name="analyze_generating">Hugsar…</string>
@@ -16,4 +21,25 @@
         <item>Hvernig ber þennan mánuð saman við síðasta mánuð?</item>
         <item>Einhverjar óvenjulegar eða stórar útgjöld?</item>
     </string-array>
+    <string name="analyze_download_model">Sækja líkan</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">Gervigreindarvél</string>
+    <string name="analyze_engine_local_llm">Líkan í tækinu</string>
+    <string name="analyze_engine_needs_download_notice">Þessi vél er ekki tiltæk. Sæktu líkan til að halda áfram.</string>
+    <string name="analyze_engine_status_download">Ýttu til að sækja</string>
+    <string name="analyze_engine_status_ready">Tilbúið</string>
+    <string name="analyze_engine_status_unavailable">Ekki tiltækt</string>
+    <string name="analyze_history_cd">Spjallferill</string>
+    <string name="analyze_history_delete_body">Þetta fjarlægir þetta samtal og skilaboð þess varanlega.</string>
+    <string name="analyze_history_delete_cancel">Hætta við</string>
+    <string name="analyze_history_delete_cd">Eyða samtali</string>
+    <string name="analyze_history_delete_confirm">Eyða</string>
+    <string name="analyze_history_delete_title">Eyða samtali?</string>
+    <string name="analyze_history_empty">Engin samtöl enn. Spjöllin þín birtast hér.</string>
+    <string name="analyze_history_new_chat_cd">Nýtt spjall</string>
+    <string name="analyze_history_title">Spjallferill</string>
+    <string name="analyze_manage_models">Stjórna líkönum…</string>
+    <string name="analyze_model_picker_cd">Veldu líkan</string>
+    <string name="analyze_new_chat_cd">Nýtt spjall</string>
 </resources>

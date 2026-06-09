@@ -13,9 +13,11 @@ import com.dv.moneym.core.ai.ChatRole
 import com.dv.moneym.core.ai.Grounding
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.common.DispatcherProvider
+import com.dv.moneym.core.common.LocaleController
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.data.aichat.AiChatRepository
+import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceSnapshotUseCase
 import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceToolsetUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,13 +40,20 @@ class AnalyzeViewModel(
     private val appSettings: AppSettings,
     private val dispatchers: DispatcherProvider,
     private val aiChatRepository: AiChatRepository,
+    private val transactionRepository: TransactionRepository,
+    private val localeController: LocaleController,
     private val clock: AppClock,
     private val activeChatHolder: ActiveChatHolder,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _state by savedStateHandle.saved { MutableStateFlow(AnalyzeUiState(groundingMode = loadGroundingMode())) }
-    internal val state = _state.onStart { startEngineProbe() }.stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
+    internal val state = _state
+        .onStart {
+            startEngineProbe()
+            loadYearBounds()
+        }
+        .stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
     // The on-device (custom) engine never blocks, so it is emitted immediately and the picker
     // shows right away. Built-in engines (Gemini Nano on Android, Apple Intelligence on iOS) are
@@ -68,6 +77,26 @@ class AnalyzeViewModel(
                     }
                 }
             if (builtIns.isNotEmpty()) emitEngines(builtIns + listOfNotNull(local))
+        }
+    }
+
+    // Snapshot grounding summarises a whole year, so the user can point it at any year that has
+    // data. Bounds come from the stored transaction range; the year the screen was opened on is
+    // the default, clamped into range.
+    private fun loadYearBounds() {
+        viewModelScope.launch {
+            val earliest = withContext(dispatchers.io) { transactionRepository.getEarliestTransactionDate() }
+            val latest = withContext(dispatchers.io) { transactionRepository.getLatestTransactionDate() }
+            val currentYear = clock.today().year
+            val minYear = earliest?.year ?: minOf(year, currentYear)
+            val maxYear = maxOf(latest?.year ?: currentYear, year)
+            _state.update {
+                it.copy(
+                    minYear = minYear,
+                    maxYear = maxYear,
+                    selectedYear = (it.selectedYear ?: year).coerceIn(minYear, maxYear),
+                )
+            }
         }
     }
 
@@ -108,6 +137,7 @@ class AnalyzeViewModel(
             is AnalyzeIntent.InputChanged -> _state.update { it.copy(input = intent.text) }
             is AnalyzeIntent.SendMessage -> sendMessage(intent.text)
             is AnalyzeIntent.GroundingModeChanged -> changeGroundingMode(intent.mode)
+            is AnalyzeIntent.YearChanged -> changeYear(intent.year)
             is AnalyzeIntent.EngineChanged -> changeEngine(intent.id)
             AnalyzeIntent.RefreshEngines -> startEngineProbe()
             AnalyzeIntent.DismissFallbackNotice -> _state.update { it.copy(showToolsFallbackNotice = false) }
@@ -204,13 +234,15 @@ class AnalyzeViewModel(
                 if (_state.value.groundingMode == AiGroundingMode.TOOLS) {
                     _state.update { it.copy(showToolsFallbackNotice = true) }
                 }
-                Grounding.Snapshot(withContext(dispatchers.io) { buildSnapshot(year, month) })
+                val snapshotYear = _state.value.selectedYear ?: year
+                Grounding.Snapshot(withContext(dispatchers.io) { buildSnapshot(snapshotYear, month) })
             }
 
             val assistantIndex = _state.value.messages.size
             _state.update { it.copy(messages = it.messages + ChatMessage(ChatRole.ASSISTANT, "")) }
 
-            engine.streamReply(_state.value.messages.dropLast(1), grounding)
+            val responseLanguage = languageNameForTag(localeController.getCurrentLanguageTag())
+            engine.streamReply(_state.value.messages.dropLast(1), grounding, responseLanguage)
                 .catch { _state.update { it.copy(error = AnalyzeError.GenerationFailed, isGenerating = false) } }
                 .onCompletion {
                     _state.update { it.copy(isGenerating = false) }
@@ -242,6 +274,15 @@ class AnalyzeViewModel(
         }
     }
 
+    private fun changeYear(newYear: Int) {
+        _state.update { st ->
+            val min = st.minYear
+            val max = st.maxYear
+            val clamped = if (min != null && max != null) newYear.coerceIn(min, max) else newYear
+            st.copy(selectedYear = clamped)
+        }
+    }
+
     private fun changeGroundingMode(mode: AiGroundingMode) {
         appSettings.putString(PrefKeys.AI_GROUNDING_MODE, mode.name)
         _state.update { it.copy(groundingMode = mode) }
@@ -255,5 +296,43 @@ class AnalyzeViewModel(
     private companion object {
         const val BUILTIN_PROBE_TIMEOUT_MS = 3000L
         const val CONVERSATION_TITLE_MAX = 40
+    }
+}
+
+// Maps an IETF language tag (e.g. "de", "pt-BR") to the English language name fed to the model as
+// a reply-language directive. English (and unknown tags) return null, leaving the default English
+// reply behaviour untouched.
+private fun languageNameForTag(tag: String): String? {
+    val primary = tag.substringBefore('-').trim().lowercase()
+    return when (primary) {
+        "ar" -> "Arabic"
+        "cs" -> "Czech"
+        "da" -> "Danish"
+        "de" -> "German"
+        "es" -> "Spanish"
+        "et" -> "Estonian"
+        "fi" -> "Finnish"
+        "fr" -> "French"
+        "hi" -> "Hindi"
+        "hr" -> "Croatian"
+        "hu" -> "Hungarian"
+        "is" -> "Icelandic"
+        "it" -> "Italian"
+        "ja" -> "Japanese"
+        "lt" -> "Lithuanian"
+        "lv" -> "Latvian"
+        "mk" -> "Macedonian"
+        "nb", "nn", "no" -> "Norwegian"
+        "nl" -> "Dutch"
+        "pl" -> "Polish"
+        "pt" -> "Portuguese"
+        "ru" -> "Russian"
+        "sk" -> "Slovak"
+        "sl" -> "Slovenian"
+        "sv" -> "Swedish"
+        "tr" -> "Turkish"
+        "vi" -> "Vietnamese"
+        "zh" -> "Chinese"
+        else -> null
     }
 }

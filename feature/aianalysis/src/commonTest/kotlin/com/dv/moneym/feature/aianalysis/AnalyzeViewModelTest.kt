@@ -10,6 +10,13 @@ import com.dv.moneym.core.ai.ChatMessage
 import com.dv.moneym.core.ai.ChatRole
 import com.dv.moneym.core.ai.Grounding
 import com.dv.moneym.core.datastore.PrefKeys
+import com.dv.moneym.core.model.AccountId
+import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.CurrencyCode
+import com.dv.moneym.core.model.Money
+import com.dv.moneym.core.model.Transaction
+import com.dv.moneym.core.model.TransactionId
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.testing.FakeAccountRepository
 import com.dv.moneym.core.testing.FakeAiChatRepository
 import com.dv.moneym.core.testing.FakeAppSettings
@@ -30,6 +37,7 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import kotlinx.datetime.LocalDate
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -45,13 +53,25 @@ private class FakeAiEngine(
     private val deltas: List<String> = listOf("Hello", " ", "world"),
 ) : AiEngine {
     var lastGrounding: Grounding? = null
+    var lastResponseLanguage: String? = null
 
     override suspend fun availability(): AiAvailability = availability
 
-    override fun streamReply(messages: List<ChatMessage>, grounding: Grounding): Flow<String> {
+    override fun streamReply(
+        messages: List<ChatMessage>,
+        grounding: Grounding,
+        responseLanguage: String?,
+    ): Flow<String> {
         lastGrounding = grounding
+        lastResponseLanguage = responseLanguage
         return deltas.asFlow()
     }
+}
+
+private class FakeLocaleController(var tag: String = "en") :
+    com.dv.moneym.core.common.LocaleController {
+    override fun applyLocale(languageTag: String) { tag = languageTag }
+    override fun getCurrentLanguageTag(): String = tag
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -65,6 +85,8 @@ class AnalyzeViewModelTest {
         appSettings = FakeAppSettings()
         aiChatRepository = FakeAiChatRepository()
         activeChatHolder = ActiveChatHolder()
+        transactionRepository = FakeTransactionRepository()
+        localeController = FakeLocaleController()
     }
 
     @AfterTest
@@ -76,6 +98,8 @@ class AnalyzeViewModelTest {
     private var appSettings = FakeAppSettings()
     private var aiChatRepository = FakeAiChatRepository()
     private var activeChatHolder = ActiveChatHolder()
+    private var transactionRepository = FakeTransactionRepository()
+    private var localeController = FakeLocaleController()
 
     private fun snapshotUseCase() = BuildFinanceSnapshotUseCase(
         transactionRepository = FakeTransactionRepository(),
@@ -102,6 +126,8 @@ class AnalyzeViewModelTest {
         appSettings = appSettings,
         dispatchers = TestDispatcherProvider(testDispatcher),
         aiChatRepository = aiChatRepository,
+        transactionRepository = transactionRepository,
+        localeController = localeController,
         clock = clock,
         activeChatHolder = activeChatHolder,
         savedStateHandle = SavedStateHandle(),
@@ -184,6 +210,93 @@ class AnalyzeViewModelTest {
         assertTrue(vm.state.value.needsModelDownload)
         job.cancel()
     }
+
+    @Test
+    fun yearBoundsComeFromTransactionRangeAndClamp() = runTest(testDispatcher) {
+        transactionRepository.upsert(yearTxn(2023))
+        transactionRepository.upsert(yearTxn(2026))
+        val vm = makeVm(registryOf(availableEngine()))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertEquals(2023, vm.state.value.minYear)
+        assertEquals(2026, vm.state.value.maxYear)
+        // entry year is the default
+        assertEquals(2026, vm.state.value.selectedYear)
+
+        vm.onIntent(AnalyzeIntent.YearChanged(2024))
+        testDispatcher.scheduler.advanceUntilIdle()
+        assertEquals(2024, vm.state.value.selectedYear)
+
+        // out-of-range requests clamp into [min, max]
+        vm.onIntent(AnalyzeIntent.YearChanged(2019))
+        testDispatcher.scheduler.advanceUntilIdle()
+        assertEquals(2023, vm.state.value.selectedYear)
+        vm.onIntent(AnalyzeIntent.YearChanged(2030))
+        testDispatcher.scheduler.advanceUntilIdle()
+        assertEquals(2026, vm.state.value.selectedYear)
+        job.cancel()
+    }
+
+    @Test
+    fun selectedYearDrivesSnapshotPeriod() = runTest(testDispatcher) {
+        transactionRepository.upsert(yearTxn(2024))
+        transactionRepository.upsert(yearTxn(2026))
+        val engine = availableEngine()
+        val vm = makeVm(registryOf(engine))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        vm.onIntent(AnalyzeIntent.YearChanged(2024))
+        vm.onIntent(AnalyzeIntent.SendMessage("hi"))
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        val snapshot = engine.lastGrounding as Grounding.Snapshot
+        assertTrue(snapshot.text.contains("Year: 2024"), snapshot.text)
+        job.cancel()
+    }
+
+    @Test
+    fun responseLanguageResolvedFromLocaleAndPassedToEngine() = runTest(testDispatcher) {
+        localeController.tag = "de-DE"
+        val engine = availableEngine()
+        val vm = makeVm(registryOf(engine))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        vm.onIntent(AnalyzeIntent.SendMessage("hi"))
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertEquals("German", engine.lastResponseLanguage)
+        job.cancel()
+    }
+
+    @Test
+    fun englishLocaleSendsNoLanguageDirective() = runTest(testDispatcher) {
+        localeController.tag = "en"
+        val engine = availableEngine()
+        val vm = makeVm(registryOf(engine))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        vm.onIntent(AnalyzeIntent.SendMessage("hi"))
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertEquals(null, engine.lastResponseLanguage)
+        job.cancel()
+    }
+
+    private fun yearTxn(year: Int) = Transaction(
+        id = TransactionId(0),
+        type = TransactionType.EXPENSE,
+        amount = Money(1000, CurrencyCode("EUR")),
+        occurredOn = LocalDate(year, 5, 1),
+        note = null,
+        categoryId = CategoryId(1),
+        accountId = AccountId(1),
+        createdAt = Instant.fromEpochMilliseconds(0),
+        updatedAt = Instant.fromEpochMilliseconds(0),
+    )
 
     @Test
     fun selectingDownloadableLocalEngineThenSendShowsNeedsDownload() = runTest(testDispatcher) {

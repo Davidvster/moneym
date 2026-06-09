@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Duomenų šaltinis</string>
     <string name="analyze_grounding_snapshot">Momentinė nuotrauka</string>
     <string name="analyze_grounding_tools">Įrankiai</string>
+    <string name="analyze_grounding_snapshot_hint">Siunčia pasirinktų metų santrauką. Geriausiai tinka klausimams apie tą laikotarpį.</string>
+    <string name="analyze_grounding_tools_hint">Leidžia DI ieškoti visoje istorijoje ir paimti tai, ko reikia. Geriausiai tinka atviriems klausimams.</string>
+    <string name="analyze_year_label">Momentinės kopijos metai</string>
+    <string name="analyze_year_prev_cd">Ankstesni metai</string>
+    <string name="analyze_year_next_cd">Kiti metai</string>
     <string name="analyze_tools_fallback_notice">Šis modelis nepalaiko įrankių. Naudojama momentinė nuotrauka.</string>
     <string name="analyze_error">Kažkas nutiko ne taip. Bandykite dar kartą.</string>
     <string name="analyze_generating">Galvojama…</string>
@@ -16,4 +21,25 @@
         <item>Kaip šis mėnuo palyginti su praėjusiu?</item>
         <item>Ar yra neįprastų ar didelių išlaidų?</item>
     </string-array>
+    <string name="analyze_download_model">Atsisiųsti modelį</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">DI variklis</string>
+    <string name="analyze_engine_local_llm">Modelis įrenginyje</string>
+    <string name="analyze_engine_needs_download_notice">Šis variklis nepasiekiamas. Norėdami tęsti, atsisiųskite modelį.</string>
+    <string name="analyze_engine_status_download">Palieskite, kad atsisiųstumėte</string>
+    <string name="analyze_engine_status_ready">Paruošta</string>
+    <string name="analyze_engine_status_unavailable">Nepasiekiama</string>
+    <string name="analyze_history_cd">Pokalbių istorija</string>
+    <string name="analyze_history_delete_body">Tai visam laikui pašalina šį pokalbį ir jo žinutes.</string>
+    <string name="analyze_history_delete_cancel">Atšaukti</string>
+    <string name="analyze_history_delete_cd">Ištrinti pokalbį</string>
+    <string name="analyze_history_delete_confirm">Ištrinti</string>
+    <string name="analyze_history_delete_title">Ištrinti pokalbį?</string>
+    <string name="analyze_history_empty">Pokalbių dar nėra. Jūsų pokalbiai bus rodomi čia.</string>
+    <string name="analyze_history_new_chat_cd">Naujas pokalbis</string>
+    <string name="analyze_history_title">Pokalbių istorija</string>
+    <string name="analyze_manage_models">Tvarkyti modelius…</string>
+    <string name="analyze_model_picker_cd">Pasirinkti modelį</string>
+    <string name="analyze_new_chat_cd">Naujas pokalbis</string>
 </resources>

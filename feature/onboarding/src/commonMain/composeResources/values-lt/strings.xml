@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">Atšaukti</string>
     <string name="onboarding_restore_remote_loading">Gaunama atsarginės kopijos informacija…</string>
     <string name="onboarding_restore_wrong_password">Neteisingas slaptažodis arba sugadinta atsarginė kopija.</string>
+    <string name="default_account_name">Pagrindinė</string>
+    <string name="onboarding_get_started">Pradėti</string>
+    <string name="onboarding_restore_error_fetch_info">Nepavyko gauti atsarginės kopijos informacijos</string>
+    <string name="onboarding_restore_error_restore_failed">Atkūrimas nepavyko</string>
+    <string name="onboarding_restore_error_sign_in_failed">Prisijungti nepavyko</string>
+    <string name="onboarding_welcome_subtitle">Jūsų privatus, pirmiausia neprisijungus veikiantis pinigų sekiklis.</string>
+    <string name="onboarding_welcome_feature_track_title">Sekite kiekvieną operaciją</string>
+    <string name="onboarding_welcome_feature_track_desc">Per kelias sekundes užfiksuokite pajamas ir išlaidas visose savo sąskaitose.</string>
+    <string name="onboarding_welcome_feature_insights_title">Matykite, kur išleidžiami jūsų pinigai</string>
+    <string name="onboarding_welcome_feature_insights_desc">Aiškios apžvalgos ir diagramos suskirsto išlaidas pagal kategoriją ir mėnesį.</string>
+    <string name="onboarding_welcome_feature_ai_title">DI pagrįstos įžvalgos</string>
+    <string name="onboarding_welcome_feature_ai_desc">Užduokite klausimus apie savo finansus ir gaukite išmanią analizę.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Privatu ir saugu</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Viskas lieka jūsų įrenginyje, apsaugota PIN kodu arba biometriniais duomenimis.</string>
 </resources>

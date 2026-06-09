@@ -26,4 +26,11 @@
     <string name="transactions_wallet_all">Všechny peněženky</string>
     <string name="transactions_syncing">Synchronizuji…</string>
     <string name="transactions_pending_deletions">%1$d položek odebráno na jiném zařízení — zkontrolovat</string>
+    <string name="transactions_sync_conflict_body">Synchronizace je pozastavena. Otevřete Zálohování a obnovení v Nastavení a zadejte heslo.</string>
+    <string name="transactions_sync_last">Naposledy synchronizováno %1$s</string>
+    <string name="transactions_sync_never">Zatím nesynchronizováno</string>
+    <string name="transactions_sync_now">Synchronizovat</string>
+    <string name="transactions_sync_paused">Synchronizace pozastavena — vyžaduje akci</string>
+    <string name="transactions_sync_sheet_title">Synchronizace v cloudu</string>
+    <string name="transactions_synced">Synchronizováno</string>
 </resources>

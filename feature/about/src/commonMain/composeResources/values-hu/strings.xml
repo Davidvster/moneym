@@ -3,4 +3,6 @@
     <string name="about_title">Az alkalmazásról</string>
     <string name="about_terms">Feltételek &amp; Kikötések</string>
     <string name="about_privacy">Adatvédelmi irányelvek</string>
+    <string name="about_libraries">Nyílt forráskódú könyvtárak</string>
+    <string name="libraries_title">Könyvtárak</string>
 </resources>

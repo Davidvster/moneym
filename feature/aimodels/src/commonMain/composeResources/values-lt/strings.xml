@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ai_models_title">DI modeliai</string>
+    <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
+    <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
+    <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="ai_models_download">Atsisiųsti</string>
+    <string name="ai_models_cancel">Atšaukti</string>
+    <string name="ai_models_delete">Ištrinti</string>
+    <string name="ai_models_active">Aktyvus</string>
+    <string name="ai_models_delete_title">Ištrinti modelį?</string>
+    <string name="ai_models_delete_body">Pašalina atsisiųstą modelio failą iš šio įrenginio.</string>
+    <string name="ai_models_verifying">Tikrinama…</string>
+    <string name="ai_models_keep_awake">Palikite programą atidarytą ir ekraną įjungtą. Neišeikite iš šio ekrano, kol atsisiuntimas nesibaigs.</string>
+    <string name="ai_models_eta_seconds">~liko %1$d s</string>
+    <string name="ai_models_eta_minutes">~liko %1$d min</string>
+    <string name="ai_models_eta_hours">~liko %1$d val %2$d min</string>
+    <string name="ai_models_error_download">Atsisiųsti nepavyko. Bandykite dar kartą.</string>
+    <string name="ai_models_error_delete">Nepavyko ištrinti modelio.</string>
+</resources>

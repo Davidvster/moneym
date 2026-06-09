@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Origine dati</string>
     <string name="analyze_grounding_snapshot">Riepilogo</string>
     <string name="analyze_grounding_tools">Strumenti</string>
+    <string name="analyze_grounding_snapshot_hint">Invia un riepilogo dell'anno selezionato. Ideale per domande su quel periodo.</string>
+    <string name="analyze_grounding_tools_hint">Consente all'IA di cercare in tutta la cronologia e recuperare ciò che serve. Ideale per domande aperte.</string>
+    <string name="analyze_year_label">Anno dello snapshot</string>
+    <string name="analyze_year_prev_cd">Anno precedente</string>
+    <string name="analyze_year_next_cd">Anno successivo</string>
     <string name="analyze_tools_fallback_notice">Questo modello non supporta gli strumenti. Verrà usato un riepilogo.</string>
     <string name="analyze_engine_label">Motore IA</string>
     <string name="analyze_engine_gemini_nano">Gemini Nano</string>

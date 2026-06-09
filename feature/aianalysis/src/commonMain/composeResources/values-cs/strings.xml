@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Zdroj dat</string>
     <string name="analyze_grounding_snapshot">Snímek</string>
     <string name="analyze_grounding_tools">Nástroje</string>
+    <string name="analyze_grounding_snapshot_hint">Odešle souhrn vybraného roku. Vhodné pro otázky k danému období.</string>
+    <string name="analyze_grounding_tools_hint">Umožní AI prohledat celou vaši historii a načíst, co potřebuje. Vhodné pro otevřené otázky.</string>
+    <string name="analyze_year_label">Rok snímku</string>
+    <string name="analyze_year_prev_cd">Předchozí rok</string>
+    <string name="analyze_year_next_cd">Další rok</string>
     <string name="analyze_tools_fallback_notice">Tento model nepodporuje nástroje. Místo toho se použije snímek.</string>
     <string name="analyze_error">Něco se pokazilo. Zkuste to znovu.</string>
     <string name="analyze_generating">Přemýšlím…</string>
@@ -16,4 +21,25 @@
         <item>Jak se tento měsíc porovnává s předchozím?</item>
         <item>Existují neobvyklé nebo velké výdaje?</item>
     </string-array>
+    <string name="analyze_download_model">Stáhnout model</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">Modul AI</string>
+    <string name="analyze_engine_local_llm">Model v zařízení</string>
+    <string name="analyze_engine_needs_download_notice">Tento modul není dostupný. Pokračujte stažením modelu.</string>
+    <string name="analyze_engine_status_download">Klepnutím stáhnout</string>
+    <string name="analyze_engine_status_ready">Připraveno</string>
+    <string name="analyze_engine_status_unavailable">Nedostupné</string>
+    <string name="analyze_history_cd">Historie chatu</string>
+    <string name="analyze_history_delete_body">Tím se trvale odstraní tato konverzace a její zprávy.</string>
+    <string name="analyze_history_delete_cancel">Zrušit</string>
+    <string name="analyze_history_delete_cd">Smazat konverzaci</string>
+    <string name="analyze_history_delete_confirm">Smazat</string>
+    <string name="analyze_history_delete_title">Smazat konverzaci?</string>
+    <string name="analyze_history_empty">Zatím žádné konverzace. Vaše chaty se zobrazí zde.</string>
+    <string name="analyze_history_new_chat_cd">Nový chat</string>
+    <string name="analyze_history_title">Historie chatu</string>
+    <string name="analyze_manage_models">Spravovat modely…</string>
+    <string name="analyze_model_picker_cd">Vybrat model</string>
+    <string name="analyze_new_chat_cd">Nový chat</string>
 </resources>

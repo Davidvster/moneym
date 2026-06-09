@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Datenquelle</string>
     <string name="analyze_grounding_snapshot">Snapshot</string>
     <string name="analyze_grounding_tools">Tools</string>
+    <string name="analyze_grounding_snapshot_hint">Sendet eine Zusammenfassung des ausgewählten Jahres. Ideal für Fragen zu diesem Zeitraum.</string>
+    <string name="analyze_grounding_tools_hint">Lässt die KI deinen gesamten Verlauf durchsuchen und abrufen, was sie braucht. Ideal für offene Fragen.</string>
+    <string name="analyze_year_label">Snapshot-Jahr</string>
+    <string name="analyze_year_prev_cd">Vorheriges Jahr</string>
+    <string name="analyze_year_next_cd">Nächstes Jahr</string>
     <string name="analyze_tools_fallback_notice">Tools werden von diesem Modell nicht unterstützt. Stattdessen wird ein Snapshot verwendet.</string>
     <string name="analyze_engine_label">KI-Engine</string>
     <string name="analyze_engine_gemini_nano">Gemini Nano</string>

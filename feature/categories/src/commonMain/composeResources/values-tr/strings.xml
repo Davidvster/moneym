@@ -40,4 +40,16 @@
     <string name="categories_color_hex">Hex rengi</string>
     <string name="categories_color_select">Renk seç</string>
     <string name="categories_name_preview_placeholder">Kategori adı</string>
+    <string name="categories_name_blank">Ad boş olamaz</string>
+    <string name="categories_name_duplicate">Bu adda bir kategori zaten var</string>
+    <string name="categories_options_subtitle">%1$d işlem bu kategoriyi kullanıyor</string>
+    <string name="categories_option_archive">Sil yerine arşivle</string>
+    <string name="categories_option_unarchive">Kategoriyi arşivden çıkar</string>
+    <string name="categories_option_migrate">İşlemleri başka bir kategoriye taşı</string>
+    <string name="categories_option_delete_all">Kategoriyi ve tüm işlemleri sil</string>
+    <string name="categories_migrate_title">İşlemleri şuraya taşı…</string>
+    <string name="categories_delete_all_title">"%1$s" ve işlemleri silinsin mi?</string>
+    <string name="categories_delete_all_warning">Bu, kategoriyi ve ona ait %1$d işlemi kalıcı olarak siler. Bu işlem geri alınamaz.</string>
+    <string name="categories_delete_all_input_label">Onaylamak için kategori adını yazın</string>
+    <string name="categories_delete_all_confirm">Kalıcı olarak sil</string>
 </resources>

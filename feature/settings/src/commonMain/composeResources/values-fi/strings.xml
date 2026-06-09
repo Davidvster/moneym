@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Uusi toistuva tapahtuma</string>
     <string name="settings_section_about">TIETOJA</string>
     <string name="settings_about">Tietoja</string>
+    <string name="settings_allow_screenshots">Salli kuvakaappaukset</string>
+    <string name="settings_allow_screenshots_subtitle">Salli kuvakaappaukset ja näytön tallennus</string>
+    <string name="settings_cloud_devices">Laitteet</string>
+    <string name="settings_cloud_join_body">Syötä sama salasana, jonka asetit toisella laitteellasi, jotta tämä laite voi lukea pilvitiedot.</string>
+    <string name="settings_cloud_join_confirm">Liity</string>
+    <string name="settings_cloud_join_plaintext_body">Toisen laitteesi pilvitiedot eivät ole salattuja. Otetaanko pilvisynkronointi käyttöön myös tällä laitteella?</string>
+    <string name="settings_cloud_join_plaintext_title">Ota pilvisynkronointi käyttöön</string>
+    <string name="settings_cloud_join_title">Liity toiseen laitteeseesi</string>
+    <string name="settings_cloud_sync">Pilvisynkronointi</string>
+    <string name="settings_cloud_sync_subtitle">Varmuuskopioi ja synkronoi tietosi laitteiden välillä Google Driven kautta.</string>
+    <string name="settings_cloud_wrong_password">Salasana ei vastaa pilvitietoja.</string>
+    <string name="settings_import_failed">Tuonti epäonnistui</string>
+    <string name="settings_remote_delete_body">Tämä poistaa pysyvästi kaikki pilvivarmuuskopiot ja synkronointitiedot Google Drivestäsi ja poistaa automaattisen varmuuskopioinnin ja laitteiden välisen synkronoinnin käytöstä. Tätä ei voi kumota.</string>
+    <string name="settings_remote_delete_confirm">Poista</string>
+    <string name="settings_remote_delete_data">Poista Google Drive -tiedot</string>
+    <string name="settings_remote_delete_title">Poistetaanko Google Drive -tiedot?</string>
+    <string name="settings_remote_error_backup_failed">Varmuuskopiointi epäonnistui</string>
+    <string name="settings_remote_error_fetch_info">Varmuuskopion tietojen haku epäonnistui</string>
+    <string name="settings_remote_error_restore_failed">Palautus epäonnistui</string>
+    <string name="settings_remote_error_sign_in_failed">Kirjautuminen epäonnistui</string>
+    <string name="settings_remote_restore_error_title">Varmuuskopion lataaminen epäonnistui</string>
+    <string name="settings_remote_restore_no_backup">Google Drivesta ei löytynyt varmuuskopiota.</string>
+    <string name="settings_remote_restore_try_again">Yritä uudelleen.</string>
 </resources>

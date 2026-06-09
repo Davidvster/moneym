@@ -71,6 +71,8 @@
     <string name="settings_change_pin">PIN ändern</string>
     <string name="settings_biometrics">Biometrik entsperren</string>
     <string name="settings_biometrics_subtitle">Face ID / Fingerabdruck</string>
+    <string name="settings_allow_screenshots">Screenshots zulassen</string>
+    <string name="settings_allow_screenshots_subtitle">Screenshots und Bildschirmaufnahme erlauben</string>
     <string name="settings_lock_immediately">Sofort</string>
     <string name="settings_section_preferences">EINSTELLUNGEN</string>
     <string name="settings_currency">Standardwährung</string>

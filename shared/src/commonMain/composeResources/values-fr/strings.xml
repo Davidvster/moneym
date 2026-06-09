@@ -16,4 +16,5 @@
     <string name="category_seed_payment">Paiement</string>
     <string name="category_seed_gift">Cadeau</string>
     <string name="category_seed_other_income">Autre</string>
+    <string name="default_account_name">Principal</string>
 </resources>

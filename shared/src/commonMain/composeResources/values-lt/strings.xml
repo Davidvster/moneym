@@ -16,4 +16,5 @@
     <string name="category_seed_payment">Mokėjimas</string>
     <string name="category_seed_gift">Dovana</string>
     <string name="category_seed_other_income">Kita</string>
+    <string name="default_account_name">Pagrindinė</string>
 </resources>

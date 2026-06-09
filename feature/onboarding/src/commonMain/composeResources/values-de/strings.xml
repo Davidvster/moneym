@@ -11,6 +11,8 @@
     <string name="onboarding_welcome_feature_privacy_title">Privat und sicher</string>
     <string name="onboarding_welcome_feature_privacy_desc">Alles bleibt auf deinem Gerät, geschützt durch PIN oder Biometrie.</string>
     <string name="onboarding_get_started">Loslegen</string>
+    <string name="onboarding_terms">Nutzungsbedingungen</string>
+    <string name="onboarding_privacy">Datenschutzrichtlinie</string>
     <string name="onboarding_currency_title">Standardwährung wählen</string>
     <string name="onboarding_continue">Weiter</string>
     <string name="onboarding_security_title">App schützen</string>

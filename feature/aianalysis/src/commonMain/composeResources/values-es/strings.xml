@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Fuente de datos</string>
     <string name="analyze_grounding_snapshot">Resumen</string>
     <string name="analyze_grounding_tools">Herramientas</string>
+    <string name="analyze_grounding_snapshot_hint">Envía un resumen del año seleccionado. Ideal para preguntas sobre ese período.</string>
+    <string name="analyze_grounding_tools_hint">Permite que la IA busque en todo tu historial y extraiga lo que necesita. Ideal para preguntas abiertas.</string>
+    <string name="analyze_year_label">Año del resumen</string>
+    <string name="analyze_year_prev_cd">Año anterior</string>
+    <string name="analyze_year_next_cd">Año siguiente</string>
     <string name="analyze_tools_fallback_notice">Este modelo no admite herramientas. Se usará un resumen en su lugar.</string>
     <string name="analyze_engine_label">Motor de IA</string>
     <string name="analyze_engine_gemini_nano">Gemini Nano</string>

@@ -15,4 +15,5 @@
     <string name="category_seed_payment">Plaćanje</string>
     <string name="category_seed_gift">Poklon</string>
     <string name="category_seed_other_income">Ostalo</string>
+    <string name="default_account_name">Glavni</string>
 </resources>

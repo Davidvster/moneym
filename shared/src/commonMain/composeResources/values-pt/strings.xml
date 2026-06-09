@@ -16,4 +16,5 @@
     <string name="category_seed_payment">Pagamento</string>
     <string name="category_seed_gift">Oferta</string>
     <string name="category_seed_other_income">Outros</string>
+    <string name="default_account_name">Principal</string>
 </resources>

@@ -225,4 +225,27 @@
     <string name="settings_recurring_new">Нова повторувачка трансакција</string>
     <string name="settings_section_about">ЗА АПЛИКАЦИЈАТА</string>
     <string name="settings_about">За апликацијата</string>
+    <string name="settings_allow_screenshots">Дозволи слики од екранот</string>
+    <string name="settings_allow_screenshots_subtitle">Дозволи слики од екранот и снимање на екранот</string>
+    <string name="settings_cloud_devices">Уреди</string>
+    <string name="settings_cloud_join_body">Внесете ја истата лозинка што ја поставивте на другиот уред за овој уред да може да ги чита податоците во облакот.</string>
+    <string name="settings_cloud_join_confirm">Придружи се</string>
+    <string name="settings_cloud_join_plaintext_body">Податоците во облак на другиот уред не се шифрирани. Да се вклучи синхронизација во облак и на овој уред?</string>
+    <string name="settings_cloud_join_plaintext_title">Вклучи синхронизација во облак</string>
+    <string name="settings_cloud_join_title">Придружи се на другиот уред</string>
+    <string name="settings_cloud_sync">Синхронизација во облак</string>
+    <string name="settings_cloud_sync_subtitle">Направете резервна копија и синхронизирајте ги податоците меѓу уредите преку Google Drive.</string>
+    <string name="settings_cloud_wrong_password">Таа лозинка не се совпаѓа со податоците во облакот.</string>
+    <string name="settings_import_failed">Увозот не успеа</string>
+    <string name="settings_remote_delete_body">Ова трајно ги брише сите резервни копии во облак и податоците за синхронизација од вашиот Google Drive и ја исклучува автоматската резервна копија и синхронизацијата меѓу уредите. Ова не може да се врати.</string>
+    <string name="settings_remote_delete_confirm">Избриши</string>
+    <string name="settings_remote_delete_data">Избриши податоци од Google Drive</string>
+    <string name="settings_remote_delete_title">Да се избришат податоците од Google Drive?</string>
+    <string name="settings_remote_error_backup_failed">Резервната копија не успеа</string>
+    <string name="settings_remote_error_fetch_info">Не успеа да се преземат податоците за резервната копија</string>
+    <string name="settings_remote_error_restore_failed">Враќањето не успеа</string>
+    <string name="settings_remote_error_sign_in_failed">Најавата не успеа</string>
+    <string name="settings_remote_restore_error_title">Не успеа да се вчита резервната копија</string>
+    <string name="settings_remote_restore_no_backup">На Google Drive не е пронајдена резервна копија.</string>
+    <string name="settings_remote_restore_try_again">Обидете се повторно.</string>
 </resources>

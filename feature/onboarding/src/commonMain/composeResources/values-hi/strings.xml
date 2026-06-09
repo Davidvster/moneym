@@ -29,4 +29,18 @@
     <string name="onboarding_restore_cancel">रद्द करें</string>
     <string name="onboarding_restore_remote_loading">बैकअप जानकारी प्राप्त हो रही है…</string>
     <string name="onboarding_restore_wrong_password">गलत पासवर्ड या दूषित बैकअप।</string>
+    <string name="default_account_name">मुख्य</string>
+    <string name="onboarding_get_started">शुरू करें</string>
+    <string name="onboarding_restore_error_fetch_info">बैकअप जानकारी प्राप्त करने में विफल</string>
+    <string name="onboarding_restore_error_restore_failed">पुनर्स्थापना विफल</string>
+    <string name="onboarding_restore_error_sign_in_failed">साइन-इन विफल</string>
+    <string name="onboarding_welcome_subtitle">आपका निजी, ऑफ़लाइन-प्रथम मनी ट्रैकर.</string>
+    <string name="onboarding_welcome_feature_track_title">हर लेन-देन ट्रैक करें</string>
+    <string name="onboarding_welcome_feature_track_desc">अपने सभी खातों में सेकंडों में आय और व्यय दर्ज करें.</string>
+    <string name="onboarding_welcome_feature_insights_title">जानें आपका पैसा कहाँ जाता है</string>
+    <string name="onboarding_welcome_feature_insights_desc">स्पष्ट अवलोकन और चार्ट खर्च को श्रेणी और महीने के अनुसार दिखाते हैं.</string>
+    <string name="onboarding_welcome_feature_ai_title">AI-संचालित अंतर्दृष्टि</string>
+    <string name="onboarding_welcome_feature_ai_desc">अपने वित्त के बारे में प्रश्न पूछें और स्मार्ट विश्लेषण पाएं.</string>
+    <string name="onboarding_welcome_feature_privacy_title">निजी और सुरक्षित</string>
+    <string name="onboarding_welcome_feature_privacy_desc">सब कुछ आपके डिवाइस पर रहता है, PIN या बायोमेट्रिक्स से सुरक्षित.</string>
 </resources>

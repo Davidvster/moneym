@@ -7,6 +7,11 @@
     <string name="analyze_grounding_label">Datu avots</string>
     <string name="analyze_grounding_snapshot">Momentuzņēmums</string>
     <string name="analyze_grounding_tools">Rīki</string>
+    <string name="analyze_grounding_snapshot_hint">Nosūta izvēlētā gada kopsavilkumu. Vislabāk piemērots jautājumiem par šo periodu.</string>
+    <string name="analyze_grounding_tools_hint">Ļauj MI meklēt visā vēsturē un iegūt nepieciešamo. Vislabāk piemērots atvērtiem jautājumiem.</string>
+    <string name="analyze_year_label">Momentuzņēmuma gads</string>
+    <string name="analyze_year_prev_cd">Iepriekšējais gads</string>
+    <string name="analyze_year_next_cd">Nākamais gads</string>
     <string name="analyze_tools_fallback_notice">Šis modelis neatbalsta rīkus. Tā vietā tiek izmantots momentuzņēmums.</string>
     <string name="analyze_error">Kaut kas nogāja greizi. Lūdzu, mēģiniet vēlreiz.</string>
     <string name="analyze_generating">Domā…</string>
@@ -16,4 +21,25 @@
         <item>Kā šis mēnesis salīdzinās ar pagājušo mēnesi?</item>
         <item>Vai ir kādi neparasti vai lieli izdevumi?</item>
     </string-array>
+    <string name="analyze_download_model">Lejupielādēt modeli</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">MI dzinējs</string>
+    <string name="analyze_engine_local_llm">Modelis ierīcē</string>
+    <string name="analyze_engine_needs_download_notice">Šis dzinējs nav pieejams. Lai turpinātu, lejupielādējiet modeli.</string>
+    <string name="analyze_engine_status_download">Pieskarieties, lai lejupielādētu</string>
+    <string name="analyze_engine_status_ready">Gatavs</string>
+    <string name="analyze_engine_status_unavailable">Nav pieejams</string>
+    <string name="analyze_history_cd">Tērzēšanas vēsture</string>
+    <string name="analyze_history_delete_body">Tas neatgriezeniski noņem šo sarunu un tās ziņojumus.</string>
+    <string name="analyze_history_delete_cancel">Atcelt</string>
+    <string name="analyze_history_delete_cd">Dzēst sarunu</string>
+    <string name="analyze_history_delete_confirm">Dzēst</string>
+    <string name="analyze_history_delete_title">Dzēst sarunu?</string>
+    <string name="analyze_history_empty">Vēl nav sarunu. Jūsu tērzēšanas saruna parādīsies šeit.</string>
+    <string name="analyze_history_new_chat_cd">Jauna tērzēšana</string>
+    <string name="analyze_history_title">Tērzēšanas vēsture</string>
+    <string name="analyze_manage_models">Pārvaldīt modeļus…</string>
+    <string name="analyze_model_picker_cd">Atlasīt modeli</string>
+    <string name="analyze_new_chat_cd">Jauna tērzēšana</string>
 </resources>

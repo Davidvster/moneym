@@ -117,7 +117,15 @@ All dependency versions in `gradle/libs.versions.toml`. Add new deps there, not 
 
 ## i18n / Strings
 
-Compose-multiplatform string resources live per module under `src/commonMain/composeResources/values{,-de,-es,-it}/strings.xml`. Access via `stringResource(Res.string.<key>)`. For arrays: `stringArrayResource(Res.array.<key>)`. Never put a user-visible literal (chart axis label, default name, etc.) in Kotlin source — add a string resource and translate to de/es/it.
+Compose-multiplatform string resources live per module under `src/commonMain/composeResources/values{,-<locale>}/strings.xml`. Access via `stringResource(Res.string.<key>)`. For arrays: `stringArrayResource(Res.array.<key>)`. Never put a user-visible literal (chart axis label, default name, etc.) in Kotlin source — add a string resource and translate to **every** supported locale.
+
+The app ships **27 translation locales** plus the English base (`values/`). Every new key MUST be added to all of them in the same change, or completeness lags and the missing key falls back to English at runtime:
+
+```
+ar cs da de es et fi fr hi hr hu is it ja lt lv mk nb nl pl pt ru sk sl sv tr vi zh
+```
+
+`de`/`es`/`it` are the most carefully curated; the rest are full but machine-assisted. To find gaps, diff each `values-<locale>/strings.xml` key set against `values/strings.xml` per module.
 
 ## Localized seed values
 

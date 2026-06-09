@@ -23,8 +23,12 @@ class GeminiNanoAiEngine : AiEngine {
         }
     }.getOrDefault(AiAvailability.UNAVAILABLE)
 
-    override fun streamReply(messages: List<ChatMessage>, grounding: Grounding): Flow<String> {
-        val prompt = PromptBuilder.build(messages, grounding, SYSTEM_INSTRUCTION)
+    override fun streamReply(
+        messages: List<ChatMessage>,
+        grounding: Grounding,
+        responseLanguage: String?,
+    ): Flow<String> {
+        val prompt = PromptBuilder.build(messages, grounding, aiSystemInstruction(responseLanguage))
         return model.generateContentStream(prompt).map { it.candidates.firstOrNull()?.text.orEmpty() }
     }
 }
