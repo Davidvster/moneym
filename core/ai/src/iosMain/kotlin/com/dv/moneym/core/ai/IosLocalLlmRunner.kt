@@ -1,12 +1,13 @@
 package com.dv.moneym.core.ai
 
+import com.dv.moneym.core.common.LocalModelRuntime
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-class IosLocalLlmRunner : LocalLlmRunner {
+class IosLocalLlmRunner : LocalLlmRunner, LocalModelRuntime {
 
     override suspend fun isModelLoaded(): Boolean =
         IosLocalLlmBridgeHolder.instance?.isLoaded() == true
@@ -36,4 +37,8 @@ class IosLocalLlmRunner : LocalLlmRunner {
         )
         awaitClose { }
     }
+
+    // The Swift bridge owns model lifetime and exposes no unload hook, so there is nothing to free
+    // from here yet. Kept to satisfy the shared seam; revisit if the bridge gains an unload API.
+    override suspend fun releaseAndClearCache() = Unit
 }

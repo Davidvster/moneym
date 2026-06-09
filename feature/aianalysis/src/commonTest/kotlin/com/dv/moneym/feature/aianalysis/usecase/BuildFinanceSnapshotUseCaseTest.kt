@@ -66,12 +66,13 @@ class BuildFinanceSnapshotUseCaseTest {
         amount: Long,
         date: LocalDate,
         categoryId: Long,
+        note: String? = null,
     ) = Transaction(
         id = TransactionId(0),
         type = type,
         amount = Money(amount, CurrencyCode("EUR")),
         occurredOn = date,
-        note = null,
+        note = note,
         categoryId = CategoryId(categoryId),
         accountId = AccountId(1),
         createdAt = epoch,
@@ -108,6 +109,18 @@ class BuildFinanceSnapshotUseCaseTest {
         assertTrue(snapshot.contains("2026-04: 500.00 EUR"), snapshot)
         assertTrue(snapshot.contains("2026-03: 200.00 EUR"), snapshot)
         assertTrue(snapshot.contains("2026-02: 0.00 EUR"), snapshot)
+    }
+
+    @Test
+    fun snapshotIncludesTransactionNotes() = runTest {
+        accountRepo.addAll(listOf(account()))
+        catRepo.addAll(listOf(category(1, "Groceries")))
+        txnRepo.upsert(txn(TransactionType.EXPENSE, 6000, LocalDate(2026, 5, 2), 1, note = "weekly shop"))
+
+        val snapshot = useCase(2026, 5)
+
+        assertTrue(snapshot.contains("Transactions with notes"), snapshot)
+        assertTrue(snapshot.contains("weekly shop"), snapshot)
     }
 
     @Test

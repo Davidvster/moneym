@@ -62,12 +62,18 @@ class BuildFinanceToolsetUseCaseTest {
         type = TransactionType.EXPENSE,
     )
 
-    private fun txn(type: TransactionType, amount: Long, date: LocalDate, categoryId: Long) = Transaction(
+    private fun txn(
+        type: TransactionType,
+        amount: Long,
+        date: LocalDate,
+        categoryId: Long,
+        note: String? = null,
+    ) = Transaction(
         id = TransactionId(0),
         type = type,
         amount = Money(amount, CurrencyCode("EUR")),
         occurredOn = date,
-        note = null,
+        note = note,
         categoryId = CategoryId(categoryId),
         accountId = AccountId(1),
         createdAt = epoch,
@@ -80,7 +86,7 @@ class BuildFinanceToolsetUseCaseTest {
     fun builds_expected_tool_definitions() {
         val tools = useCase(2026, 5)
         assertEquals(
-            listOf("totals", "spendingByCategory", "topExpenses", "comparePreviousMonths"),
+            listOf("totals", "spendingByCategory", "topExpenses", "comparePreviousMonths", "transactions"),
             tools.map { it.name },
         )
         assertEquals("""{"n":"integer"}""", tools.first { it.name == "topExpenses" }.paramsSchema)
@@ -147,6 +153,39 @@ class BuildFinanceToolsetUseCaseTest {
     fun top_expenses_no_data() = runTest {
         accountRepo.addAll(listOf(account()))
         val out = toolset().getValue("topExpenses").invoke(emptyMap())
+        assertEquals("No data.", out)
+    }
+
+    @Test
+    fun top_expenses_includes_note() = runTest {
+        accountRepo.addAll(listOf(account()))
+        catRepo.addAll(listOf(category(1, "Food")))
+        txnRepo.upsert(txn(TransactionType.EXPENSE, 5000, LocalDate(2026, 5, 2), 1, note = "team lunch"))
+
+        val out = toolset().getValue("topExpenses").invoke(emptyMap())
+        assertTrue(out.contains("note: team lunch"), out)
+    }
+
+    @Test
+    fun transactions_lists_notes_and_filters_by_query() = runTest {
+        accountRepo.addAll(listOf(account()))
+        catRepo.addAll(listOf(category(1, "Food"), category(2, "Travel")))
+        txnRepo.upsert(txn(TransactionType.EXPENSE, 5000, LocalDate(2026, 5, 2), 1, note = "team lunch"))
+        txnRepo.upsert(txn(TransactionType.EXPENSE, 8000, LocalDate(2026, 5, 3), 2, note = "flight to Berlin"))
+
+        val all = toolset().getValue("transactions").invoke(emptyMap())
+        assertTrue(all.contains("note: team lunch"), all)
+        assertTrue(all.contains("note: flight to Berlin"), all)
+
+        val filtered = toolset().getValue("transactions").invoke(mapOf("q" to "berlin"))
+        assertTrue(filtered.contains("flight to Berlin"), filtered)
+        assertTrue(!filtered.contains("team lunch"), filtered)
+    }
+
+    @Test
+    fun transactions_no_data() = runTest {
+        accountRepo.addAll(listOf(account()))
+        val out = toolset().getValue("transactions").invoke(emptyMap())
         assertEquals("No data.", out)
     }
 

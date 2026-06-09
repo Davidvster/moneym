@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="onboarding_welcome">Welcome to MoneyM</string>
+    <string name="onboarding_welcome_subtitle">Your private, offline-first money tracker.</string>
+    <string name="onboarding_welcome_feature_track_title">Track every transaction</string>
+    <string name="onboarding_welcome_feature_track_desc">Log income and expenses in seconds across all your accounts.</string>
+    <string name="onboarding_welcome_feature_insights_title">See where your money goes</string>
+    <string name="onboarding_welcome_feature_insights_desc">Clear overviews and charts break down spending by category and month.</string>
+    <string name="onboarding_welcome_feature_ai_title">AI-powered insights</string>
+    <string name="onboarding_welcome_feature_ai_desc">Ask questions about your finances and get smart analysis.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Private and secure</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Everything stays on your device, locked behind a PIN or biometrics.</string>
+    <string name="onboarding_get_started">Get started</string>
     <string name="onboarding_currency_title">Choose your default currency</string>
     <string name="onboarding_continue">Continue</string>
     <string name="onboarding_security_title">Secure your app</string>

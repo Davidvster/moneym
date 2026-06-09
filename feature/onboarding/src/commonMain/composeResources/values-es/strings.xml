@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="onboarding_welcome">Bienvenido a MoneyM</string>
+    <string name="onboarding_welcome_subtitle">Tu gestor de finanzas privado y sin conexión.</string>
+    <string name="onboarding_welcome_feature_track_title">Registra cada transacción</string>
+    <string name="onboarding_welcome_feature_track_desc">Anota ingresos y gastos en segundos en todas tus cuentas.</string>
+    <string name="onboarding_welcome_feature_insights_title">Mira a dónde va tu dinero</string>
+    <string name="onboarding_welcome_feature_insights_desc">Resúmenes y gráficos claros por categoría y mes.</string>
+    <string name="onboarding_welcome_feature_ai_title">Análisis con IA</string>
+    <string name="onboarding_welcome_feature_ai_desc">Haz preguntas sobre tus finanzas y obtén análisis inteligentes.</string>
+    <string name="onboarding_welcome_feature_privacy_title">Privado y seguro</string>
+    <string name="onboarding_welcome_feature_privacy_desc">Todo se queda en tu dispositivo, protegido con PIN o biometría.</string>
+    <string name="onboarding_get_started">Comenzar</string>
     <string name="onboarding_currency_title">Elige tu moneda predeterminada</string>
     <string name="onboarding_continue">Continuar</string>
     <string name="onboarding_security_title">Protege tu app</string>

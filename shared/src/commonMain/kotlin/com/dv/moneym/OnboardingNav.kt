@@ -27,6 +27,8 @@ import com.dv.moneym.feature.onboarding.security.OnboardingSecurityIntent
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityKey
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
 import com.dv.moneym.feature.onboarding.security.onboardingSecurityEntry
+import com.dv.moneym.feature.onboarding.welcome.OnboardingWelcomeKey
+import com.dv.moneym.feature.onboarding.welcome.onboardingWelcomeEntry
 import com.dv.moneym.feature.security.setup.PinSetupScreen
 import com.dv.moneym.feature.settings.overview.importdata.CsvImportHolder
 import com.dv.moneym.feature.settings.overview.importdata.ImportDataKey
@@ -37,7 +39,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 internal fun OnboardingNav() {
-    val backStack = remember { mutableStateListOf<NavKey>(OnboardingSecurityKey) }
+    val backStack = remember { mutableStateListOf<NavKey>(OnboardingWelcomeKey) }
     val securityVm = koinViewModel<OnboardingSecurityViewModel>()
     val currencyVm = koinViewModel<OnboardingCurrencyViewModel>()
     val csvImportHolder = koinInject<CsvImportHolder>()
@@ -74,6 +76,9 @@ internal fun OnboardingNav() {
             }
         },
         entryProvider = entryProvider {
+            onboardingWelcomeEntry(
+                onGetStarted = { backStack.add(OnboardingSecurityKey) },
+            )
             onboardingSecurityEntry(
                 viewModel = securityVm,
                 onNavigateToPinSetup = { backStack.add(OnboardingPinSetupKey) },

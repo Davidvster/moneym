@@ -109,6 +109,7 @@ val dataLlmModelsModule = module {
             fileStore = get(),
             downloader = get(),
             scope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
+            runtime = get(),
         )
     }
 }

@@ -44,6 +44,15 @@ class BuildFinanceToolsetUseCase(
                 paramsSchema = "{}",
                 invoke = { comparePreviousMonths(selected) },
             ),
+            AiTool(
+                name = "transactions",
+                description = "Individual transactions for the selected period with date, type, " +
+                    "category, amount and the user's note (their own description of what it was for). " +
+                    "Optional string param 'q' keeps only transactions whose note or category " +
+                    "contains the text.",
+                paramsSchema = """{"q":"string"}""",
+                invoke = { params -> transactions(year, month, params["q"]) },
+            ),
         )
     }
 
@@ -83,7 +92,29 @@ class BuildFinanceToolsetUseCase(
         if (txns.isEmpty()) return NO_DATA
         return txns.joinToString("; ") { tx ->
             val name = categoryNames[tx.categoryId] ?: UNKNOWN_CATEGORY
-            "$name ${money(tx.amount.minorUnits, currency)} on ${tx.occurredOn}"
+            val note = tx.note?.takeIf { it.isNotBlank() }?.let { " note: $it" } ?: ""
+            "$name ${money(tx.amount.minorUnits, currency)} on ${tx.occurredOn}$note"
+        }
+    }
+
+    private suspend fun transactions(year: Int, month: Int, query: String?): String {
+        val currency = currency()
+        val categoryNames = categoryRepository.observeActive().first().associate { it.id to it.name }
+        val q = query?.trim()?.lowercase()?.takeIf { it.isNotEmpty() }
+        val txns = transactionRepository.observeByMonth(year, month).first()
+            .sortedByDescending { it.occurredOn }
+            .filter { tx ->
+                if (q == null) return@filter true
+                val name = (categoryNames[tx.categoryId] ?: UNKNOWN_CATEGORY).lowercase()
+                name.contains(q) || tx.note?.lowercase()?.contains(q) == true
+            }
+            .take(MAX_TRANSACTIONS)
+        if (txns.isEmpty()) return NO_DATA
+        return txns.joinToString("; ") { tx ->
+            val name = categoryNames[tx.categoryId] ?: UNKNOWN_CATEGORY
+            val sign = if (tx.type == TransactionType.EXPENSE) "-" else "+"
+            val note = tx.note?.takeIf { it.isNotBlank() }?.let { " note: $it" } ?: ""
+            "${tx.occurredOn} $name $sign${money(tx.amount.minorUnits, currency)}$note"
         }
     }
 
@@ -106,6 +137,7 @@ class BuildFinanceToolsetUseCase(
 
     private companion object {
         const val DEFAULT_TOP = 5
+        const val MAX_TRANSACTIONS = 50
         const val RECENT_MONTHS = 3
         const val DEFAULT_CURRENCY = "EUR"
         const val UNKNOWN_CATEGORY = "Other"

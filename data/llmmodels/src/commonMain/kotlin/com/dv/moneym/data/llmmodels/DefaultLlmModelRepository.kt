@@ -1,5 +1,7 @@
 package com.dv.moneym.data.llmmodels
 
+import com.dv.moneym.core.common.LocalModelRuntime
+import com.dv.moneym.core.common.NoopLocalModelRuntime
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
 import kotlinx.coroutines.CompletableDeferred
@@ -17,6 +19,7 @@ class DefaultLlmModelRepository(
     private val fileStore: ModelFileStore,
     private val downloader: LlmModelDownloader,
     private val scope: CoroutineScope,
+    private val runtime: LocalModelRuntime = NoopLocalModelRuntime,
     private val catalog: List<LlmModel> = LlmModelCatalog.models,
 ) : LlmModelRepository {
 
@@ -80,6 +83,9 @@ class DefaultLlmModelRepository(
 
     override suspend fun delete(id: String) {
         val model = catalog.firstOrNull { it.id == id } ?: return
+        // Release the native engine first: while it holds the model file open, unlinking the blob
+        // does not reclaim its disk blocks, and the compiled copy stays in the runtime cache.
+        runtime.releaseAndClearCache()
         fileStore.deletePart(model.fileName)
         fileStore.deleteFinal(model.fileName)
         if (appSettings.getString(PrefKeys.AI_ACTIVE_MODEL_ID, null) == id) {

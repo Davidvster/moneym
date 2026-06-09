@@ -37,6 +37,8 @@ class BuildFinanceSnapshotUseCase(
 
         val budgetLines = budgetStatus(budgets, selectedTxns, selected, categoryNames, currency)
 
+        val noteLines = transactionNotes(selectedTxns, categoryNames, currency)
+
         val historyLines = recentHistory(selected, currency)
 
         return buildString {
@@ -54,6 +56,10 @@ class BuildFinanceSnapshotUseCase(
             if (budgetLines.isNotEmpty()) {
                 appendLine("Budgets:")
                 budgetLines.forEach { appendLine("- $it") }
+            }
+            if (noteLines.isNotEmpty()) {
+                appendLine("Transactions with notes (the user's own description of what each was for):")
+                noteLines.forEach { appendLine("- $it") }
             }
             appendLine("Recent history (expense per month):")
             historyLines.forEach { appendLine("- $it") }
@@ -86,6 +92,20 @@ class BuildFinanceSnapshotUseCase(
             "${budget.name} ($scope): ${money(spent, currency)} / ${money(budget.amount.minorUnits, currency)}"
         }
 
+    private fun transactionNotes(
+        txns: List<Transaction>,
+        categoryNames: Map<com.dv.moneym.core.model.CategoryId, String>,
+        currency: String,
+    ): List<String> =
+        txns.filter { !it.note.isNullOrBlank() }
+            .sortedByDescending { it.amount.minorUnits }
+            .take(MAX_NOTES)
+            .map { tx ->
+                val name = categoryNames[tx.categoryId] ?: UNKNOWN_CATEGORY
+                val sign = if (tx.type == TransactionType.EXPENSE) "-" else "+"
+                "${tx.occurredOn} $name $sign${money(tx.amount.minorUnits, currency)}: ${tx.note}"
+            }
+
     private suspend fun recentHistory(selected: YearMonth, currency: String): List<String> {
         var cursor = selected.previous()
         val lines = mutableListOf<String>()
@@ -103,6 +123,7 @@ class BuildFinanceSnapshotUseCase(
 
     private companion object {
         const val MAX_TOP_CATEGORIES = 5
+        const val MAX_NOTES = 25
         const val RECENT_MONTHS = 3
         const val DEFAULT_CURRENCY = "EUR"
         const val UNKNOWN_CATEGORY = "Other"
