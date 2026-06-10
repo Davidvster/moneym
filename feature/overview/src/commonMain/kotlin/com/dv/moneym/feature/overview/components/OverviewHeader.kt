@@ -98,6 +98,15 @@ internal fun OverviewHeader(
                     onSelect = onAccountSelected,
                 )
             }
+            if (aiAvailable) {
+                MmIconButton(
+                    icon = Icon.Sparkles.imageVector,
+                    size = MM.dimen.padding_4x,
+                    onClick = onAnalyzeClick,
+                    variant = MmIconButtonVariant.Accent,
+                    contentDescription = stringResource(Res.string.overview_analyze_cd),
+                )
+            }
         }
 
         // Month / Year / Custom period selector — own row below title
@@ -187,16 +196,6 @@ internal fun OverviewHeader(
                 )
             } else {
                 Spacer(Modifier.width(MM.dimen.padding_4x))
-            }
-            if (aiAvailable) {
-                Spacer(Modifier.weight(1f))
-                MmIconButton(
-                    icon = Icon.Sparkles.imageVector,
-                    size = MM.dimen.padding_4x,
-                    onClick = onAnalyzeClick,
-                    variant = MmIconButtonVariant.Accent,
-                    contentDescription = stringResource(Res.string.overview_analyze_cd),
-                )
             }
         }
     }
