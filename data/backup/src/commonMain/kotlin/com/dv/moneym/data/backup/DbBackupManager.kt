@@ -5,6 +5,7 @@ import com.dv.moneym.platform.DbPlatform
 
 private val DB_NAMES = listOf("moneym_categories.db", "moneym_accounts.db", "moneym_transactions.db", "moneym_budgets.db", "moneym_aichat.db")
 private val DB_SUFFIXES = listOf("", "-wal", "-shm")
+private val ALLOWED_DB_FILES = DB_NAMES.flatMap { name -> DB_SUFFIXES.map { "$name$it" } }.toSet()
 
 class DbBackupManager(
     private val dbPlatform: DbPlatform,
@@ -29,6 +30,12 @@ class DbBackupManager(
     suspend fun restore(zip: ByteArray) {
         val files = extractZip(zip)
         check(files.isNotEmpty()) { "Invalid or empty backup archive" }
+
+        // Defense-in-depth against zip-slip: only the fixed set of database files is ever
+        // written, so a single unexpected entry name means a tampered archive. Reject it
+        // before touching the filesystem rather than writing whatever the entry claims.
+        val unexpected = files.keys - ALLOWED_DB_FILES
+        require(unexpected.isEmpty()) { "Unexpected files in backup archive: $unexpected" }
 
         // Hand the destructive swap to the restart coordinator: it tears down the UI first (so no
         // Room Flow queries a closing DB), runs the swap below, then restarts Koin in-process.

@@ -126,6 +126,7 @@ fun extractZip(zip: ByteArray): Map<String, ByteArray> {
         if (dataStart + compressedSize > zip.size) break
 
         val name = zip.decodeToString(pos + 30, pos + 30 + nameLen)
+        require(isSafeEntryName(name)) { "Unsafe zip entry name: $name" }
         if (compression == 0) {
             result[name] = zip.copyOfRange(dataStart, dataStart + compressedSize)
         }
@@ -134,6 +135,15 @@ fun extractZip(zip: ByteArray): Map<String, ByteArray> {
     }
 
     return result
+}
+
+// Backup archives are always a flat set of database filenames — no directories. Any path
+// separator, traversal segment, or control/whitespace char (code <= 0x20, which includes the
+// null byte) means a crafted (zip-slip) archive trying to escape the destination directory,
+// so reject the whole archive rather than the entry.
+internal fun isSafeEntryName(name: String): Boolean {
+    if (name.isEmpty() || name == "." || name == "..") return false
+    return name.none { it == '/' || it == '\\' || it.code <= 0x20 }
 }
 
 private fun ByteArray.le16(o: Int): Int = (this[o].toInt() and 0xFF) or ((this[o + 1].toInt() and 0xFF) shl 8)
