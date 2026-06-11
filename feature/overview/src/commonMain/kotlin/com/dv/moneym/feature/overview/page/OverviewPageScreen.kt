@@ -1,7 +1,10 @@
 package com.dv.moneym.feature.overview.page
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -11,6 +14,7 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.components.OverviewPeriodBody
+import com.dv.moneym.feature.overview.components.OverviewSkeleton
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -43,17 +47,27 @@ internal fun OverviewPageContent(
     onIntent: (OverviewPageIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
+    Crossfade(
+        targetState = state.isLoading,
+        animationSpec = tween(220),
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(bottom = MM.dimen.padding_2x),
-    ) {
-        item {
-            OverviewPeriodBody(
-                state = state,
-                spendingFilter = spendingFilter,
-                currencyCode = currencyCode,
-                onIntent = onIntent,
-            )
+    ) { loading ->
+        if (loading) {
+            OverviewSkeleton(modifier = Modifier.padding(top = MM.dimen.padding_1_5x))
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(bottom = MM.dimen.padding_2x),
+            ) {
+                item {
+                    OverviewPeriodBody(
+                        state = state,
+                        spendingFilter = spendingFilter,
+                        currencyCode = currencyCode,
+                        onIntent = onIntent,
+                    )
+                }
+            }
         }
     }
 }
