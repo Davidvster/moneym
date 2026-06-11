@@ -46,7 +46,7 @@ export/upsertFromSync; `FakeTransactionRepository` parity; migration + repo +
 sync round-trip tests.
 
 ### Phase 2 — data/banksync: EB client + JWT signer
-Status: pending
+Status: done
 New KMP module. `EnableBankingCredentialsStore` (SecureStore; new SecurityKeys
 `banksync.app_id|private_key_pem|session_id`); `internal/EbJwtSigner` (RS256,
 PKCS#8 PEM, instructive error on PKCS#1 headers); `EnableBankingClient` interface

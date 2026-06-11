@@ -85,6 +85,7 @@ kotlin {
             implementation(projects.data.budgets)
             implementation(projects.data.remotebackup)
             implementation(projects.data.sync)
+            implementation(projects.data.banksync)
             implementation(projects.data.llmmodels)
             implementation(projects.data.aichat)
             api(projects.core.oauth)

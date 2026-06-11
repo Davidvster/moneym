@@ -48,6 +48,7 @@ val appModules: List<Module> = listOf(
     remoteBackupCommonModule,
     remoteBackupPlatformModule(),
     syncCommonModule,
+    bankSyncCommonModule,
     dataCategoriesModule,
     dataAccountsModule,
     dataTransactionsModule,

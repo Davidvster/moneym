@@ -3,6 +3,9 @@ package com.dv.moneym.core.security
 object SecurityKeys {
     const val PIN_HASH = "security.pin_hash"
     const val BIOMETRIC_BOUND = "security.biometric_bound"
+    const val BANK_SYNC_APP_ID = "banksync.app_id"
+    const val BANK_SYNC_PRIVATE_KEY_PEM = "banksync.private_key_pem"
+    const val BANK_SYNC_SESSION_ID = "banksync.session_id"
 }
 
 object SecurityPrefs {
