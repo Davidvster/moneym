@@ -74,6 +74,12 @@ object PrefKeys {
     const val PENDING_DELETION_BLOB = "pref.pending_deletion_blob"
     const val SYNC_CONFLICT_BLOB = "pref.sync_conflict_blob"
 
+    // Bank sync (Enable Banking)
+    const val BANK_SYNC_CONFIGURED = "pref.bank_sync_configured"
+    const val BANK_SYNC_AUTO_ENABLED = "pref.bank_sync_auto_enabled"
+    const val BANK_SYNC_LAST_SYNC_MS = "pref.bank_sync_last_sync_ms"
+    const val BANK_SYNC_SESSION_VALID_UNTIL_MS = "pref.bank_sync_session_valid_until_ms"
+
     // AI analysis grounding mode (SNAPSHOT / TOOLS)
     const val AI_GROUNDING_MODE = "pref.ai_grounding_mode"
 

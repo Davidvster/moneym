@@ -12,6 +12,7 @@ import com.dv.moneym.core.security.IosSecureStore
 import com.dv.moneym.core.security.SecureStore
 import com.dv.moneym.data.accounts.createAccountsDatabase
 import com.dv.moneym.data.aichat.createAiChatDatabase
+import com.dv.moneym.data.banksync.createBankSyncDatabase
 import com.dv.moneym.data.budgets.createBudgetsDatabase
 import com.dv.moneym.data.categories.createCategoriesDatabase
 import com.dv.moneym.data.transactions.createTransactionsDatabase
@@ -27,6 +28,7 @@ fun iosPlatformModule() = module {
     single { createTransactionsDatabase() }
     single { createBudgetsDatabase() }
     single { createAiChatDatabase() }
+    single { createBankSyncDatabase() }
     single<SecureStore> { IosSecureStore() }
     single<BiometricAuthenticator> { BiometricAuthenticatorImpl() }
     single<LocaleController> { IosLocaleController() }

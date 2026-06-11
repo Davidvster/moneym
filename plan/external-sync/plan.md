@@ -56,7 +56,7 @@ currency-exponent aware); Koin `BankSyncModule` beside remoteBackupCommonModule.
 Tests incl. signer on iosSimulatorArm64Test (PEM/Apple-provider risk probe).
 
 ### Phase 3 — data/banksync persistence + BankSyncEngine
-Status: pending
+Status: done
 `BankSyncRoomDatabase` v1 (`BankAccount` with per-account cursor + local account
 mapping; `BankSuggestion` with UNIQUE external_id and PENDING/ACCEPTED/REJECTED
 status); `BankSyncRepository` + impl; `BankSyncEngine` (`runtime` StateFlow,

@@ -4,6 +4,12 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 kotlin {
@@ -23,9 +29,13 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.cryptography.core)
             implementation(libs.kermit)
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
             implementation(projects.core.common)
             implementation(projects.core.model)
             implementation(projects.core.security)
+            implementation(projects.core.datastore)
+            implementation(projects.data.transactions)
         }
         androidMain.dependencies {
             implementation(libs.cryptography.provider.jdk)
@@ -37,6 +47,7 @@ kotlin {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.ktor.client.mock)
+            implementation(projects.core.testing)
         }
         val androidUnitTest by getting {
             dependencies {
@@ -44,6 +55,12 @@ kotlin {
             }
         }
     }
+}
+
+dependencies {
+    add("kspAndroid",           libs.room.compiler)
+    add("kspIosArm64",          libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
 }
 
 android {
