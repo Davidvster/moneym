@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -52,6 +53,8 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -78,6 +81,8 @@ import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmMonthPickerDialog
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
+import com.dv.moneym.core.ui.MmSkeleton
+import com.dv.moneym.core.ui.MmSkeletonCircle
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.core.ui.TxRow
@@ -811,18 +816,9 @@ internal fun TransactionListBody(
     onEditRecurring: (RecurringTransactionId) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
-    val colors = MM.colors
-    val type = MM.type
-
     when {
         isLoading -> {
-            Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                Text(
-                    text = stringResource(Res.string.transactions_loading),
-                    style = type.body,
-                    color = colors.text2,
-                )
-            }
+            TransactionListSkeleton(modifier = modifier)
         }
 
         isEmpty -> {
@@ -860,6 +856,53 @@ internal fun TransactionListBody(
                         )
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TransactionListSkeleton(modifier: Modifier = Modifier) {
+    val loadingDescription = stringResource(Res.string.transactions_loading)
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .semantics { contentDescription = loadingDescription },
+    ) {
+        repeat(7) { index ->
+            if (index % 3 == 0) {
+                MmSkeleton(
+                    modifier = Modifier
+                        .padding(
+                            start = MM.dimen.padding_2_5x,
+                            top = MM.dimen.padding_2x,
+                            bottom = MM.dimen.padding_1x,
+                        )
+                        .width(96.dp)
+                        .height(10.dp),
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = MM.dimen.padding_2_5x,
+                        vertical = MM.dimen.padding_1_5x,
+                    ),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
+            ) {
+                MmSkeletonCircle(size = 38.dp)
+                Column(modifier = Modifier.weight(1f)) {
+                    MmSkeleton(modifier = Modifier.fillMaxWidth(0.55f).height(12.dp))
+                    MmSkeleton(
+                        modifier = Modifier
+                            .padding(top = MM.dimen.padding_0_5x)
+                            .fillMaxWidth(0.35f)
+                            .height(12.dp),
+                    )
+                }
+                MmSkeleton(modifier = Modifier.width(64.dp).height(14.dp))
             }
         }
     }
