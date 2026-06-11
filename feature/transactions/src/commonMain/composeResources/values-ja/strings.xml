@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">クリア</string>
     <string name="transactions_filter_done">完了</string>
     <string name="transactions_empty">今月の取引はありません</string>
+    <string name="transactions_empty_add_first">最初の取引を追加</string>
     <string name="transactions_previous_month">前の月</string>
     <string name="transactions_next_month">次の月</string>
     <string name="transactions_loading">読み込み中…</string>

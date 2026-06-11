@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Rensa</string>
     <string name="transactions_filter_done">Klar</string>
     <string name="transactions_empty">Inga transaktioner den här månaden</string>
+    <string name="transactions_empty_add_first">Lägg till din första transaktion</string>
     <string name="transactions_previous_month">Föregående månad</string>
     <string name="transactions_next_month">Nästa månad</string>
     <string name="transactions_loading">Laddar…</string>

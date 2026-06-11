@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Очистить</string>
     <string name="transactions_filter_done">Готово</string>
     <string name="transactions_empty">Транзакций в этом месяце нет</string>
+    <string name="transactions_empty_add_first">Добавьте свою первую транзакцию</string>
     <string name="transactions_previous_month">Предыдущий месяц</string>
     <string name="transactions_next_month">Следующий месяц</string>
     <string name="transactions_loading">Загрузка…</string>

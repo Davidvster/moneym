@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Xóa</string>
     <string name="transactions_filter_done">Xong</string>
     <string name="transactions_empty">Không có giao dịch tháng này</string>
+    <string name="transactions_empty_add_first">Thêm giao dịch đầu tiên của bạn</string>
     <string name="transactions_previous_month">Tháng trước</string>
     <string name="transactions_next_month">Tháng sau</string>
     <string name="transactions_loading">Đang tải…</string>

@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Tühjenda</string>
     <string name="transactions_filter_done">Valmis</string>
     <string name="transactions_empty">Sel kuul pole tehinguid</string>
+    <string name="transactions_empty_add_first">Lisa oma esimene tehing</string>
     <string name="transactions_previous_month">Eelmine kuu</string>
     <string name="transactions_next_month">Järgmine kuu</string>
     <string name="transactions_loading">Laadin…</string>

@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Obriši</string>
     <string name="transactions_filter_done">Gotovo</string>
     <string name="transactions_empty">Nema transakcija ovaj mjesec</string>
+    <string name="transactions_empty_add_first">Dodajte svoju prvu transakciju</string>
     <string name="transactions_previous_month">Prethodni mjesec</string>
     <string name="transactions_next_month">Sljedeći mjesec</string>
     <string name="transactions_loading">Učitavanje…</string>

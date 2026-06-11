@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Törlés</string>
     <string name="transactions_filter_done">Kész</string>
     <string name="transactions_empty">Nincs tranzakció ebben a hónapban</string>
+    <string name="transactions_empty_add_first">Add hozzá az első tranzakciódat</string>
     <string name="transactions_previous_month">Előző hónap</string>
     <string name="transactions_next_month">Következő hónap</string>
     <string name="transactions_loading">Betöltés…</string>

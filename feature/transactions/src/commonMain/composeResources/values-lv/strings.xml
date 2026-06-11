@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Notīrīt</string>
     <string name="transactions_filter_done">Gatavs</string>
     <string name="transactions_empty">Nav darījumu šajā mēnesī</string>
+    <string name="transactions_empty_add_first">Pievienojiet savu pirmo darījumu</string>
     <string name="transactions_previous_month">Iepriekšējais mēnesis</string>
     <string name="transactions_next_month">Nākamais mēnesis</string>
     <string name="transactions_loading">Ielādē…</string>

@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">साफ़ करें</string>
     <string name="transactions_filter_done">हो गया</string>
     <string name="transactions_empty">इस महीने कोई लेन-देन नहीं</string>
+    <string name="transactions_empty_add_first">अपना पहला लेन-देन जोड़ें</string>
     <string name="transactions_previous_month">पिछला महीना</string>
     <string name="transactions_next_month">अगला महीना</string>
     <string name="transactions_loading">लोड हो रहा है…</string>

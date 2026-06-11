@@ -51,6 +51,7 @@ import com.dv.moneym.core.uigraphs.CumulativeChart
 import com.dv.moneym.core.uigraphs.DonutChart
 import com.dv.moneym.core.uigraphs.DonutSlice
 import com.dv.moneym.core.ui.MmCard
+import com.dv.moneym.core.ui.MmEmptyState
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
@@ -273,15 +274,13 @@ private fun SpendingByCategoryCardBody(
     onTogglePercent: () -> Unit,
     onSliceTapped: (Int?) -> Unit,
 ) {
-    val colors = MM.colors
-    val type = MM.type
     val space = MM.dimen
     Column {
         if (animCats.isEmpty()) {
-            Text(
-                text = stringResource(Res.string.overview_no_expenses),
-                style = type.caption,
-                color = colors.text3,
+            MmEmptyState(
+                message = stringResource(Res.string.overview_no_expenses),
+                icon = Icon.Chart.imageVector,
+                fillSize = false,
             )
         } else {
             DonutChartWithSelection(

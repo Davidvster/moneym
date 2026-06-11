@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Tyhjennä</string>
     <string name="transactions_filter_done">Valmis</string>
     <string name="transactions_empty">Ei tapahtumia tässä kuussa</string>
+    <string name="transactions_empty_add_first">Lisää ensimmäinen tapahtumasi</string>
     <string name="transactions_previous_month">Edellinen kuukausi</string>
     <string name="transactions_next_month">Seuraava kuukausi</string>
     <string name="transactions_loading">Ladataan…</string>

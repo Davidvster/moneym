@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Effacer</string>
     <string name="transactions_filter_done">Terminé</string>
     <string name="transactions_empty">Aucune transaction ce mois</string>
+    <string name="transactions_empty_add_first">Ajoutez votre première transaction</string>
     <string name="transactions_previous_month">Mois précédent</string>
     <string name="transactions_next_month">Mois suivant</string>
     <string name="transactions_loading">Chargement…</string>

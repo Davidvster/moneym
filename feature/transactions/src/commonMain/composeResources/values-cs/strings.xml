@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Vymazat</string>
     <string name="transactions_filter_done">Hotovo</string>
     <string name="transactions_empty">Žádné transakce tento měsíc</string>
+    <string name="transactions_empty_add_first">Přidejte svou první transakci</string>
     <string name="transactions_previous_month">Předchozí měsíc</string>
     <string name="transactions_next_month">Následující měsíc</string>
     <string name="transactions_loading">Načítám…</string>

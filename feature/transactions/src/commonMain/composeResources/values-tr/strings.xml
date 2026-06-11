@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Temizle</string>
     <string name="transactions_filter_done">Bitti</string>
     <string name="transactions_empty">Bu ay işlem yok</string>
+    <string name="transactions_empty_add_first">İlk işleminizi ekleyin</string>
     <string name="transactions_previous_month">Önceki ay</string>
     <string name="transactions_next_month">Sonraki ay</string>
     <string name="transactions_loading">Yükleniyor…</string>

@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Исчисти</string>
     <string name="transactions_filter_done">Готово</string>
     <string name="transactions_empty">Нема трансакции овој месец</string>
+    <string name="transactions_empty_add_first">Додадете ја вашата прва трансакција</string>
     <string name="transactions_previous_month">Претходен месец</string>
     <string name="transactions_next_month">Следен месец</string>
     <string name="transactions_loading">Се вчитува…</string>

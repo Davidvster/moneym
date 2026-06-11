@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Hreinsa</string>
     <string name="transactions_filter_done">Lokið</string>
     <string name="transactions_empty">Engar færslur í þessum mánuði</string>
+    <string name="transactions_empty_add_first">Bættu við fyrstu færslunni þinni</string>
     <string name="transactions_previous_month">Fyrri mánuður</string>
     <string name="transactions_next_month">Næsti mánuður</string>
     <string name="transactions_loading">Hleður…</string>

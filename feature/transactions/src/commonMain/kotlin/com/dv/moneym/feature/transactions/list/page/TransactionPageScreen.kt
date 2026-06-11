@@ -22,6 +22,7 @@ internal fun TransactionPageScreen(
     yearMonth: YearMonth,
     onEditTransaction: (TransactionId) -> Unit,
     onEditRecurring: (RecurringTransactionId) -> Unit,
+    onAddFirst: (() -> Unit)? = null,
 ) {
     val vm = koinViewModel<TransactionPageViewModel>(
         key = yearMonth.toString(),
@@ -35,6 +36,7 @@ internal fun TransactionPageScreen(
         isEmpty = state.isEmpty,
         onEditTransaction = onEditTransaction,
         onEditRecurring = onEditRecurring,
+        onAddFirst = onAddFirst,
         modifier = Modifier.fillMaxSize(),
     )
 }

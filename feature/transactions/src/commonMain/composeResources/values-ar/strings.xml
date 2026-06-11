@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">مسح</string>
     <string name="transactions_filter_done">تم</string>
     <string name="transactions_empty">لا توجد معاملات هذا الشهر</string>
+    <string name="transactions_empty_add_first">أضف أول معاملة لك</string>
     <string name="transactions_previous_month">الشهر السابق</string>
     <string name="transactions_next_month">الشهر التالي</string>
     <string name="transactions_loading">جارٍ التحميل…</string>

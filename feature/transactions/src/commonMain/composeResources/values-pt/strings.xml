@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Limpar</string>
     <string name="transactions_filter_done">Concluído</string>
     <string name="transactions_empty">Sem transações este mês</string>
+    <string name="transactions_empty_add_first">Adicione a sua primeira transação</string>
     <string name="transactions_previous_month">Mês anterior</string>
     <string name="transactions_next_month">Mês seguinte</string>
     <string name="transactions_loading">A carregar…</string>

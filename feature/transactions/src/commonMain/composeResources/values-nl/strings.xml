@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Wissen</string>
     <string name="transactions_filter_done">Klaar</string>
     <string name="transactions_empty">Geen transacties deze maand</string>
+    <string name="transactions_empty_add_first">Voeg je eerste transactie toe</string>
     <string name="transactions_previous_month">Vorige maand</string>
     <string name="transactions_next_month">Volgende maand</string>
     <string name="transactions_loading">Laden…</string>

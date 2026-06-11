@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">清除</string>
     <string name="transactions_filter_done">完成</string>
     <string name="transactions_empty">本月无交易记录</string>
+    <string name="transactions_empty_add_first">添加您的第一笔交易</string>
     <string name="transactions_previous_month">上一个月</string>
     <string name="transactions_next_month">下一个月</string>
     <string name="transactions_loading">加载中…</string>

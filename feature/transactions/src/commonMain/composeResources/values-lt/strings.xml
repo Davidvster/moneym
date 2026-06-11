@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Išvalyti</string>
     <string name="transactions_filter_done">Atlikta</string>
     <string name="transactions_empty">Šį mėnesį nėra operacijų</string>
+    <string name="transactions_empty_add_first">Pridėkite pirmąją operaciją</string>
     <string name="transactions_previous_month">Ankstesnis mėnuo</string>
     <string name="transactions_next_month">Kitas mėnuo</string>
     <string name="transactions_loading">Kraunama…</string>

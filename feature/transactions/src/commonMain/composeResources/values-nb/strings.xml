@@ -9,6 +9,7 @@
     <string name="transactions_filter_clear">Tøm</string>
     <string name="transactions_filter_done">Ferdig</string>
     <string name="transactions_empty">Ingen transaksjoner denne måneden</string>
+    <string name="transactions_empty_add_first">Legg til din første transaksjon</string>
     <string name="transactions_previous_month">Forrige måned</string>
     <string name="transactions_next_month">Neste måned</string>
     <string name="transactions_loading">Laster…</string>

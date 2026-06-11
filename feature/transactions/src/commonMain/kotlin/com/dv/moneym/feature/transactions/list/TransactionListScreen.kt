@@ -106,6 +106,7 @@ import moneym.feature.transactions.generated.resources.transactions_cancel
 import moneym.feature.transactions.generated.resources.transactions_close_search_cd
 import moneym.feature.transactions.generated.resources.transactions_dialog_select_month
 import moneym.feature.transactions.generated.resources.transactions_empty
+import moneym.feature.transactions.generated.resources.transactions_empty_add_first
 import moneym.feature.transactions.generated.resources.transactions_filter_all
 import moneym.feature.transactions.generated.resources.transactions_filter_expenses
 import moneym.feature.transactions.generated.resources.transactions_filter_income
@@ -312,6 +313,7 @@ private fun TransactionListContent(
                 yearMonth = yearMonth,
                 onEditTransaction = onEditTransaction,
                 onEditRecurring = onEditRecurring,
+                onAddFirst = onAddTransaction,
             )
         }
 
@@ -814,6 +816,7 @@ internal fun TransactionListBody(
     isEmpty: Boolean,
     onEditTransaction: (TransactionId) -> Unit,
     onEditRecurring: (RecurringTransactionId) -> Unit = {},
+    onAddFirst: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     when {
@@ -825,6 +828,8 @@ internal fun TransactionListBody(
             MmEmptyState(
                 message = stringResource(Res.string.transactions_empty),
                 icon = Icon.List.imageVector,
+                actionLabel = stringResource(Res.string.transactions_empty_add_first),
+                onAction = onAddFirst,
                 modifier = modifier,
             )
         }
