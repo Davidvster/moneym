@@ -63,6 +63,7 @@ internal fun IncomeExpensesCard(
                         style = MM.type.amountLarge,
                         color = colors.accent,
                         currency = currencyCode,
+                        animate = true,
                     )
                 }
             }
@@ -86,6 +87,7 @@ internal fun IncomeExpensesCard(
                         value = expenses,
                         style = MM.type.amountLarge,
                         currency = currencyCode,
+                        animate = true,
                     )
                 }
             }
@@ -110,6 +112,7 @@ internal fun IncomeExpensesCard(
                         style = MM.type.amountLarge,
                         color = colors.accent,
                         currency = currencyCode,
+                        animate = true,
                     )
                 }
                 Spacer(Modifier.height(space.padding_1_25x))
@@ -134,6 +137,7 @@ internal fun IncomeExpensesCard(
                         value = expenses,
                         style = MM.type.amountLarge,
                         currency = currencyCode,
+                        animate = true,
                     )
                 }
                 Spacer(Modifier.height(space.padding_1_25x))
@@ -155,6 +159,7 @@ internal fun IncomeExpensesCard(
                         style = MM.type.amountLarge,
                         color = balanceColor,
                         currency = currencyCode,
+                        animate = true,
                     )
                 }
             }

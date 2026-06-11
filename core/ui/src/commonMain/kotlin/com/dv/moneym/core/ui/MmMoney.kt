@@ -1,7 +1,14 @@
 package com.dv.moneym.core.ui
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.TwoWayConverter
+import androidx.compose.animation.core.tween
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,14 +37,27 @@ fun MmMoney(
     color: Color = Color.Unspecified,
     currency: String = "",
     style: TextStyle? = null,
+    animate: Boolean = false,
 ) {
     val colors = MM.colors
     val type = MM.type
 
     val displayCurrency = currencyDisplay(currency, LocalUseCurrencySymbol.current)
 
-    val absValue = kotlin.math.abs(value)
-    val isNegative = value < 0
+    val displayValue = if (animate) {
+        val animatable = remember {
+            Animatable(0.0, DoubleVectorConverter)
+        }
+        LaunchedEffect(value) {
+            animatable.animateTo(value, tween(durationMillis = 600, easing = CountUpEase))
+        }
+        animatable.value
+    } else {
+        value
+    }
+
+    val absValue = kotlin.math.abs(displayValue)
+    val isNegative = displayValue < 0
 
     // Format with thousand separator and 2 decimal places
     val formatted = formatMoneyValue(absValue)
@@ -76,6 +96,13 @@ fun MmMoney(
 }
 
 private fun formatMoneyValue(value: Double): String = formatNumber(value, 2)
+
+private val CountUpEase = CubicBezierEasing(0.33f, 0f, 0f, 1f)
+
+private val DoubleVectorConverter = TwoWayConverter<Double, AnimationVector1D>(
+    convertToVector = { AnimationVector1D(it.toFloat()) },
+    convertFromVector = { it.value.toDouble() },
+)
 
 @Preview
 @Composable
