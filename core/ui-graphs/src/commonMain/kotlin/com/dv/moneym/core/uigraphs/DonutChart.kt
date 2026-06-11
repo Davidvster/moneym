@@ -94,10 +94,15 @@ fun DonutChart(
             style = Stroke(width = strokePx, cap = StrokeCap.Round),
         )
 
+        // Sequential reveal: arcs sweep in clockwise, each slice starting
+        // where the previous one finished.
+        val revealedDegrees = entry * availableDegrees
+        var cumulativeStart = 0f
         var startAngle = -90f
         slices.forEachIndexed { i, slice ->
             val fullSweep = (slice.fraction / total) * availableDegrees
-            val sweep = fullSweep * entry
+            val sweep = (revealedDegrees - cumulativeStart).coerceIn(0f, fullSweep)
+            cumulativeStart += fullSweep
             val isSelected = i == selectedIndex
             // Non-selected slices fade toward 0.35 as selection emphasis rises.
             val alpha = if (isSelected) 1f else lerp(1f, 0.35f, selectionEmphasis)
