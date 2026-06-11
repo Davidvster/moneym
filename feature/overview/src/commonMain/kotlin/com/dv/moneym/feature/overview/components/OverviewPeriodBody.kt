@@ -52,6 +52,7 @@ import com.dv.moneym.core.uigraphs.DonutChart
 import com.dv.moneym.core.uigraphs.DonutSlice
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmEmptyState
+import com.dv.moneym.core.ui.mmStaggeredAppear
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
@@ -97,12 +98,16 @@ internal fun OverviewPeriodBody(
             expenses = state.expenses,
             currencyCode = currencyCode,
             filter = spendingFilter,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = space.padding_2x),
+            modifier = Modifier
+                .mmStaggeredAppear(0)
+                .fillMaxWidth()
+                .padding(horizontal = space.padding_2x),
         )
         if (state.budgetProgress.isNotEmpty()) {
             BudgetBreakdownCard(
                 progress = state.budgetProgress,
                 modifier = Modifier
+                    .mmStaggeredAppear(1)
                     .fillMaxWidth()
                     .padding(horizontal = space.padding_2x, vertical = space.padding_1_5x),
             )
@@ -115,6 +120,7 @@ internal fun OverviewPeriodBody(
             avgDayLabel = avgDayLabel,
             avgMonthLabel = avgMonthLabel,
             currencyCode = currencyCode,
+            modifier = Modifier.mmStaggeredAppear(2),
         )
         SpendingByCategoryCard(
             expenseCategories = state.categoryBreakdown,
@@ -127,6 +133,7 @@ internal fun OverviewPeriodBody(
             filter = spendingFilter,
             onSliceTapped = { onIntent(OverviewPageIntent.SliceTapped(it)) },
             modifier = Modifier
+                .mmStaggeredAppear(3)
                 .fillMaxWidth()
                 .padding(
                     horizontal = space.padding_2x,
@@ -138,6 +145,7 @@ internal fun OverviewPeriodBody(
                 cumulativeTotals = state.cumulativeTotals,
                 todayIndex = state.todayIndex,
                 currencyCode = currencyCode,
+                modifier = Modifier.mmStaggeredAppear(4),
             )
             CategoryTrendsCard(
                 trends = state.categoryDailyTrend,
@@ -146,16 +154,19 @@ internal fun OverviewPeriodBody(
                 title = stringResource(Res.string.overview_daily_trend),
                 showBars = false,
                 currencyCode = currencyCode,
-                modifier = Modifier.padding(
-                    horizontal = space.padding_2x,
-                    vertical = space.padding_0_5x
-                ),
+                modifier = Modifier
+                    .mmStaggeredAppear(5)
+                    .padding(
+                        horizontal = space.padding_2x,
+                        vertical = space.padding_0_5x
+                    ),
             )
         } else if (inYearMode) {
             MonthlySpendingBarChart(
                 monthlyTotals = state.monthlyTotals,
                 currentMonthIndex = state.currentMonthIndex,
                 currencyCode = currencyCode,
+                modifier = Modifier.mmStaggeredAppear(4),
             )
             CategoryTrendsCard(
                 trends = state.categoryMonthlyTrend,
@@ -164,10 +175,12 @@ internal fun OverviewPeriodBody(
                 title = stringResource(Res.string.overview_monthly_trend),
                 showBars = true,
                 currencyCode = currencyCode,
-                modifier = Modifier.padding(
-                    horizontal = space.padding_2x,
-                    vertical = space.padding_0_5x
-                ),
+                modifier = Modifier
+                    .mmStaggeredAppear(5)
+                    .padding(
+                        horizontal = space.padding_2x,
+                        vertical = space.padding_0_5x
+                    ),
             )
         } else {
             // DateRange mode — show category breakdown only, no time-series charts

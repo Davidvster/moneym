@@ -31,12 +31,13 @@ internal fun CumulativeSpendCard(
     cumulativeTotals: List<Double>,
     todayIndex: Int,
     currencyCode: String,
+    modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
     val type = MM.type
     val space = MM.dimen
     MmCard(
-        modifier = Modifier.padding(horizontal = space.padding_2x, vertical = space.padding_0_5x),
+        modifier = modifier.padding(horizontal = space.padding_2x, vertical = space.padding_0_5x),
         padded = true,
         shape = MM.dimen.radius_1_5x,
     ) {

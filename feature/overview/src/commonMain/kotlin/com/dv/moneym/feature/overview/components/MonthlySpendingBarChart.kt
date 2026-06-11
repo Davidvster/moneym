@@ -38,6 +38,7 @@ internal fun MonthlySpendingBarChart(
     monthlyTotals: List<Double>,
     currentMonthIndex: Int,
     currencyCode: String,
+    modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -50,7 +51,7 @@ internal fun MonthlySpendingBarChart(
     val avgVal = monthlyTotals.filter { it > 0 }.let { if (it.isNotEmpty()) it.average() else 0.0 }
 
     MmCard(
-        modifier = Modifier.padding(horizontal = space.padding_2x, vertical = space.padding_0_5x),
+        modifier = modifier.padding(horizontal = space.padding_2x, vertical = space.padding_0_5x),
         padded = true,
         shape = MM.dimen.radius_1_5x,
     ) {

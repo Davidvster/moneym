@@ -27,11 +27,12 @@ internal fun AvgStatsCard(
     avgDayLabel: String,
     avgMonthLabel: String,
     currencyCode: String,
+    modifier: Modifier = Modifier,
 ) {
     val space = MM.dimen
     if (inMonthMode && avgDailyExpense > 0) {
         MmCard(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .padding(horizontal = space.padding_2x, vertical = MM.dimen.padding_1x),
             padded = true,
