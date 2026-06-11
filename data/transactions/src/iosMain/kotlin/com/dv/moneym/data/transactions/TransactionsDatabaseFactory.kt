@@ -20,6 +20,10 @@ fun createTransactionsDatabase(): TransactionsRoomDatabase {
     return Room.databaseBuilder<TransactionsRoomDatabase>(name = "$appSupport/moneym_transactions.db")
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.Default)
-        .addMigrations(TransactionsRoomDatabase.MIGRATION_1_2, TransactionsRoomDatabase.MIGRATION_2_3)
+        .addMigrations(
+            TransactionsRoomDatabase.MIGRATION_1_2,
+            TransactionsRoomDatabase.MIGRATION_2_3,
+            TransactionsRoomDatabase.MIGRATION_3_4,
+        )
         .build()
 }

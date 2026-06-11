@@ -26,6 +26,7 @@ class FakeTransactionRepository : TransactionRepository {
     private var nextId = 1L
 
     private val syncIds = mutableMapOf<Long, String>()
+    private val externalIds = mutableMapOf<Long, String>()
 
     private val tombstoned = mutableSetOf<Long>()
     private val updatedAtOverrides = mutableMapOf<Long, Long>()
@@ -104,6 +105,7 @@ class FakeTransactionRepository : TransactionRepository {
     override suspend fun deleteAll() {
         _transactions.value = emptyList()
         syncIds.clear()
+        externalIds.clear()
         tombstoned.clear()
         updatedAtOverrides.clear()
     }
@@ -155,6 +157,7 @@ class FakeTransactionRepository : TransactionRepository {
                 deleted = t.id.value in tombstoned,
                 createdAt = t.createdAt.toEpochMilliseconds(),
                 updatedAt = updatedAtOverrides[t.id.value] ?: t.updatedAt.toEpochMilliseconds(),
+                externalId = externalIds[t.id.value],
             )
         }
 
@@ -165,12 +168,30 @@ class FakeTransactionRepository : TransactionRepository {
             val id = nextId++
             _transactions.update { it + row.toDomain(id) }
             syncIds[id] = syncId
+            row.externalId?.let { externalIds[id] = it }
             id
         } else {
             _transactions.update { list -> list.map { if (it.id.value == existingId) row.toDomain(existingId) else it } }
+            row.externalId?.let { externalIds[existingId] = it }
             existingId
         }
     }
+
+    override suspend fun existsByExternalId(externalId: String): Boolean =
+        externalIds.containsValue(externalId)
+
+    override suspend fun setExternalId(id: TransactionId, externalId: String) {
+        externalIds[id.value] = externalId
+    }
+
+    override suspend fun findByDateAndAmount(
+        date: LocalDate,
+        amountMinor: Long,
+        currency: CurrencyCode,
+    ): List<Transaction> =
+        _transactions.value.live().filter {
+            it.occurredOn == date && it.amount.minorUnits == amountMinor && it.amount.currency == currency
+        }
 
     private fun TransactionSyncRow.toDomain(id: Long) = Transaction(
         id = TransactionId(id),

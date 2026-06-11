@@ -15,4 +15,5 @@ data class TransactionSyncRow(
     val deleted: Boolean,
     val createdAt: Long,
     val updatedAt: Long,
+    val externalId: String? = null,
 )

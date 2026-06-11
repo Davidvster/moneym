@@ -30,4 +30,7 @@ interface TransactionRepository {
     suspend fun countByRecurringId(id: RecurringTransactionId): Int
     suspend fun exportForSync(): List<TransactionSyncRow>
     suspend fun upsertFromSync(row: TransactionSyncRow): Long
+    suspend fun existsByExternalId(externalId: String): Boolean
+    suspend fun setExternalId(id: TransactionId, externalId: String)
+    suspend fun findByDateAndAmount(date: LocalDate, amountMinor: Long, currency: CurrencyCode): List<Transaction>
 }

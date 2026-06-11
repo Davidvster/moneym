@@ -12,6 +12,7 @@ import androidx.room.PrimaryKey
         Index(value = ["category_id"],  name = "idx_te_category"),
         Index(value = ["account_id"],   name = "idx_te_account"),
         Index(value = ["recurring_id"], name = "idx_te_recurring"),
+        Index(value = ["external_id"],  name = "idx_te_external"),
     ],
 )
 data class TransactionEntity(
@@ -30,4 +31,5 @@ data class TransactionEntity(
     @ColumnInfo(name = "recurring_id")    val recurringId: Long? = null,
     @ColumnInfo(name = "sync_id")         val syncId: String? = null,
     @ColumnInfo(name = "deleted", defaultValue = "0") val deleted: Boolean = false,
+    @ColumnInfo(name = "external_id")     val externalId: String? = null,
 )

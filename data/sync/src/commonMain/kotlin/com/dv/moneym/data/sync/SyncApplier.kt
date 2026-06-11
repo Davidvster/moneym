@@ -192,6 +192,7 @@ class SyncApplier(
                     deleted = tx.deleted,
                     createdAt = tx.createdAt,
                     updatedAt = tx.updatedAt,
+                    externalId = tx.externalId,
                 )
             )
         }

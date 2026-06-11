@@ -54,6 +54,7 @@ data class SyncTransaction(
     val deleted: Boolean = false,
     val createdAt: Long,
     val updatedAt: Long,
+    val externalId: String? = null,
 )
 
 @Serializable

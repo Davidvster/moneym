@@ -85,4 +85,13 @@ interface TransactionDao {
 
     @Query("SELECT * FROM TransactionEntry")
     suspend fun selectAllForSync(): List<TransactionEntity>
+
+    @Query("SELECT EXISTS(SELECT 1 FROM TransactionEntry WHERE external_id = :externalId)")
+    suspend fun existsByExternalId(externalId: String): Boolean
+
+    @Query("UPDATE TransactionEntry SET external_id = :externalId, updated_at = :now WHERE id = :id")
+    suspend fun setExternalId(id: Long, externalId: String, now: Long)
+
+    @Query("SELECT * FROM TransactionEntry WHERE occurred_on = :date AND amount_minor = :amountMinor AND currency = :currency AND deleted = 0 ORDER BY created_at DESC")
+    suspend fun selectByDateAndAmount(date: String, amountMinor: Long, currency: String): List<TransactionEntity>
 }

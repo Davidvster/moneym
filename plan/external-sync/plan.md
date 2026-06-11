@@ -38,7 +38,7 @@ Status: done
 Branch `feature/external-sync`, this file.
 
 ### Phase 1 — Transactions DB v4: external_id
-Status: pending
+Status: done
 `TransactionEntity.external_id` + index; `MIGRATION_3_4`; repository methods
 `existsByExternalId` / `setExternalId` / `findByDateAndAmount` through DAO +
 LocalDataSource + impl; `TransactionSyncRow.externalId` (default null) mapped in

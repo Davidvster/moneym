@@ -13,7 +13,7 @@ expect object TransactionsRoomDatabaseConstructor : RoomDatabaseConstructor<Tran
 
 @Database(
     entities = [TransactionEntity::class, PaymentModeEntity::class, RecurringTransactionEntity::class],
-    version = 3,
+    version = 4,
 )
 @ConstructedBy(TransactionsRoomDatabaseConstructor::class)
 abstract class TransactionsRoomDatabase : RoomDatabase() {
@@ -64,6 +64,13 @@ abstract class TransactionsRoomDatabase : RoomDatabase() {
                     connection.execSQL("ALTER TABLE $table ADD COLUMN deleted INTEGER NOT NULL DEFAULT 0")
                     connection.execSQL("UPDATE $table SET sync_id = lower(hex(randomblob(16))) WHERE sync_id IS NULL")
                 }
+            }
+        }
+
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(connection: SQLiteConnection) {
+                connection.execSQL("ALTER TABLE TransactionEntry ADD COLUMN external_id TEXT")
+                connection.execSQL("CREATE INDEX IF NOT EXISTS idx_te_external ON TransactionEntry(external_id)")
             }
         }
     }

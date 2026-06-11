@@ -167,6 +167,7 @@ internal class FakeTransactionLocalDataSource : TransactionLocalDataSource {
                     recurringId = row.recurringId,
                     syncId = syncId,
                     deleted = row.deleted,
+                    externalId = row.externalId,
                 )
             }
             id
@@ -185,10 +186,23 @@ internal class FakeTransactionLocalDataSource : TransactionLocalDataSource {
                         recurringId = row.recurringId,
                         updatedAt = row.updatedAt,
                         deleted = row.deleted,
+                        externalId = row.externalId ?: it.externalId,
                     ) else it
                 }
             }
             existing.id
         }
     }
+
+    override suspend fun existsByExternalId(externalId: String): Boolean =
+        rows.value.any { it.externalId == externalId }
+
+    override suspend fun setExternalId(id: Long, externalId: String, now: Long) {
+        mutate { list -> list.map { if (it.id == id) it.copy(externalId = externalId, updatedAt = now) else it } }
+    }
+
+    override suspend fun getByDateAndAmount(date: String, amountMinor: Long, currency: String): List<TransactionEntity> =
+        rows.value.filter {
+            !it.deleted && it.occurredOn == date && it.amountMinor == amountMinor && it.currency == currency
+        }.sortedByDescending { it.createdAt }
 }

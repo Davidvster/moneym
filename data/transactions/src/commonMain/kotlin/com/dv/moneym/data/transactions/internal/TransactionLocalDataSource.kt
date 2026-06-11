@@ -37,4 +37,7 @@ internal interface TransactionLocalDataSource {
     suspend fun countByRecurringId(recurringId: Long): Int
     suspend fun exportForSync(): List<TransactionEntity>
     suspend fun upsertFromSync(row: TransactionSyncRow): Long
+    suspend fun existsByExternalId(externalId: String): Boolean
+    suspend fun setExternalId(id: Long, externalId: String, now: Long)
+    suspend fun getByDateAndAmount(date: String, amountMinor: Long, currency: String): List<TransactionEntity>
 }

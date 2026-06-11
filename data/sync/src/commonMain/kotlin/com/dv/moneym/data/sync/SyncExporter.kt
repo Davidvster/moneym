@@ -100,6 +100,7 @@ class SyncExporter(
                 deleted = row.deleted,
                 createdAt = row.createdAt,
                 updatedAt = row.updatedAt,
+                externalId = row.externalId,
             )
         }
 

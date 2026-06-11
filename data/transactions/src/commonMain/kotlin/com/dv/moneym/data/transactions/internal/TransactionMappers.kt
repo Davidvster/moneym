@@ -43,6 +43,7 @@ internal fun TransactionEntity.toSyncRow() = TransactionSyncRow(
     deleted = deleted,
     createdAt = createdAt,
     updatedAt = updatedAt,
+    externalId = externalId,
 )
 
 internal fun yearMonthKey(year: Int, month: Int): String =

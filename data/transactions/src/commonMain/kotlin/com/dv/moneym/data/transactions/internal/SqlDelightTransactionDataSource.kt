@@ -126,6 +126,7 @@ internal class SqlDelightTransactionDataSource(
                     recurringId = row.recurringId,
                     syncId = syncId,
                     deleted = row.deleted,
+                    externalId = row.externalId,
                 )
             )
         } else {
@@ -142,9 +143,19 @@ internal class SqlDelightTransactionDataSource(
                     recurringId = row.recurringId,
                     updatedAt = row.updatedAt,
                     deleted = row.deleted,
+                    externalId = row.externalId ?: existing.externalId,
                 )
             )
             existing.id
         }
     }
+
+    override suspend fun existsByExternalId(externalId: String): Boolean =
+        dao.existsByExternalId(externalId)
+
+    override suspend fun setExternalId(id: Long, externalId: String, now: Long) =
+        dao.setExternalId(id, externalId, now)
+
+    override suspend fun getByDateAndAmount(date: String, amountMinor: Long, currency: String): List<TransactionEntity> =
+        dao.selectByDateAndAmount(date, amountMinor, currency)
 }

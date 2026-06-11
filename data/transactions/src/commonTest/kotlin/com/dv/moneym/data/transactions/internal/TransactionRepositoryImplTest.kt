@@ -291,4 +291,67 @@ class TransactionRepositoryImplTest {
         repo.reviveBySyncId(syncId, 200)
         assertEquals(200, ds.rows.value.first { it.id == id.value }.updatedAt)
     }
+
+    @Test
+    fun setExternalIdThenExistsByExternalId() = runTestWithDispatchers {
+        val id = repo.upsert(txn())
+
+        assertFalse(repo.existsByExternalId("eb-abc"))
+        repo.setExternalId(id, "eb-abc")
+
+        assertTrue(repo.existsByExternalId("eb-abc"))
+        assertEquals("eb-abc", ds.rows.value.first { it.id == id.value }.externalId)
+    }
+
+    @Test
+    fun existsByExternalIdSeesSoftDeletedRows() = runTestWithDispatchers {
+        val id = repo.upsert(txn())
+        repo.setExternalId(id, "eb-del")
+        repo.delete(id)
+
+        assertTrue(repo.existsByExternalId("eb-del"))
+    }
+
+    @Test
+    fun findByDateAndAmountMatchesExactlyAndSkipsDeleted() = runTestWithDispatchers {
+        val date = LocalDate(2026, 5, 10)
+        val match = repo.upsert(txn(date = date, amount = 1250))
+        repo.upsert(txn(date = date, amount = 999))
+        repo.upsert(txn(date = LocalDate(2026, 5, 11), amount = 1250))
+        val deleted = repo.upsert(txn(date = date, amount = 1250))
+        repo.delete(deleted.let { TransactionId(it.value) })
+
+        val found = repo.findByDateAndAmount(date, 1250, eur)
+        assertEquals(listOf(match), found.map { it.id })
+    }
+
+    @Test
+    fun upsertFromSyncCarriesExternalIdAndPreservesOnNullUpdate() = runTestWithDispatchers {
+        val row = TransactionSyncRow(
+            id = 0,
+            syncId = "sync-ext",
+            type = "EXPENSE",
+            amountMinor = 100,
+            currency = "EUR",
+            occurredOn = "2026-05-01",
+            note = null,
+            categoryId = 1,
+            accountId = 1,
+            paymentModeId = null,
+            recurringId = null,
+            deleted = false,
+            createdAt = 10,
+            updatedAt = 20,
+            externalId = "eb-sync-1",
+        )
+
+        repo.upsertFromSync(row)
+        assertTrue(repo.existsByExternalId("eb-sync-1"))
+
+        repo.upsertFromSync(row.copy(externalId = null, updatedAt = 30))
+        assertTrue(repo.existsByExternalId("eb-sync-1"))
+
+        val exported = repo.exportForSync().single()
+        assertEquals("eb-sync-1", exported.externalId)
+    }
 }

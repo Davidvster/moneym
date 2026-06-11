@@ -129,4 +129,18 @@ internal class TransactionRepositoryImpl(
         dataSource.exportForSync().map { it.toSyncRow() }
 
     override suspend fun upsertFromSync(row: TransactionSyncRow): Long = dataSource.upsertFromSync(row)
+
+    override suspend fun existsByExternalId(externalId: String): Boolean =
+        dataSource.existsByExternalId(externalId)
+
+    override suspend fun setExternalId(id: TransactionId, externalId: String) =
+        dataSource.setExternalId(id.value, externalId, Clock.System.now().toEpochMilliseconds())
+
+    override suspend fun findByDateAndAmount(
+        date: LocalDate,
+        amountMinor: Long,
+        currency: CurrencyCode,
+    ): List<Transaction> =
+        dataSource.getByDateAndAmount(date.toString(), amountMinor, currency.value)
+            .map { it.toDomain() }
 }
