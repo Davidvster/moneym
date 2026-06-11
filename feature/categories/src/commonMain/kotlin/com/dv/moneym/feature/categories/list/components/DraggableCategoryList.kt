@@ -2,6 +2,8 @@ package com.dv.moneym.feature.categories.list.components
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -17,10 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.designsystem.categoryColor
 import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.ui.CategoryIconTile
@@ -103,5 +108,51 @@ internal fun DraggableCategoryList(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun DraggableCategoryListPreview() {
+    val epoch = kotlin.time.Instant.fromEpochSeconds(0)
+    val categories = listOf(
+        Category(
+            id = CategoryId(1),
+            name = "Groceries",
+            iconKey = "basket",
+            colorHex = "#4A8E5C",
+            isUserCreated = false,
+            archived = false,
+            createdAt = epoch,
+            updatedAt = epoch,
+        ),
+        Category(
+            id = CategoryId(2),
+            name = "Transport",
+            iconKey = "car",
+            colorHex = "#3A82A5",
+            isUserCreated = false,
+            archived = false,
+            createdAt = epoch,
+            updatedAt = epoch,
+        ),
+        Category(
+            id = CategoryId(3),
+            name = "Eating Out",
+            iconKey = "utensils",
+            colorHex = "#E07A5F",
+            isUserCreated = true,
+            archived = false,
+            createdAt = epoch,
+            updatedAt = epoch,
+        ),
+    )
+    MoneyMTheme {
+        DraggableCategoryList(
+            categories = categories,
+            onReorder = {},
+            onCategoryClick = {},
+            modifier = Modifier.fillMaxWidth().height(300.dp),
+        )
     }
 }

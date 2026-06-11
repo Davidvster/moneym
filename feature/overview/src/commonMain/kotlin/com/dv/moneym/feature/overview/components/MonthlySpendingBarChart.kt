@@ -20,8 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.localizedMonthNames
@@ -192,6 +194,21 @@ internal fun CategoryBarChart(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun MonthlySpendingBarChartPreview() {
+    MoneyMTheme {
+        MonthlySpendingBarChart(
+            monthlyTotals = listOf(
+                1200.0, 980.0, 1450.0, 1100.0, 1320.0, 1580.0,
+                1430.0, 1250.0, 1390.0, 1600.0, 1180.0, 0.0,
+            ),
+            currentMonthIndex = 10,
+            currencyCode = "EUR",
+        )
     }
 }
 

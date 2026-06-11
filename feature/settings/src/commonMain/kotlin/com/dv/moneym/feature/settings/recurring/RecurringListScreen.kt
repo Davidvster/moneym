@@ -116,9 +116,68 @@ private fun RecurringListContent(
 @androidx.compose.ui.tooling.preview.Preview
 @Composable
 private fun RecurringListContentPreview() {
+    val epoch = kotlin.time.Instant.fromEpochSeconds(0)
+    val eur = com.dv.moneym.core.model.CurrencyCode("EUR")
+    val rentCategory = com.dv.moneym.core.model.Category(
+        id = com.dv.moneym.core.model.CategoryId(1),
+        name = "Housing",
+        iconKey = "home",
+        colorHex = "#3B82F6",
+        isUserCreated = false,
+        archived = false,
+        createdAt = epoch,
+        updatedAt = epoch,
+    )
+    val salaryCategory = com.dv.moneym.core.model.Category(
+        id = com.dv.moneym.core.model.CategoryId(2),
+        name = "Salary",
+        iconKey = "wallet",
+        colorHex = "#22C55E",
+        isUserCreated = false,
+        archived = false,
+        createdAt = epoch,
+        updatedAt = epoch,
+        type = com.dv.moneym.core.model.TransactionType.INCOME,
+    )
+    val rules = listOf(
+        RecurringTransaction(
+            id = RecurringTransactionId(1),
+            type = com.dv.moneym.core.model.TransactionType.EXPENSE,
+            amount = com.dv.moneym.core.model.Money(85000, eur),
+            note = "Rent",
+            categoryId = rentCategory.id,
+            accountId = com.dv.moneym.core.model.AccountId(1),
+            paymentModeId = null,
+            startDate = kotlinx.datetime.LocalDate(2026, 6, 1),
+            rule = RecurrenceRule.Monthly(interval = 1, dayKind = MonthlyDayKind.OnDay(1)),
+            endCondition = EndCondition.Unlimited,
+            lastMaterializedDate = null,
+            createdAt = epoch,
+            updatedAt = epoch,
+        ),
+        RecurringTransaction(
+            id = RecurringTransactionId(2),
+            type = com.dv.moneym.core.model.TransactionType.INCOME,
+            amount = com.dv.moneym.core.model.Money(250000, eur),
+            note = "Salary",
+            categoryId = salaryCategory.id,
+            accountId = com.dv.moneym.core.model.AccountId(1),
+            paymentModeId = null,
+            startDate = kotlinx.datetime.LocalDate(2026, 6, 10),
+            rule = RecurrenceRule.Monthly(interval = 1, dayKind = MonthlyDayKind.LastDay),
+            endCondition = EndCondition.Count(occurrences = 12),
+            lastMaterializedDate = null,
+            createdAt = epoch,
+            updatedAt = epoch,
+        ),
+    )
     com.dv.moneym.core.designsystem.MoneyMTheme {
         RecurringListContent(
-            state = RecurringListUiState(isLoading = false, rules = emptyList()),
+            state = RecurringListUiState(
+                isLoading = false,
+                rules = rules,
+                categories = mapOf(rentCategory.id to rentCategory, salaryCategory.id to salaryCategory),
+            ),
             onBack = {},
             onEdit = {},
             onCreateNew = {},

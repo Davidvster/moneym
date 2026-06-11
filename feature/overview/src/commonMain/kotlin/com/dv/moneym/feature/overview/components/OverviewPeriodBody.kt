@@ -33,11 +33,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
+import com.dv.moneym.core.model.CurrencyCode
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.IndicatorStyle
+import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.SpendingFilter
+import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.model.currencyDisplay
 import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.LocalUseCurrencySymbol
@@ -54,6 +60,7 @@ import com.dv.moneym.feature.overview.CategoryTrend
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.page.OverviewPageIntent
 import com.dv.moneym.feature.overview.page.OverviewPageUiState
+import com.dv.moneym.feature.overview.usecase.BudgetProgress
 import moneym.feature.overview.generated.resources.Res
 import moneym.feature.overview.generated.resources.overview_avg_day
 import moneym.feature.overview.generated.resources.overview_avg_month
@@ -777,5 +784,97 @@ private fun TrendsCumulativeSection(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun OverviewPeriodBodyPreview() {
+    val eur = CurrencyCode("EUR")
+    MoneyMTheme {
+        OverviewPeriodBody(
+            state = OverviewPageUiState(
+                isLoading = false,
+                isEmpty = false,
+                period = OverviewPeriod.Month(YearMonth(2026, 6)),
+                income = 2500.0,
+                expenses = 1850.0,
+                categoryBreakdown = listOf(
+                    CategorySpend(
+                        categoryName = "Groceries",
+                        categoryColor = 0xFF4CAF50,
+                        categoryIcon = Icon.Basket,
+                        amount = 620.0,
+                        percent = 34,
+                        avgPerDay = 20.6,
+                        avgPerMonth = 620.0,
+                    ),
+                    CategorySpend(
+                        categoryName = "Restaurants",
+                        categoryColor = 0xFFFF7043,
+                        categoryIcon = Icon.Restaurant,
+                        amount = 410.0,
+                        percent = 22,
+                        avgPerDay = 13.6,
+                        avgPerMonth = 410.0,
+                    ),
+                    CategorySpend(
+                        categoryName = "Transport",
+                        categoryColor = 0xFF42A5F5,
+                        categoryIcon = Icon.Car,
+                        amount = 280.0,
+                        percent = 15,
+                        avgPerDay = 9.3,
+                        avgPerMonth = 280.0,
+                    ),
+                ),
+                categoryIncomeBreakdown = listOf(
+                    CategorySpend(
+                        categoryName = "Salary",
+                        categoryColor = 0xFF66BB6A,
+                        categoryIcon = Icon.Banknote,
+                        amount = 2500.0,
+                        percent = 100,
+                    ),
+                ),
+                cumulativeTotals = listOf(
+                    45.0, 92.0, 138.0, 210.0, 265.0, 310.0, 388.0, 420.0, 475.0, 540.0,
+                    612.0, 658.0, 700.0, 745.0, 810.0, 865.0, 920.0, 980.0, 1040.0, 1095.0,
+                    1150.0, 1210.0, 1270.0, 1330.0,
+                ),
+                todayIndex = 23,
+                categoryDailyTrend = listOf(
+                    CategoryTrend(
+                        categoryName = "Groceries",
+                        categoryColor = 0xFF4CAF50,
+                        categoryIcon = Icon.Basket,
+                        totalAmount = 620.0,
+                        txCount = 12,
+                        series = listOf(
+                            45.0, 92.0, 138.0, 210.0, 265.0, 310.0, 388.0, 420.0, 475.0, 540.0,
+                            612.0, 658.0, 700.0, 745.0, 810.0, 865.0, 920.0, 980.0, 1040.0, 1095.0,
+                            1150.0, 1210.0, 1270.0, 1330.0,
+                        ),
+                        avgPerDay = 25.8,
+                    ),
+                ),
+                avgDailyExpense = 77.1,
+                budgetProgress = listOf(
+                    BudgetProgress(
+                        budgetId = 1L,
+                        name = "Groceries",
+                        amount = Money(70000L, eur),
+                        spent = Money(62000L, eur),
+                        remaining = Money(8000L, eur),
+                        fraction = 0.89f,
+                        isOverrun = false,
+                        categoryName = "Groceries",
+                        categoryColor = 0xFF4CAF50,
+                    ),
+                ),
+            ),
+            spendingFilter = SpendingFilter.All,
+            currencyCode = "EUR",
+        )
     }
 }

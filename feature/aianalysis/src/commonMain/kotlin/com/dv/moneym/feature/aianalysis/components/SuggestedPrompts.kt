@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.ui.MmChip
 import moneym.feature.aianalysis.generated.resources.Res
 import moneym.feature.aianalysis.generated.resources.analyze_intro
@@ -43,5 +45,13 @@ fun SuggestedPrompts(
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun SuggestedPromptsPreview() {
+    MoneyMTheme {
+        SuggestedPrompts(onPromptClick = {})
     }
 }

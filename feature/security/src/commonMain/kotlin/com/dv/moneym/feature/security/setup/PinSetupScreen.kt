@@ -20,12 +20,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMColors
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.security.BiometryType
 import com.dv.moneym.core.ui.MmButton
@@ -280,10 +282,10 @@ private fun PinSetupBody(
     }
 }
 
-@androidx.compose.ui.tooling.preview.Preview
-@androidx.compose.runtime.Composable
+@Preview
+@Composable
 private fun PinSetupContentPreview() {
-    com.dv.moneym.core.designsystem.MoneyMTheme {
+    MoneyMTheme {
         PinSetupContent(
             state = PinSetupUiState(step = PinSetupStep.ENTER_FIRST, firstPin = "12"),
             isChangePinFlow = false,

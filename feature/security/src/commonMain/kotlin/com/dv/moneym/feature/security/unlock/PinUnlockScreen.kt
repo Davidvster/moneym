@@ -17,10 +17,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.feature.security.shared.AppLockup
 import com.dv.moneym.feature.security.shared.PinDots
 import com.dv.moneym.feature.security.shared.PinKeypad
@@ -168,10 +170,10 @@ private fun PinUnlockContent(
     }
 }
 
-@androidx.compose.ui.tooling.preview.Preview
-@androidx.compose.runtime.Composable
+@Preview
+@Composable
 private fun PinUnlockContentPreview() {
-    com.dv.moneym.core.designsystem.MoneyMTheme {
+    MoneyMTheme {
         PinUnlockContent(
             state = PinUnlockUiState(pin = "12"),
             onIntent = {},

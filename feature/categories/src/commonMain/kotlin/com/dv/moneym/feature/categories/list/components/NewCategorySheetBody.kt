@@ -29,9 +29,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMColors
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
@@ -334,5 +336,41 @@ private fun IconPickerSection(
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun NewCategorySheetBodyPreview() {
+    val palette = listOf(
+        Color(0xFF4A8E5C),
+        Color(0xFFE07A5F),
+        Color(0xFF2D6CDF),
+        Color(0xFF9B51E0),
+        Color(0xFFF4B400),
+    )
+    val iconOptions = listOf(
+        Icon.Basket,
+        Icon.Car,
+        Icon.Home,
+        Icon.Heart,
+        Icon.Gift,
+    )
+    MoneyMTheme {
+        NewCategorySheetBody(
+            name = "Groceries",
+            palette = palette,
+            iconOptions = iconOptions,
+            selectedColor = palette.first(),
+            selectedIcon = iconOptions.first(),
+            customColors = listOf(Color(0xFF12B5A5)),
+            isEditMode = true,
+            onNameChange = {},
+            onColorSelected = {},
+            onCustomColorClick = {},
+            onIconSelected = {},
+            onDeleteClick = {},
+            modifier = Modifier.fillMaxWidth(),
+        )
     }
 }

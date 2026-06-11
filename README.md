@@ -80,6 +80,36 @@ xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp \
 > Gradle tasks like `compileKotlinAndroid` are ambiguous — use the variant-qualified form
 > (`compileDebugKotlinAndroid` / `compileReleaseKotlinAndroid`).
 
+## Screenshot tests (Paparazzi)
+
+Every `@Preview` composable in `core/` and `feature/` modules is rendered and compared against a
+committed golden PNG using [Paparazzi](https://github.com/cashapp/paparazzi). Tests live in each
+module's `src/androidUnitTest/` source set and run on the JVM — no emulator or device needed.
+
+Requires **JDK 21+** (Paparazzi 2.x requirement).
+
+```bash
+# Verify all modules against their committed goldens
+./gradlew verifyPaparazziDebug --no-configuration-cache
+
+# Verify a single module
+./gradlew :core:ui:verifyPaparazziDebug --no-configuration-cache
+
+# Re-record goldens after a UI change (review the diff before committing!)
+./gradlew :feature:overview:recordPaparazziDebug --no-configuration-cache
+```
+
+`--no-configuration-cache` is required — the Paparazzi plugin's task graph isn't compatible with
+Gradle's configuration cache (`org.gradle.configuration-cache=true` in `gradle.properties`).
+
+A new `@Preview` is picked up automatically (via
+[ComposablePreviewScanner](https://github.com/sergio-sastre/ComposablePreviewScanner)) — just
+record and commit its golden PNG alongside the preview.
+
+On failure, rendered-vs-golden diff images are written to `<module>/build/paparazzi/failures/`.
+Goldens are recorded on macOS; re-record locally if you're on a different OS and see widespread
+diffs from font-rendering differences.
+
 ## Optional: Google Drive cloud sync
 
 Cloud sync is **completely optional**. The app builds, runs, and ships unchanged with no setup — if

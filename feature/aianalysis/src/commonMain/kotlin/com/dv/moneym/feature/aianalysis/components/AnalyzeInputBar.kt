@@ -13,7 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
@@ -53,6 +55,19 @@ fun AnalyzeInputBar(
             onClick = { if (enabled) onSend() },
             variant = MmIconButtonVariant.Accent,
             contentDescription = stringResource(Res.string.analyze_send_cd),
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun AnalyzeInputBarPreview() {
+    MoneyMTheme {
+        AnalyzeInputBar(
+            input = "How much did I spend on groceries?",
+            enabled = true,
+            onInputChange = {},
+            onSend = {},
         )
     }
 }

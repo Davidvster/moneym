@@ -17,9 +17,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.common.formatNumber
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
+import com.dv.moneym.core.model.CurrencyCode
+import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.ui.MmBudgetProgressBar
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.feature.overview.usecase.BudgetProgress
@@ -98,4 +102,49 @@ private fun BudgetProgressRow(p: BudgetProgress) {
 private fun formatBudgetAmount(v: Double, currency: String): String {
     val formatted = formatNumber(v, 2)
     return if (currency.isNotEmpty()) "$currency $formatted" else formatted
+}
+
+@Preview
+@Composable
+private fun BudgetBreakdownCardPreview() {
+    val eur = CurrencyCode("EUR")
+    MoneyMTheme {
+        BudgetBreakdownCard(
+            progress = listOf(
+                BudgetProgress(
+                    budgetId = 1L,
+                    name = "Groceries",
+                    amount = Money(40000L, eur),
+                    spent = Money(31250L, eur),
+                    remaining = Money(8750L, eur),
+                    fraction = 0.78f,
+                    isOverrun = false,
+                    categoryName = "Groceries",
+                    categoryColor = 0xFF4CAF50,
+                ),
+                BudgetProgress(
+                    budgetId = 2L,
+                    name = "Eating out",
+                    amount = Money(15000L, eur),
+                    spent = Money(18900L, eur),
+                    remaining = Money(-3900L, eur),
+                    fraction = 1f,
+                    isOverrun = true,
+                    categoryName = "Restaurants",
+                    categoryColor = 0xFFFF7043,
+                ),
+                BudgetProgress(
+                    budgetId = 3L,
+                    name = "Everything else",
+                    amount = Money(100000L, eur),
+                    spent = Money(46200L, eur),
+                    remaining = Money(53800L, eur),
+                    fraction = 0.46f,
+                    isOverrun = false,
+                    categoryName = null,
+                    categoryColor = null,
+                ),
+            ),
+        )
+    }
 }

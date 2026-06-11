@@ -11,8 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
@@ -60,6 +62,18 @@ internal fun TransactionEditSaveBar(
             leadingIcon = Icon.Check.imageVector,
             fullWidth = true,
             enabled = !isSaving,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun TransactionEditSaveBarPreview() {
+    MoneyMTheme {
+        TransactionEditSaveBar(
+            isEditMode = false,
+            isSaving = false,
+            onSave = {},
         )
     }
 }

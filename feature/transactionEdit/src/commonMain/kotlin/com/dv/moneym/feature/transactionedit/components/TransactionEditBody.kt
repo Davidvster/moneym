@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,9 +20,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
+import com.dv.moneym.core.model.Account
+import com.dv.moneym.core.model.AccountId
+import com.dv.moneym.core.model.AccountType
+import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.model.PaymentMode
 import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.ui.MmButton
@@ -32,6 +42,7 @@ import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.transactionedit.TransactionEditIntent
 import com.dv.moneym.feature.transactionedit.TransactionEditUiState
+import kotlinx.datetime.LocalDate
 import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.edit_budget_after_label
 import moneym.feature.transactionedit.generated.resources.edit_date_today
@@ -232,6 +243,76 @@ private fun NoteSuggestionsRow(
                 )
             }
         }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Preview
+@Composable
+private fun TransactionEditScrollBodyPreview() {
+    val epoch = kotlin.time.Instant.fromEpochSeconds(0)
+    val eur = CurrencyCode("EUR")
+    val categories = listOf(
+        Category(
+            id = CategoryId(1),
+            name = "Groceries",
+            iconKey = "basket",
+            colorHex = "#4A8E5C",
+            isUserCreated = false,
+            archived = false,
+            createdAt = epoch,
+            updatedAt = epoch,
+        ),
+        Category(
+            id = CategoryId(2),
+            name = "Transport",
+            iconKey = "car",
+            colorHex = "#3A82A5",
+            isUserCreated = false,
+            archived = false,
+            createdAt = epoch,
+            updatedAt = epoch,
+        ),
+    )
+    val accounts = listOf(
+        Account(
+            id = AccountId(1),
+            name = "Main",
+            type = AccountType.CASH,
+            currency = eur,
+            isDefault = true,
+            archived = false,
+            createdAt = epoch,
+            updatedAt = epoch,
+        ),
+    )
+    val paymentModes = listOf(
+        PaymentMode(id = PaymentModeId(1), name = "Cash", createdAt = epoch, updatedAt = epoch),
+        PaymentMode(id = PaymentModeId(2), name = "Card", createdAt = epoch, updatedAt = epoch),
+    )
+    MoneyMTheme {
+        TransactionEditScrollBody(
+            state = TransactionEditUiState(
+                type = TransactionType.EXPENSE,
+                amountText = "42.50",
+                date = LocalDate(2026, 6, 10),
+                isToday = true,
+                selectedCategoryId = categories.first().id,
+                selectedAccountId = accounts.first().id,
+                note = "Weekly shopping",
+                noteSuggestions = listOf("Groceries", "Supermarket"),
+                availableCategories = categories,
+                availableAccounts = accounts,
+                paymentModes = paymentModes,
+                selectedPaymentModeId = paymentModes.first().id,
+                showPaymentMode = true,
+            ),
+            focusRequester = remember { FocusRequester() },
+            onIntent = {},
+            onDatePickerOpen = {},
+            onCalculatorOpen = {},
+            modifier = Modifier.fillMaxSize(),
+        )
     }
 }
 

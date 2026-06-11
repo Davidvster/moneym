@@ -903,7 +903,7 @@ private fun TransactionListFooter(
     }
 }
 
-@Preview
+@Preview(group = "no-screenshot")
 @Composable
 private fun TransactionListScreenPreview() {
     MoneyMTheme {

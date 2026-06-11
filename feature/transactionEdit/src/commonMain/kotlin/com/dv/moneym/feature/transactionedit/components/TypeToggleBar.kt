@@ -6,6 +6,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,7 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 
 @Composable
 internal fun TypeToggleBar(
@@ -83,5 +86,20 @@ internal fun TypeToggleBar(
                 ),
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun TypeToggleBarPreview() {
+    MoneyMTheme {
+        TypeToggleBar(
+            isExpense = true,
+            expenseLabel = "Expense",
+            incomeLabel = "Income",
+            onExpenseSelected = {},
+            onIncomeSelected = {},
+            modifier = Modifier.fillMaxWidth(),
+        )
     }
 }

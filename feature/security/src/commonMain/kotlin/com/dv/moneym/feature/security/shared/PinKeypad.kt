@@ -26,9 +26,11 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.security.BiometryType
 
 // Each keypad cell: 80x72dp, 16dp radius, surface bg, 1dp border
@@ -166,5 +168,18 @@ fun PinKeypad(
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun PinKeypadPreview() {
+    MoneyMTheme {
+        PinKeypad(
+            onKey = {},
+            onDelete = {},
+            onBiometric = {},
+            biometryType = BiometryType.Fingerprint,
+        )
     }
 }

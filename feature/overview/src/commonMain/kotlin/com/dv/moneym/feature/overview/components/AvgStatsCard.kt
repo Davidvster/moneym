@@ -11,7 +11,9 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.SectionLabel
@@ -87,5 +89,21 @@ internal fun AvgStatsCard(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun AvgStatsCardPreview() {
+    MoneyMTheme {
+        AvgStatsCard(
+            inMonthMode = true,
+            avgDailyExpense = 42.75,
+            avgMonthlyExpense = 1280.50,
+            avgDailyExpenseYear = 39.20,
+            avgDayLabel = "Avg / day",
+            avgMonthLabel = "Avg / month",
+            currencyCode = "EUR",
+        )
     }
 }

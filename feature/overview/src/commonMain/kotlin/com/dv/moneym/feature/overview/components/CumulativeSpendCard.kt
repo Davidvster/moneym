@@ -14,8 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.uigraphs.CumulativeChart
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmMoney
@@ -121,5 +123,21 @@ internal fun CumulativeSpendCard(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun CumulativeSpendCardPreview() {
+    MoneyMTheme {
+        CumulativeSpendCard(
+            cumulativeTotals = listOf(
+                45.0, 92.0, 138.0, 210.0, 265.0, 310.0, 388.0, 420.0, 475.0, 540.0,
+                612.0, 658.0, 700.0, 745.0, 810.0, 865.0, 920.0, 980.0, 1040.0, 1095.0,
+                1150.0, 1210.0, 1270.0, 1330.0,
+            ),
+            todayIndex = 23,
+            currencyCode = "EUR",
+        )
     }
 }

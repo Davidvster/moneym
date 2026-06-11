@@ -9,9 +9,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.designsystem.MoneyMTheme
+import com.dv.moneym.core.model.BudgetId
+import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.imageVector
@@ -52,5 +57,25 @@ internal fun BudgetRow(
                 tint = colors.text3,
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun BudgetRowPreview() {
+    MoneyMTheme {
+        BudgetRow(
+            row = BudgetRowVm(
+                id = BudgetId(1L),
+                name = "Groceries",
+                amount = Money(70000L, CurrencyCode("EUR")),
+                scopeLabel = "Groceries",
+                recurringLabel = "Monthly",
+            ),
+            scopeLabel = "Groceries",
+            recurringLabel = "Monthly",
+            onClick = {},
+            onDelete = {},
+        )
     }
 }

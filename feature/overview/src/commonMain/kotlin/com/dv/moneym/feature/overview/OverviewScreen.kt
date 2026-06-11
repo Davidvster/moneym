@@ -292,12 +292,16 @@ private fun OverviewContent(
     }
 }
 
-@Preview
+@Preview(group = "no-screenshot")
 @Composable
 private fun OverviewScreenPreview() {
     MoneyMTheme {
         OverviewContent(
-            state = OverviewUiState(),
+            state = OverviewUiState(
+                currentPeriod = OverviewPeriod.Month(YearMonth(2026, 6)),
+                monthAnchor = YearMonth(2026, 6),
+                yearAnchor = 2026,
+            ),
             onIntent = {},
             onTabSelected = {},
         )

@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.paparazzi)
 }
 
 kotlin {
@@ -39,6 +40,12 @@ kotlin {
             implementation(projects.core.testing)
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.turbine)
+        }
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(libs.junit)
+                implementation(libs.composable.preview.scanner)
+            }
         }
     }
 }
