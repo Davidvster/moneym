@@ -24,7 +24,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,6 +55,7 @@ fun MmSegmented(
     val colors = MM.colors
     val type = MM.type
     val radius = MM.dimen
+    val haptic = LocalHapticFeedback.current
 
     val trackHeight: Dp = when (size) {
         MmSegmentedSize.Md -> 36.dp
@@ -97,7 +100,12 @@ fun MmSegmented(
                             .clickable(
                                 interactionSource = remember { MutableInteractionSource() },
                                 indication = null,
-                            ) { onOptionSelected(index) },
+                            ) {
+                                if (index != selectedIndex) {
+                                    haptic.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                                }
+                                onOptionSelected(index)
+                            },
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
@@ -158,7 +166,12 @@ fun MmSegmented(
                             .clickable(
                                 interactionSource = remember { MutableInteractionSource() },
                                 indication = null,
-                            ) { onOptionSelected(index) },
+                            ) {
+                                if (index != selectedIndex) {
+                                    haptic.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                                }
+                                onOptionSelected(index)
+                            },
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(

@@ -19,13 +19,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -111,12 +114,21 @@ private fun TabItem(
         animationSpec = spring(stiffness = 400f),
         label = "tab_icon_size",
     )
+    val haptic = LocalHapticFeedback.current
+    val currentIsActive by rememberUpdatedState(isActive)
 
     Column(
         modifier = Modifier
             .padding(horizontal = MM.dimen.padding_2x, vertical = 6.dp)
             .pointerInput(Unit) {
-                detectTapGestures(onTap = { onClick() })
+                detectTapGestures(
+                    onTap = {
+                        if (!currentIsActive) {
+                            haptic.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                        }
+                        onClick()
+                    },
+                )
             },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_0_5x),

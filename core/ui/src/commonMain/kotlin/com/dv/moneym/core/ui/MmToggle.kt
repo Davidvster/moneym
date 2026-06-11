@@ -17,7 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -35,6 +37,7 @@ fun MmToggle(
 ) {
     val currentChecked by rememberUpdatedState(checked)
     val currentOnCheckedChange by rememberUpdatedState(onCheckedChange)
+    val haptic = LocalHapticFeedback.current
 
     val colors = MM.colors
     val radius = MM.dimen
@@ -64,7 +67,15 @@ fun MmToggle(
             .alpha(if (enabled) 1f else 0.45f)
             .pointerInput(enabled) {
                 if (enabled) {
-                    detectTapGestures(onTap = { currentOnCheckedChange(!currentChecked) })
+                    detectTapGestures(
+                        onTap = {
+                            haptic.performHapticFeedback(
+                                if (currentChecked) HapticFeedbackType.ToggleOff
+                                else HapticFeedbackType.ToggleOn
+                            )
+                            currentOnCheckedChange(!currentChecked)
+                        },
+                    )
                 }
             },
         contentAlignment = Alignment.CenterStart,

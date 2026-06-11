@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
@@ -32,6 +34,7 @@ internal fun TransactionEditSaveBar(
 ) {
     val colors = MM.colors
     val dividerColor = colors.divider
+    val haptic = LocalHapticFeedback.current
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -56,7 +59,10 @@ internal fun TransactionEditSaveBar(
             text = saveLabel ?: if (isEditMode) stringResource(Res.string.edit_save_changes) else stringResource(
                 Res.string.edit_add_transaction
             ),
-            onClick = onSave,
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                onSave()
+            },
             variant = MmButtonVariant.Accent,
             size = MmButtonSize.Lg,
             leadingIcon = Icon.Check.imageVector,
