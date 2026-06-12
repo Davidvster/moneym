@@ -86,11 +86,11 @@ import com.dv.moneym.core.ui.MmSkeletonCircle
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.core.ui.TxRow
+import com.dv.moneym.core.ui.MmCategoryPickerSheet
+import com.dv.moneym.core.ui.MmWalletPickerSheet
 import com.dv.moneym.core.ui.WalletChip
-import com.dv.moneym.core.ui.WalletSwitcherDialog
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.monthLabel
-import com.dv.moneym.feature.transactions.list.components.CategoryFilterSheet
 import com.dv.moneym.feature.transactions.list.components.DayGroupHeader
 import com.dv.moneym.feature.transactions.list.page.TransactionPageScreen
 import kotlinx.coroutines.delay
@@ -217,21 +217,20 @@ private fun TransactionListContent(
     }
 
     if (state.showWalletSwitcher && state.availableAccounts.isNotEmpty()) {
-        WalletSwitcherDialog(
+        MmWalletPickerSheet(
             accounts = state.availableAccounts,
             selectedAccountId = state.selectedAccount?.id,
-            onDismiss = { onIntent(TransactionListIntent.ShowWalletSwitcher(false)) },
             onSelect = { accountId ->
                 onIntent(TransactionListIntent.AccountSelected(accountId))
-                onIntent(TransactionListIntent.ShowWalletSwitcher(false))
             },
+            onDismiss = { onIntent(TransactionListIntent.ShowWalletSwitcher(false)) },
         )
     }
 
     if (state.showCategoryFilter) {
-        CategoryFilterSheet(
+        MmCategoryPickerSheet(
             categories = state.availableCategories,
-            selectedCategoryIds = state.selectedCategoryIds,
+            selectedIds = state.selectedCategoryIds,
             onToggle = { onIntent(TransactionListIntent.CategoryFilterToggled(it)) },
             onClearAll = { onIntent(TransactionListIntent.CategoryFilterCleared) },
             onDismiss = { onIntent(TransactionListIntent.ShowCategoryFilter(false)) },

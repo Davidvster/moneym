@@ -25,4 +25,7 @@
     <string name="colorpicker_cancel">Hủy</string>
     <string name="wallet_select">Chọn ví</string>
     <string name="cancel">Hủy</string>
+    <string name="category_picker_title">Lọc theo danh mục</string>
+    <string name="category_picker_clear">Xóa</string>
+    <string name="picker_ok">OK</string>
 </resources>

@@ -25,4 +25,7 @@
     <string name="colorpicker_cancel">Abbrechen</string>
     <string name="wallet_select">Wallet auswählen</string>
     <string name="cancel">Abbrechen</string>
+    <string name="category_picker_title">Nach Kategorie filtern</string>
+    <string name="category_picker_clear">Löschen</string>
+    <string name="picker_ok">OK</string>
 </resources>

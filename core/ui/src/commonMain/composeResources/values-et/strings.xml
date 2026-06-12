@@ -25,4 +25,7 @@
     <string name="colorpicker_cancel">Tühista</string>
     <string name="wallet_select">Vali rahakott</string>
     <string name="cancel">Tühista</string>
+    <string name="category_picker_title">Filtreeri kategooria järgi</string>
+    <string name="category_picker_clear">Tühjenda</string>
+    <string name="picker_ok">OK</string>
 </resources>

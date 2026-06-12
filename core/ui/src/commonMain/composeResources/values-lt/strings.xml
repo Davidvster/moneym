@@ -25,4 +25,7 @@
     <string name="colorpicker_cancel">Atšaukti</string>
     <string name="wallet_select">Pasirinkite piniginę</string>
     <string name="cancel">Atšaukti</string>
+    <string name="category_picker_title">Filtruoti pagal kategoriją</string>
+    <string name="category_picker_clear">Išvalyti</string>
+    <string name="picker_ok">Gerai</string>
 </resources>

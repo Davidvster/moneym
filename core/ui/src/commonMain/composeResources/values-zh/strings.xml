@@ -25,4 +25,7 @@
     <string name="colorpicker_cancel">取消</string>
     <string name="wallet_select">选择钱包</string>
     <string name="cancel">取消</string>
+    <string name="category_picker_title">按类别筛选</string>
+    <string name="category_picker_clear">清除</string>
+    <string name="picker_ok">确定</string>
 </resources>

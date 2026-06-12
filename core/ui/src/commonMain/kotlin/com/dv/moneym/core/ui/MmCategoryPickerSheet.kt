@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.transactions.list.components
+package com.dv.moneym.core.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,25 +29,55 @@ import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.IndicatorStyle
-import com.dv.moneym.core.ui.CategoryIconTile
-import com.dv.moneym.core.ui.MmButton
-import com.dv.moneym.core.ui.MmButtonSize
-import com.dv.moneym.core.ui.MmButtonVariant
-import com.dv.moneym.core.ui.MmChip
-import com.dv.moneym.core.ui.imageVector
-import moneym.feature.transactions.generated.resources.Res
-import moneym.feature.transactions.generated.resources.transactions_filter_categories
-import moneym.feature.transactions.generated.resources.transactions_filter_clear
-import moneym.feature.transactions.generated.resources.transactions_ok
+import moneym.core.ui.generated.resources.Res
+import moneym.core.ui.generated.resources.category_picker_clear
+import moneym.core.ui.generated.resources.category_picker_title
+import moneym.core.ui.generated.resources.picker_ok
 import org.jetbrains.compose.resources.stringResource
+
+@Composable
+fun MmCategoryPickerSheet(
+    categories: List<Category>,
+    selectedIds: Set<CategoryId>,
+    onToggle: (CategoryId) -> Unit,
+    onClearAll: (() -> Unit)?,
+    onDismiss: () -> Unit,
+) {
+    CategoryPickerSheetImpl(
+        categories = categories,
+        selectedIds = selectedIds,
+        onCategoryClick = onToggle,
+        onClearAll = onClearAll,
+        onDismiss = onDismiss,
+    )
+}
+
+@Composable
+fun MmCategoryPickerSheet(
+    categories: List<Category>,
+    selectedId: CategoryId?,
+    onPick: (CategoryId) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    CategoryPickerSheetImpl(
+        categories = categories,
+        selectedIds = selectedId?.let { setOf(it) } ?: emptySet(),
+        onCategoryClick = {
+            onPick(it)
+            onDismiss()
+        },
+        onClearAll = null,
+        onDismiss = onDismiss,
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-internal fun CategoryFilterSheet(
+private fun CategoryPickerSheetImpl(
     categories: List<Category>,
-    selectedCategoryIds: Set<CategoryId>,
-    onToggle: (CategoryId) -> Unit,
-    onClearAll: () -> Unit,
+    selectedIds: Set<CategoryId>,
+    onCategoryClick: (CategoryId) -> Unit,
+    onClearAll: (() -> Unit)?,
     onDismiss: () -> Unit,
 ) {
     val colors = MM.colors
@@ -59,7 +89,7 @@ internal fun CategoryFilterSheet(
         sheetState = sheetState,
         shape = RoundedCornerShape(
             topStart = MM.dimen.padding_2_5x,
-            topEnd = MM.dimen.padding_2_5x
+            topEnd = MM.dimen.padding_2_5x,
         ),
         containerColor = colors.bg,
         dragHandle = null,
@@ -67,11 +97,10 @@ internal fun CategoryFilterSheet(
         Column(
             modifier = Modifier.padding(
                 horizontal = MM.dimen.padding_2_5x,
-                vertical = MM.dimen.padding_3x
+                vertical = MM.dimen.padding_3x,
             ),
             verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
         ) {
-            // Grab handle
             Box(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center,
@@ -84,21 +113,20 @@ internal fun CategoryFilterSheet(
                 )
             }
 
-            // Title row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = stringResource(Res.string.transactions_filter_categories),
+                    text = stringResource(Res.string.category_picker_title),
                     style = type.title3,
                     color = colors.text,
                     modifier = Modifier.weight(1f),
                 )
-                if (selectedCategoryIds.isNotEmpty()) {
+                if (onClearAll != null && selectedIds.isNotEmpty()) {
                     TextButton(onClick = onClearAll) {
                         Text(
-                            text = stringResource(Res.string.transactions_filter_clear),
+                            text = stringResource(Res.string.category_picker_clear),
                             color = colors.text2,
                             style = type.caption,
                         )
@@ -106,18 +134,17 @@ internal fun CategoryFilterSheet(
                 }
             }
 
-            // Category chips — multi-select
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
                 verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
             ) {
                 categories.forEach { cat ->
-                    val isSelected = cat.id in selectedCategoryIds
+                    val isSelected = cat.id in selectedIds
                     val catColor = categoryColor(cat.colorHex)
                     val catIcon = Icon.fromKeyOrDefault(cat.iconKey).imageVector
                     MmChip(
                         selected = isSelected,
-                        onClick = { onToggle(cat.id) },
+                        onClick = { onCategoryClick(cat.id) },
                         leadingContent = {
                             CategoryIconTile(
                                 categoryName = cat.name,
@@ -138,9 +165,8 @@ internal fun CategoryFilterSheet(
                 }
             }
 
-            // Done button
             MmButton(
-                text = stringResource(Res.string.transactions_ok),
+                text = stringResource(Res.string.picker_ok),
                 onClick = onDismiss,
                 variant = MmButtonVariant.Primary,
                 size = MmButtonSize.Lg,

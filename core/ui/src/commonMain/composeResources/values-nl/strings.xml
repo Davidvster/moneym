@@ -25,4 +25,7 @@
     <string name="colorpicker_cancel">Annuleren</string>
     <string name="wallet_select">Portemonnee selecteren</string>
     <string name="cancel">Annuleren</string>
+    <string name="category_picker_title">Filteren op categorie</string>
+    <string name="category_picker_clear">Wissen</string>
+    <string name="picker_ok">OK</string>
 </resources>

@@ -25,4 +25,7 @@
     <string name="colorpicker_cancel">Annuller</string>
     <string name="wallet_select">Vælg pung</string>
     <string name="cancel">Annuller</string>
+    <string name="category_picker_title">Filtrer efter kategori</string>
+    <string name="category_picker_clear">Ryd</string>
+    <string name="picker_ok">OK</string>
 </resources>

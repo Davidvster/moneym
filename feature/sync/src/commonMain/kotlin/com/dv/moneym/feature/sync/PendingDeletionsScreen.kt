@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,6 +29,7 @@ import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmCard
+import com.dv.moneym.core.ui.MmCheckbox
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.data.sync.SyncEntityType
 import kotlinx.serialization.Serializable
@@ -149,10 +148,9 @@ private fun DeletionGroupCard(
                 .clickable { onIntent(PendingDeletionsIntent.ToggleGroup(group.type)) },
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Checkbox(
+            MmCheckbox(
                 checked = group.allChecked,
                 onCheckedChange = { onIntent(PendingDeletionsIntent.ToggleGroup(group.type)) },
-                colors = CheckboxDefaults.colors(checkedColor = colors.accent),
             )
             Text(
                 text = stringResource(group.type.titleRes()),
@@ -170,10 +168,9 @@ private fun DeletionGroupCard(
                         .padding(vertical = 2.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Checkbox(
+                    MmCheckbox(
                         checked = item.checked,
                         onCheckedChange = { onIntent(PendingDeletionsIntent.ToggleItem(item.syncId)) },
-                        colors = CheckboxDefaults.colors(checkedColor = colors.accent),
                     )
                     Text(
                         text = item.label,

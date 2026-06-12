@@ -29,24 +29,21 @@ fun WalletSelector(
         ?: accounts.firstOrNull { it.isDefault }
         ?: accounts.first()
 
-    var showDialog by rememberSaveable { mutableStateOf(false) }
+    var showSheet by rememberSaveable { mutableStateOf(false) }
 
     WalletChip(
         name = selected.name,
         colorHex = selected.colorHex,
-        onClick = { showDialog = true },
+        onClick = { showSheet = true },
         modifier = modifier,
     )
 
-    if (showDialog) {
-        WalletSwitcherDialog(
+    if (showSheet) {
+        MmWalletPickerSheet(
             accounts = accounts,
             selectedAccountId = selected.id,
-            onDismiss = { showDialog = false },
-            onSelect = { id ->
-                onSelect(id)
-                showDialog = false
-            },
+            onSelect = onSelect,
+            onDismiss = { showSheet = false },
         )
     }
 }

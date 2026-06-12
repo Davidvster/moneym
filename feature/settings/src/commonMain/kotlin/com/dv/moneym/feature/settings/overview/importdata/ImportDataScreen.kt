@@ -16,8 +16,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.clickable
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -47,6 +45,7 @@ import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmCard
+import com.dv.moneym.core.ui.MmCheckbox
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.ScreenHeader
@@ -158,14 +157,9 @@ private fun ImportDataContent(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
                 ) {
-                    Checkbox(
+                    MmCheckbox(
                         checked = allSelected,
                         onCheckedChange = { onIntent(ImportDataIntent.SelectAllToggled) },
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = MM.colors.text,
-                            checkmarkColor = MM.colors.bg,
-                            uncheckedColor = MM.colors.border,
-                        ),
                     )
                     Text(
                         text = stringResource(if (allSelected) Res.string.settings_import_deselect_all else Res.string.settings_import_select_all),
@@ -453,14 +447,9 @@ private fun TransactionImportRow(
     val sign = if (isExpense) "" else "+"
 
     MmRow(onClick = onToggle, divider = false) {
-        Checkbox(
+        MmCheckbox(
             checked = item.isSelected,
             onCheckedChange = { onToggle() },
-            colors = CheckboxDefaults.colors(
-                checkedColor = MM.colors.text,
-                checkmarkColor = MM.colors.bg,
-                uncheckedColor = MM.colors.border,
-            ),
         )
         Spacer(Modifier.width(MM.dimen.padding_2x))
         Column(modifier = Modifier.weight(1f)) {

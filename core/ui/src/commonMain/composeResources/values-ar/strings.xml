@@ -25,4 +25,7 @@
     <string name="colorpicker_cancel">إلغاء</string>
     <string name="wallet_select">اختر المحفظة</string>
     <string name="cancel">إلغاء</string>
+    <string name="category_picker_title">تصفية حسب الفئة</string>
+    <string name="category_picker_clear">مسح</string>
+    <string name="picker_ok">موافق</string>
 </resources>

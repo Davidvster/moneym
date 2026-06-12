@@ -25,4 +25,7 @@
     <string name="colorpicker_cancel">Avbryt</string>
     <string name="wallet_select">Välj plånbok</string>
     <string name="cancel">Avbryt</string>
+    <string name="category_picker_title">Filtrera per kategori</string>
+    <string name="category_picker_clear">Rensa</string>
+    <string name="picker_ok">OK</string>
 </resources>

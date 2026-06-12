@@ -25,4 +25,7 @@
     <string name="colorpicker_cancel">İptal</string>
     <string name="wallet_select">Cüzdan seç</string>
     <string name="cancel">İptal</string>
+    <string name="category_picker_title">Kategoriye göre filtrele</string>
+    <string name="category_picker_clear">Temizle</string>
+    <string name="picker_ok">Tamam</string>
 </resources>

@@ -25,4 +25,7 @@
     <string name="colorpicker_cancel">Zrušit</string>
     <string name="wallet_select">Vybrat peněženku</string>
     <string name="cancel">Zrušit</string>
+    <string name="category_picker_title">Filtrovat podle kategorie</string>
+    <string name="category_picker_clear">Vymazat</string>
+    <string name="picker_ok">OK</string>
 </resources>
