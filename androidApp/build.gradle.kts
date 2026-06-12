@@ -76,6 +76,7 @@ kotlin {
 dependencies {
     implementation(projects.shared)
     implementation(projects.core.security)
+    implementation(projects.data.banksync)
     implementation(libs.koin.core)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)

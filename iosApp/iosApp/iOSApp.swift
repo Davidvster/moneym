@@ -15,7 +15,11 @@ struct iOSApp: App {
         WindowGroup {
             ContentView()
                 .onOpenURL { url in
-                    GIDSignIn.sharedInstance.handle(url)
+                    if url.scheme == "moneym" {
+                        MainViewControllerKt.handleDeepLink(url: url.absoluteString)
+                    } else {
+                        GIDSignIn.sharedInstance.handle(url)
+                    }
                 }
         }
     }

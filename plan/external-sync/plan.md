@@ -85,7 +85,7 @@ setExternalId → accept); batch bar; Restore-to-pending on Rejected tab;
 pending-count badge row in bank sync settings. i18n all locales; tests.
 
 ### Phase 6 — Startup hook + deep link
-Status: pending
+Status: done
 `AppInitializer`: `runCatching { bankSyncEngine.autoSyncIfDue() }` after
 `syncEngine.pullNow()`. Deep link `moneym://bank-callback`: BankAuthCallbackBus,
 Android intent-filter + onNewIntent, iOS CFBundleURLTypes + handleDeepLink; VM

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.data.accounts.AccountRepository
+import com.dv.moneym.data.banksync.BankAuthCallbackBus
 import com.dv.moneym.data.banksync.BankSyncEngine
 import com.dv.moneym.data.banksync.BankSyncRepository
 import com.dv.moneym.data.banksync.BankSyncRuntimeState
@@ -33,6 +34,7 @@ class BankSyncSettingsViewModel(
     private val connectBank: ConnectBankUseCase,
     private val completeConnection: CompleteConnectionUseCase,
     private val parseRedirectCode: ParseRedirectCodeUseCase,
+    private val callbackBus: BankAuthCallbackBus,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -41,6 +43,11 @@ class BankSyncSettingsViewModel(
 
     private fun init() {
         viewModelScope.launch { refreshConnectionState() }
+        viewModelScope.launch {
+            callbackBus.callbacks.collect { url ->
+                if (_state.value.awaitingAuth) submitRedirect(url)
+            }
+        }
         viewModelScope.launch {
             bankSyncRepository.observeAccounts().collect { accounts ->
                 _state.update { s ->

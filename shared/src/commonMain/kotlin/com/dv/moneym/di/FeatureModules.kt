@@ -88,7 +88,7 @@ val coreSecurityModule = module {
     single { PinHasher() }
     single { PinManager(get(), get(), get()) }
     single { AppLockController(get()) }
-    single { AppInitializer(get(), get(), get(), get(), get(), get(), get(), get()) }
+    single { AppInitializer(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 }
 
 val featureTransactionsModule = module {
@@ -368,6 +368,7 @@ val featureBankSyncModule = module {
             connectBank = get(),
             completeConnection = get(),
             parseRedirectCode = get(),
+            callbackBus = get(),
             savedStateHandle = get(),
         )
     }
