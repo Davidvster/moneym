@@ -145,6 +145,7 @@ private fun AppContent() {
     }
 
     LaunchedEffect(themeMode) { applyAppNightMode(themeMode) }
+    SystemBarStyleEffect(isDark)
 
     val useCurrencySymbol by appSettingsRepo.observeUseCurrencySymbol()
         .collectAsStateWithLifecycle(initialValue = false)
