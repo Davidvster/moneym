@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">Алатките не се поддржани од овој модел. Се користи снимка наместо тоа.</string>
     <string name="analyze_error">Нешто тргна наопаку. Обидете се повторно.</string>
     <string name="analyze_generating">Размислувам…</string>
+    <string name="analyze_disclaimer">Експериментална функција. Одговорите се генерирани од вештачка интелигенција, може да бидат неточни и не претставуваат финансиски совет. Нема преземање одговорност за одлуки направени врз основа на нив.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Колку потрошив овој месец?</item>
         <item>Кои се моите главни категории на трошење?</item>

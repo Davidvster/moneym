@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">الأدوات غير مدعومة من قِبَل هذا النموذج. سيتم استخدام لقطة بديلاً.</string>
     <string name="analyze_error">حدث خطأ ما. يرجى المحاولة مرة أخرى.</string>
     <string name="analyze_generating">جارٍ التفكير…</string>
+    <string name="analyze_disclaimer">ميزة تجريبية. الردود التي تم إنشاؤها بواسطة ذكاء اصطناعي قد تكون غير دقيقة وليست نصيحة مالية. لا تتحمل أي مسؤولية عن القرارات المتخذة بناءً عليها.</string>
     <string-array name="analyze_suggested_prompts">
         <item>كم أنفقت هذا الشهر؟</item>
         <item>ما هي فئات الإنفاق الأعلى لديّ؟</item>

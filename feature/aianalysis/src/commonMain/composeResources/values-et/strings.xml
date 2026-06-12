@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">See mudel ei toeta tööriistu. Kasutatakse hetktõmmist.</string>
     <string name="analyze_error">Midagi läks valesti. Proovi uuesti.</string>
     <string name="analyze_generating">Mõtlen…</string>
+    <string name="analyze_disclaimer">Katsetusliin. Vastused on AI-ga loodud, võivad olla ebatäpsed ja ei ole finantsalaseid nõuandeid. Nendel põhinevate otsuste eest vastutust ei võeta.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Kui palju kulutasin sel kuul?</item>
         <item>Millised on minu peamised kulukategooriad?</item>

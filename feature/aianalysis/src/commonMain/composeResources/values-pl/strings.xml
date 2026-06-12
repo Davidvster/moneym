@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">Narzędzia nie są obsługiwane przez ten model. Używam migawki.</string>
     <string name="analyze_error">Coś poszło nie tak. Spróbuj ponownie.</string>
     <string name="analyze_generating">Myślę…</string>
+    <string name="analyze_disclaimer">Funkcja eksperymentalna. Odpowiedzi są generowane przez sztuczną inteligencję, mogą być niedokładne i nie stanowią porady finansowej. Nie bierze się żadnej odpowiedzialności za decyzje podjęte na ich podstawie.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Ile wydałem w tym miesiącu?</item>
         <item>Jakie są moje główne kategorie wydatków?</item>

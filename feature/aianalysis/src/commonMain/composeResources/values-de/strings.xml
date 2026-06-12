@@ -26,6 +26,7 @@
     <string name="analyze_engine_status_download">Zum Herunterladen tippen</string>
     <string name="analyze_engine_status_unavailable">Nicht verfügbar</string>
     <string name="analyze_generating">Denkt nach…</string>
+    <string name="analyze_disclaimer">Experimentelle Funktion. Antworten werden von KI generiert, können ungenau sein und sind keine Finanzberatung. Es wird keine Verantwortung für Entscheidungen übernommen, die auf ihnen basieren.</string>
     <string name="analyze_history_cd">Chatverlauf</string>
     <string name="analyze_new_chat_cd">Neuer Chat</string>
     <string name="analyze_history_title">Chatverlauf</string>

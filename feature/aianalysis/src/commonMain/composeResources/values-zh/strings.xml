@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">此模型不支持工具，将改用快照。</string>
     <string name="analyze_error">出现错误，请重试。</string>
     <string name="analyze_generating">思考中…</string>
+    <string name="analyze_disclaimer">实验功能。响应由人工智能生成，可能不准确，不构成财务建议。对基于这些建议做出的决定不承担任何责任。</string>
     <string-array name="analyze_suggested_prompts">
         <item>本月我花了多少钱？</item>
         <item>我的主要消费类别是什么？</item>

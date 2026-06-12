@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">Verkfæri eru ekki studd af þessu líkani. Notar skyndimynd í staðinn.</string>
     <string name="analyze_error">Eitthvað fór úrskeiðis. Reyndu aftur.</string>
     <string name="analyze_generating">Hugsar…</string>
+    <string name="analyze_disclaimer">Tilraunaaðgerð. Svörin eru framleidd af gervigreindum og geta verið ónákvæm og eru ekki fjármálaráðgjöf. Engin ábyrgð er tekin á sig fyrir ákvarðanir sem teknar eru á grundvelli þeirra.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Hvað eyðdi ég í þessum mánuði?</item>
         <item>Hverjar eru helstu útgjaldaflokkar mínir?</item>

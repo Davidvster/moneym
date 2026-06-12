@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">Bu model araçları desteklemiyor. Bunun yerine anlık görüntü kullanılıyor.</string>
     <string name="analyze_error">Bir şeyler ters gitti. Lütfen tekrar deneyin.</string>
     <string name="analyze_generating">Düşünüyor…</string>
+    <string name="analyze_disclaimer">Deneysel bir özellik. Yanıtlar yapay zeka tarafından oluşturulmuş, hatalı olabilir ve finansal tavsiye değildir. Bunlara dayanarak alınan kararlardan hiçbir sorumluluk alınmaz.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Bu ay ne kadar harcadım?</item>
         <item>En fazla harcama yaptığım kategoriler neler?</item>

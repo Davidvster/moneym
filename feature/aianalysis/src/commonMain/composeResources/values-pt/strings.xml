@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">As ferramentas não são suportadas por este modelo. A utilizar um instantâneo em alternativa.</string>
     <string name="analyze_error">Ocorreu um erro. Por favor tente novamente.</string>
     <string name="analyze_generating">A processar…</string>
+    <string name="analyze_disclaimer">Funcionalidade experimental. As respostas são geradas por IA, podem ser imprecisas e não constituem aconselhamento financeiro. Nenhuma responsabilidade é assumida por decisões tomadas com base nelas.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Quanto gastei este mês?</item>
         <item>Quais são as minhas categorias de maior despesa?</item>

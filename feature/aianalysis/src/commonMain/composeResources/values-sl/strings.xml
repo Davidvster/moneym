@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">Ta model ne podpira orodij. Namesto tega se uporablja posnetek.</string>
     <string name="analyze_error">Prišlo je do napake. Prosimo, poskusite znova.</string>
     <string name="analyze_generating">Razmišljam…</string>
+    <string name="analyze_disclaimer">Poskusna funkcija. Odgovori so generirani z umetno inteligenco, so lahko neprecizni in niso finančni nasvet. Ni prevzetega odgovora za odločitve, sprejete na njihovi podlagi.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Koliko sem porabil ta mesec?</item>
         <item>Katere so moje glavne kategorije porabe?</item>

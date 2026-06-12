@@ -26,6 +26,7 @@
     <string name="analyze_engine_status_download">Toca para descargar</string>
     <string name="analyze_engine_status_unavailable">No disponible</string>
     <string name="analyze_generating">Pensando…</string>
+    <string name="analyze_disclaimer">Función experimental. Las respuestas las genera IA, pueden ser inexactas y no son asesoramiento financiero. No se asume responsabilidad por decisiones tomadas en base a ellas.</string>
     <string name="analyze_history_cd">Historial de chat</string>
     <string name="analyze_new_chat_cd">Nuevo chat</string>
     <string name="analyze_history_title">Historial de chat</string>

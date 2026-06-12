@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">Tämä malli ei tue työkaluja. Käytetään tilannekuvaa.</string>
     <string name="analyze_error">Jokin meni pieleen. Yritä uudelleen.</string>
     <string name="analyze_generating">Mietitään…</string>
+    <string name="analyze_disclaimer">Kokeellinen ominaisuus. Vastaukset ovat tekoälyn luomia, voivat olla epätarkkoja eivätkä ole talousneuvontaa. Näihin perustuvan päätösten johdosta ei oteta vastuuta.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Kuinka paljon käytin tässä kuussa?</item>
         <item>Mitkä ovat suurimmat menokatgoriani?</item>

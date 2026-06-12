@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">Ez a modell nem támogatja az eszközöket. Ehelyett pillanatkép kerül felhasználásra.</string>
     <string name="analyze_error">Valami hiba történt. Próbálja újra.</string>
     <string name="analyze_generating">Gondolkodom…</string>
+    <string name="analyze_disclaimer">Kísérleti funkció. A válaszok MI által generáltak, pontatlanok lehetnek, és nem számítanak pénzügyi tanácsnak. Az alapján hozott döntésekért nem vállalunk felelősséget.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Mennyit költöttem ebben a hónapban?</item>
         <item>Melyek a legmagasabb kiadási kategóriáim?</item>

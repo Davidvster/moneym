@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">Ovaj model ne podržava alate. Koristi se snimak umjesto toga.</string>
     <string name="analyze_error">Nešto je pošlo po krivu. Pokušajte ponovo.</string>
     <string name="analyze_generating">Razmišljam…</string>
+    <string name="analyze_disclaimer">Eksperimentalna funkcija. Odgovori su generirani AI-om, mogu biti netočni i nisu financijski savjet. Nema odgovornosti za odluke donesene na temelju njih.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Koliko sam potrošio/la ovaj mjesec?</item>
         <item>Koje su moje najveće kategorije potrošnje?</item>

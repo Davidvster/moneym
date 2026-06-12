@@ -63,6 +63,7 @@ import com.dv.moneym.feature.aianalysis.components.MessageBubble
 import com.dv.moneym.feature.aianalysis.components.SuggestedPrompts
 import kotlinx.serialization.Serializable
 import moneym.feature.aianalysis.generated.resources.Res
+import moneym.feature.aianalysis.generated.resources.analyze_disclaimer
 import moneym.feature.aianalysis.generated.resources.analyze_download_model
 import moneym.feature.aianalysis.generated.resources.analyze_engine_apple_intelligence
 import moneym.feature.aianalysis.generated.resources.analyze_engine_gemini_nano
@@ -315,6 +316,15 @@ private fun AnalyzeContent(
                 ),
             )
         }
+
+        Text(
+            text = stringResource(Res.string.analyze_disclaimer),
+            style = MM.type.caption,
+            color = colors.text3,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_0_5x),
+        )
 
         AnalyzeInputBar(
             input = state.input,

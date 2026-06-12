@@ -26,6 +26,7 @@
     <string name="analyze_engine_status_download">Tap to download</string>
     <string name="analyze_engine_status_unavailable">Unavailable</string>
     <string name="analyze_generating">Thinking…</string>
+    <string name="analyze_disclaimer">Experimental feature. Responses are AI-generated, may be inaccurate, and are not financial advice. No responsibility is taken for decisions made based on them.</string>
     <string name="analyze_history_cd">Chat history</string>
     <string name="analyze_new_chat_cd">New chat</string>
     <string name="analyze_history_title">Chat history</string>

@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">Verktyg stöds inte av den här modellen. Använder en ögonblicksbild istället.</string>
     <string name="analyze_error">Något gick fel. Försök igen.</string>
     <string name="analyze_generating">Tänker…</string>
+    <string name="analyze_disclaimer">Experimentell funktion. Svar genereras av AI, kan vara inexakta och är inte finansiell rådgivning. Inget ansvar tas för beslut som fattas på grundval av dem.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Hur mycket spenderade jag den här månaden?</item>
         <item>Vilka är mina största utgiftskategorier?</item>

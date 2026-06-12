@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">इस मॉडल द्वारा टूल्स समर्थित नहीं हैं। इसके बजाय स्नैपशॉट का उपयोग किया जा रहा है।</string>
     <string name="analyze_error">कुछ गड़बड़ हो गई। कृपया पुनः प्रयास करें।</string>
     <string name="analyze_generating">सोच रहा है…</string>
+    <string name="analyze_disclaimer">प्रायोगिक विशेषता। प्रतिक्रियाएँ AI-जनित हैं, गलत हो सकती हैं और वित्तीय सलाह नहीं हैं। उनके आधार पर किए गए निर्णयों के लिए कोई जिम्मेदारी नहीं ली जाती है।</string>
     <string-array name="analyze_suggested_prompts">
         <item>इस महीने मैंने कितना खर्च किया?</item>
         <item>मेरी शीर्ष खर्च श्रेणियाँ क्या हैं?</item>

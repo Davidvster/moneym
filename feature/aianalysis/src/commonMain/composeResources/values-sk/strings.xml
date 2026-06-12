@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">Tento model nepodporuje nástroje. Namiesto toho sa použije snímka.</string>
     <string name="analyze_error">Niečo sa pokazilo. Skúste znova.</string>
     <string name="analyze_generating">Premýšľam…</string>
+    <string name="analyze_disclaimer">Experimentálna funkcia. Odpovede sú generované AI, môžu byť nepresné a nejde o finančné poradenstvo. Neprebierame žiadnu zodpovednosť za rozhodnutia prijaté na ich základe.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Koľko som minul/a tento mesiac?</item>
         <item>Aké sú moje najväčšie kategórie výdavkov?</item>

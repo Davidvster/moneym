@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">Инструменты не поддерживаются этой моделью. Используется снимок.</string>
     <string name="analyze_error">Что-то пошло не так. Попробуйте ещё раз.</string>
     <string name="analyze_generating">Думаю…</string>
+    <string name="analyze_disclaimer">Экспериментальная функция. Ответы генерируются искусственным интеллектом, могут быть неточными и не являются финансовым советом. Никакая ответственность не принимается за решения, принятые на их основе.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Сколько я потратил в этом месяце?</item>
         <item>Каковы мои главные категории расходов?</item>

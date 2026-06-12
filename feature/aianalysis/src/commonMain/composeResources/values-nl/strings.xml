@@ -15,6 +15,7 @@
     <string name="analyze_tools_fallback_notice">Hulpmiddelen worden niet ondersteund door dit model. Er wordt een momentopname gebruikt.</string>
     <string name="analyze_error">Er is iets misgegaan. Probeer het opnieuw.</string>
     <string name="analyze_generating">Nadenken…</string>
+    <string name="analyze_disclaimer">Experimentele functie. Antwoorden zijn AI-gegenereerd, kunnen onnauwkeurig zijn en zijn geen financieel advies. Er wordt geen verantwoordelijkheid aanvaard voor beslissingen die op basis daarvan zijn genomen.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Hoeveel heb ik deze maand uitgegeven?</item>
         <item>Wat zijn mijn grootste uitgavecategorieën?</item>
