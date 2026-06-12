@@ -33,9 +33,12 @@ import com.dv.moneym.feature.categories.list.CategoryListViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
 import com.dv.moneym.feature.onboarding.restore.OnboardingRestoreViewModel
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
+import com.dv.moneym.feature.banksync.BankSuggestionsViewModel
 import com.dv.moneym.feature.banksync.BankSyncSettingsViewModel
+import com.dv.moneym.feature.banksync.usecase.AcceptSuggestionUseCase
 import com.dv.moneym.feature.banksync.usecase.CompleteConnectionUseCase
 import com.dv.moneym.feature.banksync.usecase.ConnectBankUseCase
+import com.dv.moneym.feature.banksync.usecase.FindDuplicateUseCase
 import com.dv.moneym.feature.banksync.usecase.ParseRedirectCodeUseCase
 import com.dv.moneym.feature.sync.PendingDeletionsViewModel
 import com.dv.moneym.feature.sync.SyncSettingsViewModel
@@ -336,6 +339,24 @@ val featureBankSyncModule = module {
         )
     }
     single { ParseRedirectCodeUseCase() }
+    single { FindDuplicateUseCase(transactionRepository = get()) }
+    single {
+        AcceptSuggestionUseCase(
+            transactionRepository = get(),
+            bankSyncRepository = get(),
+            clock = get(),
+        )
+    }
+    viewModel {
+        BankSuggestionsViewModel(
+            bankSyncRepository = get(),
+            categoryRepository = get(),
+            acceptSuggestion = get(),
+            findDuplicate = get(),
+            clock = get(),
+            savedStateHandle = get(),
+        )
+    }
     viewModel {
         BankSyncSettingsViewModel(
             credentialsStore = get(),

@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">Synchronizuje sa…</string>
     <string name="bank_sync_last_sync_never">Zatiaľ nesynchronizované</string>
     <string name="bank_sync_disconnect">Odpojiť</string>
+    <string name="suggestions_title">Navrhnuté transakcie</string>
+    <string name="suggestions_tab_pending">Čakajúce</string>
+    <string name="suggestions_tab_rejected">Odmietnuté</string>
+    <string name="suggestions_empty_pending">Žiadne čakajúce návrhy</string>
+    <string name="suggestions_empty_rejected">Žiadne odmietnuté návrhy</string>
+    <string name="suggestions_duplicate_hint">Možný duplikát</string>
+    <string name="suggestions_accept">Prijať</string>
+    <string name="suggestions_reject">Odmietnuť</string>
+    <string name="suggestions_accept_selected">Prijať vybrané (%1$d)</string>
+    <string name="suggestions_reject_selected">Odmietnuť vybrané (%1$d)</string>
+    <string name="suggestions_select_all">Vybrať všetko</string>
+    <string name="suggestions_clear_selection">Zrušiť výber</string>
+    <string name="suggestions_restore">Vrátiť medzi čakajúce</string>
+    <string name="suggestions_category_label">Kategória</string>
+    <string name="suggestions_wallet_missing">Najprv priraďte tomuto bankovému účtu peňaženku</string>
 </resources>

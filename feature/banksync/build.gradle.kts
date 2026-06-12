@@ -37,6 +37,7 @@ kotlin {
             implementation(projects.core.navigation)
             implementation(projects.data.banksync)
             implementation(projects.data.accounts)
+            implementation(projects.data.categories)
             implementation(projects.data.transactions)
         }
         commonTest.dependencies {

@@ -38,7 +38,9 @@ import com.dv.moneym.feature.security.setup.PinSetupKey
 import com.dv.moneym.feature.security.setup.pinSetupEntry
 import com.dv.moneym.feature.sync.PendingDeletionsKey
 import com.dv.moneym.feature.sync.pendingDeletionsEntry
+import com.dv.moneym.feature.banksync.BankSuggestionsKey
 import com.dv.moneym.feature.banksync.BankSyncSettingsKey
+import com.dv.moneym.feature.banksync.bankSuggestionsEntry
 import com.dv.moneym.feature.banksync.bankSyncSettingsEntry
 import com.dv.moneym.feature.sync.SyncSettingsKey
 import com.dv.moneym.feature.sync.syncSettingsEntry
@@ -231,7 +233,11 @@ internal fun MainNav(lockController: AppLockController) {
             )
             bankSyncSettingsEntry(
                 onBack = { tabBackStack.removeLast() },
-                onOpenSuggestions = {},
+                onOpenSuggestions = { tabBackStack.push(BankSuggestionsKey) },
+                metadata = modalTransitionMeta,
+            )
+            bankSuggestionsEntry(
+                onBack = { tabBackStack.removeLast() },
                 metadata = modalTransitionMeta,
             )
             budgetListEntry(

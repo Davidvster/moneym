@@ -76,7 +76,7 @@ auto-sync toggle, Sync now, Disconnect). Use cases `ConnectBankUseCase`,
 keys in English + 27 locales. VM tests.
 
 ### Phase 5 — Suggestion review screen
-Status: pending
+Status: done
 `BankSuggestionsKey` + screen with Pending/Rejected tabs; MmCard per suggestion
 (checkbox, description, counterparty, date, signed amount, category chip, target
 account); inline "Possible duplicate" sub-card via `FindDuplicateUseCase`

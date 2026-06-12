@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">Synkroniserer…</string>
     <string name="bank_sync_last_sync_never">Ikke synkroniseret endnu</string>
     <string name="bank_sync_disconnect">Afbryd</string>
+    <string name="suggestions_title">Foreslåede transaktioner</string>
+    <string name="suggestions_tab_pending">Afventende</string>
+    <string name="suggestions_tab_rejected">Afviste</string>
+    <string name="suggestions_empty_pending">Ingen afventende forslag</string>
+    <string name="suggestions_empty_rejected">Ingen afviste forslag</string>
+    <string name="suggestions_duplicate_hint">Muligt dublet</string>
+    <string name="suggestions_accept">Acceptér</string>
+    <string name="suggestions_reject">Afvis</string>
+    <string name="suggestions_accept_selected">Acceptér valgte (%1$d)</string>
+    <string name="suggestions_reject_selected">Afvis valgte (%1$d)</string>
+    <string name="suggestions_select_all">Vælg alle</string>
+    <string name="suggestions_clear_selection">Ryd</string>
+    <string name="suggestions_restore">Gendan som afventende</string>
+    <string name="suggestions_category_label">Kategori</string>
+    <string name="suggestions_wallet_missing">Tildel først en tegnebog til denne bankkonto</string>
 </resources>

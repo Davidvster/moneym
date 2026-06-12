@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">Synkroniserar…</string>
     <string name="bank_sync_last_sync_never">Inte synkroniserad ännu</string>
     <string name="bank_sync_disconnect">Koppla från</string>
+    <string name="suggestions_title">Föreslagna transaktioner</string>
+    <string name="suggestions_tab_pending">Väntande</string>
+    <string name="suggestions_tab_rejected">Avvisade</string>
+    <string name="suggestions_empty_pending">Inga väntande förslag</string>
+    <string name="suggestions_empty_rejected">Inga avvisade förslag</string>
+    <string name="suggestions_duplicate_hint">Möjlig dubblett</string>
+    <string name="suggestions_accept">Acceptera</string>
+    <string name="suggestions_reject">Avvisa</string>
+    <string name="suggestions_accept_selected">Acceptera valda (%1$d)</string>
+    <string name="suggestions_reject_selected">Avvisa valda (%1$d)</string>
+    <string name="suggestions_select_all">Markera alla</string>
+    <string name="suggestions_clear_selection">Rensa</string>
+    <string name="suggestions_restore">Återställ till väntande</string>
+    <string name="suggestions_category_label">Kategori</string>
+    <string name="suggestions_wallet_missing">Tilldela först en plånbok till detta bankkonto</string>
 </resources>

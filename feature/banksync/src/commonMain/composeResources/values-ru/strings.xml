@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">Синхронизация…</string>
     <string name="bank_sync_last_sync_never">Ещё не синхронизировано</string>
     <string name="bank_sync_disconnect">Отключить</string>
+    <string name="suggestions_title">Предложенные транзакции</string>
+    <string name="suggestions_tab_pending">Ожидающие</string>
+    <string name="suggestions_tab_rejected">Отклонённые</string>
+    <string name="suggestions_empty_pending">Нет ожидающих предложений</string>
+    <string name="suggestions_empty_rejected">Нет отклонённых предложений</string>
+    <string name="suggestions_duplicate_hint">Возможный дубликат</string>
+    <string name="suggestions_accept">Принять</string>
+    <string name="suggestions_reject">Отклонить</string>
+    <string name="suggestions_accept_selected">Принять выбранные (%1$d)</string>
+    <string name="suggestions_reject_selected">Отклонить выбранные (%1$d)</string>
+    <string name="suggestions_select_all">Выбрать все</string>
+    <string name="suggestions_clear_selection">Сбросить</string>
+    <string name="suggestions_restore">Вернуть в ожидающие</string>
+    <string name="suggestions_category_label">Категория</string>
+    <string name="suggestions_wallet_missing">Сначала назначьте кошелёк этому банковскому счёту</string>
 </resources>

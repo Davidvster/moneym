@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">Sinchronizuojama…</string>
     <string name="bank_sync_last_sync_never">Dar nesinchronizuota</string>
     <string name="bank_sync_disconnect">Atjungti</string>
+    <string name="suggestions_title">Pasiūlytos operacijos</string>
+    <string name="suggestions_tab_pending">Laukiančios</string>
+    <string name="suggestions_tab_rejected">Atmestos</string>
+    <string name="suggestions_empty_pending">Laukiančių pasiūlymų nėra</string>
+    <string name="suggestions_empty_rejected">Atmestų pasiūlymų nėra</string>
+    <string name="suggestions_duplicate_hint">Galimas dublikatas</string>
+    <string name="suggestions_accept">Priimti</string>
+    <string name="suggestions_reject">Atmesti</string>
+    <string name="suggestions_accept_selected">Priimti pasirinktas (%1$d)</string>
+    <string name="suggestions_reject_selected">Atmesti pasirinktas (%1$d)</string>
+    <string name="suggestions_select_all">Pasirinkti viską</string>
+    <string name="suggestions_clear_selection">Išvalyti</string>
+    <string name="suggestions_restore">Grąžinti į laukiančias</string>
+    <string name="suggestions_category_label">Kategorija</string>
+    <string name="suggestions_wallet_missing">Pirmiausia šiai banko sąskaitai priskirkite piniginę</string>
 </resources>

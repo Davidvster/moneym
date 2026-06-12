@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">Senkronize ediliyor…</string>
     <string name="bank_sync_last_sync_never">Henüz senkronize edilmedi</string>
     <string name="bank_sync_disconnect">Bağlantıyı kes</string>
+    <string name="suggestions_title">Önerilen işlemler</string>
+    <string name="suggestions_tab_pending">Bekleyen</string>
+    <string name="suggestions_tab_rejected">Reddedilen</string>
+    <string name="suggestions_empty_pending">Bekleyen öneri yok</string>
+    <string name="suggestions_empty_rejected">Reddedilen öneri yok</string>
+    <string name="suggestions_duplicate_hint">Olası kopya</string>
+    <string name="suggestions_accept">Kabul et</string>
+    <string name="suggestions_reject">Reddet</string>
+    <string name="suggestions_accept_selected">Seçilenleri kabul et (%1$d)</string>
+    <string name="suggestions_reject_selected">Seçilenleri reddet (%1$d)</string>
+    <string name="suggestions_select_all">Tümünü seç</string>
+    <string name="suggestions_clear_selection">Temizle</string>
+    <string name="suggestions_restore">Bekleyenlere geri al</string>
+    <string name="suggestions_category_label">Kategori</string>
+    <string name="suggestions_wallet_missing">Önce bu banka hesabına bir cüzdan atayın</string>
 </resources>

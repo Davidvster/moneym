@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">Sinkronizacija…</string>
     <string name="bank_sync_last_sync_never">Još nije sinkronizirano</string>
     <string name="bank_sync_disconnect">Prekini vezu</string>
+    <string name="suggestions_title">Predložene transakcije</string>
+    <string name="suggestions_tab_pending">Na čekanju</string>
+    <string name="suggestions_tab_rejected">Odbijene</string>
+    <string name="suggestions_empty_pending">Nema prijedloga na čekanju</string>
+    <string name="suggestions_empty_rejected">Nema odbijenih prijedloga</string>
+    <string name="suggestions_duplicate_hint">Mogući duplikat</string>
+    <string name="suggestions_accept">Prihvati</string>
+    <string name="suggestions_reject">Odbij</string>
+    <string name="suggestions_accept_selected">Prihvati odabrane (%1$d)</string>
+    <string name="suggestions_reject_selected">Odbij odabrane (%1$d)</string>
+    <string name="suggestions_select_all">Odaberi sve</string>
+    <string name="suggestions_clear_selection">Očisti</string>
+    <string name="suggestions_restore">Vrati na čekanje</string>
+    <string name="suggestions_category_label">Kategorija</string>
+    <string name="suggestions_wallet_missing">Najprije dodijelite novčanik ovom bankovnom računu</string>
 </resources>

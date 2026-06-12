@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">جارٍ المزامنة…</string>
     <string name="bank_sync_last_sync_never">لم تتم المزامنة بعد</string>
     <string name="bank_sync_disconnect">قطع الاتصال</string>
+    <string name="suggestions_title">معاملات مقترحة</string>
+    <string name="suggestions_tab_pending">قيد الانتظار</string>
+    <string name="suggestions_tab_rejected">مرفوضة</string>
+    <string name="suggestions_empty_pending">لا توجد اقتراحات قيد الانتظار</string>
+    <string name="suggestions_empty_rejected">لا توجد اقتراحات مرفوضة</string>
+    <string name="suggestions_duplicate_hint">تكرار محتمل</string>
+    <string name="suggestions_accept">قبول</string>
+    <string name="suggestions_reject">رفض</string>
+    <string name="suggestions_accept_selected">قبول المحدد (%1$d)</string>
+    <string name="suggestions_reject_selected">رفض المحدد (%1$d)</string>
+    <string name="suggestions_select_all">تحديد الكل</string>
+    <string name="suggestions_clear_selection">مسح</string>
+    <string name="suggestions_restore">إعادة إلى قيد الانتظار</string>
+    <string name="suggestions_category_label">الفئة</string>
+    <string name="suggestions_wallet_missing">عيّن محفظة لهذا الحساب البنكي أولاً</string>
 </resources>

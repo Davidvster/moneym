@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">A sincronizar…</string>
     <string name="bank_sync_last_sync_never">Ainda não sincronizado</string>
     <string name="bank_sync_disconnect">Desligar</string>
+    <string name="suggestions_title">Transações sugeridas</string>
+    <string name="suggestions_tab_pending">Pendentes</string>
+    <string name="suggestions_tab_rejected">Rejeitadas</string>
+    <string name="suggestions_empty_pending">Sem sugestões pendentes</string>
+    <string name="suggestions_empty_rejected">Sem sugestões rejeitadas</string>
+    <string name="suggestions_duplicate_hint">Possível duplicado</string>
+    <string name="suggestions_accept">Aceitar</string>
+    <string name="suggestions_reject">Rejeitar</string>
+    <string name="suggestions_accept_selected">Aceitar selecionadas (%1$d)</string>
+    <string name="suggestions_reject_selected">Rejeitar selecionadas (%1$d)</string>
+    <string name="suggestions_select_all">Selecionar tudo</string>
+    <string name="suggestions_clear_selection">Limpar</string>
+    <string name="suggestions_restore">Repor como pendente</string>
+    <string name="suggestions_category_label">Categoria</string>
+    <string name="suggestions_wallet_missing">Atribua primeiro uma carteira a esta conta bancária</string>
 </resources>

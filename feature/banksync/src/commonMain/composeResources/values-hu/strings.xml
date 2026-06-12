@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">Szinkronizálás…</string>
     <string name="bank_sync_last_sync_never">Még nincs szinkronizálva</string>
     <string name="bank_sync_disconnect">Leválasztás</string>
+    <string name="suggestions_title">Javasolt tranzakciók</string>
+    <string name="suggestions_tab_pending">Függőben</string>
+    <string name="suggestions_tab_rejected">Elutasítva</string>
+    <string name="suggestions_empty_pending">Nincs függő javaslat</string>
+    <string name="suggestions_empty_rejected">Nincs elutasított javaslat</string>
+    <string name="suggestions_duplicate_hint">Lehetséges duplikátum</string>
+    <string name="suggestions_accept">Elfogad</string>
+    <string name="suggestions_reject">Elutasít</string>
+    <string name="suggestions_accept_selected">Kijelöltek elfogadása (%1$d)</string>
+    <string name="suggestions_reject_selected">Kijelöltek elutasítása (%1$d)</string>
+    <string name="suggestions_select_all">Összes kijelölése</string>
+    <string name="suggestions_clear_selection">Törlés</string>
+    <string name="suggestions_restore">Visszaállítás függőbe</string>
+    <string name="suggestions_category_label">Kategória</string>
+    <string name="suggestions_wallet_missing">Először rendeljen tárcát ehhez a bankszámlához</string>
 </resources>

@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">Notiek sinhronizācija…</string>
     <string name="bank_sync_last_sync_never">Vēl nav sinhronizēts</string>
     <string name="bank_sync_disconnect">Atvienot</string>
+    <string name="suggestions_title">Ieteiktie darījumi</string>
+    <string name="suggestions_tab_pending">Gaida</string>
+    <string name="suggestions_tab_rejected">Noraidītie</string>
+    <string name="suggestions_empty_pending">Nav gaidošu ieteikumu</string>
+    <string name="suggestions_empty_rejected">Nav noraidītu ieteikumu</string>
+    <string name="suggestions_duplicate_hint">Iespējams dublikāts</string>
+    <string name="suggestions_accept">Pieņemt</string>
+    <string name="suggestions_reject">Noraidīt</string>
+    <string name="suggestions_accept_selected">Pieņemt atlasītos (%1$d)</string>
+    <string name="suggestions_reject_selected">Noraidīt atlasītos (%1$d)</string>
+    <string name="suggestions_select_all">Atlasīt visu</string>
+    <string name="suggestions_clear_selection">Notīrīt</string>
+    <string name="suggestions_restore">Atjaunot gaidīšanā</string>
+    <string name="suggestions_category_label">Kategorija</string>
+    <string name="suggestions_wallet_missing">Vispirms piešķiriet maku šim bankas kontam</string>
 </resources>

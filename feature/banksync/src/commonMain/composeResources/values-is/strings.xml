@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">Samstilli…</string>
     <string name="bank_sync_last_sync_never">Ekki samstillt enn</string>
     <string name="bank_sync_disconnect">Aftengja</string>
+    <string name="suggestions_title">Tillögur að færslum</string>
+    <string name="suggestions_tab_pending">Í bið</string>
+    <string name="suggestions_tab_rejected">Hafnað</string>
+    <string name="suggestions_empty_pending">Engar tillögur í bið</string>
+    <string name="suggestions_empty_rejected">Engar hafnaðar tillögur</string>
+    <string name="suggestions_duplicate_hint">Mögulegt tvítak</string>
+    <string name="suggestions_accept">Samþykkja</string>
+    <string name="suggestions_reject">Hafna</string>
+    <string name="suggestions_accept_selected">Samþykkja valdar (%1$d)</string>
+    <string name="suggestions_reject_selected">Hafna völdum (%1$d)</string>
+    <string name="suggestions_select_all">Velja allt</string>
+    <string name="suggestions_clear_selection">Hreinsa</string>
+    <string name="suggestions_restore">Setja aftur í bið</string>
+    <string name="suggestions_category_label">Flokkur</string>
+    <string name="suggestions_wallet_missing">Úthlutaðu fyrst veski á þennan bankareikning</string>
 </resources>

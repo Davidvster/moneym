@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">Synkronoidaan…</string>
     <string name="bank_sync_last_sync_never">Ei vielä synkronoitu</string>
     <string name="bank_sync_disconnect">Katkaise yhteys</string>
+    <string name="suggestions_title">Ehdotetut tapahtumat</string>
+    <string name="suggestions_tab_pending">Odottavat</string>
+    <string name="suggestions_tab_rejected">Hylätyt</string>
+    <string name="suggestions_empty_pending">Ei odottavia ehdotuksia</string>
+    <string name="suggestions_empty_rejected">Ei hylättyjä ehdotuksia</string>
+    <string name="suggestions_duplicate_hint">Mahdollinen kaksoiskappale</string>
+    <string name="suggestions_accept">Hyväksy</string>
+    <string name="suggestions_reject">Hylkää</string>
+    <string name="suggestions_accept_selected">Hyväksy valitut (%1$d)</string>
+    <string name="suggestions_reject_selected">Hylkää valitut (%1$d)</string>
+    <string name="suggestions_select_all">Valitse kaikki</string>
+    <string name="suggestions_clear_selection">Tyhjennä</string>
+    <string name="suggestions_restore">Palauta odottaviin</string>
+    <string name="suggestions_category_label">Kategoria</string>
+    <string name="suggestions_wallet_missing">Määritä ensin lompakko tälle pankkitilille</string>
 </resources>

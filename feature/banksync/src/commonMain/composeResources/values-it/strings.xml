@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">Sincronizzazione…</string>
     <string name="bank_sync_last_sync_never">Non ancora sincronizzato</string>
     <string name="bank_sync_disconnect">Disconnetti</string>
+    <string name="suggestions_title">Transazioni suggerite</string>
+    <string name="suggestions_tab_pending">In sospeso</string>
+    <string name="suggestions_tab_rejected">Rifiutate</string>
+    <string name="suggestions_empty_pending">Nessun suggerimento in sospeso</string>
+    <string name="suggestions_empty_rejected">Nessun suggerimento rifiutato</string>
+    <string name="suggestions_duplicate_hint">Possibile duplicato</string>
+    <string name="suggestions_accept">Accetta</string>
+    <string name="suggestions_reject">Rifiuta</string>
+    <string name="suggestions_accept_selected">Accetta selezionate (%1$d)</string>
+    <string name="suggestions_reject_selected">Rifiuta selezionate (%1$d)</string>
+    <string name="suggestions_select_all">Seleziona tutto</string>
+    <string name="suggestions_clear_selection">Pulisci</string>
+    <string name="suggestions_restore">Ripristina come in sospeso</string>
+    <string name="suggestions_category_label">Categoria</string>
+    <string name="suggestions_wallet_missing">Assegna prima un portafoglio a questo conto bancario</string>
 </resources>

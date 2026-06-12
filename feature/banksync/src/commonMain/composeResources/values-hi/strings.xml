@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">सिंक हो रहा है…</string>
     <string name="bank_sync_last_sync_never">अभी तक सिंक नहीं हुआ</string>
     <string name="bank_sync_disconnect">डिस्कनेक्ट करें</string>
+    <string name="suggestions_title">सुझाए गए लेन-देन</string>
+    <string name="suggestions_tab_pending">लंबित</string>
+    <string name="suggestions_tab_rejected">अस्वीकृत</string>
+    <string name="suggestions_empty_pending">कोई लंबित सुझाव नहीं</string>
+    <string name="suggestions_empty_rejected">कोई अस्वीकृत सुझाव नहीं</string>
+    <string name="suggestions_duplicate_hint">संभावित डुप्लिकेट</string>
+    <string name="suggestions_accept">स्वीकारें</string>
+    <string name="suggestions_reject">अस्वीकारें</string>
+    <string name="suggestions_accept_selected">चयनित स्वीकारें (%1$d)</string>
+    <string name="suggestions_reject_selected">चयनित अस्वीकारें (%1$d)</string>
+    <string name="suggestions_select_all">सभी चुनें</string>
+    <string name="suggestions_clear_selection">साफ़ करें</string>
+    <string name="suggestions_restore">लंबित में वापस लाएँ</string>
+    <string name="suggestions_category_label">श्रेणी</string>
+    <string name="suggestions_wallet_missing">पहले इस बैंक खाते को एक वॉलेट असाइन करें</string>
 </resources>

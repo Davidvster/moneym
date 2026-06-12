@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">正在同步…</string>
     <string name="bank_sync_last_sync_never">尚未同步</string>
     <string name="bank_sync_disconnect">断开连接</string>
+    <string name="suggestions_title">建议的交易</string>
+    <string name="suggestions_tab_pending">待处理</string>
+    <string name="suggestions_tab_rejected">已拒绝</string>
+    <string name="suggestions_empty_pending">没有待处理的建议</string>
+    <string name="suggestions_empty_rejected">没有已拒绝的建议</string>
+    <string name="suggestions_duplicate_hint">可能重复</string>
+    <string name="suggestions_accept">接受</string>
+    <string name="suggestions_reject">拒绝</string>
+    <string name="suggestions_accept_selected">接受所选 (%1$d)</string>
+    <string name="suggestions_reject_selected">拒绝所选 (%1$d)</string>
+    <string name="suggestions_select_all">全选</string>
+    <string name="suggestions_clear_selection">清除</string>
+    <string name="suggestions_restore">恢复为待处理</string>
+    <string name="suggestions_category_label">类别</string>
+    <string name="suggestions_wallet_missing">请先为该银行账户分配钱包</string>
 </resources>

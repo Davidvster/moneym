@@ -30,4 +30,19 @@
     <string name="bank_sync_syncing">同期中…</string>
     <string name="bank_sync_last_sync_never">まだ同期されていません</string>
     <string name="bank_sync_disconnect">接続を解除</string>
+    <string name="suggestions_title">候補の取引</string>
+    <string name="suggestions_tab_pending">保留中</string>
+    <string name="suggestions_tab_rejected">却下済み</string>
+    <string name="suggestions_empty_pending">保留中の候補はありません</string>
+    <string name="suggestions_empty_rejected">却下された候補はありません</string>
+    <string name="suggestions_duplicate_hint">重複の可能性</string>
+    <string name="suggestions_accept">承認</string>
+    <string name="suggestions_reject">却下</string>
+    <string name="suggestions_accept_selected">選択分を承認 (%1$d)</string>
+    <string name="suggestions_reject_selected">選択分を却下 (%1$d)</string>
+    <string name="suggestions_select_all">すべて選択</string>
+    <string name="suggestions_clear_selection">解除</string>
+    <string name="suggestions_restore">保留中に戻す</string>
+    <string name="suggestions_category_label">カテゴリ</string>
+    <string name="suggestions_wallet_missing">先にこの銀行口座にウォレットを割り当ててください</string>
 </resources>
