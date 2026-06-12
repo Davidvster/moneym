@@ -31,9 +31,17 @@
     <string name="overview_through_day">iki %1$d dienos</string>
     <string name="overview_daily_trend">Dienos tendencija pagal kategoriją</string>
     <string name="overview_monthly_spending">Mėnesio išlaidos</string>
+    <string name="overview_monthly_income">Mėnesio pajamos</string>
+    <string name="overview_monthly_net">Mėnesio balansas</string>
     <string name="overview_monthly_trend">Mėnesio tendencija pagal kategoriją</string>
     <string name="overview_avg_day">VID. / DIENĄ</string>
     <string name="overview_avg_month">VID. / MĖNESĮ</string>
+    <string name="overview_avg_expense_day">VID. IŠLAIDOS / DIENĄ</string>
+    <string name="overview_avg_expense_month">VID. IŠLAIDOS / MĖNESĮ</string>
+    <string name="overview_avg_income_day">VID. PAJAMOS / DIENĄ</string>
+    <string name="overview_avg_income_month">VID. PAJAMOS / MĖNESĮ</string>
+    <string name="overview_avg_net_day">VID. BALANSAS / DIENĄ</string>
+    <string name="overview_avg_net_month">VID. BALANSAS / MĖNESĮ</string>
     <string name="overview_dialog_select_month">Pasirinkite mėnesį</string>
     <string name="overview_dialog_select_year">Pasirinkite metus</string>
     <string name="overview_prev_year_cd">Ankstesni metai</string>

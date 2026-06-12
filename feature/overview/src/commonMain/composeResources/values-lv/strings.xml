@@ -31,9 +31,17 @@
     <string name="overview_through_day">līdz dienai %1$d</string>
     <string name="overview_daily_trend">Dienas tendence pēc kategorijas</string>
     <string name="overview_monthly_spending">Mēneša izdevumi</string>
+    <string name="overview_monthly_income">Mēneša ienākumi</string>
+    <string name="overview_monthly_net">Mēneša atlikums</string>
     <string name="overview_monthly_trend">Mēneša tendence pēc kategorijas</string>
     <string name="overview_avg_day">VID. / DIENĀ</string>
     <string name="overview_avg_month">VID. / MĒNESĪ</string>
+    <string name="overview_avg_expense_day">VID. IZDEVUMI / DIENĀ</string>
+    <string name="overview_avg_expense_month">VID. IZDEVUMI / MĒNESĪ</string>
+    <string name="overview_avg_income_day">VID. IENĀKUMI / DIENĀ</string>
+    <string name="overview_avg_income_month">VID. IENĀKUMI / MĒNESĪ</string>
+    <string name="overview_avg_net_day">VID. ATLIKUMS / DIENĀ</string>
+    <string name="overview_avg_net_month">VID. ATLIKUMS / MĒNESĪ</string>
     <string name="overview_dialog_select_month">Izvēlēties mēnesi</string>
     <string name="overview_dialog_select_year">Izvēlēties gadu</string>
     <string name="overview_prev_year_cd">Iepriekšējais gads</string>

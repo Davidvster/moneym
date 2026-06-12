@@ -12,7 +12,9 @@ internal val YAXIS_WIDTH = 44.dp
 internal fun formatAmount(value: Double): String = formatNumber(kotlin.math.abs(value), 2)
 
 internal fun formatAxisAmount(value: Double): String {
-    return if (value >= 1000) "${(value / 1000).toInt()}k" else value.toInt().toString()
+    val sign = if (value < 0) "−" else ""
+    val abs = kotlin.math.abs(value)
+    return if (abs >= 1000) "$sign${(abs / 1000).toInt()}k" else "$sign${abs.toInt()}"
 }
 
 internal fun formatShortDate(year: Int, month: Int, day: Int): String {

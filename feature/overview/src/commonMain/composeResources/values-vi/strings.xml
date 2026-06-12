@@ -31,9 +31,17 @@
     <string name="overview_through_day">đến ngày %1$d</string>
     <string name="overview_daily_trend">Xu hướng hàng ngày theo danh mục</string>
     <string name="overview_monthly_spending">Chi tiêu hàng tháng</string>
+    <string name="overview_monthly_income">Thu nhập hàng tháng</string>
+    <string name="overview_monthly_net">Số dư hàng tháng</string>
     <string name="overview_monthly_trend">Xu hướng hàng tháng theo danh mục</string>
     <string name="overview_avg_day">TB / NGÀY</string>
     <string name="overview_avg_month">TB / THÁNG</string>
+    <string name="overview_avg_expense_day">TB CHI TIÊU / NGÀY</string>
+    <string name="overview_avg_expense_month">TB CHI TIÊU / THÁNG</string>
+    <string name="overview_avg_income_day">TB THU NHẬP / NGÀY</string>
+    <string name="overview_avg_income_month">TB THU NHẬP / THÁNG</string>
+    <string name="overview_avg_net_day">TB SỐ DƯ / NGÀY</string>
+    <string name="overview_avg_net_month">TB SỐ DƯ / THÁNG</string>
     <string name="overview_dialog_select_month">Chọn tháng</string>
     <string name="overview_dialog_select_year">Chọn năm</string>
     <string name="overview_prev_year_cd">Năm trước</string>

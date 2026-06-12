@@ -14,11 +14,12 @@ class BuildCategoryTrendsUseCase {
     internal fun daily(
         periodTxns: List<Transaction>,
         catMap: Map<CategoryId, Category>,
+        types: Set<TransactionType>,
         days: Int,
         elapsedDays: Int = 1,
     ): List<CategoryTrend> {
-        val expenseTxns = periodTxns.filter { it.type == TransactionType.EXPENSE }
-        return expenseTxns
+        val typedTxns = periodTxns.filter { it.type in types }
+        return typedTxns
             .groupBy { it.categoryId }
             .map { (catId, txns) ->
                 val cat = catMap[catId]
@@ -44,14 +45,15 @@ class BuildCategoryTrendsUseCase {
     internal fun monthly(
         allTransactions: List<Transaction>,
         catMap: Map<CategoryId, Category>,
+        types: Set<TransactionType>,
         year: Int,
         elapsedMonths: Int = 1,
         elapsedDays: Int = 1,
     ): List<CategoryTrend> {
-        val yearExpenses = allTransactions.filter {
-            it.type == TransactionType.EXPENSE && it.occurredOn.year == year
+        val yearTxns = allTransactions.filter {
+            it.type in types && it.occurredOn.year == year
         }
-        return yearExpenses
+        return yearTxns
             .groupBy { it.categoryId }
             .map { (catId, txns) ->
                 val cat = catMap[catId]
@@ -78,15 +80,16 @@ class BuildCategoryTrendsUseCase {
     internal fun range(
         periodTxns: List<Transaction>,
         catMap: Map<CategoryId, Category>,
+        types: Set<TransactionType>,
         startDate: LocalDate,
         endDate: LocalDate,
     ): List<CategoryTrend> {
-        val expenseTxns = periodTxns.filter { it.type == TransactionType.EXPENSE }
+        val typedTxns = periodTxns.filter { it.type in types }
         val totalDays =
             ((endDate.toEpochDays() - startDate.toEpochDays()).toInt() + 1).coerceAtLeast(1)
         val useDayBuckets = totalDays <= 31
 
-        return expenseTxns
+        return typedTxns
             .groupBy { it.categoryId }
             .map { (catId, txns) ->
                 buildRangeTrend(

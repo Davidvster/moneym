@@ -31,9 +31,17 @@
     <string name="overview_through_day">läbi %1$d. päeva</string>
     <string name="overview_daily_trend">Päevane trend kategooriate järgi</string>
     <string name="overview_monthly_spending">Kuu kulutused</string>
+    <string name="overview_monthly_income">Kuu tulu</string>
+    <string name="overview_monthly_net">Kuu saldo</string>
     <string name="overview_monthly_trend">Kuu trend kategooriate järgi</string>
     <string name="overview_avg_day">KESK. / PÄEV</string>
     <string name="overview_avg_month">KESK. / KUU</string>
+    <string name="overview_avg_expense_day">KESK. KULUD / PÄEV</string>
+    <string name="overview_avg_expense_month">KESK. KULUD / KUU</string>
+    <string name="overview_avg_income_day">KESK. TULU / PÄEV</string>
+    <string name="overview_avg_income_month">KESK. TULU / KUU</string>
+    <string name="overview_avg_net_day">KESK. SALDO / PÄEV</string>
+    <string name="overview_avg_net_month">KESK. SALDO / KUU</string>
     <string name="overview_dialog_select_month">Vali kuu</string>
     <string name="overview_dialog_select_year">Vali aasta</string>
     <string name="overview_prev_year_cd">Eelmine aasta</string>

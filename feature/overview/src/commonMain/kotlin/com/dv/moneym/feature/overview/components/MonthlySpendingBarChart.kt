@@ -29,15 +29,14 @@ import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.localizedMonthNames
 import com.dv.moneym.core.uigraphs.BarChart
 import com.dv.moneym.core.uigraphs.BarColors
-import moneym.feature.overview.generated.resources.Res
-import moneym.feature.overview.generated.resources.overview_monthly_spending
-import org.jetbrains.compose.resources.stringResource
+import kotlin.math.min
 
 @Composable
 internal fun MonthlySpendingBarChart(
     monthlyTotals: List<Double>,
     currentMonthIndex: Int,
     currencyCode: String,
+    title: String,
     modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
@@ -48,7 +47,9 @@ internal fun MonthlySpendingBarChart(
     var selectedBarIndex by remember { mutableStateOf<Int?>(null) }
 
     val maxVal = monthlyTotals.maxOrNull()?.takeIf { it > 0 } ?: 1.0
-    val avgVal = monthlyTotals.filter { it > 0 }.let { if (it.isNotEmpty()) it.average() else 0.0 }
+    val minVal = min(monthlyTotals.minOrNull() ?: 0.0, 0.0)
+    val avgVal = if (minVal < 0.0) 0.0
+    else monthlyTotals.filter { it > 0 }.let { if (it.isNotEmpty()) it.average() else 0.0 }
 
     MmCard(
         modifier = modifier.padding(horizontal = space.padding_2x, vertical = space.padding_0_5x),
@@ -58,7 +59,7 @@ internal fun MonthlySpendingBarChart(
         Column {
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = stringResource(Res.string.overview_monthly_spending),
+                    text = title,
                     style = type.title3,
                     color = colors.text,
                     modifier = Modifier.weight(1f),
@@ -85,7 +86,7 @@ internal fun MonthlySpendingBarChart(
             Spacer(Modifier.height(space.padding_2x))
 
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom) {
-                AxisLabels(maxVal, fillHeight = false)
+                AxisLabels(maxVal, minVal = minVal, fillHeight = false)
                 Spacer(Modifier.width(MM.dimen.padding_0_5x))
                 BarChart(
                     values = monthlyTotals,
@@ -209,21 +210,22 @@ private fun MonthlySpendingBarChartPreview() {
             ),
             currentMonthIndex = 10,
             currencyCode = "EUR",
+            title = "Monthly spending",
         )
     }
 }
 
 @Composable
-private fun AxisLabels(maxVal: Double, fillHeight: Boolean) {
+private fun AxisLabels(maxVal: Double, fillHeight: Boolean, minVal: Double = 0.0) {
     val colors = MM.colors
     val type = MM.type
     Column(
         modifier = Modifier.width(YAXIS_WIDTH).then(if (fillHeight) Modifier.fillMaxHeight() else Modifier.height(CHART_HEIGHT)),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
-        listOf(maxVal, maxVal / 2, 0.0).forEachIndexed { idx, v ->
+        listOf(maxVal, (maxVal + minVal) / 2, minVal).forEach { v ->
             Text(
-                text = if (idx == 2) "0" else formatAxisAmount(v),
+                text = if (v == 0.0) "0" else formatAxisAmount(v),
                 style = type.captionXs.copy(color = colors.text3),
                 textAlign = TextAlign.End,
                 modifier = Modifier.fillMaxWidth(),

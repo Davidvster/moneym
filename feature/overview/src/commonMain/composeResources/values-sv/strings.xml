@@ -31,9 +31,17 @@
     <string name="overview_through_day">till dag %1$d</string>
     <string name="overview_daily_trend">Daglig trend per kategori</string>
     <string name="overview_monthly_spending">Månadsutgifter</string>
+    <string name="overview_monthly_income">Månadsinkomst</string>
+    <string name="overview_monthly_net">Månadssaldo</string>
     <string name="overview_monthly_trend">Månadsvis trend per kategori</string>
     <string name="overview_avg_day">SNT / DAG</string>
     <string name="overview_avg_month">SNT / MÅNAD</string>
+    <string name="overview_avg_expense_day">SNT UTGIFTER / DAG</string>
+    <string name="overview_avg_expense_month">SNT UTGIFTER / MÅNAD</string>
+    <string name="overview_avg_income_day">SNT INKOMST / DAG</string>
+    <string name="overview_avg_income_month">SNT INKOMST / MÅNAD</string>
+    <string name="overview_avg_net_day">SNT SALDO / DAG</string>
+    <string name="overview_avg_net_month">SNT SALDO / MÅNAD</string>
     <string name="overview_dialog_select_month">Välj månad</string>
     <string name="overview_dialog_select_year">Välj år</string>
     <string name="overview_prev_year_cd">Föregående år</string>

@@ -31,9 +31,17 @@
     <string name="overview_through_day">do dňa %1$d</string>
     <string name="overview_daily_trend">Denný trend podľa kategórie</string>
     <string name="overview_monthly_spending">Mesačné výdavky</string>
+    <string name="overview_monthly_income">Mesačné príjmy</string>
+    <string name="overview_monthly_net">Mesačný zostatok</string>
     <string name="overview_monthly_trend">Mesačný trend podľa kategórie</string>
     <string name="overview_avg_day">PRIEMER / DEŇ</string>
     <string name="overview_avg_month">PRIEMER / MESIAC</string>
+    <string name="overview_avg_expense_day">PRIEMER VÝDAVKY / DEŇ</string>
+    <string name="overview_avg_expense_month">PRIEMER VÝDAVKY / MESIAC</string>
+    <string name="overview_avg_income_day">PRIEMER PRÍJMY / DEŇ</string>
+    <string name="overview_avg_income_month">PRIEMER PRÍJMY / MESIAC</string>
+    <string name="overview_avg_net_day">PRIEMER ZOSTATOK / DEŇ</string>
+    <string name="overview_avg_net_month">PRIEMER ZOSTATOK / MESIAC</string>
     <string name="overview_dialog_select_month">Vybrať mesiac</string>
     <string name="overview_dialog_select_year">Vybrať rok</string>
     <string name="overview_prev_year_cd">Predchádzajúci rok</string>

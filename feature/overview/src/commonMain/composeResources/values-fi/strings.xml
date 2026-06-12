@@ -31,9 +31,17 @@
     <string name="overview_through_day">päivään %1$d asti</string>
     <string name="overview_daily_trend">Päivittäinen trendi kategorioittain</string>
     <string name="overview_monthly_spending">Kuukausittainen kulutus</string>
+    <string name="overview_monthly_income">Kuukausittainen tulot</string>
+    <string name="overview_monthly_net">Kuukausittainen saldo</string>
     <string name="overview_monthly_trend">Kuukausittainen trendi kategorioittain</string>
     <string name="overview_avg_day">KESK / PV</string>
     <string name="overview_avg_month">KESK / KK</string>
+    <string name="overview_avg_expense_day">KESK MENOT / PV</string>
+    <string name="overview_avg_expense_month">KESK MENOT / KK</string>
+    <string name="overview_avg_income_day">KESK TULOT / PV</string>
+    <string name="overview_avg_income_month">KESK TULOT / KK</string>
+    <string name="overview_avg_net_day">KESK SALDO / PV</string>
+    <string name="overview_avg_net_month">KESK SALDO / KK</string>
     <string name="overview_dialog_select_month">Valitse kuukausi</string>
     <string name="overview_dialog_select_year">Valitse vuosi</string>
     <string name="overview_prev_year_cd">Edellinen vuosi</string>

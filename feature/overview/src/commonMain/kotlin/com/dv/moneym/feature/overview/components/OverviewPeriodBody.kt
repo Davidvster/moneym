@@ -64,12 +64,13 @@ import com.dv.moneym.feature.overview.page.OverviewPageIntent
 import com.dv.moneym.feature.overview.page.OverviewPageUiState
 import com.dv.moneym.feature.overview.usecase.BudgetProgress
 import moneym.feature.overview.generated.resources.Res
-import moneym.feature.overview.generated.resources.overview_avg_day
-import moneym.feature.overview.generated.resources.overview_avg_month
 import moneym.feature.overview.generated.resources.overview_cat_avg_day
 import moneym.feature.overview.generated.resources.overview_cat_avg_month
 import moneym.feature.overview.generated.resources.overview_daily_trend
 import moneym.feature.overview.generated.resources.overview_month_x_labels
+import moneym.feature.overview.generated.resources.overview_monthly_income
+import moneym.feature.overview.generated.resources.overview_monthly_net
+import moneym.feature.overview.generated.resources.overview_monthly_spending
 import moneym.feature.overview.generated.resources.overview_monthly_trend
 import moneym.feature.overview.generated.resources.overview_no_expenses
 import moneym.feature.overview.generated.resources.overview_spending_by_category
@@ -90,8 +91,8 @@ internal fun OverviewPeriodBody(
     val period = state.period
     val inMonthMode = period is OverviewPeriod.Month
     val inYearMode = period is OverviewPeriod.Year
-    val avgDayLabel = stringResource(Res.string.overview_avg_day)
-    val avgMonthLabel = stringResource(Res.string.overview_avg_month)
+    val dailyTrends = selectTrends(spendingFilter, state.categoryDailyTrend, state.categoryIncomeDailyTrend)
+    val monthlyTrends = selectTrends(spendingFilter, state.categoryMonthlyTrend, state.categoryIncomeMonthlyTrend)
     Column(modifier = Modifier.fillMaxWidth()) {
         IncomeExpensesCard(
             income = state.income,
@@ -114,11 +115,16 @@ internal fun OverviewPeriodBody(
         }
         AvgStatsCard(
             inMonthMode = inMonthMode,
+            spendingFilter = spendingFilter,
             avgDailyExpense = state.avgDailyExpense,
             avgMonthlyExpense = state.avgMonthlyExpense,
             avgDailyExpenseYear = state.avgDailyExpenseYear,
-            avgDayLabel = avgDayLabel,
-            avgMonthLabel = avgMonthLabel,
+            avgDailyIncome = state.avgDailyIncome,
+            avgMonthlyIncome = state.avgMonthlyIncome,
+            avgDailyIncomeYear = state.avgDailyIncomeYear,
+            avgDailyNet = state.avgDailyNet,
+            avgMonthlyNet = state.avgMonthlyNet,
+            avgDailyNetYear = state.avgDailyNetYear,
             currencyCode = currencyCode,
             modifier = Modifier.mmStaggeredAppear(2),
         )
@@ -148,7 +154,7 @@ internal fun OverviewPeriodBody(
                 modifier = Modifier.mmStaggeredAppear(4),
             )
             CategoryTrendsCard(
-                trends = state.categoryDailyTrend,
+                trends = dailyTrends,
                 highlightIndex = state.todayIndex,
                 xLabels = stringArrayResource(Res.array.overview_month_x_labels),
                 title = stringResource(Res.string.overview_daily_trend),
@@ -162,14 +168,35 @@ internal fun OverviewPeriodBody(
                     ),
             )
         } else if (inYearMode) {
-            MonthlySpendingBarChart(
-                monthlyTotals = state.monthlyTotals,
-                currentMonthIndex = state.currentMonthIndex,
-                currencyCode = currencyCode,
-                modifier = Modifier.mmStaggeredAppear(4),
-            )
+            if (spendingFilter != SpendingFilter.Income) {
+                MonthlySpendingBarChart(
+                    monthlyTotals = state.monthlyTotals,
+                    currentMonthIndex = state.currentMonthIndex,
+                    currencyCode = currencyCode,
+                    title = stringResource(Res.string.overview_monthly_spending),
+                    modifier = Modifier.mmStaggeredAppear(4),
+                )
+            }
+            if (spendingFilter != SpendingFilter.Expenses) {
+                MonthlySpendingBarChart(
+                    monthlyTotals = state.monthlyIncomeTotals,
+                    currentMonthIndex = state.currentMonthIndex,
+                    currencyCode = currencyCode,
+                    title = stringResource(Res.string.overview_monthly_income),
+                    modifier = Modifier.mmStaggeredAppear(4),
+                )
+            }
+            if (spendingFilter == SpendingFilter.All) {
+                MonthlySpendingBarChart(
+                    monthlyTotals = state.monthlyNetTotals,
+                    currentMonthIndex = state.currentMonthIndex,
+                    currencyCode = currencyCode,
+                    title = stringResource(Res.string.overview_monthly_net),
+                    modifier = Modifier.mmStaggeredAppear(4),
+                )
+            }
             CategoryTrendsCard(
-                trends = state.categoryMonthlyTrend,
+                trends = monthlyTrends,
                 highlightIndex = state.currentMonthIndex,
                 xLabels = stringArrayResource(Res.array.overview_year_x_labels),
                 title = stringResource(Res.string.overview_monthly_trend),
@@ -184,9 +211,9 @@ internal fun OverviewPeriodBody(
             )
         } else {
             // DateRange mode — show category breakdown only, no time-series charts
-            if (state.categoryDailyTrend.isNotEmpty()) {
+            if (dailyTrends.isNotEmpty()) {
                 CategoryTrendsCard(
-                    trends = state.categoryDailyTrend,
+                    trends = dailyTrends,
                     highlightIndex = -1,
                     xLabels = emptyList(),
                     title = stringResource(Res.string.overview_daily_trend),
@@ -259,6 +286,16 @@ private fun SpendingByCategoryCard(
             }
         }
     }
+}
+
+private fun selectTrends(
+    filter: SpendingFilter,
+    expenseTrends: List<CategoryTrend>,
+    incomeTrends: List<CategoryTrend>,
+): List<CategoryTrend> = when (filter) {
+    SpendingFilter.Expenses -> expenseTrends
+    SpendingFilter.Income -> incomeTrends
+    SpendingFilter.All -> (expenseTrends + incomeTrends).sortedByDescending { it.totalAmount }
 }
 
 private fun resolveAnimCats(

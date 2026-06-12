@@ -31,9 +31,17 @@
     <string name="overview_through_day">jusqu'au jour %1$d</string>
     <string name="overview_daily_trend">Tendance quotidienne par catégorie</string>
     <string name="overview_monthly_spending">Dépenses mensuelles</string>
+    <string name="overview_monthly_income">Revenus mensuels</string>
+    <string name="overview_monthly_net">Solde mensuel</string>
     <string name="overview_monthly_trend">Tendance mensuelle par catégorie</string>
     <string name="overview_avg_day">MOY / JOUR</string>
     <string name="overview_avg_month">MOY / MOIS</string>
+    <string name="overview_avg_expense_day">MOY DÉPENSES / JOUR</string>
+    <string name="overview_avg_expense_month">MOY DÉPENSES / MOIS</string>
+    <string name="overview_avg_income_day">MOY REVENUS / JOUR</string>
+    <string name="overview_avg_income_month">MOY REVENUS / MOIS</string>
+    <string name="overview_avg_net_day">MOY SOLDE / JOUR</string>
+    <string name="overview_avg_net_month">MOY SOLDE / MOIS</string>
     <string name="overview_dialog_select_month">Sélectionner le mois</string>
     <string name="overview_dialog_select_year">Sélectionner l'année</string>
     <string name="overview_prev_year_cd">Année précédente</string>

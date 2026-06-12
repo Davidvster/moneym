@@ -31,9 +31,17 @@
     <string name="overview_through_day">%1$d. napig</string>
     <string name="overview_daily_trend">Napi trend kategóriánként</string>
     <string name="overview_monthly_spending">Havi kiadás</string>
+    <string name="overview_monthly_income">Havi bevételek</string>
+    <string name="overview_monthly_net">Havi egyenleg</string>
     <string name="overview_monthly_trend">Havi trend kategóriánként</string>
     <string name="overview_avg_day">ÁTLAG / NAP</string>
     <string name="overview_avg_month">ÁTLAG / HÓNAP</string>
+    <string name="overview_avg_expense_day">ÁTLAG KIADÁSOK / NAP</string>
+    <string name="overview_avg_expense_month">ÁTLAG KIADÁSOK / HÓNAP</string>
+    <string name="overview_avg_income_day">ÁTLAG BEVÉTELEK / NAP</string>
+    <string name="overview_avg_income_month">ÁTLAG BEVÉTELEK / HÓNAP</string>
+    <string name="overview_avg_net_day">ÁTLAG EGYENLEG / NAP</string>
+    <string name="overview_avg_net_month">ÁTLAG EGYENLEG / HÓNAP</string>
     <string name="overview_dialog_select_month">Hónap kiválasztása</string>
     <string name="overview_dialog_select_year">Év kiválasztása</string>
     <string name="overview_prev_year_cd">Előző év</string>

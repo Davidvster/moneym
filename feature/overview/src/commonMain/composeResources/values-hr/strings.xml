@@ -31,9 +31,17 @@
     <string name="overview_through_day">do dana %1$d</string>
     <string name="overview_daily_trend">Dnevni trend po kategoriji</string>
     <string name="overview_monthly_spending">Mjesečna potrošnja</string>
+    <string name="overview_monthly_income">Mjesečni prihodi</string>
+    <string name="overview_monthly_net">Mjesečno stanje</string>
     <string name="overview_monthly_trend">Mjesečni trend po kategoriji</string>
     <string name="overview_avg_day">PROSJEK / DAN</string>
     <string name="overview_avg_month">PROSJEK / MJESEC</string>
+    <string name="overview_avg_expense_day">PROSJEK TROŠKOVI / DAN</string>
+    <string name="overview_avg_expense_month">PROSJEK TROŠKOVI / MJESEC</string>
+    <string name="overview_avg_income_day">PROSJEK PRIHODI / DAN</string>
+    <string name="overview_avg_income_month">PROSJEK PRIHODI / MJESEC</string>
+    <string name="overview_avg_net_day">PROSJEK STANJE / DAN</string>
+    <string name="overview_avg_net_month">PROSJEK STANJE / MJESEC</string>
     <string name="overview_dialog_select_month">Odaberi mjesec</string>
     <string name="overview_dialog_select_year">Odaberi godinu</string>
     <string name="overview_prev_year_cd">Prethodna godina</string>

@@ -29,6 +29,8 @@ import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.uigraphs.internal.ChartDurations
 import com.dv.moneym.core.uigraphs.internal.rememberChartEntryProgress
 import com.dv.moneym.core.uigraphs.internal.staggeredProgress
+import kotlin.math.abs
+import kotlin.math.min
 
 /** Per-bar colors. [current] is the live month/period; [other] every remaining bar. */
 data class BarColors(
@@ -63,8 +65,11 @@ fun BarChart(
     val dashEffect = remember { PathEffect.dashPathEffect(floatArrayOf(6f, 4f), 0f) }
     val barPath = remember { Path() }
 
-    val maxVal = values.maxOrNull()?.takeIf { it > 0 } ?: 1.0
-    val avgFraction = (avgValue / maxVal).toFloat().coerceIn(0f, 1f)
+    val minVal = min(values.minOrNull() ?: 0.0, 0.0)
+    val maxVal = values.maxOrNull()?.takeIf { it > 0 }
+        ?: if (minVal < 0.0) 0.0 else 1.0
+    val span = (maxVal - minVal).takeIf { it > 0.0 } ?: 1.0
+    val avgFraction = (avgValue / span).toFloat().coerceIn(0f, 1f)
 
     Canvas(
         modifier = modifier.pointerInput(values.size) {
@@ -81,11 +86,12 @@ fun BarChart(
         val barPx = barWidth.toPx().coerceAtMost(slot * 0.8f)
         val radius = CornerRadius(2.dp.toPx(), 2.dp.toPx())
         val minBarPx = 1.dp.toPx()
+        val baselineY = (size.height * (maxVal / span)).toFloat()
 
         values.forEachIndexed { i, value ->
             val localEntry = staggeredProgress(entry, i, values.size)
-            val fraction = (value / maxVal).toFloat().coerceIn(0f, 1f) * localEntry
-            val barHeight = (fraction * size.height).coerceAtLeast(if (value > 0) minBarPx else 0f)
+            val fraction = (abs(value) / span).toFloat().coerceIn(0f, 1f) * localEntry
+            val barHeight = (fraction * size.height).coerceAtLeast(if (value != 0.0) minBarPx else 0f)
             if (barHeight <= 0f) return@forEachIndexed
 
             val isSelected = i == selectedIndex
@@ -100,29 +106,38 @@ fun BarChart(
             val alpha = if (value == 0.0) 0.3f else 1f
 
             val left = i * slot + (slot - barPx) / 2f
-            val top = size.height - barHeight
+            val isNegative = value < 0.0
+            val top = if (isNegative) baselineY else baselineY - barHeight
             barPath.reset()
             barPath.addRoundRect(
                 androidx.compose.ui.geometry.RoundRect(
                     rect = Rect(Offset(left, top), Size(barPx, barHeight)),
-                    topLeft = radius,
-                    topRight = radius,
-                    bottomLeft = CornerRadius.Zero,
-                    bottomRight = CornerRadius.Zero,
+                    topLeft = if (isNegative) CornerRadius.Zero else radius,
+                    topRight = if (isNegative) CornerRadius.Zero else radius,
+                    bottomLeft = if (isNegative) radius else CornerRadius.Zero,
+                    bottomRight = if (isNegative) radius else CornerRadius.Zero,
                 ),
             )
             drawPath(
                 path = barPath,
-                brush = Brush.verticalGradient(
-                    colors = listOf(color.copy(alpha = alpha), color.copy(alpha = alpha * 0.78f)),
-                    startY = top,
-                    endY = size.height,
-                ),
+                brush = if (isNegative) {
+                    Brush.verticalGradient(
+                        colors = listOf(color.copy(alpha = alpha * 0.78f), color.copy(alpha = alpha)),
+                        startY = baselineY,
+                        endY = top + barHeight,
+                    )
+                } else {
+                    Brush.verticalGradient(
+                        colors = listOf(color.copy(alpha = alpha), color.copy(alpha = alpha * 0.78f)),
+                        startY = top,
+                        endY = baselineY,
+                    )
+                },
             )
         }
 
         if (avgValue > 0) {
-            val avgY = size.height * (1f - avgFraction)
+            val avgY = (baselineY - avgFraction * size.height).coerceAtLeast(0f)
             drawLine(
                 color = barColors.avg,
                 start = Offset(0f, avgY),

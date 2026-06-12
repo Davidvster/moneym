@@ -45,6 +45,7 @@ class BuildOverviewPageStateUseCase(
             .filter { it.type == TransactionType.EXPENSE }
             .sumOf { it.amount.minorUnits }
             .toDouble() / 100.0
+        val netDouble = incomeDouble - expensesDouble
 
         val range = resolvePeriodRange(period, today)
         val isMonthMode = period is OverviewPeriod.Month
@@ -56,6 +57,8 @@ class BuildOverviewPageStateUseCase(
             accountFilteredTransactions = accountFilteredTransactions,
             catMap = catMap,
             expensesDouble = expensesDouble,
+            incomeDouble = incomeDouble,
+            netDouble = netDouble,
         )
 
         val expenseBreakdown = buildCategoryBreakdown(
@@ -94,12 +97,22 @@ class BuildOverviewPageStateUseCase(
             cumulativeTotals = seriesBundle.cumulativeTotals,
             todayIndex = seriesBundle.todayIndex,
             categoryDailyTrend = seriesBundle.categoryDailyTrend,
+            categoryIncomeDailyTrend = seriesBundle.categoryIncomeDailyTrend,
             monthlyTotals = seriesBundle.monthlyTotals,
+            monthlyIncomeTotals = seriesBundle.monthlyIncomeTotals,
+            monthlyNetTotals = seriesBundle.monthlyNetTotals,
             categoryMonthlyTrend = seriesBundle.categoryMonthlyTrend,
+            categoryIncomeMonthlyTrend = seriesBundle.categoryIncomeMonthlyTrend,
             currentMonthIndex = seriesBundle.currentMonthIndex,
             avgDailyExpense = seriesBundle.avgDailyExpense,
             avgMonthlyExpense = seriesBundle.avgMonthlyExpense,
             avgDailyExpenseYear = seriesBundle.avgDailyExpenseYear,
+            avgDailyIncome = seriesBundle.avgDailyIncome,
+            avgMonthlyIncome = seriesBundle.avgMonthlyIncome,
+            avgDailyIncomeYear = seriesBundle.avgDailyIncomeYear,
+            avgDailyNet = seriesBundle.avgDailyNet,
+            avgMonthlyNet = seriesBundle.avgMonthlyNet,
+            avgDailyNetYear = seriesBundle.avgDailyNetYear,
             budgetProgress = budgetProgress,
         )
     }
@@ -109,12 +122,22 @@ class BuildOverviewPageStateUseCase(
         val cumulativeTotals: List<Double>,
         val todayIndex: Int,
         val categoryDailyTrend: List<CategoryTrend>,
+        val categoryIncomeDailyTrend: List<CategoryTrend>,
         val monthlyTotals: List<Double>,
+        val monthlyIncomeTotals: List<Double>,
+        val monthlyNetTotals: List<Double>,
         val categoryMonthlyTrend: List<CategoryTrend>,
+        val categoryIncomeMonthlyTrend: List<CategoryTrend>,
         val currentMonthIndex: Int,
         val avgDailyExpense: Double,
         val avgMonthlyExpense: Double,
         val avgDailyExpenseYear: Double,
+        val avgDailyIncome: Double,
+        val avgMonthlyIncome: Double,
+        val avgDailyIncomeYear: Double,
+        val avgDailyNet: Double,
+        val avgMonthlyNet: Double,
+        val avgDailyNetYear: Double,
     )
 
     private fun buildPeriodSeries(
@@ -125,6 +148,8 @@ class BuildOverviewPageStateUseCase(
         accountFilteredTransactions: List<Transaction>,
         catMap: Map<CategoryId, Category>,
         expensesDouble: Double,
+        incomeDouble: Double,
+        netDouble: Double,
     ): PeriodSeriesBundle = when (period) {
         is OverviewPeriod.Month -> {
             val month = period.yearMonth
@@ -133,45 +158,90 @@ class BuildOverviewPageStateUseCase(
             val categoryDailyTrend = buildCategoryTrends.daily(
                 periodTxns = periodTxns,
                 catMap = catMap,
+                types = setOf(TransactionType.EXPENSE),
                 days = days,
                 elapsedDays = range.daysInRange,
             )
+            val categoryIncomeDailyTrend = buildCategoryTrends.daily(
+                periodTxns = periodTxns,
+                catMap = catMap,
+                types = setOf(TransactionType.INCOME),
+                days = days,
+                elapsedDays = range.daysInRange,
+            )
+            val daysDiv = range.daysInRange.coerceAtLeast(1)
             PeriodSeriesBundle(
                 dailyTotals = cumulative.dailyTotals,
                 cumulativeTotals = cumulative.cumulativeTotals,
                 todayIndex = cumulative.todayIndex,
                 categoryDailyTrend = categoryDailyTrend,
+                categoryIncomeDailyTrend = categoryIncomeDailyTrend,
                 monthlyTotals = List(12) { 0.0 },
+                monthlyIncomeTotals = List(12) { 0.0 },
+                monthlyNetTotals = List(12) { 0.0 },
                 categoryMonthlyTrend = emptyList(),
+                categoryIncomeMonthlyTrend = emptyList(),
                 currentMonthIndex = -1,
-                avgDailyExpense = if (range.daysInRange > 0) expensesDouble / range.daysInRange else 0.0,
+                avgDailyExpense = expensesDouble / daysDiv,
                 avgMonthlyExpense = 0.0,
                 avgDailyExpenseYear = 0.0,
+                avgDailyIncome = incomeDouble / daysDiv,
+                avgMonthlyIncome = 0.0,
+                avgDailyIncomeYear = 0.0,
+                avgDailyNet = netDouble / daysDiv,
+                avgMonthlyNet = 0.0,
+                avgDailyNetYear = 0.0,
             )
         }
 
         is OverviewPeriod.Year -> {
             val monthlyTotals =
                 buildCumulativeSeries.monthlyTotals(accountFilteredTransactions, period.year)
+            val monthlyIncomeTotals = buildCumulativeSeries.monthlyTotals(
+                accountFilteredTransactions, period.year, TransactionType.INCOME,
+            )
+            val monthlyNetTotals =
+                buildCumulativeSeries.monthlyNetTotals(accountFilteredTransactions, period.year)
             val currentMonthIndex = if (period.year == today.year) today.month.number - 1 else -1
             val categoryMonthlyTrend = buildCategoryTrends.monthly(
                 allTransactions = accountFilteredTransactions,
                 catMap = catMap,
+                types = setOf(TransactionType.EXPENSE),
                 year = period.year,
                 elapsedMonths = range.monthsInRange,
                 elapsedDays = range.daysInRange,
             )
+            val categoryIncomeMonthlyTrend = buildCategoryTrends.monthly(
+                allTransactions = accountFilteredTransactions,
+                catMap = catMap,
+                types = setOf(TransactionType.INCOME),
+                year = period.year,
+                elapsedMonths = range.monthsInRange,
+                elapsedDays = range.daysInRange,
+            )
+            val daysDiv = range.daysInRange.coerceAtLeast(1)
+            val monthsDiv = range.monthsInRange.coerceAtLeast(1)
             PeriodSeriesBundle(
                 dailyTotals = emptyList(),
                 cumulativeTotals = emptyList(),
                 todayIndex = 0,
                 categoryDailyTrend = emptyList(),
+                categoryIncomeDailyTrend = emptyList(),
                 monthlyTotals = monthlyTotals,
+                monthlyIncomeTotals = monthlyIncomeTotals,
+                monthlyNetTotals = monthlyNetTotals,
                 categoryMonthlyTrend = categoryMonthlyTrend,
+                categoryIncomeMonthlyTrend = categoryIncomeMonthlyTrend,
                 currentMonthIndex = currentMonthIndex,
                 avgDailyExpense = 0.0,
-                avgMonthlyExpense = if (range.monthsInRange > 0) expensesDouble / range.monthsInRange else 0.0,
-                avgDailyExpenseYear = if (range.daysInRange > 0) expensesDouble / range.daysInRange else 0.0,
+                avgMonthlyExpense = expensesDouble / monthsDiv,
+                avgDailyExpenseYear = expensesDouble / daysDiv,
+                avgDailyIncome = 0.0,
+                avgMonthlyIncome = incomeDouble / monthsDiv,
+                avgDailyIncomeYear = incomeDouble / daysDiv,
+                avgDailyNet = 0.0,
+                avgMonthlyNet = netDouble / monthsDiv,
+                avgDailyNetYear = netDouble / daysDiv,
             )
         }
 
@@ -181,20 +251,39 @@ class BuildOverviewPageStateUseCase(
             val categoryDailyTrend = buildCategoryTrends.range(
                 periodTxns = periodTxns,
                 catMap = catMap,
+                types = setOf(TransactionType.EXPENSE),
                 startDate = startDate,
                 endDate = endDate,
             )
+            val categoryIncomeDailyTrend = buildCategoryTrends.range(
+                periodTxns = periodTxns,
+                catMap = catMap,
+                types = setOf(TransactionType.INCOME),
+                startDate = startDate,
+                endDate = endDate,
+            )
+            val daysDiv = range.daysInRange.coerceAtLeast(1)
             PeriodSeriesBundle(
                 dailyTotals = emptyList(),
                 cumulativeTotals = emptyList(),
                 todayIndex = 0,
                 categoryDailyTrend = categoryDailyTrend,
+                categoryIncomeDailyTrend = categoryIncomeDailyTrend,
                 monthlyTotals = List(12) { 0.0 },
+                monthlyIncomeTotals = List(12) { 0.0 },
+                monthlyNetTotals = List(12) { 0.0 },
                 categoryMonthlyTrend = emptyList(),
+                categoryIncomeMonthlyTrend = emptyList(),
                 currentMonthIndex = -1,
-                avgDailyExpense = if (range.daysInRange > 0) expensesDouble / range.daysInRange else 0.0,
+                avgDailyExpense = expensesDouble / daysDiv,
                 avgMonthlyExpense = 0.0,
                 avgDailyExpenseYear = 0.0,
+                avgDailyIncome = incomeDouble / daysDiv,
+                avgMonthlyIncome = 0.0,
+                avgDailyIncomeYear = 0.0,
+                avgDailyNet = netDouble / daysDiv,
+                avgMonthlyNet = 0.0,
+                avgDailyNetYear = 0.0,
             )
         }
     }

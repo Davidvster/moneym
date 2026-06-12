@@ -31,9 +31,17 @@
     <string name="overview_through_day">przez dzień %1$d</string>
     <string name="overview_daily_trend">Dzienny trend według kategorii</string>
     <string name="overview_monthly_spending">Wydatki miesięczne</string>
+    <string name="overview_monthly_income">Przychody miesięczne</string>
+    <string name="overview_monthly_net">Saldo miesięczne</string>
     <string name="overview_monthly_trend">Miesięczny trend według kategorii</string>
     <string name="overview_avg_day">ŚR / DZIEŃ</string>
     <string name="overview_avg_month">ŚR / MIESIĄC</string>
+    <string name="overview_avg_expense_day">ŚR WYDATKI / DZIEŃ</string>
+    <string name="overview_avg_expense_month">ŚR WYDATKI / MIESIĄC</string>
+    <string name="overview_avg_income_day">ŚR PRZYCHODY / DZIEŃ</string>
+    <string name="overview_avg_income_month">ŚR PRZYCHODY / MIESIĄC</string>
+    <string name="overview_avg_net_day">ŚR SALDO / DZIEŃ</string>
+    <string name="overview_avg_net_month">ŚR SALDO / MIESIĄC</string>
     <string name="overview_dialog_select_month">Wybierz miesiąc</string>
     <string name="overview_dialog_select_year">Wybierz rok</string>
     <string name="overview_prev_year_cd">Poprzedni rok</string>

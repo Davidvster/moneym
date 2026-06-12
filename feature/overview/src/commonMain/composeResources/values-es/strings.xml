@@ -31,9 +31,17 @@
     <string name="overview_through_day">hasta el día %1$d</string>
     <string name="overview_daily_trend">Tendencia diaria por categoría</string>
     <string name="overview_monthly_spending">Gasto mensual</string>
+    <string name="overview_monthly_income">Ingresos mensuales</string>
+    <string name="overview_monthly_net">Neto mensual</string>
     <string name="overview_monthly_trend">Tendencia mensual por categoría</string>
     <string name="overview_avg_day">PROM / DÍA</string>
     <string name="overview_avg_month">PROM / MES</string>
+    <string name="overview_avg_expense_day">PROM GASTOS / DÍA</string>
+    <string name="overview_avg_expense_month">PROM GASTOS / MES</string>
+    <string name="overview_avg_income_day">PROM INGRESOS / DÍA</string>
+    <string name="overview_avg_income_month">PROM INGRESOS / MES</string>
+    <string name="overview_avg_net_day">PROM NETO / DÍA</string>
+    <string name="overview_avg_net_month">PROM NETO / MES</string>
     <string name="overview_dialog_select_month">Seleccionar mes</string>
     <string name="overview_dialog_select_year">Seleccionar año</string>
     <string name="overview_prev_year_cd">Año anterior</string>

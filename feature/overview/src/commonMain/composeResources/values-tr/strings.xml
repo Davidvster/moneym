@@ -31,9 +31,17 @@
     <string name="overview_through_day">%1$d. güne kadar</string>
     <string name="overview_daily_trend">Kategoriye göre günlük eğilim</string>
     <string name="overview_monthly_spending">Aylık harcama</string>
+    <string name="overview_monthly_income">Aylık gelir</string>
+    <string name="overview_monthly_net">Aylık bakiye</string>
     <string name="overview_monthly_trend">Kategoriye göre aylık eğilim</string>
     <string name="overview_avg_day">ORT / GÜN</string>
     <string name="overview_avg_month">ORT / AY</string>
+    <string name="overview_avg_expense_day">ORT GİDERLER / GÜN</string>
+    <string name="overview_avg_expense_month">ORT GİDERLER / AY</string>
+    <string name="overview_avg_income_day">ORT GELİR / GÜN</string>
+    <string name="overview_avg_income_month">ORT GELİR / AY</string>
+    <string name="overview_avg_net_day">ORT BAKIYE / GÜN</string>
+    <string name="overview_avg_net_month">ORT BAKIYE / AY</string>
     <string name="overview_dialog_select_month">Ay Seç</string>
     <string name="overview_dialog_select_year">Yıl Seç</string>
     <string name="overview_prev_year_cd">Önceki yıl</string>

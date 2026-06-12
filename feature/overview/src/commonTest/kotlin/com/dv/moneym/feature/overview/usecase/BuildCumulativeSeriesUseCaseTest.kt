@@ -95,4 +95,30 @@ class BuildCumulativeSeriesUseCaseTest {
         assertEquals(20.0, result[2])
         assertEquals(0.0, result[1])
     }
+
+    @Test
+    fun monthly_totals_with_income_type_returns_income_buckets() {
+        val txns = listOf(
+            txn(1, TransactionType.EXPENSE, 1000, LocalDate(2026, 1, 5)),
+            txn(2, TransactionType.INCOME, 5000, LocalDate(2026, 1, 6)),
+            txn(3, TransactionType.INCOME, 2000, LocalDate(2026, 4, 6)),
+        )
+        val result = useCase.monthlyTotals(txns, 2026, TransactionType.INCOME)
+        assertEquals(50.0, result[0])
+        assertEquals(20.0, result[3])
+        assertEquals(0.0, result[1])
+    }
+
+    @Test
+    fun monthly_net_totals_subtracts_expenses_from_income() {
+        val txns = listOf(
+            txn(1, TransactionType.EXPENSE, 3000, LocalDate(2026, 1, 5)),
+            txn(2, TransactionType.INCOME, 5000, LocalDate(2026, 1, 6)),
+            txn(3, TransactionType.EXPENSE, 2000, LocalDate(2026, 2, 6)),
+        )
+        val result = useCase.monthlyNetTotals(txns, 2026)
+        assertEquals(20.0, result[0])
+        assertEquals(-20.0, result[1])
+        assertEquals(0.0, result[2])
+    }
 }

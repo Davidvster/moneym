@@ -31,9 +31,17 @@
     <string name="overview_through_day">til og með degi %1$d</string>
     <string name="overview_daily_trend">Dagleg þróun eftir flokki</string>
     <string name="overview_monthly_spending">Mánaðarleg eyðsla</string>
+    <string name="overview_monthly_income">Mánaðarlegar tekjur</string>
+    <string name="overview_monthly_net">Mánaðarleg staða</string>
     <string name="overview_monthly_trend">Mánaðarleg þróun eftir flokki</string>
     <string name="overview_avg_day">MEÐAL / DAG</string>
     <string name="overview_avg_month">MEÐAL / MÁNUÐUR</string>
+    <string name="overview_avg_expense_day">MEÐAL ÚTGJÖLD / DAG</string>
+    <string name="overview_avg_expense_month">MEÐAL ÚTGJÖLD / MÁNUÐUR</string>
+    <string name="overview_avg_income_day">MEÐAL TEKJUR / DAG</string>
+    <string name="overview_avg_income_month">MEÐAL TEKJUR / MÁNUÐUR</string>
+    <string name="overview_avg_net_day">MEÐAL STAÐA / DAG</string>
+    <string name="overview_avg_net_month">MEÐAL STAÐA / MÁNUÐUR</string>
     <string name="overview_dialog_select_month">Velja mánuð</string>
     <string name="overview_dialog_select_year">Velja ár</string>
     <string name="overview_prev_year_cd">Fyrra ár</string>

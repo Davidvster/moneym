@@ -31,9 +31,17 @@
     <string name="overview_through_day">по день %1$d</string>
     <string name="overview_daily_trend">Дневной тренд по категориям</string>
     <string name="overview_monthly_spending">Расходы по месяцам</string>
+    <string name="overview_monthly_income">Доходы по месяцам</string>
+    <string name="overview_monthly_net">Баланс по месяцам</string>
     <string name="overview_monthly_trend">Месячный тренд по категориям</string>
     <string name="overview_avg_day">СР / ДЕНЬ</string>
     <string name="overview_avg_month">СР / МЕС</string>
+    <string name="overview_avg_expense_day">СР РАСХОДЫ / ДЕНЬ</string>
+    <string name="overview_avg_expense_month">СР РАСХОДЫ / МЕС</string>
+    <string name="overview_avg_income_day">СР ДОХОДЫ / ДЕНЬ</string>
+    <string name="overview_avg_income_month">СР ДОХОДЫ / МЕС</string>
+    <string name="overview_avg_net_day">СР БАЛАНС / ДЕНЬ</string>
+    <string name="overview_avg_net_month">СР БАЛАНС / МЕС</string>
     <string name="overview_dialog_select_month">Выбрать месяц</string>
     <string name="overview_dialog_select_year">Выбрать год</string>
     <string name="overview_prev_year_cd">Предыдущий год</string>

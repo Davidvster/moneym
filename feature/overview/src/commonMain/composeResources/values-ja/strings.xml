@@ -31,9 +31,17 @@
     <string name="overview_through_day">%1$d 日まで</string>
     <string name="overview_daily_trend">カテゴリ別日次トレンド</string>
     <string name="overview_monthly_spending">月次支出</string>
+    <string name="overview_monthly_income">月次収入</string>
+    <string name="overview_monthly_net">月次残高</string>
     <string name="overview_monthly_trend">カテゴリ別月次トレンド</string>
     <string name="overview_avg_day">1日平均</string>
     <string name="overview_avg_month">1ヶ月平均</string>
+    <string name="overview_avg_expense_day">平均支出 / 日</string>
+    <string name="overview_avg_expense_month">平均支出 / ヶ月</string>
+    <string name="overview_avg_income_day">平均収入 / 日</string>
+    <string name="overview_avg_income_month">平均収入 / ヶ月</string>
+    <string name="overview_avg_net_day">平均残高 / 日</string>
+    <string name="overview_avg_net_month">平均残高 / ヶ月</string>
     <string name="overview_dialog_select_month">月を選択</string>
     <string name="overview_dialog_select_year">年を選択</string>
     <string name="overview_prev_year_cd">前の年</string>

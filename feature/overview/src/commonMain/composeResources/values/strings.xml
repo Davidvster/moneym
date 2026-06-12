@@ -31,9 +31,17 @@
     <string name="overview_through_day">through day %1$d</string>
     <string name="overview_daily_trend">Daily trend by category</string>
     <string name="overview_monthly_spending">Monthly spending</string>
+    <string name="overview_monthly_income">Monthly income</string>
+    <string name="overview_monthly_net">Monthly net</string>
     <string name="overview_monthly_trend">Monthly trend by category</string>
     <string name="overview_avg_day">AVG / DAY</string>
     <string name="overview_avg_month">AVG / MONTH</string>
+    <string name="overview_avg_expense_day">AVG EXPENSE / DAY</string>
+    <string name="overview_avg_expense_month">AVG EXPENSE / MONTH</string>
+    <string name="overview_avg_income_day">AVG INCOME / DAY</string>
+    <string name="overview_avg_income_month">AVG INCOME / MONTH</string>
+    <string name="overview_avg_net_day">AVG NET / DAY</string>
+    <string name="overview_avg_net_month">AVG NET / MONTH</string>
     <string name="overview_dialog_select_month">Select Month</string>
     <string name="overview_dialog_select_year">Select Year</string>
     <string name="overview_prev_year_cd">Previous year</string>

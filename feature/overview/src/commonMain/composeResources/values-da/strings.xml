@@ -31,9 +31,17 @@
     <string name="overview_through_day">til dag %1$d</string>
     <string name="overview_daily_trend">Daglig tendens efter kategori</string>
     <string name="overview_monthly_spending">Månedligt forbrug</string>
+    <string name="overview_monthly_income">Månedlig indkomst</string>
+    <string name="overview_monthly_net">Månedligt saldo</string>
     <string name="overview_monthly_trend">Månedlig tendens efter kategori</string>
     <string name="overview_avg_day">GNS / DAG</string>
     <string name="overview_avg_month">GNS / MÅNED</string>
+    <string name="overview_avg_expense_day">GNS UDGIFTER / DAG</string>
+    <string name="overview_avg_expense_month">GNS UDGIFTER / MÅNED</string>
+    <string name="overview_avg_income_day">GNS INDKOMST / DAG</string>
+    <string name="overview_avg_income_month">GNS INDKOMST / MÅNED</string>
+    <string name="overview_avg_net_day">GNS SALDO / DAG</string>
+    <string name="overview_avg_net_month">GNS SALDO / MÅNED</string>
     <string name="overview_dialog_select_month">Vælg måned</string>
     <string name="overview_dialog_select_year">Vælg år</string>
     <string name="overview_prev_year_cd">Forrige år</string>

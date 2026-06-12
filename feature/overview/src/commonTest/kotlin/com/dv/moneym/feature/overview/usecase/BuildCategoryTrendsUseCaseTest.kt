@@ -19,6 +19,7 @@ class BuildCategoryTrendsUseCaseTest {
 
     private val epoch = Instant.fromEpochMilliseconds(0)
     private val useCase = BuildCategoryTrendsUseCase()
+    private val expenseTypes = setOf(TransactionType.EXPENSE)
 
     private fun category(id: Long, name: String) = Category(
         id = CategoryId(id),
@@ -51,7 +52,7 @@ class BuildCategoryTrendsUseCaseTest {
 
     @Test
     fun daily_empty_returns_empty() {
-        assertTrue(useCase.daily(emptyList(), emptyMap(), days = 31).isEmpty())
+        assertTrue(useCase.daily(emptyList(), emptyMap(), types = expenseTypes, days = 31).isEmpty())
     }
 
     @Test
@@ -62,7 +63,7 @@ class BuildCategoryTrendsUseCaseTest {
             txn(2, TransactionType.EXPENSE, 2000, LocalDate(2026, 5, 3), 1),
             txn(3, TransactionType.INCOME, 9999, LocalDate(2026, 5, 3), 1),
         )
-        val result = useCase.daily(txns, mapOf(cat.id to cat), days = 3, elapsedDays = 3)
+        val result = useCase.daily(txns, mapOf(cat.id to cat), types = expenseTypes, days = 3, elapsedDays = 3)
         assertEquals(1, result.size)
         val t = result.first()
         assertEquals(listOf(10.0, 0.0, 20.0), t.series)
@@ -79,7 +80,7 @@ class BuildCategoryTrendsUseCaseTest {
             txn(1, TransactionType.EXPENSE, 1000, LocalDate(2026, 5, 1), 1),
             txn(2, TransactionType.EXPENSE, 5000, LocalDate(2026, 5, 1), 2),
         )
-        val result = useCase.daily(txns, mapOf(a.id to a, b.id to b), days = 1)
+        val result = useCase.daily(txns, mapOf(a.id to a, b.id to b), types = expenseTypes, days = 1)
         assertEquals("B", result.first().categoryName)
     }
 
@@ -91,7 +92,7 @@ class BuildCategoryTrendsUseCaseTest {
             txn(2, TransactionType.EXPENSE, 2000, LocalDate(2026, 3, 5), 1),
             txn(3, TransactionType.EXPENSE, 9999, LocalDate(2025, 3, 5), 1),
         )
-        val result = useCase.monthly(txns, mapOf(cat.id to cat), year = 2026, elapsedMonths = 3, elapsedDays = 90)
+        val result = useCase.monthly(txns, mapOf(cat.id to cat), types = expenseTypes, year = 2026, elapsedMonths = 3, elapsedDays = 90)
         assertEquals(1, result.size)
         val t = result.first()
         assertEquals(12, t.series.size)
@@ -103,7 +104,7 @@ class BuildCategoryTrendsUseCaseTest {
 
     @Test
     fun monthly_empty_returns_empty() {
-        assertTrue(useCase.monthly(emptyList(), emptyMap(), year = 2026).isEmpty())
+        assertTrue(useCase.monthly(emptyList(), emptyMap(), types = expenseTypes, year = 2026).isEmpty())
     }
 
     @Test
@@ -115,7 +116,7 @@ class BuildCategoryTrendsUseCaseTest {
             txn(1, TransactionType.EXPENSE, 1000, LocalDate(2026, 5, 1), 1),
             txn(2, TransactionType.EXPENSE, 3000, LocalDate(2026, 5, 5), 1),
         )
-        val result = useCase.range(txns, mapOf(cat.id to cat), start, end)
+        val result = useCase.range(txns, mapOf(cat.id to cat), types = expenseTypes, startDate = start, endDate = end)
         assertEquals(1, result.size)
         assertEquals(5, result.first().series.size)
         assertEquals(listOf(10.0, 0.0, 0.0, 0.0, 30.0), result.first().series)
@@ -130,15 +131,34 @@ class BuildCategoryTrendsUseCaseTest {
             txn(1, TransactionType.EXPENSE, 1000, LocalDate(2026, 1, 10), 1),
             txn(2, TransactionType.EXPENSE, 2000, LocalDate(2026, 3, 20), 1),
         )
-        val result = useCase.range(txns, mapOf(cat.id to cat), start, end)
+        val result = useCase.range(txns, mapOf(cat.id to cat), types = expenseTypes, startDate = start, endDate = end)
         assertEquals(3, result.first().series.size)
         assertEquals(listOf(10.0, 0.0, 20.0), result.first().series)
+    }
+
+    @Test
+    fun daily_income_types_returns_income_only() {
+        val cat = category(1, "Salary")
+        val txns = listOf(
+            txn(1, TransactionType.EXPENSE, 1000, LocalDate(2026, 5, 1), 1),
+            txn(2, TransactionType.INCOME, 5000, LocalDate(2026, 5, 2), 1),
+        )
+        val result = useCase.daily(
+            txns,
+            mapOf(cat.id to cat),
+            types = setOf(TransactionType.INCOME),
+            days = 3,
+            elapsedDays = 3,
+        )
+        assertEquals(1, result.size)
+        assertEquals(50.0, result.first().totalAmount)
+        assertEquals(1, result.first().txCount)
     }
 
     @Test
     fun range_empty_returns_empty() {
         val start = LocalDate(2026, 5, 1)
         val end = LocalDate(2026, 5, 5)
-        assertTrue(useCase.range(emptyList(), emptyMap(), start, end).isEmpty())
+        assertTrue(useCase.range(emptyList(), emptyMap(), types = expenseTypes, startDate = start, endDate = end).isEmpty())
     }
 }

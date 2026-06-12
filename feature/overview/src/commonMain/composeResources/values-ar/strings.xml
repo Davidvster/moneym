@@ -31,9 +31,17 @@
     <string name="overview_through_day">حتى اليوم %1$d</string>
     <string name="overview_daily_trend">الاتجاه اليومي حسب الفئة</string>
     <string name="overview_monthly_spending">الإنفاق الشهري</string>
+    <string name="overview_monthly_income">الدخل الشهري</string>
+    <string name="overview_monthly_net">الصافي الشهري</string>
     <string name="overview_monthly_trend">الاتجاه الشهري حسب الفئة</string>
     <string name="overview_avg_day">متوسط / اليوم</string>
     <string name="overview_avg_month">متوسط / الشهر</string>
+    <string name="overview_avg_expense_day">متوسط المصروفات / اليوم</string>
+    <string name="overview_avg_expense_month">متوسط المصروفات / الشهر</string>
+    <string name="overview_avg_income_day">متوسط الدخل / اليوم</string>
+    <string name="overview_avg_income_month">متوسط الدخل / الشهر</string>
+    <string name="overview_avg_net_day">متوسط الصافي / اليوم</string>
+    <string name="overview_avg_net_month">متوسط الصافي / الشهر</string>
     <string name="overview_dialog_select_month">اختر الشهر</string>
     <string name="overview_dialog_select_year">اختر السنة</string>
     <string name="overview_prev_year_cd">السنة السابقة</string>

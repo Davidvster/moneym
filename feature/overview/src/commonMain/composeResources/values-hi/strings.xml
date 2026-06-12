@@ -31,9 +31,17 @@
     <string name="overview_through_day">दिन %1$d तक</string>
     <string name="overview_daily_trend">श्रेणी के अनुसार दैनिक रुझान</string>
     <string name="overview_monthly_spending">मासिक खर्च</string>
+    <string name="overview_monthly_income">मासिक आय</string>
+    <string name="overview_monthly_net">मासिक शेष</string>
     <string name="overview_monthly_trend">श्रेणी के अनुसार मासिक रुझान</string>
     <string name="overview_avg_day">औसत / दिन</string>
     <string name="overview_avg_month">औसत / माह</string>
+    <string name="overview_avg_expense_day">औसत व्यय / दिन</string>
+    <string name="overview_avg_expense_month">औसत व्यय / माह</string>
+    <string name="overview_avg_income_day">औसत आय / दिन</string>
+    <string name="overview_avg_income_month">औसत आय / माह</string>
+    <string name="overview_avg_net_day">औसत शेष / दिन</string>
+    <string name="overview_avg_net_month">औसत शेष / माह</string>
     <string name="overview_dialog_select_month">महीना चुनें</string>
     <string name="overview_dialog_select_year">वर्ष चुनें</string>
     <string name="overview_prev_year_cd">पिछला वर्ष</string>

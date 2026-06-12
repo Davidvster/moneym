@@ -31,9 +31,17 @@
     <string name="overview_through_day">截至第 %1$d 天</string>
     <string name="overview_daily_trend">按类别日趋势</string>
     <string name="overview_monthly_spending">月度支出</string>
+    <string name="overview_monthly_income">月度收入</string>
+    <string name="overview_monthly_net">月度结余</string>
     <string name="overview_monthly_trend">按类别月趋势</string>
     <string name="overview_avg_day">日均</string>
     <string name="overview_avg_month">月均</string>
+    <string name="overview_avg_expense_day">平均支出 / 日</string>
+    <string name="overview_avg_expense_month">平均支出 / 月</string>
+    <string name="overview_avg_income_day">平均收入 / 日</string>
+    <string name="overview_avg_income_month">平均收入 / 月</string>
+    <string name="overview_avg_net_day">平均结余 / 日</string>
+    <string name="overview_avg_net_month">平均结余 / 月</string>
     <string name="overview_dialog_select_month">选择月份</string>
     <string name="overview_dialog_select_year">选择年份</string>
     <string name="overview_prev_year_cd">上一年</string>

@@ -31,9 +31,17 @@
     <string name="overview_through_day">tot dag %1$d</string>
     <string name="overview_daily_trend">Dagelijkse trend per categorie</string>
     <string name="overview_monthly_spending">Maandelijkse uitgaven</string>
+    <string name="overview_monthly_income">Maandelijkse inkomsten</string>
+    <string name="overview_monthly_net">Maandelijks saldo</string>
     <string name="overview_monthly_trend">Maandelijkse trend per categorie</string>
     <string name="overview_avg_day">GEM / DAG</string>
     <string name="overview_avg_month">GEM / MAAND</string>
+    <string name="overview_avg_expense_day">GEM UITGAVEN / DAG</string>
+    <string name="overview_avg_expense_month">GEM UITGAVEN / MAAND</string>
+    <string name="overview_avg_income_day">GEM INKOMSTEN / DAG</string>
+    <string name="overview_avg_income_month">GEM INKOMSTEN / MAAND</string>
+    <string name="overview_avg_net_day">GEM SALDO / DAG</string>
+    <string name="overview_avg_net_month">GEM SALDO / MAAND</string>
     <string name="overview_dialog_select_month">Maand selecteren</string>
     <string name="overview_dialog_select_year">Jaar selecteren</string>
     <string name="overview_prev_year_cd">Vorig jaar</string>
