@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">Bankasamstilling</string>
+    <string name="bank_sync_setup_header">Tengdu Enable Banking forritið þitt</string>
+    <string name="bank_sync_setup_hint">Búðu til ókeypis Enable Banking reikning, skráðu forrit og límdu auðkenni þess og einkalykil hér. README inniheldur skref-fyrir-skref leiðbeiningar.</string>
+    <string name="bank_sync_app_id_label">Auðkenni forrits</string>
+    <string name="bank_sync_private_key_label">Einkalykill (PEM)</string>
+    <string name="bank_sync_save_credentials">Vista og staðfesta</string>
+    <string name="bank_sync_error_generic">Mistókst: %1$s</string>
+    <string name="bank_sync_status_connected">Banki tengdur</string>
+    <string name="bank_sync_status_not_connected">Enginn banki tengdur</string>
+    <string name="bank_sync_session_valid_until">Aðgangur gildir til %1$s</string>
+    <string name="bank_sync_reconnect_required">Bankaaðgangur útrunninn — tengdu bankann aftur</string>
+    <string name="bank_sync_review_pending">Yfirfara %1$d tillögur að færslum</string>
+    <string name="bank_sync_connect_bank">Tengja banka</string>
+    <string name="bank_sync_country_label">Landskóði</string>
+    <string name="bank_sync_load_banks">Finna banka</string>
+    <string name="bank_sync_search_banks">Leita að bönkum</string>
+    <string name="bank_sync_awaiting_auth">Ljúktu heimildinni í vafranum og límdu síðan áframsendingartengilinn hér fyrir neðan.</string>
+    <string name="bank_sync_redirect_label">Áframsendingartengill eða kóði</string>
+    <string name="bank_sync_redirect_invalid">Enginn kóði fannst í límda textanum</string>
+    <string name="bank_sync_submit_redirect">Ljúka tengingu</string>
+    <string name="bank_sync_cancel">Hætta við</string>
+    <string name="bank_sync_accounts_header">TENGDIR REIKNINGAR</string>
+    <string name="bank_sync_account_target_label">Flytja inn í</string>
+    <string name="bank_sync_account_target_none">Veldu veski</string>
+    <string name="bank_sync_auto_title">Samstilla sjálfkrafa</string>
+    <string name="bank_sync_auto_subtitle">Athuga með nýjar bankafærslur þegar forritið ræsist.</string>
+    <string name="bank_sync_sync_now">Samstilla núna</string>
+    <string name="bank_sync_syncing">Samstilli…</string>
+    <string name="bank_sync_last_sync_never">Ekki samstillt enn</string>
+    <string name="bank_sync_disconnect">Aftengja</string>
+</resources>

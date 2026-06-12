@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">Banksynkronisering</string>
+    <string name="bank_sync_setup_header">Anslut din Enable Banking-applikation</string>
+    <string name="bank_sync_setup_hint">Skapa ett kostnadsfritt Enable Banking-konto, registrera en applikation och klistra in dess ID och privata nyckel här. README innehåller en steg-för-steg-guide.</string>
+    <string name="bank_sync_app_id_label">Applikations-ID</string>
+    <string name="bank_sync_private_key_label">Privat nyckel (PEM)</string>
+    <string name="bank_sync_save_credentials">Spara och validera</string>
+    <string name="bank_sync_error_generic">Misslyckades: %1$s</string>
+    <string name="bank_sync_status_connected">Bank ansluten</string>
+    <string name="bank_sync_status_not_connected">Ingen bank ansluten</string>
+    <string name="bank_sync_session_valid_until">Åtkomst giltig till %1$s</string>
+    <string name="bank_sync_reconnect_required">Bankåtkomsten har gått ut — anslut din bank igen</string>
+    <string name="bank_sync_review_pending">Granska %1$d föreslagna transaktioner</string>
+    <string name="bank_sync_connect_bank">Anslut en bank</string>
+    <string name="bank_sync_country_label">Landskod</string>
+    <string name="bank_sync_load_banks">Hitta banker</string>
+    <string name="bank_sync_search_banks">Sök banker</string>
+    <string name="bank_sync_awaiting_auth">Slutför auktoriseringen i webbläsaren och klistra sedan in omdirigeringslänken nedan.</string>
+    <string name="bank_sync_redirect_label">Omdirigeringslänk eller kod</string>
+    <string name="bank_sync_redirect_invalid">Ingen kod hittades i den inklistrade texten</string>
+    <string name="bank_sync_submit_redirect">Slutför anslutningen</string>
+    <string name="bank_sync_cancel">Avbryt</string>
+    <string name="bank_sync_accounts_header">KOPPLADE KONTON</string>
+    <string name="bank_sync_account_target_label">Importera till</string>
+    <string name="bank_sync_account_target_none">Välj en plånbok</string>
+    <string name="bank_sync_auto_title">Synkronisera automatiskt</string>
+    <string name="bank_sync_auto_subtitle">Sök efter nya banktransaktioner när appen startar.</string>
+    <string name="bank_sync_sync_now">Synkronisera nu</string>
+    <string name="bank_sync_syncing">Synkroniserar…</string>
+    <string name="bank_sync_last_sync_never">Inte synkroniserad ännu</string>
+    <string name="bank_sync_disconnect">Koppla från</string>
+</resources>

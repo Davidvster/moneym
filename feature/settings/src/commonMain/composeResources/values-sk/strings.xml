@@ -248,4 +248,5 @@
     <string name="settings_remote_restore_error_title">Nepodarilo sa načítať zálohu</string>
     <string name="settings_remote_restore_no_backup">Na Google Drive sa nenašla žiadna záloha.</string>
     <string name="settings_remote_restore_try_again">Skúste to znova.</string>
+    <string name="settings_bank_sync">Banková synchronizácia</string>
 </resources>

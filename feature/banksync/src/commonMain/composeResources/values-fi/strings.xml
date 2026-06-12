@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">Pankkisynkronointi</string>
+    <string name="bank_sync_setup_header">Yhdistä Enable Banking -sovelluksesi</string>
+    <string name="bank_sync_setup_hint">Luo ilmainen Enable Banking -tili, rekisteröi sovellus ja liitä sen tunnus ja yksityinen avain tähän. README sisältää vaiheittaiset ohjeet.</string>
+    <string name="bank_sync_app_id_label">Sovelluksen tunnus</string>
+    <string name="bank_sync_private_key_label">Yksityinen avain (PEM)</string>
+    <string name="bank_sync_save_credentials">Tallenna ja vahvista</string>
+    <string name="bank_sync_error_generic">Epäonnistui: %1$s</string>
+    <string name="bank_sync_status_connected">Pankki yhdistetty</string>
+    <string name="bank_sync_status_not_connected">Pankkia ei ole yhdistetty</string>
+    <string name="bank_sync_session_valid_until">Käyttöoikeus voimassa %1$s asti</string>
+    <string name="bank_sync_reconnect_required">Pankkiyhteys vanhentui — yhdistä pankki uudelleen</string>
+    <string name="bank_sync_review_pending">Tarkista %1$d ehdotettua tapahtumaa</string>
+    <string name="bank_sync_connect_bank">Yhdistä pankki</string>
+    <string name="bank_sync_country_label">Maakoodi</string>
+    <string name="bank_sync_load_banks">Etsi pankkeja</string>
+    <string name="bank_sync_search_banks">Hae pankkeja</string>
+    <string name="bank_sync_awaiting_auth">Viimeistele valtuutus selaimessa ja liitä sitten uudelleenohjauslinkki alle.</string>
+    <string name="bank_sync_redirect_label">Uudelleenohjauslinkki tai koodi</string>
+    <string name="bank_sync_redirect_invalid">Liitetystä tekstistä ei löytynyt koodia</string>
+    <string name="bank_sync_submit_redirect">Viimeistele yhteys</string>
+    <string name="bank_sync_cancel">Peruuta</string>
+    <string name="bank_sync_accounts_header">LIITETYT TILIT</string>
+    <string name="bank_sync_account_target_label">Tuo kohteeseen</string>
+    <string name="bank_sync_account_target_none">Valitse lompakko</string>
+    <string name="bank_sync_auto_title">Synkronoi automaattisesti</string>
+    <string name="bank_sync_auto_subtitle">Tarkista uudet pankkitapahtumat sovelluksen käynnistyessä.</string>
+    <string name="bank_sync_sync_now">Synkronoi nyt</string>
+    <string name="bank_sync_syncing">Synkronoidaan…</string>
+    <string name="bank_sync_last_sync_never">Ei vielä synkronoitu</string>
+    <string name="bank_sync_disconnect">Katkaise yhteys</string>
+</resources>

@@ -248,4 +248,5 @@
     <string name="settings_remote_restore_error_title">Varmuuskopion lataaminen epäonnistui</string>
     <string name="settings_remote_restore_no_backup">Google Drivesta ei löytynyt varmuuskopiota.</string>
     <string name="settings_remote_restore_try_again">Yritä uudelleen.</string>
+    <string name="settings_bank_sync">Pankkisynkronointi</string>
 </resources>

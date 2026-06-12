@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">Bank sync</string>
+    <string name="bank_sync_setup_header">Connect your Enable Banking application</string>
+    <string name="bank_sync_setup_hint">Create a free Enable Banking account, register an application and paste its ID and private key here. The README has a step-by-step guide.</string>
+    <string name="bank_sync_app_id_label">Application ID</string>
+    <string name="bank_sync_private_key_label">Private key (PEM)</string>
+    <string name="bank_sync_save_credentials">Save &amp; validate</string>
+    <string name="bank_sync_error_generic">Failed: %1$s</string>
+    <string name="bank_sync_status_connected">Bank connected</string>
+    <string name="bank_sync_status_not_connected">No bank connected</string>
+    <string name="bank_sync_session_valid_until">Access valid until %1$s</string>
+    <string name="bank_sync_reconnect_required">Bank access expired — reconnect your bank</string>
+    <string name="bank_sync_review_pending">Review %1$d suggested transactions</string>
+    <string name="bank_sync_connect_bank">Connect a bank</string>
+    <string name="bank_sync_country_label">Country code</string>
+    <string name="bank_sync_load_banks">Find banks</string>
+    <string name="bank_sync_search_banks">Search banks</string>
+    <string name="bank_sync_awaiting_auth">Finish the authorization in your browser, then paste the redirect link below.</string>
+    <string name="bank_sync_redirect_label">Redirect link or code</string>
+    <string name="bank_sync_redirect_invalid">Could not find a code in the pasted text</string>
+    <string name="bank_sync_submit_redirect">Complete connection</string>
+    <string name="bank_sync_cancel">Cancel</string>
+    <string name="bank_sync_accounts_header">LINKED ACCOUNTS</string>
+    <string name="bank_sync_account_target_label">Import into</string>
+    <string name="bank_sync_account_target_none">Choose a wallet</string>
+    <string name="bank_sync_auto_title">Sync automatically</string>
+    <string name="bank_sync_auto_subtitle">Check for new bank transactions when the app starts.</string>
+    <string name="bank_sync_sync_now">Sync now</string>
+    <string name="bank_sync_syncing">Syncing…</string>
+    <string name="bank_sync_last_sync_never">Not synced yet</string>
+    <string name="bank_sync_disconnect">Disconnect</string>
+</resources>

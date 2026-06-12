@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">Bankovní synchronizace</string>
+    <string name="bank_sync_setup_header">Připojte svou aplikaci Enable Banking</string>
+    <string name="bank_sync_setup_hint">Vytvořte si bezplatný účet Enable Banking, zaregistrujte aplikaci a vložte sem její ID a soukromý klíč. Podrobný návod najdete v README.</string>
+    <string name="bank_sync_app_id_label">ID aplikace</string>
+    <string name="bank_sync_private_key_label">Soukromý klíč (PEM)</string>
+    <string name="bank_sync_save_credentials">Uložit a ověřit</string>
+    <string name="bank_sync_error_generic">Selhalo: %1$s</string>
+    <string name="bank_sync_status_connected">Banka připojena</string>
+    <string name="bank_sync_status_not_connected">Žádná připojená banka</string>
+    <string name="bank_sync_session_valid_until">Přístup platný do %1$s</string>
+    <string name="bank_sync_reconnect_required">Přístup k bance vypršel — připojte banku znovu</string>
+    <string name="bank_sync_review_pending">Zkontrolovat %1$d navržených transakcí</string>
+    <string name="bank_sync_connect_bank">Připojit banku</string>
+    <string name="bank_sync_country_label">Kód země</string>
+    <string name="bank_sync_load_banks">Najít banky</string>
+    <string name="bank_sync_search_banks">Hledat banky</string>
+    <string name="bank_sync_awaiting_auth">Dokončete autorizaci v prohlížeči a poté sem vložte přesměrovaný odkaz.</string>
+    <string name="bank_sync_redirect_label">Přesměrovaný odkaz nebo kód</string>
+    <string name="bank_sync_redirect_invalid">Ve vloženém textu nebyl nalezen žádný kód</string>
+    <string name="bank_sync_submit_redirect">Dokončit připojení</string>
+    <string name="bank_sync_cancel">Zrušit</string>
+    <string name="bank_sync_accounts_header">PROPOJENÉ ÚČTY</string>
+    <string name="bank_sync_account_target_label">Importovat do</string>
+    <string name="bank_sync_account_target_none">Vyberte peněženku</string>
+    <string name="bank_sync_auto_title">Synchronizovat automaticky</string>
+    <string name="bank_sync_auto_subtitle">Při spuštění aplikace zkontrolovat nové bankovní transakce.</string>
+    <string name="bank_sync_sync_now">Synchronizovat nyní</string>
+    <string name="bank_sync_syncing">Synchronizuje se…</string>
+    <string name="bank_sync_last_sync_never">Zatím nesynchronizováno</string>
+    <string name="bank_sync_disconnect">Odpojit</string>
+</resources>

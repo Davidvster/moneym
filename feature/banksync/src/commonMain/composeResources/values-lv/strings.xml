@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">Bankas sinhronizācija</string>
+    <string name="bank_sync_setup_header">Savienojiet savu Enable Banking lietojumprogrammu</string>
+    <string name="bank_sync_setup_hint">Izveidojiet bezmaksas Enable Banking kontu, reģistrējiet lietojumprogrammu un ielīmējiet šeit tās ID un privāto atslēgu. README ir pieejama soli pa solim pamācība.</string>
+    <string name="bank_sync_app_id_label">Lietojumprogrammas ID</string>
+    <string name="bank_sync_private_key_label">Privātā atslēga (PEM)</string>
+    <string name="bank_sync_save_credentials">Saglabāt un pārbaudīt</string>
+    <string name="bank_sync_error_generic">Neizdevās: %1$s</string>
+    <string name="bank_sync_status_connected">Banka savienota</string>
+    <string name="bank_sync_status_not_connected">Nav savienotas bankas</string>
+    <string name="bank_sync_session_valid_until">Piekļuve derīga līdz %1$s</string>
+    <string name="bank_sync_reconnect_required">Piekļuve bankai beigusies — savienojiet banku no jauna</string>
+    <string name="bank_sync_review_pending">Pārskatīt %1$d ieteiktos darījumus</string>
+    <string name="bank_sync_connect_bank">Savienot banku</string>
+    <string name="bank_sync_country_label">Valsts kods</string>
+    <string name="bank_sync_load_banks">Atrast bankas</string>
+    <string name="bank_sync_search_banks">Meklēt bankas</string>
+    <string name="bank_sync_awaiting_auth">Pabeidziet autorizāciju pārlūkprogrammā un pēc tam ielīmējiet novirzīšanas saiti zemāk.</string>
+    <string name="bank_sync_redirect_label">Novirzīšanas saite vai kods</string>
+    <string name="bank_sync_redirect_invalid">Ielīmētajā tekstā netika atrasts kods</string>
+    <string name="bank_sync_submit_redirect">Pabeigt savienošanu</string>
+    <string name="bank_sync_cancel">Atcelt</string>
+    <string name="bank_sync_accounts_header">SAISTĪTIE KONTI</string>
+    <string name="bank_sync_account_target_label">Importēt uz</string>
+    <string name="bank_sync_account_target_none">Izvēlieties maku</string>
+    <string name="bank_sync_auto_title">Sinhronizēt automātiski</string>
+    <string name="bank_sync_auto_subtitle">Pārbaudīt jaunus bankas darījumus, startējot lietotni.</string>
+    <string name="bank_sync_sync_now">Sinhronizēt tūlīt</string>
+    <string name="bank_sync_syncing">Notiek sinhronizācija…</string>
+    <string name="bank_sync_last_sync_never">Vēl nav sinhronizēts</string>
+    <string name="bank_sync_disconnect">Atvienot</string>
+</resources>

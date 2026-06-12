@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">Đồng bộ ngân hàng</string>
+    <string name="bank_sync_setup_header">Kết nối ứng dụng Enable Banking của bạn</string>
+    <string name="bank_sync_setup_hint">Tạo tài khoản Enable Banking miễn phí, đăng ký một ứng dụng rồi dán ID và khóa riêng tư của nó vào đây. README có hướng dẫn từng bước.</string>
+    <string name="bank_sync_app_id_label">ID ứng dụng</string>
+    <string name="bank_sync_private_key_label">Khóa riêng tư (PEM)</string>
+    <string name="bank_sync_save_credentials">Lưu và xác minh</string>
+    <string name="bank_sync_error_generic">Thất bại: %1$s</string>
+    <string name="bank_sync_status_connected">Đã kết nối ngân hàng</string>
+    <string name="bank_sync_status_not_connected">Chưa kết nối ngân hàng nào</string>
+    <string name="bank_sync_session_valid_until">Quyền truy cập có hiệu lực đến %1$s</string>
+    <string name="bank_sync_reconnect_required">Quyền truy cập ngân hàng đã hết hạn — hãy kết nối lại ngân hàng</string>
+    <string name="bank_sync_review_pending">Xem lại %1$d giao dịch được đề xuất</string>
+    <string name="bank_sync_connect_bank">Kết nối ngân hàng</string>
+    <string name="bank_sync_country_label">Mã quốc gia</string>
+    <string name="bank_sync_load_banks">Tìm ngân hàng</string>
+    <string name="bank_sync_search_banks">Tìm kiếm ngân hàng</string>
+    <string name="bank_sync_awaiting_auth">Hoàn tất ủy quyền trong trình duyệt, sau đó dán liên kết chuyển hướng bên dưới.</string>
+    <string name="bank_sync_redirect_label">Liên kết chuyển hướng hoặc mã</string>
+    <string name="bank_sync_redirect_invalid">Không tìm thấy mã trong văn bản đã dán</string>
+    <string name="bank_sync_submit_redirect">Hoàn tất kết nối</string>
+    <string name="bank_sync_cancel">Hủy</string>
+    <string name="bank_sync_accounts_header">TÀI KHOẢN ĐÃ LIÊN KẾT</string>
+    <string name="bank_sync_account_target_label">Nhập vào</string>
+    <string name="bank_sync_account_target_none">Chọn ví</string>
+    <string name="bank_sync_auto_title">Tự động đồng bộ</string>
+    <string name="bank_sync_auto_subtitle">Kiểm tra giao dịch ngân hàng mới khi mở ứng dụng.</string>
+    <string name="bank_sync_sync_now">Đồng bộ ngay</string>
+    <string name="bank_sync_syncing">Đang đồng bộ…</string>
+    <string name="bank_sync_last_sync_never">Chưa đồng bộ</string>
+    <string name="bank_sync_disconnect">Ngắt kết nối</string>
+</resources>

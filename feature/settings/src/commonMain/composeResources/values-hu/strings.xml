@@ -248,4 +248,5 @@
     <string name="settings_remote_restore_error_title">Nem sikerült betölteni a biztonsági mentést</string>
     <string name="settings_remote_restore_no_backup">Nem található biztonsági mentés a Google Drive-on.</string>
     <string name="settings_remote_restore_try_again">Próbáld újra.</string>
+    <string name="settings_bank_sync">Banki szinkronizálás</string>
 </resources>

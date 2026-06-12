@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">银行同步</string>
+    <string name="bank_sync_setup_header">连接你的 Enable Banking 应用</string>
+    <string name="bank_sync_setup_hint">创建免费的 Enable Banking 账户，注册一个应用，然后在此粘贴其 ID 和私钥。README 中有分步指南。</string>
+    <string name="bank_sync_app_id_label">应用 ID</string>
+    <string name="bank_sync_private_key_label">私钥 (PEM)</string>
+    <string name="bank_sync_save_credentials">保存并验证</string>
+    <string name="bank_sync_error_generic">失败：%1$s</string>
+    <string name="bank_sync_status_connected">已连接银行</string>
+    <string name="bank_sync_status_not_connected">未连接银行</string>
+    <string name="bank_sync_session_valid_until">访问权限有效期至 %1$s</string>
+    <string name="bank_sync_reconnect_required">银行访问已过期 — 请重新连接银行</string>
+    <string name="bank_sync_review_pending">查看 %1$d 笔建议交易</string>
+    <string name="bank_sync_connect_bank">连接银行</string>
+    <string name="bank_sync_country_label">国家代码</string>
+    <string name="bank_sync_load_banks">查找银行</string>
+    <string name="bank_sync_search_banks">搜索银行</string>
+    <string name="bank_sync_awaiting_auth">在浏览器中完成授权，然后将重定向链接粘贴到下方。</string>
+    <string name="bank_sync_redirect_label">重定向链接或代码</string>
+    <string name="bank_sync_redirect_invalid">粘贴的文本中未找到代码</string>
+    <string name="bank_sync_submit_redirect">完成连接</string>
+    <string name="bank_sync_cancel">取消</string>
+    <string name="bank_sync_accounts_header">已关联账户</string>
+    <string name="bank_sync_account_target_label">导入到</string>
+    <string name="bank_sync_account_target_none">选择钱包</string>
+    <string name="bank_sync_auto_title">自动同步</string>
+    <string name="bank_sync_auto_subtitle">应用启动时检查新的银行交易。</string>
+    <string name="bank_sync_sync_now">立即同步</string>
+    <string name="bank_sync_syncing">正在同步…</string>
+    <string name="bank_sync_last_sync_never">尚未同步</string>
+    <string name="bank_sync_disconnect">断开连接</string>
+</resources>

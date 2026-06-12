@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">Synchronizacja bankowa</string>
+    <string name="bank_sync_setup_header">Połącz swoją aplikację Enable Banking</string>
+    <string name="bank_sync_setup_hint">Utwórz bezpłatne konto Enable Banking, zarejestruj aplikację i wklej tutaj jej ID oraz klucz prywatny. Instrukcja krok po kroku znajduje się w README.</string>
+    <string name="bank_sync_app_id_label">ID aplikacji</string>
+    <string name="bank_sync_private_key_label">Klucz prywatny (PEM)</string>
+    <string name="bank_sync_save_credentials">Zapisz i zweryfikuj</string>
+    <string name="bank_sync_error_generic">Niepowodzenie: %1$s</string>
+    <string name="bank_sync_status_connected">Bank połączony</string>
+    <string name="bank_sync_status_not_connected">Brak połączonego banku</string>
+    <string name="bank_sync_session_valid_until">Dostęp ważny do %1$s</string>
+    <string name="bank_sync_reconnect_required">Dostęp do banku wygasł — połącz bank ponownie</string>
+    <string name="bank_sync_review_pending">Przejrzyj %1$d sugerowanych transakcji</string>
+    <string name="bank_sync_connect_bank">Połącz bank</string>
+    <string name="bank_sync_country_label">Kod kraju</string>
+    <string name="bank_sync_load_banks">Znajdź banki</string>
+    <string name="bank_sync_search_banks">Szukaj banków</string>
+    <string name="bank_sync_awaiting_auth">Dokończ autoryzację w przeglądarce, a następnie wklej poniżej link przekierowania.</string>
+    <string name="bank_sync_redirect_label">Link przekierowania lub kod</string>
+    <string name="bank_sync_redirect_invalid">Nie znaleziono kodu we wklejonym tekście</string>
+    <string name="bank_sync_submit_redirect">Dokończ połączenie</string>
+    <string name="bank_sync_cancel">Anuluj</string>
+    <string name="bank_sync_accounts_header">POŁĄCZONE KONTA</string>
+    <string name="bank_sync_account_target_label">Importuj do</string>
+    <string name="bank_sync_account_target_none">Wybierz portfel</string>
+    <string name="bank_sync_auto_title">Synchronizuj automatycznie</string>
+    <string name="bank_sync_auto_subtitle">Sprawdzaj nowe transakcje bankowe przy uruchomieniu aplikacji.</string>
+    <string name="bank_sync_sync_now">Synchronizuj teraz</string>
+    <string name="bank_sync_syncing">Synchronizowanie…</string>
+    <string name="bank_sync_last_sync_never">Jeszcze nie synchronizowano</string>
+    <string name="bank_sync_disconnect">Rozłącz</string>
+</resources>

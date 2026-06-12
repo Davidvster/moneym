@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">Banka senkronizasyonu</string>
+    <string name="bank_sync_setup_header">Enable Banking uygulamanızı bağlayın</string>
+    <string name="bank_sync_setup_hint">Ücretsiz bir Enable Banking hesabı oluşturun, bir uygulama kaydedin ve kimliğini ile özel anahtarını buraya yapıştırın. README\'de adım adım kılavuz var.</string>
+    <string name="bank_sync_app_id_label">Uygulama kimliği</string>
+    <string name="bank_sync_private_key_label">Özel anahtar (PEM)</string>
+    <string name="bank_sync_save_credentials">Kaydet ve doğrula</string>
+    <string name="bank_sync_error_generic">Başarısız: %1$s</string>
+    <string name="bank_sync_status_connected">Banka bağlandı</string>
+    <string name="bank_sync_status_not_connected">Bağlı banka yok</string>
+    <string name="bank_sync_session_valid_until">Erişim %1$s tarihine kadar geçerli</string>
+    <string name="bank_sync_reconnect_required">Banka erişiminin süresi doldu — bankanızı yeniden bağlayın</string>
+    <string name="bank_sync_review_pending">%1$d önerilen işlemi incele</string>
+    <string name="bank_sync_connect_bank">Banka bağla</string>
+    <string name="bank_sync_country_label">Ülke kodu</string>
+    <string name="bank_sync_load_banks">Bankaları bul</string>
+    <string name="bank_sync_search_banks">Banka ara</string>
+    <string name="bank_sync_awaiting_auth">Tarayıcıda yetkilendirmeyi tamamlayın, ardından yönlendirme bağlantısını aşağıya yapıştırın.</string>
+    <string name="bank_sync_redirect_label">Yönlendirme bağlantısı veya kod</string>
+    <string name="bank_sync_redirect_invalid">Yapıştırılan metinde kod bulunamadı</string>
+    <string name="bank_sync_submit_redirect">Bağlantıyı tamamla</string>
+    <string name="bank_sync_cancel">İptal</string>
+    <string name="bank_sync_accounts_header">BAĞLI HESAPLAR</string>
+    <string name="bank_sync_account_target_label">Şuraya aktar</string>
+    <string name="bank_sync_account_target_none">Bir cüzdan seçin</string>
+    <string name="bank_sync_auto_title">Otomatik senkronize et</string>
+    <string name="bank_sync_auto_subtitle">Uygulama açıldığında yeni banka işlemlerini denetle.</string>
+    <string name="bank_sync_sync_now">Şimdi senkronize et</string>
+    <string name="bank_sync_syncing">Senkronize ediliyor…</string>
+    <string name="bank_sync_last_sync_never">Henüz senkronize edilmedi</string>
+    <string name="bank_sync_disconnect">Bağlantıyı kes</string>
+</resources>

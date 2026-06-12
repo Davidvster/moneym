@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">مزامنة البنك</string>
+    <string name="bank_sync_setup_header">اربط تطبيق Enable Banking الخاص بك</string>
+    <string name="bank_sync_setup_hint">أنشئ حساب Enable Banking مجانيًا، وسجّل تطبيقًا، ثم الصق هنا معرّفه ومفتاحه الخاص. يحتوي ملف README على دليل خطوة بخطوة.</string>
+    <string name="bank_sync_app_id_label">معرّف التطبيق</string>
+    <string name="bank_sync_private_key_label">المفتاح الخاص (PEM)</string>
+    <string name="bank_sync_save_credentials">حفظ وتحقق</string>
+    <string name="bank_sync_error_generic">فشل: %1$s</string>
+    <string name="bank_sync_status_connected">البنك متصل</string>
+    <string name="bank_sync_status_not_connected">لا يوجد بنك متصل</string>
+    <string name="bank_sync_session_valid_until">الوصول صالح حتى %1$s</string>
+    <string name="bank_sync_reconnect_required">انتهت صلاحية الوصول إلى البنك — أعد ربط البنك</string>
+    <string name="bank_sync_review_pending">مراجعة %1$d معاملة مقترحة</string>
+    <string name="bank_sync_connect_bank">ربط بنك</string>
+    <string name="bank_sync_country_label">رمز الدولة</string>
+    <string name="bank_sync_load_banks">البحث عن البنوك</string>
+    <string name="bank_sync_search_banks">ابحث في البنوك</string>
+    <string name="bank_sync_awaiting_auth">أكمل التفويض في المتصفح، ثم الصق رابط إعادة التوجيه أدناه.</string>
+    <string name="bank_sync_redirect_label">رابط إعادة التوجيه أو الرمز</string>
+    <string name="bank_sync_redirect_invalid">لم يتم العثور على رمز في النص الملصق</string>
+    <string name="bank_sync_submit_redirect">إكمال الربط</string>
+    <string name="bank_sync_cancel">إلغاء</string>
+    <string name="bank_sync_accounts_header">الحسابات المرتبطة</string>
+    <string name="bank_sync_account_target_label">استيراد إلى</string>
+    <string name="bank_sync_account_target_none">اختر محفظة</string>
+    <string name="bank_sync_auto_title">المزامنة تلقائيًا</string>
+    <string name="bank_sync_auto_subtitle">التحقق من معاملات بنكية جديدة عند بدء تشغيل التطبيق.</string>
+    <string name="bank_sync_sync_now">مزامنة الآن</string>
+    <string name="bank_sync_syncing">جارٍ المزامنة…</string>
+    <string name="bank_sync_last_sync_never">لم تتم المزامنة بعد</string>
+    <string name="bank_sync_disconnect">قطع الاتصال</string>
+</resources>

@@ -248,4 +248,5 @@
     <string name="settings_remote_restore_error_title">バックアップを読み込めませんでした</string>
     <string name="settings_remote_restore_no_backup">Google ドライブにバックアップが見つかりませんでした。</string>
     <string name="settings_remote_restore_try_again">もう一度お試しください。</string>
+    <string name="settings_bank_sync">銀行同期</string>
 </resources>

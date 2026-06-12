@@ -248,4 +248,5 @@
     <string name="settings_remote_restore_error_title">Не удалось загрузить резервную копию</string>
     <string name="settings_remote_restore_no_backup">На Google Диске резервная копия не найдена.</string>
     <string name="settings_remote_restore_try_again">Повторите попытку.</string>
+    <string name="settings_bank_sync">Банковская синхронизация</string>
 </resources>

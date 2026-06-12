@@ -258,4 +258,5 @@
     <string name="settings_remote_delete_body">Questo elimina definitivamente tutti i backup nel cloud e i dati di sincronizzazione dal tuo Google Drive e disattiva il backup automatico e la sincronizzazione tra dispositivi. Non può essere annullato.</string>
     <string name="settings_remote_delete_confirm">Elimina</string>
     <string name="settings_import_failed">Importazione non riuscita</string>
+    <string name="settings_bank_sync">Sincronizzazione bancaria</string>
 </resources>

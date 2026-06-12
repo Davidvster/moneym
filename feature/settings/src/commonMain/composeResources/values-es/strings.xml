@@ -258,4 +258,5 @@
     <string name="settings_remote_delete_body">Esto elimina permanentemente todas las copias de seguridad en la nube y los datos de sincronización de tu Google Drive, y desactiva la copia automática y la sincronización entre dispositivos. No se puede deshacer.</string>
     <string name="settings_remote_delete_confirm">Eliminar</string>
     <string name="settings_import_failed">Error al importar</string>
+    <string name="settings_bank_sync">Sincronización bancaria</string>
 </resources>

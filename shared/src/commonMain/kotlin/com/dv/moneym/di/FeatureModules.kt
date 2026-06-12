@@ -33,6 +33,10 @@ import com.dv.moneym.feature.categories.list.CategoryListViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
 import com.dv.moneym.feature.onboarding.restore.OnboardingRestoreViewModel
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
+import com.dv.moneym.feature.banksync.BankSyncSettingsViewModel
+import com.dv.moneym.feature.banksync.usecase.CompleteConnectionUseCase
+import com.dv.moneym.feature.banksync.usecase.ConnectBankUseCase
+import com.dv.moneym.feature.banksync.usecase.ParseRedirectCodeUseCase
 import com.dv.moneym.feature.sync.PendingDeletionsViewModel
 import com.dv.moneym.feature.sync.SyncSettingsViewModel
 import com.dv.moneym.feature.overview.OverviewPeriod
@@ -316,6 +320,33 @@ val featureSyncModule = module {
             registry = get<DeviceRegistryManager>(),
             appSettings = get(),
             syncPuller = get<SyncEngine>(),
+            savedStateHandle = get(),
+        )
+    }
+}
+
+val featureBankSyncModule = module {
+    single { ConnectBankUseCase(client = get(), clock = get()) }
+    single {
+        CompleteConnectionUseCase(
+            client = get(),
+            credentialsStore = get(),
+            bankSyncRepository = get(),
+            appSettings = get(),
+        )
+    }
+    single { ParseRedirectCodeUseCase() }
+    viewModel {
+        BankSyncSettingsViewModel(
+            credentialsStore = get(),
+            client = get(),
+            bankSyncRepository = get(),
+            engine = get(),
+            appSettings = get(),
+            accountRepository = get(),
+            connectBank = get(),
+            completeConnection = get(),
+            parseRedirectCode = get(),
             savedStateHandle = get(),
         )
     }

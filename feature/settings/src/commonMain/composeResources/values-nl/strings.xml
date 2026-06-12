@@ -248,4 +248,5 @@
     <string name="settings_remote_restore_error_title">Kan back-up niet laden</string>
     <string name="settings_remote_restore_no_backup">Er is geen back-up gevonden op Google Drive.</string>
     <string name="settings_remote_restore_try_again">Probeer het opnieuw.</string>
+    <string name="settings_bank_sync">Banksynchronisatie</string>
 </resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">Bančna sinhronizacija</string>
+    <string name="bank_sync_setup_header">Povežite svojo aplikacijo Enable Banking</string>
+    <string name="bank_sync_setup_hint">Ustvarite brezplačen račun Enable Banking, registrirajte aplikacijo in sem prilepite njen ID in zasebni ključ. README vsebuje navodila po korakih.</string>
+    <string name="bank_sync_app_id_label">ID aplikacije</string>
+    <string name="bank_sync_private_key_label">Zasebni ključ (PEM)</string>
+    <string name="bank_sync_save_credentials">Shrani in preveri</string>
+    <string name="bank_sync_error_generic">Ni uspelo: %1$s</string>
+    <string name="bank_sync_status_connected">Banka povezana</string>
+    <string name="bank_sync_status_not_connected">Nobena banka ni povezana</string>
+    <string name="bank_sync_session_valid_until">Dostop velja do %1$s</string>
+    <string name="bank_sync_reconnect_required">Dostop do banke je potekel — znova povežite banko</string>
+    <string name="bank_sync_review_pending">Preglejte %1$d predlaganih transakcij</string>
+    <string name="bank_sync_connect_bank">Poveži banko</string>
+    <string name="bank_sync_country_label">Koda države</string>
+    <string name="bank_sync_load_banks">Poišči banke</string>
+    <string name="bank_sync_search_banks">Išči banke</string>
+    <string name="bank_sync_awaiting_auth">Dokončajte avtorizacijo v brskalniku, nato spodaj prilepite povezavo za preusmeritev.</string>
+    <string name="bank_sync_redirect_label">Povezava za preusmeritev ali koda</string>
+    <string name="bank_sync_redirect_invalid">V prilepljenem besedilu ni bilo mogoče najti kode</string>
+    <string name="bank_sync_submit_redirect">Dokončaj povezavo</string>
+    <string name="bank_sync_cancel">Prekliči</string>
+    <string name="bank_sync_accounts_header">POVEZANI RAČUNI</string>
+    <string name="bank_sync_account_target_label">Uvozi v</string>
+    <string name="bank_sync_account_target_none">Izberite denarnico</string>
+    <string name="bank_sync_auto_title">Samodejno sinhroniziraj</string>
+    <string name="bank_sync_auto_subtitle">Ob zagonu aplikacije preveri nove bančne transakcije.</string>
+    <string name="bank_sync_sync_now">Sinhroniziraj zdaj</string>
+    <string name="bank_sync_syncing">Sinhroniziranje…</string>
+    <string name="bank_sync_last_sync_never">Še ni sinhronizirano</string>
+    <string name="bank_sync_disconnect">Prekini povezavo</string>
+</resources>

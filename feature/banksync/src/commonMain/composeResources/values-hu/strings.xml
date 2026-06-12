@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">Banki szinkronizálás</string>
+    <string name="bank_sync_setup_header">Kapcsolja össze Enable Banking alkalmazását</string>
+    <string name="bank_sync_setup_hint">Hozzon létre ingyenes Enable Banking fiókot, regisztráljon egy alkalmazást, majd illessze be ide az azonosítóját és a privát kulcsát. A README lépésről lépésre útmutatót tartalmaz.</string>
+    <string name="bank_sync_app_id_label">Alkalmazásazonosító</string>
+    <string name="bank_sync_private_key_label">Privát kulcs (PEM)</string>
+    <string name="bank_sync_save_credentials">Mentés és ellenőrzés</string>
+    <string name="bank_sync_error_generic">Sikertelen: %1$s</string>
+    <string name="bank_sync_status_connected">Bank csatlakoztatva</string>
+    <string name="bank_sync_status_not_connected">Nincs csatlakoztatott bank</string>
+    <string name="bank_sync_session_valid_until">Hozzáférés érvényes eddig: %1$s</string>
+    <string name="bank_sync_reconnect_required">A banki hozzáférés lejárt — csatlakoztassa újra a bankját</string>
+    <string name="bank_sync_review_pending">%1$d javasolt tranzakció áttekintése</string>
+    <string name="bank_sync_connect_bank">Bank csatlakoztatása</string>
+    <string name="bank_sync_country_label">Országkód</string>
+    <string name="bank_sync_load_banks">Bankok keresése</string>
+    <string name="bank_sync_search_banks">Keresés a bankok között</string>
+    <string name="bank_sync_awaiting_auth">Fejezze be az engedélyezést a böngészőben, majd illessze be alább az átirányítási hivatkozást.</string>
+    <string name="bank_sync_redirect_label">Átirányítási hivatkozás vagy kód</string>
+    <string name="bank_sync_redirect_invalid">A beillesztett szövegben nem található kód</string>
+    <string name="bank_sync_submit_redirect">Kapcsolat befejezése</string>
+    <string name="bank_sync_cancel">Mégse</string>
+    <string name="bank_sync_accounts_header">ÖSSZEKAPCSOLT SZÁMLÁK</string>
+    <string name="bank_sync_account_target_label">Importálás ide</string>
+    <string name="bank_sync_account_target_none">Válasszon tárcát</string>
+    <string name="bank_sync_auto_title">Automatikus szinkronizálás</string>
+    <string name="bank_sync_auto_subtitle">Új banki tranzakciók keresése az alkalmazás indításakor.</string>
+    <string name="bank_sync_sync_now">Szinkronizálás most</string>
+    <string name="bank_sync_syncing">Szinkronizálás…</string>
+    <string name="bank_sync_last_sync_never">Még nincs szinkronizálva</string>
+    <string name="bank_sync_disconnect">Leválasztás</string>
+</resources>

@@ -248,4 +248,5 @@
     <string name="settings_remote_restore_error_title">Učitavanje sigurnosne kopije nije uspjelo</string>
     <string name="settings_remote_restore_no_backup">Na Google Driveu nije pronađena sigurnosna kopija.</string>
     <string name="settings_remote_restore_try_again">Pokušajte ponovno.</string>
+    <string name="settings_bank_sync">Bankovna sinkronizacija</string>
 </resources>

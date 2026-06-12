@@ -258,4 +258,5 @@
     <string name="settings_remote_delete_body">Dadurch werden alle Cloud-Sicherungen und Synchronisierungsdaten dauerhaft aus deinem Google Drive gelöscht und die automatische Sicherung sowie die geräteübergreifende Synchronisierung deaktiviert. Dies kann nicht rückgängig gemacht werden.</string>
     <string name="settings_remote_delete_confirm">Löschen</string>
     <string name="settings_import_failed">Import fehlgeschlagen</string>
+    <string name="settings_bank_sync">Bank-Synchronisierung</string>
 </resources>

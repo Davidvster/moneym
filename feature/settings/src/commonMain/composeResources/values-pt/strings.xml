@@ -248,4 +248,5 @@
     <string name="settings_remote_restore_error_title">Não foi possível carregar o backup</string>
     <string name="settings_remote_restore_no_backup">Não foi encontrado nenhum backup no Google Drive.</string>
     <string name="settings_remote_restore_try_again">Tente novamente.</string>
+    <string name="settings_bank_sync">Sincronização bancária</string>
 </resources>

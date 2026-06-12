@@ -87,6 +87,7 @@ kotlin {
             implementation(projects.data.sync)
             implementation(projects.data.banksync)
             implementation(projects.data.llmmodels)
+            implementation(projects.feature.banksync)
             implementation(projects.data.aichat)
             api(projects.core.oauth)
             implementation(libs.ktor.client.core)

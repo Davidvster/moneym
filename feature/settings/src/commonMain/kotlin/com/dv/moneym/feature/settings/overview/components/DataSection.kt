@@ -9,12 +9,14 @@ import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmSettingsRow
 import com.dv.moneym.core.ui.imageVector
 import moneym.feature.settings.generated.resources.Res
+import moneym.feature.settings.generated.resources.settings_bank_sync
 import moneym.feature.settings.generated.resources.settings_import_export
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun DataSection(
     onNavigateToExport: () -> Unit,
+    onNavigateToBankSync: () -> Unit,
 ) {
     val space = MM.dimen
     MmCard(Modifier.padding(horizontal = space.padding_2x)) {
@@ -22,6 +24,11 @@ internal fun DataSection(
             title = stringResource(Res.string.settings_import_export),
             leadingIcon = Icon.Folder.imageVector,
             onClick = onNavigateToExport,
+        )
+        MmSettingsRow(
+            title = stringResource(Res.string.settings_bank_sync),
+            leadingIcon = Icon.Bank.imageVector,
+            onClick = onNavigateToBankSync,
             divider = false,
         )
     }

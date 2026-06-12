@@ -260,4 +260,5 @@
     <string name="settings_remote_restore_error_title">Impossible de charger la sauvegarde</string>
     <string name="settings_remote_restore_no_backup">Aucune sauvegarde n\'a été trouvée sur Google Drive.</string>
     <string name="settings_remote_restore_try_again">Veuillez réessayer.</string>
+    <string name="settings_bank_sync">Synchronisation bancaire</string>
 </resources>

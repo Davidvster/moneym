@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">बैंक सिंक</string>
+    <string name="bank_sync_setup_header">अपना Enable Banking ऐप्लिकेशन कनेक्ट करें</string>
+    <string name="bank_sync_setup_hint">मुफ़्त Enable Banking खाता बनाएँ, एक ऐप्लिकेशन रजिस्टर करें और उसकी ID तथा निजी कुंजी यहाँ चिपकाएँ। README में चरण-दर-चरण गाइड है।</string>
+    <string name="bank_sync_app_id_label">ऐप्लिकेशन ID</string>
+    <string name="bank_sync_private_key_label">निजी कुंजी (PEM)</string>
+    <string name="bank_sync_save_credentials">सहेजें और जाँचें</string>
+    <string name="bank_sync_error_generic">विफल: %1$s</string>
+    <string name="bank_sync_status_connected">बैंक कनेक्ट है</string>
+    <string name="bank_sync_status_not_connected">कोई बैंक कनेक्ट नहीं है</string>
+    <string name="bank_sync_session_valid_until">पहुँच %1$s तक मान्य है</string>
+    <string name="bank_sync_reconnect_required">बैंक की पहुँच समाप्त हो गई — बैंक को फिर से कनेक्ट करें</string>
+    <string name="bank_sync_review_pending">%1$d सुझाए गए लेन-देन की समीक्षा करें</string>
+    <string name="bank_sync_connect_bank">बैंक कनेक्ट करें</string>
+    <string name="bank_sync_country_label">देश कोड</string>
+    <string name="bank_sync_load_banks">बैंक खोजें</string>
+    <string name="bank_sync_search_banks">बैंकों में खोजें</string>
+    <string name="bank_sync_awaiting_auth">ब्राउज़र में प्राधिकरण पूरा करें, फिर नीचे रीडायरेक्ट लिंक चिपकाएँ।</string>
+    <string name="bank_sync_redirect_label">रीडायरेक्ट लिंक या कोड</string>
+    <string name="bank_sync_redirect_invalid">चिपकाए गए टेक्स्ट में कोई कोड नहीं मिला</string>
+    <string name="bank_sync_submit_redirect">कनेक्शन पूरा करें</string>
+    <string name="bank_sync_cancel">रद्द करें</string>
+    <string name="bank_sync_accounts_header">लिंक किए गए खाते</string>
+    <string name="bank_sync_account_target_label">इसमें आयात करें</string>
+    <string name="bank_sync_account_target_none">वॉलेट चुनें</string>
+    <string name="bank_sync_auto_title">स्वचालित रूप से सिंक करें</string>
+    <string name="bank_sync_auto_subtitle">ऐप शुरू होने पर नए बैंक लेन-देन देखें।</string>
+    <string name="bank_sync_sync_now">अभी सिंक करें</string>
+    <string name="bank_sync_syncing">सिंक हो रहा है…</string>
+    <string name="bank_sync_last_sync_never">अभी तक सिंक नहीं हुआ</string>
+    <string name="bank_sync_disconnect">डिस्कनेक्ट करें</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">Банкарска синхронизација</string>
+    <string name="bank_sync_setup_header">Поврзете ја вашата Enable Banking апликација</string>
+    <string name="bank_sync_setup_hint">Создајте бесплатна Enable Banking сметка, регистрирајте апликација и залепете го тука нејзиниот ID и приватниот клуч. README содржи упатство чекор по чекор.</string>
+    <string name="bank_sync_app_id_label">ID на апликацијата</string>
+    <string name="bank_sync_private_key_label">Приватен клуч (PEM)</string>
+    <string name="bank_sync_save_credentials">Зачувај и провери</string>
+    <string name="bank_sync_error_generic">Неуспешно: %1$s</string>
+    <string name="bank_sync_status_connected">Банката е поврзана</string>
+    <string name="bank_sync_status_not_connected">Нема поврзана банка</string>
+    <string name="bank_sync_session_valid_until">Пристапот важи до %1$s</string>
+    <string name="bank_sync_reconnect_required">Пристапот до банката истече — поврзете ја банката повторно</string>
+    <string name="bank_sync_review_pending">Прегледајте %1$d предложени трансакции</string>
+    <string name="bank_sync_connect_bank">Поврзи банка</string>
+    <string name="bank_sync_country_label">Код на земја</string>
+    <string name="bank_sync_load_banks">Најди банки</string>
+    <string name="bank_sync_search_banks">Пребарај банки</string>
+    <string name="bank_sync_awaiting_auth">Завршете ја авторизацијата во прелистувачот, а потоа залепете ја врската за пренасочување подолу.</string>
+    <string name="bank_sync_redirect_label">Врска за пренасочување или код</string>
+    <string name="bank_sync_redirect_invalid">Во залепениот текст не е пронајден код</string>
+    <string name="bank_sync_submit_redirect">Заврши го поврзувањето</string>
+    <string name="bank_sync_cancel">Откажи</string>
+    <string name="bank_sync_accounts_header">ПОВРЗАНИ СМЕТКИ</string>
+    <string name="bank_sync_account_target_label">Увези во</string>
+    <string name="bank_sync_account_target_none">Изберете паричник</string>
+    <string name="bank_sync_auto_title">Синхронизирај автоматски</string>
+    <string name="bank_sync_auto_subtitle">Провери нови банкарски трансакции при стартување на апликацијата.</string>
+    <string name="bank_sync_sync_now">Синхронизирај сега</string>
+    <string name="bank_sync_syncing">Синхронизирање…</string>
+    <string name="bank_sync_last_sync_never">Сè уште не е синхронизирано</string>
+    <string name="bank_sync_disconnect">Исклучи</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">Banksynchronisatie</string>
+    <string name="bank_sync_setup_header">Verbind je Enable Banking-applicatie</string>
+    <string name="bank_sync_setup_hint">Maak een gratis Enable Banking-account aan, registreer een applicatie en plak hier het ID en de privésleutel. De README bevat een stap-voor-stapgids.</string>
+    <string name="bank_sync_app_id_label">Applicatie-ID</string>
+    <string name="bank_sync_private_key_label">Privésleutel (PEM)</string>
+    <string name="bank_sync_save_credentials">Opslaan en valideren</string>
+    <string name="bank_sync_error_generic">Mislukt: %1$s</string>
+    <string name="bank_sync_status_connected">Bank verbonden</string>
+    <string name="bank_sync_status_not_connected">Geen bank verbonden</string>
+    <string name="bank_sync_session_valid_until">Toegang geldig tot %1$s</string>
+    <string name="bank_sync_reconnect_required">Banktoegang verlopen — verbind je bank opnieuw</string>
+    <string name="bank_sync_review_pending">%1$d voorgestelde transacties bekijken</string>
+    <string name="bank_sync_connect_bank">Bank verbinden</string>
+    <string name="bank_sync_country_label">Landcode</string>
+    <string name="bank_sync_load_banks">Banken zoeken</string>
+    <string name="bank_sync_search_banks">Banken doorzoeken</string>
+    <string name="bank_sync_awaiting_auth">Voltooi de autorisatie in je browser en plak daarna de omleidingslink hieronder.</string>
+    <string name="bank_sync_redirect_label">Omleidingslink of code</string>
+    <string name="bank_sync_redirect_invalid">Geen code gevonden in de geplakte tekst</string>
+    <string name="bank_sync_submit_redirect">Verbinding voltooien</string>
+    <string name="bank_sync_cancel">Annuleren</string>
+    <string name="bank_sync_accounts_header">GEKOPPELDE REKENINGEN</string>
+    <string name="bank_sync_account_target_label">Importeren in</string>
+    <string name="bank_sync_account_target_none">Kies een portemonnee</string>
+    <string name="bank_sync_auto_title">Automatisch synchroniseren</string>
+    <string name="bank_sync_auto_subtitle">Bij het starten van de app controleren op nieuwe banktransacties.</string>
+    <string name="bank_sync_sync_now">Nu synchroniseren</string>
+    <string name="bank_sync_syncing">Synchroniseren…</string>
+    <string name="bank_sync_last_sync_never">Nog niet gesynchroniseerd</string>
+    <string name="bank_sync_disconnect">Verbinding verbreken</string>
+</resources>

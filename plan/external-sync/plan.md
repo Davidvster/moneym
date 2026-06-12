@@ -66,7 +66,7 @@ core/testing. Tests: dedupe, overlap idempotency, cursor, pagination,
 reject-never-reinserted.
 
 ### Phase 4 — feature/banksync settings + connect flow
-Status: pending
+Status: done
 `BankSyncSettingsKey`/entry/Screen/ViewModel/UiState/Intent modeled on
 feature/sync. Not-configured state (app id + PEM paste, validate via
 GET /application); configured state (session status, ASPSP picker, browser auth,

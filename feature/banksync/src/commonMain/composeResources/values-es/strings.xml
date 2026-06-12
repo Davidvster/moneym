@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">Sincronización bancaria</string>
+    <string name="bank_sync_setup_header">Conecta tu aplicación de Enable Banking</string>
+    <string name="bank_sync_setup_hint">Crea una cuenta gratuita de Enable Banking, registra una aplicación y pega aquí su ID y su clave privada. El README incluye una guía paso a paso.</string>
+    <string name="bank_sync_app_id_label">ID de la aplicación</string>
+    <string name="bank_sync_private_key_label">Clave privada (PEM)</string>
+    <string name="bank_sync_save_credentials">Guardar y validar</string>
+    <string name="bank_sync_error_generic">Error: %1$s</string>
+    <string name="bank_sync_status_connected">Banco conectado</string>
+    <string name="bank_sync_status_not_connected">Ningún banco conectado</string>
+    <string name="bank_sync_session_valid_until">Acceso válido hasta %1$s</string>
+    <string name="bank_sync_reconnect_required">El acceso al banco caducó: vuelve a conectar tu banco</string>
+    <string name="bank_sync_review_pending">Revisar %1$d transacciones sugeridas</string>
+    <string name="bank_sync_connect_bank">Conectar un banco</string>
+    <string name="bank_sync_country_label">Código de país</string>
+    <string name="bank_sync_load_banks">Buscar bancos</string>
+    <string name="bank_sync_search_banks">Buscar entre bancos</string>
+    <string name="bank_sync_awaiting_auth">Termina la autorización en el navegador y pega abajo el enlace de redirección.</string>
+    <string name="bank_sync_redirect_label">Enlace de redirección o código</string>
+    <string name="bank_sync_redirect_invalid">No se encontró ningún código en el texto pegado</string>
+    <string name="bank_sync_submit_redirect">Completar conexión</string>
+    <string name="bank_sync_cancel">Cancelar</string>
+    <string name="bank_sync_accounts_header">CUENTAS VINCULADAS</string>
+    <string name="bank_sync_account_target_label">Importar en</string>
+    <string name="bank_sync_account_target_none">Elegir una cartera</string>
+    <string name="bank_sync_auto_title">Sincronizar automáticamente</string>
+    <string name="bank_sync_auto_subtitle">Buscar nuevas transacciones bancarias al iniciar la app.</string>
+    <string name="bank_sync_sync_now">Sincronizar ahora</string>
+    <string name="bank_sync_syncing">Sincronizando…</string>
+    <string name="bank_sync_last_sync_never">Aún sin sincronizar</string>
+    <string name="bank_sync_disconnect">Desconectar</string>
+</resources>

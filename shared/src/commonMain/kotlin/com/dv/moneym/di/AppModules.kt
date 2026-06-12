@@ -63,6 +63,7 @@ val appModules: List<Module> = listOf(
     featureWalletModule,
     featureCategoriesModule,
     featureSyncModule,
+    featureBankSyncModule,
     featureBudgetsModule,
     featureOnboardingModule,
     featureOverviewModule,

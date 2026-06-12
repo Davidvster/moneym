@@ -248,4 +248,5 @@
     <string name="settings_remote_restore_error_title">Varukoopiat ei õnnestunud laadida</string>
     <string name="settings_remote_restore_no_backup">Google Drive\'ist ei leitud varukoopiat.</string>
     <string name="settings_remote_restore_try_again">Palun proovi uuesti.</string>
+    <string name="settings_bank_sync">Panga sünkroonimine</string>
 </resources>

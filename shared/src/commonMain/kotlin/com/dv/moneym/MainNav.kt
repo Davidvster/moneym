@@ -38,6 +38,8 @@ import com.dv.moneym.feature.security.setup.PinSetupKey
 import com.dv.moneym.feature.security.setup.pinSetupEntry
 import com.dv.moneym.feature.sync.PendingDeletionsKey
 import com.dv.moneym.feature.sync.pendingDeletionsEntry
+import com.dv.moneym.feature.banksync.BankSyncSettingsKey
+import com.dv.moneym.feature.banksync.bankSyncSettingsEntry
 import com.dv.moneym.feature.sync.SyncSettingsKey
 import com.dv.moneym.feature.sync.syncSettingsEntry
 import com.dv.moneym.feature.settings.overview.LanguagePickerKey
@@ -181,6 +183,7 @@ internal fun MainNav(lockController: AppLockController) {
                 onNavigateToTxDisplay = { tabBackStack.push(TxListDisplayKey) },
                 onNavigateToLanguage = { tabBackStack.push(LanguagePickerKey) },
                 onNavigateToExport = { tabBackStack.push(ExportDataKey) },
+                onNavigateToBankSync = { tabBackStack.push(BankSyncSettingsKey) },
                 onNavigateToWallets = { tabBackStack.push(WalletManageKey) },
                 onNavigateToPaymentModes = { tabBackStack.push(PaymentModeListKey) },
                 onNavigateToBackupRestore = { tabBackStack.push(BackupRestoreKey) },
@@ -224,6 +227,11 @@ internal fun MainNav(lockController: AppLockController) {
             )
             syncSettingsEntry(
                 onBack = { tabBackStack.removeLast() },
+                metadata = modalTransitionMeta,
+            )
+            bankSyncSettingsEntry(
+                onBack = { tabBackStack.removeLast() },
+                onOpenSuggestions = {},
                 metadata = modalTransitionMeta,
             )
             budgetListEntry(

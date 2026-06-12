@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bank_sync_title">Банковская синхронизация</string>
+    <string name="bank_sync_setup_header">Подключите приложение Enable Banking</string>
+    <string name="bank_sync_setup_hint">Создайте бесплатную учётную запись Enable Banking, зарегистрируйте приложение и вставьте сюда его ID и закрытый ключ. Пошаговая инструкция есть в README.</string>
+    <string name="bank_sync_app_id_label">ID приложения</string>
+    <string name="bank_sync_private_key_label">Закрытый ключ (PEM)</string>
+    <string name="bank_sync_save_credentials">Сохранить и проверить</string>
+    <string name="bank_sync_error_generic">Сбой: %1$s</string>
+    <string name="bank_sync_status_connected">Банк подключён</string>
+    <string name="bank_sync_status_not_connected">Банк не подключён</string>
+    <string name="bank_sync_session_valid_until">Доступ действителен до %1$s</string>
+    <string name="bank_sync_reconnect_required">Доступ к банку истёк — подключите банк заново</string>
+    <string name="bank_sync_review_pending">Проверить предложенные транзакции: %1$d</string>
+    <string name="bank_sync_connect_bank">Подключить банк</string>
+    <string name="bank_sync_country_label">Код страны</string>
+    <string name="bank_sync_load_banks">Найти банки</string>
+    <string name="bank_sync_search_banks">Поиск банков</string>
+    <string name="bank_sync_awaiting_auth">Завершите авторизацию в браузере, затем вставьте ниже ссылку перенаправления.</string>
+    <string name="bank_sync_redirect_label">Ссылка перенаправления или код</string>
+    <string name="bank_sync_redirect_invalid">Во вставленном тексте не найден код</string>
+    <string name="bank_sync_submit_redirect">Завершить подключение</string>
+    <string name="bank_sync_cancel">Отмена</string>
+    <string name="bank_sync_accounts_header">СВЯЗАННЫЕ СЧЕТА</string>
+    <string name="bank_sync_account_target_label">Импортировать в</string>
+    <string name="bank_sync_account_target_none">Выберите кошелёк</string>
+    <string name="bank_sync_auto_title">Синхронизировать автоматически</string>
+    <string name="bank_sync_auto_subtitle">Проверять новые банковские транзакции при запуске приложения.</string>
+    <string name="bank_sync_sync_now">Синхронизировать сейчас</string>
+    <string name="bank_sync_syncing">Синхронизация…</string>
+    <string name="bank_sync_last_sync_never">Ещё не синхронизировано</string>
+    <string name="bank_sync_disconnect">Отключить</string>
+</resources>
