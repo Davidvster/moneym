@@ -4,6 +4,7 @@ import com.dv.moneym.data.remotebackup.RemoteBackupError
 import com.dv.moneym.data.remotebackup.RemoteBackupProvider
 import com.dv.moneym.data.remotebackup.RemoteFileRef
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.delete
@@ -166,6 +167,11 @@ class GoogleDriveBackupClient(
 
         fun newHttpClient(engineFactoryClient: HttpClient): HttpClient = engineFactoryClient.config {
             install(ContentNegotiation) { json(defaultJson) }
+            install(HttpTimeout) {
+                connectTimeoutMillis = 30_000
+                socketTimeoutMillis = 60_000
+                requestTimeoutMillis = 300_000
+            }
         }
     }
 }

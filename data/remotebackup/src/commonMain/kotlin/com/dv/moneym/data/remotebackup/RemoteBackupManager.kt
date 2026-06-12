@@ -72,6 +72,7 @@ class RemoteBackupManager(
 
     suspend fun peekLatestMetadata(): Result<RemoteBackupMetadata?> = runCatching {
         val ref = latestBackup() ?: return@runCatching null
+        metadataFromProperties(ref)?.let { return@runCatching it }
         val bytes = provider.download(ref)
         if (isEncrypted(ref, bytes)) {
             val envelope: EncryptedBackup = decodeEnvelope(bytes)
@@ -197,6 +198,22 @@ class RemoteBackupManager(
             }
         }
     }.onFailure { logger.e(it) { "Delete all remote data failed" } }
+
+    private fun metadataFromProperties(ref: RemoteFileRef): RemoteBackupMetadata? {
+        val props = ref.appProperties
+        val createdAt = props["createdAt"]?.toLongOrNull() ?: return null
+        val encrypted = props["encrypted"]?.toBooleanStrictOrNull() ?: return null
+        if (ref.sizeBytes <= 0) return null
+        return RemoteBackupMetadata(
+            createdAtMs = createdAt,
+            appVersion = props["appVersion"] ?: "—",
+            schema = props["schema"]?.toIntOrNull() ?: CURRENT_SCHEMA,
+            envelopeVersion = EncryptedBackup.ENVELOPE_VERSION,
+            sizeBytes = ref.sizeBytes,
+            fileName = ref.name,
+            encrypted = encrypted,
+        )
+    }
 
     private suspend fun latestBackup(): RemoteFileRef? =
         latestBackupRef(provider.list(limit = MAX_LIST_LIMIT))

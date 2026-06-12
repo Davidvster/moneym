@@ -6,6 +6,6 @@
 | 2 | Android status bar icons follow app theme | done |
 | 3 | Overview filter-aware avg/categories/charts | done |
 | 4 | Dev/prod app separation (.dev suffix) | Android done; iOS bundle id deferred until after phase 5 |
-| 5 | iOS Google Drive restore hang | in progress |
-| 6 | iPad amount keyboard | pending |
+| 5 | iOS Google Drive restore hang | done — HttpTimeout added (Darwin resource timeout was 7d), metadata peek no longer downloads full backup; verified on iPhone 16e sim. Android per-account misses: appDataFolder is scoped per OAuth client+account | 
+| 6 | iPad amount keyboard | in progress |
 | Final | Android + iOS builds, tests | pending |
