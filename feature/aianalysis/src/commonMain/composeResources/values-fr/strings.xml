@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Supprimer</string>
     <string name="analyze_history_delete_title">Supprimer la conversation ?</string>
     <string name="analyze_history_empty">Aucune conversation pour l\'instant. Vos discussions apparaîtront ici.</string>
+    <string name="analyze_history_new_chat">Nouvelle analyse</string>
     <string name="analyze_history_new_chat_cd">Nouvelle discussion</string>
     <string name="analyze_history_title">Historique des discussions</string>
     <string name="analyze_manage_models">Gérer les modèles…</string>

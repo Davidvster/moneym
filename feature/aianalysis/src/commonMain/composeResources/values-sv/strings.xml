@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Radera</string>
     <string name="analyze_history_delete_title">Radera konversationen?</string>
     <string name="analyze_history_empty">Inga konversationer än. Dina chattar visas här.</string>
+    <string name="analyze_history_new_chat">Ny analys</string>
     <string name="analyze_history_new_chat_cd">Ny chatt</string>
     <string name="analyze_history_title">Chatthistorik</string>
     <string name="analyze_manage_models">Hantera modeller…</string>

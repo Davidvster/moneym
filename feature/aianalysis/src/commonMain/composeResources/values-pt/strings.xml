@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Eliminar</string>
     <string name="analyze_history_delete_title">Eliminar conversa?</string>
     <string name="analyze_history_empty">Ainda não há conversas. As suas conversas aparecerão aqui.</string>
+    <string name="analyze_history_new_chat">Nova análise</string>
     <string name="analyze_history_new_chat_cd">Nova conversa</string>
     <string name="analyze_history_title">Histórico de conversas</string>
     <string name="analyze_manage_models">Gerir modelos…</string>

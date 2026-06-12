@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Sil</string>
     <string name="analyze_history_delete_title">Konuşma silinsin mi?</string>
     <string name="analyze_history_empty">Henüz konuşma yok. Sohbetleriniz burada görünecek.</string>
+    <string name="analyze_history_new_chat">Yeni analiz</string>
     <string name="analyze_history_new_chat_cd">Yeni sohbet</string>
     <string name="analyze_history_title">Sohbet geçmişi</string>
     <string name="analyze_manage_models">Modelleri yönet…</string>

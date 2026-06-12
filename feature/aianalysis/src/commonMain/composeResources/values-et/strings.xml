@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Kustuta</string>
     <string name="analyze_history_delete_title">Kustutada vestlus?</string>
     <string name="analyze_history_empty">Vestlusi veel pole. Sinu vestlused ilmuvad siia.</string>
+    <string name="analyze_history_new_chat">Uus analüüs</string>
     <string name="analyze_history_new_chat_cd">Uus vestlus</string>
     <string name="analyze_history_title">Vestluste ajalugu</string>
     <string name="analyze_manage_models">Halda mudeleid…</string>

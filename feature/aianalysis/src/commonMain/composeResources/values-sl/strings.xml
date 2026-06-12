@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Izbriši</string>
     <string name="analyze_history_delete_title">Izbrišem pogovor?</string>
     <string name="analyze_history_empty">Še ni pogovorov. Vaši klepeti se bodo prikazali tukaj.</string>
+    <string name="analyze_history_new_chat">Nova analiza</string>
     <string name="analyze_history_new_chat_cd">Nov klepet</string>
     <string name="analyze_history_title">Zgodovina klepetov</string>
     <string name="analyze_manage_models">Upravljanje modelov…</string>

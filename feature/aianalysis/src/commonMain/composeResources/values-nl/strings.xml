@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Verwijderen</string>
     <string name="analyze_history_delete_title">Gesprek verwijderen?</string>
     <string name="analyze_history_empty">Nog geen gesprekken. Je chats verschijnen hier.</string>
+    <string name="analyze_history_new_chat">Nieuwe analyse</string>
     <string name="analyze_history_new_chat_cd">Nieuwe chat</string>
     <string name="analyze_history_title">Chatgeschiedenis</string>
     <string name="analyze_manage_models">Modellen beheren…</string>

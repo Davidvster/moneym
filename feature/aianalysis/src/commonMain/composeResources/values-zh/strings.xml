@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">删除</string>
     <string name="analyze_history_delete_title">删除对话？</string>
     <string name="analyze_history_empty">还没有对话。您的聊天将显示在此处。</string>
+    <string name="analyze_history_new_chat">新建分析</string>
     <string name="analyze_history_new_chat_cd">新建聊天</string>
     <string name="analyze_history_title">聊天记录</string>
     <string name="analyze_manage_models">管理模型…</string>

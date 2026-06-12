@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Smazat</string>
     <string name="analyze_history_delete_title">Smazat konverzaci?</string>
     <string name="analyze_history_empty">Zatím žádné konverzace. Vaše chaty se zobrazí zde.</string>
+    <string name="analyze_history_new_chat">Nová analýza</string>
     <string name="analyze_history_new_chat_cd">Nový chat</string>
     <string name="analyze_history_title">Historie chatu</string>
     <string name="analyze_manage_models">Spravovat modely…</string>

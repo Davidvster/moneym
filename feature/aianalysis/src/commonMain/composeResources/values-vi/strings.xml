@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Xóa</string>
     <string name="analyze_history_delete_title">Xóa cuộc trò chuyện?</string>
     <string name="analyze_history_empty">Chưa có cuộc trò chuyện nào. Các cuộc trò chuyện của bạn sẽ hiển thị ở đây.</string>
+    <string name="analyze_history_new_chat">Phân tích mới</string>
     <string name="analyze_history_new_chat_cd">Trò chuyện mới</string>
     <string name="analyze_history_title">Lịch sử trò chuyện</string>
     <string name="analyze_manage_models">Quản lý mô hình…</string>

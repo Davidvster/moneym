@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Удалить</string>
     <string name="analyze_history_delete_title">Удалить разговор?</string>
     <string name="analyze_history_empty">Пока нет разговоров. Ваши чаты появятся здесь.</string>
+    <string name="analyze_history_new_chat">Новый анализ</string>
     <string name="analyze_history_new_chat_cd">Новый чат</string>
     <string name="analyze_history_title">История чатов</string>
     <string name="analyze_manage_models">Управление моделями…</string>

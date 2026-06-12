@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">हटाएं</string>
     <string name="analyze_history_delete_title">बातचीत हटाएं?</string>
     <string name="analyze_history_empty">अभी तक कोई बातचीत नहीं. आपकी चैट यहाँ दिखाई देंगी.</string>
+    <string name="analyze_history_new_chat">नया विश्लेषण</string>
     <string name="analyze_history_new_chat_cd">नई चैट</string>
     <string name="analyze_history_title">चैट इतिहास</string>
     <string name="analyze_manage_models">मॉडल प्रबंधित करें…</string>

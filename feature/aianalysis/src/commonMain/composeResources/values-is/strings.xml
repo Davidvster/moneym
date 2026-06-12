@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Eyða</string>
     <string name="analyze_history_delete_title">Eyða samtali?</string>
     <string name="analyze_history_empty">Engin samtöl enn. Spjöllin þín birtast hér.</string>
+    <string name="analyze_history_new_chat">Ný greining</string>
     <string name="analyze_history_new_chat_cd">Nýtt spjall</string>
     <string name="analyze_history_title">Spjallferill</string>
     <string name="analyze_manage_models">Stjórna líkönum…</string>

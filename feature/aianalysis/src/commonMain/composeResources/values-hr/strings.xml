@@ -37,8 +37,9 @@
     <string name="analyze_history_delete_confirm">Izbriši</string>
     <string name="analyze_history_delete_title">Izbrisati razgovor?</string>
     <string name="analyze_history_empty">Još nema razgovora. Vaši razgovori prikazat će se ovdje.</string>
+    <string name="analyze_history_new_chat">Nova analiza</string>
     <string name="analyze_history_new_chat_cd">Novi razgovor</string>
-    <string name="analyze_history_title">Povijest razgovora</string>
+    <string name="analyze_history_title">povijest razgovora</string>
     <string name="analyze_manage_models">Upravljanje modelima…</string>
     <string name="analyze_model_picker_cd">Odaberi model</string>
     <string name="analyze_new_chat_cd">Novi razgovor</string>

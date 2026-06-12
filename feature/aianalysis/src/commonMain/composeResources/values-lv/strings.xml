@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Dzēst</string>
     <string name="analyze_history_delete_title">Dzēst sarunu?</string>
     <string name="analyze_history_empty">Vēl nav sarunu. Jūsu tērzēšanas saruna parādīsies šeit.</string>
+    <string name="analyze_history_new_chat">Jauna analīze</string>
     <string name="analyze_history_new_chat_cd">Jauna tērzēšana</string>
     <string name="analyze_history_title">Tērzēšanas vēsture</string>
     <string name="analyze_manage_models">Pārvaldīt modeļus…</string>

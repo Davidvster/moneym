@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Törlés</string>
     <string name="analyze_history_delete_title">Törölhető a beszélgetés?</string>
     <string name="analyze_history_empty">Még nincsenek beszélgetések. A csevegéseid itt jelennek meg.</string>
+    <string name="analyze_history_new_chat">Új elemzés</string>
     <string name="analyze_history_new_chat_cd">Új csevegés</string>
     <string name="analyze_history_title">Csevegési előzmények</string>
     <string name="analyze_manage_models">Modellek kezelése…</string>

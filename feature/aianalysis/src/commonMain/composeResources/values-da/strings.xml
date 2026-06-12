@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Slet</string>
     <string name="analyze_history_delete_title">Slet samtale?</string>
     <string name="analyze_history_empty">Ingen samtaler endnu. Dine chats vises her.</string>
+    <string name="analyze_history_new_chat">Ny analyse</string>
     <string name="analyze_history_new_chat_cd">Ny chat</string>
     <string name="analyze_history_title">Chathistorik</string>
     <string name="analyze_manage_models">Administrer modeller…</string>

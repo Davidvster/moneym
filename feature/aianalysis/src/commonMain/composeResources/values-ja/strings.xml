@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">削除</string>
     <string name="analyze_history_delete_title">会話を削除しますか？</string>
     <string name="analyze_history_empty">まだ会話はありません。チャットはここに表示されます。</string>
+    <string name="analyze_history_new_chat">新しい分析</string>
     <string name="analyze_history_new_chat_cd">新しいチャット</string>
     <string name="analyze_history_title">チャット履歴</string>
     <string name="analyze_manage_models">モデルを管理…</string>

@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">حذف</string>
     <string name="analyze_history_delete_title">حذف المحادثة؟</string>
     <string name="analyze_history_empty">لا توجد محادثات بعد. ستظهر دردشاتك هنا.</string>
+    <string name="analyze_history_new_chat">تحليل جديد</string>
     <string name="analyze_history_new_chat_cd">محادثة جديدة</string>
     <string name="analyze_history_title">سجل المحادثات</string>
     <string name="analyze_manage_models">إدارة النماذج…</string>

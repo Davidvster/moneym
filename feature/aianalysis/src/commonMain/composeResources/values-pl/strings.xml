@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Usuń</string>
     <string name="analyze_history_delete_title">Usunąć rozmowę?</string>
     <string name="analyze_history_empty">Brak rozmów. Twoje czaty pojawią się tutaj.</string>
+    <string name="analyze_history_new_chat">Nowa analiza</string>
     <string name="analyze_history_new_chat_cd">Nowy czat</string>
     <string name="analyze_history_title">Historia czatu</string>
     <string name="analyze_manage_models">Zarządzaj modelami…</string>

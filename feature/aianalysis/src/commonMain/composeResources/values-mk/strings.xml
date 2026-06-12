@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Избриши</string>
     <string name="analyze_history_delete_title">Да се избрише разговорот?</string>
     <string name="analyze_history_empty">Сè уште нема разговори. Вашите разговори ќе се појават тука.</string>
+    <string name="analyze_history_new_chat">Нова анализа</string>
     <string name="analyze_history_new_chat_cd">Нов разговор</string>
     <string name="analyze_history_title">Историја на разговори</string>
     <string name="analyze_manage_models">Управувај со модели…</string>

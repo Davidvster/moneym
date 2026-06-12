@@ -30,6 +30,7 @@
     <string name="analyze_new_chat_cd">Nuevo chat</string>
     <string name="analyze_history_title">Historial de chat</string>
     <string name="analyze_history_empty">Aún no hay conversaciones. Tus chats aparecerán aquí.</string>
+    <string name="analyze_history_new_chat">Nuevo análisis</string>
     <string name="analyze_history_new_chat_cd">Nuevo chat</string>
     <string name="analyze_history_delete_cd">Eliminar conversación</string>
     <string name="analyze_history_delete_title">¿Eliminar conversación?</string>

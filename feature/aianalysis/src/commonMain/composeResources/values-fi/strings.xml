@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Poista</string>
     <string name="analyze_history_delete_title">Poistetaanko keskustelu?</string>
     <string name="analyze_history_empty">Ei vielä keskusteluja. Keskustelusi näkyvät tässä.</string>
+    <string name="analyze_history_new_chat">Uusi analyysi</string>
     <string name="analyze_history_new_chat_cd">Uusi keskustelu</string>
     <string name="analyze_history_title">Keskusteluhistoria</string>
     <string name="analyze_manage_models">Hallitse malleja…</string>

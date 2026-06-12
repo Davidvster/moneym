@@ -37,6 +37,7 @@
     <string name="analyze_history_delete_confirm">Ištrinti</string>
     <string name="analyze_history_delete_title">Ištrinti pokalbį?</string>
     <string name="analyze_history_empty">Pokalbių dar nėra. Jūsų pokalbiai bus rodomi čia.</string>
+    <string name="analyze_history_new_chat">Nauja analizė</string>
     <string name="analyze_history_new_chat_cd">Naujas pokalbis</string>
     <string name="analyze_history_title">Pokalbių istorija</string>
     <string name="analyze_manage_models">Tvarkyti modelius…</string>

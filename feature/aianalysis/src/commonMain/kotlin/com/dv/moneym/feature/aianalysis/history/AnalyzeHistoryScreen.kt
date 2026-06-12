@@ -3,11 +3,13 @@ package com.dv.moneym.feature.aianalysis.history
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -25,6 +27,8 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.navigation.ModalKey
+import com.dv.moneym.core.ui.MmButton
+import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmDeleteSheet
 import com.dv.moneym.core.ui.MmEmptyState
@@ -44,7 +48,7 @@ import moneym.feature.aianalysis.generated.resources.analyze_history_delete_cd
 import moneym.feature.aianalysis.generated.resources.analyze_history_delete_confirm
 import moneym.feature.aianalysis.generated.resources.analyze_history_delete_title
 import moneym.feature.aianalysis.generated.resources.analyze_history_empty
-import moneym.feature.aianalysis.generated.resources.analyze_history_new_chat_cd
+import moneym.feature.aianalysis.generated.resources.analyze_history_new_chat
 import moneym.feature.aianalysis.generated.resources.analyze_history_title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -82,26 +86,17 @@ private fun AnalyzeHistoryContent(
         ScreenHeader(
             title = stringResource(Res.string.analyze_history_title),
             onBack = onBack,
-            trailingContent = {
-                MmIconButton(
-                    icon = Icon.Plus.imageVector,
-                    onClick = {
-                        onIntent(AnalyzeHistoryIntent.NewChat)
-                        onBack()
-                    },
-                    contentDescription = stringResource(Res.string.analyze_history_new_chat_cd),
-                )
-            },
         )
 
         if (state.conversations.isEmpty()) {
             MmEmptyState(
                 message = stringResource(Res.string.analyze_history_empty),
                 icon = Icon.List.imageVector,
+                modifier = Modifier.weight(1f),
             )
         } else {
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.weight(1f),
                 contentPadding = PaddingValues(MM.dimen.padding_2_5x),
                 verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
             ) {
@@ -116,6 +111,26 @@ private fun AnalyzeHistoryContent(
                     )
                 }
             }
+        }
+
+        Box(
+            modifier = Modifier
+                .padding(
+                    horizontal = MM.dimen.padding_2_5x,
+                    vertical = MM.dimen.padding_2x,
+                )
+                .navigationBarsPadding(),
+        ) {
+            MmButton(
+                text = stringResource(Res.string.analyze_history_new_chat),
+                onClick = {
+                    onIntent(AnalyzeHistoryIntent.NewChat)
+                    onBack()
+                },
+                variant = MmButtonVariant.Primary,
+                fullWidth = true,
+                leadingIcon = Icon.Plus.imageVector,
+            )
         }
     }
 
