@@ -147,19 +147,25 @@ How to obtain the key:
 
 1. **Create an account** at [enablebanking.com](https://enablebanking.com) (free) and open the
    [Control Panel](https://enablebanking.com/cp).
-2. **Register an application**: choose a name, and set the redirect URL to exactly
-   `moneym://bank-callback` (this lets your bank's consent page jump back into the app; you can
-   also paste the redirect link manually if the deep link doesn't fire).
+2. **Register an application** in the **production** environment (a sandbox application cannot
+   reach real banks): choose a name, and set the redirect URL to exactly
+   `https://davidvster.github.io/moneym.github.io/bank-callback.html` (Enable Banking only accepts
+   `https` redirect URLs; this page forwards your bank's consent result back into the app via the
+   `moneym://bank-callback` deep link, and offers a copy button if the deep link doesn't fire).
 3. **Download the private key** (a PEM file) generated for the application. It is shown **once** —
    store it safely. The key must be PKCS#8 (`-----BEGIN PRIVATE KEY-----`); if you have a
    `BEGIN RSA PRIVATE KEY` file, convert it:
    `openssl pkcs8 -topk8 -nocrypt -in key.pem -out key-pkcs8.pem`.
 4. **Copy the Application ID** (a UUID shown on the application page).
-5. **Activate restricted production access** by linking your own bank accounts to the application
-   in the Control Panel ("Activate by linking accounts"). Only the accounts you link are
-   accessible — that is what keeps personal use free, no contract needed.
-6. In MoneyM open **Settings → Bank sync**, paste the Application ID and the PEM contents, then
-   **Connect a bank**: pick your country and bank, authorize in the browser, and you're done.
+5. **Activate the application by linking your own bank account** in the Control Panel
+   ("Activate by linking accounts"): choose the country, your bank and the account type
+   (personal or business), then sign in at your bank to confirm the link. Only the accounts you
+   link are accessible — that is what keeps personal use free, no contract needed. The
+   application switches to active restricted production mode.
+6. In MoneyM open **Settings → Bank sync**, paste the Application ID and the PEM contents, and tap
+   **Save & validate**. Then **Connect a bank**: pick the same country and bank, authorize in the
+   browser, and you're back in the app — accept or reject the imported suggestions. (The full
+   guide is also available in the app behind the **ⓘ** button on the Bank sync screen.)
 
 Notes:
 

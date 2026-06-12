@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">बैंक सिंक</string>
     <string name="bank_sync_setup_header">अपना Enable Banking ऐप्लिकेशन कनेक्ट करें</string>
-    <string name="bank_sync_setup_hint">मुफ़्त Enable Banking खाता बनाएँ, एक ऐप्लिकेशन रजिस्टर करें और उसकी ID तथा निजी कुंजी यहाँ चिपकाएँ। README में चरण-दर-चरण गाइड है।</string>
     <string name="bank_sync_app_id_label">ऐप्लिकेशन ID</string>
     <string name="bank_sync_private_key_label">निजी कुंजी (PEM)</string>
     <string name="bank_sync_save_credentials">सहेजें और जाँचें</string>

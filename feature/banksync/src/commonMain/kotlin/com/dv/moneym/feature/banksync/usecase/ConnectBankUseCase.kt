@@ -22,7 +22,7 @@ class ConnectBankUseCase(
         )
 
     companion object {
-        const val REDIRECT_URL = "moneym://bank-callback"
+        const val REDIRECT_URL = "https://davidvster.github.io/moneym.github.io/bank-callback.html"
         const val SESSION_VALIDITY_DAYS = 180
     }
 }

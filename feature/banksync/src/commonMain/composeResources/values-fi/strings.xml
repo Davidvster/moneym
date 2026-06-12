@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">Pankkisynkronointi</string>
     <string name="bank_sync_setup_header">Yhdistä Enable Banking -sovelluksesi</string>
-    <string name="bank_sync_setup_hint">Luo ilmainen Enable Banking -tili, rekisteröi sovellus ja liitä sen tunnus ja yksityinen avain tähän. README sisältää vaiheittaiset ohjeet.</string>
     <string name="bank_sync_app_id_label">Sovelluksen tunnus</string>
     <string name="bank_sync_private_key_label">Yksityinen avain (PEM)</string>
     <string name="bank_sync_save_credentials">Tallenna ja vahvista</string>

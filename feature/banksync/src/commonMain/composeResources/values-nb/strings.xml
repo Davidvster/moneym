@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">Banksynkronisering</string>
     <string name="bank_sync_setup_header">Koble til Enable Banking-applikasjonen din</string>
-    <string name="bank_sync_setup_hint">Opprett en gratis Enable Banking-konto, registrer en applikasjon og lim inn ID-en og den private nøkkelen her. README har en trinnvis veiledning.</string>
     <string name="bank_sync_app_id_label">Applikasjons-ID</string>
     <string name="bank_sync_private_key_label">Privat nøkkel (PEM)</string>
     <string name="bank_sync_save_credentials">Lagre og valider</string>

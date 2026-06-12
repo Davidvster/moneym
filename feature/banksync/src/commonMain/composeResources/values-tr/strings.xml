@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">Banka senkronizasyonu</string>
     <string name="bank_sync_setup_header">Enable Banking uygulamanızı bağlayın</string>
-    <string name="bank_sync_setup_hint">Ücretsiz bir Enable Banking hesabı oluşturun, bir uygulama kaydedin ve kimliğini ile özel anahtarını buraya yapıştırın. README\'de adım adım kılavuz var.</string>
     <string name="bank_sync_app_id_label">Uygulama kimliği</string>
     <string name="bank_sync_private_key_label">Özel anahtar (PEM)</string>
     <string name="bank_sync_save_credentials">Kaydet ve doğrula</string>

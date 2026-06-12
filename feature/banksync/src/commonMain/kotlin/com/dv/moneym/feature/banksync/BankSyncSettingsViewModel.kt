@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
+import co.touchlab.kermit.Logger
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.data.accounts.AccountRepository
@@ -39,7 +40,9 @@ class BankSyncSettingsViewModel(
 ) : ViewModel() {
 
     private val _state by savedStateHandle.saved { MutableStateFlow(BankSyncSettingsUiState()) }
-    internal val state = _state.onStart { init() }.stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
+    internal val state = _state
+        .onStart { init() }
+        .stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
     private fun init() {
         viewModelScope.launch { refreshConnectionState() }
@@ -120,7 +123,13 @@ class BankSyncSettingsViewModel(
             BankSyncSettingsIntent.AuthUrlOpened -> _state.update { it.copy(authUrlToOpen = null) }
 
             is BankSyncSettingsIntent.RedirectChanged ->
-                _state.update { it.copy(redirectDraft = intent.value, connectError = null, redirectInvalid = false) }
+                _state.update {
+                    it.copy(
+                        redirectDraft = intent.value,
+                        connectError = null,
+                        redirectInvalid = false
+                    )
+                }
 
             BankSyncSettingsIntent.SubmitRedirect -> submitRedirect(_state.value.redirectDraft)
 
@@ -128,13 +137,21 @@ class BankSyncSettingsViewModel(
 
             BankSyncSettingsIntent.CancelAuth ->
                 _state.update {
-                    it.copy(awaitingAuth = false, authUrlToOpen = null, redirectDraft = "", connectingBankName = null)
+                    it.copy(
+                        awaitingAuth = false,
+                        authUrlToOpen = null,
+                        redirectDraft = "",
+                        connectingBankName = null
+                    )
                 }
 
             is BankSyncSettingsIntent.ShowAccountPicker ->
                 _state.update { it.copy(accountPickerForUid = intent.uid) }
 
-            is BankSyncSettingsIntent.SetLocalAccountMapping -> setMapping(intent.uid, intent.localAccountId)
+            is BankSyncSettingsIntent.SetLocalAccountMapping -> setMapping(
+                intent.uid,
+                intent.localAccountId
+            )
 
             is BankSyncSettingsIntent.SetAccountEnabled -> setEnabled(intent.uid, intent.enabled)
 
@@ -156,7 +173,10 @@ class BankSyncSettingsViewModel(
                 configured = configured,
                 connected = connected,
                 sessionValidUntilMs = validUntil.takeIf { ms -> ms > 0 },
-                autoSyncEnabled = appSettings.getBoolean(PrefKeys.BANK_SYNC_AUTO_ENABLED, defaultValue = false),
+                autoSyncEnabled = appSettings.getBoolean(
+                    PrefKeys.BANK_SYNC_AUTO_ENABLED,
+                    defaultValue = false
+                ),
                 lastSyncMs = appSettings.getLong(PrefKeys.BANK_SYNC_LAST_SYNC_MS),
             )
         }
@@ -174,10 +194,16 @@ class BankSyncSettingsViewModel(
                     credentialsStore.saveCredentials(credentials)
                     appSettings.putBoolean(PrefKeys.BANK_SYNC_CONFIGURED, true)
                     _state.update {
-                        it.copy(isValidatingCredentials = false, configured = true, appIdDraft = "", pemDraft = "")
+                        it.copy(
+                            isValidatingCredentials = false,
+                            configured = true,
+                            appIdDraft = "",
+                            pemDraft = ""
+                        )
                     }
                 },
                 onFailure = { t ->
+                    Logger.e("Save credentials failed", t)
                     _state.update {
                         it.copy(isValidatingCredentials = false, credentialsError = t.message)
                     }
@@ -201,6 +227,7 @@ class BankSyncSettingsViewModel(
                     }
                 },
                 onFailure = { t ->
+                    Logger.e("Load banks", t)
                     _state.update { it.copy(isLoadingBanks = false, connectError = t.message) }
                 },
             )
@@ -221,7 +248,10 @@ class BankSyncSettingsViewModel(
                         )
                     }
                 },
-                onFailure = { t -> _state.update { it.copy(connectError = t.message) } },
+                onFailure = { t ->
+                    Logger.e("Connect failed", t)
+                    _state.update { it.copy(connectError = t.message) }
+                },
             )
         }
     }
@@ -252,7 +282,13 @@ class BankSyncSettingsViewModel(
                     refreshConnectionState()
                 },
                 onFailure = { t ->
-                    _state.update { it.copy(isCompletingConnection = false, connectError = t.message) }
+                    Logger.e("Submit redirect failed", t)
+                    _state.update {
+                        it.copy(
+                            isCompletingConnection = false,
+                            connectError = t.message
+                        )
+                    }
                 },
             )
         }

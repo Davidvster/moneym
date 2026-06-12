@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">Bankasamstilling</string>
     <string name="bank_sync_setup_header">Tengdu Enable Banking forritið þitt</string>
-    <string name="bank_sync_setup_hint">Búðu til ókeypis Enable Banking reikning, skráðu forrit og límdu auðkenni þess og einkalykil hér. README inniheldur skref-fyrir-skref leiðbeiningar.</string>
     <string name="bank_sync_app_id_label">Auðkenni forrits</string>
     <string name="bank_sync_private_key_label">Einkalykill (PEM)</string>
     <string name="bank_sync_save_credentials">Vista og staðfesta</string>

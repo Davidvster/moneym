@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">Đồng bộ ngân hàng</string>
     <string name="bank_sync_setup_header">Kết nối ứng dụng Enable Banking của bạn</string>
-    <string name="bank_sync_setup_hint">Tạo tài khoản Enable Banking miễn phí, đăng ký một ứng dụng rồi dán ID và khóa riêng tư của nó vào đây. README có hướng dẫn từng bước.</string>
     <string name="bank_sync_app_id_label">ID ứng dụng</string>
     <string name="bank_sync_private_key_label">Khóa riêng tư (PEM)</string>
     <string name="bank_sync_save_credentials">Lưu và xác minh</string>

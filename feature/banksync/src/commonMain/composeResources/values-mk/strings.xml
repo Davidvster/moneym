@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">Банкарска синхронизација</string>
     <string name="bank_sync_setup_header">Поврзете ја вашата Enable Banking апликација</string>
-    <string name="bank_sync_setup_hint">Создајте бесплатна Enable Banking сметка, регистрирајте апликација и залепете го тука нејзиниот ID и приватниот клуч. README содржи упатство чекор по чекор.</string>
     <string name="bank_sync_app_id_label">ID на апликацијата</string>
     <string name="bank_sync_private_key_label">Приватен клуч (PEM)</string>
     <string name="bank_sync_save_credentials">Зачувај и провери</string>

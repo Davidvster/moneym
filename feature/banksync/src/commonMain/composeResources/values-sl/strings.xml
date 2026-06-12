@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">Bančna sinhronizacija</string>
     <string name="bank_sync_setup_header">Povežite svojo aplikacijo Enable Banking</string>
-    <string name="bank_sync_setup_hint">Ustvarite brezplačen račun Enable Banking, registrirajte aplikacijo in sem prilepite njen ID in zasebni ključ. README vsebuje navodila po korakih.</string>
     <string name="bank_sync_app_id_label">ID aplikacije</string>
     <string name="bank_sync_private_key_label">Zasebni ključ (PEM)</string>
     <string name="bank_sync_save_credentials">Shrani in preveri</string>

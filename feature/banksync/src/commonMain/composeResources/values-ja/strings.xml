@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">銀行同期</string>
     <string name="bank_sync_setup_header">Enable Banking アプリケーションを接続</string>
-    <string name="bank_sync_setup_hint">無料の Enable Banking アカウントを作成し、アプリケーションを登録して、その ID と秘密鍵をここに貼り付けてください。README に手順ガイドがあります。</string>
     <string name="bank_sync_app_id_label">アプリケーション ID</string>
     <string name="bank_sync_private_key_label">秘密鍵 (PEM)</string>
     <string name="bank_sync_save_credentials">保存して検証</string>

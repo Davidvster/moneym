@@ -68,16 +68,17 @@ class BankSyncEngine(
     }
 
     private suspend fun syncAccount(account: BankAccountLink, today: LocalDate) {
+        val initialSync = account.lastSyncedDate == null
         val dateFrom = account.lastSyncedDate?.minus(DatePeriod(days = OVERLAP_DAYS))
             ?: today.minus(DatePeriod(days = INITIAL_WINDOW_DAYS))
 
-        val fetched = mutableListOf<EbTransactionData>()
-        var continuationKey: String? = null
-        do {
-            val page = client.fetchTransactions(account.uid, dateFrom, continuationKey).getOrThrow()
-            fetched += page.transactions.filter { it.booked }
-            continuationKey = page.continuationKey
-        } while (continuationKey != null)
+        val fetched = try {
+            fetchAllPages(account.uid, dateFrom)
+        } catch (e: EbError.Api) {
+            if (!initialSync) throw e
+            logger.w { "Initial ${INITIAL_WINDOW_DAYS}d window rejected (${e.message}), retrying with ${FALLBACK_WINDOW_DAYS}d" }
+            fetchAllPages(account.uid, today.minus(DatePeriod(days = FALLBACK_WINDOW_DAYS)))
+        }
         if (fetched.isEmpty()) {
             bankSyncRepository.advanceCursor(account.uid, today, clock.now().toEpochMilliseconds())
             return
@@ -120,9 +121,21 @@ class BankSyncEngine(
         bankSyncRepository.advanceCursor(account.uid, today, now)
     }
 
+    private suspend fun fetchAllPages(accountUid: String, dateFrom: LocalDate): List<EbTransactionData> {
+        val fetched = mutableListOf<EbTransactionData>()
+        var continuationKey: String? = null
+        do {
+            val page = client.fetchTransactions(accountUid, dateFrom, continuationKey).getOrThrow()
+            fetched += page.transactions.filter { it.booked }
+            continuationKey = page.continuationKey
+        } while (continuationKey != null)
+        return fetched
+    }
+
     companion object {
         const val DEFAULT_AUTO_SYNC_MIN_INTERVAL_MS = 6 * 60 * 60 * 1000L
         const val OVERLAP_DAYS = 5
-        const val INITIAL_WINDOW_DAYS = 90
+        const val INITIAL_WINDOW_DAYS = 730
+        const val FALLBACK_WINDOW_DAYS = 90
     }
 }

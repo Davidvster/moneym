@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">Banki szinkronizálás</string>
     <string name="bank_sync_setup_header">Kapcsolja össze Enable Banking alkalmazását</string>
-    <string name="bank_sync_setup_hint">Hozzon létre ingyenes Enable Banking fiókot, regisztráljon egy alkalmazást, majd illessze be ide az azonosítóját és a privát kulcsát. A README lépésről lépésre útmutatót tartalmaz.</string>
     <string name="bank_sync_app_id_label">Alkalmazásazonosító</string>
     <string name="bank_sync_private_key_label">Privát kulcs (PEM)</string>
     <string name="bank_sync_save_credentials">Mentés és ellenőrzés</string>

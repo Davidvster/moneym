@@ -96,10 +96,9 @@ val dataAichatModule = module {
 
 val dataLlmModelsModule = module {
     single { createModelFileStore(get<DbPlatform>().appFilesDirectory) }
-    single { llmHttpClient() }
     single {
         LlmModelDownloader(
-            client = get(),
+            client = llmHttpClient(),
             fileStore = get(),
         )
     }

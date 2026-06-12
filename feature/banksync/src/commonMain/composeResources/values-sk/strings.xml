@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">Banková synchronizácia</string>
     <string name="bank_sync_setup_header">Pripojte svoju aplikáciu Enable Banking</string>
-    <string name="bank_sync_setup_hint">Vytvorte si bezplatný účet Enable Banking, zaregistrujte aplikáciu a vložte sem jej ID a súkromný kľúč. Podrobný návod nájdete v README.</string>
     <string name="bank_sync_app_id_label">ID aplikácie</string>
     <string name="bank_sync_private_key_label">Súkromný kľúč (PEM)</string>
     <string name="bank_sync_save_credentials">Uložiť a overiť</string>

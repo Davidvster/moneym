@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">Panga sünkroonimine</string>
     <string name="bank_sync_setup_header">Ühendage oma Enable Bankingu rakendus</string>
-    <string name="bank_sync_setup_hint">Looge tasuta Enable Bankingu konto, registreerige rakendus ning kleepige siia selle ID ja privaatvõti. README sisaldab samm-sammulist juhendit.</string>
     <string name="bank_sync_app_id_label">Rakenduse ID</string>
     <string name="bank_sync_private_key_label">Privaatvõti (PEM)</string>
     <string name="bank_sync_save_credentials">Salvesta ja kontrolli</string>

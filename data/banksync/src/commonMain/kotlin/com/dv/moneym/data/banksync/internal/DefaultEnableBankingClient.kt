@@ -1,5 +1,6 @@
 package com.dv.moneym.data.banksync.internal
 
+import co.touchlab.kermit.Logger
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.data.banksync.EbAccountInfo
 import com.dv.moneym.data.banksync.EbAuthStart
@@ -38,6 +39,8 @@ internal class DefaultEnableBankingClient(
     private val clock: AppClock,
     private val baseUrl: String = "https://api.enablebanking.com",
 ) : EnableBankingClient {
+
+    private val logger = Logger.withTag("EnableBankingClient")
 
     override suspend fun validateCredentials(credentials: EbCredentials): Result<Unit> = runCatching {
         val jwt = signer.sign(credentials.applicationId, credentials.privateKeyPem, clock.now())
@@ -127,8 +130,16 @@ internal class DefaultEnableBankingClient(
         }
         response.ensureSuccess()
         val dto = response.body<EbTransactionsResponseDto>()
+        val mapped = dto.transactions.mapNotNull { it.toData() }
+        if (mapped.size != dto.transactions.size) {
+            logger.w {
+                "Dropped ${dto.transactions.size - mapped.size}/${dto.transactions.size} transactions; " +
+                    "indicators=${dto.transactions.map { it.creditDebitIndicator }.distinct()}, " +
+                    "statuses=${dto.transactions.map { it.status }.distinct()}"
+            }
+        }
         EbTransactionsPage(
-            transactions = dto.transactions.mapNotNull { it.toData() },
+            transactions = mapped,
             continuationKey = dto.continuationKey,
         )
     }.mapNetworkFailure()
@@ -165,8 +176,8 @@ internal class DefaultEnableBankingClient(
 private fun EbTransactionDto.toData(): EbTransactionData? {
     val bookingDate = bookingDate?.let { runCatching { LocalDate.parse(it) }.getOrNull() } ?: return null
     val direction = when (creditDebitIndicator.uppercase()) {
-        "CRDT" -> EbDirection.CREDIT
-        "DBIT" -> EbDirection.DEBIT
+        "CRDT", "CREDIT" -> EbDirection.CREDIT
+        "DBIT", "DEBIT" -> EbDirection.DEBIT
         else -> return null
     }
     return EbTransactionData(

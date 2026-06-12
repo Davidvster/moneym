@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">مزامنة البنك</string>
     <string name="bank_sync_setup_header">اربط تطبيق Enable Banking الخاص بك</string>
-    <string name="bank_sync_setup_hint">أنشئ حساب Enable Banking مجانيًا، وسجّل تطبيقًا، ثم الصق هنا معرّفه ومفتاحه الخاص. يحتوي ملف README على دليل خطوة بخطوة.</string>
     <string name="bank_sync_app_id_label">معرّف التطبيق</string>
     <string name="bank_sync_private_key_label">المفتاح الخاص (PEM)</string>
     <string name="bank_sync_save_credentials">حفظ وتحقق</string>

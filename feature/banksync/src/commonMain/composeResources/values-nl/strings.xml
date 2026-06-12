@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">Banksynchronisatie</string>
     <string name="bank_sync_setup_header">Verbind je Enable Banking-applicatie</string>
-    <string name="bank_sync_setup_hint">Maak een gratis Enable Banking-account aan, registreer een applicatie en plak hier het ID en de privésleutel. De README bevat een stap-voor-stapgids.</string>
     <string name="bank_sync_app_id_label">Applicatie-ID</string>
     <string name="bank_sync_private_key_label">Privésleutel (PEM)</string>
     <string name="bank_sync_save_credentials">Opslaan en valideren</string>

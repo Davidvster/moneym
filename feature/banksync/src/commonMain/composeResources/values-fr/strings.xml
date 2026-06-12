@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">Synchronisation bancaire</string>
     <string name="bank_sync_setup_header">Connectez votre application Enable Banking</string>
-    <string name="bank_sync_setup_hint">Créez un compte Enable Banking gratuit, enregistrez une application et collez ici son ID et sa clé privée. Le README contient un guide pas à pas.</string>
     <string name="bank_sync_app_id_label">ID de l\'application</string>
     <string name="bank_sync_private_key_label">Clé privée (PEM)</string>
     <string name="bank_sync_save_credentials">Enregistrer et valider</string>

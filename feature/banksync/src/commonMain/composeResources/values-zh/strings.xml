@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">银行同步</string>
     <string name="bank_sync_setup_header">连接你的 Enable Banking 应用</string>
-    <string name="bank_sync_setup_hint">创建免费的 Enable Banking 账户，注册一个应用，然后在此粘贴其 ID 和私钥。README 中有分步指南。</string>
     <string name="bank_sync_app_id_label">应用 ID</string>
     <string name="bank_sync_private_key_label">私钥 (PEM)</string>
     <string name="bank_sync_save_credentials">保存并验证</string>

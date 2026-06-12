@@ -2,7 +2,6 @@
 <resources>
     <string name="bank_sync_title">Банковская синхронизация</string>
     <string name="bank_sync_setup_header">Подключите приложение Enable Banking</string>
-    <string name="bank_sync_setup_hint">Создайте бесплатную учётную запись Enable Banking, зарегистрируйте приложение и вставьте сюда его ID и закрытый ключ. Пошаговая инструкция есть в README.</string>
     <string name="bank_sync_app_id_label">ID приложения</string>
     <string name="bank_sync_private_key_label">Закрытый ключ (PEM)</string>
     <string name="bank_sync_save_credentials">Сохранить и проверить</string>
