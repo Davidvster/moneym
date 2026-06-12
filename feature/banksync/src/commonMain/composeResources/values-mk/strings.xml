@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Врати во исчекување</string>
     <string name="suggestions_category_label">Категорија</string>
     <string name="suggestions_wallet_missing">Прво доделете паричник на оваа банкарска сметка</string>
+    <string name="bank_sync_info">Информации</string>
 </resources>

@@ -45,4 +45,5 @@
     <string name="suggestions_restore">恢复为待处理</string>
     <string name="suggestions_category_label">类别</string>
     <string name="suggestions_wallet_missing">请先为该银行账户分配钱包</string>
+    <string name="bank_sync_info">信息</string>
 </resources>

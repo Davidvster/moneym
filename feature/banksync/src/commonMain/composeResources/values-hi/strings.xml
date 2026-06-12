@@ -45,4 +45,5 @@
     <string name="suggestions_restore">लंबित में वापस लाएँ</string>
     <string name="suggestions_category_label">श्रेणी</string>
     <string name="suggestions_wallet_missing">पहले इस बैंक खाते को एक वॉलेट असाइन करें</string>
+    <string name="bank_sync_info">जानकारी</string>
 </resources>

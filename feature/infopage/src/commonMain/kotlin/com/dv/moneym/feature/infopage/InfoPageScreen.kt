@@ -14,6 +14,8 @@ import com.dv.moneym.core.ui.ScreenHeader
 import moneym.feature.infopage.generated.resources.Res
 import moneym.feature.infopage.generated.resources.info_backup_content
 import moneym.feature.infopage.generated.resources.info_backup_title
+import moneym.feature.infopage.generated.resources.info_banksync_content
+import moneym.feature.infopage.generated.resources.info_banksync_title
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -24,6 +26,10 @@ internal fun InfoPageScreen(pageId: String, onBack: () -> Unit) {
         "backup" -> {
             title = stringResource(Res.string.info_backup_title)
             htmlContent = stringResource(Res.string.info_backup_content)
+        }
+        "banksync" -> {
+            title = stringResource(Res.string.info_banksync_title)
+            htmlContent = stringResource(Res.string.info_banksync_content)
         }
         else -> {
             title = pageId

@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">询问关于你财务的问题，获得智能分析。</string>
     <string name="onboarding_welcome_feature_privacy_title">私密且安全</string>
     <string name="onboarding_welcome_feature_privacy_desc">所有数据都保留在您的设备上，通过 PIN 码或生物识别锁定。</string>
+    <string name="onboarding_welcome_feature_bank_title">银行同步</string>
+    <string name="onboarding_welcome_feature_bank_desc">使用你自己的免费密钥，将欧盟银行的交易作为可审核的建议导入。</string>
 </resources>

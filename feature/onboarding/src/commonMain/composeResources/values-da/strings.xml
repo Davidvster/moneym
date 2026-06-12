@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Stil spørgsmål om din økonomi og få smart analyse.</string>
     <string name="onboarding_welcome_feature_privacy_title">Privat og sikker</string>
     <string name="onboarding_welcome_feature_privacy_desc">Alt forbliver på din enhed, beskyttet med en PIN-kode eller biometri.</string>
+    <string name="onboarding_welcome_feature_bank_title">Banksynkronisering</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importér transaktioner fra din EU-bank som forslag, du gennemgår — med din egen gratis nøgle.</string>
 </resources>

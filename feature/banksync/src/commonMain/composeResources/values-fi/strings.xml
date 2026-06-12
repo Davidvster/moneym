@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Palauta odottaviin</string>
     <string name="suggestions_category_label">Kategoria</string>
     <string name="suggestions_wallet_missing">Määritä ensin lompakko tälle pankkitilille</string>
+    <string name="bank_sync_info">Tietoa</string>
 </resources>

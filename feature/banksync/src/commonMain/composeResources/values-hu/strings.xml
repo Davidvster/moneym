@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Visszaállítás függőbe</string>
     <string name="suggestions_category_label">Kategória</string>
     <string name="suggestions_wallet_missing">Először rendeljen tárcát ehhez a bankszámlához</string>
+    <string name="bank_sync_info">Információ</string>
 </resources>

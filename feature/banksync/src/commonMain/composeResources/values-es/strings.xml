@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Restaurar a pendiente</string>
     <string name="suggestions_category_label">Categoría</string>
     <string name="suggestions_wallet_missing">Asigna primero una cartera a esta cuenta bancaria</string>
+    <string name="bank_sync_info">Información</string>
 </resources>

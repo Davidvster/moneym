@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">家計について質問して、スマートな分析を受け取りましょう。</string>
     <string name="onboarding_welcome_feature_privacy_title">プライベートで安全</string>
     <string name="onboarding_welcome_feature_privacy_desc">すべてのデータは端末内に保存され、PINや生体認証で保護されます。</string>
+    <string name="onboarding_welcome_feature_bank_title">銀行同期</string>
+    <string name="onboarding_welcome_feature_bank_desc">EU の銀行の取引を、自分の無料キーを使って確認できる候補として取り込みます。</string>
 </resources>

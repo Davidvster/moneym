@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Kysy talouttasi koskevia kysymyksiä ja saa älykäs analyysi.</string>
     <string name="onboarding_welcome_feature_privacy_title">Yksityinen ja turvallinen</string>
     <string name="onboarding_welcome_feature_privacy_desc">Kaikki pysyy laitteellasi, suojattuna PIN-koodilla tai biometriikalla.</string>
+    <string name="onboarding_welcome_feature_bank_title">Pankkisynkronointi</string>
+    <string name="onboarding_welcome_feature_bank_desc">Tuo EU-pankkisi tapahtumat tarkistettavina ehdotuksina — omalla ilmaisella avaimellasi.</string>
 </resources>

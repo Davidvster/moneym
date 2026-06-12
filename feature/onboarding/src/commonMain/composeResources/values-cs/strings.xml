@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Ptejte se na své finance a získejte chytrou analýzu.</string>
     <string name="onboarding_welcome_feature_privacy_title">Soukromé a bezpečné</string>
     <string name="onboarding_welcome_feature_privacy_desc">Vše zůstává ve vašem zařízení, chráněno PINem nebo biometrikou.</string>
+    <string name="onboarding_welcome_feature_bank_title">Bankovní synchronizace</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importujte transakce z vaší banky v EU jako návrhy ke kontrole — s vlastním bezplatným klíčem.</string>
 </resources>

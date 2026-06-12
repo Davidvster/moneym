@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Esita küsimusi oma rahaasjade kohta ja saa nutikas analüüs.</string>
     <string name="onboarding_welcome_feature_privacy_title">Privaatne ja turvaline</string>
     <string name="onboarding_welcome_feature_privacy_desc">Kõik jääb sinu seadmesse, lukus PIN-koodi või biomeetria taha.</string>
+    <string name="onboarding_welcome_feature_bank_title">Panga sünkroonimine</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importige oma EL-i panga tehingud ülevaatamiseks soovitustena — oma tasuta võtmega.</string>
 </resources>

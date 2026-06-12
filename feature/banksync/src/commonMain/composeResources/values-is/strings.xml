@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Setja aftur í bið</string>
     <string name="suggestions_category_label">Flokkur</string>
     <string name="suggestions_wallet_missing">Úthlutaðu fyrst veski á þennan bankareikning</string>
+    <string name="bank_sync_info">Upplýsingar</string>
 </resources>

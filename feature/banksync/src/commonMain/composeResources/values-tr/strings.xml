@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Bekleyenlere geri al</string>
     <string name="suggestions_category_label">Kategori</string>
     <string name="suggestions_wallet_missing">Önce bu banka hesabına bir cüzdan atayın</string>
+    <string name="bank_sync_info">Bilgi</string>
 </resources>

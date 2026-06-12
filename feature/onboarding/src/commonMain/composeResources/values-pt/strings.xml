@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Faça perguntas sobre as suas finanças e obtenha uma análise inteligente.</string>
     <string name="onboarding_welcome_feature_privacy_title">Privado e seguro</string>
     <string name="onboarding_welcome_feature_privacy_desc">Tudo permanece no seu dispositivo, protegido por um PIN ou biometria.</string>
+    <string name="onboarding_welcome_feature_bank_title">Sincronização bancária</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importe transações do seu banco da UE como sugestões para rever — com a sua própria chave gratuita.</string>
 </resources>

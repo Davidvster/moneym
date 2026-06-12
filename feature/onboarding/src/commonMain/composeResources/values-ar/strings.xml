@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">اطرح أسئلة عن أموالك واحصل على تحليل ذكي.</string>
     <string name="onboarding_welcome_feature_privacy_title">خاص وآمن</string>
     <string name="onboarding_welcome_feature_privacy_desc">يبقى كل شيء على جهازك، محميًا برمز PIN أو القياسات الحيوية.</string>
+    <string name="onboarding_welcome_feature_bank_title">مزامنة البنك</string>
+    <string name="onboarding_welcome_feature_bank_desc">استورد معاملات بنكك في الاتحاد الأوروبي كاقتراحات تراجعها — بمفتاحك المجاني الخاص.</string>
 </resources>

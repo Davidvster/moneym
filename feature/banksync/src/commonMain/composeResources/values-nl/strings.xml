@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Terugzetten naar in behandeling</string>
     <string name="suggestions_category_label">Categorie</string>
     <string name="suggestions_wallet_missing">Wijs eerst een portemonnee toe aan deze bankrekening</string>
+    <string name="bank_sync_info">Info</string>
 </resources>

@@ -26,14 +26,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmField
+import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmLoadingSpinner
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
+import com.dv.moneym.core.ui.imageVector
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
@@ -50,6 +53,7 @@ import moneym.feature.banksync.generated.resources.bank_sync_connect_bank
 import moneym.feature.banksync.generated.resources.bank_sync_country_label
 import moneym.feature.banksync.generated.resources.bank_sync_disconnect
 import moneym.feature.banksync.generated.resources.bank_sync_error_generic
+import moneym.feature.banksync.generated.resources.bank_sync_info
 import moneym.feature.banksync.generated.resources.bank_sync_last_sync_never
 import moneym.feature.banksync.generated.resources.bank_sync_load_banks
 import moneym.feature.banksync.generated.resources.bank_sync_private_key_label
@@ -77,15 +81,21 @@ data object BankSyncSettingsKey : NavKey
 fun EntryProviderScope<NavKey>.bankSyncSettingsEntry(
     onBack: () -> Unit,
     onOpenSuggestions: () -> Unit,
+    onNavigateToInfo: () -> Unit = {},
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<BankSyncSettingsKey>(metadata = metadata) {
-    BankSyncSettingsScreen(onBack = onBack, onOpenSuggestions = onOpenSuggestions)
+    BankSyncSettingsScreen(
+        onBack = onBack,
+        onOpenSuggestions = onOpenSuggestions,
+        onNavigateToInfo = onNavigateToInfo,
+    )
 }
 
 @Composable
 fun BankSyncSettingsScreen(
     onBack: () -> Unit,
     onOpenSuggestions: () -> Unit,
+    onNavigateToInfo: () -> Unit = {},
     viewModel: BankSyncSettingsViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -102,6 +112,7 @@ fun BankSyncSettingsScreen(
         state = state,
         onBack = onBack,
         onOpenSuggestions = onOpenSuggestions,
+        onNavigateToInfo = onNavigateToInfo,
         onIntent = viewModel::onIntent,
     )
 }
@@ -111,13 +122,24 @@ private fun BankSyncSettingsContent(
     state: BankSyncSettingsUiState,
     onBack: () -> Unit,
     onOpenSuggestions: () -> Unit,
+    onNavigateToInfo: () -> Unit,
     onIntent: (BankSyncSettingsIntent) -> Unit,
 ) {
     val colors = MM.colors
     val space = MM.dimen
 
     Column(modifier = Modifier.fillMaxSize().background(colors.bg)) {
-        ScreenHeader(title = stringResource(Res.string.bank_sync_title), onBack = onBack)
+        ScreenHeader(
+            title = stringResource(Res.string.bank_sync_title),
+            onBack = onBack,
+            trailingContent = {
+                MmIconButton(
+                    icon = Icon.Info.imageVector,
+                    onClick = onNavigateToInfo,
+                    contentDescription = stringResource(Res.string.bank_sync_info),
+                )
+            },
+        )
 
         if (state.isLoading) {
             Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {

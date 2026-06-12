@@ -46,6 +46,8 @@ import moneym.feature.onboarding.generated.resources.onboarding_terms
 import moneym.feature.onboarding.generated.resources.onboarding_welcome
 import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_ai_desc
 import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_ai_title
+import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_bank_desc
+import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_bank_title
 import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_insights_desc
 import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_insights_title
 import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_privacy_desc
@@ -99,6 +101,12 @@ internal fun WelcomeStep(
             tint = colors.catEntertainment,
             title = stringResource(Res.string.onboarding_welcome_feature_ai_title),
             description = stringResource(Res.string.onboarding_welcome_feature_ai_desc),
+        ),
+        Capability(
+            icon = MmIcon.Bank.imageVector,
+            tint = colors.catRent,
+            title = stringResource(Res.string.onboarding_welcome_feature_bank_title),
+            description = stringResource(Res.string.onboarding_welcome_feature_bank_desc),
         ),
         Capability(
             icon = MmIcon.Lock.imageVector,

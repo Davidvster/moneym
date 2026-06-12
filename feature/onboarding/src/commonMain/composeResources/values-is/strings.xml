@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Spurðu um fjármálin þín og fáðu snjalla greiningu.</string>
     <string name="onboarding_welcome_feature_privacy_title">Einkamál og öruggt</string>
     <string name="onboarding_welcome_feature_privacy_desc">Allt er áfram í tækinu þínu, læst með PIN-númeri eða lífkenni.</string>
+    <string name="onboarding_welcome_feature_bank_title">Bankasamstilling</string>
+    <string name="onboarding_welcome_feature_bank_desc">Flyttu inn færslur frá ESB-bankanum þínum sem tillögur til yfirferðar — með þínum eigin ókeypis lykli.</string>
 </resources>

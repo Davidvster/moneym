@@ -45,4 +45,5 @@
     <string name="suggestions_restore">保留中に戻す</string>
     <string name="suggestions_category_label">カテゴリ</string>
     <string name="suggestions_wallet_missing">先にこの銀行口座にウォレットを割り当ててください</string>
+    <string name="bank_sync_info">情報</string>
 </resources>

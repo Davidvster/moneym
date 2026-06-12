@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Repor como pendente</string>
     <string name="suggestions_category_label">Categoria</string>
     <string name="suggestions_wallet_missing">Atribua primeiro uma carteira a esta conta bancária</string>
+    <string name="bank_sync_info">Informações</string>
 </resources>

@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Atjaunot gaidīšanā</string>
     <string name="suggestions_category_label">Kategorija</string>
     <string name="suggestions_wallet_missing">Vispirms piešķiriet maku šim bankas kontam</string>
+    <string name="bank_sync_info">Informācija</string>
 </resources>

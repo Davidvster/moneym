@@ -45,4 +45,5 @@
     <string name="suggestions_restore">إعادة إلى قيد الانتظار</string>
     <string name="suggestions_category_label">الفئة</string>
     <string name="suggestions_wallet_missing">عيّن محفظة لهذا الحساب البنكي أولاً</string>
+    <string name="bank_sync_info">معلومات</string>
 </resources>

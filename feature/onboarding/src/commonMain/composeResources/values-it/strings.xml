@@ -45,4 +45,6 @@
     <string name="onboarding_restore_error_fetch_info">Impossibile recuperare le info del backup</string>
     <string name="onboarding_restore_error_restore_failed">Ripristino non riuscito</string>
     <string name="default_account_name">Principale</string>
+    <string name="onboarding_welcome_feature_bank_title">Sincronizzazione bancaria</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importa le transazioni della tua banca UE come suggerimenti da rivedere, con la tua chiave gratuita.</string>
 </resources>

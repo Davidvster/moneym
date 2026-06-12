@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Gendan som afventende</string>
     <string name="suggestions_category_label">Kategori</string>
     <string name="suggestions_wallet_missing">Tildel først en tegnebog til denne bankkonto</string>
+    <string name="bank_sync_info">Info</string>
 </resources>

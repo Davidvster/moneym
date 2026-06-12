@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Przywróć do oczekujących</string>
     <string name="suggestions_category_label">Kategoria</string>
     <string name="suggestions_wallet_missing">Najpierw przypisz portfel do tego konta bankowego</string>
+    <string name="bank_sync_info">Informacje</string>
 </resources>

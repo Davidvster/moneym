@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Ställ frågor om din ekonomi och få smart analys.</string>
     <string name="onboarding_welcome_feature_privacy_title">Privat och säker</string>
     <string name="onboarding_welcome_feature_privacy_desc">Allt stannar på din enhet, skyddat med en PIN-kod eller biometri.</string>
+    <string name="onboarding_welcome_feature_bank_title">Banksynkronisering</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importera transaktioner från din EU-bank som förslag att granska — med din egen kostnadsfria nyckel.</string>
 </resources>

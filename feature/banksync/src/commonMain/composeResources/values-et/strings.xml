@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Taasta ootele</string>
     <string name="suggestions_category_label">Kategooria</string>
     <string name="suggestions_wallet_missing">Määrake sellele pangakontole esmalt rahakott</string>
+    <string name="bank_sync_info">Teave</string>
 </resources>

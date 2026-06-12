@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Vrni med čakajoče</string>
     <string name="suggestions_category_label">Kategorija</string>
     <string name="suggestions_wallet_missing">Najprej temu bančnemu računu dodelite denarnico</string>
+    <string name="bank_sync_info">Informacije</string>
 </resources>

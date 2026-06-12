@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Tegyél fel kérdéseket a pénzügyeidről, és kapj okos elemzést.</string>
     <string name="onboarding_welcome_feature_privacy_title">Privát és biztonságos</string>
     <string name="onboarding_welcome_feature_privacy_desc">Minden a készülékeden marad, PIN-kóddal vagy biometriával védve.</string>
+    <string name="onboarding_welcome_feature_bank_title">Banki szinkronizálás</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importálja EU-s bankja tranzakcióit ellenőrizhető javaslatokként — saját ingyenes kulcsával.</string>
 </resources>

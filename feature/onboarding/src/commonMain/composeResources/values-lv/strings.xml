@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Uzdodiet jautājumus par savām finansēm un saņemiet gudru analīzi.</string>
     <string name="onboarding_welcome_feature_privacy_title">Privāti un droši</string>
     <string name="onboarding_welcome_feature_privacy_desc">Viss paliek jūsu ierīcē, aizsargāts ar PIN kodu vai biometriju.</string>
+    <string name="onboarding_welcome_feature_bank_title">Bankas sinhronizācija</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importējiet sava ES bankas darījumus kā pārskatāmus ieteikumus — ar savu bezmaksas atslēgu.</string>
 </resources>

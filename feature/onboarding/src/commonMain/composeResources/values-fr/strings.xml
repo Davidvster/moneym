@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Posez des questions sur vos finances et obtenez une analyse intelligente.</string>
     <string name="onboarding_welcome_feature_privacy_title">Privé et sécurisé</string>
     <string name="onboarding_welcome_feature_privacy_desc">Tout reste sur votre appareil, protégé par un code PIN ou la biométrie.</string>
+    <string name="onboarding_welcome_feature_bank_title">Synchronisation bancaire</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importez les transactions de votre banque de l\'UE comme suggestions à examiner, avec votre propre clé gratuite.</string>
 </resources>

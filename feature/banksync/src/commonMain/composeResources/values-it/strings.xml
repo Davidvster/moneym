@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Ripristina come in sospeso</string>
     <string name="suggestions_category_label">Categoria</string>
     <string name="suggestions_wallet_missing">Assegna prima un portafoglio a questo conto bancario</string>
+    <string name="bank_sync_info">Informazioni</string>
 </resources>

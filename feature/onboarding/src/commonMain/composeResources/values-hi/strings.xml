@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">अपने वित्त के बारे में प्रश्न पूछें और स्मार्ट विश्लेषण पाएं.</string>
     <string name="onboarding_welcome_feature_privacy_title">निजी और सुरक्षित</string>
     <string name="onboarding_welcome_feature_privacy_desc">सब कुछ आपके डिवाइस पर रहता है, PIN या बायोमेट्रिक्स से सुरक्षित.</string>
+    <string name="onboarding_welcome_feature_bank_title">बैंक सिंक</string>
+    <string name="onboarding_welcome_feature_bank_desc">अपने EU बैंक के लेन-देन समीक्षा योग्य सुझावों के रूप में आयात करें — अपनी मुफ़्त कुंजी के साथ।</string>
 </resources>

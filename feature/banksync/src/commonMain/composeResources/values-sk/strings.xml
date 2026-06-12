@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Vrátiť medzi čakajúce</string>
     <string name="suggestions_category_label">Kategória</string>
     <string name="suggestions_wallet_missing">Najprv priraďte tomuto bankovému účtu peňaženku</string>
+    <string name="bank_sync_info">Informácie</string>
 </resources>

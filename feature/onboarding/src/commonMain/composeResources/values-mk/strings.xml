@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Поставувајте прашања за вашите финансии и добијте паметна анализа.</string>
     <string name="onboarding_welcome_feature_privacy_title">Приватно и безбедно</string>
     <string name="onboarding_welcome_feature_privacy_desc">Сè останува на вашиот уред, заклучено со PIN или биометрија.</string>
+    <string name="onboarding_welcome_feature_bank_title">Банкарска синхронизација</string>
+    <string name="onboarding_welcome_feature_bank_desc">Увезете трансакции од вашата банка во ЕУ како предлози за преглед — со ваш бесплатен клуч.</string>
 </resources>

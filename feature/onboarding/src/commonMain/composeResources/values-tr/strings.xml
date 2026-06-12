@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Finanslarınız hakkında sorular sorun ve akıllı analiz alın.</string>
     <string name="onboarding_welcome_feature_privacy_title">Gizli ve güvenli</string>
     <string name="onboarding_welcome_feature_privacy_desc">Her şey cihazınızda kalır, PIN veya biyometri ile kilitlenir.</string>
+    <string name="onboarding_welcome_feature_bank_title">Banka senkronizasyonu</string>
+    <string name="onboarding_welcome_feature_bank_desc">AB bankanızdaki işlemleri kendi ücretsiz anahtarınızla incelenecek öneriler olarak içe aktarın.</string>
 </resources>

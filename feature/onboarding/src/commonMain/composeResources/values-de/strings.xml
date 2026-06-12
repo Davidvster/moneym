@@ -45,4 +45,6 @@
     <string name="onboarding_restore_error_fetch_info">Sicherungsinfo konnte nicht abgerufen werden</string>
     <string name="onboarding_restore_error_restore_failed">Wiederherstellung fehlgeschlagen</string>
     <string name="default_account_name">Hauptkonto</string>
+    <string name="onboarding_welcome_feature_bank_title">Bank-Synchronisierung</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importiere Transaktionen deiner EU-Bank als Vorschläge zur Prüfung — mit deinem eigenen kostenlosen Schlüssel.</string>
 </resources>

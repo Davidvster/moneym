@@ -45,4 +45,5 @@
     <string name="suggestions_restore">Wieder als ausstehend markieren</string>
     <string name="suggestions_category_label">Kategorie</string>
     <string name="suggestions_wallet_missing">Weise diesem Bankkonto zuerst ein Wallet zu</string>
+    <string name="bank_sync_info">Info</string>
 </resources>

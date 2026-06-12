@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Stel vragen over je financiën en krijg slimme analyses.</string>
     <string name="onboarding_welcome_feature_privacy_title">Privé en veilig</string>
     <string name="onboarding_welcome_feature_privacy_desc">Alles blijft op je apparaat, beveiligd met een pincode of biometrie.</string>
+    <string name="onboarding_welcome_feature_bank_title">Banksynchronisatie</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importeer transacties van je EU-bank als suggesties om te beoordelen — met je eigen gratis sleutel.</string>
 </resources>

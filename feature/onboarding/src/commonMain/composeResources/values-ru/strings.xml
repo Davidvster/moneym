@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Задавайте вопросы о финансах и получайте умную аналитику.</string>
     <string name="onboarding_welcome_feature_privacy_title">Конфиденциально и безопасно</string>
     <string name="onboarding_welcome_feature_privacy_desc">Все данные остаются на устройстве под защитой PIN-кода или биометрии.</string>
+    <string name="onboarding_welcome_feature_bank_title">Банковская синхронизация</string>
+    <string name="onboarding_welcome_feature_bank_desc">Импортируйте операции из банка ЕС как предложения для проверки — с вашим собственным бесплатным ключом.</string>
 </resources>

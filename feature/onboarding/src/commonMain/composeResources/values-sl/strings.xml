@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Postavljajte vprašanja o svojih financah in prejmite pametno analizo.</string>
     <string name="onboarding_welcome_feature_privacy_title">Zasebno in varno</string>
     <string name="onboarding_welcome_feature_privacy_desc">Vse ostane v vaši napravi, zaščiteno s kodo PIN ali biometrijo.</string>
+    <string name="onboarding_welcome_feature_bank_title">Bančna sinhronizacija</string>
+    <string name="onboarding_welcome_feature_bank_desc">Uvozite transakcije svoje banke v EU kot predloge za pregled — z lastnim brezplačnim ključem.</string>
 </resources>

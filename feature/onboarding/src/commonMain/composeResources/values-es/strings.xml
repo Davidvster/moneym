@@ -45,4 +45,6 @@
     <string name="onboarding_restore_error_fetch_info">No se pudo obtener la información de la copia</string>
     <string name="onboarding_restore_error_restore_failed">Error al restaurar</string>
     <string name="default_account_name">Principal</string>
+    <string name="onboarding_welcome_feature_bank_title">Sincronización bancaria</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importa transacciones de tu banco de la UE como sugerencias que revisas, con tu propia clave gratuita.</string>
 </resources>

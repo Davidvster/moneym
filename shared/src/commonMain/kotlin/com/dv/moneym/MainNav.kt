@@ -234,6 +234,7 @@ internal fun MainNav(lockController: AppLockController) {
             bankSyncSettingsEntry(
                 onBack = { tabBackStack.removeLast() },
                 onOpenSuggestions = { tabBackStack.push(BankSuggestionsKey) },
+                onNavigateToInfo = { tabBackStack.push(InfoPageKey("banksync")) },
                 metadata = modalTransitionMeta,
             )
             bankSuggestionsEntry(

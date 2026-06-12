@@ -43,4 +43,6 @@
     <string name="onboarding_welcome_feature_ai_desc">Đặt câu hỏi về tài chính của bạn và nhận phân tích thông minh.</string>
     <string name="onboarding_welcome_feature_privacy_title">Riêng tư và bảo mật</string>
     <string name="onboarding_welcome_feature_privacy_desc">Mọi thứ được lưu trên thiết bị của bạn, khóa bằng mã PIN hoặc sinh trắc học.</string>
+    <string name="onboarding_welcome_feature_bank_title">Đồng bộ ngân hàng</string>
+    <string name="onboarding_welcome_feature_bank_desc">Nhập giao dịch từ ngân hàng EU của bạn dưới dạng đề xuất để xem lại — bằng khóa miễn phí của riêng bạn.</string>
 </resources>
