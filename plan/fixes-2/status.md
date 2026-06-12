@@ -5,7 +5,7 @@
 | 1 | Budgets bottom padding + AI history button to bottom | done |
 | 2 | Android status bar icons follow app theme | done |
 | 3 | Overview filter-aware avg/categories/charts | done |
-| 4 | Dev/prod app separation (.dev suffix) | in progress |
-| 5 | iOS Google Drive restore hang | pending |
+| 4 | Dev/prod app separation (.dev suffix) | Android done; iOS bundle id deferred until after phase 5 |
+| 5 | iOS Google Drive restore hang | in progress |
 | 6 | iPad amount keyboard | pending |
 | Final | Android + iOS builds, tests | pending |
