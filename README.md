@@ -29,6 +29,9 @@ Open source under the [MIT License](LICENSE). Issues and pull requests welcome.
   Drive (the hidden `appDataFolder`). Data is encrypted on-device with AES-256-GCM from a passphrase
   only you know. Off by default — no Firebase, no `google-services.json`.
 - **Local backup / restore** — export and import a backup file independently of any cloud feature.
+- **Bank sync (optional)** — import transactions from your EU bank as reviewable suggestions via
+  Enable Banking's PSD2 API, using your own free personal credentials. See
+  [Bank sync setup](#optional-bank-sync-enable-banking).
 - **29 languages** — fully localized UI (English, German, Spanish, French, Japanese, Chinese, and
   many more).
 - **Custom design system** — a bespoke neutral-token theme with Geist fonts and hand-built
@@ -130,6 +133,42 @@ Full step-by-step guides:
   clients (Android / Web / iOS) and adding the iOS GoogleSignIn SDK.
 - [docs/SYNC.md](docs/SYNC.md) — the cross-device sync model (snapshot, reconcile, passphrase).
 - [docs/REMOTE_BACKUP.md](docs/REMOTE_BACKUP.md) — encrypted backup internals.
+
+## Optional: Bank sync (Enable Banking)
+
+MoneyM can import transactions from your EU bank accounts as **suggestions** you accept or reject.
+It uses [Enable Banking](https://enablebanking.com)'s PSD2 open-banking API in a bring-your-own-key
+model: **you** register a free personal Enable Banking application and paste its credentials into
+the app. MoneyM ships with no API keys, talks to the API directly from your device, and stores your
+key in the platform keystore (Android Keystore / iOS Keychain). Free for personal use on your own
+accounts; no PSD2 license needed because data access runs under Enable Banking's license.
+
+How to obtain the key:
+
+1. **Create an account** at [enablebanking.com](https://enablebanking.com) (free) and open the
+   [Control Panel](https://enablebanking.com/cp).
+2. **Register an application**: choose a name, and set the redirect URL to exactly
+   `moneym://bank-callback` (this lets your bank's consent page jump back into the app; you can
+   also paste the redirect link manually if the deep link doesn't fire).
+3. **Download the private key** (a PEM file) generated for the application. It is shown **once** —
+   store it safely. The key must be PKCS#8 (`-----BEGIN PRIVATE KEY-----`); if you have a
+   `BEGIN RSA PRIVATE KEY` file, convert it:
+   `openssl pkcs8 -topk8 -nocrypt -in key.pem -out key-pkcs8.pem`.
+4. **Copy the Application ID** (a UUID shown on the application page).
+5. **Activate restricted production access** by linking your own bank accounts to the application
+   in the Control Panel ("Activate by linking accounts"). Only the accounts you link are
+   accessible — that is what keeps personal use free, no contract needed.
+6. In MoneyM open **Settings → Bank sync**, paste the Application ID and the PEM contents, then
+   **Connect a bank**: pick your country and bank, authorize in the browser, and you're done.
+
+Notes:
+
+- Bank consent is valid for up to **180 days** (a PSD2 rule); after that the settings screen shows
+  a reconnect prompt and you re-authorize the bank.
+- Automatic sync runs at most once every 6 hours on app start (banks rate-limit unattended PSD2
+  access to ~4 calls/day); **Sync now** in settings is always available.
+- Fetched transactions never enter your books silently — each one appears as a suggestion with a
+  possible-duplicate hint, and rejected suggestions are never asked about again.
 
 ## Contributing
 

@@ -92,7 +92,7 @@ Android intent-filter + onNewIntent, iOS CFBundleURLTypes + handleDeepLink; VM
 collects bus while awaiting auth. Tests.
 
 ### Phase 7 — README + polish
-Status: pending
+Status: done
 README "Bank sync (Enable Banking)" setup instructions (account → application →
 redirect URL `moneym://bank-callback` → activate restricted production by linking
 own accounts → download PEM, copy app id → paste into Settings → Bank sync;
