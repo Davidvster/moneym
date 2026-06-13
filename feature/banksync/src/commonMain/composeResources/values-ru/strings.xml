@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Банковская синхронизация</string>
     <string name="bank_sync_setup_header">Подключите приложение Enable Banking</string>
+    <string name="bank_sync_setup_hint">Создайте бесплатную учётную запись Enable Banking, зарегистрируйте рабочее приложение и вставьте сюда его идентификатор и закрытый ключ. Нажмите кнопку i в правом верхнем углу, чтобы открыть пошаговое руководство.</string>
     <string name="bank_sync_app_id_label">ID приложения</string>
     <string name="bank_sync_private_key_label">Закрытый ключ (PEM)</string>
     <string name="bank_sync_save_credentials">Сохранить и проверить</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d предложений перейдут во вкладку «Отклонённые». Их можно восстановить позже.</string>
     <string name="suggestions_rejected_snackbar">Предложение отклонено</string>
     <string name="suggestions_undo">Отменить</string>
-<string name="bank_sync_last_synced">Последняя синхронизация %1$s</string></resources>
+<string name="bank_sync_last_synced">Последняя синхронизация %1$s</string>    <string name="suggestions_filter">Фильтр</string>
+    <string name="suggestions_filter_title">Фильтровать предложения</string>
+    <string name="suggestions_filter_all">Все</string>
+    <string name="suggestions_filter_expense">Расход</string>
+    <string name="suggestions_filter_income">Доход</string>
+    <string name="suggestions_filter_min">Больше чем</string>
+    <string name="suggestions_filter_max">Меньше чем</string>
+    <string name="suggestions_filter_note">Заметка</string>
+    <string name="suggestions_filter_apply">Применить</string>
+    <string name="suggestions_filter_clear">Очистить</string>
+    <string name="suggestions_assign_category">Назначить категорию</string>
+</resources>

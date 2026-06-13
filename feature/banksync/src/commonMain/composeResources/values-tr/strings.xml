@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Banka senkronizasyonu</string>
     <string name="bank_sync_setup_header">Enable Banking uygulamanızı bağlayın</string>
+    <string name="bank_sync_setup_hint">Ücretsiz bir Enable Banking hesabı oluşturun, bir üretim uygulaması kaydedin ve kimliğini ve özel anahtarını buraya yapıştırın. Adım adım kılavuz için sağ üstteki i düğmesine dokunun.</string>
     <string name="bank_sync_app_id_label">Uygulama kimliği</string>
     <string name="bank_sync_private_key_label">Özel anahtar (PEM)</string>
     <string name="bank_sync_save_credentials">Kaydet ve doğrula</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d öneri Reddedilenler sekmesine taşınır. Daha sonra geri yükleyebilirsiniz.</string>
     <string name="suggestions_rejected_snackbar">Öneri reddedildi</string>
     <string name="suggestions_undo">Geri al</string>
-<string name="bank_sync_last_synced">Son senkronizasyon %1$s</string></resources>
+<string name="bank_sync_last_synced">Son senkronizasyon %1$s</string>    <string name="suggestions_filter">Filtrele</string>
+    <string name="suggestions_filter_title">Önerileri filtrele</string>
+    <string name="suggestions_filter_all">Tümü</string>
+    <string name="suggestions_filter_expense">Gider</string>
+    <string name="suggestions_filter_income">Gelir</string>
+    <string name="suggestions_filter_min">Şundan büyük</string>
+    <string name="suggestions_filter_max">Şundan küçük</string>
+    <string name="suggestions_filter_note">Not</string>
+    <string name="suggestions_filter_apply">Uygula</string>
+    <string name="suggestions_filter_clear">Temizle</string>
+    <string name="suggestions_assign_category">Kategori ata</string>
+</resources>

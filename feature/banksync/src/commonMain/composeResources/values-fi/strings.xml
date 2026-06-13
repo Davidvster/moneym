@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Pankkisynkronointi</string>
     <string name="bank_sync_setup_header">Yhdistä Enable Banking -sovelluksesi</string>
+    <string name="bank_sync_setup_hint">Luo maksuton Enable Banking -tili, rekisteröi tuotantosovellus ja liitä sen tunnus ja yksityinen avain tähän. Avaa vaiheittainen ohje napauttamalla i-painiketta oikeassa yläkulmassa.</string>
     <string name="bank_sync_app_id_label">Sovelluksen tunnus</string>
     <string name="bank_sync_private_key_label">Yksityinen avain (PEM)</string>
     <string name="bank_sync_save_credentials">Tallenna ja vahvista</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d ehdotusta siirtyy Hylätyt-välilehdelle. Voit palauttaa ne myöhemmin.</string>
     <string name="suggestions_rejected_snackbar">Ehdotus hylätty</string>
     <string name="suggestions_undo">Kumoa</string>
-<string name="bank_sync_last_synced">Viimeksi synkronoitu %1$s</string></resources>
+<string name="bank_sync_last_synced">Viimeksi synkronoitu %1$s</string>    <string name="suggestions_filter">Suodata</string>
+    <string name="suggestions_filter_title">Suodata ehdotuksia</string>
+    <string name="suggestions_filter_all">Kaikki</string>
+    <string name="suggestions_filter_expense">Meno</string>
+    <string name="suggestions_filter_income">Tulo</string>
+    <string name="suggestions_filter_min">Suurempi kuin</string>
+    <string name="suggestions_filter_max">Pienempi kuin</string>
+    <string name="suggestions_filter_note">Muistiinpano</string>
+    <string name="suggestions_filter_apply">Käytä</string>
+    <string name="suggestions_filter_clear">Tyhjennä</string>
+    <string name="suggestions_assign_category">Määritä luokka</string>
+</resources>

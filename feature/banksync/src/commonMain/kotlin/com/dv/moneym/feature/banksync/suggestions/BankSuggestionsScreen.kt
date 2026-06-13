@@ -11,24 +11,33 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import androidx.compose.material3.SnackbarHostState
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
@@ -38,6 +47,7 @@ import com.dv.moneym.core.ui.MmCategoryPickerSheet
 import com.dv.moneym.core.ui.MmCheckbox
 import com.dv.moneym.core.ui.MmDialog
 import com.dv.moneym.core.ui.MmEmptyState
+import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmLoadingOverlay
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmSegmented
@@ -51,8 +61,19 @@ import moneym.feature.banksync.generated.resources.suggestions_accept
 import moneym.feature.banksync.generated.resources.suggestions_accept_all_confirm_body
 import moneym.feature.banksync.generated.resources.suggestions_accept_all_confirm_title
 import moneym.feature.banksync.generated.resources.suggestions_accept_selected
+import moneym.feature.banksync.generated.resources.suggestions_assign_category
 import moneym.feature.banksync.generated.resources.suggestions_category_label
 import moneym.feature.banksync.generated.resources.suggestions_duplicate_hint
+import moneym.feature.banksync.generated.resources.suggestions_filter
+import moneym.feature.banksync.generated.resources.suggestions_filter_all
+import moneym.feature.banksync.generated.resources.suggestions_filter_apply
+import moneym.feature.banksync.generated.resources.suggestions_filter_clear
+import moneym.feature.banksync.generated.resources.suggestions_filter_expense
+import moneym.feature.banksync.generated.resources.suggestions_filter_income
+import moneym.feature.banksync.generated.resources.suggestions_filter_max
+import moneym.feature.banksync.generated.resources.suggestions_filter_min
+import moneym.feature.banksync.generated.resources.suggestions_filter_note
+import moneym.feature.banksync.generated.resources.suggestions_filter_title
 import moneym.feature.banksync.generated.resources.suggestions_empty_pending
 import moneym.feature.banksync.generated.resources.suggestions_empty_rejected
 import moneym.feature.banksync.generated.resources.suggestions_reject
@@ -146,8 +167,19 @@ private fun BankSuggestionsContent(
             if (state.tab == SuggestionsTab.PENDING && state.pending.isNotEmpty()) {
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = space.padding_2x),
-                    horizontalArrangement = Arrangement.End,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
+                    MmButton(
+                        text = if (state.filter.isActive) {
+                            stringResource(Res.string.suggestions_filter) + " •"
+                        } else {
+                            stringResource(Res.string.suggestions_filter)
+                        },
+                        onClick = { onIntent(BankSuggestionsIntent.ShowFilterSheet(true)) },
+                        variant = MmButtonVariant.Ghost,
+                        size = MmButtonSize.Sm,
+                    )
                     MmButton(
                         text = if (state.allSelected) {
                             stringResource(Res.string.suggestions_unselect_all)
@@ -183,25 +215,36 @@ private fun BankSuggestionsContent(
             }
 
             if (state.tab == SuggestionsTab.PENDING && state.selectedIds.isNotEmpty()) {
-                Row(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = space.padding_2x, vertical = space.padding_1x)
                         .navigationBarsPadding(),
-                    horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
+                    verticalArrangement = Arrangement.spacedBy(space.padding_1x),
                 ) {
                     MmButton(
-                        text = stringResource(Res.string.suggestions_accept_selected, state.selectedIds.size),
-                        onClick = { onIntent(BankSuggestionsIntent.RequestAcceptSelected) },
-                        variant = MmButtonVariant.Accent,
-                        modifier = Modifier.weight(1f),
+                        text = stringResource(Res.string.suggestions_assign_category),
+                        onClick = { onIntent(BankSuggestionsIntent.ShowBatchCategoryPicker(true)) },
+                        variant = MmButtonVariant.Outline,
+                        fullWidth = true,
                     )
-                    MmButton(
-                        text = stringResource(Res.string.suggestions_reject_selected, state.selectedIds.size),
-                        onClick = { onIntent(BankSuggestionsIntent.RequestRejectSelected) },
-                        variant = MmButtonVariant.Danger,
-                        modifier = Modifier.weight(1f),
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
+                    ) {
+                        MmButton(
+                            text = stringResource(Res.string.suggestions_accept_selected, state.selectedIds.size),
+                            onClick = { onIntent(BankSuggestionsIntent.RequestAcceptSelected) },
+                            variant = MmButtonVariant.Accent,
+                            modifier = Modifier.weight(1f),
+                        )
+                        MmButton(
+                            text = stringResource(Res.string.suggestions_reject_selected, state.selectedIds.size),
+                            onClick = { onIntent(BankSuggestionsIntent.RequestRejectSelected) },
+                            variant = MmButtonVariant.Danger,
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
                 }
             }
         }
@@ -224,6 +267,25 @@ private fun BankSuggestionsContent(
             onPick = { onIntent(BankSuggestionsIntent.SetCategory(pickerRow.id, it.value)) },
             onDismiss = { onIntent(BankSuggestionsIntent.ShowCategoryPicker(null)) },
         )
+    }
+
+    if (state.showBatchCategoryPicker) {
+        MmCategoryPickerSheet(
+            categories = state.categories.filter {
+                when (state.filter.type) {
+                    SpendingFilter.All -> true
+                    SpendingFilter.Expenses -> it.type == TransactionType.EXPENSE
+                    SpendingFilter.Income -> it.type == TransactionType.INCOME
+                }
+            },
+            selectedId = null,
+            onPick = { onIntent(BankSuggestionsIntent.SetCategoryForSelected(it.value)) },
+            onDismiss = { onIntent(BankSuggestionsIntent.ShowBatchCategoryPicker(false)) },
+        )
+    }
+
+    if (state.showFilterSheet) {
+        FilterSheet(filter = state.filter, onIntent = onIntent)
     }
 
     if (state.showAcceptConfirm) {
@@ -255,6 +317,95 @@ private fun BankSuggestionsContent(
                 style = MM.type.body,
                 color = MM.colors.text2,
             )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun FilterSheet(
+    filter: SuggestionFilter,
+    onIntent: (BankSuggestionsIntent) -> Unit,
+) {
+    val colors = MM.colors
+    val space = MM.dimen
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    ModalBottomSheet(
+        onDismissRequest = { onIntent(BankSuggestionsIntent.ShowFilterSheet(false)) },
+        sheetState = sheetState,
+        shape = RoundedCornerShape(topStart = space.padding_2_5x, topEnd = space.padding_2_5x),
+        containerColor = colors.bg,
+        dragHandle = null,
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = space.padding_2_5x, vertical = space.padding_3x),
+            verticalArrangement = Arrangement.spacedBy(space.padding_2x),
+        ) {
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier
+                        .size(width = 36.dp, height = space.padding_0_5x)
+                        .clip(RoundedCornerShape(50))
+                        .background(colors.borderStrong),
+                )
+            }
+
+            Text(
+                text = stringResource(Res.string.suggestions_filter_title),
+                style = MM.type.title3,
+                color = colors.text,
+            )
+
+            val typeOptions = listOf(SpendingFilter.All, SpendingFilter.Expenses, SpendingFilter.Income)
+            MmSegmented(
+                options = listOf(
+                    stringResource(Res.string.suggestions_filter_all),
+                    stringResource(Res.string.suggestions_filter_expense),
+                    stringResource(Res.string.suggestions_filter_income),
+                ),
+                selectedIndex = typeOptions.indexOf(filter.type),
+                onOptionSelected = { onIntent(BankSuggestionsIntent.SetFilterType(typeOptions[it])) },
+                fillWidth = true,
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            MmField(
+                value = filter.minText,
+                onValueChange = { onIntent(BankSuggestionsIntent.SetFilterMin(it)) },
+                label = stringResource(Res.string.suggestions_filter_min),
+                keyboardType = KeyboardType.Decimal,
+            )
+            MmField(
+                value = filter.maxText,
+                onValueChange = { onIntent(BankSuggestionsIntent.SetFilterMax(it)) },
+                label = stringResource(Res.string.suggestions_filter_max),
+                keyboardType = KeyboardType.Decimal,
+            )
+            MmField(
+                value = filter.note,
+                onValueChange = { onIntent(BankSuggestionsIntent.SetFilterNote(it)) },
+                label = stringResource(Res.string.suggestions_filter_note),
+                keyboardType = KeyboardType.Text,
+            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
+            ) {
+                MmButton(
+                    text = stringResource(Res.string.suggestions_filter_clear),
+                    onClick = { onIntent(BankSuggestionsIntent.ClearFilter) },
+                    variant = MmButtonVariant.Ghost,
+                    modifier = Modifier.weight(1f),
+                )
+                MmButton(
+                    text = stringResource(Res.string.suggestions_filter_apply),
+                    onClick = { onIntent(BankSuggestionsIntent.ShowFilterSheet(false)) },
+                    variant = MmButtonVariant.Primary,
+                    modifier = Modifier.weight(1f),
+                )
+            }
         }
     }
 }

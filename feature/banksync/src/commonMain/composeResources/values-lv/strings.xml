@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Bankas sinhronizācija</string>
     <string name="bank_sync_setup_header">Savienojiet savu Enable Banking lietojumprogrammu</string>
+    <string name="bank_sync_setup_hint">Izveidojiet bezmaksas Enable Banking kontu, reģistrējiet ražošanas lietotni un ielīmējiet šeit tās ID un privāto atslēgu. Pieskarieties pogai i augšējā labajā stūrī, lai atvērtu soli pa solim ceļvedi.</string>
     <string name="bank_sync_app_id_label">Lietojumprogrammas ID</string>
     <string name="bank_sync_private_key_label">Privātā atslēga (PEM)</string>
     <string name="bank_sync_save_credentials">Saglabāt un pārbaudīt</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d ieteikumi tiks pārvietoti uz cilni Noraidītie. Vēlāk varat tos atjaunot.</string>
     <string name="suggestions_rejected_snackbar">Ieteikums noraidīts</string>
     <string name="suggestions_undo">Atsaukt</string>
-<string name="bank_sync_last_synced">Pēdējā sinhronizācija %1$s</string></resources>
+<string name="bank_sync_last_synced">Pēdējā sinhronizācija %1$s</string>    <string name="suggestions_filter">Filtrēt</string>
+    <string name="suggestions_filter_title">Filtrēt ieteikumus</string>
+    <string name="suggestions_filter_all">Visi</string>
+    <string name="suggestions_filter_expense">Izdevumi</string>
+    <string name="suggestions_filter_income">Ienākumi</string>
+    <string name="suggestions_filter_min">Lielāks par</string>
+    <string name="suggestions_filter_max">Mazāks par</string>
+    <string name="suggestions_filter_note">Piezīme</string>
+    <string name="suggestions_filter_apply">Lietot</string>
+    <string name="suggestions_filter_clear">Notīrīt</string>
+    <string name="suggestions_assign_category">Piešķirt kategoriju</string>
+</resources>

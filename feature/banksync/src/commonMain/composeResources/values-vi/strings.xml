@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Đồng bộ ngân hàng</string>
     <string name="bank_sync_setup_header">Kết nối ứng dụng Enable Banking của bạn</string>
+    <string name="bank_sync_setup_hint">Tạo tài khoản Enable Banking miễn phí, đăng ký ứng dụng sản xuất và dán ID cùng khóa riêng tư của nó vào đây. Nhấn nút i ở góc trên bên phải để xem hướng dẫn từng bước.</string>
     <string name="bank_sync_app_id_label">ID ứng dụng</string>
     <string name="bank_sync_private_key_label">Khóa riêng tư (PEM)</string>
     <string name="bank_sync_save_credentials">Lưu và xác minh</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d đề xuất chuyển sang tab Đã từ chối. Bạn có thể khôi phục sau.</string>
     <string name="suggestions_rejected_snackbar">Đã từ chối đề xuất</string>
     <string name="suggestions_undo">Hoàn tác</string>
-<string name="bank_sync_last_synced">Lần đồng bộ gần đây nhất %1$s</string></resources>
+<string name="bank_sync_last_synced">Lần đồng bộ gần đây nhất %1$s</string>    <string name="suggestions_filter">Lọc</string>
+    <string name="suggestions_filter_title">Lọc đề xuất</string>
+    <string name="suggestions_filter_all">Tất cả</string>
+    <string name="suggestions_filter_expense">Chi tiêu</string>
+    <string name="suggestions_filter_income">Thu nhập</string>
+    <string name="suggestions_filter_min">Lớn hơn</string>
+    <string name="suggestions_filter_max">Nhỏ hơn</string>
+    <string name="suggestions_filter_note">Ghi chú</string>
+    <string name="suggestions_filter_apply">Áp dụng</string>
+    <string name="suggestions_filter_clear">Xóa</string>
+    <string name="suggestions_assign_category">Gán danh mục</string>
+</resources>

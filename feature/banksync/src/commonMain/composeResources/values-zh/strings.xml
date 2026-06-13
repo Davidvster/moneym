@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">银行同步</string>
     <string name="bank_sync_setup_header">连接你的 Enable Banking 应用</string>
+    <string name="bank_sync_setup_hint">创建一个免费的 Enable Banking 账户，注册一个生产应用，并将其 ID 和私钥粘贴到此处。点按右上角的 i 按钮可查看分步指南。</string>
     <string name="bank_sync_app_id_label">应用 ID</string>
     <string name="bank_sync_private_key_label">私钥 (PEM)</string>
     <string name="bank_sync_save_credentials">保存并验证</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d 条建议将移至“已拒绝”标签页。您可以稍后恢复。</string>
     <string name="suggestions_rejected_snackbar">已拒绝建议</string>
     <string name="suggestions_undo">撤销</string>
-<string name="bank_sync_last_synced">最后同步 %1$s</string></resources>
+<string name="bank_sync_last_synced">最后同步 %1$s</string>    <string name="suggestions_filter">筛选</string>
+    <string name="suggestions_filter_title">筛选建议</string>
+    <string name="suggestions_filter_all">全部</string>
+    <string name="suggestions_filter_expense">支出</string>
+    <string name="suggestions_filter_income">收入</string>
+    <string name="suggestions_filter_min">大于</string>
+    <string name="suggestions_filter_max">小于</string>
+    <string name="suggestions_filter_note">备注</string>
+    <string name="suggestions_filter_apply">应用</string>
+    <string name="suggestions_filter_clear">清除</string>
+    <string name="suggestions_assign_category">分配类别</string>
+</resources>

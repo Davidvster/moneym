@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Sincronización bancaria</string>
     <string name="bank_sync_setup_header">Conecta tu aplicación de Enable Banking</string>
+    <string name="bank_sync_setup_hint">Crea una cuenta gratuita de Enable Banking, registra una aplicación de producción y pega aquí su ID y su clave privada. Toca el botón de información (i) en la parte superior derecha para ver una guía paso a paso.</string>
     <string name="bank_sync_app_id_label">ID de la aplicación</string>
     <string name="bank_sync_private_key_label">Clave privada (PEM)</string>
     <string name="bank_sync_save_credentials">Guardar y validar</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d sugerencias pasan a la pestaña Rechazadas. Puedes restaurarlas más tarde.</string>
     <string name="suggestions_rejected_snackbar">Sugerencia rechazada</string>
     <string name="suggestions_undo">Deshacer</string>
-<string name="bank_sync_last_synced">Última sincronización %1$s</string></resources>
+<string name="bank_sync_last_synced">Última sincronización %1$s</string>    <string name="suggestions_filter">Filtrar</string>
+    <string name="suggestions_filter_title">Filtrar sugerencias</string>
+    <string name="suggestions_filter_all">Todos</string>
+    <string name="suggestions_filter_expense">Gasto</string>
+    <string name="suggestions_filter_income">Ingreso</string>
+    <string name="suggestions_filter_min">Mayor que</string>
+    <string name="suggestions_filter_max">Menor que</string>
+    <string name="suggestions_filter_note">Nota</string>
+    <string name="suggestions_filter_apply">Aplicar</string>
+    <string name="suggestions_filter_clear">Borrar</string>
+    <string name="suggestions_assign_category">Asignar categoría</string>
+</resources>

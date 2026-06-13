@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Bank-Synchronisierung</string>
     <string name="bank_sync_setup_header">Enable-Banking-Anwendung verbinden</string>
+    <string name="bank_sync_setup_hint">Erstellen Sie ein kostenloses Enable-Banking-Konto, registrieren Sie eine Produktionsanwendung und fügen Sie deren ID und den privaten Schlüssel hier ein. Tippen Sie oben rechts auf das i-Symbol für eine Schritt-für-Schritt-Anleitung.</string>
     <string name="bank_sync_app_id_label">Anwendungs-ID</string>
     <string name="bank_sync_private_key_label">Privater Schlüssel (PEM)</string>
     <string name="bank_sync_save_credentials">Speichern &amp; prüfen</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d Vorschläge wandern in den Tab „Abgelehnt“. Du kannst sie später wiederherstellen.</string>
     <string name="suggestions_rejected_snackbar">Vorschlag abgelehnt</string>
     <string name="suggestions_undo">Rückgängig</string>
-<string name="bank_sync_last_synced">Zuletzt synchronisiert %1$s</string></resources>
+<string name="bank_sync_last_synced">Zuletzt synchronisiert %1$s</string>    <string name="suggestions_filter">Filter</string>
+    <string name="suggestions_filter_title">Vorschläge filtern</string>
+    <string name="suggestions_filter_all">Alle</string>
+    <string name="suggestions_filter_expense">Ausgabe</string>
+    <string name="suggestions_filter_income">Einnahme</string>
+    <string name="suggestions_filter_min">Höher als</string>
+    <string name="suggestions_filter_max">Niedriger als</string>
+    <string name="suggestions_filter_note">Notiz</string>
+    <string name="suggestions_filter_apply">Anwenden</string>
+    <string name="suggestions_filter_clear">Zurücksetzen</string>
+    <string name="suggestions_assign_category">Kategorie zuweisen</string>
+</resources>

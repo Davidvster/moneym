@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">銀行同期</string>
     <string name="bank_sync_setup_header">Enable Banking アプリケーションを接続</string>
+    <string name="bank_sync_setup_hint">無料の Enable Banking アカウントを作成し、本番用アプリケーションを登録して、その ID と秘密鍵をここに貼り付けてください。手順ガイドを表示するには、右上の i ボタンをタップします。</string>
     <string name="bank_sync_app_id_label">アプリケーション ID</string>
     <string name="bank_sync_private_key_label">秘密鍵 (PEM)</string>
     <string name="bank_sync_save_credentials">保存して検証</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d 件の提案が「却下」タブに移動します。後で復元できます。</string>
     <string name="suggestions_rejected_snackbar">提案を却下しました</string>
     <string name="suggestions_undo">元に戻す</string>
-<string name="bank_sync_last_synced">最後に同期 %1$s</string></resources>
+<string name="bank_sync_last_synced">最後に同期 %1$s</string>    <string name="suggestions_filter">フィルター</string>
+    <string name="suggestions_filter_title">候補をフィルター</string>
+    <string name="suggestions_filter_all">すべて</string>
+    <string name="suggestions_filter_expense">支出</string>
+    <string name="suggestions_filter_income">収入</string>
+    <string name="suggestions_filter_min">より大きい</string>
+    <string name="suggestions_filter_max">より小さい</string>
+    <string name="suggestions_filter_note">メモ</string>
+    <string name="suggestions_filter_apply">適用</string>
+    <string name="suggestions_filter_clear">クリア</string>
+    <string name="suggestions_assign_category">カテゴリを割り当て</string>
+</resources>

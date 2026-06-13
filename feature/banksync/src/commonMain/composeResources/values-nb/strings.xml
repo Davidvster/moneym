@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Banksynkronisering</string>
     <string name="bank_sync_setup_header">Koble til Enable Banking-applikasjonen din</string>
+    <string name="bank_sync_setup_hint">Opprett en gratis Enable Banking-konto, registrer en produksjonsapp, og lim inn ID-en og den private nøkkelen her. Trykk på i-knappen øverst til høyre for en trinnvis veiledning.</string>
     <string name="bank_sync_app_id_label">Applikasjons-ID</string>
     <string name="bank_sync_private_key_label">Privat nøkkel (PEM)</string>
     <string name="bank_sync_save_credentials">Lagre og valider</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d forslag flyttes til fanen Avviste. Du kan gjenopprette dem senere.</string>
     <string name="suggestions_rejected_snackbar">Forslag avvist</string>
     <string name="suggestions_undo">Angre</string>
-<string name="bank_sync_last_synced">Sist synkronisert %1$s</string></resources>
+<string name="bank_sync_last_synced">Sist synkronisert %1$s</string>    <string name="suggestions_filter">Filtrer</string>
+    <string name="suggestions_filter_title">Filtrer forslag</string>
+    <string name="suggestions_filter_all">Alle</string>
+    <string name="suggestions_filter_expense">Utgift</string>
+    <string name="suggestions_filter_income">Inntekt</string>
+    <string name="suggestions_filter_min">Høyere enn</string>
+    <string name="suggestions_filter_max">Lavere enn</string>
+    <string name="suggestions_filter_note">Notat</string>
+    <string name="suggestions_filter_apply">Bruk</string>
+    <string name="suggestions_filter_clear">Tøm</string>
+    <string name="suggestions_assign_category">Tildel kategori</string>
+</resources>

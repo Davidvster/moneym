@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Banksynchronisatie</string>
     <string name="bank_sync_setup_header">Verbind je Enable Banking-applicatie</string>
+    <string name="bank_sync_setup_hint">Maak een gratis Enable Banking-account aan, registreer een productietoepassing en plak hier de ID en privésleutel. Tik rechtsboven op de i-knop voor een stapsgewijze handleiding.</string>
     <string name="bank_sync_app_id_label">Applicatie-ID</string>
     <string name="bank_sync_private_key_label">Privésleutel (PEM)</string>
     <string name="bank_sync_save_credentials">Opslaan en valideren</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d suggesties gaan naar het tabblad Afgewezen. Je kunt ze later herstellen.</string>
     <string name="suggestions_rejected_snackbar">Suggestie afgewezen</string>
     <string name="suggestions_undo">Ongedaan maken</string>
-<string name="bank_sync_last_synced">Laatst gesynchroniseerd %1$s</string></resources>
+<string name="bank_sync_last_synced">Laatst gesynchroniseerd %1$s</string>    <string name="suggestions_filter">Filteren</string>
+    <string name="suggestions_filter_title">Suggesties filteren</string>
+    <string name="suggestions_filter_all">Alle</string>
+    <string name="suggestions_filter_expense">Uitgave</string>
+    <string name="suggestions_filter_income">Inkomsten</string>
+    <string name="suggestions_filter_min">Hoger dan</string>
+    <string name="suggestions_filter_max">Lager dan</string>
+    <string name="suggestions_filter_note">Notitie</string>
+    <string name="suggestions_filter_apply">Toepassen</string>
+    <string name="suggestions_filter_clear">Wissen</string>
+    <string name="suggestions_assign_category">Categorie toewijzen</string>
+</resources>

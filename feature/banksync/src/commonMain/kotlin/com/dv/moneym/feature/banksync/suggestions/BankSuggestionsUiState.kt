@@ -1,9 +1,42 @@
 package com.dv.moneym.feature.banksync.suggestions
 
 import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.SpendingFilter
+import kotlin.math.abs
 import kotlinx.serialization.Serializable
 
 enum class SuggestionsTab { PENDING, REJECTED }
+
+@Serializable
+data class SuggestionFilter(
+    val type: SpendingFilter = SpendingFilter.All,
+    val minText: String = "",
+    val maxText: String = "",
+    val note: String = "",
+) {
+    val isActive: Boolean
+        get() = type != SpendingFilter.All || minText.isNotBlank() ||
+            maxText.isNotBlank() || note.isNotBlank()
+
+    fun matches(row: SuggestionRow): Boolean {
+        val typeOk = when (type) {
+            SpendingFilter.All -> true
+            SpendingFilter.Expenses -> row.isExpense
+            SpendingFilter.Income -> !row.isExpense
+        }
+        if (!typeOk) return false
+
+        val amount = abs(row.amountMinor)
+        minText.toDoubleOrNull()?.let { if (amount < it * 100) return false }
+        maxText.toDoubleOrNull()?.let { if (amount > it * 100) return false }
+
+        if (note.isNotBlank()) {
+            val haystack = listOfNotNull(row.description, row.counterparty).joinToString(" ")
+            if (!haystack.contains(note, ignoreCase = true)) return false
+        }
+        return true
+    }
+}
 
 @Serializable
 data class DuplicateInfo(
@@ -44,9 +77,14 @@ data class BankSuggestionsUiState(
     val categoryPickerForId: Long? = null,
     val showAcceptConfirm: Boolean = false,
     val showRejectConfirm: Boolean = false,
+    val filter: SuggestionFilter = SuggestionFilter(),
+    val showFilterSheet: Boolean = false,
+    val showBatchCategoryPicker: Boolean = false,
 ) {
-    val rows: List<SuggestionRow> get() = if (tab == SuggestionsTab.PENDING) pending else rejected
-    val allSelected: Boolean get() = pending.isNotEmpty() && selectedIds.size == pending.size
+    val filteredPending: List<SuggestionRow> get() = pending.filter { filter.matches(it) }
+    val rows: List<SuggestionRow> get() = if (tab == SuggestionsTab.PENDING) filteredPending else rejected
+    val allSelected: Boolean
+        get() = filteredPending.isNotEmpty() && filteredPending.all { it.id in selectedIds }
 }
 
 sealed interface BankSuggestionsIntent {
@@ -65,4 +103,12 @@ sealed interface BankSuggestionsIntent {
     data class RestoreToPending(val id: Long) : BankSuggestionsIntent
     data class ShowCategoryPicker(val id: Long?) : BankSuggestionsIntent
     data class SetCategory(val id: Long, val categoryId: Long) : BankSuggestionsIntent
+    data class ShowFilterSheet(val show: Boolean) : BankSuggestionsIntent
+    data class SetFilterType(val type: SpendingFilter) : BankSuggestionsIntent
+    data class SetFilterMin(val text: String) : BankSuggestionsIntent
+    data class SetFilterMax(val text: String) : BankSuggestionsIntent
+    data class SetFilterNote(val text: String) : BankSuggestionsIntent
+    data object ClearFilter : BankSuggestionsIntent
+    data class ShowBatchCategoryPicker(val show: Boolean) : BankSuggestionsIntent
+    data class SetCategoryForSelected(val categoryId: Long) : BankSuggestionsIntent
 }

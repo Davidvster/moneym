@@ -208,4 +208,123 @@ class BankSuggestionsViewModelTest {
         }
         assertEquals(2, txRepo.transactions.size)
     }
+
+    private suspend fun seedMixed() {
+        categoryRepo.insert(category(1, "Food", TransactionType.EXPENSE))
+        categoryRepo.insert(category(2, "Salary", TransactionType.INCOME))
+        categoryRepo.insert(category(3, "Shopping", TransactionType.EXPENSE))
+        bankRepo.upsertAccounts(
+            listOf(BankAccountLink(uid = "acc-1", bankName = "Tatra", currency = "EUR", localAccountId = 7))
+        )
+        bankRepo.insertSuggestionsIfNew(
+            listOf(
+                BankSuggestion(
+                    id = 0,
+                    externalId = "eb:acc-1:exp",
+                    bankAccountUid = "acc-1",
+                    amountMinor = 1250,
+                    currency = "EUR",
+                    direction = EbDirection.DEBIT,
+                    bookingDate = LocalDate(2026, 6, 8),
+                    description = "COFFEE",
+                    fetchedAt = 0,
+                ),
+                BankSuggestion(
+                    id = 0,
+                    externalId = "eb:acc-1:inc",
+                    bankAccountUid = "acc-1",
+                    amountMinor = 50000,
+                    currency = "EUR",
+                    direction = EbDirection.CREDIT,
+                    bookingDate = LocalDate(2026, 6, 9),
+                    description = "PAYROLL",
+                    fetchedAt = 0,
+                ),
+            )
+        )
+    }
+
+    @Test
+    fun typeFilterNarrowsPendingAndSelectAllUsesFilteredSubset() = runTest(testDispatcher) {
+        seedMixed()
+        val vm = vm()
+        vm.state.test {
+            var s = awaitItem()
+            while (s.pending.size < 2) s = awaitItem()
+
+            vm.onIntent(BankSuggestionsIntent.SetFilterType(com.dv.moneym.core.model.SpendingFilter.Expenses))
+            while (s.filteredPending.size != 1) s = awaitItem()
+            assertTrue(s.filteredPending.single().isExpense)
+
+            vm.onIntent(BankSuggestionsIntent.ToggleSelectAll)
+            while (s.selectedIds.size != 1) s = awaitItem()
+            assertEquals(setOf(s.filteredPending.single().id), s.selectedIds)
+            assertTrue(s.allSelected)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun amountAndNoteFilterNarrowsPending() = runTest(testDispatcher) {
+        seedMixed()
+        val vm = vm()
+        vm.state.test {
+            var s = awaitItem()
+            while (s.pending.size < 2) s = awaitItem()
+
+            vm.onIntent(BankSuggestionsIntent.SetFilterMax("100"))
+            while (s.filteredPending.size != 1) s = awaitItem()
+            assertEquals("COFFEE", s.filteredPending.single().description)
+
+            vm.onIntent(BankSuggestionsIntent.SetFilterMax(""))
+            vm.onIntent(BankSuggestionsIntent.SetFilterNote("payroll"))
+            while (s.filteredPending.size != 1 || s.filteredPending.single().description != "PAYROLL") s = awaitItem()
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun batchAssignCategorySkipsMismatchedType() = runTest(testDispatcher) {
+        seedMixed()
+        val vm = vm()
+        vm.state.test {
+            var s = awaitItem()
+            while (s.pending.size < 2) s = awaitItem()
+
+            vm.onIntent(BankSuggestionsIntent.ToggleSelectAll)
+            while (s.selectedIds.size < 2) s = awaitItem()
+
+            vm.onIntent(BankSuggestionsIntent.SetCategoryForSelected(3))
+            while (s.pending.first { it.isExpense }.categoryId != 3L) s = awaitItem()
+
+            assertEquals(3L, s.pending.first { it.isExpense }.categoryId)
+            assertEquals(2L, s.pending.first { !it.isExpense }.categoryId)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun batchConfirmResetsFilter() = runTest(testDispatcher) {
+        seedMixed()
+        val vm = vm()
+        vm.state.test {
+            var s = awaitItem()
+            while (s.pending.size < 2) s = awaitItem()
+
+            vm.onIntent(BankSuggestionsIntent.SetFilterType(com.dv.moneym.core.model.SpendingFilter.Expenses))
+            while (!s.filter.isActive) s = awaitItem()
+
+            vm.onIntent(BankSuggestionsIntent.ToggleSelectAll)
+            while (s.selectedIds.isEmpty()) s = awaitItem()
+
+            vm.onIntent(BankSuggestionsIntent.ConfirmRejectSelected)
+            while (s.filter.isActive) s = awaitItem()
+            assertEquals(SuggestionFilter(), s.filter)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
 }

@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Banki szinkronizálás</string>
     <string name="bank_sync_setup_header">Kapcsolja össze Enable Banking alkalmazását</string>
+    <string name="bank_sync_setup_hint">Hozzon létre ingyenes Enable Banking-fiókot, regisztráljon egy éles alkalmazást, és illessze be ide az azonosítóját és privát kulcsát. A lépésenkénti útmutatóhoz koppintson a jobb felső sarokban lévő i gombra.</string>
     <string name="bank_sync_app_id_label">Alkalmazásazonosító</string>
     <string name="bank_sync_private_key_label">Privát kulcs (PEM)</string>
     <string name="bank_sync_save_credentials">Mentés és ellenőrzés</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d javaslat az Elutasított fülre kerül. Később visszaállíthatod.</string>
     <string name="suggestions_rejected_snackbar">Javaslat elutasítva</string>
     <string name="suggestions_undo">Visszavonás</string>
-<string name="bank_sync_last_synced">Utolsó szinkronizálás %1$s</string></resources>
+<string name="bank_sync_last_synced">Utolsó szinkronizálás %1$s</string>    <string name="suggestions_filter">Szűrés</string>
+    <string name="suggestions_filter_title">Javaslatok szűrése</string>
+    <string name="suggestions_filter_all">Összes</string>
+    <string name="suggestions_filter_expense">Kiadás</string>
+    <string name="suggestions_filter_income">Bevétel</string>
+    <string name="suggestions_filter_min">Nagyobb mint</string>
+    <string name="suggestions_filter_max">Kisebb mint</string>
+    <string name="suggestions_filter_note">Megjegyzés</string>
+    <string name="suggestions_filter_apply">Alkalmaz</string>
+    <string name="suggestions_filter_clear">Törlés</string>
+    <string name="suggestions_assign_category">Kategória hozzárendelése</string>
+</resources>

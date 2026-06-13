@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">बैंक सिंक</string>
     <string name="bank_sync_setup_header">अपना Enable Banking ऐप्लिकेशन कनेक्ट करें</string>
+    <string name="bank_sync_setup_hint">एक मुफ़्त Enable Banking खाता बनाएं, एक प्रोडक्शन एप्लिकेशन रजिस्टर करें और उसका ID तथा निजी कुंजी यहाँ पेस्ट करें। चरण-दर-चरण मार्गदर्शिका के लिए ऊपर दाईं ओर i बटन पर टैप करें।</string>
     <string name="bank_sync_app_id_label">ऐप्लिकेशन ID</string>
     <string name="bank_sync_private_key_label">निजी कुंजी (PEM)</string>
     <string name="bank_sync_save_credentials">सहेजें और जाँचें</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d सुझाव अस्वीकृत टैब में चले जाते हैं। आप उन्हें बाद में पुनर्स्थापित कर सकते हैं।</string>
     <string name="suggestions_rejected_snackbar">सुझाव अस्वीकृत</string>
     <string name="suggestions_undo">पूर्ववत करें</string>
-<string name="bank_sync_last_synced">अंतिम सिंक्रोनाइज़ %1$s</string></resources>
+<string name="bank_sync_last_synced">अंतिम सिंक्रोनाइज़ %1$s</string>    <string name="suggestions_filter">फ़िल्टर</string>
+    <string name="suggestions_filter_title">सुझाव फ़िल्टर करें</string>
+    <string name="suggestions_filter_all">सभी</string>
+    <string name="suggestions_filter_expense">व्यय</string>
+    <string name="suggestions_filter_income">आय</string>
+    <string name="suggestions_filter_min">इससे अधिक</string>
+    <string name="suggestions_filter_max">इससे कम</string>
+    <string name="suggestions_filter_note">टिप्पणी</string>
+    <string name="suggestions_filter_apply">लागू करें</string>
+    <string name="suggestions_filter_clear">साफ़ करें</string>
+    <string name="suggestions_assign_category">श्रेणी असाइन करें</string>
+</resources>

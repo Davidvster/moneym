@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Bankasamstilling</string>
     <string name="bank_sync_setup_header">Tengdu Enable Banking forritið þitt</string>
+    <string name="bank_sync_setup_hint">Stofnaðu ókeypis Enable Banking-reikning, skráðu framleiðsluforrit og límdu auðkenni þess og einkalykil hér. Ýttu á i-hnappinn efst til hægri til að fá skref-fyrir-skref leiðbeiningar.</string>
     <string name="bank_sync_app_id_label">Auðkenni forrits</string>
     <string name="bank_sync_private_key_label">Einkalykill (PEM)</string>
     <string name="bank_sync_save_credentials">Vista og staðfesta</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d tillögur færast á flipann Hafnað. Þú getur endurheimt þær síðar.</string>
     <string name="suggestions_rejected_snackbar">Tillögu hafnað</string>
     <string name="suggestions_undo">Afturkalla</string>
-<string name="bank_sync_last_synced">Síðasta samstilling %1$s</string></resources>
+<string name="bank_sync_last_synced">Síðasta samstilling %1$s</string>    <string name="suggestions_filter">Sía</string>
+    <string name="suggestions_filter_title">Sía tillögur</string>
+    <string name="suggestions_filter_all">Allt</string>
+    <string name="suggestions_filter_expense">Útgjöld</string>
+    <string name="suggestions_filter_income">Tekjur</string>
+    <string name="suggestions_filter_min">Hærra en</string>
+    <string name="suggestions_filter_max">Lægra en</string>
+    <string name="suggestions_filter_note">Athugasemd</string>
+    <string name="suggestions_filter_apply">Beita</string>
+    <string name="suggestions_filter_clear">Hreinsa</string>
+    <string name="suggestions_assign_category">Úthluta flokki</string>
+</resources>

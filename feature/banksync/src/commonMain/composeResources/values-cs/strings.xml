@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Bankovní synchronizace</string>
     <string name="bank_sync_setup_header">Připojte svou aplikaci Enable Banking</string>
+    <string name="bank_sync_setup_hint">Vytvořte si bezplatný účet Enable Banking, zaregistrujte produkční aplikaci a sem vložte její ID a soukromý klíč. Klepnutím na tlačítko i vpravo nahoře zobrazíte podrobný návod.</string>
     <string name="bank_sync_app_id_label">ID aplikace</string>
     <string name="bank_sync_private_key_label">Soukromý klíč (PEM)</string>
     <string name="bank_sync_save_credentials">Uložit a ověřit</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d návrhů se přesune na kartu Odmítnuté. Později je můžete obnovit.</string>
     <string name="suggestions_rejected_snackbar">Návrh odmítnut</string>
     <string name="suggestions_undo">Zpět</string>
-<string name="bank_sync_last_synced">Poslední synchronizace %1$s</string></resources>
+<string name="bank_sync_last_synced">Poslední synchronizace %1$s</string>    <string name="suggestions_filter">Filtrovat</string>
+    <string name="suggestions_filter_title">Filtrovat návrhy</string>
+    <string name="suggestions_filter_all">Vše</string>
+    <string name="suggestions_filter_expense">Výdaj</string>
+    <string name="suggestions_filter_income">Příjem</string>
+    <string name="suggestions_filter_min">Větší než</string>
+    <string name="suggestions_filter_max">Menší než</string>
+    <string name="suggestions_filter_note">Poznámka</string>
+    <string name="suggestions_filter_apply">Použít</string>
+    <string name="suggestions_filter_clear">Vymazat</string>
+    <string name="suggestions_assign_category">Přiřadit kategorii</string>
+</resources>

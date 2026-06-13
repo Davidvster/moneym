@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Банкарска синхронизација</string>
     <string name="bank_sync_setup_header">Поврзете ја вашата Enable Banking апликација</string>
+    <string name="bank_sync_setup_hint">Создајте бесплатна Enable Banking сметка, регистрирајте продукциска апликација и залепете ги нејзиниот ID и приватниот клуч овде. Допрете го копчето i горе десно за чекор-по-чекор водич.</string>
     <string name="bank_sync_app_id_label">ID на апликацијата</string>
     <string name="bank_sync_private_key_label">Приватен клуч (PEM)</string>
     <string name="bank_sync_save_credentials">Зачувај и провери</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d предлози се преместуваат во картичката Одбиени. Може подоцна да ги вратите.</string>
     <string name="suggestions_rejected_snackbar">Предлогот е одбиен</string>
     <string name="suggestions_undo">Врати</string>
-<string name="bank_sync_last_synced">Последната синхронизација %1$s</string></resources>
+<string name="bank_sync_last_synced">Последната синхронизација %1$s</string>    <string name="suggestions_filter">Филтрирај</string>
+    <string name="suggestions_filter_title">Филтрирај предлози</string>
+    <string name="suggestions_filter_all">Сите</string>
+    <string name="suggestions_filter_expense">Трошок</string>
+    <string name="suggestions_filter_income">Приход</string>
+    <string name="suggestions_filter_min">Поголемо од</string>
+    <string name="suggestions_filter_max">Помало од</string>
+    <string name="suggestions_filter_note">Белешка</string>
+    <string name="suggestions_filter_apply">Примени</string>
+    <string name="suggestions_filter_clear">Исчисти</string>
+    <string name="suggestions_assign_category">Додели категорија</string>
+</resources>

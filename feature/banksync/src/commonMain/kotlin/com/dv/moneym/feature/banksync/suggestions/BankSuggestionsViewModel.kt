@@ -6,6 +6,7 @@ import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.data.banksync.BankAccountLink
 import com.dv.moneym.data.banksync.BankSuggestion
@@ -120,8 +121,9 @@ class BankSuggestionsViewModel(
             }
 
             BankSuggestionsIntent.ToggleSelectAll -> _state.update { s ->
-                if (s.allSelected) s.copy(selectedIds = emptySet())
-                else s.copy(selectedIds = s.pending.map { it.id }.toSet())
+                val filteredIds = s.filteredPending.map { it.id }.toSet()
+                if (s.allSelected) s.copy(selectedIds = s.selectedIds - filteredIds)
+                else s.copy(selectedIds = s.selectedIds + filteredIds)
             }
 
             BankSuggestionsIntent.ClearSelection -> _state.update { it.copy(selectedIds = emptySet()) }
@@ -134,7 +136,7 @@ class BankSuggestionsViewModel(
                 _state.update { it.copy(showAcceptConfirm = true) }
 
             BankSuggestionsIntent.ConfirmAcceptSelected -> {
-                _state.update { it.copy(showAcceptConfirm = false) }
+                _state.update { it.copy(showAcceptConfirm = false, filter = SuggestionFilter()) }
                 acceptAll(_state.value.selectedIds.toList())
             }
 
@@ -142,7 +144,7 @@ class BankSuggestionsViewModel(
                 _state.update { it.copy(showRejectConfirm = true) }
 
             BankSuggestionsIntent.ConfirmRejectSelected -> {
-                _state.update { it.copy(showRejectConfirm = false) }
+                _state.update { it.copy(showRejectConfirm = false, filter = SuggestionFilter()) }
                 rejectAll(_state.value.selectedIds.toList())
             }
 
@@ -170,6 +172,52 @@ class BankSuggestionsViewModel(
                             ) else row
                         },
                     )
+                }
+            }
+
+            is BankSuggestionsIntent.ShowFilterSheet ->
+                _state.update { it.copy(showFilterSheet = intent.show) }
+
+            is BankSuggestionsIntent.SetFilterType ->
+                _state.update { it.copy(filter = it.filter.copy(type = intent.type)) }
+
+            is BankSuggestionsIntent.SetFilterMin ->
+                _state.update { it.copy(filter = it.filter.copy(minText = intent.text)) }
+
+            is BankSuggestionsIntent.SetFilterMax ->
+                _state.update { it.copy(filter = it.filter.copy(maxText = intent.text)) }
+
+            is BankSuggestionsIntent.SetFilterNote ->
+                _state.update { it.copy(filter = it.filter.copy(note = intent.text)) }
+
+            BankSuggestionsIntent.ClearFilter ->
+                _state.update { it.copy(filter = SuggestionFilter()) }
+
+            is BankSuggestionsIntent.ShowBatchCategoryPicker ->
+                _state.update { it.copy(showBatchCategoryPicker = intent.show) }
+
+            is BankSuggestionsIntent.SetCategoryForSelected -> {
+                val category = _state.value.categories.firstOrNull { it.id.value == intent.categoryId }
+                if (category != null) {
+                    val catIsExpense = category.type == TransactionType.EXPENSE
+                    _state.update { s ->
+                        val targetIds = s.pending
+                            .filter { it.id in s.selectedIds && it.isExpense == catIsExpense }
+                            .map { it.id }
+                            .toSet()
+                        targetIds.forEach { categoryOverrides[it] = intent.categoryId }
+                        s.copy(
+                            showBatchCategoryPicker = false,
+                            pending = s.pending.map { row ->
+                                if (row.id in targetIds) row.copy(
+                                    categoryId = intent.categoryId,
+                                    categoryName = category.name,
+                                ) else row
+                            },
+                        )
+                    }
+                } else {
+                    _state.update { it.copy(showBatchCategoryPicker = false) }
                 }
             }
         }

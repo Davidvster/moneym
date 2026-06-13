@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Banko sinchronizavimas</string>
     <string name="bank_sync_setup_header">Prijunkite savo „Enable Banking“ programą</string>
+    <string name="bank_sync_setup_hint">Sukurkite nemokamą „Enable Banking“ paskyrą, užregistruokite gamybinę programą ir čia įklijuokite jos ID bei privatųjį raktą. Norėdami atverti nuoseklų vadovą, palieskite i mygtuką viršuje dešinėje.</string>
     <string name="bank_sync_app_id_label">Programos ID</string>
     <string name="bank_sync_private_key_label">Privatusis raktas (PEM)</string>
     <string name="bank_sync_save_credentials">Išsaugoti ir patikrinti</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d pasiūlymų bus perkelta į skirtuką Atmesti. Vėliau galėsite juos atkurti.</string>
     <string name="suggestions_rejected_snackbar">Pasiūlymas atmestas</string>
     <string name="suggestions_undo">Atšaukti</string>
-<string name="bank_sync_last_synced">Paskutinis sinchronizavimas %1$s</string></resources>
+<string name="bank_sync_last_synced">Paskutinis sinchronizavimas %1$s</string>    <string name="suggestions_filter">Filtruoti</string>
+    <string name="suggestions_filter_title">Filtruoti pasiūlymus</string>
+    <string name="suggestions_filter_all">Visi</string>
+    <string name="suggestions_filter_expense">Išlaidos</string>
+    <string name="suggestions_filter_income">Pajamos</string>
+    <string name="suggestions_filter_min">Daugiau nei</string>
+    <string name="suggestions_filter_max">Mažiau nei</string>
+    <string name="suggestions_filter_note">Pastaba</string>
+    <string name="suggestions_filter_apply">Taikyti</string>
+    <string name="suggestions_filter_clear">Išvalyti</string>
+    <string name="suggestions_assign_category">Priskirti kategoriją</string>
+</resources>

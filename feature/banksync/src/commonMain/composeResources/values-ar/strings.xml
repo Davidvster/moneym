@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">مزامنة البنك</string>
     <string name="bank_sync_setup_header">اربط تطبيق Enable Banking الخاص بك</string>
+    <string name="bank_sync_setup_hint">أنشئ حساب Enable Banking مجانيًا، وسجّل تطبيق إنتاج والصق معرّفه ومفتاحه الخاص هنا. اضغط على زر المعلومات (i) في أعلى اليمين للحصول على دليل خطوة بخطوة.</string>
     <string name="bank_sync_app_id_label">معرّف التطبيق</string>
     <string name="bank_sync_private_key_label">المفتاح الخاص (PEM)</string>
     <string name="bank_sync_save_credentials">حفظ وتحقق</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">ستنتقل %1$d اقتراحات إلى علامة التبويب المرفوضة. يمكنك استعادتها لاحقًا.</string>
     <string name="suggestions_rejected_snackbar">تم رفض الاقتراح</string>
     <string name="suggestions_undo">تراجع</string>
-<string name="bank_sync_last_synced">تمت المزامنة الأخيرة %1$s</string></resources>
+<string name="bank_sync_last_synced">تمت المزامنة الأخيرة %1$s</string>    <string name="suggestions_filter">تصفية</string>
+    <string name="suggestions_filter_title">تصفية الاقتراحات</string>
+    <string name="suggestions_filter_all">الكل</string>
+    <string name="suggestions_filter_expense">مصروف</string>
+    <string name="suggestions_filter_income">دخل</string>
+    <string name="suggestions_filter_min">أكبر من</string>
+    <string name="suggestions_filter_max">أصغر من</string>
+    <string name="suggestions_filter_note">ملاحظة</string>
+    <string name="suggestions_filter_apply">تطبيق</string>
+    <string name="suggestions_filter_clear">مسح</string>
+    <string name="suggestions_assign_category">تعيين فئة</string>
+</resources>

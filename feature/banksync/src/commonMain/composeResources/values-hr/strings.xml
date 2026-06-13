@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Bankovna sinkronizacija</string>
     <string name="bank_sync_setup_header">Povežite svoju Enable Banking aplikaciju</string>
+    <string name="bank_sync_setup_hint">Izradite besplatni Enable Banking račun, registrirajte produkcijsku aplikaciju te ovdje zalijepite njezin ID i privatni ključ. Dodirnite gumb i u gornjem desnom kutu za vodič korak po korak.</string>
     <string name="bank_sync_app_id_label">ID aplikacije</string>
     <string name="bank_sync_private_key_label">Privatni ključ (PEM)</string>
     <string name="bank_sync_save_credentials">Spremi i provjeri</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d prijedloga premješta se na karticu Odbijeno. Možete ih kasnije vratiti.</string>
     <string name="suggestions_rejected_snackbar">Prijedlog odbijen</string>
     <string name="suggestions_undo">Poništi</string>
-<string name="bank_sync_last_synced">Posljednja sinkronizacija %1$s</string></resources>
+<string name="bank_sync_last_synced">Posljednja sinkronizacija %1$s</string>    <string name="suggestions_filter">Filtriraj</string>
+    <string name="suggestions_filter_title">Filtriraj prijedloge</string>
+    <string name="suggestions_filter_all">Sve</string>
+    <string name="suggestions_filter_expense">Trošak</string>
+    <string name="suggestions_filter_income">Prihod</string>
+    <string name="suggestions_filter_min">Veće od</string>
+    <string name="suggestions_filter_max">Manje od</string>
+    <string name="suggestions_filter_note">Bilješka</string>
+    <string name="suggestions_filter_apply">Primijeni</string>
+    <string name="suggestions_filter_clear">Očisti</string>
+    <string name="suggestions_assign_category">Dodijeli kategoriju</string>
+</resources>

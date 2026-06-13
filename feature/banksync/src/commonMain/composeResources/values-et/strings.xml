@@ -2,6 +2,7 @@
 <resources>
     <string name="bank_sync_title">Panga sünkroonimine</string>
     <string name="bank_sync_setup_header">Ühendage oma Enable Bankingu rakendus</string>
+    <string name="bank_sync_setup_hint">Loo tasuta Enable Bankingu konto, registreeri tooterakendus ning kleebi siia selle ID ja privaatvõti. Sammhaaval juhendi avamiseks puuduta paremas ülanurgas i-nuppu.</string>
     <string name="bank_sync_app_id_label">Rakenduse ID</string>
     <string name="bank_sync_private_key_label">Privaatvõti (PEM)</string>
     <string name="bank_sync_save_credentials">Salvesta ja kontrolli</string>
@@ -62,4 +63,15 @@
     <string name="suggestions_reject_all_confirm_body">%1$d ettepanekut liigub vahekaardile Tagasi lükatud. Saad need hiljem taastada.</string>
     <string name="suggestions_rejected_snackbar">Ettepanek tagasi lükatud</string>
     <string name="suggestions_undo">Võta tagasi</string>
-<string name="bank_sync_last_synced">Viimati sünkroniseeritud %1$s</string></resources>
+<string name="bank_sync_last_synced">Viimati sünkroniseeritud %1$s</string>    <string name="suggestions_filter">Filtreeri</string>
+    <string name="suggestions_filter_title">Filtreeri soovitusi</string>
+    <string name="suggestions_filter_all">Kõik</string>
+    <string name="suggestions_filter_expense">Kulu</string>
+    <string name="suggestions_filter_income">Tulu</string>
+    <string name="suggestions_filter_min">Suurem kui</string>
+    <string name="suggestions_filter_max">Väiksem kui</string>
+    <string name="suggestions_filter_note">Märkus</string>
+    <string name="suggestions_filter_apply">Rakenda</string>
+    <string name="suggestions_filter_clear">Tühjenda</string>
+    <string name="suggestions_assign_category">Määra kategooria</string>
+</resources>
