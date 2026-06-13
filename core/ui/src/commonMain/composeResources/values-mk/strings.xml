@@ -24,6 +24,7 @@
     <string name="colorpicker_select">Избери боја</string>
     <string name="colorpicker_cancel">Откажи</string>
     <string name="wallet_select">Избери паричник</string>
+    <string name="mm_close">Затвори</string>
     <string name="cancel">Откажи</string>
     <string name="category_picker_title">Филтрирај по категорија</string>
     <string name="category_picker_select_title">Изберете категорија</string>

@@ -17,6 +17,7 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmField
+import com.dv.moneym.core.ui.MmSheetHeader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,7 +56,7 @@ internal fun DeleteAllTransactionsConfirmSheet(
                 ),
             verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
         ) {
-            Text(text = title, style = MM.type.title3, color = colors.text)
+            MmSheetHeader(title = title, onClose = onCancel)
             Text(text = warning, style = MM.type.caption, color = colors.danger)
             MmField(
                 value = input,

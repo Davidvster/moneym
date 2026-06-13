@@ -24,6 +24,7 @@
     <string name="colorpicker_select">Velja lit</string>
     <string name="colorpicker_cancel">Hætta við</string>
     <string name="wallet_select">Velja veski</string>
+    <string name="mm_close">Loka</string>
     <string name="cancel">Hætta við</string>
     <string name="category_picker_title">Sía eftir flokki</string>
     <string name="category_picker_select_title">Veldu flokk</string>

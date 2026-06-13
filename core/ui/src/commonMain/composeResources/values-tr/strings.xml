@@ -24,6 +24,7 @@
     <string name="colorpicker_select">Renk seç</string>
     <string name="colorpicker_cancel">İptal</string>
     <string name="wallet_select">Cüzdan seç</string>
+    <string name="mm_close">Kapat</string>
     <string name="cancel">İptal</string>
     <string name="category_picker_title">Kategoriye göre filtrele</string>
     <string name="category_picker_select_title">Kategori seç</string>

@@ -24,6 +24,7 @@
     <string name="colorpicker_select">Odaberi boju</string>
     <string name="colorpicker_cancel">Odustani</string>
     <string name="wallet_select">Odaberi novčanik</string>
+    <string name="mm_close">Zatvori</string>
     <string name="cancel">Odustani</string>
     <string name="category_picker_title">Filtriraj po kategoriji</string>
     <string name="category_picker_select_title">Odaberite kategoriju</string>

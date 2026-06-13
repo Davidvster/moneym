@@ -82,6 +82,7 @@ import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmMonthPickerDialog
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
+import com.dv.moneym.core.ui.MmSheetHeader
 import com.dv.moneym.core.ui.MmSkeleton
 import com.dv.moneym.core.ui.MmSkeletonCircle
 import com.dv.moneym.core.ui.MmTabBar
@@ -557,6 +558,8 @@ private fun SyncStatusSheet(
             modifier = Modifier.padding(horizontal = space.padding_2_5x, vertical = space.padding_3x),
             verticalArrangement = Arrangement.spacedBy(space.padding_2x),
         ) {
+            MmSheetHeader(onClose = onDismiss)
+
             if (crossDeviceEnabled) {
                 Text(
                     text = stringResource(Res.string.transactions_sync_sheet_title),

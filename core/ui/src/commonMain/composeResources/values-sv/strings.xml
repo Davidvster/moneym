@@ -24,6 +24,7 @@
     <string name="colorpicker_select">Välj färg</string>
     <string name="colorpicker_cancel">Avbryt</string>
     <string name="wallet_select">Välj plånbok</string>
+    <string name="mm_close">Stäng</string>
     <string name="cancel">Avbryt</string>
     <string name="category_picker_title">Filtrera per kategori</string>
     <string name="category_picker_select_title">Välj kategori</string>

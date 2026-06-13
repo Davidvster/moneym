@@ -24,6 +24,7 @@
     <string name="colorpicker_select">Izberi barvo</string>
     <string name="colorpicker_cancel">Prekliči</string>
     <string name="wallet_select">Izberi denarnico</string>
+    <string name="mm_close">Zapri</string>
     <string name="cancel">Prekliči</string>
     <string name="category_picker_title">Filtriraj po kategoriji</string>
     <string name="category_picker_select_title">Izberite kategorijo</string>

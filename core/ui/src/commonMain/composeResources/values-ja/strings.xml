@@ -24,6 +24,7 @@
     <string name="colorpicker_select">色を選択</string>
     <string name="colorpicker_cancel">キャンセル</string>
     <string name="wallet_select">ウォレットを選択</string>
+    <string name="mm_close">閉じる</string>
     <string name="cancel">キャンセル</string>
     <string name="category_picker_title">カテゴリでフィルター</string>
     <string name="category_picker_select_title">カテゴリを選択</string>

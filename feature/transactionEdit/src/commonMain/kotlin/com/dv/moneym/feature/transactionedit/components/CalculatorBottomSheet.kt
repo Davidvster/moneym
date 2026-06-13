@@ -28,10 +28,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.ui.MmSheetHeader
 import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.edit_calculator_title
 import org.jetbrains.compose.resources.stringResource
@@ -166,13 +166,9 @@ internal fun CalculatorBottomSheet(
                 )
             }
 
-            // Title
-            Text(
-                text = stringResource(Res.string.edit_calculator_title),
-                style = type.title3,
-                color = colors.text,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(),
+            MmSheetHeader(
+                title = stringResource(Res.string.edit_calculator_title),
+                onClose = onDismiss,
             )
 
             // Display

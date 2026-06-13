@@ -24,6 +24,7 @@
     <string name="colorpicker_select">Vali värv</string>
     <string name="colorpicker_cancel">Tühista</string>
     <string name="wallet_select">Vali rahakott</string>
+    <string name="mm_close">Sulge</string>
     <string name="cancel">Tühista</string>
     <string name="category_picker_title">Filtreeri kategooria järgi</string>
     <string name="category_picker_select_title">Vali kategooria</string>

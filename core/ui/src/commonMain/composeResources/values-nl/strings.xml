@@ -24,6 +24,7 @@
     <string name="colorpicker_select">Kleur selecteren</string>
     <string name="colorpicker_cancel">Annuleren</string>
     <string name="wallet_select">Portemonnee selecteren</string>
+    <string name="mm_close">Sluiten</string>
     <string name="cancel">Annuleren</string>
     <string name="category_picker_title">Filteren op categorie</string>
     <string name="category_picker_select_title">Categorie selecteren</string>

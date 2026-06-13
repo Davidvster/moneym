@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,6 +22,7 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
+import com.dv.moneym.core.ui.MmSheetHeader
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_import_from
 import moneym.feature.settings.generated.resources.settings_import_source_ehf
@@ -37,7 +37,6 @@ internal fun ImportSourceSheet(
     onDismiss: () -> Unit,
 ) {
     val colors = MM.colors
-    val type = MM.type
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     ModalBottomSheet(
@@ -69,10 +68,9 @@ internal fun ImportSourceSheet(
                 )
             }
 
-            Text(
-                text = stringResource(Res.string.settings_import_from),
-                style = type.title3,
-                color = colors.text,
+            MmSheetHeader(
+                title = stringResource(Res.string.settings_import_from),
+                onClose = onDismiss,
             )
 
             MmButton(

@@ -40,7 +40,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -151,12 +150,9 @@ private fun HsvColorPickerContent(
             .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_2x),
         verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
     ) {
-        Text(
-            stringResource(Res.string.colorpicker_title),
-            style = type.title3,
-            color = colors.text,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
+        MmSheetHeader(
+            title = stringResource(Res.string.colorpicker_title),
+            onClose = onDismiss,
         )
 
         Box(

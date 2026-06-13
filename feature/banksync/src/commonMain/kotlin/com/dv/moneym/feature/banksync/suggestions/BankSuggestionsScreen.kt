@@ -53,6 +53,7 @@ import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmLoadingOverlay
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmSegmented
+import com.dv.moneym.core.ui.MmSheetHeader
 import com.dv.moneym.core.ui.MmSnackbarHost
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.utils.observeWithLifecycle
@@ -375,10 +376,9 @@ private fun FilterSheet(
                 )
             }
 
-            Text(
-                text = stringResource(Res.string.suggestions_filter_title),
-                style = MM.type.title3,
-                color = colors.text,
+            MmSheetHeader(
+                title = stringResource(Res.string.suggestions_filter_title),
+                onClose = { onIntent(BankSuggestionsIntent.ShowFilterSheet(false)) },
             )
 
             val typeOptions = listOf(SpendingFilter.All, SpendingFilter.Expenses, SpendingFilter.Income)

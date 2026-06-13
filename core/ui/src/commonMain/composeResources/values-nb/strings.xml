@@ -24,6 +24,7 @@
     <string name="colorpicker_select">Velg farge</string>
     <string name="colorpicker_cancel">Avbryt</string>
     <string name="wallet_select">Velg lommebok</string>
+    <string name="mm_close">Lukk</string>
     <string name="cancel">Avbryt</string>
     <string name="category_picker_title">Filtrer etter kategori</string>
     <string name="category_picker_select_title">Velg kategori</string>

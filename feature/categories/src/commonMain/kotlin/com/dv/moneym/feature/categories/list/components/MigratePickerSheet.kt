@@ -22,6 +22,7 @@ import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.ui.CategoryIconTile
 import com.dv.moneym.core.ui.MmRow
+import com.dv.moneym.core.ui.MmSheetHeader
 import com.dv.moneym.core.ui.imageVector
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,10 +47,9 @@ internal fun MigratePickerSheet(
         dragHandle = null,
     ) {
         Column(modifier = Modifier.navigationBarsPadding()) {
-            Text(
-                text = title,
-                style = MM.type.title3,
-                color = colors.text,
+            MmSheetHeader(
+                title = title,
+                onClose = onDismiss,
                 modifier = Modifier.padding(
                     horizontal = MM.dimen.padding_2_5x,
                     vertical = MM.dimen.padding_3x,

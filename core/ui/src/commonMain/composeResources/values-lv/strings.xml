@@ -24,6 +24,7 @@
     <string name="colorpicker_select">Izvēlēties krāsu</string>
     <string name="colorpicker_cancel">Atcelt</string>
     <string name="wallet_select">Izvēlēties maku</string>
+    <string name="mm_close">Aizvērt</string>
     <string name="cancel">Atcelt</string>
     <string name="category_picker_title">Filtrēt pēc kategorijas</string>
     <string name="category_picker_select_title">Izvēlieties kategoriju</string>

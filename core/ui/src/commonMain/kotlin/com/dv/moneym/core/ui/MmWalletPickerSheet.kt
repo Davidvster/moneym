@@ -73,10 +73,9 @@ fun MmWalletPickerSheet(
                         .background(colors.borderStrong),
                 )
             }
-            Text(
-                text = title ?: stringResource(Res.string.wallet_select),
-                style = type.title3,
-                color = colors.text,
+            MmSheetHeader(
+                title = title ?: stringResource(Res.string.wallet_select),
+                onClose = onDismiss,
             )
             Column(verticalArrangement = Arrangement.spacedBy(space.padding_0_25x)) {
                 accounts.forEach { account ->

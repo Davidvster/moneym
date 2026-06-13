@@ -19,6 +19,7 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.Icon as MmIcon
 import com.dv.moneym.core.ui.MmRow
+import com.dv.moneym.core.ui.MmSheetHeader
 import com.dv.moneym.core.ui.imageVector
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,7 +61,7 @@ internal fun DeleteCategoryOptionsSheet(
                     bottom = MM.dimen.padding_2x,
                 ),
             ) {
-                Text(text = title, style = MM.type.title3, color = colors.text)
+                MmSheetHeader(title = title, onClose = onDismiss)
                 if (transactionCount > 0) {
                     Text(
                         text = subtitle,

@@ -24,6 +24,7 @@
     <string name="colorpicker_select">Szín kiválasztása</string>
     <string name="colorpicker_cancel">Mégsem</string>
     <string name="wallet_select">Tárca kiválasztása</string>
+    <string name="mm_close">Bezárás</string>
     <string name="cancel">Mégsem</string>
     <string name="category_picker_title">Szűrés kategória szerint</string>
     <string name="category_picker_select_title">Kategória kiválasztása</string>

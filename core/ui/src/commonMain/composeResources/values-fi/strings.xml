@@ -24,6 +24,7 @@
     <string name="colorpicker_select">Valitse väri</string>
     <string name="colorpicker_cancel">Peruuta</string>
     <string name="wallet_select">Valitse lompakko</string>
+    <string name="mm_close">Sulje</string>
     <string name="cancel">Peruuta</string>
     <string name="category_picker_title">Suodata kategorian mukaan</string>
     <string name="category_picker_select_title">Valitse kategoria</string>

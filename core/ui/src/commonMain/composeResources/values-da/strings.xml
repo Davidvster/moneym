@@ -24,6 +24,7 @@
     <string name="colorpicker_select">Vælg farve</string>
     <string name="colorpicker_cancel">Annuller</string>
     <string name="wallet_select">Vælg pung</string>
+    <string name="mm_close">Luk</string>
     <string name="cancel">Annuller</string>
     <string name="category_picker_title">Filtrer efter kategori</string>
     <string name="category_picker_select_title">Vælg kategori</string>

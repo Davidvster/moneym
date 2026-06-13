@@ -69,12 +69,7 @@ fun MmDeleteSheet(
                         .background(colors.borderStrong),
                 )
             }
-            Text(
-                text = title,
-                style = MM.type.title3,
-                color = colors.text,
-                textAlign = TextAlign.Center,
-            )
+            MmSheetHeader(title = title, onClose = onCancel)
             Text(
                 text = body,
                 style = MM.type.caption,

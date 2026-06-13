@@ -48,6 +48,7 @@ import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmCheckbox
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmRow
+import com.dv.moneym.core.ui.MmSheetHeader
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.imageVector
@@ -380,10 +381,9 @@ private fun CategoryMappingPickerSheet(
                 )
             }
 
-            Text(
-                text = stringResource(Res.string.settings_import_map_to, csvName),
-                style = type.title3,
-                color = colors.text,
+            MmSheetHeader(
+                title = stringResource(Res.string.settings_import_map_to, csvName),
+                onClose = onDismiss,
                 modifier = Modifier.padding(bottom = MM.dimen.padding_2x),
             )
 

@@ -33,6 +33,7 @@ import moneym.core.ui.generated.resources.Res
 import moneym.core.ui.generated.resources.category_picker_clear
 import moneym.core.ui.generated.resources.category_picker_select_title
 import moneym.core.ui.generated.resources.category_picker_title
+import moneym.core.ui.generated.resources.mm_close
 import moneym.core.ui.generated.resources.picker_ok
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
@@ -140,6 +141,11 @@ private fun CategoryPickerSheetImpl(
                         )
                     }
                 }
+                MmIconButton(
+                    icon = Icon.Close.imageVector,
+                    onClick = onDismiss,
+                    contentDescription = stringResource(Res.string.mm_close),
+                )
             }
 
             FlowRow(

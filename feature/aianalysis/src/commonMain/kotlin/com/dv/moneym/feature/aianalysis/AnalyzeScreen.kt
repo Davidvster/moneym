@@ -55,6 +55,7 @@ import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmSegmented
+import com.dv.moneym.core.ui.MmSheetHeader
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.navigation.ModalKey
@@ -406,7 +407,6 @@ private fun ModelPickerSheet(
     onDismiss: () -> Unit,
 ) {
     val colors = MM.colors
-    val type = MM.type
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     ModalBottomSheet(
@@ -435,10 +435,9 @@ private fun ModelPickerSheet(
                 )
             }
 
-            Text(
-                text = stringResource(Res.string.analyze_engine_label),
-                style = type.title3,
-                color = colors.text,
+            MmSheetHeader(
+                title = stringResource(Res.string.analyze_engine_label),
+                onClose = onDismiss,
                 modifier = Modifier.padding(vertical = MM.dimen.padding_1x),
             )
 

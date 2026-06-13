@@ -24,6 +24,7 @@
     <string name="colorpicker_select">Selecionar cor</string>
     <string name="colorpicker_cancel">Cancelar</string>
     <string name="wallet_select">Selecionar carteira</string>
+    <string name="mm_close">Fechar</string>
     <string name="cancel">Cancelar</string>
     <string name="category_picker_title">Filtrar por categoria</string>
     <string name="category_picker_select_title">Selecionar categoria</string>

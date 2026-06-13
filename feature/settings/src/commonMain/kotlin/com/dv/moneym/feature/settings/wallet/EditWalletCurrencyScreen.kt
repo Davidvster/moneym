@@ -40,6 +40,7 @@ import com.dv.moneym.core.model.PopularCurrencyCodes
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmField
+import com.dv.moneym.core.ui.MmSheetHeader
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.imageVector
@@ -264,6 +265,8 @@ private fun CurrencyConversionSheet(
                             .background(colors.borderStrong),
                     )
                 }
+
+                MmSheetHeader(onClose = { if (!isConverting) onCancel() })
 
                 Text(
                     text = stringResource(Res.string.settings_edit_currency_warning, oldCurrency, newCurrency),
