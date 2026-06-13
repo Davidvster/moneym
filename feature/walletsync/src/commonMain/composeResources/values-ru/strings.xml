@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Доступ к уведомлениям предоставлен</string>
     <string name="wallet_sync_select_apps">Выбрать приложения</string>
     <string name="wallet_sync_select_apps_subtitle">Получать уведомления из этих приложений</string>
-    <string name="wallet_sync_apps_selected">Выбрано: %d</string>
+    <string name="wallet_sync_apps_selected">Выбрано: %1$d</string>
     <string name="wallet_sync_apps_none">Ничего не выбрано</string>
-    <string name="wallet_sync_review_pending">Просмотреть %d предложений</string>
+    <string name="wallet_sync_apps_suggested">Рекомендуемые</string>
+    <string name="wallet_sync_apps_all">Все приложения</string>
+    <string name="wallet_sync_review_pending">Просмотреть %1$d предложений</string>
     <string name="wallet_sync_app_picker_title">Выбрать приложения</string>
     <string name="wallet_sync_search">Поиск приложений</string>
     <string name="wallet_sync_done">Готово</string>

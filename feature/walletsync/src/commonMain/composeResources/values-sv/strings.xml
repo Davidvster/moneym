@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Aviseringsåtkomst beviljad</string>
     <string name="wallet_sync_select_apps">Välj appar</string>
     <string name="wallet_sync_select_apps_subtitle">Fånga aviseringar från dessa appar</string>
-    <string name="wallet_sync_apps_selected">%d valda</string>
+    <string name="wallet_sync_apps_selected">%1$d valda</string>
     <string name="wallet_sync_apps_none">Inga valda</string>
-    <string name="wallet_sync_review_pending">Granska %d förslag</string>
+    <string name="wallet_sync_apps_suggested">Föreslagna</string>
+    <string name="wallet_sync_apps_all">Alla appar</string>
+    <string name="wallet_sync_review_pending">Granska %1$d förslag</string>
     <string name="wallet_sync_app_picker_title">Välj appar</string>
     <string name="wallet_sync_search">Sök appar</string>
     <string name="wallet_sync_done">Klar</string>

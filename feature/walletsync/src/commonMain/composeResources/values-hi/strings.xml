@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">सूचना एक्सेस दी गई</string>
     <string name="wallet_sync_select_apps">ऐप्स चुनें</string>
     <string name="wallet_sync_select_apps_subtitle">इन ऐप्स से सूचनाएं कैप्चर करें</string>
-    <string name="wallet_sync_apps_selected">%d चयनित</string>
+    <string name="wallet_sync_apps_selected">%1$d चयनित</string>
     <string name="wallet_sync_apps_none">कोई चयनित नहीं</string>
-    <string name="wallet_sync_review_pending">%d सुझाव देखें</string>
+    <string name="wallet_sync_apps_suggested">सुझाई गई</string>
+    <string name="wallet_sync_apps_all">सभी ऐप्स</string>
+    <string name="wallet_sync_review_pending">%1$d सुझाव देखें</string>
     <string name="wallet_sync_app_picker_title">ऐप्स चुनें</string>
     <string name="wallet_sync_search">ऐप्स खोजें</string>
     <string name="wallet_sync_done">पूर्ण</string>

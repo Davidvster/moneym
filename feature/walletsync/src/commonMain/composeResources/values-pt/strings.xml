@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Acesso às notificações concedido</string>
     <string name="wallet_sync_select_apps">Escolher apps</string>
     <string name="wallet_sync_select_apps_subtitle">Capturar notificações destes apps</string>
-    <string name="wallet_sync_apps_selected">%d selecionados</string>
+    <string name="wallet_sync_apps_selected">%1$d selecionados</string>
     <string name="wallet_sync_apps_none">Nenhum selecionado</string>
-    <string name="wallet_sync_review_pending">Revisar %d sugestões</string>
+    <string name="wallet_sync_apps_suggested">Sugeridas</string>
+    <string name="wallet_sync_apps_all">Todos os apps</string>
+    <string name="wallet_sync_review_pending">Revisar %1$d sugestões</string>
     <string name="wallet_sync_app_picker_title">Escolher apps</string>
     <string name="wallet_sync_search">Pesquisar apps</string>
     <string name="wallet_sync_done">Concluído</string>

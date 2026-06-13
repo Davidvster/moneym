@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Meldingstoegang verleend</string>
     <string name="wallet_sync_select_apps">Apps kiezen</string>
     <string name="wallet_sync_select_apps_subtitle">Meldingen van deze apps vastleggen</string>
-    <string name="wallet_sync_apps_selected">%d geselecteerd</string>
+    <string name="wallet_sync_apps_selected">%1$d geselecteerd</string>
     <string name="wallet_sync_apps_none">Geen geselecteerd</string>
-    <string name="wallet_sync_review_pending">%d voorstellen bekijken</string>
+    <string name="wallet_sync_apps_suggested">Aanbevolen</string>
+    <string name="wallet_sync_apps_all">Alle apps</string>
+    <string name="wallet_sync_review_pending">%1$d voorstellen bekijken</string>
     <string name="wallet_sync_app_picker_title">Apps kiezen</string>
     <string name="wallet_sync_search">Apps zoeken</string>
     <string name="wallet_sync_done">Klaar</string>

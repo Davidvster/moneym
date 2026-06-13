@@ -1,8 +1,11 @@
 package com.dv.moneym.platform
 
+import androidx.compose.ui.graphics.ImageBitmap
+
 data class InstalledApp(
     val packageName: String,
     val label: String,
+    val icon: ImageBitmap? = null,
 )
 
 /**

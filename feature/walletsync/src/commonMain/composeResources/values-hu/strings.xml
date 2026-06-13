@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Értesítési hozzáférés megadva</string>
     <string name="wallet_sync_select_apps">Alkalmazások kiválasztása</string>
     <string name="wallet_sync_select_apps_subtitle">Értesítések rögzítése ezekből az alkalmazásokból</string>
-    <string name="wallet_sync_apps_selected">%d kiválasztva</string>
+    <string name="wallet_sync_apps_selected">%1$d kiválasztva</string>
     <string name="wallet_sync_apps_none">Nincs kiválasztva</string>
-    <string name="wallet_sync_review_pending">%d javaslat áttekintése</string>
+    <string name="wallet_sync_apps_suggested">Javasolt</string>
+    <string name="wallet_sync_apps_all">Összes alkalmazás</string>
+    <string name="wallet_sync_review_pending">%1$d javaslat áttekintése</string>
     <string name="wallet_sync_app_picker_title">Alkalmazások kiválasztása</string>
     <string name="wallet_sync_search">Alkalmazások keresése</string>
     <string name="wallet_sync_done">Kész</string>

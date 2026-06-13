@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Teavitusõigus antud</string>
     <string name="wallet_sync_select_apps">Vali rakendused</string>
     <string name="wallet_sync_select_apps_subtitle">Püüa teavitused nendest rakendustest</string>
-    <string name="wallet_sync_apps_selected">%d valitud</string>
+    <string name="wallet_sync_apps_selected">%1$d valitud</string>
     <string name="wallet_sync_apps_none">Ühtegi pole valitud</string>
-    <string name="wallet_sync_review_pending">Vaata üle %d ettepanekut</string>
+    <string name="wallet_sync_apps_suggested">Soovitatud</string>
+    <string name="wallet_sync_apps_all">Kõik rakendused</string>
+    <string name="wallet_sync_review_pending">Vaata üle %1$d ettepanekut</string>
     <string name="wallet_sync_app_picker_title">Vali rakendused</string>
     <string name="wallet_sync_search">Otsi rakendusi</string>
     <string name="wallet_sync_done">Valmis</string>

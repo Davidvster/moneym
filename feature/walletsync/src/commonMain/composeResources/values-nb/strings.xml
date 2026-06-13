@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Varseltilgang gitt</string>
     <string name="wallet_sync_select_apps">Velg apper</string>
     <string name="wallet_sync_select_apps_subtitle">Fang varsler fra disse appene</string>
-    <string name="wallet_sync_apps_selected">%d valgt</string>
+    <string name="wallet_sync_apps_selected">%1$d valgt</string>
     <string name="wallet_sync_apps_none">Ingen valgt</string>
-    <string name="wallet_sync_review_pending">Gå gjennom %d forslag</string>
+    <string name="wallet_sync_apps_suggested">Foreslått</string>
+    <string name="wallet_sync_apps_all">Alle apper</string>
+    <string name="wallet_sync_review_pending">Gå gjennom %1$d forslag</string>
     <string name="wallet_sync_app_picker_title">Velg apper</string>
     <string name="wallet_sync_search">Søk apper</string>
     <string name="wallet_sync_done">Ferdig</string>

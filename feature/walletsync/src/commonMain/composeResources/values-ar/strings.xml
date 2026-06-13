@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">تم منح الوصول إلى الإشعارات</string>
     <string name="wallet_sync_select_apps">اختيار التطبيقات</string>
     <string name="wallet_sync_select_apps_subtitle">التقاط الإشعارات من هذه التطبيقات</string>
-    <string name="wallet_sync_apps_selected">تم اختيار %d</string>
+    <string name="wallet_sync_apps_selected">تم اختيار %1$d</string>
     <string name="wallet_sync_apps_none">لم يتم الاختيار</string>
-    <string name="wallet_sync_review_pending">مراجعة %d اقتراحات</string>
+    <string name="wallet_sync_apps_suggested">مقترحة</string>
+    <string name="wallet_sync_apps_all">كل التطبيقات</string>
+    <string name="wallet_sync_review_pending">مراجعة %1$d اقتراحات</string>
     <string name="wallet_sync_app_picker_title">اختيار التطبيقات</string>
     <string name="wallet_sync_search">بحث عن تطبيقات</string>
     <string name="wallet_sync_done">تم</string>

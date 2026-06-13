@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Ilmoitusten käyttöoikeus myönnetty</string>
     <string name="wallet_sync_select_apps">Valitse sovellukset</string>
     <string name="wallet_sync_select_apps_subtitle">Kaappaa ilmoitukset näistä sovelluksista</string>
-    <string name="wallet_sync_apps_selected">%d valittu</string>
+    <string name="wallet_sync_apps_selected">%1$d valittu</string>
     <string name="wallet_sync_apps_none">Ei valintoja</string>
-    <string name="wallet_sync_review_pending">Tarkista %d ehdotusta</string>
+    <string name="wallet_sync_apps_suggested">Ehdotetut</string>
+    <string name="wallet_sync_apps_all">Kaikki sovellukset</string>
+    <string name="wallet_sync_review_pending">Tarkista %1$d ehdotusta</string>
     <string name="wallet_sync_app_picker_title">Valitse sovellukset</string>
     <string name="wallet_sync_search">Hae sovelluksia</string>
     <string name="wallet_sync_done">Valmis</string>

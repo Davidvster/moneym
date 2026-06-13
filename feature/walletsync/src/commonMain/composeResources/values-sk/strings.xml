@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Prístup k oznámeniam udelený</string>
     <string name="wallet_sync_select_apps">Vybrať aplikácie</string>
     <string name="wallet_sync_select_apps_subtitle">Zachytávať oznámenia z týchto aplikácií</string>
-    <string name="wallet_sync_apps_selected">Vybraté: %d</string>
+    <string name="wallet_sync_apps_selected">Vybraté: %1$d</string>
     <string name="wallet_sync_apps_none">Nič nevybraté</string>
-    <string name="wallet_sync_review_pending">Skontrolovať %d návrhov</string>
+    <string name="wallet_sync_apps_suggested">Odporúčané</string>
+    <string name="wallet_sync_apps_all">Všetky aplikácie</string>
+    <string name="wallet_sync_review_pending">Skontrolovať %1$d návrhov</string>
     <string name="wallet_sync_app_picker_title">Vybrať aplikácie</string>
     <string name="wallet_sync_search">Hľadať aplikácie</string>
     <string name="wallet_sync_done">Hotovo</string>

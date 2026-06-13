@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Dostop do obvestil dovoljen</string>
     <string name="wallet_sync_select_apps">Izberi aplikacije</string>
     <string name="wallet_sync_select_apps_subtitle">Zajemaj obvestila iz teh aplikacij</string>
-    <string name="wallet_sync_apps_selected">Izbrano: %d</string>
+    <string name="wallet_sync_apps_selected">Izbrano: %1$d</string>
     <string name="wallet_sync_apps_none">Nič ni izbrano</string>
-    <string name="wallet_sync_review_pending">Preglej %d predlogov</string>
+    <string name="wallet_sync_apps_suggested">Predlagano</string>
+    <string name="wallet_sync_apps_all">Vse aplikacije</string>
+    <string name="wallet_sync_review_pending">Preglej %1$d predlogov</string>
     <string name="wallet_sync_app_picker_title">Izberi aplikacije</string>
     <string name="wallet_sync_search">Iskanje aplikacij</string>
     <string name="wallet_sync_done">Končano</string>

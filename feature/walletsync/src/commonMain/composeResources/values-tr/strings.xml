@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Bildirim erişimi verildi</string>
     <string name="wallet_sync_select_apps">Uygulama seç</string>
     <string name="wallet_sync_select_apps_subtitle">Bu uygulamalardan bildirim yakala</string>
-    <string name="wallet_sync_apps_selected">%d seçildi</string>
+    <string name="wallet_sync_apps_selected">%1$d seçildi</string>
     <string name="wallet_sync_apps_none">Hiçbiri seçilmedi</string>
-    <string name="wallet_sync_review_pending">%d öneriyi incele</string>
+    <string name="wallet_sync_apps_suggested">Önerilenler</string>
+    <string name="wallet_sync_apps_all">Tüm uygulamalar</string>
+    <string name="wallet_sync_review_pending">%1$d öneriyi incele</string>
     <string name="wallet_sync_app_picker_title">Uygulama seç</string>
     <string name="wallet_sync_search">Uygulama ara</string>
     <string name="wallet_sync_done">Bitti</string>

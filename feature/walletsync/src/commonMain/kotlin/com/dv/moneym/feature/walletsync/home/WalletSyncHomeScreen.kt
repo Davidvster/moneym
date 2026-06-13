@@ -1,5 +1,6 @@
 package com.dv.moneym.feature.walletsync.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,8 +10,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,8 +25,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
@@ -36,16 +40,19 @@ import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmCheckbox
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmLoadingOverlay
+import com.dv.moneym.core.ui.MmLoadingSpinner
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
+import com.dv.moneym.platform.InstalledApp
 import kotlinx.serialization.Serializable
 import moneym.feature.walletsync.generated.resources.Res
 import moneym.feature.walletsync.generated.resources.wallet_sync_access_granted
 import moneym.feature.walletsync.generated.resources.wallet_sync_access_required
 import moneym.feature.walletsync.generated.resources.wallet_sync_app_picker_title
-import moneym.feature.walletsync.generated.resources.wallet_sync_apps_loading
+import moneym.feature.walletsync.generated.resources.wallet_sync_apps_all
 import moneym.feature.walletsync.generated.resources.wallet_sync_apps_none
 import moneym.feature.walletsync.generated.resources.wallet_sync_apps_selected
+import moneym.feature.walletsync.generated.resources.wallet_sync_apps_suggested
 import moneym.feature.walletsync.generated.resources.wallet_sync_done
 import moneym.feature.walletsync.generated.resources.wallet_sync_enable_subtitle
 import moneym.feature.walletsync.generated.resources.wallet_sync_enable_title
@@ -238,38 +245,38 @@ private fun AppPickerSheet(
             )
 
             if (state.appsLoading) {
-                Text(
-                    text = stringResource(Res.string.wallet_sync_apps_loading),
-                    style = MM.type.caption.copy(color = colors.text2),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth().padding(space.padding_2x),
-                )
+                Box(
+                    modifier = Modifier.fillMaxWidth().heightIn(min = 120.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    MmLoadingSpinner()
+                }
             } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth().weight(1f, fill = false),
                     contentPadding = PaddingValues(vertical = space.padding_1x),
                 ) {
-                    items(state.filteredApps, key = { it.packageName }) { app ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { onIntent(WalletSyncHomeIntent.ToggleApp(app.packageName)) }
-                                .padding(vertical = space.padding_1x),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            MmCheckbox(
-                                checked = app.packageName in state.selectedPackages,
-                                onCheckedChange = { onIntent(WalletSyncHomeIntent.ToggleApp(app.packageName)) },
-                            )
-                            Text(
-                                text = app.label,
-                                style = MM.type.body,
-                                color = colors.text,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                modifier = Modifier.weight(1f).padding(start = space.padding_1x),
+                    if (state.suggestedApps.isNotEmpty()) {
+                        item(key = "header_suggested") {
+                            SectionHeader(text = stringResource(Res.string.wallet_sync_apps_suggested))
+                        }
+                        items(state.suggestedApps, key = { "suggested_" + it.packageName }) { app ->
+                            AppRow(
+                                app = app,
+                                selected = app.packageName in state.selectedPackages,
+                                onToggle = { onIntent(WalletSyncHomeIntent.ToggleApp(app.packageName)) },
                             )
                         }
+                        item(key = "header_all") {
+                            SectionHeader(text = stringResource(Res.string.wallet_sync_apps_all))
+                        }
+                    }
+                    items(state.otherApps, key = { it.packageName }) { app ->
+                        AppRow(
+                            app = app,
+                            selected = app.packageName in state.selectedPackages,
+                            onToggle = { onIntent(WalletSyncHomeIntent.ToggleApp(app.packageName)) },
+                        )
                     }
                 }
             }
@@ -280,6 +287,71 @@ private fun AppPickerSheet(
                 variant = MmButtonVariant.Primary,
                 size = MmButtonSize.Md,
                 fullWidth = true,
+            )
+        }
+    }
+}
+
+@Composable
+private fun SectionHeader(text: String) {
+    val space = MM.dimen
+    Text(
+        text = text,
+        style = MM.type.micro.copy(color = MM.colors.text2),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = space.padding_1x, bottom = space.padding_0_5x),
+    )
+}
+
+@Composable
+private fun AppRow(
+    app: InstalledApp,
+    selected: Boolean,
+    onToggle: () -> Unit,
+) {
+    val colors = MM.colors
+    val space = MM.dimen
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onToggle() }
+            .padding(vertical = space.padding_1x),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        MmCheckbox(checked = selected, onCheckedChange = { onToggle() })
+        val icon = app.icon
+        if (icon != null) {
+            Image(
+                bitmap = icon,
+                contentDescription = app.label,
+                modifier = Modifier
+                    .padding(start = space.padding_1x)
+                    .size(space.padding_5x)
+                    .clip(RoundedCornerShape(MM.dimen.padding_1x)),
+            )
+        } else {
+            Box(
+                Modifier
+                    .padding(start = space.padding_1x)
+                    .size(space.padding_5x)
+                    .clip(RoundedCornerShape(MM.dimen.padding_1x))
+                    .background(colors.surface),
+            )
+        }
+        Column(modifier = Modifier.weight(1f).padding(start = space.padding_1x)) {
+            Text(
+                text = app.label,
+                style = MM.type.body,
+                color = colors.text,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                text = app.packageName,
+                style = MM.type.caption.copy(color = colors.text2),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
         }
     }

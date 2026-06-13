@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Đã cấp quyền truy cập thông báo</string>
     <string name="wallet_sync_select_apps">Chọn ứng dụng</string>
     <string name="wallet_sync_select_apps_subtitle">Thu thập thông báo từ các ứng dụng này</string>
-    <string name="wallet_sync_apps_selected">Đã chọn %d</string>
+    <string name="wallet_sync_apps_selected">Đã chọn %1$d</string>
     <string name="wallet_sync_apps_none">Chưa chọn</string>
-    <string name="wallet_sync_review_pending">Xem %d gợi ý</string>
+    <string name="wallet_sync_apps_suggested">Đề xuất</string>
+    <string name="wallet_sync_apps_all">Tất cả ứng dụng</string>
+    <string name="wallet_sync_review_pending">Xem %1$d gợi ý</string>
     <string name="wallet_sync_app_picker_title">Chọn ứng dụng</string>
     <string name="wallet_sync_search">Tìm ứng dụng</string>
     <string name="wallet_sync_done">Xong</string>

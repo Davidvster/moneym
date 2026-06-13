@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">已授予通知访问权限</string>
     <string name="wallet_sync_select_apps">选择应用</string>
     <string name="wallet_sync_select_apps_subtitle">捕获这些应用的通知</string>
-    <string name="wallet_sync_apps_selected">已选择 %d 个</string>
+    <string name="wallet_sync_apps_selected">已选择 %1$d 个</string>
     <string name="wallet_sync_apps_none">未选择</string>
-    <string name="wallet_sync_review_pending">查看 %d 条建议</string>
+    <string name="wallet_sync_apps_suggested">推荐</string>
+    <string name="wallet_sync_apps_all">所有应用</string>
+    <string name="wallet_sync_review_pending">查看 %1$d 条建议</string>
     <string name="wallet_sync_app_picker_title">选择应用</string>
     <string name="wallet_sync_search">搜索应用</string>
     <string name="wallet_sync_done">完成</string>

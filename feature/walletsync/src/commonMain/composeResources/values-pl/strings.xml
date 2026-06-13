@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Przyznano dostęp do powiadomień</string>
     <string name="wallet_sync_select_apps">Wybierz aplikacje</string>
     <string name="wallet_sync_select_apps_subtitle">Przechwytuj powiadomienia z tych aplikacji</string>
-    <string name="wallet_sync_apps_selected">Wybrano: %d</string>
+    <string name="wallet_sync_apps_selected">Wybrano: %1$d</string>
     <string name="wallet_sync_apps_none">Nie wybrano</string>
-    <string name="wallet_sync_review_pending">Przejrzyj %d propozycji</string>
+    <string name="wallet_sync_apps_suggested">Sugerowane</string>
+    <string name="wallet_sync_apps_all">Wszystkie aplikacje</string>
+    <string name="wallet_sync_review_pending">Przejrzyj %1$d propozycji</string>
     <string name="wallet_sync_app_picker_title">Wybierz aplikacje</string>
     <string name="wallet_sync_search">Szukaj aplikacji</string>
     <string name="wallet_sync_done">Gotowe</string>

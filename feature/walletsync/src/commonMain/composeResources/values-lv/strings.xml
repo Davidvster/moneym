@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Piekļuve paziņojumiem piešķirta</string>
     <string name="wallet_sync_select_apps">Izvēlēties lietotnes</string>
     <string name="wallet_sync_select_apps_subtitle">Tvert paziņojumus no šīm lietotnēm</string>
-    <string name="wallet_sync_apps_selected">Izvēlēts: %d</string>
+    <string name="wallet_sync_apps_selected">Izvēlēts: %1$d</string>
     <string name="wallet_sync_apps_none">Nav izvēlēts</string>
-    <string name="wallet_sync_review_pending">Pārskatīt %d ieteikumus</string>
+    <string name="wallet_sync_apps_suggested">Ieteiktās</string>
+    <string name="wallet_sync_apps_all">Visas lietotnes</string>
+    <string name="wallet_sync_review_pending">Pārskatīt %1$d ieteikumus</string>
     <string name="wallet_sync_app_picker_title">Izvēlēties lietotnes</string>
     <string name="wallet_sync_search">Meklēt lietotnes</string>
     <string name="wallet_sync_done">Gatavs</string>

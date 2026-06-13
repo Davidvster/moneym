@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Пристапот до известувања е дозволен</string>
     <string name="wallet_sync_select_apps">Избери апликации</string>
     <string name="wallet_sync_select_apps_subtitle">Снимај известувања од овие апликации</string>
-    <string name="wallet_sync_apps_selected">Избрани: %d</string>
+    <string name="wallet_sync_apps_selected">Избрани: %1$d</string>
     <string name="wallet_sync_apps_none">Ништо не е избрано</string>
-    <string name="wallet_sync_review_pending">Прегледај %d предлози</string>
+    <string name="wallet_sync_apps_suggested">Предложени</string>
+    <string name="wallet_sync_apps_all">Сите апликации</string>
+    <string name="wallet_sync_review_pending">Прегледај %1$d предлози</string>
     <string name="wallet_sync_app_picker_title">Избери апликации</string>
     <string name="wallet_sync_search">Барај апликации</string>
     <string name="wallet_sync_done">Готово</string>

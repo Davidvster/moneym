@@ -9,9 +9,11 @@
     <string name="wallet_sync_access_granted">Prieiga prie pranešimų suteikta</string>
     <string name="wallet_sync_select_apps">Pasirinkti programėles</string>
     <string name="wallet_sync_select_apps_subtitle">Fiksuoti pranešimus iš šių programėlių</string>
-    <string name="wallet_sync_apps_selected">Pasirinkta: %d</string>
+    <string name="wallet_sync_apps_selected">Pasirinkta: %1$d</string>
     <string name="wallet_sync_apps_none">Nieko nepasirinkta</string>
-    <string name="wallet_sync_review_pending">Peržiūrėti %d pasiūlymų</string>
+    <string name="wallet_sync_apps_suggested">Siūlomos</string>
+    <string name="wallet_sync_apps_all">Visos programos</string>
+    <string name="wallet_sync_review_pending">Peržiūrėti %1$d pasiūlymų</string>
     <string name="wallet_sync_app_picker_title">Pasirinkti programėles</string>
     <string name="wallet_sync_search">Ieškoti programėlių</string>
     <string name="wallet_sync_done">Atlikta</string>
