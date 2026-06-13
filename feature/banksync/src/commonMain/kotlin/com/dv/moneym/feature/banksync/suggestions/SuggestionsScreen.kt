@@ -19,6 +19,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarResult
@@ -40,6 +41,7 @@ import androidx.compose.material3.SnackbarHostState
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.ui.MmButton
@@ -58,6 +60,7 @@ import com.dv.moneym.core.ui.MmSheetHeader
 import com.dv.moneym.core.ui.MmSnackbarHost
 import com.dv.moneym.core.ui.MmWalletPickerSheet
 import com.dv.moneym.core.ui.ScreenHeader
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.utils.observeWithLifecycle
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.getString
@@ -547,25 +550,49 @@ private fun SuggestionCard(
         }
 
         if (isPendingTab) {
-            Text(
-                text = stringResource(Res.string.suggestions_category_label) + ": " + (row.categoryName ?: "—"),
-                style = MM.type.caption.copy(color = colors.text2),
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .clip(RoundedCornerShape(MM.dimen.padding_1x))
                     .clickable { onIntent(SuggestionsIntent.ShowCategoryPicker(row.id)) }
-                    .padding(top = space.padding_1x),
-            )
-            Text(
-                text = stringResource(Res.string.bank_sync_account_target_label) + ": " +
-                    (row.targetAccountName ?: stringResource(Res.string.bank_sync_account_target_none)),
-                style = MM.type.caption.copy(
-                    color = if (row.targetAccountId == null) colors.danger else colors.text2,
-                ),
+                    .padding(vertical = space.padding_1_5x, horizontal = space.padding_0_5x),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(Res.string.suggestions_category_label) + ": " + (row.categoryName ?: "—"),
+                    style = MM.type.caption.copy(color = colors.text2),
+                    modifier = Modifier.weight(1f),
+                )
+                Icon(
+                    imageVector = Icon.Edit.imageVector,
+                    contentDescription = null,
+                    tint = colors.text3,
+                    modifier = Modifier.size(MM.dimen.padding_2x),
+                )
+            }
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .clip(RoundedCornerShape(MM.dimen.padding_1x))
                     .clickable { onIntent(SuggestionsIntent.ShowAccountPicker(row.id)) }
-                    .padding(top = space.padding_0_5x),
-            )
+                    .padding(vertical = space.padding_1_5x, horizontal = space.padding_0_5x),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(Res.string.bank_sync_account_target_label) + ": " +
+                        (row.targetAccountName ?: stringResource(Res.string.bank_sync_account_target_none)),
+                    style = MM.type.caption.copy(
+                        color = if (row.targetAccountId == null) colors.danger else colors.text2,
+                    ),
+                    modifier = Modifier.weight(1f),
+                )
+                Icon(
+                    imageVector = Icon.Edit.imageVector,
+                    contentDescription = null,
+                    tint = if (row.targetAccountId == null) colors.danger else colors.text3,
+                    modifier = Modifier.size(MM.dimen.padding_2x),
+                )
+            }
             Row(
                 modifier = Modifier.fillMaxWidth().padding(top = space.padding_1x),
                 horizontalArrangement = Arrangement.spacedBy(space.padding_1x),

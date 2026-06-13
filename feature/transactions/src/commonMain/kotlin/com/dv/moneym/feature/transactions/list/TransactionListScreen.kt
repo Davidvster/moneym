@@ -783,7 +783,7 @@ private fun TransactionListHeader(
                     onClick = { onSearchActiveChange(true) },
                     contentDescription = stringResource(Res.string.transactions_search_cd),
                 )
-                if (state.isSyncEnabled || state.isBankSyncEnabled) {
+                if (state.isSyncEnabled || state.isBankSyncEnabled || state.isWalletSyncEnabled) {
                     SyncActionButton(
                         isSyncInProgress = state.isSyncInProgress || state.isBankSyncing,
                         hasSyncConflict = state.hasSyncConflict,

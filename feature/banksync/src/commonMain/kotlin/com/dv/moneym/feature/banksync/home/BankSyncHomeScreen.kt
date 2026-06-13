@@ -11,13 +11,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -349,15 +353,27 @@ private fun AccountCard(
             )
         }
         val targetName = state.localAccounts.firstOrNull { it.id.value == account.localAccountId }?.name
-        Text(
-            text = stringResource(Res.string.bank_sync_account_target_label) + ": " +
-                (targetName ?: stringResource(Res.string.bank_sync_account_target_none)),
-            style = MM.type.caption.copy(color = if (targetName == null) colors.danger else colors.text2),
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .clip(RoundedCornerShape(MM.dimen.padding_1x))
                 .clickable { onIntent(BankSyncHomeIntent.ShowAccountPicker(account.uid)) }
-                .padding(top = space.padding_1x),
-        )
+                .padding(top = space.padding_1x, bottom = space.padding_0_5x, start = space.padding_0_5x, end = space.padding_0_5x),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = stringResource(Res.string.bank_sync_account_target_label) + ": " +
+                    (targetName ?: stringResource(Res.string.bank_sync_account_target_none)),
+                style = MM.type.caption.copy(color = if (targetName == null) colors.danger else colors.text2),
+                modifier = Modifier.weight(1f),
+            )
+            Icon(
+                imageVector = Icon.Edit.imageVector,
+                contentDescription = null,
+                tint = if (targetName == null) colors.danger else colors.text3,
+                modifier = Modifier.size(MM.dimen.padding_2x),
+            )
+        }
     }
     if (state.accountPickerForUid == account.uid) {
         MmWalletPickerSheet(
