@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Тонкая цветная полоса слева</string>
     <string name="settings_txdisplay_style_dot">Маленькая цветная точка</string>
     <string name="settings_txdisplay_style_minimal">Без цветового индикатора</string>
+    <string name="settings_txdisplay_label_tile">Плитка значка</string>
+    <string name="settings_txdisplay_label_soft">Мягкий значок</string>
+    <string name="settings_txdisplay_label_bar">Полоса</string>
+    <string name="settings_txdisplay_label_dot">Точка</string>
+    <string name="settings_txdisplay_label_minimal">Минимальный</string>
     <string name="settings_section_appearance">ВНЕШНИЙ ВИД</string>
     <string name="settings_theme">Тема</string>
     <string name="settings_theme_light">Светлая</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Способы оплаты</string>
     <string name="settings_payment_mode_add">Добавить способ оплаты</string>
     <string name="settings_use_currency_symbol">Использовать символ валюты</string>
-    <string name="settings_use_currency_symbol_subtitle">Показывать € вместо EUR</string>
+    <string name="settings_use_currency_symbol_subtitle">Показывать %1$s вместо %2$s</string>
     <string name="settings_payment_mode_rename_title">Переименовать</string>
     <string name="settings_payment_mode_name_placeholder">Название способа</string>
     <string name="settings_payment_mode_delete_title">Удалить способ оплаты</string>

@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Dünner Farbbalken links</string>
     <string name="settings_txdisplay_style_dot">Kleiner farbiger Punkt</string>
     <string name="settings_txdisplay_style_minimal">Kein Farbindikator</string>
+    <string name="settings_txdisplay_label_tile">Symbolkachel</string>
+    <string name="settings_txdisplay_label_soft">Weiches Symbol</string>
+    <string name="settings_txdisplay_label_bar">Balken</string>
+    <string name="settings_txdisplay_label_dot">Punkt</string>
+    <string name="settings_txdisplay_label_minimal">Minimal</string>
     <string name="settings_section_appearance">DARSTELLUNG</string>
     <string name="settings_theme">Design</string>
     <string name="settings_theme_light">Hell</string>
@@ -151,7 +156,7 @@
     <string name="settings_payment_mode_add">Zahlungsart hinzufügen</string>
     <!-- Currency symbol -->
     <string name="settings_use_currency_symbol">Währungssymbol verwenden</string>
-    <string name="settings_use_currency_symbol_subtitle">€ statt EUR anzeigen</string>
+    <string name="settings_use_currency_symbol_subtitle">%1$s statt %2$s anzeigen</string>
     <string name="settings_payment_mode_rename_title">Umbenennen</string>
     <string name="settings_payment_mode_name_placeholder">Artname</string>
     <string name="settings_payment_mode_delete_title">Zahlungsart löschen</string>

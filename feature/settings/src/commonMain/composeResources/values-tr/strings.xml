@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Solda ince renk çubuğu</string>
     <string name="settings_txdisplay_style_dot">Küçük renkli nokta</string>
     <string name="settings_txdisplay_style_minimal">Renk göstergesi yok</string>
+    <string name="settings_txdisplay_label_tile">Simge karosu</string>
+    <string name="settings_txdisplay_label_soft">Yumuşak simge</string>
+    <string name="settings_txdisplay_label_bar">Çubuk</string>
+    <string name="settings_txdisplay_label_dot">Nokta</string>
+    <string name="settings_txdisplay_label_minimal">Minimal</string>
     <string name="settings_section_appearance">GÖRÜNÜM</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_light">Açık</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Ödeme Modları</string>
     <string name="settings_payment_mode_add">Ödeme modu ekle</string>
     <string name="settings_use_currency_symbol">Para birimi sembolü kullan</string>
-    <string name="settings_use_currency_symbol_subtitle">EUR yerine € göster</string>
+    <string name="settings_use_currency_symbol_subtitle">%2$s yerine %1$s göster</string>
     <string name="settings_payment_mode_rename_title">Yeniden adlandır</string>
     <string name="settings_payment_mode_name_placeholder">Mod adı</string>
     <string name="settings_payment_mode_delete_title">Ödeme modunu sil</string>

@@ -22,6 +22,7 @@ import moneym.feature.settings.generated.resources.settings_payment_mode_enabled
 import moneym.feature.settings.generated.resources.settings_payment_modes
 import moneym.feature.settings.generated.resources.settings_recurring_nav
 import moneym.feature.settings.generated.resources.settings_use_currency_symbol
+import moneym.feature.settings.generated.resources.settings_use_currency_symbol_subtitle
 import moneym.feature.settings.generated.resources.settings_wallets
 import org.jetbrains.compose.resources.stringResource
 
@@ -44,7 +45,6 @@ internal fun PreferencesSection(
     val type = MM.type
     val space = MM.dimen
     val currencySymbol = CommonCurrencies.firstOrNull { it.code == walletCurrency }?.symbol ?: walletCurrency
-    val currencySymbolSubtitle = "Show $currencySymbol instead of $walletCurrency"
     MmCard(Modifier.padding(horizontal = space.padding_2x)) {
         MmSettingsRow(
             title = stringResource(Res.string.settings_language),
@@ -118,7 +118,7 @@ internal fun PreferencesSection(
                     color = colors.text,
                 )
                 Text(
-                    currencySymbolSubtitle,
+                    stringResource(Res.string.settings_use_currency_symbol_subtitle, currencySymbol, walletCurrency),
                     style = type.caption,
                     color = colors.text2,
                 )

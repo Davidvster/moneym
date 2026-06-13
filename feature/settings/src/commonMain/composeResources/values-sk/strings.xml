@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Tenký farebný pruh vľavo</string>
     <string name="settings_txdisplay_style_dot">Malá farebná bodka</string>
     <string name="settings_txdisplay_style_minimal">Bez farebného indikátora</string>
+    <string name="settings_txdisplay_label_tile">Dlaždica s ikonou</string>
+    <string name="settings_txdisplay_label_soft">Mäkká ikona</string>
+    <string name="settings_txdisplay_label_bar">Pruh</string>
+    <string name="settings_txdisplay_label_dot">Bod</string>
+    <string name="settings_txdisplay_label_minimal">Minimálny</string>
     <string name="settings_section_appearance">VZHĽAD</string>
     <string name="settings_theme">Téma</string>
     <string name="settings_theme_light">Svetlá</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Spôsoby platby</string>
     <string name="settings_payment_mode_add">Pridať spôsob platby</string>
     <string name="settings_use_currency_symbol">Použiť symbol meny</string>
-    <string name="settings_use_currency_symbol_subtitle">Zobraziť € namiesto EUR</string>
+    <string name="settings_use_currency_symbol_subtitle">Zobraziť %1$s namiesto %2$s</string>
     <string name="settings_payment_mode_rename_title">Premenovať</string>
     <string name="settings_payment_mode_name_placeholder">Názov spôsobu</string>
     <string name="settings_payment_mode_delete_title">Odstrániť spôsob platby</string>

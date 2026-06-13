@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Cienki pasek koloru po lewej</string>
     <string name="settings_txdisplay_style_dot">Mała kolorowa kropka</string>
     <string name="settings_txdisplay_style_minimal">Bez wskaźnika koloru</string>
+    <string name="settings_txdisplay_label_tile">Kafelek z ikoną</string>
+    <string name="settings_txdisplay_label_soft">Miękka ikona</string>
+    <string name="settings_txdisplay_label_bar">Pasek</string>
+    <string name="settings_txdisplay_label_dot">Punkt</string>
+    <string name="settings_txdisplay_label_minimal">Minimalny</string>
     <string name="settings_section_appearance">WYGLĄD</string>
     <string name="settings_theme">Motyw</string>
     <string name="settings_theme_light">Jasny</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Metody płatności</string>
     <string name="settings_payment_mode_add">Dodaj metodę płatności</string>
     <string name="settings_use_currency_symbol">Używaj symbolu waluty</string>
-    <string name="settings_use_currency_symbol_subtitle">Pokaż € zamiast EUR</string>
+    <string name="settings_use_currency_symbol_subtitle">Pokaż %1$s zamiast %2$s</string>
     <string name="settings_payment_mode_rename_title">Zmień nazwę</string>
     <string name="settings_payment_mode_name_placeholder">Nazwa metody</string>
     <string name="settings_payment_mode_delete_title">Usuń metodę płatności</string>

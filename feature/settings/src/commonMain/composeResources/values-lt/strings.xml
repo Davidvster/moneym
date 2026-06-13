@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Plonas spalvotas stulpelis kairėje</string>
     <string name="settings_txdisplay_style_dot">Mažas spalvotas taškas</string>
     <string name="settings_txdisplay_style_minimal">Jokio spalvos indikatoriaus</string>
+    <string name="settings_txdisplay_label_tile">Piktogramos plytelė</string>
+    <string name="settings_txdisplay_label_soft">Švelni piktograma</string>
+    <string name="settings_txdisplay_label_bar">Juosta</string>
+    <string name="settings_txdisplay_label_dot">Taškas</string>
+    <string name="settings_txdisplay_label_minimal">Minimalistinis</string>
     <string name="settings_section_appearance">IŠVAIZDA</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_light">Šviesi</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Mokėjimo būdai</string>
     <string name="settings_payment_mode_add">Pridėti mokėjimo būdą</string>
     <string name="settings_use_currency_symbol">Naudoti valiutos simbolį</string>
-    <string name="settings_use_currency_symbol_subtitle">Rodyti € vietoj EUR</string>
+    <string name="settings_use_currency_symbol_subtitle">Rodyti %1$s vietoj %2$s</string>
     <string name="settings_payment_mode_rename_title">Pervardinti</string>
     <string name="settings_payment_mode_name_placeholder">Būdo pavadinimas</string>
     <string name="settings_payment_mode_delete_title">Ištrinti mokėjimo būdą</string>

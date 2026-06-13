@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">बाईं ओर पतली रंगीन पट्टी</string>
     <string name="settings_txdisplay_style_dot">छोटा रंगीन बिंदु</string>
     <string name="settings_txdisplay_style_minimal">कोई रंग संकेतक नहीं</string>
+    <string name="settings_txdisplay_label_tile">आइकन टाइल</string>
+    <string name="settings_txdisplay_label_soft">सॉफ्ट आइकन</string>
+    <string name="settings_txdisplay_label_bar">बार</string>
+    <string name="settings_txdisplay_label_dot">बिंदु</string>
+    <string name="settings_txdisplay_label_minimal">न्यूनतम</string>
     <string name="settings_section_appearance">दिखावट</string>
     <string name="settings_theme">थीम</string>
     <string name="settings_theme_light">हल्का</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">भुगतान मोड</string>
     <string name="settings_payment_mode_add">भुगतान मोड जोड़ें</string>
     <string name="settings_use_currency_symbol">मुद्रा प्रतीक का उपयोग करें</string>
-    <string name="settings_use_currency_symbol_subtitle">EUR के बजाय € दिखाएँ</string>
+    <string name="settings_use_currency_symbol_subtitle">%2$s के बजाय %1$s दिखाएँ</string>
     <string name="settings_payment_mode_rename_title">नाम बदलें</string>
     <string name="settings_payment_mode_name_placeholder">मोड का नाम</string>
     <string name="settings_payment_mode_delete_title">भुगतान मोड हटाएँ</string>

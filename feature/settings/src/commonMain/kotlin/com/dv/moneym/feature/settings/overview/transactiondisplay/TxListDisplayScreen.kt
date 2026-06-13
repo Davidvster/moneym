@@ -52,6 +52,11 @@ import moneym.feature.settings.generated.resources.settings_txdisplay_comfortabl
 import moneym.feature.settings.generated.resources.settings_txdisplay_compact
 import moneym.feature.settings.generated.resources.settings_txdisplay_daily_sums
 import moneym.feature.settings.generated.resources.settings_txdisplay_density
+import moneym.feature.settings.generated.resources.settings_txdisplay_label_bar
+import moneym.feature.settings.generated.resources.settings_txdisplay_label_dot
+import moneym.feature.settings.generated.resources.settings_txdisplay_label_minimal
+import moneym.feature.settings.generated.resources.settings_txdisplay_label_soft
+import moneym.feature.settings.generated.resources.settings_txdisplay_label_tile
 import moneym.feature.settings.generated.resources.settings_txdisplay_list_section
 import moneym.feature.settings.generated.resources.settings_txdisplay_normal
 import moneym.feature.settings.generated.resources.settings_txdisplay_pending_recurring
@@ -100,6 +105,15 @@ private fun indicatorDescription(style: IndicatorStyle): String = when (style) {
     IndicatorStyle.Bar -> stringResource(Res.string.settings_txdisplay_style_bar)
     IndicatorStyle.Dot -> stringResource(Res.string.settings_txdisplay_style_dot)
     IndicatorStyle.Minimal -> stringResource(Res.string.settings_txdisplay_style_minimal)
+}
+
+@Composable
+private fun indicatorLabel(style: IndicatorStyle): String = when (style) {
+    IndicatorStyle.IconTile -> stringResource(Res.string.settings_txdisplay_label_tile)
+    IndicatorStyle.SoftIcon -> stringResource(Res.string.settings_txdisplay_label_soft)
+    IndicatorStyle.Bar -> stringResource(Res.string.settings_txdisplay_label_bar)
+    IndicatorStyle.Dot -> stringResource(Res.string.settings_txdisplay_label_dot)
+    IndicatorStyle.Minimal -> stringResource(Res.string.settings_txdisplay_label_minimal)
 }
 
 @Composable
@@ -326,7 +340,7 @@ private fun ItemIndicatorSection(
 
                 Column(Modifier.weight(1f)) {
                     Text(
-                        text = opt.name.replace(Regex("([A-Z])"), " $1").trim(),
+                        text = indicatorLabel(opt),
                         style = MM.type.body,
                         color = MM.colors.text,
                     )

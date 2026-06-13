@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Dunne kleurenbalk aan de linkerkant</string>
     <string name="settings_txdisplay_style_dot">Klein gekleurd stipje</string>
     <string name="settings_txdisplay_style_minimal">Geen kleurindicator</string>
+    <string name="settings_txdisplay_label_tile">Pictogramtegel</string>
+    <string name="settings_txdisplay_label_soft">Zacht pictogram</string>
+    <string name="settings_txdisplay_label_bar">Balk</string>
+    <string name="settings_txdisplay_label_dot">Stip</string>
+    <string name="settings_txdisplay_label_minimal">Minimaal</string>
     <string name="settings_section_appearance">WEERGAVE</string>
     <string name="settings_theme">Thema</string>
     <string name="settings_theme_light">Licht</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Betaalmethoden</string>
     <string name="settings_payment_mode_add">Betaalmethode toevoegen</string>
     <string name="settings_use_currency_symbol">Valutasymbool gebruiken</string>
-    <string name="settings_use_currency_symbol_subtitle">€ tonen in plaats van EUR</string>
+    <string name="settings_use_currency_symbol_subtitle">%1$s tonen in plaats van %2$s</string>
     <string name="settings_payment_mode_rename_title">Hernoemen</string>
     <string name="settings_payment_mode_name_placeholder">Naam methode</string>
     <string name="settings_payment_mode_delete_title">Betaalmethode verwijderen</string>

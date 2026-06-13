@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Тенка лента со боја лево</string>
     <string name="settings_txdisplay_style_dot">Мала обоена точка</string>
     <string name="settings_txdisplay_style_minimal">Без индикатор за боја</string>
+    <string name="settings_txdisplay_label_tile">Плочка со икона</string>
+    <string name="settings_txdisplay_label_soft">Мека икона</string>
+    <string name="settings_txdisplay_label_bar">Лента</string>
+    <string name="settings_txdisplay_label_dot">Точка</string>
+    <string name="settings_txdisplay_label_minimal">Минимално</string>
     <string name="settings_section_appearance">ИЗГЛЕД</string>
     <string name="settings_theme">Тема</string>
     <string name="settings_theme_light">Светла</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Начини на плаќање</string>
     <string name="settings_payment_mode_add">Додај начин на плаќање</string>
     <string name="settings_use_currency_symbol">Користи симбол за валута</string>
-    <string name="settings_use_currency_symbol_subtitle">Прикажи € наместо EUR</string>
+    <string name="settings_use_currency_symbol_subtitle">Прикажи %1$s наместо %2$s</string>
     <string name="settings_payment_mode_rename_title">Преименувај</string>
     <string name="settings_payment_mode_name_placeholder">Ime на начин</string>
     <string name="settings_payment_mode_delete_title">Избриши начин на плаќање</string>

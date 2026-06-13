@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Õhuke värvriba vasakul</string>
     <string name="settings_txdisplay_style_dot">Väike värviline punkt</string>
     <string name="settings_txdisplay_style_minimal">Värvinäidikuta</string>
+    <string name="settings_txdisplay_label_tile">Ikoonplaat</string>
+    <string name="settings_txdisplay_label_soft">Pehme ikoon</string>
+    <string name="settings_txdisplay_label_bar">Riba</string>
+    <string name="settings_txdisplay_label_dot">Punkt</string>
+    <string name="settings_txdisplay_label_minimal">Minimalistlik</string>
     <string name="settings_section_appearance">VÄLIMUS</string>
     <string name="settings_theme">Teema</string>
     <string name="settings_theme_light">Hele</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Makseviisid</string>
     <string name="settings_payment_mode_add">Lisa makseviis</string>
     <string name="settings_use_currency_symbol">Kasuta valuutasümbolit</string>
-    <string name="settings_use_currency_symbol_subtitle">Näita € asemel EUR</string>
+    <string name="settings_use_currency_symbol_subtitle">Näita %1$s asemel %2$s</string>
     <string name="settings_payment_mode_rename_title">Nimeta ümber</string>
     <string name="settings_payment_mode_name_placeholder">Viisi nimi</string>
     <string name="settings_payment_mode_delete_title">Kustuta makseviis</string>

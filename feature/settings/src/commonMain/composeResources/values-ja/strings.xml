@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">左側の細い色バー</string>
     <string name="settings_txdisplay_style_dot">小さな色付きドット</string>
     <string name="settings_txdisplay_style_minimal">色インジケーターなし</string>
+    <string name="settings_txdisplay_label_tile">アイコンタイル</string>
+    <string name="settings_txdisplay_label_soft">ソフトアイコン</string>
+    <string name="settings_txdisplay_label_bar">バー</string>
+    <string name="settings_txdisplay_label_dot">ドット</string>
+    <string name="settings_txdisplay_label_minimal">ミニマル</string>
     <string name="settings_section_appearance">外観</string>
     <string name="settings_theme">テーマ</string>
     <string name="settings_theme_light">ライト</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">支払い方法</string>
     <string name="settings_payment_mode_add">支払い方法を追加</string>
     <string name="settings_use_currency_symbol">通貨記号を使用</string>
-    <string name="settings_use_currency_symbol_subtitle">EURの代わりに€を表示</string>
+    <string name="settings_use_currency_symbol_subtitle">%2$sの代わりに%1$sを表示</string>
     <string name="settings_payment_mode_rename_title">名前を変更</string>
     <string name="settings_payment_mode_name_placeholder">方法名</string>
     <string name="settings_payment_mode_delete_title">支払い方法を削除</string>

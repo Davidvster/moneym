@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Þunnur litastrimill til vinstri</string>
     <string name="settings_txdisplay_style_dot">Lítill litaður punktur</string>
     <string name="settings_txdisplay_style_minimal">Engin litaábending</string>
+    <string name="settings_txdisplay_label_tile">Táknflís</string>
+    <string name="settings_txdisplay_label_soft">Mjúkt tákn</string>
+    <string name="settings_txdisplay_label_bar">Stika</string>
+    <string name="settings_txdisplay_label_dot">Punktur</string>
+    <string name="settings_txdisplay_label_minimal">Lágmark</string>
     <string name="settings_section_appearance">ÚTLIT</string>
     <string name="settings_theme">Þema</string>
     <string name="settings_theme_light">Ljóst</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Greiðslumátar</string>
     <string name="settings_payment_mode_add">Bæta við greiðslumáta</string>
     <string name="settings_use_currency_symbol">Nota gjaldmiðilstákn</string>
-    <string name="settings_use_currency_symbol_subtitle">Sýna € í stað EUR</string>
+    <string name="settings_use_currency_symbol_subtitle">Sýna %1$s í stað %2$s</string>
     <string name="settings_payment_mode_rename_title">Endurnefna</string>
     <string name="settings_payment_mode_name_placeholder">Nafn máta</string>
     <string name="settings_payment_mode_delete_title">Eyða greiðslumáta</string>

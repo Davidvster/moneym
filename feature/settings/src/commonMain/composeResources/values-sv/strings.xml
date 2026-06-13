@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Tunn färgstapel till vänster</string>
     <string name="settings_txdisplay_style_dot">Liten färgad punkt</string>
     <string name="settings_txdisplay_style_minimal">Ingen färgindikator</string>
+    <string name="settings_txdisplay_label_tile">Ikonbricka</string>
+    <string name="settings_txdisplay_label_soft">Mjuk ikon</string>
+    <string name="settings_txdisplay_label_bar">Stapel</string>
+    <string name="settings_txdisplay_label_dot">Punkt</string>
+    <string name="settings_txdisplay_label_minimal">Minimal</string>
     <string name="settings_section_appearance">UTSEENDE</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_light">Ljust</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Betalningslägen</string>
     <string name="settings_payment_mode_add">Lägg till betalningsläge</string>
     <string name="settings_use_currency_symbol">Använd valutasymbol</string>
-    <string name="settings_use_currency_symbol_subtitle">Visa € istället för EUR</string>
+    <string name="settings_use_currency_symbol_subtitle">Visa %1$s istället för %2$s</string>
     <string name="settings_payment_mode_rename_title">Byt namn</string>
     <string name="settings_payment_mode_name_placeholder">Lägetsnamn</string>
     <string name="settings_payment_mode_delete_title">Ta bort betalningsläge</string>

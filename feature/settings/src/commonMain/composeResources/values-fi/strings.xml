@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Ohut väripalkki vasemmalla</string>
     <string name="settings_txdisplay_style_dot">Pieni värillinen piste</string>
     <string name="settings_txdisplay_style_minimal">Ei väri-indikaattoria</string>
+    <string name="settings_txdisplay_label_tile">Kuvakelaatta</string>
+    <string name="settings_txdisplay_label_soft">Pehmeä kuvake</string>
+    <string name="settings_txdisplay_label_bar">Palkki</string>
+    <string name="settings_txdisplay_label_dot">Piste</string>
+    <string name="settings_txdisplay_label_minimal">Minimalistinen</string>
     <string name="settings_section_appearance">ULKOASU</string>
     <string name="settings_theme">Teema</string>
     <string name="settings_theme_light">Vaalea</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Maksutavat</string>
     <string name="settings_payment_mode_add">Lisää maksutapa</string>
     <string name="settings_use_currency_symbol">Käytä valuuttasymbolia</string>
-    <string name="settings_use_currency_symbol_subtitle">Näytä € EUR:n sijaan</string>
+    <string name="settings_use_currency_symbol_subtitle">Näytä %1$s %2$s:n sijaan</string>
     <string name="settings_payment_mode_rename_title">Nimeä uudelleen</string>
     <string name="settings_payment_mode_name_placeholder">Tavan nimi</string>
     <string name="settings_payment_mode_delete_title">Poista maksutapa</string>

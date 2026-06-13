@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">شريط لوني رفيع على اليسار</string>
     <string name="settings_txdisplay_style_dot">نقطة ملونة صغيرة</string>
     <string name="settings_txdisplay_style_minimal">بدون مؤشر لون</string>
+    <string name="settings_txdisplay_label_tile">بلاطة أيقونة</string>
+    <string name="settings_txdisplay_label_soft">أيقونة ناعمة</string>
+    <string name="settings_txdisplay_label_bar">شريط</string>
+    <string name="settings_txdisplay_label_dot">نقطة</string>
+    <string name="settings_txdisplay_label_minimal">بسيط</string>
     <string name="settings_section_appearance">المظهر</string>
     <string name="settings_theme">المظهر</string>
     <string name="settings_theme_light">فاتح</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">طرق الدفع</string>
     <string name="settings_payment_mode_add">إضافة طريقة دفع</string>
     <string name="settings_use_currency_symbol">استخدام رمز العملة</string>
-    <string name="settings_use_currency_symbol_subtitle">عرض € بدلاً من EUR</string>
+    <string name="settings_use_currency_symbol_subtitle">عرض %1$s بدلاً من %2$s</string>
     <string name="settings_payment_mode_rename_title">إعادة التسمية</string>
     <string name="settings_payment_mode_name_placeholder">اسم الطريقة</string>
     <string name="settings_payment_mode_delete_title">حذف طريقة الدفع</string>

@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Thanh màu mỏng bên trái</string>
     <string name="settings_txdisplay_style_dot">Chấm màu nhỏ</string>
     <string name="settings_txdisplay_style_minimal">Không có chỉ thị màu</string>
+    <string name="settings_txdisplay_label_tile">Ô biểu tượng</string>
+    <string name="settings_txdisplay_label_soft">Biểu tượng mềm</string>
+    <string name="settings_txdisplay_label_bar">Thanh</string>
+    <string name="settings_txdisplay_label_dot">Chấm</string>
+    <string name="settings_txdisplay_label_minimal">Tối giản</string>
     <string name="settings_section_appearance">GIAO DIỆN</string>
     <string name="settings_theme">Giao diện</string>
     <string name="settings_theme_light">Sáng</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Phương thức thanh toán</string>
     <string name="settings_payment_mode_add">Thêm phương thức thanh toán</string>
     <string name="settings_use_currency_symbol">Dùng ký hiệu tiền tệ</string>
-    <string name="settings_use_currency_symbol_subtitle">Hiển thị € thay vì EUR</string>
+    <string name="settings_use_currency_symbol_subtitle">Hiển thị %1$s thay vì %2$s</string>
     <string name="settings_payment_mode_rename_title">Đổi tên</string>
     <string name="settings_payment_mode_name_placeholder">Tên phương thức</string>
     <string name="settings_payment_mode_delete_title">Xóa phương thức thanh toán</string>

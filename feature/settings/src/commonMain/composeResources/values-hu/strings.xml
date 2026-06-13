@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Vékony színes sáv bal oldalon</string>
     <string name="settings_txdisplay_style_dot">Kis színes pont</string>
     <string name="settings_txdisplay_style_minimal">Nincs színjelző</string>
+    <string name="settings_txdisplay_label_tile">Ikoncsempe</string>
+    <string name="settings_txdisplay_label_soft">Lágy ikon</string>
+    <string name="settings_txdisplay_label_bar">Sáv</string>
+    <string name="settings_txdisplay_label_dot">Pont</string>
+    <string name="settings_txdisplay_label_minimal">Minimális</string>
     <string name="settings_section_appearance">MEGJELENÉS</string>
     <string name="settings_theme">Téma</string>
     <string name="settings_theme_light">Világos</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Fizetési módok</string>
     <string name="settings_payment_mode_add">Fizetési mód hozzáadása</string>
     <string name="settings_use_currency_symbol">Pénznemszimbólum használata</string>
-    <string name="settings_use_currency_symbol_subtitle">EUR helyett € megjelenítése</string>
+    <string name="settings_use_currency_symbol_subtitle">%2$s helyett %1$s megjelenítése</string>
     <string name="settings_payment_mode_rename_title">Átnevezés</string>
     <string name="settings_payment_mode_name_placeholder">Mód neve</string>
     <string name="settings_payment_mode_delete_title">Fizetési mód törlése</string>

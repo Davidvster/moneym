@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Tanka traka boje s lijeve strane</string>
     <string name="settings_txdisplay_style_dot">Mala obojena točka</string>
     <string name="settings_txdisplay_style_minimal">Bez indikatora boje</string>
+    <string name="settings_txdisplay_label_tile">Pločica s ikonom</string>
+    <string name="settings_txdisplay_label_soft">Mekana ikona</string>
+    <string name="settings_txdisplay_label_bar">Traka</string>
+    <string name="settings_txdisplay_label_dot">Točka</string>
+    <string name="settings_txdisplay_label_minimal">Minimalno</string>
     <string name="settings_section_appearance">IZGLED</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_light">Svijetla</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Načini plaćanja</string>
     <string name="settings_payment_mode_add">Dodaj način plaćanja</string>
     <string name="settings_use_currency_symbol">Koristi simbol valute</string>
-    <string name="settings_use_currency_symbol_subtitle">Prikaži € umjesto EUR</string>
+    <string name="settings_use_currency_symbol_subtitle">Prikaži %1$s umjesto %2$s</string>
     <string name="settings_payment_mode_rename_title">Preimenuj</string>
     <string name="settings_payment_mode_name_placeholder">Naziv načina</string>
     <string name="settings_payment_mode_delete_title">Obriši način plaćanja</string>

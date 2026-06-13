@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Plāna krāsaina josla kreisajā pusē</string>
     <string name="settings_txdisplay_style_dot">Mazs krāsains punkts</string>
     <string name="settings_txdisplay_style_minimal">Nav krāsas indikatora</string>
+    <string name="settings_txdisplay_label_tile">Ikonas flīze</string>
+    <string name="settings_txdisplay_label_soft">Mīksta ikona</string>
+    <string name="settings_txdisplay_label_bar">Josla</string>
+    <string name="settings_txdisplay_label_dot">Punkts</string>
+    <string name="settings_txdisplay_label_minimal">Minimālistisks</string>
     <string name="settings_section_appearance">IZSKATS</string>
     <string name="settings_theme">Motīvs</string>
     <string name="settings_theme_light">Gaišs</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Maksājumu veidi</string>
     <string name="settings_payment_mode_add">Pievienot maksājuma veidu</string>
     <string name="settings_use_currency_symbol">Izmantot valūtas simbolu</string>
-    <string name="settings_use_currency_symbol_subtitle">Rādīt € nevis EUR</string>
+    <string name="settings_use_currency_symbol_subtitle">Rādīt %1$s nevis %2$s</string>
     <string name="settings_payment_mode_rename_title">Pārdēvēt</string>
     <string name="settings_payment_mode_name_placeholder">Veida nosaukums</string>
     <string name="settings_payment_mode_delete_title">Dzēst maksājuma veidu</string>

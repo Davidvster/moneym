@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Tynd farvebjælke til venstre</string>
     <string name="settings_txdisplay_style_dot">Lille farvet prik</string>
     <string name="settings_txdisplay_style_minimal">Ingen farveindikator</string>
+    <string name="settings_txdisplay_label_tile">Ikonflise</string>
+    <string name="settings_txdisplay_label_soft">Blødt ikon</string>
+    <string name="settings_txdisplay_label_bar">Bjælke</string>
+    <string name="settings_txdisplay_label_dot">Prik</string>
+    <string name="settings_txdisplay_label_minimal">Minimal</string>
     <string name="settings_section_appearance">UDSEENDE</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_light">Lyst</string>
@@ -125,7 +130,7 @@
     <string name="settings_payment_mode_list_title">Betalingsmetoder</string>
     <string name="settings_payment_mode_add">Tilføj betalingsmetode</string>
     <string name="settings_use_currency_symbol">Brug valutasymbol</string>
-    <string name="settings_use_currency_symbol_subtitle">Vis € i stedet for EUR</string>
+    <string name="settings_use_currency_symbol_subtitle">Vis %1$s i stedet for %2$s</string>
     <string name="settings_payment_mode_rename_title">Omdøb</string>
     <string name="settings_payment_mode_name_placeholder">Metodenavn</string>
     <string name="settings_payment_mode_delete_title">Slet betalingsmetode</string>

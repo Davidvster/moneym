@@ -60,6 +60,11 @@
     <string name="settings_txdisplay_style_bar">Thin color bar on the left</string>
     <string name="settings_txdisplay_style_dot">Small colored dot</string>
     <string name="settings_txdisplay_style_minimal">No color indicator</string>
+    <string name="settings_txdisplay_label_tile">Icon tile</string>
+    <string name="settings_txdisplay_label_soft">Soft icon</string>
+    <string name="settings_txdisplay_label_bar">Bar</string>
+    <string name="settings_txdisplay_label_dot">Dot</string>
+    <string name="settings_txdisplay_label_minimal">Minimal</string>
     <string name="settings_section_appearance">APPEARANCE</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_theme_light">Light</string>
@@ -135,7 +140,7 @@
     <string name="settings_payment_mode_add">Add payment mode</string>
     <!-- Currency symbol -->
     <string name="settings_use_currency_symbol">Use currency symbol</string>
-    <string name="settings_use_currency_symbol_subtitle">Show € instead of EUR</string>
+    <string name="settings_use_currency_symbol_subtitle">Show %1$s instead of %2$s</string>
     <string name="settings_payment_mode_rename_title">Rename</string>
     <string name="settings_payment_mode_name_placeholder">Mode name</string>
     <string name="settings_payment_mode_delete_title">Delete payment mode</string>
