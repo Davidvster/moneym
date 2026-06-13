@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -144,57 +145,89 @@ private fun BankSyncHomeContent(
             when {
                 state.isLoading -> Unit
 
-                !state.configured -> IntroState(onNavigateToCredentials = onNavigateToCredentials)
-
-                else -> LazyColumn(
+                !state.configured -> IntroState(
+                    onNavigateToCredentials = onNavigateToCredentials,
                     modifier = Modifier.weight(1f),
-                    contentPadding = PaddingValues(
-                        horizontal = space.padding_2x,
-                        vertical = space.padding_2x
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(space.padding_2x),
-                ) {
-                    item {
-                        StatusCard(
-                            state = state,
-                            onOpenSuggestions = onOpenSuggestions,
-                        )
-                    }
-                    if (!state.connected) {
-                        item {
-                            NotConnectedActions(
-                                onNavigateToBankPicker = onNavigateToBankPicker,
-                                onNavigateToCredentials = onNavigateToCredentials,
-                            )
-                        }
-                    } else {
-                        if (state.accounts.isNotEmpty()) {
-                            item {
-                                Text(
-                                    text = stringResource(Res.string.bank_sync_accounts_header),
-                                    style = MM.type.micro,
-                                    color = colors.text2,
-                                    modifier = Modifier.padding(top = space.padding_1x),
+                )
+
+                else -> {
+                    Box(modifier = Modifier.weight(1f)) {
+                        if (!state.connected) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(space.padding_2x),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                            ) {
+                                StatusCard(
+                                    state = state,
+                                    onOpenSuggestions = onOpenSuggestions,
                                 )
-                            }
-                            items(state.accounts, key = { it.uid }) { account ->
-                                AccountCard(account = account, state = state, onIntent = onIntent)
+                                MmButton(
+                                    text = stringResource(Res.string.bank_sync_edit_credentials),
+                                    onClick = onNavigateToCredentials,
+                                    variant = MmButtonVariant.Outline,
+                                    fullWidth = true,
+                                    modifier = Modifier.padding(top = space.padding_2x),
+                                )
                             }
                         } else {
-                            item {
-                                MmEmptyState(
-                                    message = stringResource(Res.string.bank_sync_no_accounts),
-                                    fillSize = false,
-                                )
+                            LazyColumn(
+                                modifier = Modifier.fillMaxSize(),
+                                contentPadding = PaddingValues(
+                                    horizontal = space.padding_2x,
+                                    vertical = space.padding_2x
+                                ),
+                                verticalArrangement = Arrangement.spacedBy(space.padding_2x),
+                            ) {
+                                item {
+                                    StatusCard(
+                                        state = state,
+                                        onOpenSuggestions = onOpenSuggestions,
+                                    )
+                                }
+                                if (state.accounts.isNotEmpty()) {
+                                    item {
+                                        Text(
+                                            text = stringResource(Res.string.bank_sync_accounts_header),
+                                            style = MM.type.micro,
+                                            color = colors.text2,
+                                            modifier = Modifier.padding(top = space.padding_1x),
+                                        )
+                                    }
+                                    items(state.accounts, key = { it.uid }) { account ->
+                                        AccountCard(account = account, state = state, onIntent = onIntent)
+                                    }
+                                } else {
+                                    item {
+                                        MmEmptyState(
+                                            message = stringResource(Res.string.bank_sync_no_accounts),
+                                            fillSize = false,
+                                        )
+                                    }
+                                }
+                                item {
+                                    ControlsCard(
+                                        state = state,
+                                        onIntent = onIntent,
+                                    )
+                                }
                             }
                         }
-                        item {
-                            ControlsCard(
-                                state = state,
-                                onNavigateToBankPicker = onNavigateToBankPicker,
-                                onIntent = onIntent,
-                            )
-                        }
+                    }
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = space.padding_2x, vertical = space.padding_1x)
+                            .navigationBarsPadding(),
+                    ) {
+                        MmButton(
+                            text = stringResource(Res.string.bank_sync_connect_bank),
+                            onClick = onNavigateToBankPicker,
+                            fullWidth = true,
+                            leadingIcon = Icon.Plus.imageVector,
+                        )
                     }
                 }
             }
@@ -215,11 +248,11 @@ private fun BankSyncHomeContent(
 }
 
 @Composable
-private fun IntroState(onNavigateToCredentials: () -> Unit) {
+private fun IntroState(onNavigateToCredentials: () -> Unit, modifier: Modifier = Modifier) {
     val colors = MM.colors
     val space = MM.dimen
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(horizontal = space.padding_3x),
         verticalArrangement = Arrangement.Center,
@@ -241,27 +274,6 @@ private fun IntroState(onNavigateToCredentials: () -> Unit) {
             text = stringResource(Res.string.bank_sync_setup_cta),
             onClick = onNavigateToCredentials,
             modifier = Modifier.padding(top = space.padding_3x),
-        )
-    }
-}
-
-@Composable
-private fun NotConnectedActions(
-    onNavigateToBankPicker: () -> Unit,
-    onNavigateToCredentials: () -> Unit,
-) {
-    val space = MM.dimen
-    Column(verticalArrangement = Arrangement.spacedBy(space.padding_1x)) {
-        MmButton(
-            text = stringResource(Res.string.bank_sync_connect_bank),
-            onClick = onNavigateToBankPicker,
-            fullWidth = true,
-        )
-        MmButton(
-            text = stringResource(Res.string.bank_sync_edit_credentials),
-            onClick = onNavigateToCredentials,
-            variant = MmButtonVariant.Outline,
-            fullWidth = true,
         )
     }
 }
@@ -360,7 +372,6 @@ private fun AccountCard(
 @Composable
 private fun ControlsCard(
     state: BankSyncHomeUiState,
-    onNavigateToBankPicker: () -> Unit,
     onIntent: (BankSyncHomeIntent) -> Unit,
 ) {
     val colors = MM.colors
@@ -403,32 +414,22 @@ private fun ControlsCard(
                 modifier = Modifier.padding(top = space.padding_1x),
             )
         }
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(top = space.padding_1x),
-            horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
-        ) {
-            MmButton(
-                text = if (state.isSyncing) {
-                    stringResource(Res.string.bank_sync_syncing)
-                } else {
-                    stringResource(Res.string.bank_sync_sync_now)
-                },
-                onClick = { onIntent(BankSyncHomeIntent.SyncNow) },
-                size = MmButtonSize.Sm,
-                enabled = !state.isSyncing && state.connected,
-            )
-            MmButton(
-                text = stringResource(Res.string.bank_sync_disconnect),
-                onClick = { onIntent(BankSyncHomeIntent.RequestDisconnect) },
-                variant = MmButtonVariant.Danger,
-                size = MmButtonSize.Sm,
-            )
-        }
         MmButton(
-            text = stringResource(Res.string.bank_sync_connect_bank),
-            onClick = onNavigateToBankPicker,
-            variant = MmButtonVariant.Outline,
-            size = MmButtonSize.Sm,
+            text = if (state.isSyncing) {
+                stringResource(Res.string.bank_sync_syncing)
+            } else {
+                stringResource(Res.string.bank_sync_sync_now)
+            },
+            onClick = { onIntent(BankSyncHomeIntent.SyncNow) },
+            fullWidth = true,
+            enabled = !state.isSyncing && state.connected,
+            modifier = Modifier.padding(top = space.padding_1x),
+        )
+        MmButton(
+            text = stringResource(Res.string.bank_sync_disconnect),
+            onClick = { onIntent(BankSyncHomeIntent.RequestDisconnect) },
+            variant = MmButtonVariant.Danger,
+            fullWidth = true,
             modifier = Modifier.padding(top = space.padding_1x),
         )
     }
