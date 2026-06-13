@@ -3,8 +3,6 @@ package com.dv.moneym.feature.budgets.list.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Icon as M3Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,10 +15,15 @@ import com.dv.moneym.core.model.BudgetId
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.Money
+import com.dv.moneym.core.ui.MmIconButton
+import com.dv.moneym.core.ui.MmIconButtonVariant
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.feature.budgets.list.BudgetRowVm
+import moneym.feature.budgets.generated.resources.Res
+import moneym.feature.budgets.generated.resources.budgets_delete
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun BudgetRow(
@@ -50,13 +53,12 @@ internal fun BudgetRow(
             currency = row.amount.currency.value,
             color = colors.text,
         )
-        IconButton(onClick = onDelete) {
-            M3Icon(
-                imageVector = Icon.Trash.imageVector,
-                contentDescription = "Delete",
-                tint = colors.text3,
-            )
-        }
+        MmIconButton(
+            icon = Icon.Trash.imageVector,
+            onClick = onDelete,
+            variant = MmIconButtonVariant.Danger,
+            contentDescription = stringResource(Res.string.budgets_delete),
+        )
     }
 }
 

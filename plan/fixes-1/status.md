@@ -4,8 +4,8 @@ Master plan: `~/.claude/plans/1-missing-transaltions-tingly-aurora.md`
 
 | Phase | Title | Status | Commit |
 |-------|-------|--------|--------|
-| 1 | i18n quick wins (currency subtitle + indicator labels) | ⏳ in progress | — |
-| 2 | Payment types + budgets delete/add UX | ⬜ todo | — |
+| 1 | i18n quick wins (currency subtitle + indicator labels) | ✅ done | `3ad3a166` |
+| 2 | Payment types + budgets delete/add UX | ⏳ in progress | — |
 | 3 | avg/mo & avg/day deep investigation | ⬜ todo | — |
 | 4 | Notification (wallet) sync app picker | ⬜ todo | — |
 | 5 | Sync button visibility + sync-picker row clickability | ⬜ todo | — |
