@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Отключить банк?</string>
     <string name="bank_sync_disconnect_confirm_body">Это удалит подключение к банку и все привязанные счета. Импортированные операции останутся.</string>
     <string name="bank_sync_no_accounts">Пока нет привязанных счетов</string>
+    <string name="suggestions_unselect_all">Снять выбор</string>
+    <string name="suggestions_accept_all_confirm_title">Принять операции?</string>
+    <string name="suggestions_accept_all_confirm_body">Будет создано %1$d операций. Это нельзя отменить.</string>
+    <string name="suggestions_reject_all_confirm_title">Отклонить предложения?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d предложений перейдут во вкладку «Отклонённые». Их можно восстановить позже.</string>
+    <string name="suggestions_rejected_snackbar">Предложение отклонено</string>
+    <string name="suggestions_undo">Отменить</string>
 </resources>

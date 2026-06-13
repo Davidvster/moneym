@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Aftengja banka?</string>
     <string name="bank_sync_disconnect_confirm_body">Þetta fjarlægir bankatenginguna og alla tengda reikninga. Innfluttar færslur haldast.</string>
     <string name="bank_sync_no_accounts">Engir tengdir reikningar enn</string>
+    <string name="suggestions_unselect_all">Afvelja allt</string>
+    <string name="suggestions_accept_all_confirm_title">Samþykkja færslur?</string>
+    <string name="suggestions_accept_all_confirm_body">Þetta býr til %1$d færslur og ekki er hægt að afturkalla.</string>
+    <string name="suggestions_reject_all_confirm_title">Hafna tillögum?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d tillögur færast á flipann Hafnað. Þú getur endurheimt þær síðar.</string>
+    <string name="suggestions_rejected_snackbar">Tillögu hafnað</string>
+    <string name="suggestions_undo">Afturkalla</string>
 </resources>

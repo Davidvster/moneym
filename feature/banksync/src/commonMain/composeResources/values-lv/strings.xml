@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Atvienot banku?</string>
     <string name="bank_sync_disconnect_confirm_body">Tādējādi tiks noņemts bankas savienojums un visi saistītie konti. Importētie darījumi paliek.</string>
     <string name="bank_sync_no_accounts">Vēl nav saistītu kontu</string>
+    <string name="suggestions_unselect_all">Noņemt visu atlasi</string>
+    <string name="suggestions_accept_all_confirm_title">Pieņemt darījumus?</string>
+    <string name="suggestions_accept_all_confirm_body">Tādējādi tiks izveidoti %1$d darījumi, un to nevar atsaukt.</string>
+    <string name="suggestions_reject_all_confirm_title">Noraidīt ieteikumus?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d ieteikumi tiks pārvietoti uz cilni Noraidītie. Vēlāk varat tos atjaunot.</string>
+    <string name="suggestions_rejected_snackbar">Ieteikums noraidīts</string>
+    <string name="suggestions_undo">Atsaukt</string>
 </resources>

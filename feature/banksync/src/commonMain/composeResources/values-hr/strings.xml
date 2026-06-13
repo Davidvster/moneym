@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Odspojiti banku?</string>
     <string name="bank_sync_disconnect_confirm_body">Time se uklanja bankovna veza i svi povezani računi. Uvezene transakcije ostaju.</string>
     <string name="bank_sync_no_accounts">Još nema povezanih računa</string>
+    <string name="suggestions_unselect_all">Poništi odabir</string>
+    <string name="suggestions_accept_all_confirm_title">Prihvatiti transakcije?</string>
+    <string name="suggestions_accept_all_confirm_body">Time se stvara %1$d transakcija i ne može se poništiti.</string>
+    <string name="suggestions_reject_all_confirm_title">Odbiti prijedloge?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d prijedloga premješta se na karticu Odbijeno. Možete ih kasnije vratiti.</string>
+    <string name="suggestions_rejected_snackbar">Prijedlog odbijen</string>
+    <string name="suggestions_undo">Poništi</string>
 </resources>

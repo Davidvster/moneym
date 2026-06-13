@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Bank trennen?</string>
     <string name="bank_sync_disconnect_confirm_body">Dies entfernt die Bankverbindung und alle verknüpften Konten. Importierte Transaktionen bleiben erhalten.</string>
     <string name="bank_sync_no_accounts">Noch keine verknüpften Konten</string>
+    <string name="suggestions_unselect_all">Alle abwählen</string>
+    <string name="suggestions_accept_all_confirm_title">Transaktionen übernehmen?</string>
+    <string name="suggestions_accept_all_confirm_body">Dies erstellt %1$d Transaktionen und kann nicht rückgängig gemacht werden.</string>
+    <string name="suggestions_reject_all_confirm_title">Vorschläge ablehnen?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d Vorschläge wandern in den Tab „Abgelehnt“. Du kannst sie später wiederherstellen.</string>
+    <string name="suggestions_rejected_snackbar">Vorschlag abgelehnt</string>
+    <string name="suggestions_undo">Rückgängig</string>
 </resources>

@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Katkaistaanko pankkiyhteys?</string>
     <string name="bank_sync_disconnect_confirm_body">Tämä poistaa pankkiyhteyden ja kaikki liitetyt tilit. Tuodut tapahtumat säilyvät.</string>
     <string name="bank_sync_no_accounts">Ei vielä liitettyjä tilejä</string>
+    <string name="suggestions_unselect_all">Poista kaikki valinnat</string>
+    <string name="suggestions_accept_all_confirm_title">Hyväksytäänkö tapahtumat?</string>
+    <string name="suggestions_accept_all_confirm_body">Tämä luo %1$d tapahtumaa, eikä sitä voi kumota.</string>
+    <string name="suggestions_reject_all_confirm_title">Hylätäänkö ehdotukset?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d ehdotusta siirtyy Hylätyt-välilehdelle. Voit palauttaa ne myöhemmin.</string>
+    <string name="suggestions_rejected_snackbar">Ehdotus hylätty</string>
+    <string name="suggestions_undo">Kumoa</string>
 </resources>

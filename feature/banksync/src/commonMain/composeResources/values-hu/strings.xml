@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Bank leválasztása?</string>
     <string name="bank_sync_disconnect_confirm_body">Ez eltávolítja a bankkapcsolatot és az összes csatolt fiókot. Az importált tranzakciók megmaradnak.</string>
     <string name="bank_sync_no_accounts">Még nincsenek csatolt fiókok</string>
+    <string name="suggestions_unselect_all">Összes kijelölés törlése</string>
+    <string name="suggestions_accept_all_confirm_title">Elfogadod a tranzakciókat?</string>
+    <string name="suggestions_accept_all_confirm_body">Ez %1$d tranzakciót hoz létre, és nem vonható vissza.</string>
+    <string name="suggestions_reject_all_confirm_title">Elutasítod a javaslatokat?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d javaslat az Elutasított fülre kerül. Később visszaállíthatod.</string>
+    <string name="suggestions_rejected_snackbar">Javaslat elutasítva</string>
+    <string name="suggestions_undo">Visszavonás</string>
 </resources>

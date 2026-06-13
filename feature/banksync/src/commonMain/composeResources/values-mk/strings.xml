@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Да се исклучи банката?</string>
     <string name="bank_sync_disconnect_confirm_body">Ова ја отстранува врската со банката и сите поврзани сметки. Увезените трансакции остануваат.</string>
     <string name="bank_sync_no_accounts">Сè уште нема поврзани сметки</string>
+    <string name="suggestions_unselect_all">Откажи избор</string>
+    <string name="suggestions_accept_all_confirm_title">Да се прифатат трансакциите?</string>
+    <string name="suggestions_accept_all_confirm_body">Ова создава %1$d трансакции и не може да се врати.</string>
+    <string name="suggestions_reject_all_confirm_title">Да се одбијат предлозите?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d предлози се преместуваат во картичката Одбиени. Може подоцна да ги вратите.</string>
+    <string name="suggestions_rejected_snackbar">Предлогот е одбиен</string>
+    <string name="suggestions_undo">Врати</string>
 </resources>

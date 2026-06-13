@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Déconnecter la banque ?</string>
     <string name="bank_sync_disconnect_confirm_body">Cela supprime la connexion bancaire et tous les comptes liés. Les transactions importées sont conservées.</string>
     <string name="bank_sync_no_accounts">Aucun compte lié</string>
+    <string name="suggestions_unselect_all">Tout désélectionner</string>
+    <string name="suggestions_accept_all_confirm_title">Accepter les transactions ?</string>
+    <string name="suggestions_accept_all_confirm_body">Cela crée %1$d transactions et est irréversible.</string>
+    <string name="suggestions_reject_all_confirm_title">Rejeter les suggestions ?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d suggestions passent dans l'onglet Rejetées. Vous pourrez les restaurer plus tard.</string>
+    <string name="suggestions_rejected_snackbar">Suggestion rejetée</string>
+    <string name="suggestions_undo">Annuler</string>
 </resources>

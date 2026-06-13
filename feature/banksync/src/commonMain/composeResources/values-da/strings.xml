@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Afbryd banken?</string>
     <string name="bank_sync_disconnect_confirm_body">Dette fjerner bankforbindelsen og alle tilknyttede konti. Importerede transaktioner bevares.</string>
     <string name="bank_sync_no_accounts">Ingen tilknyttede konti endnu</string>
+    <string name="suggestions_unselect_all">Fravælg alle</string>
+    <string name="suggestions_accept_all_confirm_title">Acceptér transaktioner?</string>
+    <string name="suggestions_accept_all_confirm_body">Dette opretter %1$d transaktioner og kan ikke fortrydes.</string>
+    <string name="suggestions_reject_all_confirm_title">Afvis forslag?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d forslag flyttes til fanen Afviste. Du kan gendanne dem senere.</string>
+    <string name="suggestions_rejected_snackbar">Forslag afvist</string>
+    <string name="suggestions_undo">Fortryd</string>
 </resources>

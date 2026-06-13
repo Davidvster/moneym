@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Prekiniti povezavo z banko?</string>
     <string name="bank_sync_disconnect_confirm_body">S tem odstranite bančno povezavo in vse povezane račune. Uvožene transakcije ostanejo.</string>
     <string name="bank_sync_no_accounts">Še ni povezanih računov</string>
+    <string name="suggestions_unselect_all">Počisti izbor</string>
+    <string name="suggestions_accept_all_confirm_title">Sprejmem transakcije?</string>
+    <string name="suggestions_accept_all_confirm_body">S tem ustvarite %1$d transakcij in tega ni mogoče razveljaviti.</string>
+    <string name="suggestions_reject_all_confirm_title">Zavrnem predloge?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d predlogov se premakne na zavihek Zavrnjeno. Pozneje jih lahko obnovite.</string>
+    <string name="suggestions_rejected_snackbar">Predlog zavrnjen</string>
+    <string name="suggestions_undo">Razveljavi</string>
 </resources>

@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">銀行の接続を解除しますか？</string>
     <string name="bank_sync_disconnect_confirm_body">銀行接続とすべてのリンクされた口座が削除されます。インポート済みの取引は残ります。</string>
     <string name="bank_sync_no_accounts">リンクされた口座はまだありません</string>
+    <string name="suggestions_unselect_all">すべて選択解除</string>
+    <string name="suggestions_accept_all_confirm_title">取引を承認しますか？</string>
+    <string name="suggestions_accept_all_confirm_body">%1$d 件の取引が作成され、元に戻せません。</string>
+    <string name="suggestions_reject_all_confirm_title">提案を却下しますか？</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d 件の提案が「却下」タブに移動します。後で復元できます。</string>
+    <string name="suggestions_rejected_snackbar">提案を却下しました</string>
+    <string name="suggestions_undo">元に戻す</string>
 </resources>

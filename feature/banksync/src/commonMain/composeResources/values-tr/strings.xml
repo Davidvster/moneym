@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Banka bağlantısı kesilsin mi?</string>
     <string name="bank_sync_disconnect_confirm_body">Bu, banka bağlantısını ve bağlı tüm hesapları kaldırır. İçe aktarılan işlemler kalır.</string>
     <string name="bank_sync_no_accounts">Henüz bağlı hesap yok</string>
+    <string name="suggestions_unselect_all">Tümünün seçimini kaldır</string>
+    <string name="suggestions_accept_all_confirm_title">İşlemler kabul edilsin mi?</string>
+    <string name="suggestions_accept_all_confirm_body">Bu, %1$d işlem oluşturur ve geri alınamaz.</string>
+    <string name="suggestions_reject_all_confirm_title">Öneriler reddedilsin mi?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d öneri Reddedilenler sekmesine taşınır. Daha sonra geri yükleyebilirsiniz.</string>
+    <string name="suggestions_rejected_snackbar">Öneri reddedildi</string>
+    <string name="suggestions_undo">Geri al</string>
 </resources>

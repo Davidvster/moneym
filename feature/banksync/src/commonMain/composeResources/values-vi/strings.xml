@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Ngắt kết nối ngân hàng?</string>
     <string name="bank_sync_disconnect_confirm_body">Thao tác này xóa kết nối ngân hàng và tất cả tài khoản đã liên kết. Giao dịch đã nhập vẫn được giữ lại.</string>
     <string name="bank_sync_no_accounts">Chưa có tài khoản liên kết</string>
+    <string name="suggestions_unselect_all">Bỏ chọn tất cả</string>
+    <string name="suggestions_accept_all_confirm_title">Chấp nhận giao dịch?</string>
+    <string name="suggestions_accept_all_confirm_body">Thao tác này tạo %1$d giao dịch và không thể hoàn tác.</string>
+    <string name="suggestions_reject_all_confirm_title">Từ chối đề xuất?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d đề xuất chuyển sang tab Đã từ chối. Bạn có thể khôi phục sau.</string>
+    <string name="suggestions_rejected_snackbar">Đã từ chối đề xuất</string>
+    <string name="suggestions_undo">Hoàn tác</string>
 </resources>

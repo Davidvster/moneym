@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">बैंक डिस्कनेक्ट करें?</string>
     <string name="bank_sync_disconnect_confirm_body">यह बैंक कनेक्शन और सभी लिंक किए गए खाते हटा देता है। आयात किए गए लेनदेन बने रहते हैं।</string>
     <string name="bank_sync_no_accounts">अभी तक कोई लिंक किया गया खाता नहीं</string>
+    <string name="suggestions_unselect_all">सभी अचयनित करें</string>
+    <string name="suggestions_accept_all_confirm_title">लेनदेन स्वीकार करें?</string>
+    <string name="suggestions_accept_all_confirm_body">इससे %1$d लेनदेन बनते हैं और इसे पूर्ववत नहीं किया जा सकता।</string>
+    <string name="suggestions_reject_all_confirm_title">सुझाव अस्वीकार करें?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d सुझाव अस्वीकृत टैब में चले जाते हैं। आप उन्हें बाद में पुनर्स्थापित कर सकते हैं।</string>
+    <string name="suggestions_rejected_snackbar">सुझाव अस्वीकृत</string>
+    <string name="suggestions_undo">पूर्ववत करें</string>
 </resources>

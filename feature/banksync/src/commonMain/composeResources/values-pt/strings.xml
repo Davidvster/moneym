@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Desligar banco?</string>
     <string name="bank_sync_disconnect_confirm_body">Isto remove a ligação bancária e todas as contas associadas. As transações importadas permanecem.</string>
     <string name="bank_sync_no_accounts">Ainda sem contas associadas</string>
+    <string name="suggestions_unselect_all">Desmarcar tudo</string>
+    <string name="suggestions_accept_all_confirm_title">Aceitar transações?</string>
+    <string name="suggestions_accept_all_confirm_body">Isto cria %1$d transações e não pode ser desfeito.</string>
+    <string name="suggestions_reject_all_confirm_title">Rejeitar sugestões?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d sugestões passam para o separador Rejeitadas. Pode restaurá-las mais tarde.</string>
+    <string name="suggestions_rejected_snackbar">Sugestão rejeitada</string>
+    <string name="suggestions_undo">Anular</string>
 </resources>

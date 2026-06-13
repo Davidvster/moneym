@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Atjungti banką?</string>
     <string name="bank_sync_disconnect_confirm_body">Tai pašalins banko ryšį ir visas susietas sąskaitas. Importuotos operacijos liks.</string>
     <string name="bank_sync_no_accounts">Susietų sąskaitų dar nėra</string>
+    <string name="suggestions_unselect_all">Atšaukti visų pasirinkimą</string>
+    <string name="suggestions_accept_all_confirm_title">Priimti operacijas?</string>
+    <string name="suggestions_accept_all_confirm_body">Bus sukurta %1$d operacijų ir to nebus galima atšaukti.</string>
+    <string name="suggestions_reject_all_confirm_title">Atmesti pasiūlymus?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d pasiūlymų bus perkelta į skirtuką Atmesti. Vėliau galėsite juos atkurti.</string>
+    <string name="suggestions_rejected_snackbar">Pasiūlymas atmestas</string>
+    <string name="suggestions_undo">Atšaukti</string>
 </resources>

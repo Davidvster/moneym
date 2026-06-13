@@ -56,4 +56,11 @@
     <string name="bank_sync_disconnect_confirm_title">Disconnect bank?</string>
     <string name="bank_sync_disconnect_confirm_body">This removes the bank connection and all linked accounts. Imported transactions stay.</string>
     <string name="bank_sync_no_accounts">No linked accounts yet</string>
+    <string name="suggestions_unselect_all">Unselect all</string>
+    <string name="suggestions_accept_all_confirm_title">Accept transactions?</string>
+    <string name="suggestions_accept_all_confirm_body">This creates %1$d transactions and can't be undone.</string>
+    <string name="suggestions_reject_all_confirm_title">Reject suggestions?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d suggestions move to the Rejected tab. You can restore them later.</string>
+    <string name="suggestions_rejected_snackbar">Suggestion rejected</string>
+    <string name="suggestions_undo">Undo</string>
 </resources>

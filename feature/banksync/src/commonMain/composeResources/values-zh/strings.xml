@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">断开银行连接？</string>
     <string name="bank_sync_disconnect_confirm_body">这将移除银行连接和所有关联账户。已导入的交易将保留。</string>
     <string name="bank_sync_no_accounts">尚无关联账户</string>
+    <string name="suggestions_unselect_all">取消全选</string>
+    <string name="suggestions_accept_all_confirm_title">接受交易？</string>
+    <string name="suggestions_accept_all_confirm_body">这将创建 %1$d 笔交易，且无法撤销。</string>
+    <string name="suggestions_reject_all_confirm_title">拒绝建议？</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d 条建议将移至“已拒绝”标签页。您可以稍后恢复。</string>
+    <string name="suggestions_rejected_snackbar">已拒绝建议</string>
+    <string name="suggestions_undo">撤销</string>
 </resources>

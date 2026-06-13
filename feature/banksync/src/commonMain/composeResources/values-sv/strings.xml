@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Koppla från banken?</string>
     <string name="bank_sync_disconnect_confirm_body">Detta tar bort bankanslutningen och alla länkade konton. Importerade transaktioner behålls.</string>
     <string name="bank_sync_no_accounts">Inga länkade konton ännu</string>
+    <string name="suggestions_unselect_all">Avmarkera alla</string>
+    <string name="suggestions_accept_all_confirm_title">Acceptera transaktioner?</string>
+    <string name="suggestions_accept_all_confirm_body">Detta skapar %1$d transaktioner och kan inte ångras.</string>
+    <string name="suggestions_reject_all_confirm_title">Avvisa förslag?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d förslag flyttas till fliken Avvisade. Du kan återställa dem senare.</string>
+    <string name="suggestions_rejected_snackbar">Förslag avvisat</string>
+    <string name="suggestions_undo">Ångra</string>
 </resources>

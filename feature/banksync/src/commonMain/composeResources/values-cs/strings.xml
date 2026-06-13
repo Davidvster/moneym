@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Odpojit banku?</string>
     <string name="bank_sync_disconnect_confirm_body">Tím se odstraní připojení k bance a všechny propojené účty. Importované transakce zůstanou.</string>
     <string name="bank_sync_no_accounts">Zatím žádné propojené účty</string>
+    <string name="suggestions_unselect_all">Zrušit výběr</string>
+    <string name="suggestions_accept_all_confirm_title">Přijmout transakce?</string>
+    <string name="suggestions_accept_all_confirm_body">Vytvoří se %1$d transakcí a nelze to vrátit zpět.</string>
+    <string name="suggestions_reject_all_confirm_title">Odmítnout návrhy?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d návrhů se přesune na kartu Odmítnuté. Později je můžete obnovit.</string>
+    <string name="suggestions_rejected_snackbar">Návrh odmítnut</string>
+    <string name="suggestions_undo">Zpět</string>
 </resources>

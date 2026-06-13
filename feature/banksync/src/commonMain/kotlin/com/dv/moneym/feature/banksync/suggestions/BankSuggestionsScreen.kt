@@ -9,44 +9,64 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Checkbox
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import androidx.compose.material3.SnackbarHostState
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmCard
-import com.dv.moneym.core.ui.MmLoadingSpinner
+import com.dv.moneym.core.ui.MmCategoryPickerSheet
+import com.dv.moneym.core.ui.MmCheckbox
+import com.dv.moneym.core.ui.MmDialog
+import com.dv.moneym.core.ui.MmEmptyState
+import com.dv.moneym.core.ui.MmLoadingOverlay
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.ScreenHeader
+import com.dv.moneym.core.utils.observeWithLifecycle
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.getString
 import moneym.feature.banksync.generated.resources.Res
+import moneym.feature.banksync.generated.resources.bank_sync_cancel
 import moneym.feature.banksync.generated.resources.suggestions_accept
+import moneym.feature.banksync.generated.resources.suggestions_accept_all_confirm_body
+import moneym.feature.banksync.generated.resources.suggestions_accept_all_confirm_title
 import moneym.feature.banksync.generated.resources.suggestions_accept_selected
 import moneym.feature.banksync.generated.resources.suggestions_category_label
-import moneym.feature.banksync.generated.resources.suggestions_clear_selection
 import moneym.feature.banksync.generated.resources.suggestions_duplicate_hint
 import moneym.feature.banksync.generated.resources.suggestions_empty_pending
 import moneym.feature.banksync.generated.resources.suggestions_empty_rejected
 import moneym.feature.banksync.generated.resources.suggestions_reject
+import moneym.feature.banksync.generated.resources.suggestions_reject_all_confirm_body
+import moneym.feature.banksync.generated.resources.suggestions_reject_all_confirm_title
 import moneym.feature.banksync.generated.resources.suggestions_reject_selected
+import moneym.feature.banksync.generated.resources.suggestions_rejected_snackbar
 import moneym.feature.banksync.generated.resources.suggestions_restore
 import moneym.feature.banksync.generated.resources.suggestions_select_all
 import moneym.feature.banksync.generated.resources.suggestions_tab_pending
 import moneym.feature.banksync.generated.resources.suggestions_tab_rejected
 import moneym.feature.banksync.generated.resources.suggestions_title
+import moneym.feature.banksync.generated.resources.suggestions_undo
+import moneym.feature.banksync.generated.resources.suggestions_unselect_all
 import moneym.feature.banksync.generated.resources.suggestions_wallet_missing
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -67,111 +87,173 @@ fun BankSuggestionsScreen(
     viewModel: BankSuggestionsViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    BankSuggestionsContent(state = state, onBack = onBack, onIntent = viewModel::onIntent)
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    viewModel.singleEvents.observeWithLifecycle { event ->
+        when (event) {
+            is BankSuggestionsViewModel.BankSuggestionsSingleUiEvent.RejectedWithUndo -> {
+                val result = snackbarHostState.showSnackbar(
+                    message = getString(Res.string.suggestions_rejected_snackbar),
+                    actionLabel = getString(Res.string.suggestions_undo),
+                    duration = SnackbarDuration.Short,
+                )
+                if (result == SnackbarResult.ActionPerformed) {
+                    viewModel.onIntent(BankSuggestionsIntent.UndoReject(event.id))
+                }
+            }
+        }
+    }
+
+    BankSuggestionsContent(
+        state = state,
+        snackbarHostState = snackbarHostState,
+        onBack = onBack,
+        onIntent = viewModel::onIntent,
+    )
 }
 
 @Composable
 private fun BankSuggestionsContent(
     state: BankSuggestionsUiState,
+    snackbarHostState: SnackbarHostState,
     onBack: () -> Unit,
     onIntent: (BankSuggestionsIntent) -> Unit,
 ) {
     val colors = MM.colors
     val space = MM.dimen
 
-    Column(modifier = Modifier.fillMaxSize().background(colors.bg)) {
-        ScreenHeader(title = stringResource(Res.string.suggestions_title), onBack = onBack)
+    Box(modifier = Modifier.fillMaxSize().background(colors.bg)) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            ScreenHeader(title = stringResource(Res.string.suggestions_title), onBack = onBack)
 
-        MmSegmented(
-            options = listOf(
-                stringResource(Res.string.suggestions_tab_pending),
-                stringResource(Res.string.suggestions_tab_rejected),
-            ),
-            selectedIndex = if (state.tab == SuggestionsTab.PENDING) 0 else 1,
-            onOptionSelected = { index ->
-                onIntent(
-                    BankSuggestionsIntent.SetTab(
-                        if (index == 0) SuggestionsTab.PENDING else SuggestionsTab.REJECTED
+            MmSegmented(
+                options = listOf(
+                    stringResource(Res.string.suggestions_tab_pending),
+                    stringResource(Res.string.suggestions_tab_rejected),
+                ),
+                selectedIndex = if (state.tab == SuggestionsTab.PENDING) 0 else 1,
+                onOptionSelected = { index ->
+                    onIntent(
+                        BankSuggestionsIntent.SetTab(
+                            if (index == 0) SuggestionsTab.PENDING else SuggestionsTab.REJECTED
+                        )
                     )
-                )
-            },
-            fillWidth = true,
-            modifier = Modifier.padding(horizontal = space.padding_2x, vertical = space.padding_1x),
-        )
+                },
+                fillWidth = true,
+                modifier = Modifier.padding(horizontal = space.padding_2x, vertical = space.padding_1x),
+            )
 
-        if (state.tab == SuggestionsTab.PENDING && state.pending.isNotEmpty()) {
-            SelectionBar(state = state, onIntent = onIntent)
-        }
+            if (state.tab == SuggestionsTab.PENDING && state.pending.isNotEmpty()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = space.padding_2x),
+                    horizontalArrangement = Arrangement.End,
+                ) {
+                    MmButton(
+                        text = if (state.allSelected) {
+                            stringResource(Res.string.suggestions_unselect_all)
+                        } else {
+                            stringResource(Res.string.suggestions_select_all)
+                        },
+                        onClick = { onIntent(BankSuggestionsIntent.ToggleSelectAll) },
+                        variant = MmButtonVariant.Ghost,
+                        size = MmButtonSize.Sm,
+                    )
+                }
+            }
 
-        when {
-            state.isLoading -> Box(
-                modifier = Modifier.weight(1f).fillMaxWidth(),
-                contentAlignment = Alignment.Center,
-            ) { MmLoadingSpinner() }
-
-            state.rows.isEmpty() -> Box(
-                modifier = Modifier.weight(1f).fillMaxWidth(),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    text = if (state.tab == SuggestionsTab.PENDING) {
+            when {
+                state.rows.isEmpty() -> MmEmptyState(
+                    message = if (state.tab == SuggestionsTab.PENDING) {
                         stringResource(Res.string.suggestions_empty_pending)
                     } else {
                         stringResource(Res.string.suggestions_empty_rejected)
                     },
-                    style = MM.type.body,
-                    color = colors.text2,
+                    modifier = Modifier.weight(1f),
                 )
+
+                else -> LazyColumn(
+                    modifier = Modifier.weight(1f),
+                    contentPadding = PaddingValues(horizontal = space.padding_2x, vertical = space.padding_1x),
+                    verticalArrangement = Arrangement.spacedBy(space.padding_2x),
+                ) {
+                    items(state.rows, key = { it.id }) { row ->
+                        SuggestionCard(row = row, state = state, onIntent = onIntent)
+                    }
+                }
             }
 
-            else -> LazyColumn(
-                modifier = Modifier.weight(1f),
-                contentPadding = PaddingValues(horizontal = space.padding_2x, vertical = space.padding_1x),
-                verticalArrangement = Arrangement.spacedBy(space.padding_2x),
-            ) {
-                items(state.rows, key = { it.id }) { row ->
-                    SuggestionCard(row = row, state = state, onIntent = onIntent)
+            if (state.tab == SuggestionsTab.PENDING && state.selectedIds.isNotEmpty()) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = space.padding_2x, vertical = space.padding_1x)
+                        .navigationBarsPadding(),
+                    horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
+                ) {
+                    MmButton(
+                        text = stringResource(Res.string.suggestions_accept_selected, state.selectedIds.size),
+                        onClick = { onIntent(BankSuggestionsIntent.RequestAcceptSelected) },
+                        variant = MmButtonVariant.Accent,
+                        modifier = Modifier.weight(1f),
+                    )
+                    MmButton(
+                        text = stringResource(Res.string.suggestions_reject_selected, state.selectedIds.size),
+                        onClick = { onIntent(BankSuggestionsIntent.RequestRejectSelected) },
+                        variant = MmButtonVariant.Danger,
+                        modifier = Modifier.weight(1f),
+                    )
                 }
             }
         }
-    }
-}
 
-@Composable
-private fun SelectionBar(
-    state: BankSuggestionsUiState,
-    onIntent: (BankSuggestionsIntent) -> Unit,
-) {
-    val space = MM.dimen
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = space.padding_2x),
-        horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        if (state.selectedIds.isEmpty()) {
-            MmButton(
-                text = stringResource(Res.string.suggestions_select_all),
-                onClick = { onIntent(BankSuggestionsIntent.SelectAll) },
-                variant = MmButtonVariant.Outline,
-                size = MmButtonSize.Sm,
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter).padding(space.padding_2x),
+        )
+
+        MmLoadingOverlay(visible = state.isLoading || state.isProcessing)
+    }
+
+    val pickerRow = state.pending.firstOrNull { it.id == state.categoryPickerForId }
+    if (pickerRow != null) {
+        MmCategoryPickerSheet(
+            categories = state.categories.filter {
+                (it.type == TransactionType.EXPENSE) == pickerRow.isExpense
+            },
+            selectedId = pickerRow.categoryId?.let { CategoryId(it) },
+            onPick = { onIntent(BankSuggestionsIntent.SetCategory(pickerRow.id, it.value)) },
+            onDismiss = { onIntent(BankSuggestionsIntent.ShowCategoryPicker(null)) },
+        )
+    }
+
+    if (state.showAcceptConfirm) {
+        MmDialog(
+            title = stringResource(Res.string.suggestions_accept_all_confirm_title),
+            confirmText = stringResource(Res.string.suggestions_accept),
+            onConfirm = { onIntent(BankSuggestionsIntent.ConfirmAcceptSelected) },
+            onDismiss = { onIntent(BankSuggestionsIntent.DismissConfirm) },
+            dismissText = stringResource(Res.string.bank_sync_cancel),
+        ) {
+            Text(
+                text = stringResource(Res.string.suggestions_accept_all_confirm_body, state.selectedIds.size),
+                style = MM.type.body,
+                color = MM.colors.text2,
             )
-        } else {
-            MmButton(
-                text = stringResource(Res.string.suggestions_accept_selected, state.selectedIds.size),
-                onClick = { onIntent(BankSuggestionsIntent.AcceptSelected) },
-                size = MmButtonSize.Sm,
-            )
-            MmButton(
-                text = stringResource(Res.string.suggestions_reject_selected, state.selectedIds.size),
-                onClick = { onIntent(BankSuggestionsIntent.RejectSelected) },
-                variant = MmButtonVariant.Outline,
-                size = MmButtonSize.Sm,
-            )
-            MmButton(
-                text = stringResource(Res.string.suggestions_clear_selection),
-                onClick = { onIntent(BankSuggestionsIntent.ClearSelection) },
-                variant = MmButtonVariant.Outline,
-                size = MmButtonSize.Sm,
+        }
+    }
+
+    if (state.showRejectConfirm) {
+        MmDialog(
+            title = stringResource(Res.string.suggestions_reject_all_confirm_title),
+            confirmText = stringResource(Res.string.suggestions_reject),
+            onConfirm = { onIntent(BankSuggestionsIntent.ConfirmRejectSelected) },
+            onDismiss = { onIntent(BankSuggestionsIntent.DismissConfirm) },
+            dismissText = stringResource(Res.string.bank_sync_cancel),
+        ) {
+            Text(
+                text = stringResource(Res.string.suggestions_reject_all_confirm_body, state.selectedIds.size),
+                style = MM.type.body,
+                color = MM.colors.text2,
             )
         }
     }
@@ -190,7 +272,7 @@ private fun SuggestionCard(
     MmCard(modifier = Modifier.fillMaxWidth(), padded = true) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             if (isPendingTab) {
-                Checkbox(
+                MmCheckbox(
                     checked = row.id in state.selectedIds,
                     onCheckedChange = { onIntent(BankSuggestionsIntent.ToggleSelect(row.id)) },
                 )
@@ -229,7 +311,7 @@ private fun SuggestionCard(
                 Text(
                     text = stringResource(Res.string.suggestions_duplicate_hint),
                     style = MM.type.micro,
-                    color = colors.danger,
+                    color = colors.warning,
                 )
                 Text(
                     text = listOfNotNull(
@@ -252,21 +334,6 @@ private fun SuggestionCard(
                     .clickable { onIntent(BankSuggestionsIntent.ShowCategoryPicker(row.id)) }
                     .padding(top = space.padding_1x),
             )
-            if (state.categoryPickerForId == row.id) {
-                Column(modifier = Modifier.padding(top = space.padding_0_5x)) {
-                    state.categories.filter { it.isExpense == row.isExpense }.forEach { option ->
-                        Text(
-                            text = option.name,
-                            style = MM.type.body,
-                            color = colors.text,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { onIntent(BankSuggestionsIntent.SetCategory(row.id, option.id)) }
-                                .padding(vertical = space.padding_0_5x),
-                        )
-                    }
-                }
-            }
             if (row.targetAccountId == null) {
                 Text(
                     text = stringResource(Res.string.suggestions_wallet_missing),
@@ -281,13 +348,14 @@ private fun SuggestionCard(
                 MmButton(
                     text = stringResource(Res.string.suggestions_accept),
                     onClick = { onIntent(BankSuggestionsIntent.Accept(row.id)) },
+                    variant = MmButtonVariant.Accent,
                     size = MmButtonSize.Sm,
                     enabled = row.targetAccountId != null && row.categoryId != null,
                 )
                 MmButton(
                     text = stringResource(Res.string.suggestions_reject),
                     onClick = { onIntent(BankSuggestionsIntent.Reject(row.id)) },
-                    variant = MmButtonVariant.Outline,
+                    variant = MmButtonVariant.Danger,
                     size = MmButtonSize.Sm,
                 )
             }

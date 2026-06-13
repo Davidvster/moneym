@@ -55,4 +55,11 @@
     <string name="bank_sync_disconnect_confirm_title">Bank loskoppelen?</string>
     <string name="bank_sync_disconnect_confirm_body">Hiermee verwijder je de bankverbinding en alle gekoppelde rekeningen. Geïmporteerde transacties blijven.</string>
     <string name="bank_sync_no_accounts">Nog geen gekoppelde rekeningen</string>
+    <string name="suggestions_unselect_all">Alles deselecteren</string>
+    <string name="suggestions_accept_all_confirm_title">Transacties accepteren?</string>
+    <string name="suggestions_accept_all_confirm_body">Hiermee maak je %1$d transacties aan; dit kan niet ongedaan worden gemaakt.</string>
+    <string name="suggestions_reject_all_confirm_title">Suggesties afwijzen?</string>
+    <string name="suggestions_reject_all_confirm_body">%1$d suggesties gaan naar het tabblad Afgewezen. Je kunt ze later herstellen.</string>
+    <string name="suggestions_rejected_snackbar">Suggestie afgewezen</string>
+    <string name="suggestions_undo">Ongedaan maken</string>
 </resources>

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.serialization.saved
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
+import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.data.banksync.BankAccountLink
 import com.dv.moneym.data.banksync.BankSuggestion
@@ -13,10 +14,12 @@ import com.dv.moneym.data.banksync.EbDirection
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.feature.banksync.usecase.AcceptSuggestionUseCase
 import com.dv.moneym.feature.banksync.usecase.FindDuplicateUseCase
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -33,6 +36,13 @@ class BankSuggestionsViewModel(
     private val _state by savedStateHandle.saved { MutableStateFlow(BankSuggestionsUiState()) }
     internal val state = _state.onStart { init() }.stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
+    sealed interface BankSuggestionsSingleUiEvent {
+        data class RejectedWithUndo(val id: Long) : BankSuggestionsSingleUiEvent
+    }
+
+    private val _singleEvent = Channel<BankSuggestionsSingleUiEvent>(Channel.BUFFERED)
+    val singleEvents = _singleEvent.receiveAsFlow()
+
     private val categoryOverrides = mutableMapOf<Long, Long>()
 
     private fun init() {
@@ -43,13 +53,7 @@ class BankSuggestionsViewModel(
                 bankSyncRepository.observeAccounts(),
                 categoryRepository.observeActive(),
             ) { pending, rejected, accounts, categories ->
-                Sources(pending, rejected, accounts, categories.map {
-                    CategoryOption(
-                        id = it.id.value,
-                        name = it.name,
-                        isExpense = it.type == TransactionType.EXPENSE,
-                    )
-                })
+                Sources(pending, rejected, accounts, categories)
             }.collect { sources ->
                 val pendingRows = sources.pending.map { it.toRow(sources, withDuplicate = true) }
                 val rejectedRows = sources.rejected.map { it.toRow(sources, withDuplicate = false) }
@@ -70,13 +74,15 @@ class BankSuggestionsViewModel(
         val account = sources.accounts.firstOrNull { it.uid == bankAccountUid }
         val isExpense = direction == EbDirection.DEBIT
         val categoryId = categoryOverrides[id]
-            ?: sources.categories.firstOrNull { it.isExpense == isExpense }?.id
+            ?: sources.categories.firstOrNull {
+                (it.type == TransactionType.EXPENSE) == isExpense
+            }?.id?.value
         val duplicate = if (withDuplicate) {
             findDuplicate(this)?.let { tx ->
                 DuplicateInfo(
                     transactionId = tx.id.value,
                     note = tx.note,
-                    categoryName = sources.categories.firstOrNull { it.id == tx.categoryId.value }?.name,
+                    categoryName = sources.categories.firstOrNull { it.id == tx.categoryId }?.name,
                     dateIso = tx.occurredOn.toString(),
                     amountMinor = tx.amount.minorUnits,
                     currency = tx.amount.currency.value,
@@ -97,7 +103,7 @@ class BankSuggestionsViewModel(
             targetAccountId = account?.localAccountId,
             targetAccountName = null,
             categoryId = categoryId,
-            categoryName = sources.categories.firstOrNull { it.id == categoryId }?.name,
+            categoryName = sources.categories.firstOrNull { it.id.value == categoryId }?.name,
             duplicate = duplicate,
         )
     }
@@ -113,18 +119,38 @@ class BankSuggestionsViewModel(
                 it.copy(selectedIds = selected)
             }
 
-            BankSuggestionsIntent.SelectAll ->
-                _state.update { s -> s.copy(selectedIds = s.pending.map { it.id }.toSet()) }
+            BankSuggestionsIntent.ToggleSelectAll -> _state.update { s ->
+                if (s.allSelected) s.copy(selectedIds = emptySet())
+                else s.copy(selectedIds = s.pending.map { it.id }.toSet())
+            }
 
             BankSuggestionsIntent.ClearSelection -> _state.update { it.copy(selectedIds = emptySet()) }
 
             is BankSuggestionsIntent.Accept -> acceptAll(listOf(intent.id))
 
-            is BankSuggestionsIntent.Reject -> rejectAll(listOf(intent.id))
+            is BankSuggestionsIntent.Reject -> rejectIndividual(intent.id)
 
-            BankSuggestionsIntent.AcceptSelected -> acceptAll(_state.value.selectedIds.toList())
+            BankSuggestionsIntent.RequestAcceptSelected ->
+                _state.update { it.copy(showAcceptConfirm = true) }
 
-            BankSuggestionsIntent.RejectSelected -> rejectAll(_state.value.selectedIds.toList())
+            BankSuggestionsIntent.ConfirmAcceptSelected -> {
+                _state.update { it.copy(showAcceptConfirm = false) }
+                acceptAll(_state.value.selectedIds.toList())
+            }
+
+            BankSuggestionsIntent.RequestRejectSelected ->
+                _state.update { it.copy(showRejectConfirm = true) }
+
+            BankSuggestionsIntent.ConfirmRejectSelected -> {
+                _state.update { it.copy(showRejectConfirm = false) }
+                rejectAll(_state.value.selectedIds.toList())
+            }
+
+            BankSuggestionsIntent.DismissConfirm ->
+                _state.update { it.copy(showAcceptConfirm = false, showRejectConfirm = false) }
+
+            is BankSuggestionsIntent.UndoReject ->
+                viewModelScope.launch { bankSyncRepository.restoreToPending(intent.id) }
 
             is BankSuggestionsIntent.RestoreToPending ->
                 viewModelScope.launch { bankSyncRepository.restoreToPending(intent.id) }
@@ -140,7 +166,7 @@ class BankSuggestionsViewModel(
                         pending = s.pending.map { row ->
                             if (row.id == intent.id) row.copy(
                                 categoryId = intent.categoryId,
-                                categoryName = s.categories.firstOrNull { it.id == intent.categoryId }?.name,
+                                categoryName = s.categories.firstOrNull { it.id.value == intent.categoryId }?.name,
                             ) else row
                         },
                     )
@@ -149,24 +175,34 @@ class BankSuggestionsViewModel(
         }
     }
 
+    private fun rejectIndividual(id: Long) {
+        viewModelScope.launch {
+            bankSyncRepository.reject(id, clock.now().toEpochMilliseconds())
+            _state.update { it.copy(selectedIds = it.selectedIds - id) }
+            _singleEvent.send(BankSuggestionsSingleUiEvent.RejectedWithUndo(id))
+        }
+    }
+
     private fun acceptAll(ids: List<Long>) {
         val rows = _state.value.pending.filter { it.id in ids }
         viewModelScope.launch {
+            _state.update { it.copy(isProcessing = true) }
             for (row in rows) {
                 val accountId = row.targetAccountId ?: continue
                 val categoryId = row.categoryId ?: continue
                 val suggestion = bankSyncRepository.getSuggestion(row.id) ?: continue
                 acceptSuggestion(suggestion, accountId = accountId, categoryId = categoryId)
             }
-            _state.update { it.copy(selectedIds = emptySet()) }
+            _state.update { it.copy(selectedIds = emptySet(), isProcessing = false) }
         }
     }
 
     private fun rejectAll(ids: List<Long>) {
         viewModelScope.launch {
+            _state.update { it.copy(isProcessing = true) }
             val now = clock.now().toEpochMilliseconds()
             ids.forEach { bankSyncRepository.reject(it, now) }
-            _state.update { it.copy(selectedIds = emptySet()) }
+            _state.update { it.copy(selectedIds = emptySet(), isProcessing = false) }
         }
     }
 
@@ -174,6 +210,6 @@ class BankSuggestionsViewModel(
         val pending: List<BankSuggestion>,
         val rejected: List<BankSuggestion>,
         val accounts: List<BankAccountLink>,
-        val categories: List<CategoryOption>,
+        val categories: List<Category>,
     )
 }

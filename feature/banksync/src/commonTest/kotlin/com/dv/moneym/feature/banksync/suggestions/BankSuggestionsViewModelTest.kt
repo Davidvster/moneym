@@ -198,10 +198,10 @@ class BankSuggestionsViewModelTest {
             var s = awaitItem()
             while (s.pending.size < 2) s = awaitItem()
 
-            vm.onIntent(BankSuggestionsIntent.SelectAll)
+            vm.onIntent(BankSuggestionsIntent.ToggleSelectAll)
             while (s.selectedIds.size < 2) s = awaitItem()
 
-            vm.onIntent(BankSuggestionsIntent.AcceptSelected)
+            vm.onIntent(BankSuggestionsIntent.ConfirmAcceptSelected)
             while (s.pending.isNotEmpty()) s = awaitItem()
 
             cancelAndIgnoreRemainingEvents()
