@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Kategorija</string>
     <string name="suggestions_wallet_missing">Pirmiausia šiai banko sąskaitai priskirkite piniginę</string>
     <string name="bank_sync_info">Informacija</string>
+    <string name="bank_sync_setup_cta">Nustatyti banko sinchronizavimą</string>
+    <string name="bank_sync_save_continue">Išsaugoti ir tęsti</string>
+    <string name="bank_sync_edit_credentials">Redaguoti prisijungimo duomenis</string>
+    <string name="bank_sync_choose_country">Pasirinkite savo šalį</string>
+    <string name="bank_sync_search_country">Ieškoti šalies arba kodo</string>
+    <string name="bank_sync_supported_countries_hint">Banko sinchronizavimas veikia su PSD2 atvirosios bankininkystės API šiose šalyse.</string>
+    <string name="bank_sync_change_country">Keisti šalį</string>
 </resources>

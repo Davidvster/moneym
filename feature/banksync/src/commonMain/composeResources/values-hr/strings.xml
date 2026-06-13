@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Kategorija</string>
     <string name="suggestions_wallet_missing">Najprije dodijelite novčanik ovom bankovnom računu</string>
     <string name="bank_sync_info">Informacije</string>
+    <string name="bank_sync_setup_cta">Postavi sinkronizaciju s bankom</string>
+    <string name="bank_sync_save_continue">Spremi i nastavi</string>
+    <string name="bank_sync_edit_credentials">Uredi vjerodajnice</string>
+    <string name="bank_sync_choose_country">Odaberite svoju državu</string>
+    <string name="bank_sync_search_country">Pretraži državu ili kod</string>
+    <string name="bank_sync_supported_countries_hint">Sinkronizacija s bankom radi putem PSD2 API-ja otvorenog bankarstva u ovim državama.</string>
+    <string name="bank_sync_change_country">Promijeni državu</string>
 </resources>

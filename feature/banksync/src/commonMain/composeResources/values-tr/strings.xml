@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Kategori</string>
     <string name="suggestions_wallet_missing">Önce bu banka hesabına bir cüzdan atayın</string>
     <string name="bank_sync_info">Bilgi</string>
+    <string name="bank_sync_setup_cta">Banka senkronizasyonunu kur</string>
+    <string name="bank_sync_save_continue">Kaydet ve devam et</string>
+    <string name="bank_sync_edit_credentials">Kimlik bilgilerini düzenle</string>
+    <string name="bank_sync_choose_country">Ülkeni seç</string>
+    <string name="bank_sync_search_country">Ülke veya kod ara</string>
+    <string name="bank_sync_supported_countries_hint">Banka senkronizasyonu bu ülkelerde PSD2 açık bankacılık API'leriyle çalışır.</string>
+    <string name="bank_sync_change_country">Ülkeyi değiştir</string>
 </resources>

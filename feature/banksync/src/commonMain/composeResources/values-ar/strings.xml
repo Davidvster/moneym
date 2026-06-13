@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">الفئة</string>
     <string name="suggestions_wallet_missing">عيّن محفظة لهذا الحساب البنكي أولاً</string>
     <string name="bank_sync_info">معلومات</string>
+    <string name="bank_sync_setup_cta">إعداد مزامنة البنك</string>
+    <string name="bank_sync_save_continue">حفظ ومتابعة</string>
+    <string name="bank_sync_edit_credentials">تعديل بيانات الاعتماد</string>
+    <string name="bank_sync_choose_country">اختر بلدك</string>
+    <string name="bank_sync_search_country">ابحث عن بلد أو رمز</string>
+    <string name="bank_sync_supported_countries_hint">تعمل مزامنة البنك مع واجهات برمجة تطبيقات الخدمات المصرفية المفتوحة PSD2 في هذه البلدان.</string>
+    <string name="bank_sync_change_country">تغيير البلد</string>
 </resources>

@@ -33,6 +33,7 @@ kotlin {
             implementation(projects.core.model)
             implementation(projects.core.common)
             implementation(projects.core.datastore)
+            implementation(projects.core.utils)
             implementation(libs.androidx.navigation3.runtime)
             implementation(projects.core.navigation)
             implementation(projects.data.banksync)

@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">श्रेणी</string>
     <string name="suggestions_wallet_missing">पहले इस बैंक खाते को एक वॉलेट असाइन करें</string>
     <string name="bank_sync_info">जानकारी</string>
+    <string name="bank_sync_setup_cta">बैंक सिंक सेट करें</string>
+    <string name="bank_sync_save_continue">सहेजें और जारी रखें</string>
+    <string name="bank_sync_edit_credentials">क्रेडेंशियल संपादित करें</string>
+    <string name="bank_sync_choose_country">अपना देश चुनें</string>
+    <string name="bank_sync_search_country">देश या कोड खोजें</string>
+    <string name="bank_sync_supported_countries_hint">बैंक सिंक इन देशों में PSD2 ओपन-बैंकिंग API के साथ काम करता है।</string>
+    <string name="bank_sync_change_country">देश बदलें</string>
 </resources>

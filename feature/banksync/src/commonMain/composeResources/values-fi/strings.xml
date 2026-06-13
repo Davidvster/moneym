@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Kategoria</string>
     <string name="suggestions_wallet_missing">Määritä ensin lompakko tälle pankkitilille</string>
     <string name="bank_sync_info">Tietoa</string>
+    <string name="bank_sync_setup_cta">Määritä pankkisynkronointi</string>
+    <string name="bank_sync_save_continue">Tallenna ja jatka</string>
+    <string name="bank_sync_edit_credentials">Muokkaa tunnistetietoja</string>
+    <string name="bank_sync_choose_country">Valitse maasi</string>
+    <string name="bank_sync_search_country">Hae maata tai koodia</string>
+    <string name="bank_sync_supported_countries_hint">Pankkisynkronointi toimii PSD2-avoimen pankkitoiminnan rajapinnoilla näissä maissa.</string>
+    <string name="bank_sync_change_country">Vaihda maata</string>
 </resources>

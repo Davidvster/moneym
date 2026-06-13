@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Kategória</string>
     <string name="suggestions_wallet_missing">Először rendeljen tárcát ehhez a bankszámlához</string>
     <string name="bank_sync_info">Információ</string>
+    <string name="bank_sync_setup_cta">Bankszinkronizálás beállítása</string>
+    <string name="bank_sync_save_continue">Mentés és folytatás</string>
+    <string name="bank_sync_edit_credentials">Hitelesítő adatok szerkesztése</string>
+    <string name="bank_sync_choose_country">Válaszd ki az országodat</string>
+    <string name="bank_sync_search_country">Ország vagy kód keresése</string>
+    <string name="bank_sync_supported_countries_hint">A bankszinkronizálás PSD2 nyílt banki API-kkal működik ezekben az országokban.</string>
+    <string name="bank_sync_change_country">Ország módosítása</string>
 </resources>

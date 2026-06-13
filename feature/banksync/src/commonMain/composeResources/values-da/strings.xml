@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Kategori</string>
     <string name="suggestions_wallet_missing">Tildel først en tegnebog til denne bankkonto</string>
     <string name="bank_sync_info">Info</string>
+    <string name="bank_sync_setup_cta">Konfigurer banksynkronisering</string>
+    <string name="bank_sync_save_continue">Gem og fortsæt</string>
+    <string name="bank_sync_edit_credentials">Rediger legitimationsoplysninger</string>
+    <string name="bank_sync_choose_country">Vælg dit land</string>
+    <string name="bank_sync_search_country">Søg efter land eller kode</string>
+    <string name="bank_sync_supported_countries_hint">Banksynkronisering fungerer med PSD2 open banking-API'er i disse lande.</string>
+    <string name="bank_sync_change_country">Skift land</string>
 </resources>

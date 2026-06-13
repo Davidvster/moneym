@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Categoria</string>
     <string name="suggestions_wallet_missing">Assegna prima un portafoglio a questo conto bancario</string>
     <string name="bank_sync_info">Informazioni</string>
+    <string name="bank_sync_setup_cta">Configura sincronizzazione bancaria</string>
+    <string name="bank_sync_save_continue">Salva e continua</string>
+    <string name="bank_sync_edit_credentials">Modifica credenziali</string>
+    <string name="bank_sync_choose_country">Scegli il tuo paese</string>
+    <string name="bank_sync_search_country">Cerca paese o codice</string>
+    <string name="bank_sync_supported_countries_hint">La sincronizzazione bancaria funziona con le API di open banking PSD2 in questi paesi.</string>
+    <string name="bank_sync_change_country">Cambia paese</string>
 </resources>

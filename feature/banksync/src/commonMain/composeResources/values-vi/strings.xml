@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Danh mục</string>
     <string name="suggestions_wallet_missing">Trước tiên hãy gán ví cho tài khoản ngân hàng này</string>
     <string name="bank_sync_info">Thông tin</string>
+    <string name="bank_sync_setup_cta">Thiết lập đồng bộ ngân hàng</string>
+    <string name="bank_sync_save_continue">Lưu và tiếp tục</string>
+    <string name="bank_sync_edit_credentials">Chỉnh sửa thông tin đăng nhập</string>
+    <string name="bank_sync_choose_country">Chọn quốc gia của bạn</string>
+    <string name="bank_sync_search_country">Tìm quốc gia hoặc mã</string>
+    <string name="bank_sync_supported_countries_hint">Đồng bộ ngân hàng hoạt động với các API ngân hàng mở PSD2 ở những quốc gia này.</string>
+    <string name="bank_sync_change_country">Đổi quốc gia</string>
 </resources>

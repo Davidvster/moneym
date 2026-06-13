@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Kategorija</string>
     <string name="suggestions_wallet_missing">Vispirms piešķiriet maku šim bankas kontam</string>
     <string name="bank_sync_info">Informācija</string>
+    <string name="bank_sync_setup_cta">Iestatīt bankas sinhronizāciju</string>
+    <string name="bank_sync_save_continue">Saglabāt un turpināt</string>
+    <string name="bank_sync_edit_credentials">Rediģēt akreditācijas datus</string>
+    <string name="bank_sync_choose_country">Izvēlieties savu valsti</string>
+    <string name="bank_sync_search_country">Meklēt valsti vai kodu</string>
+    <string name="bank_sync_supported_countries_hint">Bankas sinhronizācija darbojas ar PSD2 atvērtās bankas API šajās valstīs.</string>
+    <string name="bank_sync_change_country">Mainīt valsti</string>
 </resources>

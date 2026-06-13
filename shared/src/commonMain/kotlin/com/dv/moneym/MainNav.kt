@@ -38,10 +38,14 @@ import com.dv.moneym.feature.security.setup.PinSetupKey
 import com.dv.moneym.feature.security.setup.pinSetupEntry
 import com.dv.moneym.feature.sync.PendingDeletionsKey
 import com.dv.moneym.feature.sync.pendingDeletionsEntry
-import com.dv.moneym.feature.banksync.BankSuggestionsKey
-import com.dv.moneym.feature.banksync.BankSyncSettingsKey
-import com.dv.moneym.feature.banksync.bankSuggestionsEntry
-import com.dv.moneym.feature.banksync.bankSyncSettingsEntry
+import com.dv.moneym.feature.banksync.suggestions.BankSuggestionsKey
+import com.dv.moneym.feature.banksync.home.BankSyncSettingsKey
+import com.dv.moneym.feature.banksync.suggestions.bankSuggestionsEntry
+import com.dv.moneym.feature.banksync.home.bankSyncSettingsEntry
+import com.dv.moneym.feature.banksync.credentials.BankSyncCredentialsKey
+import com.dv.moneym.feature.banksync.credentials.bankSyncCredentialsEntry
+import com.dv.moneym.feature.banksync.bankpicker.BankPickerKey
+import com.dv.moneym.feature.banksync.bankpicker.bankPickerEntry
 import com.dv.moneym.feature.sync.SyncSettingsKey
 import com.dv.moneym.feature.sync.syncSettingsEntry
 import com.dv.moneym.feature.settings.overview.LanguagePickerKey
@@ -234,7 +238,19 @@ internal fun MainNav(lockController: AppLockController) {
             bankSyncSettingsEntry(
                 onBack = { tabBackStack.removeLast() },
                 onOpenSuggestions = { tabBackStack.push(BankSuggestionsKey) },
+                onNavigateToCredentials = { tabBackStack.push(BankSyncCredentialsKey) },
+                onNavigateToBankPicker = { tabBackStack.push(BankPickerKey) },
                 onNavigateToInfo = { tabBackStack.push(InfoPageKey("banksync")) },
+                metadata = modalTransitionMeta,
+            )
+            bankSyncCredentialsEntry(
+                onBack = { tabBackStack.removeLast() },
+                onContinueToBankPicker = { tabBackStack.push(BankPickerKey) },
+                metadata = modalTransitionMeta,
+            )
+            bankPickerEntry(
+                onBack = { tabBackStack.removeLast() },
+                onConnected = { tabBackStack.popTo(BankSyncSettingsKey) },
                 metadata = modalTransitionMeta,
             )
             bankSuggestionsEntry(

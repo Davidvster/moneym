@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Kategorie</string>
     <string name="suggestions_wallet_missing">Weise diesem Bankkonto zuerst ein Wallet zu</string>
     <string name="bank_sync_info">Info</string>
+    <string name="bank_sync_setup_cta">Bank-Sync einrichten</string>
+    <string name="bank_sync_save_continue">Speichern &amp; fortfahren</string>
+    <string name="bank_sync_edit_credentials">Zugangsdaten bearbeiten</string>
+    <string name="bank_sync_choose_country">Wähle dein Land</string>
+    <string name="bank_sync_search_country">Land oder Code suchen</string>
+    <string name="bank_sync_supported_countries_hint">Bank-Sync funktioniert über PSD2-Open-Banking-APIs in diesen Ländern.</string>
+    <string name="bank_sync_change_country">Land ändern</string>
 </resources>

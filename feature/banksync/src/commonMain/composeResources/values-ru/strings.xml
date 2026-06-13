@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Категория</string>
     <string name="suggestions_wallet_missing">Сначала назначьте кошелёк этому банковскому счёту</string>
     <string name="bank_sync_info">Сведения</string>
+    <string name="bank_sync_setup_cta">Настроить синхронизацию с банком</string>
+    <string name="bank_sync_save_continue">Сохранить и продолжить</string>
+    <string name="bank_sync_edit_credentials">Изменить учётные данные</string>
+    <string name="bank_sync_choose_country">Выберите свою страну</string>
+    <string name="bank_sync_search_country">Поиск страны или кода</string>
+    <string name="bank_sync_supported_countries_hint">Синхронизация с банком работает через API открытого банкинга PSD2 в этих странах.</string>
+    <string name="bank_sync_change_country">Сменить страну</string>
 </resources>

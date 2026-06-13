@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.banksync
+package com.dv.moneym.feature.banksync.suggestions
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

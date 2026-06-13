@@ -42,6 +42,14 @@ internal class TabBackStack(startTab: NavKey) {
         rebuildBackStack()
     }
 
+    fun popTo(key: NavKey) {
+        val stack = stacks[currentTab] ?: return
+        while (stack.size > 1 && stack.last() != key) {
+            stack.removeAt(stack.size - 1)
+        }
+        rebuildBackStack()
+    }
+
     private fun rebuildBackStack() {
         backStack.clear()
         backStack.addAll(stacks.flatMap { (_, stack) -> stack })

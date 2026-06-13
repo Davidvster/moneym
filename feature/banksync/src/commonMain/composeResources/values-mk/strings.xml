@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Категорија</string>
     <string name="suggestions_wallet_missing">Прво доделете паричник на оваа банкарска сметка</string>
     <string name="bank_sync_info">Информации</string>
+    <string name="bank_sync_setup_cta">Постави синхронизација со банка</string>
+    <string name="bank_sync_save_continue">Зачувај и продолжи</string>
+    <string name="bank_sync_edit_credentials">Уреди акредитиви</string>
+    <string name="bank_sync_choose_country">Изберете ја вашата земја</string>
+    <string name="bank_sync_search_country">Пребарај земја или код</string>
+    <string name="bank_sync_supported_countries_hint">Синхронизацијата со банка работи со PSD2 API за отворено банкарство во овие земји.</string>
+    <string name="bank_sync_change_country">Промени земја</string>
 </resources>

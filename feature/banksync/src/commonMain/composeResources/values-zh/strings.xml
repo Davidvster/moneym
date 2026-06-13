@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">类别</string>
     <string name="suggestions_wallet_missing">请先为该银行账户分配钱包</string>
     <string name="bank_sync_info">信息</string>
+    <string name="bank_sync_setup_cta">设置银行同步</string>
+    <string name="bank_sync_save_continue">保存并继续</string>
+    <string name="bank_sync_edit_credentials">编辑凭据</string>
+    <string name="bank_sync_choose_country">选择您的国家/地区</string>
+    <string name="bank_sync_search_country">搜索国家/地区或代码</string>
+    <string name="bank_sync_supported_countries_hint">银行同步在这些国家/地区通过 PSD2 开放银行 API 工作。</string>
+    <string name="bank_sync_change_country">更改国家/地区</string>
 </resources>

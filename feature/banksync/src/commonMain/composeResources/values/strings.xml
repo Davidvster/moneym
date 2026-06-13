@@ -46,4 +46,11 @@
     <string name="suggestions_category_label">Category</string>
     <string name="suggestions_wallet_missing">Assign a wallet to this bank account first</string>
     <string name="bank_sync_info">Info</string>
+    <string name="bank_sync_setup_cta">Set up bank sync</string>
+    <string name="bank_sync_save_continue">Save &amp; continue</string>
+    <string name="bank_sync_edit_credentials">Edit credentials</string>
+    <string name="bank_sync_choose_country">Choose your country</string>
+    <string name="bank_sync_search_country">Search country or code</string>
+    <string name="bank_sync_supported_countries_hint">Bank sync works with PSD2 open-banking APIs in these countries.</string>
+    <string name="bank_sync_change_country">Change country</string>
 </resources>

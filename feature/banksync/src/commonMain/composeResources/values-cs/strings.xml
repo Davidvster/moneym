@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Kategorie</string>
     <string name="suggestions_wallet_missing">Nejprve tomuto bankovnímu účtu přiřaďte peněženku</string>
     <string name="bank_sync_info">Informace</string>
+    <string name="bank_sync_setup_cta">Nastavit synchronizaci s bankou</string>
+    <string name="bank_sync_save_continue">Uložit a pokračovat</string>
+    <string name="bank_sync_edit_credentials">Upravit přihlašovací údaje</string>
+    <string name="bank_sync_choose_country">Vyberte svou zemi</string>
+    <string name="bank_sync_search_country">Hledat zemi nebo kód</string>
+    <string name="bank_sync_supported_countries_hint">Synchronizace s bankou funguje přes API otevřeného bankovnictví PSD2 v těchto zemích.</string>
+    <string name="bank_sync_change_country">Změnit zemi</string>
 </resources>

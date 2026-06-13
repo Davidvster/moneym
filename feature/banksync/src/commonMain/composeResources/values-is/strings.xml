@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Flokkur</string>
     <string name="suggestions_wallet_missing">Úthlutaðu fyrst veski á þennan bankareikning</string>
     <string name="bank_sync_info">Upplýsingar</string>
+    <string name="bank_sync_setup_cta">Setja upp bankasamstillingu</string>
+    <string name="bank_sync_save_continue">Vista og halda áfram</string>
+    <string name="bank_sync_edit_credentials">Breyta auðkennum</string>
+    <string name="bank_sync_choose_country">Veldu landið þitt</string>
+    <string name="bank_sync_search_country">Leita að landi eða kóða</string>
+    <string name="bank_sync_supported_countries_hint">Bankasamstilling virkar með PSD2 opnum bankaviðmótum í þessum löndum.</string>
+    <string name="bank_sync_change_country">Skipta um land</string>
 </resources>

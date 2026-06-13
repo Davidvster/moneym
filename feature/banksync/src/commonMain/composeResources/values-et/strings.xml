@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Kategooria</string>
     <string name="suggestions_wallet_missing">Määrake sellele pangakontole esmalt rahakott</string>
     <string name="bank_sync_info">Teave</string>
+    <string name="bank_sync_setup_cta">Seadista pangasünkroonimine</string>
+    <string name="bank_sync_save_continue">Salvesta ja jätka</string>
+    <string name="bank_sync_edit_credentials">Muuda mandaate</string>
+    <string name="bank_sync_choose_country">Vali oma riik</string>
+    <string name="bank_sync_search_country">Otsi riiki või koodi</string>
+    <string name="bank_sync_supported_countries_hint">Pangasünkroonimine töötab nendes riikides PSD2 avatud panganduse API-dega.</string>
+    <string name="bank_sync_change_country">Muuda riiki</string>
 </resources>

@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Categorie</string>
     <string name="suggestions_wallet_missing">Wijs eerst een portemonnee toe aan deze bankrekening</string>
     <string name="bank_sync_info">Info</string>
+    <string name="bank_sync_setup_cta">Banksynchronisatie instellen</string>
+    <string name="bank_sync_save_continue">Opslaan en doorgaan</string>
+    <string name="bank_sync_edit_credentials">Inloggegevens bewerken</string>
+    <string name="bank_sync_choose_country">Kies je land</string>
+    <string name="bank_sync_search_country">Land of code zoeken</string>
+    <string name="bank_sync_supported_countries_hint">Banksynchronisatie werkt met PSD2 open-banking-API's in deze landen.</string>
+    <string name="bank_sync_change_country">Land wijzigen</string>
 </resources>

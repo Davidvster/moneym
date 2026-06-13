@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">Kategori</string>
     <string name="suggestions_wallet_missing">Tilldela först en plånbok till detta bankkonto</string>
     <string name="bank_sync_info">Info</string>
+    <string name="bank_sync_setup_cta">Konfigurera banksynkronisering</string>
+    <string name="bank_sync_save_continue">Spara och fortsätt</string>
+    <string name="bank_sync_edit_credentials">Redigera autentiseringsuppgifter</string>
+    <string name="bank_sync_choose_country">Välj ditt land</string>
+    <string name="bank_sync_search_country">Sök land eller kod</string>
+    <string name="bank_sync_supported_countries_hint">Banksynkronisering fungerar med PSD2 open banking-API:er i dessa länder.</string>
+    <string name="bank_sync_change_country">Byt land</string>
 </resources>

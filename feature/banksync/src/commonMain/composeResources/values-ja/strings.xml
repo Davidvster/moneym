@@ -45,4 +45,11 @@
     <string name="suggestions_category_label">カテゴリ</string>
     <string name="suggestions_wallet_missing">先にこの銀行口座にウォレットを割り当ててください</string>
     <string name="bank_sync_info">情報</string>
+    <string name="bank_sync_setup_cta">銀行同期を設定</string>
+    <string name="bank_sync_save_continue">保存して続行</string>
+    <string name="bank_sync_edit_credentials">認証情報を編集</string>
+    <string name="bank_sync_choose_country">国を選択</string>
+    <string name="bank_sync_search_country">国またはコードを検索</string>
+    <string name="bank_sync_supported_countries_hint">銀行同期はこれらの国でPSD2オープンバンキングAPIに対応しています。</string>
+    <string name="bank_sync_change_country">国を変更</string>
 </resources>

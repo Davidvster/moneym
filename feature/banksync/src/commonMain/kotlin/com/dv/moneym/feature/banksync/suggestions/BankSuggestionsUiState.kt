@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.banksync
+package com.dv.moneym.feature.banksync.suggestions
 
 import kotlinx.serialization.Serializable
 

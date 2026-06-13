@@ -33,8 +33,10 @@ import com.dv.moneym.feature.categories.list.CategoryListViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
 import com.dv.moneym.feature.onboarding.restore.OnboardingRestoreViewModel
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
-import com.dv.moneym.feature.banksync.BankSuggestionsViewModel
-import com.dv.moneym.feature.banksync.BankSyncSettingsViewModel
+import com.dv.moneym.feature.banksync.suggestions.BankSuggestionsViewModel
+import com.dv.moneym.feature.banksync.home.BankSyncHomeViewModel
+import com.dv.moneym.feature.banksync.credentials.BankSyncCredentialsViewModel
+import com.dv.moneym.feature.banksync.bankpicker.BankPickerViewModel
 import com.dv.moneym.feature.banksync.usecase.AcceptSuggestionUseCase
 import com.dv.moneym.feature.banksync.usecase.CompleteConnectionUseCase
 import com.dv.moneym.feature.banksync.usecase.ConnectBankUseCase
@@ -358,13 +360,27 @@ val featureBankSyncModule = module {
         )
     }
     viewModel {
-        BankSyncSettingsViewModel(
+        BankSyncHomeViewModel(
             credentialsStore = get(),
             client = get(),
             bankSyncRepository = get(),
             engine = get(),
             appSettings = get(),
             accountRepository = get(),
+            savedStateHandle = get(),
+        )
+    }
+    viewModel {
+        BankSyncCredentialsViewModel(
+            credentialsStore = get(),
+            client = get(),
+            appSettings = get(),
+            savedStateHandle = get(),
+        )
+    }
+    viewModel {
+        BankPickerViewModel(
+            client = get(),
             connectBank = get(),
             completeConnection = get(),
             parseRedirectCode = get(),
