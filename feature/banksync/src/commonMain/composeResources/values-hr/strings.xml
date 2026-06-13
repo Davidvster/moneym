@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Poništi odabir</string>
     <string name="suggestions_accept_all_confirm_title">Prihvatiti transakcije?</string>
     <string name="suggestions_accept_all_confirm_body">Time se stvara %1$d transakcija i ne može se poništiti.</string>
+    <string name="suggestions_accept_one_confirm_title">Prihvatiti transakciju?</string>
+    <string name="suggestions_accept_one_confirm_body">Time se stvara transakcija i ne može se poništiti.</string>
     <string name="suggestions_reject_all_confirm_title">Odbiti prijedloge?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d prijedloga premješta se na karticu Odbijeno. Možete ih kasnije vratiti.</string>
     <string name="suggestions_rejected_snackbar">Prijedlog odbijen</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Prihod</string>
     <string name="suggestions_filter_min">Veće od</string>
     <string name="suggestions_filter_max">Manje od</string>
-    <string name="suggestions_filter_note">Bilješka</string>
+    <string name="suggestions_filter_note">Opis transakcije</string>
     <string name="suggestions_filter_apply">Primijeni</string>
     <string name="suggestions_filter_clear">Očisti</string>
     <string name="suggestions_assign_category">Dodijeli kategoriju</string>

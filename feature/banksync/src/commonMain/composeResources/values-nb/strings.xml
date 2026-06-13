@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Fjern alle merkinger</string>
     <string name="suggestions_accept_all_confirm_title">Godta transaksjoner?</string>
     <string name="suggestions_accept_all_confirm_body">Dette oppretter %1$d transaksjoner og kan ikke angres.</string>
+    <string name="suggestions_accept_one_confirm_title">Godta transaksjon?</string>
+    <string name="suggestions_accept_one_confirm_body">Dette oppretter en transaksjon og kan ikke angres.</string>
     <string name="suggestions_reject_all_confirm_title">Avvis forslag?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d forslag flyttes til fanen Avviste. Du kan gjenopprette dem senere.</string>
     <string name="suggestions_rejected_snackbar">Forslag avvist</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Inntekt</string>
     <string name="suggestions_filter_min">Høyere enn</string>
     <string name="suggestions_filter_max">Lavere enn</string>
-    <string name="suggestions_filter_note">Notat</string>
+    <string name="suggestions_filter_note">Transaksjonsbeskrivelse</string>
     <string name="suggestions_filter_apply">Bruk</string>
     <string name="suggestions_filter_clear">Tøm</string>
     <string name="suggestions_assign_category">Tildel kategori</string>

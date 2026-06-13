@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Tümünün seçimini kaldır</string>
     <string name="suggestions_accept_all_confirm_title">İşlemler kabul edilsin mi?</string>
     <string name="suggestions_accept_all_confirm_body">Bu, %1$d işlem oluşturur ve geri alınamaz.</string>
+    <string name="suggestions_accept_one_confirm_title">İşlem kabul edilsin mi?</string>
+    <string name="suggestions_accept_one_confirm_body">Bu, bir işlem oluşturur ve geri alınamaz.</string>
     <string name="suggestions_reject_all_confirm_title">Öneriler reddedilsin mi?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d öneri Reddedilenler sekmesine taşınır. Daha sonra geri yükleyebilirsiniz.</string>
     <string name="suggestions_rejected_snackbar">Öneri reddedildi</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Gelir</string>
     <string name="suggestions_filter_min">Şundan büyük</string>
     <string name="suggestions_filter_max">Şundan küçük</string>
-    <string name="suggestions_filter_note">Not</string>
+    <string name="suggestions_filter_note">İşlem açıklaması</string>
     <string name="suggestions_filter_apply">Uygula</string>
     <string name="suggestions_filter_clear">Temizle</string>
     <string name="suggestions_assign_category">Kategori ata</string>

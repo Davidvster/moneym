@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Avmarkera alla</string>
     <string name="suggestions_accept_all_confirm_title">Acceptera transaktioner?</string>
     <string name="suggestions_accept_all_confirm_body">Detta skapar %1$d transaktioner och kan inte ångras.</string>
+    <string name="suggestions_accept_one_confirm_title">Acceptera transaktion?</string>
+    <string name="suggestions_accept_one_confirm_body">Detta skapar en transaktion och kan inte ångras.</string>
     <string name="suggestions_reject_all_confirm_title">Avvisa förslag?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d förslag flyttas till fliken Avvisade. Du kan återställa dem senare.</string>
     <string name="suggestions_rejected_snackbar">Förslag avvisat</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Inkomst</string>
     <string name="suggestions_filter_min">Högre än</string>
     <string name="suggestions_filter_max">Lägre än</string>
-    <string name="suggestions_filter_note">Anteckning</string>
+    <string name="suggestions_filter_note">Transaktionsbeskrivning</string>
     <string name="suggestions_filter_apply">Tillämpa</string>
     <string name="suggestions_filter_clear">Rensa</string>
     <string name="suggestions_assign_category">Tilldela kategori</string>

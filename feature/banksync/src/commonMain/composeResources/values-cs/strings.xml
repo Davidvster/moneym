@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Zrušit výběr</string>
     <string name="suggestions_accept_all_confirm_title">Přijmout transakce?</string>
     <string name="suggestions_accept_all_confirm_body">Vytvoří se %1$d transakcí a nelze to vrátit zpět.</string>
+    <string name="suggestions_accept_one_confirm_title">Přijmout transakci?</string>
+    <string name="suggestions_accept_one_confirm_body">Tím se vytvoří transakce a nelze ji vrátit zpět.</string>
     <string name="suggestions_reject_all_confirm_title">Odmítnout návrhy?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d návrhů se přesune na kartu Odmítnuté. Později je můžete obnovit.</string>
     <string name="suggestions_rejected_snackbar">Návrh odmítnut</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Příjem</string>
     <string name="suggestions_filter_min">Větší než</string>
     <string name="suggestions_filter_max">Menší než</string>
-    <string name="suggestions_filter_note">Poznámka</string>
+    <string name="suggestions_filter_note">Popis transakce</string>
     <string name="suggestions_filter_apply">Použít</string>
     <string name="suggestions_filter_clear">Vymazat</string>
     <string name="suggestions_assign_category">Přiřadit kategorii</string>

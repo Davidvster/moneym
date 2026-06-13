@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Poista kaikki valinnat</string>
     <string name="suggestions_accept_all_confirm_title">Hyväksytäänkö tapahtumat?</string>
     <string name="suggestions_accept_all_confirm_body">Tämä luo %1$d tapahtumaa, eikä sitä voi kumota.</string>
+    <string name="suggestions_accept_one_confirm_title">Hyväksytäänkö tapahtuma?</string>
+    <string name="suggestions_accept_one_confirm_body">Tämä luo tapahtuman, eikä sitä voi kumota.</string>
     <string name="suggestions_reject_all_confirm_title">Hylätäänkö ehdotukset?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d ehdotusta siirtyy Hylätyt-välilehdelle. Voit palauttaa ne myöhemmin.</string>
     <string name="suggestions_rejected_snackbar">Ehdotus hylätty</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Tulo</string>
     <string name="suggestions_filter_min">Suurempi kuin</string>
     <string name="suggestions_filter_max">Pienempi kuin</string>
-    <string name="suggestions_filter_note">Muistiinpano</string>
+    <string name="suggestions_filter_note">Tapahtuman kuvaus</string>
     <string name="suggestions_filter_apply">Käytä</string>
     <string name="suggestions_filter_clear">Tyhjennä</string>
     <string name="suggestions_assign_category">Määritä luokka</string>

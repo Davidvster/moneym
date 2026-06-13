@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Alle abwählen</string>
     <string name="suggestions_accept_all_confirm_title">Transaktionen übernehmen?</string>
     <string name="suggestions_accept_all_confirm_body">Dies erstellt %1$d Transaktionen und kann nicht rückgängig gemacht werden.</string>
+    <string name="suggestions_accept_one_confirm_title">Transaktion übernehmen?</string>
+    <string name="suggestions_accept_one_confirm_body">Dies erstellt eine Transaktion und kann nicht rückgängig gemacht werden.</string>
     <string name="suggestions_reject_all_confirm_title">Vorschläge ablehnen?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d Vorschläge wandern in den Tab „Abgelehnt“. Du kannst sie später wiederherstellen.</string>
     <string name="suggestions_rejected_snackbar">Vorschlag abgelehnt</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Einnahme</string>
     <string name="suggestions_filter_min">Höher als</string>
     <string name="suggestions_filter_max">Niedriger als</string>
-    <string name="suggestions_filter_note">Notiz</string>
+    <string name="suggestions_filter_note">Transaktionsbeschreibung</string>
     <string name="suggestions_filter_apply">Anwenden</string>
     <string name="suggestions_filter_clear">Zurücksetzen</string>
     <string name="suggestions_assign_category">Kategorie zuweisen</string>

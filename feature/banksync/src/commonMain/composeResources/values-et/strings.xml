@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Tühista kõik valikud</string>
     <string name="suggestions_accept_all_confirm_title">Kas kinnitada tehingud?</string>
     <string name="suggestions_accept_all_confirm_body">See loob %1$d tehingut ja seda ei saa tagasi võtta.</string>
+    <string name="suggestions_accept_one_confirm_title">Kas kinnitada tehing?</string>
+    <string name="suggestions_accept_one_confirm_body">See loob tehingu ja seda ei saa tagasi võtta.</string>
     <string name="suggestions_reject_all_confirm_title">Kas lükata ettepanekud tagasi?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d ettepanekut liigub vahekaardile Tagasi lükatud. Saad need hiljem taastada.</string>
     <string name="suggestions_rejected_snackbar">Ettepanek tagasi lükatud</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Tulu</string>
     <string name="suggestions_filter_min">Suurem kui</string>
     <string name="suggestions_filter_max">Väiksem kui</string>
-    <string name="suggestions_filter_note">Märkus</string>
+    <string name="suggestions_filter_note">Tehingu kirjeldus</string>
     <string name="suggestions_filter_apply">Rakenda</string>
     <string name="suggestions_filter_clear">Tühjenda</string>
     <string name="suggestions_assign_category">Määra kategooria</string>

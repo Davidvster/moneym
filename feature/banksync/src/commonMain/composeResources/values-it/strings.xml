@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Deseleziona tutto</string>
     <string name="suggestions_accept_all_confirm_title">Accettare le transazioni?</string>
     <string name="suggestions_accept_all_confirm_body">Questo crea %1$d transazioni e non può essere annullato.</string>
+    <string name="suggestions_accept_one_confirm_title">Accettare la transazione?</string>
+    <string name="suggestions_accept_one_confirm_body">Questo crea una transazione e non può essere annullato.</string>
     <string name="suggestions_reject_all_confirm_title">Rifiutare i suggerimenti?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d suggerimenti passano alla scheda Rifiutati. Puoi ripristinarli in seguito.</string>
     <string name="suggestions_rejected_snackbar">Suggerimento rifiutato</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Entrata</string>
     <string name="suggestions_filter_min">Maggiore di</string>
     <string name="suggestions_filter_max">Minore di</string>
-    <string name="suggestions_filter_note">Nota</string>
+    <string name="suggestions_filter_note">Descrizione della transazione</string>
     <string name="suggestions_filter_apply">Applica</string>
     <string name="suggestions_filter_clear">Cancella</string>
     <string name="suggestions_assign_category">Assegna categoria</string>

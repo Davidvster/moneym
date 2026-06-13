@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">取消全选</string>
     <string name="suggestions_accept_all_confirm_title">接受交易？</string>
     <string name="suggestions_accept_all_confirm_body">这将创建 %1$d 笔交易，且无法撤销。</string>
+    <string name="suggestions_accept_one_confirm_title">接受交易？</string>
+    <string name="suggestions_accept_one_confirm_body">这将创建一笔交易，且无法撤销。</string>
     <string name="suggestions_reject_all_confirm_title">拒绝建议？</string>
     <string name="suggestions_reject_all_confirm_body">%1$d 条建议将移至“已拒绝”标签页。您可以稍后恢复。</string>
     <string name="suggestions_rejected_snackbar">已拒绝建议</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">收入</string>
     <string name="suggestions_filter_min">大于</string>
     <string name="suggestions_filter_max">小于</string>
-    <string name="suggestions_filter_note">备注</string>
+    <string name="suggestions_filter_note">交易描述</string>
     <string name="suggestions_filter_apply">应用</string>
     <string name="suggestions_filter_clear">清除</string>
     <string name="suggestions_assign_category">分配类别</string>

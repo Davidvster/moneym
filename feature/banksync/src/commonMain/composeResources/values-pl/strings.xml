@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Odznacz wszystko</string>
     <string name="suggestions_accept_all_confirm_title">Zaakceptować transakcje?</string>
     <string name="suggestions_accept_all_confirm_body">Spowoduje to utworzenie %1$d transakcji i nie można tego cofnąć.</string>
+    <string name="suggestions_accept_one_confirm_title">Zaakceptować transakcję?</string>
+    <string name="suggestions_accept_one_confirm_body">Spowoduje to utworzenie transakcji i nie można tego cofnąć.</string>
     <string name="suggestions_reject_all_confirm_title">Odrzucić sugestie?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d sugestii trafi do karty Odrzucone. Można je później przywrócić.</string>
     <string name="suggestions_rejected_snackbar">Sugestia odrzucona</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Przychód</string>
     <string name="suggestions_filter_min">Większe niż</string>
     <string name="suggestions_filter_max">Mniejsze niż</string>
-    <string name="suggestions_filter_note">Notatka</string>
+    <string name="suggestions_filter_note">Opis transakcji</string>
     <string name="suggestions_filter_apply">Zastosuj</string>
     <string name="suggestions_filter_clear">Wyczyść</string>
     <string name="suggestions_assign_category">Przypisz kategorię</string>

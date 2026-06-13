@@ -9,12 +9,15 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SnackbarDuration
@@ -60,6 +63,8 @@ import moneym.feature.banksync.generated.resources.bank_sync_cancel
 import moneym.feature.banksync.generated.resources.suggestions_accept
 import moneym.feature.banksync.generated.resources.suggestions_accept_all_confirm_body
 import moneym.feature.banksync.generated.resources.suggestions_accept_all_confirm_title
+import moneym.feature.banksync.generated.resources.suggestions_accept_one_confirm_body
+import moneym.feature.banksync.generated.resources.suggestions_accept_one_confirm_title
 import moneym.feature.banksync.generated.resources.suggestions_accept_selected
 import moneym.feature.banksync.generated.resources.suggestions_assign_category
 import moneym.feature.banksync.generated.resources.suggestions_category_label
@@ -319,6 +324,22 @@ private fun BankSuggestionsContent(
             )
         }
     }
+
+    state.acceptConfirmId?.let {
+        MmDialog(
+            title = stringResource(Res.string.suggestions_accept_one_confirm_title),
+            confirmText = stringResource(Res.string.suggestions_accept),
+            onConfirm = { onIntent(BankSuggestionsIntent.ConfirmAccept) },
+            onDismiss = { onIntent(BankSuggestionsIntent.DismissConfirm) },
+            dismissText = stringResource(Res.string.bank_sync_cancel),
+        ) {
+            Text(
+                text = stringResource(Res.string.suggestions_accept_one_confirm_body),
+                style = MM.type.body,
+                color = MM.colors.text2,
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -339,7 +360,10 @@ private fun FilterSheet(
         dragHandle = null,
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = space.padding_2_5x, vertical = space.padding_3x),
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .imePadding()
+                .padding(horizontal = space.padding_2_5x, vertical = space.padding_3x),
             verticalArrangement = Arrangement.spacedBy(space.padding_2x),
         ) {
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
@@ -498,7 +522,7 @@ private fun SuggestionCard(
             ) {
                 MmButton(
                     text = stringResource(Res.string.suggestions_accept),
-                    onClick = { onIntent(BankSuggestionsIntent.Accept(row.id)) },
+                    onClick = { onIntent(BankSuggestionsIntent.RequestAccept(row.id)) },
                     variant = MmButtonVariant.Accent,
                     size = MmButtonSize.Sm,
                     enabled = row.targetAccountId != null && row.categoryId != null,

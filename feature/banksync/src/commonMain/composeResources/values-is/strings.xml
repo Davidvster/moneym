@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Afvelja allt</string>
     <string name="suggestions_accept_all_confirm_title">Samþykkja færslur?</string>
     <string name="suggestions_accept_all_confirm_body">Þetta býr til %1$d færslur og ekki er hægt að afturkalla.</string>
+    <string name="suggestions_accept_one_confirm_title">Samþykkja færslu?</string>
+    <string name="suggestions_accept_one_confirm_body">Þetta býr til færslu og er ekki hægt að afturkalla.</string>
     <string name="suggestions_reject_all_confirm_title">Hafna tillögum?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d tillögur færast á flipann Hafnað. Þú getur endurheimt þær síðar.</string>
     <string name="suggestions_rejected_snackbar">Tillögu hafnað</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Tekjur</string>
     <string name="suggestions_filter_min">Hærra en</string>
     <string name="suggestions_filter_max">Lægra en</string>
-    <string name="suggestions_filter_note">Athugasemd</string>
+    <string name="suggestions_filter_note">Lýsing færslu</string>
     <string name="suggestions_filter_apply">Beita</string>
     <string name="suggestions_filter_clear">Hreinsa</string>
     <string name="suggestions_assign_category">Úthluta flokki</string>

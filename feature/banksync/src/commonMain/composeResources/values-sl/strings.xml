@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Počisti izbor</string>
     <string name="suggestions_accept_all_confirm_title">Sprejmem transakcije?</string>
     <string name="suggestions_accept_all_confirm_body">S tem ustvarite %1$d transakcij in tega ni mogoče razveljaviti.</string>
+    <string name="suggestions_accept_one_confirm_title">Sprejmem transakcijo?</string>
+    <string name="suggestions_accept_one_confirm_body">S tem se ustvari transakcija in je ni mogoče razveljaviti.</string>
     <string name="suggestions_reject_all_confirm_title">Zavrnem predloge?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d predlogov se premakne na zavihek Zavrnjeno. Pozneje jih lahko obnovite.</string>
     <string name="suggestions_rejected_snackbar">Predlog zavrnjen</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Prihodek</string>
     <string name="suggestions_filter_min">Večje od</string>
     <string name="suggestions_filter_max">Manjše od</string>
-    <string name="suggestions_filter_note">Opomba</string>
+    <string name="suggestions_filter_note">Opis transakcije</string>
     <string name="suggestions_filter_apply">Uporabi</string>
     <string name="suggestions_filter_clear">Počisti</string>
     <string name="suggestions_assign_category">Dodeli kategorijo</string>

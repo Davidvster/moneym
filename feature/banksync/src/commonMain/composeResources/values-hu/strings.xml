@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Összes kijelölés törlése</string>
     <string name="suggestions_accept_all_confirm_title">Elfogadod a tranzakciókat?</string>
     <string name="suggestions_accept_all_confirm_body">Ez %1$d tranzakciót hoz létre, és nem vonható vissza.</string>
+    <string name="suggestions_accept_one_confirm_title">Elfogadja a tranzakciót?</string>
+    <string name="suggestions_accept_one_confirm_body">Ez létrehoz egy tranzakciót, és nem vonható vissza.</string>
     <string name="suggestions_reject_all_confirm_title">Elutasítod a javaslatokat?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d javaslat az Elutasított fülre kerül. Később visszaállíthatod.</string>
     <string name="suggestions_rejected_snackbar">Javaslat elutasítva</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Bevétel</string>
     <string name="suggestions_filter_min">Nagyobb mint</string>
     <string name="suggestions_filter_max">Kisebb mint</string>
-    <string name="suggestions_filter_note">Megjegyzés</string>
+    <string name="suggestions_filter_note">Tranzakció leírása</string>
     <string name="suggestions_filter_apply">Alkalmaz</string>
     <string name="suggestions_filter_clear">Törlés</string>
     <string name="suggestions_assign_category">Kategória hozzárendelése</string>

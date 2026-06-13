@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Bỏ chọn tất cả</string>
     <string name="suggestions_accept_all_confirm_title">Chấp nhận giao dịch?</string>
     <string name="suggestions_accept_all_confirm_body">Thao tác này tạo %1$d giao dịch và không thể hoàn tác.</string>
+    <string name="suggestions_accept_one_confirm_title">Chấp nhận giao dịch?</string>
+    <string name="suggestions_accept_one_confirm_body">Thao tác này tạo một giao dịch và không thể hoàn tác.</string>
     <string name="suggestions_reject_all_confirm_title">Từ chối đề xuất?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d đề xuất chuyển sang tab Đã từ chối. Bạn có thể khôi phục sau.</string>
     <string name="suggestions_rejected_snackbar">Đã từ chối đề xuất</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Thu nhập</string>
     <string name="suggestions_filter_min">Lớn hơn</string>
     <string name="suggestions_filter_max">Nhỏ hơn</string>
-    <string name="suggestions_filter_note">Ghi chú</string>
+    <string name="suggestions_filter_note">Mô tả giao dịch</string>
     <string name="suggestions_filter_apply">Áp dụng</string>
     <string name="suggestions_filter_clear">Xóa</string>
     <string name="suggestions_assign_category">Gán danh mục</string>

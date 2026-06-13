@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">सभी अचयनित करें</string>
     <string name="suggestions_accept_all_confirm_title">लेनदेन स्वीकार करें?</string>
     <string name="suggestions_accept_all_confirm_body">इससे %1$d लेनदेन बनते हैं और इसे पूर्ववत नहीं किया जा सकता।</string>
+    <string name="suggestions_accept_one_confirm_title">लेन-देन स्वीकार करें?</string>
+    <string name="suggestions_accept_one_confirm_body">इससे एक लेन-देन बनता है और इसे पूर्ववत नहीं किया जा सकता।</string>
     <string name="suggestions_reject_all_confirm_title">सुझाव अस्वीकार करें?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d सुझाव अस्वीकृत टैब में चले जाते हैं। आप उन्हें बाद में पुनर्स्थापित कर सकते हैं।</string>
     <string name="suggestions_rejected_snackbar">सुझाव अस्वीकृत</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">आय</string>
     <string name="suggestions_filter_min">इससे अधिक</string>
     <string name="suggestions_filter_max">इससे कम</string>
-    <string name="suggestions_filter_note">टिप्पणी</string>
+    <string name="suggestions_filter_note">लेन-देन विवरण</string>
     <string name="suggestions_filter_apply">लागू करें</string>
     <string name="suggestions_filter_clear">साफ़ करें</string>
     <string name="suggestions_assign_category">श्रेणी असाइन करें</string>

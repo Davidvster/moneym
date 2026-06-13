@@ -128,7 +128,14 @@ class BankSuggestionsViewModel(
 
             BankSuggestionsIntent.ClearSelection -> _state.update { it.copy(selectedIds = emptySet()) }
 
-            is BankSuggestionsIntent.Accept -> acceptAll(listOf(intent.id))
+            is BankSuggestionsIntent.RequestAccept ->
+                _state.update { it.copy(acceptConfirmId = intent.id) }
+
+            BankSuggestionsIntent.ConfirmAccept -> {
+                val id = _state.value.acceptConfirmId
+                _state.update { it.copy(acceptConfirmId = null) }
+                if (id != null) acceptAll(listOf(id))
+            }
 
             is BankSuggestionsIntent.Reject -> rejectIndividual(intent.id)
 
@@ -149,7 +156,9 @@ class BankSuggestionsViewModel(
             }
 
             BankSuggestionsIntent.DismissConfirm ->
-                _state.update { it.copy(showAcceptConfirm = false, showRejectConfirm = false) }
+                _state.update {
+                    it.copy(showAcceptConfirm = false, showRejectConfirm = false, acceptConfirmId = null)
+                }
 
             is BankSuggestionsIntent.UndoReject ->
                 viewModelScope.launch { bankSyncRepository.restoreToPending(intent.id) }

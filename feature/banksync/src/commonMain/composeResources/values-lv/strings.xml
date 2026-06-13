@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Noņemt visu atlasi</string>
     <string name="suggestions_accept_all_confirm_title">Pieņemt darījumus?</string>
     <string name="suggestions_accept_all_confirm_body">Tādējādi tiks izveidoti %1$d darījumi, un to nevar atsaukt.</string>
+    <string name="suggestions_accept_one_confirm_title">Pieņemt darījumu?</string>
+    <string name="suggestions_accept_one_confirm_body">Tādējādi tiek izveidots darījums, un to nevar atsaukt.</string>
     <string name="suggestions_reject_all_confirm_title">Noraidīt ieteikumus?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d ieteikumi tiks pārvietoti uz cilni Noraidītie. Vēlāk varat tos atjaunot.</string>
     <string name="suggestions_rejected_snackbar">Ieteikums noraidīts</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Ienākumi</string>
     <string name="suggestions_filter_min">Lielāks par</string>
     <string name="suggestions_filter_max">Mazāks par</string>
-    <string name="suggestions_filter_note">Piezīme</string>
+    <string name="suggestions_filter_note">Darījuma apraksts</string>
     <string name="suggestions_filter_apply">Lietot</string>
     <string name="suggestions_filter_clear">Notīrīt</string>
     <string name="suggestions_assign_category">Piešķirt kategoriju</string>

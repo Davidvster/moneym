@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Alles deselecteren</string>
     <string name="suggestions_accept_all_confirm_title">Transacties accepteren?</string>
     <string name="suggestions_accept_all_confirm_body">Hiermee maak je %1$d transacties aan; dit kan niet ongedaan worden gemaakt.</string>
+    <string name="suggestions_accept_one_confirm_title">Transactie accepteren?</string>
+    <string name="suggestions_accept_one_confirm_body">Hiermee maak je een transactie aan; dit kan niet ongedaan worden gemaakt.</string>
     <string name="suggestions_reject_all_confirm_title">Suggesties afwijzen?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d suggesties gaan naar het tabblad Afgewezen. Je kunt ze later herstellen.</string>
     <string name="suggestions_rejected_snackbar">Suggestie afgewezen</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Inkomsten</string>
     <string name="suggestions_filter_min">Hoger dan</string>
     <string name="suggestions_filter_max">Lager dan</string>
-    <string name="suggestions_filter_note">Notitie</string>
+    <string name="suggestions_filter_note">Transactieomschrijving</string>
     <string name="suggestions_filter_apply">Toepassen</string>
     <string name="suggestions_filter_clear">Wissen</string>
     <string name="suggestions_assign_category">Categorie toewijzen</string>

@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Откажи избор</string>
     <string name="suggestions_accept_all_confirm_title">Да се прифатат трансакциите?</string>
     <string name="suggestions_accept_all_confirm_body">Ова создава %1$d трансакции и не може да се врати.</string>
+    <string name="suggestions_accept_one_confirm_title">Да се прифати трансакцијата?</string>
+    <string name="suggestions_accept_one_confirm_body">Ова создава трансакција и не може да се врати.</string>
     <string name="suggestions_reject_all_confirm_title">Да се одбијат предлозите?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d предлози се преместуваат во картичката Одбиени. Може подоцна да ги вратите.</string>
     <string name="suggestions_rejected_snackbar">Предлогот е одбиен</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Приход</string>
     <string name="suggestions_filter_min">Поголемо од</string>
     <string name="suggestions_filter_max">Помало од</string>
-    <string name="suggestions_filter_note">Белешка</string>
+    <string name="suggestions_filter_note">Опис на трансакцијата</string>
     <string name="suggestions_filter_apply">Примени</string>
     <string name="suggestions_filter_clear">Исчисти</string>
     <string name="suggestions_assign_category">Додели категорија</string>

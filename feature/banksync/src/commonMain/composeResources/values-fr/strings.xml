@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Tout désélectionner</string>
     <string name="suggestions_accept_all_confirm_title">Accepter les transactions ?</string>
     <string name="suggestions_accept_all_confirm_body">Cela crée %1$d transactions et est irréversible.</string>
+    <string name="suggestions_accept_one_confirm_title">Accepter la transaction ?</string>
+    <string name="suggestions_accept_one_confirm_body">Cela crée une transaction et est irréversible.</string>
     <string name="suggestions_reject_all_confirm_title">Rejeter les suggestions ?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d suggestions passent dans l'onglet Rejetées. Vous pourrez les restaurer plus tard.</string>
     <string name="suggestions_rejected_snackbar">Suggestion rejetée</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Revenu</string>
     <string name="suggestions_filter_min">Supérieur à</string>
     <string name="suggestions_filter_max">Inférieur à</string>
-    <string name="suggestions_filter_note">Note</string>
+    <string name="suggestions_filter_note">Description de la transaction</string>
     <string name="suggestions_filter_apply">Appliquer</string>
     <string name="suggestions_filter_clear">Effacer</string>
     <string name="suggestions_assign_category">Attribuer une catégorie</string>

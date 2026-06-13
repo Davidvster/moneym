@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">إلغاء تحديد الكل</string>
     <string name="suggestions_accept_all_confirm_title">قبول المعاملات؟</string>
     <string name="suggestions_accept_all_confirm_body">يؤدي هذا إلى إنشاء %1$d معاملة ولا يمكن التراجع عنه.</string>
+    <string name="suggestions_accept_one_confirm_title">قبول المعاملة؟</string>
+    <string name="suggestions_accept_one_confirm_body">ينشئ هذا معاملة ولا يمكن التراجع عنه.</string>
     <string name="suggestions_reject_all_confirm_title">رفض الاقتراحات؟</string>
     <string name="suggestions_reject_all_confirm_body">ستنتقل %1$d اقتراحات إلى علامة التبويب المرفوضة. يمكنك استعادتها لاحقًا.</string>
     <string name="suggestions_rejected_snackbar">تم رفض الاقتراح</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">دخل</string>
     <string name="suggestions_filter_min">أكبر من</string>
     <string name="suggestions_filter_max">أصغر من</string>
-    <string name="suggestions_filter_note">ملاحظة</string>
+    <string name="suggestions_filter_note">وصف المعاملة</string>
     <string name="suggestions_filter_apply">تطبيق</string>
     <string name="suggestions_filter_clear">مسح</string>
     <string name="suggestions_assign_category">تعيين فئة</string>

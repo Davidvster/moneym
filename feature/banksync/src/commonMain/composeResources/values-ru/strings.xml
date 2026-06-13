@@ -59,6 +59,8 @@
     <string name="suggestions_unselect_all">Снять выбор</string>
     <string name="suggestions_accept_all_confirm_title">Принять операции?</string>
     <string name="suggestions_accept_all_confirm_body">Будет создано %1$d операций. Это нельзя отменить.</string>
+    <string name="suggestions_accept_one_confirm_title">Принять транзакцию?</string>
+    <string name="suggestions_accept_one_confirm_body">Это создаст транзакцию, и отменить её будет нельзя.</string>
     <string name="suggestions_reject_all_confirm_title">Отклонить предложения?</string>
     <string name="suggestions_reject_all_confirm_body">%1$d предложений перейдут во вкладку «Отклонённые». Их можно восстановить позже.</string>
     <string name="suggestions_rejected_snackbar">Предложение отклонено</string>
@@ -70,7 +72,7 @@
     <string name="suggestions_filter_income">Доход</string>
     <string name="suggestions_filter_min">Больше чем</string>
     <string name="suggestions_filter_max">Меньше чем</string>
-    <string name="suggestions_filter_note">Заметка</string>
+    <string name="suggestions_filter_note">Описание транзакции</string>
     <string name="suggestions_filter_apply">Применить</string>
     <string name="suggestions_filter_clear">Очистить</string>
     <string name="suggestions_assign_category">Назначить категорию</string>

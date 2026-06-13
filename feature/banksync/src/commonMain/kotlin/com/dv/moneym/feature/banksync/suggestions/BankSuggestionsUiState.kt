@@ -77,6 +77,7 @@ data class BankSuggestionsUiState(
     val categoryPickerForId: Long? = null,
     val showAcceptConfirm: Boolean = false,
     val showRejectConfirm: Boolean = false,
+    val acceptConfirmId: Long? = null,
     val filter: SuggestionFilter = SuggestionFilter(),
     val showFilterSheet: Boolean = false,
     val showBatchCategoryPicker: Boolean = false,
@@ -92,7 +93,8 @@ sealed interface BankSuggestionsIntent {
     data class ToggleSelect(val id: Long) : BankSuggestionsIntent
     data object ToggleSelectAll : BankSuggestionsIntent
     data object ClearSelection : BankSuggestionsIntent
-    data class Accept(val id: Long) : BankSuggestionsIntent
+    data class RequestAccept(val id: Long) : BankSuggestionsIntent
+    data object ConfirmAccept : BankSuggestionsIntent
     data class Reject(val id: Long) : BankSuggestionsIntent
     data object RequestAcceptSelected : BankSuggestionsIntent
     data object ConfirmAcceptSelected : BankSuggestionsIntent

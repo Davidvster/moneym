@@ -144,7 +144,8 @@ class BankSuggestionsViewModelTest {
             var s = awaitItem()
             while (s.pending.isEmpty()) s = awaitItem()
 
-            vm.onIntent(BankSuggestionsIntent.Accept(suggestion.id))
+            vm.onIntent(BankSuggestionsIntent.RequestAccept(suggestion.id))
+            vm.onIntent(BankSuggestionsIntent.ConfirmAccept)
             while (s.pending.isNotEmpty()) s = awaitItem()
 
             cancelAndIgnoreRemainingEvents()
