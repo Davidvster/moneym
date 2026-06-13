@@ -12,7 +12,7 @@ Branch: `fixes-1-banksync-polish`
 | 6 | X-close on all 15 bottom sheets | ✅ done |
 
 ## Final verification
-- ⬜ Android `:androidApp:assembleDebug`
-- ⬜ iOS framework link
-- ⬜ touched-module unit tests
-- ⬜ i18n key gap check
+- ✅ Android `:androidApp:assembleDebug` — BUILD SUCCESSFUL
+- ✅ iOS framework link (arm64 + simulatorArm64) — BUILD SUCCESSFUL
+- ✅ touched-module unit tests (`:feature:transactions`, `:feature:banksync`) — passing
+- ✅ i18n: new keys present in all locales (per-phase grep coverage clean)
