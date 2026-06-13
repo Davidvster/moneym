@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">银行同步</string>
     <string name="bank_sync_setup_header">连接你的 Enable Banking 应用</string>
@@ -62,4 +62,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d 条建议将移至“已拒绝”标签页。您可以稍后恢复。</string>
     <string name="suggestions_rejected_snackbar">已拒绝建议</string>
     <string name="suggestions_undo">撤销</string>
-</resources>
+<string name="bank_sync_last_synced">最后同步 %1$s</string></resources>

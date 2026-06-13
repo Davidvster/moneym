@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">Bankovna sinkronizacija</string>
     <string name="bank_sync_setup_header">Povežite svoju Enable Banking aplikaciju</string>
@@ -62,4 +62,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d prijedloga premješta se na karticu Odbijeno. Možete ih kasnije vratiti.</string>
     <string name="suggestions_rejected_snackbar">Prijedlog odbijen</string>
     <string name="suggestions_undo">Poništi</string>
-</resources>
+<string name="bank_sync_last_synced">Posljednja sinkronizacija %1$s</string></resources>

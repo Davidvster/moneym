@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="onboarding_welcome">Dobrodošli u MoneyM</string>
     <string name="onboarding_currency_title">Odaberite zadanu valutu</string>
@@ -44,5 +44,5 @@
     <string name="onboarding_welcome_feature_privacy_title">Privatno i sigurno</string>
     <string name="onboarding_welcome_feature_privacy_desc">Sve ostaje na vašem uređaju, zaštićeno PIN-om ili biometrijom.</string>
     <string name="onboarding_welcome_feature_bank_title">Bankovna sinkronizacija</string>
-    <string name="onboarding_welcome_feature_bank_desc">Uvezite transakcije svoje EU banke kao prijedloge za pregled — s vlastitim besplatnim ključem.</string>
+    <string name="onboarding_welcome_feature_bank_desc">Uvezite transakcije iz svoje EU banke kroz PSD2 otvorko bankarstvo kao prijedloge koje pregledavate — koristeći svoj vlastiti besplatni ključ.</string>
 </resources>

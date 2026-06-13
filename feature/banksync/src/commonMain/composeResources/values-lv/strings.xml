@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">Bankas sinhronizācija</string>
     <string name="bank_sync_setup_header">Savienojiet savu Enable Banking lietojumprogrammu</string>
@@ -62,4 +62,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d ieteikumi tiks pārvietoti uz cilni Noraidītie. Vēlāk varat tos atjaunot.</string>
     <string name="suggestions_rejected_snackbar">Ieteikums noraidīts</string>
     <string name="suggestions_undo">Atsaukt</string>
-</resources>
+<string name="bank_sync_last_synced">Pēdējā sinhronizācija %1$s</string></resources>

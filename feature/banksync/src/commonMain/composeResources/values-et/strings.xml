@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">Panga sünkroonimine</string>
     <string name="bank_sync_setup_header">Ühendage oma Enable Bankingu rakendus</string>
@@ -62,4 +62,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d ettepanekut liigub vahekaardile Tagasi lükatud. Saad need hiljem taastada.</string>
     <string name="suggestions_rejected_snackbar">Ettepanek tagasi lükatud</string>
     <string name="suggestions_undo">Võta tagasi</string>
-</resources>
+<string name="bank_sync_last_synced">Viimati sünkroniseeritud %1$s</string></resources>

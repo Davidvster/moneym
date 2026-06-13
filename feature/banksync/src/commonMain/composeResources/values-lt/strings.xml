@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">Banko sinchronizavimas</string>
     <string name="bank_sync_setup_header">Prijunkite savo „Enable Banking“ programą</string>
@@ -62,4 +62,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d pasiūlymų bus perkelta į skirtuką Atmesti. Vėliau galėsite juos atkurti.</string>
     <string name="suggestions_rejected_snackbar">Pasiūlymas atmestas</string>
     <string name="suggestions_undo">Atšaukti</string>
-</resources>
+<string name="bank_sync_last_synced">Paskutinis sinchronizavimas %1$s</string></resources>

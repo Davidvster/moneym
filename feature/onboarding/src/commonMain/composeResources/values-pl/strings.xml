@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="onboarding_welcome">Witaj w MoneyM</string>
     <string name="onboarding_currency_title">Wybierz domyślną walutę</string>
@@ -44,5 +44,5 @@
     <string name="onboarding_welcome_feature_privacy_title">Prywatnie i bezpiecznie</string>
     <string name="onboarding_welcome_feature_privacy_desc">Wszystko pozostaje na Twoim urządzeniu, chronione kodem PIN lub biometrią.</string>
     <string name="onboarding_welcome_feature_bank_title">Synchronizacja bankowa</string>
-    <string name="onboarding_welcome_feature_bank_desc">Importuj transakcje z banku w UE jako sugestie do przejrzenia — z własnym bezpłatnym kluczem.</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importuj transakcje z twojego banku UE za pośrednictwem otwartej bankowości PSD2 jako sugestie, które przeglądasz — używając własnego bezpłatnego klucza.</string>
 </resources>

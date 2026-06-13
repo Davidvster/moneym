@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">Banková synchronizácia</string>
     <string name="bank_sync_setup_header">Pripojte svoju aplikáciu Enable Banking</string>
@@ -62,4 +62,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d návrhov sa presunie na kartu Odmietnuté. Neskôr ich môžete obnoviť.</string>
     <string name="suggestions_rejected_snackbar">Návrh odmietnutý</string>
     <string name="suggestions_undo">Späť</string>
-</resources>
+<string name="bank_sync_last_synced">Posledná synchronizácia %1$s</string></resources>

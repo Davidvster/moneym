@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="onboarding_welcome">Välkommen till MoneyM</string>
     <string name="onboarding_currency_title">Välj din standardvaluta</string>
@@ -44,5 +44,5 @@
     <string name="onboarding_welcome_feature_privacy_title">Privat och säker</string>
     <string name="onboarding_welcome_feature_privacy_desc">Allt stannar på din enhet, skyddat med en PIN-kod eller biometri.</string>
     <string name="onboarding_welcome_feature_bank_title">Banksynkronisering</string>
-    <string name="onboarding_welcome_feature_bank_desc">Importera transaktioner från din EU-bank som förslag att granska — med din egen kostnadsfria nyckel.</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importera transaktioner från din EU-bank via PSD2 öppen bankverksamhet som förslag som du granskar — med hjälp av din egen gratis nyckel.</string>
 </resources>

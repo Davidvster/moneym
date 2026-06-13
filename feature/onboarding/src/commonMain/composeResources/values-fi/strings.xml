@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="onboarding_welcome">Tervetuloa MoneyM:ään</string>
     <string name="onboarding_currency_title">Valitse oletusvaluuttasi</string>
@@ -44,5 +44,5 @@
     <string name="onboarding_welcome_feature_privacy_title">Yksityinen ja turvallinen</string>
     <string name="onboarding_welcome_feature_privacy_desc">Kaikki pysyy laitteellasi, suojattuna PIN-koodilla tai biometriikalla.</string>
     <string name="onboarding_welcome_feature_bank_title">Pankkisynkronointi</string>
-    <string name="onboarding_welcome_feature_bank_desc">Tuo EU-pankkisi tapahtumat tarkistettavina ehdotuksina — omalla ilmaisella avaimellasi.</string>
+    <string name="onboarding_welcome_feature_bank_desc">Tuo EU-pankistasi liiketoimet PSD2-avointen pankkipalvelujen kautta ehdotuksiksi, jotka tarkistat — käyttämällä omaa ilmaista avainta.</string>
 </resources>

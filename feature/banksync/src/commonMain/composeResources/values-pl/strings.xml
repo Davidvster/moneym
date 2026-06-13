@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">Synchronizacja bankowa</string>
     <string name="bank_sync_setup_header">Połącz swoją aplikację Enable Banking</string>
@@ -62,4 +62,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d sugestii trafi do karty Odrzucone. Można je później przywrócić.</string>
     <string name="suggestions_rejected_snackbar">Sugestia odrzucona</string>
     <string name="suggestions_undo">Cofnij</string>
-</resources>
+<string name="bank_sync_last_synced">Ostatnia synchronizacja %1$s</string></resources>

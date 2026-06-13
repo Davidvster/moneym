@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">Банковская синхронизация</string>
     <string name="bank_sync_setup_header">Подключите приложение Enable Banking</string>
@@ -62,4 +62,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d предложений перейдут во вкладку «Отклонённые». Их можно восстановить позже.</string>
     <string name="suggestions_rejected_snackbar">Предложение отклонено</string>
     <string name="suggestions_undo">Отменить</string>
-</resources>
+<string name="bank_sync_last_synced">Последняя синхронизация %1$s</string></resources>

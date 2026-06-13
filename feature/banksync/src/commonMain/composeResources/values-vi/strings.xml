@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">Đồng bộ ngân hàng</string>
     <string name="bank_sync_setup_header">Kết nối ứng dụng Enable Banking của bạn</string>
@@ -62,4 +62,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d đề xuất chuyển sang tab Đã từ chối. Bạn có thể khôi phục sau.</string>
     <string name="suggestions_rejected_snackbar">Đã từ chối đề xuất</string>
     <string name="suggestions_undo">Hoàn tác</string>
-</resources>
+<string name="bank_sync_last_synced">Lần đồng bộ gần đây nhất %1$s</string></resources>

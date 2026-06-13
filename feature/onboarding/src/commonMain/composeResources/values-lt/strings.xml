@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="onboarding_welcome">Sveiki atvykę į MoneyM</string>
     <string name="onboarding_currency_title">Pasirinkite numatytąją valiutą</string>
@@ -44,5 +44,5 @@
     <string name="onboarding_welcome_feature_privacy_title">Privatu ir saugu</string>
     <string name="onboarding_welcome_feature_privacy_desc">Viskas lieka jūsų įrenginyje, apsaugota PIN kodu arba biometriniais duomenimis.</string>
     <string name="onboarding_welcome_feature_bank_title">Banko sinchronizavimas</string>
-    <string name="onboarding_welcome_feature_bank_desc">Importuokite savo ES banko operacijas kaip peržiūrimus pasiūlymus — su savo nemokamu raktu.</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importuokite operacijas iš savo ES banko per PSD2 atvirą bankininkystę kaip pasiūlymus, kuriuos peržiūrite — naudodami savą nemokamą raktą.</string>
 </resources>

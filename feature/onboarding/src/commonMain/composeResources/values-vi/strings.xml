@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="onboarding_welcome">Chào mừng đến với MoneyM</string>
     <string name="onboarding_currency_title">Chọn đơn vị tiền tệ mặc định</string>
@@ -44,5 +44,5 @@
     <string name="onboarding_welcome_feature_privacy_title">Riêng tư và bảo mật</string>
     <string name="onboarding_welcome_feature_privacy_desc">Mọi thứ được lưu trên thiết bị của bạn, khóa bằng mã PIN hoặc sinh trắc học.</string>
     <string name="onboarding_welcome_feature_bank_title">Đồng bộ ngân hàng</string>
-    <string name="onboarding_welcome_feature_bank_desc">Nhập giao dịch từ ngân hàng EU của bạn dưới dạng đề xuất để xem lại — bằng khóa miễn phí của riêng bạn.</string>
+    <string name="onboarding_welcome_feature_bank_desc">Nhập các giao dịch từ ngân hàng EU của bạn thông qua dịch vụ ngân hàng mở PSD2 dưới dạng những gợi ý mà bạn xem xét — sử dụng khóa miễn phí của riêng bạn.</string>
 </resources>

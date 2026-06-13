@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">Banki szinkronizálás</string>
     <string name="bank_sync_setup_header">Kapcsolja össze Enable Banking alkalmazását</string>
@@ -62,4 +62,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d javaslat az Elutasított fülre kerül. Később visszaállíthatod.</string>
     <string name="suggestions_rejected_snackbar">Javaslat elutasítva</string>
     <string name="suggestions_undo">Visszavonás</string>
-</resources>
+<string name="bank_sync_last_synced">Utolsó szinkronizálás %1$s</string></resources>

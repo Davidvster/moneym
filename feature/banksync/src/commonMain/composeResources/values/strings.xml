@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">Bank sync</string>
     <string name="bank_sync_setup_header">Connect your Enable Banking application</string>
@@ -63,4 +63,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d suggestions move to the Rejected tab. You can restore them later.</string>
     <string name="suggestions_rejected_snackbar">Suggestion rejected</string>
     <string name="suggestions_undo">Undo</string>
-</resources>
+<string name="bank_sync_last_synced">Last synced %1$s</string></resources>

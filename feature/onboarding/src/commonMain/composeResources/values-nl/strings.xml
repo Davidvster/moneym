@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="onboarding_welcome">Welkom bij MoneyM</string>
     <string name="onboarding_currency_title">Kies uw standaardvaluta</string>
@@ -44,5 +44,5 @@
     <string name="onboarding_welcome_feature_privacy_title">Privé en veilig</string>
     <string name="onboarding_welcome_feature_privacy_desc">Alles blijft op je apparaat, beveiligd met een pincode of biometrie.</string>
     <string name="onboarding_welcome_feature_bank_title">Banksynchronisatie</string>
-    <string name="onboarding_welcome_feature_bank_desc">Importeer transacties van je EU-bank als suggesties om te beoordelen — met je eigen gratis sleutel.</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importeer transacties van uw EU-bank via PSD2 open banking als suggesties die u beoordeelt — met uw eigen gratis sleutel.</string>
 </resources>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="onboarding_welcome">MoneyM\'e Hoş Geldiniz</string>
     <string name="onboarding_currency_title">Varsayılan para biriminizi seçin</string>
@@ -44,5 +44,5 @@
     <string name="onboarding_welcome_feature_privacy_title">Gizli ve güvenli</string>
     <string name="onboarding_welcome_feature_privacy_desc">Her şey cihazınızda kalır, PIN veya biyometri ile kilitlenir.</string>
     <string name="onboarding_welcome_feature_bank_title">Banka senkronizasyonu</string>
-    <string name="onboarding_welcome_feature_bank_desc">AB bankanızdaki işlemleri kendi ücretsiz anahtarınızla incelenecek öneriler olarak içe aktarın.</string>
+    <string name="onboarding_welcome_feature_bank_desc">AB bankanızdan PSD2 açık bankacılık aracılığıyla işlemleri içe aktarın, gözden geçireceğiniz öneriler olarak — kendi ücretsiz anahtarınızı kullanarak.</string>
 </resources>

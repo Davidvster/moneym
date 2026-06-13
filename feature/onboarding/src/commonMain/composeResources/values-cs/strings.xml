@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="onboarding_welcome">Vítejte v MoneyM</string>
     <string name="onboarding_currency_title">Zvolte výchozí měnu</string>
@@ -44,5 +44,5 @@
     <string name="onboarding_welcome_feature_privacy_title">Soukromé a bezpečné</string>
     <string name="onboarding_welcome_feature_privacy_desc">Vše zůstává ve vašem zařízení, chráněno PINem nebo biometrikou.</string>
     <string name="onboarding_welcome_feature_bank_title">Bankovní synchronizace</string>
-    <string name="onboarding_welcome_feature_bank_desc">Importujte transakce z vaší banky v EU jako návrhy ke kontrole — s vlastním bezplatným klíčem.</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importujte transakce z vaší EU banky prostřednictvím otevřeného bankovnictví PSD2 jako návrhy, které si prohlédnete — pomocí svého vlastního bezplatného klíče.</string>
 </resources>

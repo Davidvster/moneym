@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">Banksynchronisatie</string>
     <string name="bank_sync_setup_header">Verbind je Enable Banking-applicatie</string>
@@ -62,4 +62,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d suggesties gaan naar het tabblad Afgewezen. Je kunt ze later herstellen.</string>
     <string name="suggestions_rejected_snackbar">Suggestie afgewezen</string>
     <string name="suggestions_undo">Ongedaan maken</string>
-</resources>
+<string name="bank_sync_last_synced">Laatst gesynchroniseerd %1$s</string></resources>

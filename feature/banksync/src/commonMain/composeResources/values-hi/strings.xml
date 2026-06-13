@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">बैंक सिंक</string>
     <string name="bank_sync_setup_header">अपना Enable Banking ऐप्लिकेशन कनेक्ट करें</string>
@@ -62,4 +62,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d सुझाव अस्वीकृत टैब में चले जाते हैं। आप उन्हें बाद में पुनर्स्थापित कर सकते हैं।</string>
     <string name="suggestions_rejected_snackbar">सुझाव अस्वीकृत</string>
     <string name="suggestions_undo">पूर्ववत करें</string>
-</resources>
+<string name="bank_sync_last_synced">अंतिम सिंक्रोनाइज़ %1$s</string></resources>

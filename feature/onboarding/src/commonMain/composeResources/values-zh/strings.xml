@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="onboarding_welcome">欢迎使用 MoneyM</string>
     <string name="onboarding_currency_title">选择默认货币</string>
@@ -44,5 +44,5 @@
     <string name="onboarding_welcome_feature_privacy_title">私密且安全</string>
     <string name="onboarding_welcome_feature_privacy_desc">所有数据都保留在您的设备上，通过 PIN 码或生物识别锁定。</string>
     <string name="onboarding_welcome_feature_bank_title">银行同步</string>
-    <string name="onboarding_welcome_feature_bank_desc">使用你自己的免费密钥，将欧盟银行的交易作为可审核的建议导入。</string>
+    <string name="onboarding_welcome_feature_bank_desc">通过PSD2开放银行从欧盟银行导入交易作为您审核的建议 — 使用您自己的免费密钥。</string>
 </resources>

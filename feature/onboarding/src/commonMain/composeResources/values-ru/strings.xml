@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="onboarding_welcome">Добро пожаловать в MoneyM</string>
     <string name="onboarding_currency_title">Выберите валюту по умолчанию</string>
@@ -44,5 +44,5 @@
     <string name="onboarding_welcome_feature_privacy_title">Конфиденциально и безопасно</string>
     <string name="onboarding_welcome_feature_privacy_desc">Все данные остаются на устройстве под защитой PIN-кода или биометрии.</string>
     <string name="onboarding_welcome_feature_bank_title">Банковская синхронизация</string>
-    <string name="onboarding_welcome_feature_bank_desc">Импортируйте операции из банка ЕС как предложения для проверки — с вашим собственным бесплатным ключом.</string>
+    <string name="onboarding_welcome_feature_bank_desc">Импортируйте транзакции из своего банка ЕС через открытое банковское обслуживание PSD2 как предложения, которые вы проверяете — используя свой собственный бесплатный ключ.</string>
 </resources>

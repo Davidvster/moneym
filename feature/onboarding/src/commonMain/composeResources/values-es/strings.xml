@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="onboarding_welcome">Bienvenido a MoneyM</string>
     <string name="onboarding_welcome_subtitle">Tu gestor de finanzas privado y sin conexión.</string>
@@ -46,5 +46,5 @@
     <string name="onboarding_restore_error_restore_failed">Error al restaurar</string>
     <string name="default_account_name">Principal</string>
     <string name="onboarding_welcome_feature_bank_title">Sincronización bancaria</string>
-    <string name="onboarding_welcome_feature_bank_desc">Importa transacciones de tu banco de la UE como sugerencias que revisas, con tu propia clave gratuita.</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importa transacciones de tu banco de la UE a través de banca abierta PSD2 como sugerencias que revisas — usando tu propia clave gratuita.</string>
 </resources>

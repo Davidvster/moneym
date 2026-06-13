@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">Sincronización bancaria</string>
     <string name="bank_sync_setup_header">Conecta tu aplicación de Enable Banking</string>
@@ -62,4 +62,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d sugerencias pasan a la pestaña Rechazadas. Puedes restaurarlas más tarde.</string>
     <string name="suggestions_rejected_snackbar">Sugerencia rechazada</string>
     <string name="suggestions_undo">Deshacer</string>
-</resources>
+<string name="bank_sync_last_synced">Última sincronización %1$s</string></resources>

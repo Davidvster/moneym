@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="onboarding_welcome">Welcome to MoneyM</string>
     <string name="onboarding_welcome_subtitle">Your private, offline-first money tracker.</string>
@@ -46,5 +46,5 @@
     <string name="onboarding_restore_error_restore_failed">Restore failed</string>
     <string name="default_account_name">Main</string>
     <string name="onboarding_welcome_feature_bank_title">Bank sync</string>
-    <string name="onboarding_welcome_feature_bank_desc">Import transactions from your EU bank as suggestions you review — using your own free key.</string>
+    <string name="onboarding_welcome_feature_bank_desc">Import transactions from your EU bank via PSD2 open banking as suggestions you review — using your own free key.</string>
 </resources>

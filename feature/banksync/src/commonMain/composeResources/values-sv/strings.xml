@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">Banksynkronisering</string>
     <string name="bank_sync_setup_header">Anslut din Enable Banking-applikation</string>
@@ -62,4 +62,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d förslag flyttas till fliken Avvisade. Du kan återställa dem senare.</string>
     <string name="suggestions_rejected_snackbar">Förslag avvisat</string>
     <string name="suggestions_undo">Ångra</string>
-</resources>
+<string name="bank_sync_last_synced">Senast synkroniserat %1$s</string></resources>

@@ -58,6 +58,7 @@ import moneym.feature.banksync.generated.resources.bank_sync_no_accounts
 import moneym.feature.banksync.generated.resources.bank_sync_error_generic
 import moneym.feature.banksync.generated.resources.bank_sync_info
 import moneym.feature.banksync.generated.resources.bank_sync_last_sync_never
+import moneym.feature.banksync.generated.resources.bank_sync_last_synced
 import moneym.feature.banksync.generated.resources.bank_sync_reconnect_required
 import moneym.feature.banksync.generated.resources.bank_sync_review_pending
 import moneym.feature.banksync.generated.resources.bank_sync_session_valid_until
@@ -392,6 +393,12 @@ private fun ControlsCard(
         if (state.lastSyncMs == 0L) {
             Text(
                 text = stringResource(Res.string.bank_sync_last_sync_never),
+                style = MM.type.caption.copy(color = colors.text2),
+                modifier = Modifier.padding(top = space.padding_1x),
+            )
+        } else {
+            Text(
+                text = stringResource(Res.string.bank_sync_last_synced, formatDate(state.lastSyncMs)),
                 style = MM.type.caption.copy(color = colors.text2),
                 modifier = Modifier.padding(top = space.padding_1x),
             )

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="bank_sync_title">Банкарска синхронизација</string>
     <string name="bank_sync_setup_header">Поврзете ја вашата Enable Banking апликација</string>
@@ -62,4 +62,4 @@
     <string name="suggestions_reject_all_confirm_body">%1$d предлози се преместуваат во картичката Одбиени. Може подоцна да ги вратите.</string>
     <string name="suggestions_rejected_snackbar">Предлогот е одбиен</string>
     <string name="suggestions_undo">Врати</string>
-</resources>
+<string name="bank_sync_last_synced">Последната синхронизација %1$s</string></resources>

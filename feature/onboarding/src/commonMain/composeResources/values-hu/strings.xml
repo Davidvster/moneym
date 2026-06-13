@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="onboarding_welcome">Üdvözli a MoneyM</string>
     <string name="onboarding_currency_title">Válassza ki az alapértelmezett pénznemet</string>
@@ -44,5 +44,5 @@
     <string name="onboarding_welcome_feature_privacy_title">Privát és biztonságos</string>
     <string name="onboarding_welcome_feature_privacy_desc">Minden a készülékeden marad, PIN-kóddal vagy biometriával védve.</string>
     <string name="onboarding_welcome_feature_bank_title">Banki szinkronizálás</string>
-    <string name="onboarding_welcome_feature_bank_desc">Importálja EU-s bankja tranzakcióit ellenőrizhető javaslatokként — saját ingyenes kulcsával.</string>
+    <string name="onboarding_welcome_feature_bank_desc">Importáljon tranzakciókat EU-s bankjából PSD2 nyílt banki szolgáltatásokon keresztül javaslatokként, amelyeket felülvizsgál — saját ingyenes kulcs használatával.</string>
 </resources>

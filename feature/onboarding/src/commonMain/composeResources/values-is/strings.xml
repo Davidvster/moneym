@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="onboarding_welcome">Velkomin/n í MoneyM</string>
     <string name="onboarding_currency_title">Veldu sjálfgefinn gjaldmiðil</string>
@@ -44,5 +44,5 @@
     <string name="onboarding_welcome_feature_privacy_title">Einkamál og öruggt</string>
     <string name="onboarding_welcome_feature_privacy_desc">Allt er áfram í tækinu þínu, læst með PIN-númeri eða lífkenni.</string>
     <string name="onboarding_welcome_feature_bank_title">Bankasamstilling</string>
-    <string name="onboarding_welcome_feature_bank_desc">Flyttu inn færslur frá ESB-bankanum þínum sem tillögur til yfirferðar — með þínum eigin ókeypis lykli.</string>
+    <string name="onboarding_welcome_feature_bank_desc">Flytja inn viðskipti frá EU-bankanum þínum í gegnum PSD2 opna bankastarfsemi sem tillögur sem þú skoðar — með eigin fríu lykilnum.</string>
 </resources>
