@@ -7,5 +7,5 @@
 | 3 | Home screen polish (confirmations, localized dates, wallet sheet, overlays) | done |
 | 4 | Suggestions screen redesign (checkboxes, sheets, bottom actions, snackbar undo) | done |
 | 5 | Onboarding PSD2 mention + UX extras | done |
-| 6 | Unit tests for untested business logic + new VMs | pending |
+| 6 | Unit tests for untested business logic + new VMs | done |
 | 7 | Full build verification (Android + iOS + all tests) | pending |

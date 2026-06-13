@@ -22,6 +22,7 @@ internal class FakeEnableBankingClient : EnableBankingClient {
         validUntil = Instant.parse("2026-12-01T00:00:00Z"),
     )
     var createSessionError: EbError? = null
+    var startAuthError: EbError? = null
     var deletedSessionId: String? = null
 
     override suspend fun validateCredentials(credentials: EbCredentials) = validateResult
@@ -29,7 +30,7 @@ internal class FakeEnableBankingClient : EnableBankingClient {
     override suspend fun listBanks(country: String) = Result.success(banks)
 
     override suspend fun startAuth(bank: EbBank, redirectUrl: String, validUntil: Instant, state: String) =
-        Result.success(EbAuthStart(authUrl))
+        startAuthError?.let { Result.failure(it) } ?: Result.success(EbAuthStart(authUrl))
 
     override suspend fun createSession(code: String): Result<EbSessionInfo> =
         createSessionError?.let { Result.failure(it) } ?: Result.success(sessionInfo)
