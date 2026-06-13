@@ -26,6 +26,7 @@
     <string name="wallet_select">Wybierz portfel</string>
     <string name="cancel">Anuluj</string>
     <string name="category_picker_title">Filtruj według kategorii</string>
+    <string name="category_picker_select_title">Wybierz kategorię</string>
     <string name="category_picker_clear">Wyczyść</string>
     <string name="picker_ok">OK</string>
 </resources>

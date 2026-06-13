@@ -26,6 +26,7 @@
     <string name="wallet_select">Sélectionner un portefeuille</string>
     <string name="cancel">Annuler</string>
     <string name="category_picker_title">Filtrer par catégorie</string>
+    <string name="category_picker_select_title">Sélectionner une catégorie</string>
     <string name="category_picker_clear">Effacer</string>
     <string name="picker_ok">OK</string>
 </resources>

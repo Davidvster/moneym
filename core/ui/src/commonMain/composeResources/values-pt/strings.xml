@@ -26,6 +26,7 @@
     <string name="wallet_select">Selecionar carteira</string>
     <string name="cancel">Cancelar</string>
     <string name="category_picker_title">Filtrar por categoria</string>
+    <string name="category_picker_select_title">Selecionar categoria</string>
     <string name="category_picker_clear">Limpar</string>
     <string name="picker_ok">OK</string>
 </resources>

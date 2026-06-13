@@ -26,6 +26,7 @@
     <string name="wallet_select">Valitse lompakko</string>
     <string name="cancel">Peruuta</string>
     <string name="category_picker_title">Suodata kategorian mukaan</string>
+    <string name="category_picker_select_title">Valitse kategoria</string>
     <string name="category_picker_clear">Tyhjennä</string>
     <string name="picker_ok">OK</string>
 </resources>

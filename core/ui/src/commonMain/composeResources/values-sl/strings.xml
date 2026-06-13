@@ -26,6 +26,7 @@
     <string name="wallet_select">Izberi denarnico</string>
     <string name="cancel">Prekliči</string>
     <string name="category_picker_title">Filtriraj po kategoriji</string>
+    <string name="category_picker_select_title">Izberite kategorijo</string>
     <string name="category_picker_clear">Počisti</string>
     <string name="picker_ok">V redu</string>
 </resources>

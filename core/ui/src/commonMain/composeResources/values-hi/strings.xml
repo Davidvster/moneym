@@ -26,6 +26,7 @@
     <string name="wallet_select">वॉलेट चुनें</string>
     <string name="cancel">रद्द करें</string>
     <string name="category_picker_title">श्रेणी के अनुसार फ़िल्टर करें</string>
+    <string name="category_picker_select_title">श्रेणी चुनें</string>
     <string name="category_picker_clear">साफ़ करें</string>
     <string name="picker_ok">ठीक है</string>
 </resources>

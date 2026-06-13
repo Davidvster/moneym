@@ -31,8 +31,10 @@ import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.IndicatorStyle
 import moneym.core.ui.generated.resources.Res
 import moneym.core.ui.generated.resources.category_picker_clear
+import moneym.core.ui.generated.resources.category_picker_select_title
 import moneym.core.ui.generated.resources.category_picker_title
 import moneym.core.ui.generated.resources.picker_ok
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -49,6 +51,8 @@ fun MmCategoryPickerSheet(
         onCategoryClick = onToggle,
         onClearAll = onClearAll,
         onDismiss = onDismiss,
+        titleRes = Res.string.category_picker_title,
+        showConfirmButton = true,
     )
 }
 
@@ -68,6 +72,8 @@ fun MmCategoryPickerSheet(
         },
         onClearAll = null,
         onDismiss = onDismiss,
+        titleRes = Res.string.category_picker_select_title,
+        showConfirmButton = false,
     )
 }
 
@@ -79,6 +85,8 @@ private fun CategoryPickerSheetImpl(
     onCategoryClick: (CategoryId) -> Unit,
     onClearAll: (() -> Unit)?,
     onDismiss: () -> Unit,
+    titleRes: StringResource,
+    showConfirmButton: Boolean,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -118,7 +126,7 @@ private fun CategoryPickerSheetImpl(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = stringResource(Res.string.category_picker_title),
+                    text = stringResource(titleRes),
                     style = type.title3,
                     color = colors.text,
                     modifier = Modifier.weight(1f),
@@ -165,13 +173,15 @@ private fun CategoryPickerSheetImpl(
                 }
             }
 
-            MmButton(
-                text = stringResource(Res.string.picker_ok),
-                onClick = onDismiss,
-                variant = MmButtonVariant.Primary,
-                size = MmButtonSize.Lg,
-                fullWidth = true,
-            )
+            if (showConfirmButton) {
+                MmButton(
+                    text = stringResource(Res.string.picker_ok),
+                    onClick = onDismiss,
+                    variant = MmButtonVariant.Primary,
+                    size = MmButtonSize.Lg,
+                    fullWidth = true,
+                )
+            }
 
             Spacer(Modifier.height(MM.dimen.padding_1x))
         }

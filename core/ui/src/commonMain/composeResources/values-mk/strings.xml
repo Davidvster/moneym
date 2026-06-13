@@ -26,6 +26,7 @@
     <string name="wallet_select">Избери паричник</string>
     <string name="cancel">Откажи</string>
     <string name="category_picker_title">Филтрирај по категорија</string>
+    <string name="category_picker_select_title">Изберете категорија</string>
     <string name="category_picker_clear">Исчисти</string>
     <string name="picker_ok">ОК</string>
 </resources>

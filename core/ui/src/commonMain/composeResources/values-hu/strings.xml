@@ -26,6 +26,7 @@
     <string name="wallet_select">Tárca kiválasztása</string>
     <string name="cancel">Mégsem</string>
     <string name="category_picker_title">Szűrés kategória szerint</string>
+    <string name="category_picker_select_title">Kategória kiválasztása</string>
     <string name="category_picker_clear">Törlés</string>
     <string name="picker_ok">OK</string>
 </resources>

@@ -26,6 +26,7 @@
     <string name="wallet_select">Select Wallet</string>
     <string name="cancel">Cancel</string>
     <string name="category_picker_title">Filter by category</string>
+    <string name="category_picker_select_title">Select category</string>
     <string name="category_picker_clear">Clear</string>
     <string name="picker_ok">OK</string>
 </resources>
