@@ -22,15 +22,21 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.dv.moneym.core.common.DateStyle
+import com.dv.moneym.core.common.formatDate
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmCard
+import com.dv.moneym.core.ui.MmDeleteSheet
+import com.dv.moneym.core.ui.MmEmptyState
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmLoadingOverlay
 import com.dv.moneym.core.ui.MmToggle
+import com.dv.moneym.core.ui.MmWalletPickerSheet
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.imageVector
 import kotlinx.datetime.TimeZone
@@ -43,8 +49,12 @@ import moneym.feature.banksync.generated.resources.bank_sync_accounts_header
 import moneym.feature.banksync.generated.resources.bank_sync_auto_subtitle
 import moneym.feature.banksync.generated.resources.bank_sync_auto_title
 import moneym.feature.banksync.generated.resources.bank_sync_connect_bank
+import moneym.feature.banksync.generated.resources.bank_sync_cancel
 import moneym.feature.banksync.generated.resources.bank_sync_disconnect
+import moneym.feature.banksync.generated.resources.bank_sync_disconnect_confirm_body
+import moneym.feature.banksync.generated.resources.bank_sync_disconnect_confirm_title
 import moneym.feature.banksync.generated.resources.bank_sync_edit_credentials
+import moneym.feature.banksync.generated.resources.bank_sync_no_accounts
 import moneym.feature.banksync.generated.resources.bank_sync_error_generic
 import moneym.feature.banksync.generated.resources.bank_sync_info
 import moneym.feature.banksync.generated.resources.bank_sync_last_sync_never
@@ -169,6 +179,13 @@ private fun BankSyncHomeContent(
                             items(state.accounts, key = { it.uid }) { account ->
                                 AccountCard(account = account, state = state, onIntent = onIntent)
                             }
+                        } else {
+                            item {
+                                MmEmptyState(
+                                    message = stringResource(Res.string.bank_sync_no_accounts),
+                                    fillSize = false,
+                                )
+                            }
                         }
                         item {
                             ControlsCard(
@@ -181,7 +198,18 @@ private fun BankSyncHomeContent(
                 }
             }
         }
-        MmLoadingOverlay(visible = state.isLoading || state.isSyncing)
+        MmLoadingOverlay(visible = state.isLoading || state.isSyncing || state.isDisconnecting)
+    }
+
+    if (state.showDisconnectConfirm) {
+        MmDeleteSheet(
+            title = stringResource(Res.string.bank_sync_disconnect_confirm_title),
+            body = stringResource(Res.string.bank_sync_disconnect_confirm_body),
+            cancelText = stringResource(Res.string.bank_sync_cancel),
+            confirmText = stringResource(Res.string.bank_sync_disconnect),
+            onConfirm = { onIntent(BankSyncHomeIntent.Disconnect) },
+            onCancel = { onIntent(BankSyncHomeIntent.DismissDisconnect) },
+        )
     }
 }
 
@@ -307,7 +335,7 @@ private fun AccountCard(
                 onCheckedChange = { onIntent(BankSyncHomeIntent.SetAccountEnabled(account.uid, it)) },
             )
         }
-        val targetName = state.localAccounts.firstOrNull { it.id == account.localAccountId }?.name
+        val targetName = state.localAccounts.firstOrNull { it.id.value == account.localAccountId }?.name
         Text(
             text = stringResource(Res.string.bank_sync_account_target_label) + ": " +
                 (targetName ?: stringResource(Res.string.bank_sync_account_target_none)),
@@ -317,23 +345,14 @@ private fun AccountCard(
                 .clickable { onIntent(BankSyncHomeIntent.ShowAccountPicker(account.uid)) }
                 .padding(top = space.padding_1x),
         )
-        if (state.accountPickerForUid == account.uid) {
-            Column(modifier = Modifier.padding(top = space.padding_0_5x)) {
-                state.localAccounts.forEach { option ->
-                    Text(
-                        text = option.name,
-                        style = MM.type.body,
-                        color = colors.text,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                onIntent(BankSyncHomeIntent.SetLocalAccountMapping(account.uid, option.id))
-                            }
-                            .padding(vertical = space.padding_0_5x),
-                    )
-                }
-            }
-        }
+    }
+    if (state.accountPickerForUid == account.uid) {
+        MmWalletPickerSheet(
+            accounts = state.localAccounts,
+            selectedAccountId = account.localAccountId?.let { AccountId(it) },
+            onSelect = { onIntent(BankSyncHomeIntent.SetLocalAccountMapping(account.uid, it.value)) },
+            onDismiss = { onIntent(BankSyncHomeIntent.ShowAccountPicker(null)) },
+        )
     }
 }
 
@@ -393,8 +412,8 @@ private fun ControlsCard(
             )
             MmButton(
                 text = stringResource(Res.string.bank_sync_disconnect),
-                onClick = { onIntent(BankSyncHomeIntent.Disconnect) },
-                variant = MmButtonVariant.Outline,
+                onClick = { onIntent(BankSyncHomeIntent.RequestDisconnect) },
+                variant = MmButtonVariant.Danger,
                 size = MmButtonSize.Sm,
             )
         }
@@ -409,7 +428,9 @@ private fun ControlsCard(
 }
 
 private fun formatDate(epochMs: Long): String =
-    kotlin.time.Instant.fromEpochMilliseconds(epochMs)
-        .toLocalDateTime(TimeZone.currentSystemDefault())
-        .date
-        .toString()
+    formatDate(
+        kotlin.time.Instant.fromEpochMilliseconds(epochMs)
+            .toLocalDateTime(TimeZone.currentSystemDefault())
+            .date,
+        DateStyle.Medium,
+    )

@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">देश या कोड खोजें</string>
     <string name="bank_sync_supported_countries_hint">बैंक सिंक इन देशों में PSD2 ओपन-बैंकिंग API के साथ काम करता है।</string>
     <string name="bank_sync_change_country">देश बदलें</string>
+    <string name="bank_sync_disconnect_confirm_title">बैंक डिस्कनेक्ट करें?</string>
+    <string name="bank_sync_disconnect_confirm_body">यह बैंक कनेक्शन और सभी लिंक किए गए खाते हटा देता है। आयात किए गए लेनदेन बने रहते हैं।</string>
+    <string name="bank_sync_no_accounts">अभी तक कोई लिंक किया गया खाता नहीं</string>
 </resources>

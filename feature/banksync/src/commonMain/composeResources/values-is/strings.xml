@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">Leita að landi eða kóða</string>
     <string name="bank_sync_supported_countries_hint">Bankasamstilling virkar með PSD2 opnum bankaviðmótum í þessum löndum.</string>
     <string name="bank_sync_change_country">Skipta um land</string>
+    <string name="bank_sync_disconnect_confirm_title">Aftengja banka?</string>
+    <string name="bank_sync_disconnect_confirm_body">Þetta fjarlægir bankatenginguna og alla tengda reikninga. Innfluttar færslur haldast.</string>
+    <string name="bank_sync_no_accounts">Engir tengdir reikningar enn</string>
 </resources>

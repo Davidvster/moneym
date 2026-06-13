@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">Tìm quốc gia hoặc mã</string>
     <string name="bank_sync_supported_countries_hint">Đồng bộ ngân hàng hoạt động với các API ngân hàng mở PSD2 ở những quốc gia này.</string>
     <string name="bank_sync_change_country">Đổi quốc gia</string>
+    <string name="bank_sync_disconnect_confirm_title">Ngắt kết nối ngân hàng?</string>
+    <string name="bank_sync_disconnect_confirm_body">Thao tác này xóa kết nối ngân hàng và tất cả tài khoản đã liên kết. Giao dịch đã nhập vẫn được giữ lại.</string>
+    <string name="bank_sync_no_accounts">Chưa có tài khoản liên kết</string>
 </resources>

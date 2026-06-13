@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">Hae maata tai koodia</string>
     <string name="bank_sync_supported_countries_hint">Pankkisynkronointi toimii PSD2-avoimen pankkitoiminnan rajapinnoilla näissä maissa.</string>
     <string name="bank_sync_change_country">Vaihda maata</string>
+    <string name="bank_sync_disconnect_confirm_title">Katkaistaanko pankkiyhteys?</string>
+    <string name="bank_sync_disconnect_confirm_body">Tämä poistaa pankkiyhteyden ja kaikki liitetyt tilit. Tuodut tapahtumat säilyvät.</string>
+    <string name="bank_sync_no_accounts">Ei vielä liitettyjä tilejä</string>
 </resources>

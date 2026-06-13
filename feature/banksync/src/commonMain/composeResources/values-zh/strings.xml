@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">搜索国家/地区或代码</string>
     <string name="bank_sync_supported_countries_hint">银行同步在这些国家/地区通过 PSD2 开放银行 API 工作。</string>
     <string name="bank_sync_change_country">更改国家/地区</string>
+    <string name="bank_sync_disconnect_confirm_title">断开银行连接？</string>
+    <string name="bank_sync_disconnect_confirm_body">这将移除银行连接和所有关联账户。已导入的交易将保留。</string>
+    <string name="bank_sync_no_accounts">尚无关联账户</string>
 </resources>

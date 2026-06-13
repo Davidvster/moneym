@@ -1,5 +1,6 @@
 package com.dv.moneym.feature.banksync.home
 
+import com.dv.moneym.core.model.Account
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -14,22 +15,18 @@ data class BankAccountRow(
 )
 
 @Serializable
-data class LocalAccountOption(
-    val id: Long,
-    val name: String,
-)
-
-@Serializable
 data class BankSyncHomeUiState(
     val isLoading: Boolean = true,
     val configured: Boolean = false,
     val connected: Boolean = false,
     val sessionValidUntilMs: Long? = null,
     val accounts: List<BankAccountRow> = emptyList(),
-    val localAccounts: List<LocalAccountOption> = emptyList(),
+    val localAccounts: List<Account> = emptyList(),
     val accountPickerForUid: String? = null,
     val autoSyncEnabled: Boolean = false,
     val isSyncing: Boolean = false,
+    val isDisconnecting: Boolean = false,
+    val showDisconnectConfirm: Boolean = false,
     val syncError: String? = null,
     val reconnectRequired: Boolean = false,
     val lastSyncMs: Long = 0L,
@@ -42,5 +39,7 @@ sealed interface BankSyncHomeIntent {
     data class SetAccountEnabled(val uid: String, val enabled: Boolean) : BankSyncHomeIntent
     data object ToggleAutoSync : BankSyncHomeIntent
     data object SyncNow : BankSyncHomeIntent
+    data object RequestDisconnect : BankSyncHomeIntent
+    data object DismissDisconnect : BankSyncHomeIntent
     data object Disconnect : BankSyncHomeIntent
 }

@@ -63,9 +63,7 @@ class BankSyncHomeViewModel(
             accountRepository.observeAll().collect { accounts ->
                 _state.update { s ->
                     s.copy(
-                        localAccounts = accounts
-                            .filter { !it.archived }
-                            .map { LocalAccountOption(id = it.id.value, name = it.name) }
+                        localAccounts = accounts.filter { !it.archived }
                     )
                 }
             }
@@ -97,6 +95,12 @@ class BankSyncHomeViewModel(
             BankSyncHomeIntent.ToggleAutoSync -> toggleAutoSync()
 
             BankSyncHomeIntent.SyncNow -> syncNow()
+
+            BankSyncHomeIntent.RequestDisconnect ->
+                _state.update { it.copy(showDisconnectConfirm = true) }
+
+            BankSyncHomeIntent.DismissDisconnect ->
+                _state.update { it.copy(showDisconnectConfirm = false) }
 
             BankSyncHomeIntent.Disconnect -> disconnect()
         }
@@ -147,6 +151,7 @@ class BankSyncHomeViewModel(
 
     private fun disconnect() {
         viewModelScope.launch {
+            _state.update { it.copy(showDisconnectConfirm = false, isDisconnecting = true) }
             credentialsStore.loadSessionId()?.let { client.deleteSession(it) }
             credentialsStore.clearAll()
             bankSyncRepository.clearAll()

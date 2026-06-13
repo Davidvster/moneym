@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">Rechercher un pays ou un code</string>
     <string name="bank_sync_supported_countries_hint">La synchronisation bancaire fonctionne avec les API d'open banking PSD2 dans ces pays.</string>
     <string name="bank_sync_change_country">Changer de pays</string>
+    <string name="bank_sync_disconnect_confirm_title">Déconnecter la banque ?</string>
+    <string name="bank_sync_disconnect_confirm_body">Cela supprime la connexion bancaire et tous les comptes liés. Les transactions importées sont conservées.</string>
+    <string name="bank_sync_no_accounts">Aucun compte lié</string>
 </resources>

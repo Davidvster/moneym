@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">Meklēt valsti vai kodu</string>
     <string name="bank_sync_supported_countries_hint">Bankas sinhronizācija darbojas ar PSD2 atvērtās bankas API šajās valstīs.</string>
     <string name="bank_sync_change_country">Mainīt valsti</string>
+    <string name="bank_sync_disconnect_confirm_title">Atvienot banku?</string>
+    <string name="bank_sync_disconnect_confirm_body">Tādējādi tiks noņemts bankas savienojums un visi saistītie konti. Importētie darījumi paliek.</string>
+    <string name="bank_sync_no_accounts">Vēl nav saistītu kontu</string>
 </resources>

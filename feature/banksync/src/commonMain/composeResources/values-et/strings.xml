@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">Otsi riiki või koodi</string>
     <string name="bank_sync_supported_countries_hint">Pangasünkroonimine töötab nendes riikides PSD2 avatud panganduse API-dega.</string>
     <string name="bank_sync_change_country">Muuda riiki</string>
+    <string name="bank_sync_disconnect_confirm_title">Kas katkestada panga ühendus?</string>
+    <string name="bank_sync_disconnect_confirm_body">See eemaldab pangaühenduse ja kõik seotud kontod. Imporditud tehingud jäävad alles.</string>
+    <string name="bank_sync_no_accounts">Seotud kontosid veel pole</string>
 </resources>

@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">Land of code zoeken</string>
     <string name="bank_sync_supported_countries_hint">Banksynchronisatie werkt met PSD2 open-banking-API's in deze landen.</string>
     <string name="bank_sync_change_country">Land wijzigen</string>
+    <string name="bank_sync_disconnect_confirm_title">Bank loskoppelen?</string>
+    <string name="bank_sync_disconnect_confirm_body">Hiermee verwijder je de bankverbinding en alle gekoppelde rekeningen. Geïmporteerde transacties blijven.</string>
+    <string name="bank_sync_no_accounts">Nog geen gekoppelde rekeningen</string>
 </resources>

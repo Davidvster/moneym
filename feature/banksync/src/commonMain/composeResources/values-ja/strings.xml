@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">国またはコードを検索</string>
     <string name="bank_sync_supported_countries_hint">銀行同期はこれらの国でPSD2オープンバンキングAPIに対応しています。</string>
     <string name="bank_sync_change_country">国を変更</string>
+    <string name="bank_sync_disconnect_confirm_title">銀行の接続を解除しますか？</string>
+    <string name="bank_sync_disconnect_confirm_body">銀行接続とすべてのリンクされた口座が削除されます。インポート済みの取引は残ります。</string>
+    <string name="bank_sync_no_accounts">リンクされた口座はまだありません</string>
 </resources>

@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">Søk etter land eller kode</string>
     <string name="bank_sync_supported_countries_hint">Banksynkronisering fungerer med PSD2 open banking-API-er i disse landene.</string>
     <string name="bank_sync_change_country">Bytt land</string>
+    <string name="bank_sync_disconnect_confirm_title">Koble fra banken?</string>
+    <string name="bank_sync_disconnect_confirm_body">Dette fjerner banktilkoblingen og alle tilknyttede kontoer. Importerte transaksjoner beholdes.</string>
+    <string name="bank_sync_no_accounts">Ingen tilknyttede kontoer ennå</string>
 </resources>

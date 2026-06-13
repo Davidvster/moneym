@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">Hľadať krajinu alebo kód</string>
     <string name="bank_sync_supported_countries_hint">Synchronizácia s bankou funguje cez API otvoreného bankovníctva PSD2 v týchto krajinách.</string>
     <string name="bank_sync_change_country">Zmeniť krajinu</string>
+    <string name="bank_sync_disconnect_confirm_title">Odpojiť banku?</string>
+    <string name="bank_sync_disconnect_confirm_body">Tým sa odstráni pripojenie k banke a všetky prepojené účty. Importované transakcie zostanú.</string>
+    <string name="bank_sync_no_accounts">Zatiaľ žiadne prepojené účty</string>
 </resources>

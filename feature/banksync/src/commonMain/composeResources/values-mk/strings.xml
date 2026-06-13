@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">Пребарај земја или код</string>
     <string name="bank_sync_supported_countries_hint">Синхронизацијата со банка работи со PSD2 API за отворено банкарство во овие земји.</string>
     <string name="bank_sync_change_country">Промени земја</string>
+    <string name="bank_sync_disconnect_confirm_title">Да се исклучи банката?</string>
+    <string name="bank_sync_disconnect_confirm_body">Ова ја отстранува врската со банката и сите поврзани сметки. Увезените трансакции остануваат.</string>
+    <string name="bank_sync_no_accounts">Сè уште нема поврзани сметки</string>
 </resources>

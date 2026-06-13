@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">ابحث عن بلد أو رمز</string>
     <string name="bank_sync_supported_countries_hint">تعمل مزامنة البنك مع واجهات برمجة تطبيقات الخدمات المصرفية المفتوحة PSD2 في هذه البلدان.</string>
     <string name="bank_sync_change_country">تغيير البلد</string>
+    <string name="bank_sync_disconnect_confirm_title">قطع الاتصال بالبنك؟</string>
+    <string name="bank_sync_disconnect_confirm_body">سيؤدي هذا إلى إزالة اتصال البنك وجميع الحسابات المرتبطة. تبقى المعاملات المستوردة.</string>
+    <string name="bank_sync_no_accounts">لا توجد حسابات مرتبطة بعد</string>
 </resources>

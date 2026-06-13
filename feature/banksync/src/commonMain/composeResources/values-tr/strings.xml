@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">Ülke veya kod ara</string>
     <string name="bank_sync_supported_countries_hint">Banka senkronizasyonu bu ülkelerde PSD2 açık bankacılık API'leriyle çalışır.</string>
     <string name="bank_sync_change_country">Ülkeyi değiştir</string>
+    <string name="bank_sync_disconnect_confirm_title">Banka bağlantısı kesilsin mi?</string>
+    <string name="bank_sync_disconnect_confirm_body">Bu, banka bağlantısını ve bağlı tüm hesapları kaldırır. İçe aktarılan işlemler kalır.</string>
+    <string name="bank_sync_no_accounts">Henüz bağlı hesap yok</string>
 </resources>

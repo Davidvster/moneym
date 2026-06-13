@@ -52,4 +52,7 @@
     <string name="bank_sync_search_country">Ország vagy kód keresése</string>
     <string name="bank_sync_supported_countries_hint">A bankszinkronizálás PSD2 nyílt banki API-kkal működik ezekben az országokban.</string>
     <string name="bank_sync_change_country">Ország módosítása</string>
+    <string name="bank_sync_disconnect_confirm_title">Bank leválasztása?</string>
+    <string name="bank_sync_disconnect_confirm_body">Ez eltávolítja a bankkapcsolatot és az összes csatolt fiókot. Az importált tranzakciók megmaradnak.</string>
+    <string name="bank_sync_no_accounts">Még nincsenek csatolt fiókok</string>
 </resources>
