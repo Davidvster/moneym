@@ -28,6 +28,8 @@
     <string name="transactions_syncing">A sincronizar…</string>
     <string name="transactions_pending_deletions">%1$d itens removidos noutro dispositivo — rever</string>
     <string name="transactions_sync_conflict_body">A sincronização está pausada. Abra Backup e restauração nas Definições para inserir a palavra-passe.</string>
+    <string name="transactions_bank_sync_section">Sincronização bancária</string>
+    <string name="transactions_bank_review">Rever %1$d sugestões</string>
     <string name="transactions_sync_last">Última sincronização %1$s</string>
     <string name="transactions_sync_never">Ainda não sincronizado</string>
     <string name="transactions_sync_now">Sincronizar agora</string>

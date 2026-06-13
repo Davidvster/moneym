@@ -28,6 +28,8 @@
     <string name="transactions_syncing">Sinhronizē…</string>
     <string name="transactions_pending_deletions">%1$d vienumi noņemti citā ierīcē — pārskatīt</string>
     <string name="transactions_sync_conflict_body">Sinhronizācija ir apturēta. Atveriet Dublēšana un atjaunošana sadaļā Iestatījumi, lai ievadītu paroli.</string>
+    <string name="transactions_bank_sync_section">Bankas sinhronizācija</string>
+    <string name="transactions_bank_review">Pārskatīt %1$d ieteikumus</string>
     <string name="transactions_sync_last">Pēdējoreiz sinhronizēts %1$s</string>
     <string name="transactions_sync_never">Vēl nav sinhronizēts</string>
     <string name="transactions_sync_now">Sinhronizēt tagad</string>

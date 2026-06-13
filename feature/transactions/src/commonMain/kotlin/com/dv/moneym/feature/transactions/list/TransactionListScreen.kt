@@ -36,6 +36,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
@@ -102,6 +103,8 @@ import kotlin.time.Instant
 import kotlinx.serialization.Serializable
 import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.transactions_add
+import moneym.feature.transactions.generated.resources.transactions_bank_review
+import moneym.feature.transactions.generated.resources.transactions_bank_sync_section
 import moneym.feature.transactions.generated.resources.transactions_cancel
 import moneym.feature.transactions.generated.resources.transactions_close_search_cd
 import moneym.feature.transactions.generated.resources.transactions_dialog_select_month
@@ -142,6 +145,7 @@ fun EntryProviderScope<NavKey>.transactionsEntry(
     onEditRecurring: (RecurringTransactionId) -> Unit,
     onTabSelected: (TabRoute) -> Unit = {},
     onNavigateToPendingDeletions: () -> Unit = {},
+    onNavigateToBankSuggestions: () -> Unit = {},
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<TransactionsKey>(metadata = metadata) {
     TransactionListScreen(
@@ -150,6 +154,7 @@ fun EntryProviderScope<NavKey>.transactionsEntry(
         onEditRecurring = onEditRecurring,
         onTabSelected = onTabSelected,
         onNavigateToPendingDeletions = onNavigateToPendingDeletions,
+        onNavigateToBankSuggestions = onNavigateToBankSuggestions,
     )
 }
 
@@ -160,6 +165,7 @@ private fun TransactionListScreen(
     onEditRecurring: (RecurringTransactionId) -> Unit,
     onTabSelected: (TabRoute) -> Unit = {},
     onNavigateToPendingDeletions: () -> Unit = {},
+    onNavigateToBankSuggestions: () -> Unit = {},
     viewModel: TransactionListViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -171,6 +177,7 @@ private fun TransactionListScreen(
         onEditRecurring = onEditRecurring,
         onTabSelected = onTabSelected,
         onNavigateToPendingDeletions = onNavigateToPendingDeletions,
+        onNavigateToBankSuggestions = onNavigateToBankSuggestions,
     )
 }
 
@@ -184,6 +191,7 @@ private fun TransactionListContent(
     onEditRecurring: (RecurringTransactionId) -> Unit,
     onTabSelected: (TabRoute) -> Unit,
     onNavigateToPendingDeletions: () -> Unit = {},
+    onNavigateToBankSuggestions: () -> Unit = {},
 ) {
     var initialScrollDone by remember { mutableStateOf(false) }
 
@@ -247,6 +255,16 @@ private fun TransactionListContent(
             onReviewDeletions = {
                 onIntent(TransactionListIntent.ShowSyncSheet(false))
                 onNavigateToPendingDeletions()
+            },
+            crossDeviceEnabled = state.isSyncEnabled,
+            bankEnabled = state.isBankSyncEnabled,
+            bankIsSyncing = state.isBankSyncing,
+            bankLastSyncedMs = state.bankLastSyncedMs,
+            bankPendingCount = state.bankPendingCount,
+            onBankSyncNow = { onIntent(TransactionListIntent.BankSyncNow) },
+            onReviewSuggestions = {
+                onIntent(TransactionListIntent.ShowSyncSheet(false))
+                onNavigateToBankSuggestions()
             },
             onDismiss = { onIntent(TransactionListIntent.ShowSyncSheet(false)) },
         )
@@ -501,6 +519,13 @@ private fun SyncStatusSheet(
     pendingDeletionCount: Int,
     onSyncNow: () -> Unit,
     onReviewDeletions: () -> Unit,
+    crossDeviceEnabled: Boolean,
+    bankEnabled: Boolean,
+    bankIsSyncing: Boolean,
+    bankLastSyncedMs: Long,
+    bankPendingCount: Int,
+    onBankSyncNow: () -> Unit,
+    onReviewSuggestions: () -> Unit,
     onDismiss: () -> Unit,
 ) {
     val colors = MM.colors
@@ -515,6 +540,12 @@ private fun SyncStatusSheet(
         else -> stringResource(Res.string.transactions_sync_never)
     }
 
+    val bankStatusText = when {
+        bankIsSyncing -> stringResource(Res.string.transactions_syncing)
+        bankLastSyncedMs > 0L -> stringResource(Res.string.transactions_sync_last, formatSyncTime(bankLastSyncedMs))
+        else -> stringResource(Res.string.transactions_sync_never)
+    }
+
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
@@ -526,51 +557,82 @@ private fun SyncStatusSheet(
             modifier = Modifier.padding(horizontal = space.padding_2_5x, vertical = space.padding_3x),
             verticalArrangement = Arrangement.spacedBy(space.padding_2x),
         ) {
-            Text(
-                text = stringResource(Res.string.transactions_sync_sheet_title),
-                style = type.title3,
-                color = colors.text,
-            )
-            Text(text = statusText, style = type.body, color = colors.text2)
-
-            if (hasConflict) {
+            if (crossDeviceEnabled) {
                 Text(
-                    text = stringResource(Res.string.transactions_sync_conflict_body),
-                    style = type.caption,
-                    color = colors.danger,
+                    text = stringResource(Res.string.transactions_sync_sheet_title),
+                    style = type.title3,
+                    color = colors.text,
+                )
+                Text(text = statusText, style = type.body, color = colors.text2)
+
+                if (hasConflict) {
+                    Text(
+                        text = stringResource(Res.string.transactions_sync_conflict_body),
+                        style = type.caption,
+                        color = colors.danger,
+                    )
+                }
+
+                if (pendingDeletionCount > 0) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable(onClick = onReviewDeletions)
+                            .padding(vertical = space.padding_1x),
+                    ) {
+                        Icon(
+                            imageVector = Icon.Info.imageVector,
+                            contentDescription = null,
+                            tint = colors.accent,
+                            modifier = Modifier.size(MM.dimen.icon_1x),
+                        )
+                        Spacer(Modifier.width(space.padding_1x))
+                        Text(
+                            text = stringResource(Res.string.transactions_pending_deletions, pendingDeletionCount),
+                            style = type.body,
+                            color = colors.text,
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
+                }
+
+                MmButton(
+                    text = stringResource(Res.string.transactions_sync_now),
+                    onClick = onSyncNow,
+                    enabled = !isSyncing && !hasConflict,
+                    fullWidth = true,
                 )
             }
 
-            if (pendingDeletionCount > 0) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable(onClick = onReviewDeletions)
-                        .padding(vertical = space.padding_1x),
-                ) {
-                    Icon(
-                        imageVector = Icon.Info.imageVector,
-                        contentDescription = null,
-                        tint = colors.accent,
-                        modifier = Modifier.size(MM.dimen.icon_1x),
-                    )
-                    Spacer(Modifier.width(space.padding_1x))
-                    Text(
-                        text = stringResource(Res.string.transactions_pending_deletions, pendingDeletionCount),
-                        style = type.body,
-                        color = colors.text,
-                        modifier = Modifier.weight(1f),
-                    )
-                }
+            if (crossDeviceEnabled && bankEnabled) {
+                HorizontalDivider(color = colors.divider, thickness = space.strokeHairline)
             }
 
-            MmButton(
-                text = stringResource(Res.string.transactions_sync_now),
-                onClick = onSyncNow,
-                enabled = !isSyncing && !hasConflict,
-                fullWidth = true,
-            )
+            if (bankEnabled) {
+                Text(
+                    text = stringResource(Res.string.transactions_bank_sync_section),
+                    style = type.title3,
+                    color = colors.text,
+                )
+                Text(text = bankStatusText, style = type.body, color = colors.text2)
+
+                if (bankPendingCount > 0) {
+                    MmButton(
+                        text = stringResource(Res.string.transactions_bank_review, bankPendingCount),
+                        onClick = onReviewSuggestions,
+                        variant = MmButtonVariant.Outline,
+                        fullWidth = true,
+                    )
+                }
+
+                MmButton(
+                    text = stringResource(Res.string.transactions_sync_now),
+                    onClick = onBankSyncNow,
+                    enabled = !bankIsSyncing,
+                    fullWidth = true,
+                )
+            }
         }
     }
 }
@@ -675,9 +737,9 @@ private fun TransactionListHeader(
                     onClick = { onSearchActiveChange(true) },
                     contentDescription = stringResource(Res.string.transactions_search_cd),
                 )
-                if (state.isSyncEnabled) {
+                if (state.isSyncEnabled || state.isBankSyncEnabled) {
                     SyncActionButton(
-                        isSyncInProgress = state.isSyncInProgress,
+                        isSyncInProgress = state.isSyncInProgress || state.isBankSyncing,
                         hasSyncConflict = state.hasSyncConflict,
                         onClick = onOpenSyncSheet,
                     )

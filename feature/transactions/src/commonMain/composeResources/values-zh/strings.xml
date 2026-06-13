@@ -28,6 +28,8 @@
     <string name="transactions_syncing">同步中…</string>
     <string name="transactions_pending_deletions">另一台设备删除了 %1$d 个项目 — 请审核</string>
     <string name="transactions_sync_conflict_body">同步已暂停。请在“设置”中打开“备份与恢复”以输入密码。</string>
+    <string name="transactions_bank_sync_section">银行同步</string>
+    <string name="transactions_bank_review">查看 %1$d 条建议</string>
     <string name="transactions_sync_last">上次同步 %1$s</string>
     <string name="transactions_sync_never">尚未同步</string>
     <string name="transactions_sync_now">立即同步</string>

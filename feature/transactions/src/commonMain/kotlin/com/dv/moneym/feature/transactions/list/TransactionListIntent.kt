@@ -20,4 +20,5 @@ internal sealed interface TransactionListIntent {
     data class ShowCategoryFilter(val visible: Boolean) : TransactionListIntent
     data class ShowSyncSheet(val visible: Boolean) : TransactionListIntent
     data object SyncNow : TransactionListIntent
+    data object BankSyncNow : TransactionListIntent
 }

@@ -28,6 +28,8 @@
     <string name="transactions_syncing">Synchroniseren…</string>
     <string name="transactions_pending_deletions">%1$d items verwijderd op een ander apparaat — controleren</string>
     <string name="transactions_sync_conflict_body">Synchronisatie is onderbroken. Open Back-up en herstel in Instellingen om het wachtwoord in te voeren.</string>
+    <string name="transactions_bank_sync_section">Banksynchronisatie</string>
+    <string name="transactions_bank_review">%1$d suggesties bekijken</string>
     <string name="transactions_sync_last">Laatst gesynchroniseerd %1$s</string>
     <string name="transactions_sync_never">Nog niet gesynchroniseerd</string>
     <string name="transactions_sync_now">Nu synchroniseren</string>

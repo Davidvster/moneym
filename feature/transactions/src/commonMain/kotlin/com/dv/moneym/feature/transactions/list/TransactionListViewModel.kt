@@ -12,6 +12,7 @@ import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.data.accounts.AccountRepository
+import com.dv.moneym.data.banksync.BankSyncStatusProvider
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.sync.SyncPuller
 import com.dv.moneym.data.sync.SyncStatusProvider
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -39,6 +41,7 @@ class TransactionListViewModel(
     private val ephemeralState: TransactionListEphemeralState,
     private val syncStatus: SyncStatusProvider,
     private val syncPuller: SyncPuller? = null,
+    private val bankSyncStatus: BankSyncStatusProvider? = null,
     private val clock: AppClock,
     private val transactionSavedSignal: TransactionSavedSignal = TransactionSavedSignal(),
     savedStateHandle: SavedStateHandle,
@@ -147,6 +150,10 @@ class TransactionListViewModel(
         .combine(syncStatus.pendingDeletionCount) { state, count -> state.copy(pendingDeletionCount = count) }
         .combine(syncStatus.conflict) { state, c -> state.copy(hasSyncConflict = c != null) }
         .combine(syncStatus.lastSyncedMs) { state, ms -> state.copy(lastSyncedMs = ms) }
+        .combine(bankSyncStatus?.isEnabled ?: flowOf(false)) { s, e -> s.copy(isBankSyncEnabled = e) }
+        .combine(bankSyncStatus?.isSyncing ?: flowOf(false)) { s, b -> s.copy(isBankSyncing = b) }
+        .combine(bankSyncStatus?.pendingCount ?: flowOf(0)) { s, c -> s.copy(bankPendingCount = c) }
+        .combine(bankSyncStatus?.lastSyncedMs ?: flowOf(0L)) { s, ms -> s.copy(bankLastSyncedMs = ms) }
         .combine(_showSyncSheet) { state, show -> state.copy(showSyncSheet = show) }
         .stateIn(
             scope = viewModelScope,
@@ -231,6 +238,9 @@ class TransactionListViewModel(
 
             TransactionListIntent.SyncNow ->
                 viewModelScope.launch { syncPuller?.syncNow() }
+
+            TransactionListIntent.BankSyncNow ->
+                viewModelScope.launch { bankSyncStatus?.requestSync() }
         }
     }
 }

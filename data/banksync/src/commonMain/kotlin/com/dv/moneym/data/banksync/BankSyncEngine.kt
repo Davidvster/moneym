@@ -5,9 +5,11 @@ import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.data.transactions.TransactionRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.DatePeriod
@@ -23,12 +25,22 @@ class BankSyncEngine(
     private val appSettings: AppSettings,
     private val clock: AppClock,
     private val autoSyncMinIntervalMs: Long = DEFAULT_AUTO_SYNC_MIN_INTERVAL_MS,
-) {
+) : BankSyncStatusProvider {
     private val logger = Logger.withTag("BankSyncEngine")
     private val lock = Mutex()
 
     private val _runtime = MutableStateFlow<BankSyncRuntimeState>(BankSyncRuntimeState.Idle)
     val runtime: StateFlow<BankSyncRuntimeState> = _runtime.asStateFlow()
+
+    override val isEnabled: Flow<Boolean>
+        get() = appSettings.observeBoolean(PrefKeys.BANK_SYNC_CONFIGURED, defaultValue = false)
+    override val isSyncing: Flow<Boolean>
+        get() = runtime.map { it is BankSyncRuntimeState.Running }
+    override val pendingCount: Flow<Int>
+        get() = bankSyncRepository.observePendingCount()
+    override val lastSyncedMs: Flow<Long>
+        get() = runtime.map { appSettings.getLong(PrefKeys.BANK_SYNC_LAST_SYNC_MS, defaultValue = 0L) }
+    override suspend fun requestSync() { syncNow() }
 
     suspend fun isConnected(): Boolean =
         credentialsStore.loadCredentials() != null && credentialsStore.loadSessionId() != null

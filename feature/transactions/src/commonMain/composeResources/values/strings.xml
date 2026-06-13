@@ -36,4 +36,6 @@
     <string name="transactions_sync_last">Last synced %1$s</string>
     <string name="transactions_sync_never">Not synced yet</string>
     <string name="transactions_sync_conflict_body">Sync is paused. Open Backup &amp; Restore in Settings to enter the password.</string>
+    <string name="transactions_bank_sync_section">Bank sync</string>
+    <string name="transactions_bank_review">Review %1$d suggestions</string>
 </resources>

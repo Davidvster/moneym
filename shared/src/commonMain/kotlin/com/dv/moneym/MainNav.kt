@@ -154,6 +154,7 @@ internal fun MainNav(lockController: AppLockController) {
                     }
                 },
                 onNavigateToPendingDeletions = { tabBackStack.push(PendingDeletionsKey) },
+                onNavigateToBankSuggestions = { tabBackStack.push(BankSuggestionsKey) },
             )
             transactionEditEntry(
                 onDismiss = { tabBackStack.removeLast() },
