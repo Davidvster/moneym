@@ -1,0 +1,19 @@
+# gitleaks config for MoneyM. Extends the built-in ruleset, then allowlists
+# the known-benign matches confirmed during the Jun 2026 secret scan
+# (placeholders, docs, and test fixtures — no real secrets in tree or history).
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Benign placeholders, docs, and test fixtures"
+paths = [
+    '''iosApp/Configuration/Secrets\.xcconfig\.template''',
+    '''README\.md''',
+    '''docs/.*''',
+    '''.*/commonTest/.*''',
+]
+regexes = [
+    '''YOUR_CLIENT_ID''',
+    '''YOUR_WEB_CLIENT_ID''',
+    '''YOUR_IOS_CLIENT_ID''',
+]

@@ -176,6 +176,19 @@ Notes:
 - Fetched transactions never enter your books silently — each one appears as a suggestion with a
   possible-duplicate hint, and rejected suggestions are never asked about again.
 
+## Secret scanning
+
+A [gitleaks](https://github.com/gitleaks/gitleaks) pre-commit hook blocks commits that contain
+secrets. Enable it once after cloning:
+
+```bash
+brew install gitleaks            # or your package manager
+git config core.hooksPath .githooks
+```
+
+The hook runs `gitleaks git --staged` against [`.gitleaks.toml`](.gitleaks.toml) on every commit.
+To bypass it for a single commit, prefix with `SKIP_GITLEAKS=1`.
+
 ## Contributing
 
 MoneyM is open source. Bug reports, feature ideas, and pull requests are welcome — please read

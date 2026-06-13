@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Secret-scanning pre-commit hook. Blocks commits containing secrets.
+# Enable once per clone:  git config core.hooksPath .githooks
+# Bypass for one commit:  SKIP_GITLEAKS=1 git commit ...
+set -euo pipefail
+
+if [ "${SKIP_GITLEAKS:-0}" = "1" ]; then
+    echo "gitleaks: skipped (SKIP_GITLEAKS=1)"
+    exit 0
+fi
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+    echo "ERROR: gitleaks not installed; commit blocked." >&2
+    echo "  Install:  brew install gitleaks" >&2
+    echo "  Bypass :  SKIP_GITLEAKS=1 git commit ..." >&2
+    exit 1
+fi
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+gitleaks git --staged --redact --no-banner --config "$REPO_ROOT/.gitleaks.toml"
