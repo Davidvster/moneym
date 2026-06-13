@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -51,6 +50,7 @@ import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmLoadingOverlay
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmSegmented
+import com.dv.moneym.core.ui.MmSnackbarHost
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.utils.observeWithLifecycle
 import kotlinx.serialization.Serializable
@@ -249,7 +249,7 @@ private fun BankSuggestionsContent(
             }
         }
 
-        SnackbarHost(
+        MmSnackbarHost(
             hostState = snackbarHostState,
             modifier = Modifier.align(Alignment.BottomCenter).padding(space.padding_2x),
         )
