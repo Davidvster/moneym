@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallet_sync_title">Đồng bộ ví</string>
+    <string name="wallet_sync_intro">Tạo gợi ý giao dịch từ thông báo của các ứng dụng thanh toán. Mọi dữ liệu vẫn ở trên thiết bị của bạn.</string>
+    <string name="wallet_sync_enable_title">Lắng nghe thông báo</string>
+    <string name="wallet_sync_enable_subtitle">Biến thông báo từ các ứng dụng đã chọn thành gợi ý</string>
+    <string name="wallet_sync_access_required">MoneyM cần quyền truy cập thông báo để đọc các thông báo thanh toán.</string>
+    <string name="wallet_sync_grant_access">Cấp quyền truy cập thông báo</string>
+    <string name="wallet_sync_access_granted">Đã cấp quyền truy cập thông báo</string>
+    <string name="wallet_sync_select_apps">Chọn ứng dụng</string>
+    <string name="wallet_sync_select_apps_subtitle">Thu thập thông báo từ các ứng dụng này</string>
+    <string name="wallet_sync_apps_selected">Đã chọn %d</string>
+    <string name="wallet_sync_apps_none">Chưa chọn</string>
+    <string name="wallet_sync_review_pending">Xem %d gợi ý</string>
+    <string name="wallet_sync_app_picker_title">Chọn ứng dụng</string>
+    <string name="wallet_sync_search">Tìm ứng dụng</string>
+    <string name="wallet_sync_done">Xong</string>
+    <string name="wallet_sync_apps_loading">Đang tải ứng dụng…</string>
+</resources>

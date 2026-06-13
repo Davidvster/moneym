@@ -38,6 +38,7 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import androidx.compose.material3.SnackbarHostState
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.TransactionType
@@ -55,11 +56,14 @@ import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSheetHeader
 import com.dv.moneym.core.ui.MmSnackbarHost
+import com.dv.moneym.core.ui.MmWalletPickerSheet
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.utils.observeWithLifecycle
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.getString
 import moneym.feature.banksync.generated.resources.Res
+import moneym.feature.banksync.generated.resources.bank_sync_account_target_label
+import moneym.feature.banksync.generated.resources.bank_sync_account_target_none
 import moneym.feature.banksync.generated.resources.bank_sync_cancel
 import moneym.feature.banksync.generated.resources.suggestions_accept
 import moneym.feature.banksync.generated.resources.suggestions_accept_all_confirm_body
@@ -67,6 +71,7 @@ import moneym.feature.banksync.generated.resources.suggestions_accept_all_confir
 import moneym.feature.banksync.generated.resources.suggestions_accept_one_confirm_body
 import moneym.feature.banksync.generated.resources.suggestions_accept_one_confirm_title
 import moneym.feature.banksync.generated.resources.suggestions_accept_selected
+import moneym.feature.banksync.generated.resources.suggestions_assign_account
 import moneym.feature.banksync.generated.resources.suggestions_assign_category
 import moneym.feature.banksync.generated.resources.suggestions_category_label
 import moneym.feature.banksync.generated.resources.suggestions_duplicate_hint
@@ -94,44 +99,55 @@ import moneym.feature.banksync.generated.resources.suggestions_tab_rejected
 import moneym.feature.banksync.generated.resources.suggestions_title
 import moneym.feature.banksync.generated.resources.suggestions_undo
 import moneym.feature.banksync.generated.resources.suggestions_unselect_all
-import moneym.feature.banksync.generated.resources.suggestions_wallet_missing
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Serializable
 data object BankSuggestionsKey : NavKey
+
+@Serializable
+data object WalletSuggestionsKey : NavKey
 
 fun EntryProviderScope<NavKey>.bankSuggestionsEntry(
     onBack: () -> Unit,
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<BankSuggestionsKey>(metadata = metadata) {
-    BankSuggestionsScreen(onBack = onBack)
+    SuggestionsScreen(source = SuggestionSourceType.BANK, onBack = onBack)
+}
+
+fun EntryProviderScope<NavKey>.walletSuggestionsEntry(
+    onBack: () -> Unit,
+    metadata: Map<String, Any> = emptyMap(),
+) = entry<WalletSuggestionsKey>(metadata = metadata) {
+    SuggestionsScreen(source = SuggestionSourceType.WALLET, onBack = onBack)
 }
 
 @Composable
-fun BankSuggestionsScreen(
+fun SuggestionsScreen(
+    source: SuggestionSourceType,
     onBack: () -> Unit,
-    viewModel: BankSuggestionsViewModel = koinViewModel(),
+    viewModel: SuggestionsViewModel = koinViewModel(parameters = { parametersOf(source) }),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
     viewModel.singleEvents.observeWithLifecycle { event ->
         when (event) {
-            is BankSuggestionsViewModel.BankSuggestionsSingleUiEvent.RejectedWithUndo -> {
+            is SuggestionsViewModel.SuggestionsSingleUiEvent.RejectedWithUndo -> {
                 val result = snackbarHostState.showSnackbar(
                     message = getString(Res.string.suggestions_rejected_snackbar),
                     actionLabel = getString(Res.string.suggestions_undo),
                     duration = SnackbarDuration.Short,
                 )
                 if (result == SnackbarResult.ActionPerformed) {
-                    viewModel.onIntent(BankSuggestionsIntent.UndoReject(event.id))
+                    viewModel.onIntent(SuggestionsIntent.UndoReject(event.id))
                 }
             }
         }
     }
 
-    BankSuggestionsContent(
+    SuggestionsContent(
         state = state,
         snackbarHostState = snackbarHostState,
         onBack = onBack,
@@ -140,11 +156,11 @@ fun BankSuggestionsScreen(
 }
 
 @Composable
-private fun BankSuggestionsContent(
-    state: BankSuggestionsUiState,
+private fun SuggestionsContent(
+    state: SuggestionsUiState,
     snackbarHostState: SnackbarHostState,
     onBack: () -> Unit,
-    onIntent: (BankSuggestionsIntent) -> Unit,
+    onIntent: (SuggestionsIntent) -> Unit,
 ) {
     val colors = MM.colors
     val space = MM.dimen
@@ -161,7 +177,7 @@ private fun BankSuggestionsContent(
                 selectedIndex = if (state.tab == SuggestionsTab.PENDING) 0 else 1,
                 onOptionSelected = { index ->
                     onIntent(
-                        BankSuggestionsIntent.SetTab(
+                        SuggestionsIntent.SetTab(
                             if (index == 0) SuggestionsTab.PENDING else SuggestionsTab.REJECTED
                         )
                     )
@@ -182,7 +198,7 @@ private fun BankSuggestionsContent(
                         } else {
                             stringResource(Res.string.suggestions_filter)
                         },
-                        onClick = { onIntent(BankSuggestionsIntent.ShowFilterSheet(true)) },
+                        onClick = { onIntent(SuggestionsIntent.ShowFilterSheet(true)) },
                         variant = MmButtonVariant.Ghost,
                         size = MmButtonSize.Sm,
                     )
@@ -192,7 +208,7 @@ private fun BankSuggestionsContent(
                         } else {
                             stringResource(Res.string.suggestions_select_all)
                         },
-                        onClick = { onIntent(BankSuggestionsIntent.ToggleSelectAll) },
+                        onClick = { onIntent(SuggestionsIntent.ToggleSelectAll) },
                         variant = MmButtonVariant.Ghost,
                         size = MmButtonSize.Sm,
                     )
@@ -228,25 +244,36 @@ private fun BankSuggestionsContent(
                         .navigationBarsPadding(),
                     verticalArrangement = Arrangement.spacedBy(space.padding_1x),
                 ) {
-                    MmButton(
-                        text = stringResource(Res.string.suggestions_assign_category),
-                        onClick = { onIntent(BankSuggestionsIntent.ShowBatchCategoryPicker(true)) },
-                        variant = MmButtonVariant.Outline,
-                        fullWidth = true,
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
+                    ) {
+                        MmButton(
+                            text = stringResource(Res.string.suggestions_assign_category),
+                            onClick = { onIntent(SuggestionsIntent.ShowBatchCategoryPicker(true)) },
+                            variant = MmButtonVariant.Outline,
+                            modifier = Modifier.weight(1f),
+                        )
+                        MmButton(
+                            text = stringResource(Res.string.suggestions_assign_account),
+                            onClick = { onIntent(SuggestionsIntent.ShowBatchAccountPicker(true)) },
+                            variant = MmButtonVariant.Outline,
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
                     ) {
                         MmButton(
                             text = stringResource(Res.string.suggestions_accept_selected, state.selectedIds.size),
-                            onClick = { onIntent(BankSuggestionsIntent.RequestAcceptSelected) },
+                            onClick = { onIntent(SuggestionsIntent.RequestAcceptSelected) },
                             variant = MmButtonVariant.Accent,
                             modifier = Modifier.weight(1f),
                         )
                         MmButton(
                             text = stringResource(Res.string.suggestions_reject_selected, state.selectedIds.size),
-                            onClick = { onIntent(BankSuggestionsIntent.RequestRejectSelected) },
+                            onClick = { onIntent(SuggestionsIntent.RequestRejectSelected) },
                             variant = MmButtonVariant.Danger,
                             modifier = Modifier.weight(1f),
                         )
@@ -263,15 +290,25 @@ private fun BankSuggestionsContent(
         MmLoadingOverlay(visible = state.isLoading || state.isProcessing)
     }
 
-    val pickerRow = state.pending.firstOrNull { it.id == state.categoryPickerForId }
-    if (pickerRow != null) {
+    val categoryPickerRow = state.pending.firstOrNull { it.id == state.categoryPickerForId }
+    if (categoryPickerRow != null) {
         MmCategoryPickerSheet(
             categories = state.categories.filter {
-                (it.type == TransactionType.EXPENSE) == pickerRow.isExpense
+                (it.type == TransactionType.EXPENSE) == categoryPickerRow.isExpense
             },
-            selectedId = pickerRow.categoryId?.let { CategoryId(it) },
-            onPick = { onIntent(BankSuggestionsIntent.SetCategory(pickerRow.id, it.value)) },
-            onDismiss = { onIntent(BankSuggestionsIntent.ShowCategoryPicker(null)) },
+            selectedId = categoryPickerRow.categoryId?.let { CategoryId(it) },
+            onPick = { onIntent(SuggestionsIntent.SetCategory(categoryPickerRow.id, it.value)) },
+            onDismiss = { onIntent(SuggestionsIntent.ShowCategoryPicker(null)) },
+        )
+    }
+
+    val accountPickerRow = state.pending.firstOrNull { it.id == state.accountPickerForId }
+    if (accountPickerRow != null) {
+        MmWalletPickerSheet(
+            accounts = state.accounts,
+            selectedAccountId = accountPickerRow.targetAccountId?.let { AccountId(it) },
+            onSelect = { onIntent(SuggestionsIntent.SetAccount(accountPickerRow.id, it.value)) },
+            onDismiss = { onIntent(SuggestionsIntent.ShowAccountPicker(null)) },
         )
     }
 
@@ -285,8 +322,17 @@ private fun BankSuggestionsContent(
                 }
             },
             selectedId = null,
-            onPick = { onIntent(BankSuggestionsIntent.SetCategoryForSelected(it.value)) },
-            onDismiss = { onIntent(BankSuggestionsIntent.ShowBatchCategoryPicker(false)) },
+            onPick = { onIntent(SuggestionsIntent.SetCategoryForSelected(it.value)) },
+            onDismiss = { onIntent(SuggestionsIntent.ShowBatchCategoryPicker(false)) },
+        )
+    }
+
+    if (state.showBatchAccountPicker) {
+        MmWalletPickerSheet(
+            accounts = state.accounts,
+            selectedAccountId = null,
+            onSelect = { onIntent(SuggestionsIntent.SetAccountForSelected(it.value)) },
+            onDismiss = { onIntent(SuggestionsIntent.ShowBatchAccountPicker(false)) },
         )
     }
 
@@ -298,8 +344,8 @@ private fun BankSuggestionsContent(
         MmDialog(
             title = stringResource(Res.string.suggestions_accept_all_confirm_title),
             confirmText = stringResource(Res.string.suggestions_accept),
-            onConfirm = { onIntent(BankSuggestionsIntent.ConfirmAcceptSelected) },
-            onDismiss = { onIntent(BankSuggestionsIntent.DismissConfirm) },
+            onConfirm = { onIntent(SuggestionsIntent.ConfirmAcceptSelected) },
+            onDismiss = { onIntent(SuggestionsIntent.DismissConfirm) },
             dismissText = stringResource(Res.string.bank_sync_cancel),
         ) {
             Text(
@@ -314,8 +360,8 @@ private fun BankSuggestionsContent(
         MmDialog(
             title = stringResource(Res.string.suggestions_reject_all_confirm_title),
             confirmText = stringResource(Res.string.suggestions_reject),
-            onConfirm = { onIntent(BankSuggestionsIntent.ConfirmRejectSelected) },
-            onDismiss = { onIntent(BankSuggestionsIntent.DismissConfirm) },
+            onConfirm = { onIntent(SuggestionsIntent.ConfirmRejectSelected) },
+            onDismiss = { onIntent(SuggestionsIntent.DismissConfirm) },
             dismissText = stringResource(Res.string.bank_sync_cancel),
         ) {
             Text(
@@ -330,8 +376,8 @@ private fun BankSuggestionsContent(
         MmDialog(
             title = stringResource(Res.string.suggestions_accept_one_confirm_title),
             confirmText = stringResource(Res.string.suggestions_accept),
-            onConfirm = { onIntent(BankSuggestionsIntent.ConfirmAccept) },
-            onDismiss = { onIntent(BankSuggestionsIntent.DismissConfirm) },
+            onConfirm = { onIntent(SuggestionsIntent.ConfirmAccept) },
+            onDismiss = { onIntent(SuggestionsIntent.DismissConfirm) },
             dismissText = stringResource(Res.string.bank_sync_cancel),
         ) {
             Text(
@@ -347,14 +393,14 @@ private fun BankSuggestionsContent(
 @Composable
 private fun FilterSheet(
     filter: SuggestionFilter,
-    onIntent: (BankSuggestionsIntent) -> Unit,
+    onIntent: (SuggestionsIntent) -> Unit,
 ) {
     val colors = MM.colors
     val space = MM.dimen
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     ModalBottomSheet(
-        onDismissRequest = { onIntent(BankSuggestionsIntent.ShowFilterSheet(false)) },
+        onDismissRequest = { onIntent(SuggestionsIntent.ShowFilterSheet(false)) },
         sheetState = sheetState,
         shape = RoundedCornerShape(topStart = space.padding_2_5x, topEnd = space.padding_2_5x),
         containerColor = colors.bg,
@@ -378,7 +424,7 @@ private fun FilterSheet(
 
             MmSheetHeader(
                 title = stringResource(Res.string.suggestions_filter_title),
-                onClose = { onIntent(BankSuggestionsIntent.ShowFilterSheet(false)) },
+                onClose = { onIntent(SuggestionsIntent.ShowFilterSheet(false)) },
             )
 
             val typeOptions = listOf(SpendingFilter.All, SpendingFilter.Expenses, SpendingFilter.Income)
@@ -389,26 +435,26 @@ private fun FilterSheet(
                     stringResource(Res.string.suggestions_filter_income),
                 ),
                 selectedIndex = typeOptions.indexOf(filter.type),
-                onOptionSelected = { onIntent(BankSuggestionsIntent.SetFilterType(typeOptions[it])) },
+                onOptionSelected = { onIntent(SuggestionsIntent.SetFilterType(typeOptions[it])) },
                 fillWidth = true,
                 modifier = Modifier.fillMaxWidth(),
             )
 
             MmField(
                 value = filter.minText,
-                onValueChange = { onIntent(BankSuggestionsIntent.SetFilterMin(it)) },
+                onValueChange = { onIntent(SuggestionsIntent.SetFilterMin(it)) },
                 label = stringResource(Res.string.suggestions_filter_min),
                 keyboardType = KeyboardType.Decimal,
             )
             MmField(
                 value = filter.maxText,
-                onValueChange = { onIntent(BankSuggestionsIntent.SetFilterMax(it)) },
+                onValueChange = { onIntent(SuggestionsIntent.SetFilterMax(it)) },
                 label = stringResource(Res.string.suggestions_filter_max),
                 keyboardType = KeyboardType.Decimal,
             )
             MmField(
                 value = filter.note,
-                onValueChange = { onIntent(BankSuggestionsIntent.SetFilterNote(it)) },
+                onValueChange = { onIntent(SuggestionsIntent.SetFilterNote(it)) },
                 label = stringResource(Res.string.suggestions_filter_note),
                 keyboardType = KeyboardType.Text,
             )
@@ -419,13 +465,13 @@ private fun FilterSheet(
             ) {
                 MmButton(
                     text = stringResource(Res.string.suggestions_filter_clear),
-                    onClick = { onIntent(BankSuggestionsIntent.ClearFilter) },
+                    onClick = { onIntent(SuggestionsIntent.ClearFilter) },
                     variant = MmButtonVariant.Ghost,
                     modifier = Modifier.weight(1f),
                 )
                 MmButton(
                     text = stringResource(Res.string.suggestions_filter_apply),
-                    onClick = { onIntent(BankSuggestionsIntent.ShowFilterSheet(false)) },
+                    onClick = { onIntent(SuggestionsIntent.ShowFilterSheet(false)) },
                     variant = MmButtonVariant.Primary,
                     modifier = Modifier.weight(1f),
                 )
@@ -437,8 +483,8 @@ private fun FilterSheet(
 @Composable
 private fun SuggestionCard(
     row: SuggestionRow,
-    state: BankSuggestionsUiState,
-    onIntent: (BankSuggestionsIntent) -> Unit,
+    state: SuggestionsUiState,
+    onIntent: (SuggestionsIntent) -> Unit,
 ) {
     val colors = MM.colors
     val space = MM.dimen
@@ -449,19 +495,19 @@ private fun SuggestionCard(
             if (isPendingTab) {
                 MmCheckbox(
                     checked = row.id in state.selectedIds,
-                    onCheckedChange = { onIntent(BankSuggestionsIntent.ToggleSelect(row.id)) },
+                    onCheckedChange = { onIntent(SuggestionsIntent.ToggleSelect(row.id)) },
                 )
             }
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = row.description ?: row.counterparty ?: row.bankName,
+                    text = row.description ?: row.counterparty ?: row.sourceLabel,
                     style = MM.type.body,
                     color = colors.text,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    text = listOfNotNull(row.dateIso, row.counterparty, row.bankName.takeIf { it.isNotBlank() })
+                    text = listOfNotNull(row.dateIso, row.counterparty, row.sourceLabel.takeIf { it.isNotBlank() })
                         .distinct()
                         .joinToString(" · "),
                     style = MM.type.caption.copy(color = colors.text2),
@@ -506,30 +552,34 @@ private fun SuggestionCard(
                 style = MM.type.caption.copy(color = colors.text2),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onIntent(BankSuggestionsIntent.ShowCategoryPicker(row.id)) }
+                    .clickable { onIntent(SuggestionsIntent.ShowCategoryPicker(row.id)) }
                     .padding(top = space.padding_1x),
             )
-            if (row.targetAccountId == null) {
-                Text(
-                    text = stringResource(Res.string.suggestions_wallet_missing),
-                    style = MM.type.caption.copy(color = colors.danger),
-                    modifier = Modifier.padding(top = space.padding_0_5x),
-                )
-            }
+            Text(
+                text = stringResource(Res.string.bank_sync_account_target_label) + ": " +
+                    (row.targetAccountName ?: stringResource(Res.string.bank_sync_account_target_none)),
+                style = MM.type.caption.copy(
+                    color = if (row.targetAccountId == null) colors.danger else colors.text2,
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onIntent(SuggestionsIntent.ShowAccountPicker(row.id)) }
+                    .padding(top = space.padding_0_5x),
+            )
             Row(
                 modifier = Modifier.fillMaxWidth().padding(top = space.padding_1x),
                 horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
             ) {
                 MmButton(
                     text = stringResource(Res.string.suggestions_accept),
-                    onClick = { onIntent(BankSuggestionsIntent.RequestAccept(row.id)) },
+                    onClick = { onIntent(SuggestionsIntent.RequestAccept(row.id)) },
                     variant = MmButtonVariant.Accent,
                     size = MmButtonSize.Sm,
                     enabled = row.targetAccountId != null && row.categoryId != null,
                 )
                 MmButton(
                     text = stringResource(Res.string.suggestions_reject),
-                    onClick = { onIntent(BankSuggestionsIntent.Reject(row.id)) },
+                    onClick = { onIntent(SuggestionsIntent.Reject(row.id)) },
                     variant = MmButtonVariant.Danger,
                     size = MmButtonSize.Sm,
                 )
@@ -537,7 +587,7 @@ private fun SuggestionCard(
         } else {
             MmButton(
                 text = stringResource(Res.string.suggestions_restore),
-                onClick = { onIntent(BankSuggestionsIntent.RestoreToPending(row.id)) },
+                onClick = { onIntent(SuggestionsIntent.RestoreToPending(row.id)) },
                 variant = MmButtonVariant.Outline,
                 size = MmButtonSize.Sm,
                 modifier = Modifier.padding(top = space.padding_1x),

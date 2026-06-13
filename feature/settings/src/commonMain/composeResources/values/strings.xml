@@ -261,4 +261,5 @@
     <string name="settings_remote_delete_confirm">Delete</string>
     <string name="settings_import_failed">Import failed</string>
     <string name="settings_bank_sync">Bank sync</string>
+    <string name="settings_wallet_sync">Wallet sync</string>
 </resources>

@@ -36,4 +36,7 @@
     <string name="transactions_sync_paused">Synkronointi keskeytetty — vaatii toimia</string>
     <string name="transactions_sync_sheet_title">Pilvisynkronointi</string>
     <string name="transactions_synced">Synkronoitu</string>
+    <string name="transactions_wallet_sync_section">Lompakon synkronointi</string>
+    <string name="transactions_wallet_review">Tarkista %1$d ehdotusta</string>
+    <string name="transactions_wallet_empty">Ei vielä ehdotuksia</string>
 </resources>

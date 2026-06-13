@@ -249,4 +249,5 @@
     <string name="settings_remote_restore_no_backup">Google Drive पर कोई बैकअप नहीं मिला.</string>
     <string name="settings_remote_restore_try_again">कृपया पुनः प्रयास करें.</string>
     <string name="settings_bank_sync">बैंक सिंक</string>
+    <string name="settings_wallet_sync">वॉलेट सिंक</string>
 </resources>

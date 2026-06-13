@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallet_sync_title">Wallet-synchronisatie</string>
+    <string name="wallet_sync_intro">Maak transactievoorstellen op basis van meldingen van je betaalapps. Alles blijft op je apparaat.</string>
+    <string name="wallet_sync_enable_title">Meldingen volgen</string>
+    <string name="wallet_sync_enable_subtitle">Zet meldingen van de gekozen apps om in voorstellen</string>
+    <string name="wallet_sync_access_required">MoneyM heeft meldingstoegang nodig om betaalmeldingen te lezen.</string>
+    <string name="wallet_sync_grant_access">Meldingstoegang verlenen</string>
+    <string name="wallet_sync_access_granted">Meldingstoegang verleend</string>
+    <string name="wallet_sync_select_apps">Apps kiezen</string>
+    <string name="wallet_sync_select_apps_subtitle">Meldingen van deze apps vastleggen</string>
+    <string name="wallet_sync_apps_selected">%d geselecteerd</string>
+    <string name="wallet_sync_apps_none">Geen geselecteerd</string>
+    <string name="wallet_sync_review_pending">%d voorstellen bekijken</string>
+    <string name="wallet_sync_app_picker_title">Apps kiezen</string>
+    <string name="wallet_sync_search">Apps zoeken</string>
+    <string name="wallet_sync_done">Klaar</string>
+    <string name="wallet_sync_apps_loading">Apps laden…</string>
+</resources>

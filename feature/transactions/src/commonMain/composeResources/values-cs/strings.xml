@@ -36,4 +36,7 @@
     <string name="transactions_sync_paused">Synchronizace pozastavena — vyžaduje akci</string>
     <string name="transactions_sync_sheet_title">Synchronizace v cloudu</string>
     <string name="transactions_synced">Synchronizováno</string>
+    <string name="transactions_wallet_sync_section">Synchronizace peněženky</string>
+    <string name="transactions_wallet_review">Zkontrolovat %1$d návrhů</string>
+    <string name="transactions_wallet_empty">Zatím žádné návrhy</string>
 </resources>

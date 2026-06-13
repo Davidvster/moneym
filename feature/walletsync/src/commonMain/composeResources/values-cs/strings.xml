@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallet_sync_title">Synchronizace peněženky</string>
+    <string name="wallet_sync_intro">Vytvářejte návrhy transakcí z oznámení vašich platebních aplikací. Vše zůstává ve vašem zařízení.</string>
+    <string name="wallet_sync_enable_title">Naslouchat oznámením</string>
+    <string name="wallet_sync_enable_subtitle">Měňte oznámení vybraných aplikací na návrhy</string>
+    <string name="wallet_sync_access_required">MoneyM potřebuje přístup k oznámením, aby mohl číst platební oznámení.</string>
+    <string name="wallet_sync_grant_access">Udělit přístup k oznámením</string>
+    <string name="wallet_sync_access_granted">Přístup k oznámením udělen</string>
+    <string name="wallet_sync_select_apps">Vybrat aplikace</string>
+    <string name="wallet_sync_select_apps_subtitle">Zachytávat oznámení z těchto aplikací</string>
+    <string name="wallet_sync_apps_selected">Vybráno: %d</string>
+    <string name="wallet_sync_apps_none">Nic nevybráno</string>
+    <string name="wallet_sync_review_pending">Zkontrolovat %d návrhů</string>
+    <string name="wallet_sync_app_picker_title">Vybrat aplikace</string>
+    <string name="wallet_sync_search">Hledat aplikace</string>
+    <string name="wallet_sync_done">Hotovo</string>
+    <string name="wallet_sync_apps_loading">Načítání aplikací…</string>
+</resources>

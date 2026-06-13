@@ -4,6 +4,7 @@ import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.CurrencyCode
+import com.dv.moneym.core.model.SuggestionRecord
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.testing.FakeBankSyncRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
@@ -24,11 +25,10 @@ class AcceptSuggestionUseCaseTest {
     private val bankRepo = FakeBankSyncRepository()
     private val accept = AcceptSuggestionUseCase(
         transactionRepository = txRepo,
-        bankSyncRepository = bankRepo,
         clock = FixedClock(Instant.parse("2026-06-10T12:00:00Z")),
     )
 
-    private suspend fun pendingSuggestion(direction: EbDirection = EbDirection.DEBIT): BankSuggestion {
+    private suspend fun pendingSuggestion(direction: EbDirection = EbDirection.DEBIT): SuggestionRecord {
         bankRepo.insertSuggestionsIfNew(
             listOf(
                 BankSuggestion(
@@ -45,14 +45,14 @@ class AcceptSuggestionUseCaseTest {
                 )
             )
         )
-        return bankRepo.suggestions.single()
+        return bankRepo.getRecord(bankRepo.suggestions.single().id)!!
     }
 
     @Test
     fun acceptCreatesLinkedTransactionAndMarksSuggestion() = runTest {
         val suggestion = pendingSuggestion()
 
-        val txId = accept(suggestion, accountId = 7, categoryId = 3)
+        val txId = accept(bankRepo, suggestion, accountId = 7, categoryId = 3)
 
         val tx = txRepo.transactions.single()
         assertEquals(txId, tx.id)
@@ -73,7 +73,7 @@ class AcceptSuggestionUseCaseTest {
     fun creditDirectionBecomesIncome() = runTest {
         val suggestion = pendingSuggestion(direction = EbDirection.CREDIT)
 
-        accept(suggestion, accountId = 1, categoryId = 1)
+        accept(bankRepo, suggestion, accountId = 1, categoryId = 1)
 
         assertEquals(TransactionType.INCOME, txRepo.transactions.single().type)
     }

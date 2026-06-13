@@ -36,4 +36,7 @@
     <string name="transactions_sync_paused">Eşitleme duraklatıldı — işlem gerekli</string>
     <string name="transactions_sync_sheet_title">Bulut eşitleme</string>
     <string name="transactions_synced">Eşitlendi</string>
+    <string name="transactions_wallet_sync_section">Cüzdan senkronizasyonu</string>
+    <string name="transactions_wallet_review">%1$d öneriyi incele</string>
+    <string name="transactions_wallet_empty">Henüz öneri yok</string>
 </resources>

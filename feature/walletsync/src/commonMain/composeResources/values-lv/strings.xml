@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallet_sync_title">Maka sinhronizācija</string>
+    <string name="wallet_sync_intro">Veidojiet darījumu ieteikumus no savu maksājumu lietotņu paziņojumiem. Viss paliek jūsu ierīcē.</string>
+    <string name="wallet_sync_enable_title">Klausīties paziņojumus</string>
+    <string name="wallet_sync_enable_subtitle">Pārvērtiet izvēlēto lietotņu paziņojumus par ieteikumiem</string>
+    <string name="wallet_sync_access_required">MoneyM nepieciešama piekļuve paziņojumiem, lai lasītu maksājumu paziņojumus.</string>
+    <string name="wallet_sync_grant_access">Piešķirt piekļuvi paziņojumiem</string>
+    <string name="wallet_sync_access_granted">Piekļuve paziņojumiem piešķirta</string>
+    <string name="wallet_sync_select_apps">Izvēlēties lietotnes</string>
+    <string name="wallet_sync_select_apps_subtitle">Tvert paziņojumus no šīm lietotnēm</string>
+    <string name="wallet_sync_apps_selected">Izvēlēts: %d</string>
+    <string name="wallet_sync_apps_none">Nav izvēlēts</string>
+    <string name="wallet_sync_review_pending">Pārskatīt %d ieteikumus</string>
+    <string name="wallet_sync_app_picker_title">Izvēlēties lietotnes</string>
+    <string name="wallet_sync_search">Meklēt lietotnes</string>
+    <string name="wallet_sync_done">Gatavs</string>
+    <string name="wallet_sync_apps_loading">Notiek lietotņu ielāde…</string>
+</resources>

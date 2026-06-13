@@ -36,4 +36,7 @@
     <string name="transactions_sync_paused">Synkronisering satt på pause — handling kreves</string>
     <string name="transactions_sync_sheet_title">Skysynkronisering</string>
     <string name="transactions_synced">Synkronisert</string>
+    <string name="transactions_wallet_sync_section">Lommebok-synk</string>
+    <string name="transactions_wallet_review">Gå gjennom %1$d forslag</string>
+    <string name="transactions_wallet_empty">Ingen forslag ennå</string>
 </resources>

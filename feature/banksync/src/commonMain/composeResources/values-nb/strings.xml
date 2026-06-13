@@ -76,4 +76,5 @@
     <string name="suggestions_filter_apply">Bruk</string>
     <string name="suggestions_filter_clear">Tøm</string>
     <string name="suggestions_assign_category">Tildel kategori</string>
+    <string name="suggestions_assign_account">Tildel lommebok</string>
 </resources>

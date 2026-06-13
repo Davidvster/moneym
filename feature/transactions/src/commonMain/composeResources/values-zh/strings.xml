@@ -36,4 +36,7 @@
     <string name="transactions_sync_paused">同步已暂停 — 需要操作</string>
     <string name="transactions_sync_sheet_title">云同步</string>
     <string name="transactions_synced">已同步</string>
+    <string name="transactions_wallet_sync_section">钱包同步</string>
+    <string name="transactions_wallet_review">查看 %1$d 条建议</string>
+    <string name="transactions_wallet_empty">暂无建议</string>
 </resources>

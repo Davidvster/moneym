@@ -10,6 +10,7 @@ import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
+import com.dv.moneym.core.testing.FakeAccountRepository
 import com.dv.moneym.core.testing.FakeBankSyncRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
@@ -36,7 +37,7 @@ import kotlinx.coroutines.test.setMain
 import kotlinx.datetime.LocalDate
 
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
-class BankSuggestionsViewModelTest {
+class SuggestionsViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
@@ -46,12 +47,14 @@ class BankSuggestionsViewModelTest {
     private val bankRepo = FakeBankSyncRepository()
     private val txRepo = FakeTransactionRepository()
     private val categoryRepo = FakeCategoryRepository()
+    private val accountRepo = FakeAccountRepository()
     private val clock = FixedClock(Instant.parse("2026-06-10T12:00:00Z"))
 
-    private fun vm() = BankSuggestionsViewModel(
-        bankSyncRepository = bankRepo,
+    private fun vm() = SuggestionsViewModel(
+        source = bankRepo,
+        accountRepository = accountRepo,
         categoryRepository = categoryRepo,
-        acceptSuggestion = AcceptSuggestionUseCase(txRepo, bankRepo, clock),
+        acceptSuggestion = AcceptSuggestionUseCase(txRepo, clock),
         findDuplicate = FindDuplicateUseCase(txRepo),
         clock = clock,
         savedStateHandle = SavedStateHandle(),
@@ -144,8 +147,8 @@ class BankSuggestionsViewModelTest {
             var s = awaitItem()
             while (s.pending.isEmpty()) s = awaitItem()
 
-            vm.onIntent(BankSuggestionsIntent.RequestAccept(suggestion.id))
-            vm.onIntent(BankSuggestionsIntent.ConfirmAccept)
+            vm.onIntent(SuggestionsIntent.RequestAccept(suggestion.id))
+            vm.onIntent(SuggestionsIntent.ConfirmAccept)
             while (s.pending.isNotEmpty()) s = awaitItem()
 
             cancelAndIgnoreRemainingEvents()
@@ -163,11 +166,11 @@ class BankSuggestionsViewModelTest {
             var s = awaitItem()
             while (s.pending.isEmpty()) s = awaitItem()
 
-            vm.onIntent(BankSuggestionsIntent.Reject(suggestion.id))
+            vm.onIntent(SuggestionsIntent.Reject(suggestion.id))
             while (s.rejected.isEmpty()) s = awaitItem()
             assertTrue(s.pending.isEmpty())
 
-            vm.onIntent(BankSuggestionsIntent.RestoreToPending(suggestion.id))
+            vm.onIntent(SuggestionsIntent.RestoreToPending(suggestion.id))
             while (s.pending.isEmpty()) s = awaitItem()
             assertTrue(s.rejected.isEmpty())
 
@@ -199,10 +202,10 @@ class BankSuggestionsViewModelTest {
             var s = awaitItem()
             while (s.pending.size < 2) s = awaitItem()
 
-            vm.onIntent(BankSuggestionsIntent.ToggleSelectAll)
+            vm.onIntent(SuggestionsIntent.ToggleSelectAll)
             while (s.selectedIds.size < 2) s = awaitItem()
 
-            vm.onIntent(BankSuggestionsIntent.ConfirmAcceptSelected)
+            vm.onIntent(SuggestionsIntent.ConfirmAcceptSelected)
             while (s.pending.isNotEmpty()) s = awaitItem()
 
             cancelAndIgnoreRemainingEvents()
@@ -253,11 +256,11 @@ class BankSuggestionsViewModelTest {
             var s = awaitItem()
             while (s.pending.size < 2) s = awaitItem()
 
-            vm.onIntent(BankSuggestionsIntent.SetFilterType(com.dv.moneym.core.model.SpendingFilter.Expenses))
+            vm.onIntent(SuggestionsIntent.SetFilterType(com.dv.moneym.core.model.SpendingFilter.Expenses))
             while (s.filteredPending.size != 1) s = awaitItem()
             assertTrue(s.filteredPending.single().isExpense)
 
-            vm.onIntent(BankSuggestionsIntent.ToggleSelectAll)
+            vm.onIntent(SuggestionsIntent.ToggleSelectAll)
             while (s.selectedIds.size != 1) s = awaitItem()
             assertEquals(setOf(s.filteredPending.single().id), s.selectedIds)
             assertTrue(s.allSelected)
@@ -274,12 +277,12 @@ class BankSuggestionsViewModelTest {
             var s = awaitItem()
             while (s.pending.size < 2) s = awaitItem()
 
-            vm.onIntent(BankSuggestionsIntent.SetFilterMax("100"))
+            vm.onIntent(SuggestionsIntent.SetFilterMax("100"))
             while (s.filteredPending.size != 1) s = awaitItem()
             assertEquals("COFFEE", s.filteredPending.single().description)
 
-            vm.onIntent(BankSuggestionsIntent.SetFilterMax(""))
-            vm.onIntent(BankSuggestionsIntent.SetFilterNote("payroll"))
+            vm.onIntent(SuggestionsIntent.SetFilterMax(""))
+            vm.onIntent(SuggestionsIntent.SetFilterNote("payroll"))
             while (s.filteredPending.size != 1 || s.filteredPending.single().description != "PAYROLL") s = awaitItem()
 
             cancelAndIgnoreRemainingEvents()
@@ -294,10 +297,10 @@ class BankSuggestionsViewModelTest {
             var s = awaitItem()
             while (s.pending.size < 2) s = awaitItem()
 
-            vm.onIntent(BankSuggestionsIntent.ToggleSelectAll)
+            vm.onIntent(SuggestionsIntent.ToggleSelectAll)
             while (s.selectedIds.size < 2) s = awaitItem()
 
-            vm.onIntent(BankSuggestionsIntent.SetCategoryForSelected(3))
+            vm.onIntent(SuggestionsIntent.SetCategoryForSelected(3))
             while (s.pending.first { it.isExpense }.categoryId != 3L) s = awaitItem()
 
             assertEquals(3L, s.pending.first { it.isExpense }.categoryId)
@@ -315,13 +318,13 @@ class BankSuggestionsViewModelTest {
             var s = awaitItem()
             while (s.pending.size < 2) s = awaitItem()
 
-            vm.onIntent(BankSuggestionsIntent.SetFilterType(com.dv.moneym.core.model.SpendingFilter.Expenses))
+            vm.onIntent(SuggestionsIntent.SetFilterType(com.dv.moneym.core.model.SpendingFilter.Expenses))
             while (!s.filter.isActive) s = awaitItem()
 
-            vm.onIntent(BankSuggestionsIntent.ToggleSelectAll)
+            vm.onIntent(SuggestionsIntent.ToggleSelectAll)
             while (s.selectedIds.isEmpty()) s = awaitItem()
 
-            vm.onIntent(BankSuggestionsIntent.ConfirmRejectSelected)
+            vm.onIntent(SuggestionsIntent.ConfirmRejectSelected)
             while (s.filter.isActive) s = awaitItem()
             assertEquals(SuggestionFilter(), s.filter)
 

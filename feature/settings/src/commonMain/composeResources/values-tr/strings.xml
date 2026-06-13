@@ -249,4 +249,5 @@
     <string name="settings_remote_restore_no_backup">Google Drive\'da yedek bulunamadı.</string>
     <string name="settings_remote_restore_try_again">Lütfen tekrar deneyin.</string>
     <string name="settings_bank_sync">Banka senkronizasyonu</string>
+    <string name="settings_wallet_sync">Cüzdan senkronizasyonu</string>
 </resources>

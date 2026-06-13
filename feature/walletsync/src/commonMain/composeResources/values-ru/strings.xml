@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallet_sync_title">Синхронизация кошелька</string>
+    <string name="wallet_sync_intro">Создавайте предложения транзакций из уведомлений ваших платёжных приложений. Все данные остаются на устройстве.</string>
+    <string name="wallet_sync_enable_title">Слушать уведомления</string>
+    <string name="wallet_sync_enable_subtitle">Превращайте уведомления выбранных приложений в предложения</string>
+    <string name="wallet_sync_access_required">MoneyM нужен доступ к уведомлениям, чтобы читать платёжные уведомления.</string>
+    <string name="wallet_sync_grant_access">Предоставить доступ к уведомлениям</string>
+    <string name="wallet_sync_access_granted">Доступ к уведомлениям предоставлен</string>
+    <string name="wallet_sync_select_apps">Выбрать приложения</string>
+    <string name="wallet_sync_select_apps_subtitle">Получать уведомления из этих приложений</string>
+    <string name="wallet_sync_apps_selected">Выбрано: %d</string>
+    <string name="wallet_sync_apps_none">Ничего не выбрано</string>
+    <string name="wallet_sync_review_pending">Просмотреть %d предложений</string>
+    <string name="wallet_sync_app_picker_title">Выбрать приложения</string>
+    <string name="wallet_sync_search">Поиск приложений</string>
+    <string name="wallet_sync_done">Готово</string>
+    <string name="wallet_sync_apps_loading">Загрузка приложений…</string>
+</resources>

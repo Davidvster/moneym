@@ -38,4 +38,7 @@
     <string name="transactions_sync_paused">Synchronisation en pause — action requise</string>
     <string name="transactions_sync_sheet_title">Synchronisation cloud</string>
     <string name="transactions_synced">Synchronisé</string>
+    <string name="transactions_wallet_sync_section">Synchronisation du portefeuille</string>
+    <string name="transactions_wallet_review">Examiner %1$d suggestions</string>
+    <string name="transactions_wallet_empty">Aucune suggestion pour l\'instant</string>
 </resources>

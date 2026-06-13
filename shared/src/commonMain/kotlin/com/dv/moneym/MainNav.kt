@@ -39,9 +39,14 @@ import com.dv.moneym.feature.security.setup.pinSetupEntry
 import com.dv.moneym.feature.sync.PendingDeletionsKey
 import com.dv.moneym.feature.sync.pendingDeletionsEntry
 import com.dv.moneym.feature.banksync.suggestions.BankSuggestionsKey
+import com.dv.moneym.feature.banksync.suggestions.WalletSuggestionsKey
 import com.dv.moneym.feature.banksync.home.BankSyncSettingsKey
 import com.dv.moneym.feature.banksync.suggestions.bankSuggestionsEntry
+import com.dv.moneym.feature.banksync.suggestions.walletSuggestionsEntry
 import com.dv.moneym.feature.banksync.home.bankSyncSettingsEntry
+import com.dv.moneym.feature.walletsync.home.WalletSyncSettingsKey
+import com.dv.moneym.feature.walletsync.home.walletSyncSettingsEntry
+import com.dv.moneym.platform.walletSyncSupported
 import com.dv.moneym.feature.banksync.credentials.BankSyncCredentialsKey
 import com.dv.moneym.feature.banksync.credentials.bankSyncCredentialsEntry
 import com.dv.moneym.feature.banksync.bankpicker.BankPickerKey
@@ -155,6 +160,7 @@ internal fun MainNav(lockController: AppLockController) {
                 },
                 onNavigateToPendingDeletions = { tabBackStack.push(PendingDeletionsKey) },
                 onNavigateToBankSuggestions = { tabBackStack.push(BankSuggestionsKey) },
+                onNavigateToWalletSuggestions = { tabBackStack.push(WalletSuggestionsKey) },
             )
             transactionEditEntry(
                 onDismiss = { tabBackStack.removeLast() },
@@ -191,6 +197,11 @@ internal fun MainNav(lockController: AppLockController) {
                 onNavigateToLanguage = { tabBackStack.push(LanguagePickerKey) },
                 onNavigateToExport = { tabBackStack.push(ExportDataKey) },
                 onNavigateToBankSync = { tabBackStack.push(BankSyncSettingsKey) },
+                onNavigateToWalletSync = if (walletSyncSupported) {
+                    { tabBackStack.push(WalletSyncSettingsKey) }
+                } else {
+                    null
+                },
                 onNavigateToWallets = { tabBackStack.push(WalletManageKey) },
                 onNavigateToPaymentModes = { tabBackStack.push(PaymentModeListKey) },
                 onNavigateToBackupRestore = { tabBackStack.push(BackupRestoreKey) },
@@ -255,6 +266,15 @@ internal fun MainNav(lockController: AppLockController) {
                 metadata = modalTransitionMeta,
             )
             bankSuggestionsEntry(
+                onBack = { tabBackStack.removeLast() },
+                metadata = modalTransitionMeta,
+            )
+            walletSyncSettingsEntry(
+                onBack = { tabBackStack.removeLast() },
+                onOpenSuggestions = { tabBackStack.push(WalletSuggestionsKey) },
+                metadata = modalTransitionMeta,
+            )
+            walletSuggestionsEntry(
                 onBack = { tabBackStack.removeLast() },
                 metadata = modalTransitionMeta,
             )

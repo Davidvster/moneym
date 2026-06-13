@@ -4,12 +4,12 @@ import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Money
+import com.dv.moneym.core.model.SuggestionRecord
+import com.dv.moneym.core.model.SyncDirection
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.testing.FakeTransactionRepository
-import com.dv.moneym.data.banksync.BankSuggestion
-import com.dv.moneym.data.banksync.EbDirection
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -22,17 +22,17 @@ class FindDuplicateUseCaseTest {
     private val txRepo = FakeTransactionRepository()
     private val useCase = FindDuplicateUseCase(transactionRepository = txRepo)
 
-    private fun suggestion(amountMinor: Long) = BankSuggestion(
+    private fun suggestion(amountMinor: Long) = SuggestionRecord(
         id = 0,
         externalId = "eb:acc-1:r1",
-        bankAccountUid = "acc-1",
         amountMinor = amountMinor,
         currency = "EUR",
-        direction = EbDirection.DEBIT,
-        bookingDate = LocalDate(2026, 6, 8),
+        direction = SyncDirection.DEBIT,
+        date = LocalDate(2026, 6, 8),
         description = "COFFEE",
         counterparty = "Coffee Shop",
-        fetchedAt = 0,
+        sourceLabel = "Tatra",
+        suggestedAccountId = null,
     )
 
     private suspend fun seedTransaction(amountMinor: Long, date: LocalDate, currency: String) {

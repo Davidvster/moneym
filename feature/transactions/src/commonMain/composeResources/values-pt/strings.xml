@@ -36,4 +36,7 @@
     <string name="transactions_sync_paused">Sincronização pausada — ação necessária</string>
     <string name="transactions_sync_sheet_title">Sincronização na nuvem</string>
     <string name="transactions_synced">Sincronizado</string>
+    <string name="transactions_wallet_sync_section">Sincronização da carteira</string>
+    <string name="transactions_wallet_review">Revisar %1$d sugestões</string>
+    <string name="transactions_wallet_empty">Ainda não há sugestões</string>
 </resources>

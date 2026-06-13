@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallet_sync_title">Tárca szinkronizálás</string>
+    <string name="wallet_sync_intro">Hozz létre tranzakciójavaslatokat fizetési alkalmazásaid értesítéseiből. Minden a készülékeden marad.</string>
+    <string name="wallet_sync_enable_title">Értesítések figyelése</string>
+    <string name="wallet_sync_enable_subtitle">Alakítsd a kiválasztott alkalmazások értesítéseit javaslatokká</string>
+    <string name="wallet_sync_access_required">A MoneyM értesítési hozzáférést igényel a fizetési értesítések olvasásához.</string>
+    <string name="wallet_sync_grant_access">Értesítési hozzáférés megadása</string>
+    <string name="wallet_sync_access_granted">Értesítési hozzáférés megadva</string>
+    <string name="wallet_sync_select_apps">Alkalmazások kiválasztása</string>
+    <string name="wallet_sync_select_apps_subtitle">Értesítések rögzítése ezekből az alkalmazásokból</string>
+    <string name="wallet_sync_apps_selected">%d kiválasztva</string>
+    <string name="wallet_sync_apps_none">Nincs kiválasztva</string>
+    <string name="wallet_sync_review_pending">%d javaslat áttekintése</string>
+    <string name="wallet_sync_app_picker_title">Alkalmazások kiválasztása</string>
+    <string name="wallet_sync_search">Alkalmazások keresése</string>
+    <string name="wallet_sync_done">Kész</string>
+    <string name="wallet_sync_apps_loading">Alkalmazások betöltése…</string>
+</resources>

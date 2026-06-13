@@ -1,9 +1,12 @@
 package com.dv.moneym.feature.banksync.suggestions
 
+import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.SpendingFilter
 import kotlin.math.abs
 import kotlinx.serialization.Serializable
+
+enum class SuggestionSourceType { BANK, WALLET }
 
 enum class SuggestionsTab { PENDING, REJECTED }
 
@@ -57,7 +60,7 @@ data class SuggestionRow(
     val amountMinor: Long,
     val currency: String,
     val isExpense: Boolean,
-    val bankName: String,
+    val sourceLabel: String,
     val targetAccountId: Long?,
     val targetAccountName: String?,
     val categoryId: Long?,
@@ -66,7 +69,7 @@ data class SuggestionRow(
 )
 
 @Serializable
-data class BankSuggestionsUiState(
+data class SuggestionsUiState(
     val isLoading: Boolean = true,
     val isProcessing: Boolean = false,
     val tab: SuggestionsTab = SuggestionsTab.PENDING,
@@ -74,13 +77,16 @@ data class BankSuggestionsUiState(
     val rejected: List<SuggestionRow> = emptyList(),
     val selectedIds: Set<Long> = emptySet(),
     val categories: List<Category> = emptyList(),
+    val accounts: List<Account> = emptyList(),
     val categoryPickerForId: Long? = null,
+    val accountPickerForId: Long? = null,
     val showAcceptConfirm: Boolean = false,
     val showRejectConfirm: Boolean = false,
     val acceptConfirmId: Long? = null,
     val filter: SuggestionFilter = SuggestionFilter(),
     val showFilterSheet: Boolean = false,
     val showBatchCategoryPicker: Boolean = false,
+    val showBatchAccountPicker: Boolean = false,
 ) {
     val filteredPending: List<SuggestionRow> get() = pending.filter { filter.matches(it) }
     val rows: List<SuggestionRow> get() = if (tab == SuggestionsTab.PENDING) filteredPending else rejected
@@ -88,29 +94,33 @@ data class BankSuggestionsUiState(
         get() = filteredPending.isNotEmpty() && filteredPending.all { it.id in selectedIds }
 }
 
-sealed interface BankSuggestionsIntent {
-    data class SetTab(val tab: SuggestionsTab) : BankSuggestionsIntent
-    data class ToggleSelect(val id: Long) : BankSuggestionsIntent
-    data object ToggleSelectAll : BankSuggestionsIntent
-    data object ClearSelection : BankSuggestionsIntent
-    data class RequestAccept(val id: Long) : BankSuggestionsIntent
-    data object ConfirmAccept : BankSuggestionsIntent
-    data class Reject(val id: Long) : BankSuggestionsIntent
-    data object RequestAcceptSelected : BankSuggestionsIntent
-    data object ConfirmAcceptSelected : BankSuggestionsIntent
-    data object RequestRejectSelected : BankSuggestionsIntent
-    data object ConfirmRejectSelected : BankSuggestionsIntent
-    data object DismissConfirm : BankSuggestionsIntent
-    data class UndoReject(val id: Long) : BankSuggestionsIntent
-    data class RestoreToPending(val id: Long) : BankSuggestionsIntent
-    data class ShowCategoryPicker(val id: Long?) : BankSuggestionsIntent
-    data class SetCategory(val id: Long, val categoryId: Long) : BankSuggestionsIntent
-    data class ShowFilterSheet(val show: Boolean) : BankSuggestionsIntent
-    data class SetFilterType(val type: SpendingFilter) : BankSuggestionsIntent
-    data class SetFilterMin(val text: String) : BankSuggestionsIntent
-    data class SetFilterMax(val text: String) : BankSuggestionsIntent
-    data class SetFilterNote(val text: String) : BankSuggestionsIntent
-    data object ClearFilter : BankSuggestionsIntent
-    data class ShowBatchCategoryPicker(val show: Boolean) : BankSuggestionsIntent
-    data class SetCategoryForSelected(val categoryId: Long) : BankSuggestionsIntent
+sealed interface SuggestionsIntent {
+    data class SetTab(val tab: SuggestionsTab) : SuggestionsIntent
+    data class ToggleSelect(val id: Long) : SuggestionsIntent
+    data object ToggleSelectAll : SuggestionsIntent
+    data object ClearSelection : SuggestionsIntent
+    data class RequestAccept(val id: Long) : SuggestionsIntent
+    data object ConfirmAccept : SuggestionsIntent
+    data class Reject(val id: Long) : SuggestionsIntent
+    data object RequestAcceptSelected : SuggestionsIntent
+    data object ConfirmAcceptSelected : SuggestionsIntent
+    data object RequestRejectSelected : SuggestionsIntent
+    data object ConfirmRejectSelected : SuggestionsIntent
+    data object DismissConfirm : SuggestionsIntent
+    data class UndoReject(val id: Long) : SuggestionsIntent
+    data class RestoreToPending(val id: Long) : SuggestionsIntent
+    data class ShowCategoryPicker(val id: Long?) : SuggestionsIntent
+    data class SetCategory(val id: Long, val categoryId: Long) : SuggestionsIntent
+    data class ShowAccountPicker(val id: Long?) : SuggestionsIntent
+    data class SetAccount(val id: Long, val accountId: Long) : SuggestionsIntent
+    data class ShowFilterSheet(val show: Boolean) : SuggestionsIntent
+    data class SetFilterType(val type: SpendingFilter) : SuggestionsIntent
+    data class SetFilterMin(val text: String) : SuggestionsIntent
+    data class SetFilterMax(val text: String) : SuggestionsIntent
+    data class SetFilterNote(val text: String) : SuggestionsIntent
+    data object ClearFilter : SuggestionsIntent
+    data class ShowBatchCategoryPicker(val show: Boolean) : SuggestionsIntent
+    data class SetCategoryForSelected(val categoryId: Long) : SuggestionsIntent
+    data class ShowBatchAccountPicker(val show: Boolean) : SuggestionsIntent
+    data class SetAccountForSelected(val accountId: Long) : SuggestionsIntent
 }

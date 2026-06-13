@@ -249,4 +249,5 @@
     <string name="settings_remote_restore_no_backup">Na Google Drive nebyla nalezena žádná záloha.</string>
     <string name="settings_remote_restore_try_again">Zkuste to prosím znovu.</string>
     <string name="settings_bank_sync">Bankovní synchronizace</string>
+    <string name="settings_wallet_sync">Synchronizace peněženky</string>
 </resources>

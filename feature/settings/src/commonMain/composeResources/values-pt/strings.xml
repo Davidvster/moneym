@@ -249,4 +249,5 @@
     <string name="settings_remote_restore_no_backup">Não foi encontrado nenhum backup no Google Drive.</string>
     <string name="settings_remote_restore_try_again">Tente novamente.</string>
     <string name="settings_bank_sync">Sincronização bancária</string>
+    <string name="settings_wallet_sync">Sincronização da carteira</string>
 </resources>

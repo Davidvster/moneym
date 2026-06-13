@@ -33,10 +33,15 @@ import com.dv.moneym.feature.categories.list.CategoryListViewModel
 import com.dv.moneym.feature.onboarding.currency.OnboardingCurrencyViewModel
 import com.dv.moneym.feature.onboarding.restore.OnboardingRestoreViewModel
 import com.dv.moneym.feature.onboarding.security.OnboardingSecurityViewModel
-import com.dv.moneym.feature.banksync.suggestions.BankSuggestionsViewModel
+import com.dv.moneym.core.model.SuggestionSource
+import com.dv.moneym.data.banksync.BankSyncRepository
+import com.dv.moneym.data.walletsync.WalletSyncRepository
+import com.dv.moneym.feature.banksync.suggestions.SuggestionsViewModel
+import com.dv.moneym.feature.banksync.suggestions.SuggestionSourceType
 import com.dv.moneym.feature.banksync.home.BankSyncHomeViewModel
 import com.dv.moneym.feature.banksync.credentials.BankSyncCredentialsViewModel
 import com.dv.moneym.feature.banksync.bankpicker.BankPickerViewModel
+import com.dv.moneym.feature.walletsync.home.WalletSyncHomeViewModel
 import com.dv.moneym.feature.banksync.usecase.AcceptSuggestionUseCase
 import com.dv.moneym.feature.banksync.usecase.CompleteConnectionUseCase
 import com.dv.moneym.feature.banksync.usecase.ConnectBankUseCase
@@ -84,6 +89,7 @@ import com.dv.moneym.feature.transactions.list.TransactionListViewModel
 import com.dv.moneym.feature.transactions.list.page.TransactionPageViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val coreSecurityModule = module {
@@ -104,6 +110,7 @@ val featureTransactionsModule = module {
             ephemeralState = get(),
             syncStatus = get<SyncEngine>(),
             syncPuller = get<SyncEngine>(),
+            walletSyncStatus = get(),
             clock = get(),
             transactionSavedSignal = get(),
             savedStateHandle = get(),
@@ -345,13 +352,15 @@ val featureBankSyncModule = module {
     single {
         AcceptSuggestionUseCase(
             transactionRepository = get(),
-            bankSyncRepository = get(),
             clock = get(),
         )
     }
-    viewModel {
-        BankSuggestionsViewModel(
-            bankSyncRepository = get(),
+    single<SuggestionSource>(named(SuggestionSourceType.BANK.name)) { get<BankSyncRepository>() }
+    single<SuggestionSource>(named(SuggestionSourceType.WALLET.name)) { get<WalletSyncRepository>() }
+    viewModel { (sourceType: SuggestionSourceType) ->
+        SuggestionsViewModel(
+            source = get(named(sourceType.name)),
+            accountRepository = get(),
             categoryRepository = get(),
             acceptSuggestion = get(),
             findDuplicate = get(),
@@ -386,6 +395,17 @@ val featureBankSyncModule = module {
             parseRedirectCode = get(),
             callbackBus = get(),
             savedStateHandle = get(),
+        )
+    }
+}
+
+val featureWalletSyncModule = module {
+    viewModel {
+        WalletSyncHomeViewModel(
+            notificationAccess = get(),
+            installedAppsProvider = get(),
+            walletSyncRepository = get(),
+            appSettings = get(),
         )
     }
 }

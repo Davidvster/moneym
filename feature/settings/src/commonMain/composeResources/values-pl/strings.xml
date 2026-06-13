@@ -249,4 +249,5 @@
     <string name="settings_remote_restore_no_backup">Nie znaleziono kopii zapasowej na Dysku Google.</string>
     <string name="settings_remote_restore_try_again">Spróbuj ponownie.</string>
     <string name="settings_bank_sync">Synchronizacja bankowa</string>
+    <string name="settings_wallet_sync">Synchronizacja portfela</string>
 </resources>

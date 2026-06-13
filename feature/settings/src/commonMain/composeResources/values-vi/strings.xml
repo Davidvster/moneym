@@ -249,4 +249,5 @@
     <string name="settings_remote_restore_no_backup">Không tìm thấy bản sao lưu nào trên Google Drive.</string>
     <string name="settings_remote_restore_try_again">Vui lòng thử lại.</string>
     <string name="settings_bank_sync">Đồng bộ ngân hàng</string>
+    <string name="settings_wallet_sync">Đồng bộ ví</string>
 </resources>

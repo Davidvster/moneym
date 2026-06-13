@@ -106,6 +106,9 @@ import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.transactions_add
 import moneym.feature.transactions.generated.resources.transactions_bank_review
 import moneym.feature.transactions.generated.resources.transactions_bank_sync_section
+import moneym.feature.transactions.generated.resources.transactions_wallet_empty
+import moneym.feature.transactions.generated.resources.transactions_wallet_review
+import moneym.feature.transactions.generated.resources.transactions_wallet_sync_section
 import moneym.feature.transactions.generated.resources.transactions_cancel
 import moneym.feature.transactions.generated.resources.transactions_close_search_cd
 import moneym.feature.transactions.generated.resources.transactions_dialog_select_month
@@ -147,6 +150,7 @@ fun EntryProviderScope<NavKey>.transactionsEntry(
     onTabSelected: (TabRoute) -> Unit = {},
     onNavigateToPendingDeletions: () -> Unit = {},
     onNavigateToBankSuggestions: () -> Unit = {},
+    onNavigateToWalletSuggestions: () -> Unit = {},
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<TransactionsKey>(metadata = metadata) {
     TransactionListScreen(
@@ -156,6 +160,7 @@ fun EntryProviderScope<NavKey>.transactionsEntry(
         onTabSelected = onTabSelected,
         onNavigateToPendingDeletions = onNavigateToPendingDeletions,
         onNavigateToBankSuggestions = onNavigateToBankSuggestions,
+        onNavigateToWalletSuggestions = onNavigateToWalletSuggestions,
     )
 }
 
@@ -167,6 +172,7 @@ private fun TransactionListScreen(
     onTabSelected: (TabRoute) -> Unit = {},
     onNavigateToPendingDeletions: () -> Unit = {},
     onNavigateToBankSuggestions: () -> Unit = {},
+    onNavigateToWalletSuggestions: () -> Unit = {},
     viewModel: TransactionListViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -179,6 +185,7 @@ private fun TransactionListScreen(
         onTabSelected = onTabSelected,
         onNavigateToPendingDeletions = onNavigateToPendingDeletions,
         onNavigateToBankSuggestions = onNavigateToBankSuggestions,
+        onNavigateToWalletSuggestions = onNavigateToWalletSuggestions,
     )
 }
 
@@ -193,6 +200,7 @@ private fun TransactionListContent(
     onTabSelected: (TabRoute) -> Unit,
     onNavigateToPendingDeletions: () -> Unit = {},
     onNavigateToBankSuggestions: () -> Unit = {},
+    onNavigateToWalletSuggestions: () -> Unit = {},
 ) {
     var initialScrollDone by remember { mutableStateOf(false) }
 
@@ -266,6 +274,12 @@ private fun TransactionListContent(
             onReviewSuggestions = {
                 onIntent(TransactionListIntent.ShowSyncSheet(false))
                 onNavigateToBankSuggestions()
+            },
+            walletEnabled = state.isWalletSyncEnabled,
+            walletPendingCount = state.walletPendingCount,
+            onReviewWalletSuggestions = {
+                onIntent(TransactionListIntent.ShowSyncSheet(false))
+                onNavigateToWalletSuggestions()
             },
             onDismiss = { onIntent(TransactionListIntent.ShowSyncSheet(false)) },
         )
@@ -527,6 +541,9 @@ private fun SyncStatusSheet(
     bankPendingCount: Int,
     onBankSyncNow: () -> Unit,
     onReviewSuggestions: () -> Unit,
+    walletEnabled: Boolean,
+    walletPendingCount: Int,
+    onReviewWalletSuggestions: () -> Unit,
     onDismiss: () -> Unit,
 ) {
     val colors = MM.colors
@@ -635,6 +652,32 @@ private fun SyncStatusSheet(
                     enabled = !bankIsSyncing,
                     fullWidth = true,
                 )
+            }
+
+            if ((crossDeviceEnabled || bankEnabled) && walletEnabled) {
+                HorizontalDivider(color = colors.divider, thickness = space.strokeHairline)
+            }
+
+            if (walletEnabled) {
+                Text(
+                    text = stringResource(Res.string.transactions_wallet_sync_section),
+                    style = type.title3,
+                    color = colors.text,
+                )
+                if (walletPendingCount > 0) {
+                    MmButton(
+                        text = stringResource(Res.string.transactions_wallet_review, walletPendingCount),
+                        onClick = onReviewWalletSuggestions,
+                        variant = MmButtonVariant.Outline,
+                        fullWidth = true,
+                    )
+                } else {
+                    Text(
+                        text = stringResource(Res.string.transactions_wallet_empty),
+                        style = type.body,
+                        color = colors.text2,
+                    )
+                }
             }
         }
     }

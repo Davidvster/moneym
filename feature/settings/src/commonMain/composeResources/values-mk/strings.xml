@@ -249,4 +249,5 @@
     <string name="settings_remote_restore_no_backup">На Google Drive не е пронајдена резервна копија.</string>
     <string name="settings_remote_restore_try_again">Обидете се повторно.</string>
     <string name="settings_bank_sync">Банкарска синхронизација</string>
+    <string name="settings_wallet_sync">Синхронизација на паричник</string>
 </resources>

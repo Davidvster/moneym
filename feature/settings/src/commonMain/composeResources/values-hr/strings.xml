@@ -249,4 +249,5 @@
     <string name="settings_remote_restore_no_backup">Na Google Driveu nije pronađena sigurnosna kopija.</string>
     <string name="settings_remote_restore_try_again">Pokušajte ponovno.</string>
     <string name="settings_bank_sync">Bankovna sinkronizacija</string>
+    <string name="settings_wallet_sync">Sinkronizacija novčanika</string>
 </resources>

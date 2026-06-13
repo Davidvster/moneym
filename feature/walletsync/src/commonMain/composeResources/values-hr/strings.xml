@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallet_sync_title">Sinkronizacija novčanika</string>
+    <string name="wallet_sync_intro">Stvarajte prijedloge transakcija iz obavijesti vaših aplikacija za plaćanje. Sve ostaje na vašem uređaju.</string>
+    <string name="wallet_sync_enable_title">Slušaj obavijesti</string>
+    <string name="wallet_sync_enable_subtitle">Pretvori obavijesti odabranih aplikacija u prijedloge</string>
+    <string name="wallet_sync_access_required">MoneyM treba pristup obavijestima za čitanje obavijesti o plaćanju.</string>
+    <string name="wallet_sync_grant_access">Dodijeli pristup obavijestima</string>
+    <string name="wallet_sync_access_granted">Pristup obavijestima dodijeljen</string>
+    <string name="wallet_sync_select_apps">Odaberi aplikacije</string>
+    <string name="wallet_sync_select_apps_subtitle">Snimaj obavijesti iz ovih aplikacija</string>
+    <string name="wallet_sync_apps_selected">Odabrano: %d</string>
+    <string name="wallet_sync_apps_none">Ništa nije odabrano</string>
+    <string name="wallet_sync_review_pending">Pregledaj %d prijedloga</string>
+    <string name="wallet_sync_app_picker_title">Odaberi aplikacije</string>
+    <string name="wallet_sync_search">Pretraži aplikacije</string>
+    <string name="wallet_sync_done">Gotovo</string>
+    <string name="wallet_sync_apps_loading">Učitavanje aplikacija…</string>
+</resources>

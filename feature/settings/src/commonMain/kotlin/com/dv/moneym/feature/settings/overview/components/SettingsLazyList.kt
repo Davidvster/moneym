@@ -48,6 +48,7 @@ internal fun SettingsLazyList(
     onNavigateToLanguage: () -> Unit,
     onNavigateToExport: () -> Unit,
     onNavigateToBankSync: () -> Unit,
+    onNavigateToWalletSync: (() -> Unit)?,
     onNavigateToWallets: () -> Unit,
     onNavigateToPaymentModes: () -> Unit,
     onNavigateToBackupRestore: () -> Unit,
@@ -140,6 +141,7 @@ internal fun SettingsLazyList(
             DataSection(
                 onNavigateToExport = onNavigateToExport,
                 onNavigateToBankSync = onNavigateToBankSync,
+                onNavigateToWalletSync = onNavigateToWalletSync,
             )
         }
         item(key = SettingsItem.BACKUP_LABEL.name) {

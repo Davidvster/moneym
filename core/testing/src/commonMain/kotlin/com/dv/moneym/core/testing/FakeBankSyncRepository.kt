@@ -1,11 +1,15 @@
 package com.dv.moneym.core.testing
 
+import com.dv.moneym.core.model.SuggestionRecord
+import com.dv.moneym.core.model.SyncDirection
 import com.dv.moneym.data.banksync.BankAccountLink
 import com.dv.moneym.data.banksync.BankSuggestion
 import com.dv.moneym.data.banksync.BankSyncRepository
+import com.dv.moneym.data.banksync.EbDirection
 import com.dv.moneym.data.banksync.SuggestionStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.LocalDate
@@ -57,17 +61,40 @@ class FakeBankSyncRepository : BankSyncRepository {
         }
     }
 
-    override fun observePendingSuggestions(): Flow<List<BankSuggestion>> =
-        _suggestions.map { list -> list.filter { it.status == SuggestionStatus.PENDING } }
+    override fun observePending(): Flow<List<SuggestionRecord>> =
+        combine(_suggestions, _accounts) { list, accounts ->
+            list.filter { it.status == SuggestionStatus.PENDING }.map { it.toRecord(accounts) }
+        }
 
-    override fun observeRejectedSuggestions(): Flow<List<BankSuggestion>> =
-        _suggestions.map { list -> list.filter { it.status == SuggestionStatus.REJECTED } }
+    override fun observeRejected(): Flow<List<SuggestionRecord>> =
+        combine(_suggestions, _accounts) { list, accounts ->
+            list.filter { it.status == SuggestionStatus.REJECTED }.map { it.toRecord(accounts) }
+        }
 
     override fun observePendingCount(): Flow<Int> =
         _suggestions.map { list -> list.count { it.status == SuggestionStatus.PENDING } }
 
-    override suspend fun getSuggestion(id: Long): BankSuggestion? =
-        _suggestions.value.firstOrNull { it.id == id }
+    override suspend fun getRecord(id: Long): SuggestionRecord? =
+        _suggestions.value.firstOrNull { it.id == id }?.toRecord(_accounts.value)
+
+    private fun BankSuggestion.toRecord(links: List<BankAccountLink>): SuggestionRecord {
+        val link = links.firstOrNull { it.uid == bankAccountUid }
+        return SuggestionRecord(
+            id = id,
+            externalId = externalId,
+            amountMinor = amountMinor,
+            currency = currency,
+            direction = when (direction) {
+                EbDirection.DEBIT -> SyncDirection.DEBIT
+                EbDirection.CREDIT -> SyncDirection.CREDIT
+            },
+            date = bookingDate,
+            description = description,
+            counterparty = counterparty,
+            sourceLabel = link?.bankName,
+            suggestedAccountId = link?.localAccountId,
+        )
+    }
 
     override suspend fun filterKnownExternalIds(externalIds: List<String>): Set<String> {
         val known = _suggestions.value.mapTo(mutableSetOf()) { it.externalId }

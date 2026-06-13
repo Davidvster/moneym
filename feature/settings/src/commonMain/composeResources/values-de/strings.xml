@@ -259,4 +259,5 @@
     <string name="settings_remote_delete_confirm">Löschen</string>
     <string name="settings_import_failed">Import fehlgeschlagen</string>
     <string name="settings_bank_sync">Bank-Synchronisierung</string>
+    <string name="settings_wallet_sync">Wallet-Synchronisierung</string>
 </resources>

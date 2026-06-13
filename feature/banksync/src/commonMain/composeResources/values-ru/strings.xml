@@ -76,4 +76,5 @@
     <string name="suggestions_filter_apply">Применить</string>
     <string name="suggestions_filter_clear">Очистить</string>
     <string name="suggestions_assign_category">Назначить категорию</string>
+    <string name="suggestions_assign_account">Назначить кошелёк</string>
 </resources>

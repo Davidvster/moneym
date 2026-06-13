@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallet_sync_title">Synchronizácia peňaženky</string>
+    <string name="wallet_sync_intro">Vytvárajte návrhy transakcií z oznámení vašich platobných aplikácií. Všetko zostáva vo vašom zariadení.</string>
+    <string name="wallet_sync_enable_title">Počúvať oznámenia</string>
+    <string name="wallet_sync_enable_subtitle">Meňte oznámenia vybraných aplikácií na návrhy</string>
+    <string name="wallet_sync_access_required">MoneyM potrebuje prístup k oznámeniam, aby mohol čítať platobné oznámenia.</string>
+    <string name="wallet_sync_grant_access">Udeliť prístup k oznámeniam</string>
+    <string name="wallet_sync_access_granted">Prístup k oznámeniam udelený</string>
+    <string name="wallet_sync_select_apps">Vybrať aplikácie</string>
+    <string name="wallet_sync_select_apps_subtitle">Zachytávať oznámenia z týchto aplikácií</string>
+    <string name="wallet_sync_apps_selected">Vybraté: %d</string>
+    <string name="wallet_sync_apps_none">Nič nevybraté</string>
+    <string name="wallet_sync_review_pending">Skontrolovať %d návrhov</string>
+    <string name="wallet_sync_app_picker_title">Vybrať aplikácie</string>
+    <string name="wallet_sync_search">Hľadať aplikácie</string>
+    <string name="wallet_sync_done">Hotovo</string>
+    <string name="wallet_sync_apps_loading">Načítavanie aplikácií…</string>
+</resources>

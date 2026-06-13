@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallet_sync_title">Veskissamstilling</string>
+    <string name="wallet_sync_intro">Búðu til færslutillögur úr tilkynningum greiðsluforrita þinna. Allt helst í tækinu þínu.</string>
+    <string name="wallet_sync_enable_title">Hlusta á tilkynningar</string>
+    <string name="wallet_sync_enable_subtitle">Breyttu tilkynningum valinna forrita í tillögur</string>
+    <string name="wallet_sync_access_required">MoneyM þarf aðgang að tilkynningum til að lesa greiðslutilkynningar.</string>
+    <string name="wallet_sync_grant_access">Veita aðgang að tilkynningum</string>
+    <string name="wallet_sync_access_granted">Aðgangur að tilkynningum veittur</string>
+    <string name="wallet_sync_select_apps">Velja forrit</string>
+    <string name="wallet_sync_select_apps_subtitle">Ná í tilkynningar úr þessum forritum</string>
+    <string name="wallet_sync_apps_selected">%d valin</string>
+    <string name="wallet_sync_apps_none">Engin valin</string>
+    <string name="wallet_sync_review_pending">Skoða %d tillögur</string>
+    <string name="wallet_sync_app_picker_title">Velja forrit</string>
+    <string name="wallet_sync_search">Leita að forritum</string>
+    <string name="wallet_sync_done">Lokið</string>
+    <string name="wallet_sync_apps_loading">Hleð forritum…</string>
+</resources>

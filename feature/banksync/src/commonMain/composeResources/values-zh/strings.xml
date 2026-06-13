@@ -76,4 +76,5 @@
     <string name="suggestions_filter_apply">应用</string>
     <string name="suggestions_filter_clear">清除</string>
     <string name="suggestions_assign_category">分配类别</string>
+    <string name="suggestions_assign_account">分配钱包</string>
 </resources>

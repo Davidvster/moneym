@@ -80,6 +80,11 @@ object PrefKeys {
     const val BANK_SYNC_LAST_SYNC_MS = "pref.bank_sync_last_sync_ms"
     const val BANK_SYNC_SESSION_VALID_UNTIL_MS = "pref.bank_sync_session_valid_until_ms"
 
+    // Wallet sync (Android notification listener)
+    const val WALLET_SYNC_ENABLED = "pref.wallet_sync_enabled"
+    const val WALLET_SYNC_PACKAGES = "pref.wallet_sync_packages"
+    const val WALLET_SYNC_LAST_CAPTURE_MS = "pref.wallet_sync_last_capture_ms"
+
     // AI analysis grounding mode (SNAPSHOT / TOOLS)
     const val AI_GROUNDING_MODE = "pref.ai_grounding_mode"
 

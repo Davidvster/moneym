@@ -5,23 +5,23 @@ import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Money
+import com.dv.moneym.core.model.SuggestionRecord
+import com.dv.moneym.core.model.SuggestionSource
+import com.dv.moneym.core.model.SyncDirection
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
-import com.dv.moneym.data.banksync.BankSuggestion
-import com.dv.moneym.data.banksync.BankSyncRepository
-import com.dv.moneym.data.banksync.EbDirection
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlin.math.abs
 
 class AcceptSuggestionUseCase(
     private val transactionRepository: TransactionRepository,
-    private val bankSyncRepository: BankSyncRepository,
     private val clock: AppClock,
 ) {
     suspend operator fun invoke(
-        suggestion: BankSuggestion,
+        source: SuggestionSource,
+        suggestion: SuggestionRecord,
         accountId: Long,
         categoryId: Long,
     ): TransactionId {
@@ -30,11 +30,11 @@ class AcceptSuggestionUseCase(
             Transaction(
                 id = UNSAVED_TRANSACTION_ID,
                 type = when (suggestion.direction) {
-                    EbDirection.CREDIT -> TransactionType.INCOME
-                    EbDirection.DEBIT -> TransactionType.EXPENSE
+                    SyncDirection.CREDIT -> TransactionType.INCOME
+                    SyncDirection.DEBIT -> TransactionType.EXPENSE
                 },
                 amount = Money(abs(suggestion.amountMinor), CurrencyCode(suggestion.currency)),
-                occurredOn = suggestion.bookingDate,
+                occurredOn = suggestion.date,
                 note = suggestion.description ?: suggestion.counterparty,
                 categoryId = CategoryId(categoryId),
                 accountId = AccountId(accountId),
@@ -43,7 +43,7 @@ class AcceptSuggestionUseCase(
             )
         )
         transactionRepository.setExternalId(transactionId, suggestion.externalId)
-        bankSyncRepository.accept(suggestion.id, transactionId.value, now.toEpochMilliseconds())
+        source.accept(suggestion.id, transactionId.value, now.toEpochMilliseconds())
         return transactionId
     }
 }

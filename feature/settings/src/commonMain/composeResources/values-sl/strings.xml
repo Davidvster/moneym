@@ -249,4 +249,5 @@
     <string name="settings_remote_restore_no_backup">V Google Drive ni bilo mogoče najti varnostne kopije.</string>
     <string name="settings_remote_restore_try_again">Poskusite znova.</string>
     <string name="settings_bank_sync">Bančna sinhronizacija</string>
+    <string name="settings_wallet_sync">Sinhronizacija denarnice</string>
 </resources>

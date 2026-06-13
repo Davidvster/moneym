@@ -76,4 +76,5 @@
     <string name="suggestions_filter_apply">Примени</string>
     <string name="suggestions_filter_clear">Исчисти</string>
     <string name="suggestions_assign_category">Додели категорија</string>
+    <string name="suggestions_assign_account">Додели паричник</string>
 </resources>

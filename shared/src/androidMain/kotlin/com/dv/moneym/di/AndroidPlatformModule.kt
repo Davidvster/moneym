@@ -14,12 +14,17 @@ import com.dv.moneym.core.security.SecureStore
 import com.dv.moneym.data.accounts.createAccountsDatabase
 import com.dv.moneym.data.aichat.createAiChatDatabase
 import com.dv.moneym.data.banksync.createBankSyncDatabase
+import com.dv.moneym.data.walletsync.createWalletSyncDatabase
 import com.dv.moneym.data.budgets.createBudgetsDatabase
 import com.dv.moneym.data.categories.createCategoriesDatabase
 import com.dv.moneym.data.transactions.createTransactionsDatabase
 import com.dv.moneym.locale.AndroidLocaleController
+import com.dv.moneym.platform.AndroidInstalledAppsProvider
+import com.dv.moneym.platform.AndroidNotificationAccessController
 import com.dv.moneym.platform.DbPlatform
 import com.dv.moneym.platform.FilePlatform
+import com.dv.moneym.platform.InstalledAppsProvider
+import com.dv.moneym.platform.NotificationAccessController
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -31,6 +36,9 @@ fun androidPlatformModule(context: Context) = module {
     single { createBudgetsDatabase(context) }
     single { createAiChatDatabase(context) }
     single { createBankSyncDatabase(context) }
+    single { createWalletSyncDatabase(context) }
+    single<NotificationAccessController> { AndroidNotificationAccessController(context) }
+    single<InstalledAppsProvider> { AndroidInstalledAppsProvider(context) }
     single<SecureStore> { AndroidSecureStore(context) }
     single<BiometricAuthenticator> { BiometricAuthenticatorImpl() }
     single<LocaleController> { AndroidLocaleController(get()) }

@@ -40,6 +40,7 @@ kotlin {
             implementation(projects.data.accounts)
             implementation(projects.data.sync)
             implementation(projects.data.banksync)
+            implementation(projects.data.walletsync)
             implementation(projects.core.datastore)
         }
         commonTest.dependencies {

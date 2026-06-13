@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallet_sync_title">钱包同步</string>
+    <string name="wallet_sync_intro">根据支付应用的通知创建交易建议。所有数据都保留在你的设备上。</string>
+    <string name="wallet_sync_enable_title">监听通知</string>
+    <string name="wallet_sync_enable_subtitle">将所选应用的通知转化为建议</string>
+    <string name="wallet_sync_access_required">MoneyM 需要通知访问权限才能读取支付通知。</string>
+    <string name="wallet_sync_grant_access">授予通知访问权限</string>
+    <string name="wallet_sync_access_granted">已授予通知访问权限</string>
+    <string name="wallet_sync_select_apps">选择应用</string>
+    <string name="wallet_sync_select_apps_subtitle">捕获这些应用的通知</string>
+    <string name="wallet_sync_apps_selected">已选择 %d 个</string>
+    <string name="wallet_sync_apps_none">未选择</string>
+    <string name="wallet_sync_review_pending">查看 %d 条建议</string>
+    <string name="wallet_sync_app_picker_title">选择应用</string>
+    <string name="wallet_sync_search">搜索应用</string>
+    <string name="wallet_sync_done">完成</string>
+    <string name="wallet_sync_apps_loading">正在加载应用…</string>
+</resources>

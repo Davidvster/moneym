@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallet_sync_title">Piniginės sinchronizavimas</string>
+    <string name="wallet_sync_intro">Kurkite operacijų pasiūlymus iš mokėjimo programėlių pranešimų. Viskas lieka jūsų įrenginyje.</string>
+    <string name="wallet_sync_enable_title">Klausytis pranešimų</string>
+    <string name="wallet_sync_enable_subtitle">Paverskite pasirinktų programėlių pranešimus pasiūlymais</string>
+    <string name="wallet_sync_access_required">MoneyM reikia prieigos prie pranešimų, kad galėtų skaityti mokėjimų pranešimus.</string>
+    <string name="wallet_sync_grant_access">Suteikti prieigą prie pranešimų</string>
+    <string name="wallet_sync_access_granted">Prieiga prie pranešimų suteikta</string>
+    <string name="wallet_sync_select_apps">Pasirinkti programėles</string>
+    <string name="wallet_sync_select_apps_subtitle">Fiksuoti pranešimus iš šių programėlių</string>
+    <string name="wallet_sync_apps_selected">Pasirinkta: %d</string>
+    <string name="wallet_sync_apps_none">Nieko nepasirinkta</string>
+    <string name="wallet_sync_review_pending">Peržiūrėti %d pasiūlymų</string>
+    <string name="wallet_sync_app_picker_title">Pasirinkti programėles</string>
+    <string name="wallet_sync_search">Ieškoti programėlių</string>
+    <string name="wallet_sync_done">Atlikta</string>
+    <string name="wallet_sync_apps_loading">Įkeliamos programėlės…</string>
+</resources>

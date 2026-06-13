@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallet_sync_title">Synchronisation du portefeuille</string>
+    <string name="wallet_sync_intro">Créez des suggestions de transactions à partir des notifications de vos applis de paiement. Tout reste sur votre appareil.</string>
+    <string name="wallet_sync_enable_title">Écouter les notifications</string>
+    <string name="wallet_sync_enable_subtitle">Transformez les notifications des applis choisies en suggestions</string>
+    <string name="wallet_sync_access_required">MoneyM a besoin de l\'accès aux notifications pour lire les notifications de paiement.</string>
+    <string name="wallet_sync_grant_access">Autoriser l\'accès aux notifications</string>
+    <string name="wallet_sync_access_granted">Accès aux notifications autorisé</string>
+    <string name="wallet_sync_select_apps">Choisir les applis</string>
+    <string name="wallet_sync_select_apps_subtitle">Capturer les notifications de ces applis</string>
+    <string name="wallet_sync_apps_selected">%d sélectionnées</string>
+    <string name="wallet_sync_apps_none">Aucune sélectionnée</string>
+    <string name="wallet_sync_review_pending">Examiner %d suggestions</string>
+    <string name="wallet_sync_app_picker_title">Choisir les applis</string>
+    <string name="wallet_sync_search">Rechercher des applis</string>
+    <string name="wallet_sync_done">Terminé</string>
+    <string name="wallet_sync_apps_loading">Chargement des applis…</string>
+</resources>

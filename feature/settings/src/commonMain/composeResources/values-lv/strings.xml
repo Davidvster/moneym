@@ -249,4 +249,5 @@
     <string name="settings_remote_restore_no_backup">Google Drive netika atrasts neviens dublējums.</string>
     <string name="settings_remote_restore_try_again">Lūdzu, mēģiniet vēlreiz.</string>
     <string name="settings_bank_sync">Bankas sinhronizācija</string>
+    <string name="settings_wallet_sync">Maka sinhronizācija</string>
 </resources>

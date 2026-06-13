@@ -58,6 +58,8 @@ internal data class TransactionListUiState(
     val isBankSyncing: Boolean = false,
     val bankPendingCount: Int = 0,
     val bankLastSyncedMs: Long = 0L,
+    val isWalletSyncEnabled: Boolean = false,
+    val walletPendingCount: Int = 0,
 )
 
 @Serializable

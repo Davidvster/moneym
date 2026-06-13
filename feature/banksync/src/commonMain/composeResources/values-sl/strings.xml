@@ -76,4 +76,5 @@
     <string name="suggestions_filter_apply">Uporabi</string>
     <string name="suggestions_filter_clear">Počisti</string>
     <string name="suggestions_assign_category">Dodeli kategorijo</string>
+    <string name="suggestions_assign_account">Dodeli denarnico</string>
 </resources>

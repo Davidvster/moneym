@@ -76,4 +76,5 @@
     <string name="suggestions_filter_apply">Appliquer</string>
     <string name="suggestions_filter_clear">Effacer</string>
     <string name="suggestions_assign_category">Attribuer une catégorie</string>
+    <string name="suggestions_assign_account">Attribuer un portefeuille</string>
 </resources>

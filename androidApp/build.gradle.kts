@@ -78,8 +78,13 @@ kotlin {
 dependencies {
     implementation(projects.shared)
     implementation(projects.core.security)
+    implementation(projects.core.common)
+    implementation(projects.core.datastore)
+    implementation(projects.core.model)
     implementation(projects.data.banksync)
+    implementation(projects.data.walletsync)
     implementation(libs.koin.core)
+    implementation(libs.kotlinx.datetime)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.compose.runtime)

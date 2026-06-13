@@ -13,6 +13,7 @@ import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.banksync.BankSyncStatusProvider
+import com.dv.moneym.data.walletsync.WalletSyncStatusProvider
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.sync.SyncPuller
 import com.dv.moneym.data.sync.SyncStatusProvider
@@ -42,6 +43,7 @@ class TransactionListViewModel(
     private val syncStatus: SyncStatusProvider,
     private val syncPuller: SyncPuller? = null,
     private val bankSyncStatus: BankSyncStatusProvider? = null,
+    private val walletSyncStatus: WalletSyncStatusProvider? = null,
     private val clock: AppClock,
     private val transactionSavedSignal: TransactionSavedSignal = TransactionSavedSignal(),
     savedStateHandle: SavedStateHandle,
@@ -154,6 +156,8 @@ class TransactionListViewModel(
         .combine(bankSyncStatus?.isSyncing ?: flowOf(false)) { s, b -> s.copy(isBankSyncing = b) }
         .combine(bankSyncStatus?.pendingCount ?: flowOf(0)) { s, c -> s.copy(bankPendingCount = c) }
         .combine(bankSyncStatus?.lastSyncedMs ?: flowOf(0L)) { s, ms -> s.copy(bankLastSyncedMs = ms) }
+        .combine(walletSyncStatus?.isEnabled ?: flowOf(false)) { s, e -> s.copy(isWalletSyncEnabled = e) }
+        .combine(walletSyncStatus?.pendingCount ?: flowOf(0)) { s, c -> s.copy(walletPendingCount = c) }
         .combine(_showSyncSheet) { state, show -> state.copy(showSyncSheet = show) }
         .stateIn(
             scope = viewModelScope,

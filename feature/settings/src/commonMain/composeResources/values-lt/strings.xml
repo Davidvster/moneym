@@ -249,4 +249,5 @@
     <string name="settings_remote_restore_no_backup">„Google Drive“ nerasta jokios atsarginės kopijos.</string>
     <string name="settings_remote_restore_try_again">Bandykite dar kartą.</string>
     <string name="settings_bank_sync">Banko sinchronizavimas</string>
+    <string name="settings_wallet_sync">Piniginės sinchronizavimas</string>
 </resources>

@@ -249,4 +249,5 @@
     <string name="settings_remote_restore_no_backup">Der blev ikke fundet nogen sikkerhedskopi på Google Drive.</string>
     <string name="settings_remote_restore_try_again">Prøv igen.</string>
     <string name="settings_bank_sync">Banksynkronisering</string>
+    <string name="settings_wallet_sync">Wallet-synk</string>
 </resources>

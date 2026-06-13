@@ -13,12 +13,17 @@ import com.dv.moneym.core.security.SecureStore
 import com.dv.moneym.data.accounts.createAccountsDatabase
 import com.dv.moneym.data.aichat.createAiChatDatabase
 import com.dv.moneym.data.banksync.createBankSyncDatabase
+import com.dv.moneym.data.walletsync.createWalletSyncDatabase
 import com.dv.moneym.data.budgets.createBudgetsDatabase
 import com.dv.moneym.data.categories.createCategoriesDatabase
 import com.dv.moneym.data.transactions.createTransactionsDatabase
 import com.dv.moneym.locale.IosLocaleController
 import com.dv.moneym.platform.DbPlatform
 import com.dv.moneym.platform.FilePlatform
+import com.dv.moneym.platform.InstalledAppsProvider
+import com.dv.moneym.platform.NoopInstalledAppsProvider
+import com.dv.moneym.platform.NoopNotificationAccessController
+import com.dv.moneym.platform.NotificationAccessController
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -29,6 +34,9 @@ fun iosPlatformModule() = module {
     single { createBudgetsDatabase() }
     single { createAiChatDatabase() }
     single { createBankSyncDatabase() }
+    single { createWalletSyncDatabase() }
+    single<NotificationAccessController> { NoopNotificationAccessController() }
+    single<InstalledAppsProvider> { NoopInstalledAppsProvider() }
     single<SecureStore> { IosSecureStore() }
     single<BiometricAuthenticator> { BiometricAuthenticatorImpl() }
     single<LocaleController> { IosLocaleController() }

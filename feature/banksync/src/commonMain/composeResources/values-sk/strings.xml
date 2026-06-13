@@ -76,4 +76,5 @@
     <string name="suggestions_filter_apply">Použiť</string>
     <string name="suggestions_filter_clear">Vymazať</string>
     <string name="suggestions_assign_category">Priradiť kategóriu</string>
+    <string name="suggestions_assign_account">Priradiť peňaženku</string>
 </resources>

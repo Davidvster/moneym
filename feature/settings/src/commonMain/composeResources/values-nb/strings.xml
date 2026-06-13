@@ -249,4 +249,5 @@
     <string name="settings_remote_restore_no_backup">Fant ingen sikkerhetskopi på Google Disk.</string>
     <string name="settings_remote_restore_try_again">Prøv igjen.</string>
     <string name="settings_bank_sync">Banksynkronisering</string>
+    <string name="settings_wallet_sync">Lommebok-synk</string>
 </resources>

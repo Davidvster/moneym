@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallet_sync_title">वॉलेट सिंक</string>
+    <string name="wallet_sync_intro">अपने भुगतान ऐप्स की सूचनाओं से लेन-देन सुझाव बनाएं. सब कुछ आपके डिवाइस पर रहता है.</string>
+    <string name="wallet_sync_enable_title">सूचनाएं सुनें</string>
+    <string name="wallet_sync_enable_subtitle">चुने गए ऐप्स की सूचनाओं को सुझावों में बदलें</string>
+    <string name="wallet_sync_access_required">भुगतान सूचनाएं पढ़ने के लिए MoneyM को सूचना एक्सेस चाहिए.</string>
+    <string name="wallet_sync_grant_access">सूचना एक्सेस दें</string>
+    <string name="wallet_sync_access_granted">सूचना एक्सेस दी गई</string>
+    <string name="wallet_sync_select_apps">ऐप्स चुनें</string>
+    <string name="wallet_sync_select_apps_subtitle">इन ऐप्स से सूचनाएं कैप्चर करें</string>
+    <string name="wallet_sync_apps_selected">%d चयनित</string>
+    <string name="wallet_sync_apps_none">कोई चयनित नहीं</string>
+    <string name="wallet_sync_review_pending">%d सुझाव देखें</string>
+    <string name="wallet_sync_app_picker_title">ऐप्स चुनें</string>
+    <string name="wallet_sync_search">ऐप्स खोजें</string>
+    <string name="wallet_sync_done">पूर्ण</string>
+    <string name="wallet_sync_apps_loading">ऐप्स लोड हो रहे हैं…</string>
+</resources>

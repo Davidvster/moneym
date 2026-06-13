@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallet_sync_title">Cüzdan senkronizasyonu</string>
+    <string name="wallet_sync_intro">Ödeme uygulamalarınızın bildirimlerinden işlem önerileri oluşturun. Her şey cihazınızda kalır.</string>
+    <string name="wallet_sync_enable_title">Bildirimleri dinle</string>
+    <string name="wallet_sync_enable_subtitle">Seçili uygulamaların bildirimlerini önerilere dönüştürün</string>
+    <string name="wallet_sync_access_required">MoneyM, ödeme bildirimlerini okumak için bildirim erişimine ihtiyaç duyar.</string>
+    <string name="wallet_sync_grant_access">Bildirim erişimi ver</string>
+    <string name="wallet_sync_access_granted">Bildirim erişimi verildi</string>
+    <string name="wallet_sync_select_apps">Uygulama seç</string>
+    <string name="wallet_sync_select_apps_subtitle">Bu uygulamalardan bildirim yakala</string>
+    <string name="wallet_sync_apps_selected">%d seçildi</string>
+    <string name="wallet_sync_apps_none">Hiçbiri seçilmedi</string>
+    <string name="wallet_sync_review_pending">%d öneriyi incele</string>
+    <string name="wallet_sync_app_picker_title">Uygulama seç</string>
+    <string name="wallet_sync_search">Uygulama ara</string>
+    <string name="wallet_sync_done">Bitti</string>
+    <string name="wallet_sync_apps_loading">Uygulamalar yükleniyor…</string>
+</resources>
