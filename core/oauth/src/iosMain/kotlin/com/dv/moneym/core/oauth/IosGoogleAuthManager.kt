@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
+import platform.Foundation.NSUUID
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -28,8 +29,9 @@ class IosGoogleAuthManager(
         if (!isConfigured) throw GoogleAuthError.NotConfigured()
         val bridge = GoogleSignInBridgeHolder.instance
             ?: throw GoogleAuthError.Platform("GoogleSignIn bridge not registered")
+        val nonce = NSUUID().UUIDString() + NSUUID().UUIDString()
         val email = suspendCancellableCoroutine { cont ->
-            bridge.signIn(config.scopes) { email, error ->
+            bridge.signIn(config.scopes, nonce) { email, error ->
                 if (error != null) cont.resumeWithException(GoogleAuthError.Platform(error))
                 else cont.resume(email)
             }

@@ -18,18 +18,25 @@ android {
 
     signingConfigs {
         val signingStoreFile = localProperties.getProperty("signing.storeFile")
+            ?: System.getenv("RELEASE_STORE_FILE")
+        val signingStorePassword = localProperties.getProperty("signing.storePassword")
+            ?: System.getenv("RELEASE_STORE_PASSWORD")
+        val signingKeyAlias = localProperties.getProperty("signing.keyAlias")
+            ?: System.getenv("RELEASE_KEY_ALIAS")
+        val signingKeyPassword = localProperties.getProperty("signing.keyPassword")
+            ?: System.getenv("RELEASE_KEY_PASSWORD")
         if (signingStoreFile != null) {
             getByName("debug") {
                 storeFile = rootProject.file(signingStoreFile)
-                storePassword = localProperties.getProperty("signing.storePassword")
-                keyAlias = localProperties.getProperty("signing.keyAlias")
-                keyPassword = localProperties.getProperty("signing.keyPassword")
+                storePassword = signingStorePassword
+                keyAlias = signingKeyAlias
+                keyPassword = signingKeyPassword
             }
             create("release") {
                 storeFile = rootProject.file(signingStoreFile)
-                storePassword = localProperties.getProperty("signing.storePassword")
-                keyAlias = localProperties.getProperty("signing.keyAlias")
-                keyPassword = localProperties.getProperty("signing.keyPassword")
+                storePassword = signingStorePassword
+                keyAlias = signingKeyAlias
+                keyPassword = signingKeyPassword
             }
         }
     }

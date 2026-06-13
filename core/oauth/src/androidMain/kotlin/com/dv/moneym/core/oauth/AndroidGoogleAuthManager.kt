@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import java.security.SecureRandom
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -83,7 +84,9 @@ class AndroidGoogleAuthManager(
     }
 
     private suspend fun credentialSignIn(activity: Activity, serverClientId: String): String? {
-        val option = GetSignInWithGoogleOption.Builder(serverClientId).build()
+        val option = GetSignInWithGoogleOption.Builder(serverClientId)
+            .setNonce(generateNonce())
+            .build()
         val request = GetCredentialRequest.Builder().addCredentialOption(option).build()
         val response = CredentialManager.create(activity).getCredential(activity, request)
         val credential = response.credential
@@ -93,6 +96,11 @@ class AndroidGoogleAuthManager(
             return GoogleIdTokenCredential.createFrom(credential.data).id
         }
         throw GoogleAuthError.Platform("Unexpected credential type: ${credential.type}")
+    }
+
+    private fun generateNonce(): String {
+        val bytes = ByteArray(32).also { SecureRandom().nextBytes(it) }
+        return bytes.joinToString("") { "%02x".format(it) }
     }
 
     private suspend fun authorize(activity: Activity?): String {

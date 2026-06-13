@@ -5,7 +5,7 @@ import Shared
 
 final class GoogleSignInBridgeImpl: NSObject, GoogleSignInBridge {
 
-    func signIn(scopes: [String], onResult: @escaping (String?, String?) -> Void) {
+    func signIn(scopes: [String], nonce: String, onResult: @escaping (String?, String?) -> Void) {
         guard let presenter = Self.topViewController() else {
             onResult(nil, "No presenting view controller")
             return
@@ -13,7 +13,8 @@ final class GoogleSignInBridgeImpl: NSObject, GoogleSignInBridge {
         GIDSignIn.sharedInstance.signIn(
             withPresenting: presenter,
             hint: nil,
-            additionalScopes: scopes
+            additionalScopes: scopes,
+            nonce: nonce
         ) { result, error in
             if let error = error {
                 onResult(nil, error.localizedDescription)
