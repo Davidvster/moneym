@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Abbrechen</string>
     <string name="edit_calculator_title">Rechner</string>
     <string name="edit_payment_mode_label">Zahlungsart</string>
+    <string name="edit_budget_section_title">Budgets</string>
     <string name="edit_budget_after_label">Nach dieser Transaktion</string>
     <string name="tx_edit_make_recurring">Wiederkehrend</string>
     <string name="tx_edit_recurring_every">Alle</string>

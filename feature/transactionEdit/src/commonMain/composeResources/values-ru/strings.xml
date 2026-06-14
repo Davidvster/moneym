@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Отмена</string>
     <string name="edit_calculator_title">Калькулятор</string>
     <string name="edit_payment_mode_label">Способ оплаты</string>
+    <string name="edit_budget_section_title">Бюджеты</string>
     <string name="edit_budget_after_label">После этой транзакции</string>
     <string name="tx_edit_make_recurring">Сделать повторяющейся</string>
     <string name="tx_edit_recurring_every">Каждые</string>

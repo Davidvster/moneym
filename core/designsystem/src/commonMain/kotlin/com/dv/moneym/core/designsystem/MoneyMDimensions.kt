@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 data class MoneyMDimensions(
     val padding_0_25x: Dp = 2.dp,
     val padding_0_5x: Dp = 4.dp,
+    val padding_0_75x: Dp = 6.dp,
     val padding_1x: Dp = 8.dp,
     val padding_1_25x: Dp = 10.dp,
     val padding_1_5x: Dp = 12.dp,

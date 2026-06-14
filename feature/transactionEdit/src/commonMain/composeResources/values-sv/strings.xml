@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Avbryt</string>
     <string name="edit_calculator_title">Kalkylator</string>
     <string name="edit_payment_mode_label">Betalningsläge</string>
+    <string name="edit_budget_section_title">Budgetar</string>
     <string name="edit_budget_after_label">Efter denna transaktion</string>
     <string name="tx_edit_make_recurring">Gör återkommande</string>
     <string name="tx_edit_recurring_every">Var</string>

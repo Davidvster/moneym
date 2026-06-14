@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Cancelar</string>
     <string name="edit_calculator_title">Calculadora</string>
     <string name="edit_payment_mode_label">Método de pago</string>
+    <string name="edit_budget_section_title">Presupuestos</string>
     <string name="edit_budget_after_label">Después de esta transacción</string>
     <string name="tx_edit_make_recurring">Recurrente</string>
     <string name="tx_edit_recurring_every">Cada</string>

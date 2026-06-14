@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Mégsem</string>
     <string name="edit_calculator_title">Számológép</string>
     <string name="edit_payment_mode_label">Fizetési mód</string>
+    <string name="edit_budget_section_title">Költségvetések</string>
     <string name="edit_budget_after_label">E tranzakció után</string>
     <string name="tx_edit_make_recurring">Ismétlődővé tétele</string>
     <string name="tx_edit_recurring_every">Minden</string>

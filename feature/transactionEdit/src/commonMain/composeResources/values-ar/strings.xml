@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">إلغاء</string>
     <string name="edit_calculator_title">الآلة الحاسبة</string>
     <string name="edit_payment_mode_label">طريقة الدفع</string>
+    <string name="edit_budget_section_title">الميزانيات</string>
     <string name="edit_budget_after_label">بعد هذه المعاملة</string>
     <string name="tx_edit_make_recurring">جعلها متكررة</string>
     <string name="tx_edit_recurring_every">كل</string>

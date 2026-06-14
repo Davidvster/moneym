@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Atcelt</string>
     <string name="edit_calculator_title">Kalkulators</string>
     <string name="edit_payment_mode_label">Maksājuma veids</string>
+    <string name="edit_budget_section_title">Budžeti</string>
     <string name="edit_budget_after_label">Pēc šī darījuma</string>
     <string name="tx_edit_make_recurring">Padarīt atkārtotu</string>
     <string name="tx_edit_recurring_every">Ik</string>

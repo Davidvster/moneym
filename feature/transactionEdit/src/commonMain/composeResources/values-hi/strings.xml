@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">रद्द करें</string>
     <string name="edit_calculator_title">कैलकुलेटर</string>
     <string name="edit_payment_mode_label">भुगतान मोड</string>
+    <string name="edit_budget_section_title">बजट</string>
     <string name="edit_budget_after_label">इस लेन-देन के बाद</string>
     <string name="tx_edit_make_recurring">आवर्ती बनाएँ</string>
     <string name="tx_edit_recurring_every">हर</string>

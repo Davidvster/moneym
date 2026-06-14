@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">キャンセル</string>
     <string name="edit_calculator_title">電卓</string>
     <string name="edit_payment_mode_label">支払い方法</string>
+    <string name="edit_budget_section_title">予算</string>
     <string name="edit_budget_after_label">この取引後</string>
     <string name="tx_edit_make_recurring">定期にする</string>
     <string name="tx_edit_recurring_every">毎</string>

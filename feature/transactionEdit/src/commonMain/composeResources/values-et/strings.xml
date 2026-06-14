@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Tühista</string>
     <string name="edit_calculator_title">Kalkulaator</string>
     <string name="edit_payment_mode_label">Makseviis</string>
+    <string name="edit_budget_section_title">Eelarved</string>
     <string name="edit_budget_after_label">Pärast seda tehingut</string>
     <string name="tx_edit_make_recurring">Tee korduvaks</string>
     <string name="tx_edit_recurring_every">Iga</string>

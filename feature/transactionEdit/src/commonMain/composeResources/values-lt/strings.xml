@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Atšaukti</string>
     <string name="edit_calculator_title">Skaičiuotuvas</string>
     <string name="edit_payment_mode_label">Mokėjimo būdas</string>
+    <string name="edit_budget_section_title">Biudžetai</string>
     <string name="edit_budget_after_label">Po šios operacijos</string>
     <string name="tx_edit_make_recurring">Padaryti pasikartojančia</string>
     <string name="tx_edit_recurring_every">Kas</string>

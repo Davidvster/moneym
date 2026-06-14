@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Annuleren</string>
     <string name="edit_calculator_title">Rekenmachine</string>
     <string name="edit_payment_mode_label">Betaalmethode</string>
+    <string name="edit_budget_section_title">Budgetten</string>
     <string name="edit_budget_after_label">Na deze transactie</string>
     <string name="tx_edit_make_recurring">Terugkerend maken</string>
     <string name="tx_edit_recurring_every">Elke</string>

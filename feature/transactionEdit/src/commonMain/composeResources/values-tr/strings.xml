@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">İptal</string>
     <string name="edit_calculator_title">Hesap Makinesi</string>
     <string name="edit_payment_mode_label">Ödeme modu</string>
+    <string name="edit_budget_section_title">Bütçeler</string>
     <string name="edit_budget_after_label">Bu işlemden sonra</string>
     <string name="tx_edit_make_recurring">Tekrarlayan yap</string>
     <string name="tx_edit_recurring_every">Her</string>

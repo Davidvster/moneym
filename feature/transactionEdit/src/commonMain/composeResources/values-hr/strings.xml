@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Odustani</string>
     <string name="edit_calculator_title">Kalkulator</string>
     <string name="edit_payment_mode_label">Način plaćanja</string>
+    <string name="edit_budget_section_title">Proračuni</string>
     <string name="edit_budget_after_label">Nakon ove transakcije</string>
     <string name="tx_edit_make_recurring">Ponavljajuće</string>
     <string name="tx_edit_recurring_every">Svaki</string>

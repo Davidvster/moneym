@@ -17,6 +17,7 @@ import com.dv.moneym.feature.transactionedit.usecase.CategoryBudgetRemaining
 internal fun BudgetRemainingChip(
     remaining: CategoryBudgetRemaining,
     modifier: Modifier = Modifier,
+    projected: CategoryBudgetRemaining? = null,
 ) {
     val useSymbol = LocalUseCurrencySymbol.current
     val displayCurrency = currencyDisplay(remaining.spent.currency.value, useSymbol)
@@ -25,14 +26,31 @@ internal fun BudgetRemainingChip(
             budgetName = remaining.budgetName,
             spentLabel = formatAmount(remaining.spent.minorUnits / 100.0, displayCurrency),
             limitLabel = formatAmount(remaining.amount.minorUnits / 100.0, ""),
-            remainingLabel = if (remaining.isOverrun)
-                "${formatAmount(-remaining.remaining.minorUnits / 100.0, "")} over"
-            else
-                "${formatAmount(remaining.remaining.minorUnits / 100.0, "")} left",
+            remainingLabel = remainingLabel(remaining),
             fraction = remaining.fraction,
             isOverrun = remaining.isOverrun,
+            percentLabel = percentLabel(remaining),
+            projectedSpentLabel = projected?.let {
+                formatAmount(it.spent.minorUnits / 100.0, displayCurrency)
+            },
+            projectedRemainingLabel = projected?.let { remainingLabel(it) },
+            projectedPercentLabel = projected?.let { percentLabel(it) },
+            projectedFraction = projected?.fraction,
+            projectedIsOverrun = projected?.isOverrun ?: false,
         )
     }
+}
+
+private fun remainingLabel(b: CategoryBudgetRemaining): String =
+    if (b.isOverrun)
+        "${formatAmount(-b.remaining.minorUnits / 100.0, "")} over"
+    else
+        "${formatAmount(b.remaining.minorUnits / 100.0, "")} left"
+
+private fun percentLabel(b: CategoryBudgetRemaining): String {
+    val cap = b.amount.minorUnits
+    val pct = if (cap > 0) (b.spent.minorUnits * 100.0 / cap).toInt() else 0
+    return "$pct%"
 }
 
 private fun formatAmount(v: Double, currency: String): String {
@@ -57,6 +75,14 @@ private fun BudgetRemainingChipPreview() {
                 isOverrun = false,
             ),
             modifier = Modifier.fillMaxWidth(),
+            projected = CategoryBudgetRemaining(
+                budgetName = "Groceries",
+                amount = Money(50000, eur),
+                spent = Money(41000, eur),
+                remaining = Money(9000, eur),
+                fraction = 0.82f,
+                isOverrun = false,
+            ),
         )
     }
 }

@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Hætta við</string>
     <string name="edit_calculator_title">Reiknivél</string>
     <string name="edit_payment_mode_label">Greiðslumáti</string>
+    <string name="edit_budget_section_title">Fjárhagsáætlanir</string>
     <string name="edit_budget_after_label">Eftir þessa færslu</string>
     <string name="tx_edit_make_recurring">Gera endurtekna</string>
     <string name="tx_edit_recurring_every">Á hverju</string>

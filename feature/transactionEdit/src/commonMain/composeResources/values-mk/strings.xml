@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Откажи</string>
     <string name="edit_calculator_title">Калкулатор</string>
     <string name="edit_payment_mode_label">Начин на плаќање</string>
+    <string name="edit_budget_section_title">Буџети</string>
     <string name="edit_budget_after_label">По оваа трансакција</string>
     <string name="tx_edit_make_recurring">Направи повторувачка</string>
     <string name="tx_edit_recurring_every">Секои</string>

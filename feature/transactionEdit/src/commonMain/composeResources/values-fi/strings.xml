@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Peruuta</string>
     <string name="edit_calculator_title">Laskin</string>
     <string name="edit_payment_mode_label">Maksutapa</string>
+    <string name="edit_budget_section_title">Budjetit</string>
     <string name="edit_budget_after_label">Tämän tapahtuman jälkeen</string>
     <string name="tx_edit_make_recurring">Tee toistuvaksi</string>
     <string name="tx_edit_recurring_every">Joka</string>

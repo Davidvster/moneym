@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Hủy</string>
     <string name="edit_calculator_title">Máy tính</string>
     <string name="edit_payment_mode_label">Phương thức thanh toán</string>
+    <string name="edit_budget_section_title">Ngân sách</string>
     <string name="edit_budget_after_label">Sau giao dịch này</string>
     <string name="tx_edit_make_recurring">Đặt định kỳ</string>
     <string name="tx_edit_recurring_every">Mỗi</string>

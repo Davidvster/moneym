@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">取消</string>
     <string name="edit_calculator_title">计算器</string>
     <string name="edit_payment_mode_label">支付方式</string>
+    <string name="edit_budget_section_title">预算</string>
     <string name="edit_budget_after_label">此交易后</string>
     <string name="tx_edit_make_recurring">设为重复</string>
     <string name="tx_edit_recurring_every">每</string>

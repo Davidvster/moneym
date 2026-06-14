@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Avbryt</string>
     <string name="edit_calculator_title">Kalkulator</string>
     <string name="edit_payment_mode_label">Betalingsmodus</string>
+    <string name="edit_budget_section_title">Budsjetter</string>
     <string name="edit_budget_after_label">Etter denne transaksjonen</string>
     <string name="tx_edit_make_recurring">Gjør gjentakende</string>
     <string name="tx_edit_recurring_every">Hver</string>

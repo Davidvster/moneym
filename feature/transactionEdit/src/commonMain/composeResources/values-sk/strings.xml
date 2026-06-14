@@ -25,6 +25,7 @@
     <string name="edit_delete_confirm_cancel">Zrušiť</string>
     <string name="edit_calculator_title">Kalkulačka</string>
     <string name="edit_payment_mode_label">Spôsob platby</string>
+    <string name="edit_budget_section_title">Rozpočty</string>
     <string name="edit_budget_after_label">Po tejto transakcii</string>
     <string name="tx_edit_make_recurring">Nastaviť ako opakujúce sa</string>
     <string name="tx_edit_recurring_every">Každý</string>
