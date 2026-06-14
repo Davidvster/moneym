@@ -48,6 +48,8 @@ import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIconButtonVariant
 import com.dv.moneym.core.ui.MmLoadingOverlay
 import com.dv.moneym.core.ui.MmLoadingSpinner
+import com.dv.moneym.core.ui.MmSkeleton
+import com.dv.moneym.core.ui.MmSkeletonCircle
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.imageVector
@@ -206,15 +208,21 @@ private fun WalletSyncHomeContent(
                                 size = MmButtonSize.Sm,
                             )
                         }
-                        if (state.selectedApps.isNotEmpty()) {
+                        if (state.selectedPackages.isNotEmpty()) {
                             Spacer(Modifier.height(space.padding_1x))
-                            state.selectedApps.forEach { app ->
-                                SelectedAppRow(
-                                    app = app,
-                                    onRemove = {
-                                        onIntent(WalletSyncHomeIntent.RemoveAppRequested(app.packageName))
-                                    },
-                                )
+                            if (state.appsLoading && state.installedApps.isEmpty()) {
+                                repeat(state.selectedPackages.size) {
+                                    SelectedAppSkeletonRow()
+                                }
+                            } else {
+                                state.selectedApps.forEach { app ->
+                                    SelectedAppRow(
+                                        app = app,
+                                        onRemove = {
+                                            onIntent(WalletSyncHomeIntent.RemoveAppRequested(app.packageName))
+                                        },
+                                    )
+                                }
                             }
                         }
                         Text(
@@ -290,20 +298,47 @@ private fun SelectedAppRow(
                     .background(colors.surface),
             )
         }
-        Text(
-            text = app.label,
-            style = MM.type.body,
-            color = colors.text,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.weight(1f).padding(start = space.padding_2x),
-        )
+        Column(modifier = Modifier.weight(1f).padding(start = space.padding_2x)) {
+            Text(
+                text = app.label,
+                style = MM.type.body,
+                color = colors.text,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                text = app.packageName,
+                style = MM.type.caption.copy(color = colors.text2),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
         MmIconButton(
             icon = Icon.Trash.imageVector,
             onClick = onRemove,
             variant = MmIconButtonVariant.Danger,
             contentDescription = stringResource(Res.string.wallet_sync_remove_app_title),
         )
+    }
+}
+
+@Composable
+private fun SelectedAppSkeletonRow() {
+    val space = MM.dimen
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = space.padding_1x),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        MmSkeletonCircle(size = space.padding_5x)
+        Column(
+            modifier = Modifier.weight(1f).padding(start = space.padding_2x),
+            verticalArrangement = Arrangement.spacedBy(space.padding_0_5x),
+        ) {
+            MmSkeleton(modifier = Modifier.fillMaxWidth(0.5f).height(space.padding_2x))
+            MmSkeleton(modifier = Modifier.fillMaxWidth(0.7f).height(space.padding_1_5x))
+        }
     }
 }
 
