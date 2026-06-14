@@ -60,6 +60,7 @@ fun MmAmountInput(
                 text = currencyDisplay(currencyCode, LocalUseCurrencySymbol.current),
                 style = type.bodyMono,
                 color = colors.text3,
+                modifier = Modifier.padding(bottom = MM.dimen.padding_0_75x)
             )
             Box(contentAlignment = Alignment.CenterStart, modifier = Modifier.weight(1f)) {
                 if (amountText.isEmpty()) {
