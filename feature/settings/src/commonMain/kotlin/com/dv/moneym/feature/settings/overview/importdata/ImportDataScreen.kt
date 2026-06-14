@@ -156,7 +156,7 @@ private fun ImportDataContent(
                         .clickable { onIntent(ImportDataIntent.SelectAllToggled) }
                         .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1x),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
                 ) {
                     MmCheckbox(
                         checked = allSelected,

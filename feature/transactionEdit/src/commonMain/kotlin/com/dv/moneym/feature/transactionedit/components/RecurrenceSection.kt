@@ -40,6 +40,7 @@ import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmChip
+import com.dv.moneym.core.ui.MmCheckbox
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmToggle
@@ -444,24 +445,9 @@ private fun RadioOption(
             .fillMaxWidth()
             .clickable(onClick = onSelect),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
+        horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x),
     ) {
-        Box(
-            modifier = Modifier
-                .size(20.dp)
-                .clip(CircleShape)
-                .border(MM.dimen.strokeThin, if (selected) colors.accent else colors.borderStrong, CircleShape),
-            contentAlignment = Alignment.Center,
-        ) {
-            if (selected) {
-                Box(
-                    modifier = Modifier
-                        .size(10.dp)
-                        .clip(CircleShape)
-                        .background(colors.accent),
-                )
-            }
-        }
+        MmCheckbox(checked = selected, onCheckedChange = null)
         Text(
             text = label,
             style = MM.type.body,

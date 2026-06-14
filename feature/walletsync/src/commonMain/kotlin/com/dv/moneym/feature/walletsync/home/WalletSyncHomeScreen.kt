@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -320,26 +322,25 @@ private fun AppRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         MmCheckbox(checked = selected, onCheckedChange = { onToggle() })
+        Spacer(Modifier.width(MM.dimen.padding_2x))
         val icon = app.icon
         if (icon != null) {
             Image(
                 bitmap = icon,
                 contentDescription = app.label,
                 modifier = Modifier
-                    .padding(start = space.padding_1x)
                     .size(space.padding_5x)
                     .clip(RoundedCornerShape(MM.dimen.padding_1x)),
             )
         } else {
             Box(
                 Modifier
-                    .padding(start = space.padding_1x)
                     .size(space.padding_5x)
                     .clip(RoundedCornerShape(MM.dimen.padding_1x))
                     .background(colors.surface),
             )
         }
-        Column(modifier = Modifier.weight(1f).padding(start = space.padding_1x)) {
+        Column(modifier = Modifier.weight(1f).padding(start = space.padding_2x)) {
             Text(
                 text = app.label,
                 style = MM.type.body,

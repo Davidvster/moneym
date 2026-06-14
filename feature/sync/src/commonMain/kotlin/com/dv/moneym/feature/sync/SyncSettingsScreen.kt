@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
@@ -31,7 +32,6 @@ import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIconButtonVariant
 import com.dv.moneym.core.ui.MmLoadingSpinner
-import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.imageVector
 import kotlinx.serialization.Serializable
@@ -42,14 +42,12 @@ import moneym.feature.sync.generated.resources.sync_settings_last_synced_hours
 import moneym.feature.sync.generated.resources.sync_settings_last_synced_just_now
 import moneym.feature.sync.generated.resources.sync_settings_last_synced_longer
 import moneym.feature.sync.generated.resources.sync_settings_last_synced_minutes
+import moneym.feature.sync.generated.resources.sync_settings_remove
 import moneym.feature.sync.generated.resources.sync_settings_rename_cancel
 import moneym.feature.sync.generated.resources.sync_settings_rename_label
 import moneym.feature.sync.generated.resources.sync_settings_rename_save
-import moneym.feature.sync.generated.resources.sync_settings_remove
 import moneym.feature.sync.generated.resources.sync_settings_this_device
 import moneym.feature.sync.generated.resources.sync_settings_title
-import moneym.feature.sync.generated.resources.sync_settings_toggle_subtitle
-import moneym.feature.sync.generated.resources.sync_settings_toggle_title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -215,14 +213,26 @@ private fun lastSyncedLabel(lastSyncMs: Long): String {
     val deltaMs = kotlin.time.Clock.System.now().toEpochMilliseconds() - lastSyncMs
     return when {
         deltaMs < 60_000L -> stringResource(Res.string.sync_settings_last_synced_just_now)
-        deltaMs < 3_600_000L -> stringResource(Res.string.sync_settings_last_synced_minutes, (deltaMs / 60_000L).toInt())
-        deltaMs < 86_400_000L -> stringResource(Res.string.sync_settings_last_synced_hours, (deltaMs / 3_600_000L).toInt())
-        deltaMs < 30L * 86_400_000L -> stringResource(Res.string.sync_settings_last_synced_days, (deltaMs / 86_400_000L).toInt())
+        deltaMs < 3_600_000L -> stringResource(
+            Res.string.sync_settings_last_synced_minutes,
+            (deltaMs / 60_000L).toInt()
+        )
+
+        deltaMs < 86_400_000L -> stringResource(
+            Res.string.sync_settings_last_synced_hours,
+            (deltaMs / 3_600_000L).toInt()
+        )
+
+        deltaMs < 30L * 86_400_000L -> stringResource(
+            Res.string.sync_settings_last_synced_days,
+            (deltaMs / 86_400_000L).toInt()
+        )
+
         else -> stringResource(Res.string.sync_settings_last_synced_longer)
     }
 }
 
-@androidx.compose.ui.tooling.preview.Preview
+@Preview
 @Composable
 private fun SyncSettingsPreview() {
     MoneyMTheme {

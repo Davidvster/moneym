@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -22,6 +24,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -37,7 +40,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
-import androidx.compose.material3.SnackbarHostState
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
@@ -63,7 +65,6 @@ import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.utils.observeWithLifecycle
 import kotlinx.serialization.Serializable
-import org.jetbrains.compose.resources.getString
 import moneym.feature.banksync.generated.resources.Res
 import moneym.feature.banksync.generated.resources.bank_sync_account_target_label
 import moneym.feature.banksync.generated.resources.bank_sync_account_target_none
@@ -78,6 +79,8 @@ import moneym.feature.banksync.generated.resources.suggestions_assign_account
 import moneym.feature.banksync.generated.resources.suggestions_assign_category
 import moneym.feature.banksync.generated.resources.suggestions_category_label
 import moneym.feature.banksync.generated.resources.suggestions_duplicate_hint
+import moneym.feature.banksync.generated.resources.suggestions_empty_pending
+import moneym.feature.banksync.generated.resources.suggestions_empty_rejected
 import moneym.feature.banksync.generated.resources.suggestions_filter
 import moneym.feature.banksync.generated.resources.suggestions_filter_all
 import moneym.feature.banksync.generated.resources.suggestions_filter_apply
@@ -88,8 +91,6 @@ import moneym.feature.banksync.generated.resources.suggestions_filter_max
 import moneym.feature.banksync.generated.resources.suggestions_filter_min
 import moneym.feature.banksync.generated.resources.suggestions_filter_note
 import moneym.feature.banksync.generated.resources.suggestions_filter_title
-import moneym.feature.banksync.generated.resources.suggestions_empty_pending
-import moneym.feature.banksync.generated.resources.suggestions_empty_rejected
 import moneym.feature.banksync.generated.resources.suggestions_reject
 import moneym.feature.banksync.generated.resources.suggestions_reject_all_confirm_body
 import moneym.feature.banksync.generated.resources.suggestions_reject_all_confirm_title
@@ -102,6 +103,7 @@ import moneym.feature.banksync.generated.resources.suggestions_tab_rejected
 import moneym.feature.banksync.generated.resources.suggestions_title
 import moneym.feature.banksync.generated.resources.suggestions_undo
 import moneym.feature.banksync.generated.resources.suggestions_unselect_all
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -186,7 +188,10 @@ private fun SuggestionsContent(
                     )
                 },
                 fillWidth = true,
-                modifier = Modifier.padding(horizontal = space.padding_2x, vertical = space.padding_1x),
+                modifier = Modifier.padding(
+                    horizontal = space.padding_2x,
+                    vertical = space.padding_1x
+                ),
             )
 
             if (state.tab == SuggestionsTab.PENDING && state.pending.isNotEmpty()) {
@@ -230,7 +235,10 @@ private fun SuggestionsContent(
 
                 else -> LazyColumn(
                     modifier = Modifier.weight(1f),
-                    contentPadding = PaddingValues(horizontal = space.padding_2x, vertical = space.padding_1x),
+                    contentPadding = PaddingValues(
+                        horizontal = space.padding_2x,
+                        vertical = space.padding_1x
+                    ),
                     verticalArrangement = Arrangement.spacedBy(space.padding_2x),
                 ) {
                     items(state.rows, key = { it.id }) { row ->
@@ -269,13 +277,19 @@ private fun SuggestionsContent(
                         horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
                     ) {
                         MmButton(
-                            text = stringResource(Res.string.suggestions_accept_selected, state.selectedIds.size),
+                            text = stringResource(
+                                Res.string.suggestions_accept_selected,
+                                state.selectedIds.size
+                            ),
                             onClick = { onIntent(SuggestionsIntent.RequestAcceptSelected) },
                             variant = MmButtonVariant.Accent,
                             modifier = Modifier.weight(1f),
                         )
                         MmButton(
-                            text = stringResource(Res.string.suggestions_reject_selected, state.selectedIds.size),
+                            text = stringResource(
+                                Res.string.suggestions_reject_selected,
+                                state.selectedIds.size
+                            ),
                             onClick = { onIntent(SuggestionsIntent.RequestRejectSelected) },
                             variant = MmButtonVariant.Danger,
                             modifier = Modifier.weight(1f),
@@ -352,7 +366,10 @@ private fun SuggestionsContent(
             dismissText = stringResource(Res.string.bank_sync_cancel),
         ) {
             Text(
-                text = stringResource(Res.string.suggestions_accept_all_confirm_body, state.selectedIds.size),
+                text = stringResource(
+                    Res.string.suggestions_accept_all_confirm_body,
+                    state.selectedIds.size
+                ),
                 style = MM.type.body,
                 color = MM.colors.text2,
             )
@@ -368,7 +385,10 @@ private fun SuggestionsContent(
             dismissText = stringResource(Res.string.bank_sync_cancel),
         ) {
             Text(
-                text = stringResource(Res.string.suggestions_reject_all_confirm_body, state.selectedIds.size),
+                text = stringResource(
+                    Res.string.suggestions_reject_all_confirm_body,
+                    state.selectedIds.size
+                ),
                 style = MM.type.body,
                 color = MM.colors.text2,
             )
@@ -430,7 +450,8 @@ private fun FilterSheet(
                 onClose = { onIntent(SuggestionsIntent.ShowFilterSheet(false)) },
             )
 
-            val typeOptions = listOf(SpendingFilter.All, SpendingFilter.Expenses, SpendingFilter.Income)
+            val typeOptions =
+                listOf(SpendingFilter.All, SpendingFilter.Expenses, SpendingFilter.Income)
             MmSegmented(
                 options = listOf(
                     stringResource(Res.string.suggestions_filter_all),
@@ -494,12 +515,23 @@ private fun SuggestionCard(
     val isPendingTab = state.tab == SuggestionsTab.PENDING
 
     MmCard(modifier = Modifier.fillMaxWidth(), padded = true) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = if (isPendingTab) {
+                Modifier.clickable {
+                    onIntent(
+                        SuggestionsIntent.ToggleSelect(row.id)
+                    )
+                }
+            } else {
+                Modifier
+            }) {
             if (isPendingTab) {
                 MmCheckbox(
                     checked = row.id in state.selectedIds,
                     onCheckedChange = { onIntent(SuggestionsIntent.ToggleSelect(row.id)) },
                 )
+                Spacer(Modifier.width(MM.dimen.padding_2x))
             }
             Column(modifier = Modifier.weight(1f)) {
                 Text(
@@ -510,7 +542,10 @@ private fun SuggestionCard(
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    text = listOfNotNull(row.dateIso, row.counterparty, row.sourceLabel.takeIf { it.isNotBlank() })
+                    text = listOfNotNull(
+                        row.dateIso,
+                        row.counterparty,
+                        row.sourceLabel.takeIf { it.isNotBlank() })
                         .distinct()
                         .joinToString(" · "),
                     style = MM.type.caption.copy(color = colors.text2),
@@ -559,7 +594,8 @@ private fun SuggestionCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = stringResource(Res.string.suggestions_category_label) + ": " + (row.categoryName ?: "—"),
+                    text = stringResource(Res.string.suggestions_category_label) + ": " + (row.categoryName
+                        ?: "—"),
                     style = MM.type.caption.copy(color = colors.text2),
                     modifier = Modifier.weight(1f),
                 )
@@ -580,7 +616,8 @@ private fun SuggestionCard(
             ) {
                 Text(
                     text = stringResource(Res.string.bank_sync_account_target_label) + ": " +
-                        (row.targetAccountName ?: stringResource(Res.string.bank_sync_account_target_none)),
+                            (row.targetAccountName
+                                ?: stringResource(Res.string.bank_sync_account_target_none)),
                     style = MM.type.caption.copy(
                         color = if (row.targetAccountId == null) colors.danger else colors.text2,
                     ),

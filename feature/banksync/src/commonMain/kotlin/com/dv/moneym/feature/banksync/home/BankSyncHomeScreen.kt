@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -43,6 +45,7 @@ import com.dv.moneym.core.ui.MmLoadingOverlay
 import com.dv.moneym.core.ui.MmToggle
 import com.dv.moneym.core.ui.MmWalletPickerSheet
 import com.dv.moneym.core.ui.ScreenHeader
+import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.imageVector
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -53,17 +56,17 @@ import moneym.feature.banksync.generated.resources.bank_sync_account_target_none
 import moneym.feature.banksync.generated.resources.bank_sync_accounts_header
 import moneym.feature.banksync.generated.resources.bank_sync_auto_subtitle
 import moneym.feature.banksync.generated.resources.bank_sync_auto_title
-import moneym.feature.banksync.generated.resources.bank_sync_connect_bank
 import moneym.feature.banksync.generated.resources.bank_sync_cancel
+import moneym.feature.banksync.generated.resources.bank_sync_connect_bank
 import moneym.feature.banksync.generated.resources.bank_sync_disconnect
 import moneym.feature.banksync.generated.resources.bank_sync_disconnect_confirm_body
 import moneym.feature.banksync.generated.resources.bank_sync_disconnect_confirm_title
 import moneym.feature.banksync.generated.resources.bank_sync_edit_credentials
-import moneym.feature.banksync.generated.resources.bank_sync_no_accounts
 import moneym.feature.banksync.generated.resources.bank_sync_error_generic
 import moneym.feature.banksync.generated.resources.bank_sync_info
 import moneym.feature.banksync.generated.resources.bank_sync_last_sync_never
 import moneym.feature.banksync.generated.resources.bank_sync_last_synced
+import moneym.feature.banksync.generated.resources.bank_sync_no_accounts
 import moneym.feature.banksync.generated.resources.bank_sync_reconnect_required
 import moneym.feature.banksync.generated.resources.bank_sync_review_pending
 import moneym.feature.banksync.generated.resources.bank_sync_session_valid_until
@@ -193,15 +196,17 @@ private fun BankSyncHomeContent(
                                 }
                                 if (state.accounts.isNotEmpty()) {
                                     item {
-                                        Text(
-                                            text = stringResource(Res.string.bank_sync_accounts_header),
-                                            style = MM.type.micro,
-                                            color = colors.text2,
-                                            modifier = Modifier.padding(top = space.padding_1x),
+                                        Spacer(modifier = Modifier.height(space.padding_1x))
+                                        SectionLabel(
+                                            text = stringResource(Res.string.bank_sync_accounts_header)
                                         )
                                     }
                                     items(state.accounts, key = { it.uid }) { account ->
-                                        AccountCard(account = account, state = state, onIntent = onIntent)
+                                        AccountCard(
+                                            account = account,
+                                            state = state,
+                                            onIntent = onIntent
+                                        )
                                     }
                                 } else {
                                     item {
@@ -349,21 +354,34 @@ private fun AccountCard(
             }
             MmToggle(
                 checked = account.enabled,
-                onCheckedChange = { onIntent(BankSyncHomeIntent.SetAccountEnabled(account.uid, it)) },
+                onCheckedChange = {
+                    onIntent(
+                        BankSyncHomeIntent.SetAccountEnabled(
+                            account.uid,
+                            it
+                        )
+                    )
+                },
             )
         }
-        val targetName = state.localAccounts.firstOrNull { it.id.value == account.localAccountId }?.name
+        val targetName =
+            state.localAccounts.firstOrNull { it.id.value == account.localAccountId }?.name
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(MM.dimen.padding_1x))
                 .clickable { onIntent(BankSyncHomeIntent.ShowAccountPicker(account.uid)) }
-                .padding(top = space.padding_1x, bottom = space.padding_0_5x, start = space.padding_0_5x, end = space.padding_0_5x),
+                .padding(
+                    top = space.padding_1x,
+                    bottom = space.padding_0_5x,
+                    start = space.padding_0_5x,
+                    end = space.padding_0_5x
+                ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = stringResource(Res.string.bank_sync_account_target_label) + ": " +
-                    (targetName ?: stringResource(Res.string.bank_sync_account_target_none)),
+                        (targetName ?: stringResource(Res.string.bank_sync_account_target_none)),
                 style = MM.type.caption.copy(color = if (targetName == null) colors.danger else colors.text2),
                 modifier = Modifier.weight(1f),
             )
@@ -379,7 +397,14 @@ private fun AccountCard(
         MmWalletPickerSheet(
             accounts = state.localAccounts,
             selectedAccountId = account.localAccountId?.let { AccountId(it) },
-            onSelect = { onIntent(BankSyncHomeIntent.SetLocalAccountMapping(account.uid, it.value)) },
+            onSelect = {
+                onIntent(
+                    BankSyncHomeIntent.SetLocalAccountMapping(
+                        account.uid,
+                        it.value
+                    )
+                )
+            },
             onDismiss = { onIntent(BankSyncHomeIntent.ShowAccountPicker(null)) },
         )
     }
@@ -425,7 +450,10 @@ private fun ControlsCard(
             )
         } else {
             Text(
-                text = stringResource(Res.string.bank_sync_last_synced, formatDate(state.lastSyncMs)),
+                text = stringResource(
+                    Res.string.bank_sync_last_synced,
+                    formatDate(state.lastSyncMs)
+                ),
                 style = MM.type.caption.copy(color = colors.text2),
                 modifier = Modifier.padding(top = space.padding_1x),
             )
