@@ -49,4 +49,5 @@
     <string name="tx_edit_recurring_weekday_saturday">Št</string>
     <string name="tx_edit_recurring_weekday_sunday">Sk</string>
     <string name="tx_recurring_update_button">Atnaujinti pasikartojančią</string>
+    <string name="tx_recurring_starts">Prasideda %1$s</string>
 </resources>

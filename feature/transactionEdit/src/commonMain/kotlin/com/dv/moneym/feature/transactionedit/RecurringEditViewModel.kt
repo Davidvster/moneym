@@ -131,7 +131,7 @@ class RecurringEditViewModel(
                 Quad(cats, accs, modes, pmEnabled)
             }.collect { (cats, accs, modes, pmEnabled) ->
                 val defaultExpenseCat = cats.firstOrNull { it.type == TransactionType.EXPENSE }
-                val defaultAcc = accs.firstOrNull()
+                val defaultAcc = accs.firstOrNull { it.isDefault } ?: accs.firstOrNull()
                 _state.update { s ->
                     s.copy(
                         isLoading = false,

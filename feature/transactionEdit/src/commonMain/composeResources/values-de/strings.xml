@@ -49,4 +49,5 @@
     <string name="tx_edit_recurring_weekday_saturday">Sa</string>
     <string name="tx_edit_recurring_weekday_sunday">So</string>
     <string name="tx_recurring_update_button">Wiederholung aktualisieren</string>
+    <string name="tx_recurring_starts">Beginnt am %1$s</string>
 </resources>

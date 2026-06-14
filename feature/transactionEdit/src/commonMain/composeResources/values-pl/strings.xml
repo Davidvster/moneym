@@ -49,4 +49,5 @@
     <string name="tx_edit_recurring_weekday_saturday">Sob</string>
     <string name="tx_edit_recurring_weekday_sunday">Nd</string>
     <string name="tx_recurring_update_button">Zaktualizuj cykliczną</string>
+    <string name="tx_recurring_starts">Rozpoczyna się %1$s</string>
 </resources>

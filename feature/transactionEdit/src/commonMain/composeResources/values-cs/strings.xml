@@ -49,4 +49,5 @@
     <string name="tx_edit_recurring_weekday_saturday">So</string>
     <string name="tx_edit_recurring_weekday_sunday">Ne</string>
     <string name="tx_recurring_update_button">Aktualizovat opakující se</string>
+    <string name="tx_recurring_starts">Začíná %1$s</string>
 </resources>

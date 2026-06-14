@@ -49,4 +49,5 @@
     <string name="tx_edit_recurring_weekday_saturday">Саб</string>
     <string name="tx_edit_recurring_weekday_sunday">Нед</string>
     <string name="tx_recurring_update_button">Ажурирај повторувачка</string>
+    <string name="tx_recurring_starts">Започнува %1$s</string>
 </resources>

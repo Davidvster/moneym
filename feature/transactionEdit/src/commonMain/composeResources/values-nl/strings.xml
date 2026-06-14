@@ -49,4 +49,5 @@
     <string name="tx_edit_recurring_weekday_saturday">Za</string>
     <string name="tx_edit_recurring_weekday_sunday">Zo</string>
     <string name="tx_recurring_update_button">Terugkerende bijwerken</string>
+    <string name="tx_recurring_starts">Begint op %1$s</string>
 </resources>

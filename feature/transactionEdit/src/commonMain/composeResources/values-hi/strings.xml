@@ -49,4 +49,5 @@
     <string name="tx_edit_recurring_weekday_saturday">शनि</string>
     <string name="tx_edit_recurring_weekday_sunday">रवि</string>
     <string name="tx_recurring_update_button">आवर्ती अपडेट करें</string>
+    <string name="tx_recurring_starts">%1$s से शुरू</string>
 </resources>

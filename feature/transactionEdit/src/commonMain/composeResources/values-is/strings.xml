@@ -49,4 +49,5 @@
     <string name="tx_edit_recurring_weekday_saturday">Lau</string>
     <string name="tx_edit_recurring_weekday_sunday">Sun</string>
     <string name="tx_recurring_update_button">Uppfæra endurtekna</string>
+    <string name="tx_recurring_starts">Hefst %1$s</string>
 </resources>

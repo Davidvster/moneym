@@ -49,4 +49,5 @@
     <string name="tx_edit_recurring_weekday_saturday">Cmt</string>
     <string name="tx_edit_recurring_weekday_sunday">Paz</string>
     <string name="tx_recurring_update_button">Tekrarlayanı güncelle</string>
+    <string name="tx_recurring_starts">Başlangıç %1$s</string>
 </resources>

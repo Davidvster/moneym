@@ -49,4 +49,5 @@
     <string name="tx_edit_recurring_weekday_saturday">Сб</string>
     <string name="tx_edit_recurring_weekday_sunday">Вс</string>
     <string name="tx_recurring_update_button">Обновить повторяющуюся</string>
+    <string name="tx_recurring_starts">Начинается %1$s</string>
 </resources>

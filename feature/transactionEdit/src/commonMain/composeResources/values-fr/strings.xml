@@ -49,4 +49,5 @@
     <string name="tx_edit_recurring_weekday_saturday">Sam</string>
     <string name="tx_edit_recurring_weekday_sunday">Dim</string>
     <string name="tx_recurring_update_button">Mettre à jour la récurrence</string>
+    <string name="tx_recurring_starts">Commence le %1$s</string>
 </resources>

@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -46,6 +44,7 @@ import moneym.feature.transactionedit.generated.resources.edit_note_placeholder
 import moneym.feature.transactionedit.generated.resources.edit_save
 import moneym.feature.transactionedit.generated.resources.edit_type_expense
 import moneym.feature.transactionedit.generated.resources.edit_type_income
+import moneym.feature.transactionedit.generated.resources.tx_recurring_starts
 import moneym.feature.transactionedit.generated.resources.tx_recurring_update_button
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -94,7 +93,10 @@ private fun RecurringEditContent(
     var showCalculator by rememberSaveable { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
     val currencyCode = remember(state.selectedAccountId, state.availableAccounts) {
-        state.availableAccounts.firstOrNull { it.id == state.selectedAccountId }?.currency?.value
+        val accounts = state.availableAccounts
+        (accounts.firstOrNull { it.id == state.selectedAccountId }
+            ?: accounts.firstOrNull { it.isDefault }
+            ?: accounts.firstOrNull())?.currency?.value
             ?: "USD"
     }
 
@@ -123,6 +125,9 @@ private fun RecurringEditContent(
             isEditMode = state.isEditMode,
             onDismiss = onDismiss,
             onDeleteClick = { onIntent(TransactionEditIntent.ShowDeleteDialog(true)) },
+            accounts = state.availableAccounts,
+            selectedAccountId = state.selectedAccountId,
+            onAccountSelected = { onIntent(TransactionEditIntent.AccountSelected(it)) },
         )
         Column(
             modifier = Modifier
@@ -147,7 +152,7 @@ private fun RecurringEditContent(
                 horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
             ) {
                 Text(
-                    text = "Starts ${state.date}",
+                    text = stringResource(Res.string.tx_recurring_starts, state.date.toString()),
                     style = MM.type.micro,
                     color = MM.colors.text3,
                 )
@@ -184,7 +189,6 @@ private fun RecurringEditContent(
                 )
             }
 
-            Spacer(Modifier.height(MM.dimen.padding_1x))
             RecurrenceSection(state = state, onIntent = onIntent)
         }
         TransactionEditSaveBar(
