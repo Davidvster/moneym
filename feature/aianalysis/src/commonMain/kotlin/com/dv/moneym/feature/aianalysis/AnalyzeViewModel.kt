@@ -17,6 +17,7 @@ import com.dv.moneym.core.common.LocaleController
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.data.aichat.AiChatRepository
+import com.dv.moneym.data.llmmodels.LlmModelRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceSnapshotUseCase
 import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceToolsetUseCase
@@ -41,6 +42,7 @@ class AnalyzeViewModel(
     private val dispatchers: DispatcherProvider,
     private val aiChatRepository: AiChatRepository,
     private val transactionRepository: TransactionRepository,
+    private val llmModelRepository: LlmModelRepository,
     private val localeController: LocaleController,
     private val clock: AppClock,
     private val activeChatHolder: ActiveChatHolder,
@@ -52,6 +54,7 @@ class AnalyzeViewModel(
         .onStart {
             startEngineProbe()
             loadYearBounds()
+            observeActiveLocalModel()
         }
         .stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
@@ -96,6 +99,17 @@ class AnalyzeViewModel(
                     maxYear = maxYear,
                     selectedYear = (it.selectedYear ?: year).coerceIn(minYear, maxYear),
                 )
+            }
+        }
+    }
+
+    // The on-device engine label only says "On-device model"; surface which downloaded model is
+    // actually active so the picker tells the user what custom model will answer.
+    private fun observeActiveLocalModel() {
+        viewModelScope.launch {
+            llmModelRepository.observeModels().collect { models ->
+                val active = models.firstOrNull { it.active && it.downloaded }
+                _state.update { it.copy(localModelNameKey = active?.model?.displayNameKey) }
             }
         }
     }

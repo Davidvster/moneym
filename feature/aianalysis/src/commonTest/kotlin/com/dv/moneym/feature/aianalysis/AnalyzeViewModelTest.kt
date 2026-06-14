@@ -22,6 +22,7 @@ import com.dv.moneym.core.testing.FakeAiChatRepository
 import com.dv.moneym.core.testing.FakeAppSettings
 import com.dv.moneym.core.testing.FakeBudgetRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
+import com.dv.moneym.core.testing.FakeLlmModelRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.FixedClock
 import com.dv.moneym.core.testing.TestDispatcherProvider
@@ -127,6 +128,7 @@ class AnalyzeViewModelTest {
         dispatchers = TestDispatcherProvider(testDispatcher),
         aiChatRepository = aiChatRepository,
         transactionRepository = transactionRepository,
+        llmModelRepository = FakeLlmModelRepository(),
         localeController = localeController,
         clock = clock,
         activeChatHolder = activeChatHolder,

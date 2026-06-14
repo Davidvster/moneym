@@ -13,17 +13,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.ai.ChatRole
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
+import moneym.feature.aianalysis.generated.resources.Res
+import moneym.feature.aianalysis.generated.resources.analyze_generating
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MessageBubble(
     role: ChatRole,
     content: String,
     modifier: Modifier = Modifier,
+    isThinking: Boolean = false,
 ) {
     val colors = MM.colors
     val isUser = role == ChatRole.USER
@@ -48,11 +53,20 @@ fun MessageBubble(
                 )
                 .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1_5x),
         ) {
-            Text(
-                text = content,
-                style = MM.type.body,
-                color = if (isUser) colors.bg else colors.text,
-            )
+            if (isThinking) {
+                Text(
+                    text = stringResource(Res.string.analyze_generating),
+                    style = MM.type.body,
+                    color = colors.text3,
+                    fontStyle = FontStyle.Italic,
+                )
+            } else {
+                Text(
+                    text = content,
+                    style = MM.type.body,
+                    color = if (isUser) colors.bg else colors.text,
+                )
+            }
         }
     }
 }

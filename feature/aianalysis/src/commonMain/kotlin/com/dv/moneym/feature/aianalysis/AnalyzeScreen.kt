@@ -35,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -64,6 +65,9 @@ import com.dv.moneym.feature.aianalysis.components.MessageBubble
 import com.dv.moneym.feature.aianalysis.components.SuggestedPrompts
 import kotlinx.serialization.Serializable
 import moneym.feature.aianalysis.generated.resources.Res
+import moneym.feature.aianalysis.generated.resources.ai_model_gemma4_e2b_it
+import moneym.feature.aianalysis.generated.resources.ai_model_qwen25_1_5b
+import moneym.feature.aianalysis.generated.resources.ai_model_smollm2_135m
 import moneym.feature.aianalysis.generated.resources.analyze_disclaimer
 import moneym.feature.aianalysis.generated.resources.analyze_download_model
 import moneym.feature.aianalysis.generated.resources.analyze_engine_apple_intelligence
@@ -75,7 +79,6 @@ import moneym.feature.aianalysis.generated.resources.analyze_engine_status_downl
 import moneym.feature.aianalysis.generated.resources.analyze_engine_status_ready
 import moneym.feature.aianalysis.generated.resources.analyze_engine_status_unavailable
 import moneym.feature.aianalysis.generated.resources.analyze_error
-import moneym.feature.aianalysis.generated.resources.analyze_generating
 import moneym.feature.aianalysis.generated.resources.analyze_history_cd
 import moneym.feature.aianalysis.generated.resources.analyze_manage_models
 import moneym.feature.aianalysis.generated.resources.analyze_model_picker_cd
@@ -89,6 +92,7 @@ import moneym.feature.aianalysis.generated.resources.analyze_year_next_cd
 import moneym.feature.aianalysis.generated.resources.analyze_year_prev_cd
 import moneym.feature.aianalysis.generated.resources.analyze_title
 import moneym.feature.aianalysis.generated.resources.analyze_tools_fallback_notice
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -197,6 +201,7 @@ private fun AnalyzeContent(
                         ModelPicker(
                             engines = state.engines,
                             selectedEngine = state.selectedEngine,
+                            localModelNameKey = state.localModelNameKey,
                             onSelect = { onIntent(AnalyzeIntent.EngineChanged(it)) },
                             onManageModels = onManageModels,
                             onRefresh = { onIntent(AnalyzeIntent.RefreshEngines) },
@@ -281,7 +286,10 @@ private fun AnalyzeContent(
         }
 
         if (state.showToolsFallbackNotice) {
-            NoticeRow(text = stringResource(Res.string.analyze_tools_fallback_notice))
+            NoticeRow(
+                text = stringResource(Res.string.analyze_tools_fallback_notice),
+                color = colors.warning,
+            )
         }
         if (state.error != null) {
             NoticeRow(text = stringResource(Res.string.analyze_error))
@@ -299,23 +307,28 @@ private fun AnalyzeContent(
                     contentPadding = PaddingValues(MM.dimen.padding_2_5x),
                     verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
                 ) {
-                    itemsIndexed(state.messages) { _, message ->
-                        MessageBubble(role = message.role, content = message.content)
+                    itemsIndexed(state.messages) { index, message ->
+                        val isLastAssistant = index == state.messages.lastIndex &&
+                            message.role == ChatRole.ASSISTANT
+                        MessageBubble(
+                            role = message.role,
+                            content = message.content,
+                            isThinking = state.isGenerating && isLastAssistant && message.content.isEmpty(),
+                        )
+                    }
+                    // Assistant placeholder isn't added until grounding is built; show a thinking
+                    // bubble in that gap so the indicator lives in the chat, not at the screen edge.
+                    if (state.isGenerating && state.messages.lastOrNull()?.role == ChatRole.USER) {
+                        item {
+                            MessageBubble(
+                                role = ChatRole.ASSISTANT,
+                                content = "",
+                                isThinking = true,
+                            )
+                        }
                     }
                 }
             }
-        }
-
-        if (state.isGenerating) {
-            Text(
-                text = stringResource(Res.string.analyze_generating),
-                style = MM.type.caption,
-                color = colors.text3,
-                modifier = Modifier.padding(
-                    horizontal = MM.dimen.padding_2_5x,
-                    vertical = MM.dimen.padding_0_5x,
-                ),
-            )
         }
 
         Text(
@@ -365,6 +378,7 @@ private fun engineLabelRes(id: AiEngineId) = when (id) {
 private fun ModelPicker(
     engines: List<AiEngineOption>,
     selectedEngine: AiEngineId?,
+    localModelNameKey: String?,
     onSelect: (AiEngineId) -> Unit,
     onManageModels: () -> Unit,
     onRefresh: () -> Unit,
@@ -384,6 +398,7 @@ private fun ModelPicker(
         ModelPickerSheet(
             engines = engines,
             selectedEngine = selectedEngine,
+            localModelNameKey = localModelNameKey,
             onSelect = {
                 showSheet = false
                 onSelect(it)
@@ -402,6 +417,7 @@ private fun ModelPicker(
 private fun ModelPickerSheet(
     engines: List<AiEngineOption>,
     selectedEngine: AiEngineId?,
+    localModelNameKey: String?,
     onSelect: (AiEngineId) -> Unit,
     onManageModels: () -> Unit,
     onDismiss: () -> Unit,
@@ -445,6 +461,7 @@ private fun ModelPickerSheet(
                 EngineRow(
                     engine = engine,
                     selected = engine.id == selectedEngine,
+                    localModelNameKey = localModelNameKey,
                     onClick = {
                         if (engine.available) onSelect(engine.id) else onManageModels()
                     },
@@ -468,9 +485,17 @@ private fun ModelPickerSheet(
 private fun EngineRow(
     engine: AiEngineOption,
     selected: Boolean,
+    localModelNameKey: String?,
     onClick: () -> Unit,
 ) {
     val colors = MM.colors
+    // For the on-device (custom) engine, name the active model instead of a generic status, so the
+    // picker shows which model will actually answer.
+    val modelNameRes = if (engine.id == AiEngineId.LOCAL_LLM) {
+        localModelNameKey?.let(::localModelNameRes)
+    } else {
+        null
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -487,9 +512,17 @@ private fun EngineRow(
                 color = colors.text,
             )
             Text(
-                text = stringResource(engineStatusRes(engine)),
+                text = if (modelNameRes != null) {
+                    stringResource(modelNameRes)
+                } else {
+                    stringResource(engineStatusRes(engine))
+                },
                 style = MM.type.caption,
-                color = if (engine.needsDownload) colors.accent else colors.text3,
+                color = when {
+                    engine.needsDownload -> colors.accent
+                    !engine.available && modelNameRes == null -> colors.danger
+                    else -> colors.text3
+                },
             )
         }
         if (selected) {
@@ -506,6 +539,13 @@ private fun engineStatusRes(option: AiEngineOption) = when {
     option.available -> Res.string.analyze_engine_status_ready
     option.needsDownload -> Res.string.analyze_engine_status_download
     else -> Res.string.analyze_engine_status_unavailable
+}
+
+private fun localModelNameRes(key: String): StringResource? = when (key) {
+    "ai_model_smollm2_135m" -> Res.string.ai_model_smollm2_135m
+    "ai_model_qwen25_1_5b" -> Res.string.ai_model_qwen25_1_5b
+    "ai_model_gemma4_e2b_it" -> Res.string.ai_model_gemma4_e2b_it
+    else -> null
 }
 
 @Composable
@@ -557,11 +597,11 @@ private fun YearStepper(
 }
 
 @Composable
-private fun NoticeRow(text: String) {
+private fun NoticeRow(text: String, color: Color = MM.colors.text2) {
     Text(
         text = text,
         style = MM.type.caption,
-        color = MM.colors.text2,
+        color = color,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_1x),

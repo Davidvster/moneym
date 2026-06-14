@@ -21,6 +21,7 @@ data class AnalyzeUiState(
     val selectedYear: Int? = null,
     val minYear: Int? = null,
     val maxYear: Int? = null,
+    val localModelNameKey: String? = null,
 )
 
 @Serializable

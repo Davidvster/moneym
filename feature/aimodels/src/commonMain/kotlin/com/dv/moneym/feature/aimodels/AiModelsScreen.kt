@@ -26,12 +26,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmRadio
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
+import com.dv.moneym.core.ui.MmIconButton
+import com.dv.moneym.core.ui.MmIconButtonVariant
+import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.KeepScreenOn
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmDeleteSheet
@@ -147,17 +151,39 @@ private fun ModelRow(row: ModelRowUi, onIntent: (AiModelsIntent) -> Unit) {
 
     MmCard(padded = true, modifier = Modifier.fillMaxWidth()) {
         Column(verticalArrangement = Arrangement.spacedBy(space.padding_1x)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(space.padding_1_5x),
+            ) {
+                val status = row.status
+                if (status == ModelStatus.Downloaded) {
+                    MmRadio(selected = false, onClick = { onIntent(AiModelsIntent.SetActive(row.id)) })
+                } else if (status == ModelStatus.Active) {
+                    MmRadio(selected = true)
+                }
+
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = stringResource(row.displayNameKey.modelNameRes()),
-                        style = type.body,
-                        color = colors.text,
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
+                    ) {
+                        Text(
+                            text = stringResource(row.displayNameKey.modelNameRes()),
+                            style = type.body,
+                            color = colors.text,
+                        )
+                        if (status == ModelStatus.Active) {
+                            Text(
+                                text = stringResource(Res.string.ai_models_active),
+                                style = type.caption,
+                                color = colors.accent,
+                            )
+                        }
+                    }
                     Text(text = row.sizeLabel, style = type.caption, color = colors.text2)
                 }
 
-                when (val status = row.status) {
+                when (status) {
                     ModelStatus.NotDownloaded -> MmButton(
                         text = stringResource(Res.string.ai_models_download),
                         onClick = { onIntent(AiModelsIntent.Download(row.id)) },
@@ -172,36 +198,12 @@ private fun ModelRow(row: ModelRowUi, onIntent: (AiModelsIntent) -> Unit) {
                         size = MmButtonSize.Sm,
                     )
 
-                    ModelStatus.Downloaded -> Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
-                    ) {
-                        MmRadio(selected = false, onClick = { onIntent(AiModelsIntent.SetActive(row.id)) })
-                        MmButton(
-                            text = stringResource(Res.string.ai_models_delete),
-                            onClick = { onIntent(AiModelsIntent.Delete(row.id)) },
-                            variant = MmButtonVariant.Danger,
-                            size = MmButtonSize.Sm,
-                        )
-                    }
-
-                    ModelStatus.Active -> Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
-                    ) {
-                        MmRadio(selected = true)
-                        Text(
-                            text = stringResource(Res.string.ai_models_active),
-                            style = type.caption,
-                            color = colors.accent,
-                        )
-                        MmButton(
-                            text = stringResource(Res.string.ai_models_delete),
-                            onClick = { onIntent(AiModelsIntent.Delete(row.id)) },
-                            variant = MmButtonVariant.Danger,
-                            size = MmButtonSize.Sm,
-                        )
-                    }
+                    ModelStatus.Downloaded, ModelStatus.Active -> MmIconButton(
+                        icon = Icon.Trash.imageVector,
+                        onClick = { onIntent(AiModelsIntent.Delete(row.id)) },
+                        variant = MmIconButtonVariant.Danger,
+                        contentDescription = stringResource(Res.string.ai_models_delete),
+                    )
                 }
             }
 

@@ -491,6 +491,7 @@ val featureAianalysisModule = module {
             dispatchers = get(),
             aiChatRepository = get(),
             transactionRepository = get(),
+            llmModelRepository = get(),
             localeController = get(),
             clock = get(),
             activeChatHolder = get(),
