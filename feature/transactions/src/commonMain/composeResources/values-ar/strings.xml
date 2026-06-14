@@ -29,7 +29,7 @@
     <string name="transactions_pending_deletions">تمت إزالة %1$d عنصر على جهاز آخر — مراجعة</string>
     <string name="transactions_sync_conflict_body">المزامنة متوقفة. افتح النسخ الاحتياطي والاستعادة في الإعدادات لإدخال كلمة المرور.</string>
     <string name="transactions_bank_sync_section">مزامنة البنك</string>
-    <string name="transactions_bank_review">مراجعة %1$d اقتراحات</string>
+    <string name="transactions_bank_review">مراجعة %1$d معاملة مقترحة</string>
     <string name="transactions_sync_last">آخر مزامنة %1$s</string>
     <string name="transactions_sync_never">لم تتم المزامنة بعد</string>
     <string name="transactions_sync_now">المزامنة الآن</string>

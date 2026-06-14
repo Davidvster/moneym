@@ -38,9 +38,7 @@ import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.data.aichat.ChatConversation
 import kotlinx.serialization.Serializable
-import kotlin.time.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import com.dv.moneym.core.common.formatDateTime
 import moneym.feature.aianalysis.generated.resources.Res
 import moneym.feature.aianalysis.generated.resources.analyze_history_delete_body
 import moneym.feature.aianalysis.generated.resources.analyze_history_delete_cancel
@@ -185,12 +183,7 @@ private fun ConversationRow(
     }
 }
 
-private fun formatTimestamp(ms: Long): String {
-    val dt = Instant.fromEpochMilliseconds(ms).toLocalDateTime(TimeZone.currentSystemDefault())
-    val h = dt.hour.toString().padStart(2, '0')
-    val m = dt.minute.toString().padStart(2, '0')
-    return "${dt.date} $h:$m"
-}
+private fun formatTimestamp(ms: Long): String = formatDateTime(ms)
 
 @Preview
 @Composable

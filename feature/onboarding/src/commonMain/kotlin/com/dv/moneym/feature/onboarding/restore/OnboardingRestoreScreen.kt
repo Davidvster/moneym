@@ -44,9 +44,7 @@ import com.dv.moneym.core.ui.SectionLabel
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.data.remotebackup.RemoteBackupMetadata
 import com.dv.moneym.platform.rememberBinaryFilePicker
-import kotlin.time.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import com.dv.moneym.core.common.formatDateTime
 import kotlinx.serialization.Serializable
 import moneym.feature.onboarding.generated.resources.Res
 import moneym.feature.onboarding.generated.resources.onboarding_restore_app_close_notice
@@ -355,8 +353,5 @@ private fun OnboardingRestoreContentPreview() {
 
 private fun formatTime(ms: Long): String? {
     if (ms == 0L) return null
-    val dt = Instant.fromEpochMilliseconds(ms).toLocalDateTime(TimeZone.currentSystemDefault())
-    val h = dt.hour.toString().padStart(2, '0')
-    val m = dt.minute.toString().padStart(2, '0')
-    return "${dt.date} $h:$m"
+    return formatDateTime(ms)
 }

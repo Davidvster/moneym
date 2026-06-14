@@ -29,7 +29,7 @@
     <string name="transactions_pending_deletions">%1$d üksust eemaldatud teisel seadmel — vaata üle</string>
     <string name="transactions_sync_conflict_body">Sünkroonimine on peatatud. Parooli sisestamiseks ava Seadetes Varundamine ja taastamine.</string>
     <string name="transactions_bank_sync_section">Panga sünkroonimine</string>
-    <string name="transactions_bank_review">Vaata üle %1$d soovitust</string>
+    <string name="transactions_bank_review">Vaadake üle %1$d soovitatud tehingut</string>
     <string name="transactions_sync_last">Viimati sünkroonitud %1$s</string>
     <string name="transactions_sync_never">Pole veel sünkroonitud</string>
     <string name="transactions_sync_now">Sünkrooni kohe</string>

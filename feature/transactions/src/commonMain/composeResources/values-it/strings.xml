@@ -36,7 +36,7 @@
     <string name="transactions_sync_never">Non ancora sincronizzato</string>
     <string name="transactions_sync_conflict_body">La sincronizzazione è in pausa. Apri Backup e ripristino nelle Impostazioni per inserire la password.</string>
     <string name="transactions_bank_sync_section">Sincronizzazione bancaria</string>
-    <string name="transactions_bank_review">Rivedi %1$d suggerimenti</string>
+    <string name="transactions_bank_review">Rivedi %1$d transazioni suggerite</string>
     <string name="transactions_wallet_sync_section">Sincronizzazione wallet</string>
     <string name="transactions_wallet_review">Rivedi %1$d suggerimenti</string>
     <string name="transactions_wallet_empty">Ancora nessun suggerimento</string>

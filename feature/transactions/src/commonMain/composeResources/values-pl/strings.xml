@@ -29,7 +29,7 @@
     <string name="transactions_pending_deletions">%1$d elementów usuniętych na innym urządzeniu — przejrzyj</string>
     <string name="transactions_sync_conflict_body">Synchronizacja jest wstrzymana. Otwórz Kopia zapasowa i przywracanie w Ustawieniach, aby wprowadzić hasło.</string>
     <string name="transactions_bank_sync_section">Synchronizacja banku</string>
-    <string name="transactions_bank_review">Przejrzyj %1$d sugestii</string>
+    <string name="transactions_bank_review">Przejrzyj %1$d sugerowanych transakcji</string>
     <string name="transactions_sync_last">Ostatnia synchronizacja %1$s</string>
     <string name="transactions_sync_never">Jeszcze nie zsynchronizowano</string>
     <string name="transactions_sync_now">Synchronizuj teraz</string>

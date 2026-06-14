@@ -29,11 +29,11 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.common.DateStyle
 import com.dv.moneym.core.common.formatDate
+import com.dv.moneym.core.common.formatDateTime
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmButton
-import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.mmClickable
@@ -321,7 +321,8 @@ private fun StatusCard(
             MmButton(
                 text = stringResource(Res.string.bank_sync_review_pending, state.pendingCount),
                 onClick = onOpenSuggestions,
-                size = MmButtonSize.Sm,
+                variant = MmButtonVariant.Outline,
+                fullWidth = true,
                 modifier = Modifier.padding(top = space.padding_1x),
             )
         }
@@ -450,7 +451,7 @@ private fun ControlsCard(
             Text(
                 text = stringResource(
                     Res.string.bank_sync_last_synced,
-                    formatDate(state.lastSyncMs)
+                    formatDateTime(state.lastSyncMs)
                 ),
                 style = MM.type.caption.copy(color = colors.text2),
                 modifier = Modifier.padding(top = space.padding_1x),

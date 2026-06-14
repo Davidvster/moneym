@@ -29,7 +29,7 @@
     <string name="transactions_pending_deletions">%1$d atriðum eytt á öðru tæki — yfirfara</string>
     <string name="transactions_sync_conflict_body">Samstilling er í bið. Opnaðu Afrit og endurheimt í Stillingum til að slá inn lykilorðið.</string>
     <string name="transactions_bank_sync_section">Bankasamstilling</string>
-    <string name="transactions_bank_review">Skoða %1$d tillögur</string>
+    <string name="transactions_bank_review">Yfirfara %1$d tillögur að færslum</string>
     <string name="transactions_sync_last">Síðast samstillt %1$s</string>
     <string name="transactions_sync_never">Ekki enn samstillt</string>
     <string name="transactions_sync_now">Samstilla núna</string>

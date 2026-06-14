@@ -54,9 +54,7 @@ import com.dv.moneym.data.remotebackup.RemoteBackupRuntimeState
 import com.dv.moneym.platform.rememberBinaryFilePicker
 import com.dv.moneym.platform.rememberFileSaver
 import com.dv.moneym.platform.rememberFolderPicker
-import kotlin.time.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import com.dv.moneym.core.common.formatDateTime
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_auto_backup
@@ -871,10 +869,7 @@ private fun formatBackupPath(raw: String): String {
 
 private fun formatTime(ms: Long): String? {
     if (ms == 0L) return null
-    val dt = Instant.fromEpochMilliseconds(ms).toLocalDateTime(TimeZone.currentSystemDefault())
-    val h = dt.hour.toString().padStart(2, '0')
-    val m = dt.minute.toString().padStart(2, '0')
-    return "${dt.date} $h:$m"
+    return formatDateTime(ms)
 }
 
 @androidx.compose.ui.tooling.preview.Preview

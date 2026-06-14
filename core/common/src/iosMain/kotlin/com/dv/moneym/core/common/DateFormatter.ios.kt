@@ -1,10 +1,12 @@
 package com.dv.moneym.core.common
 
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.number
 import platform.Foundation.NSCalendar
 import platform.Foundation.NSDateComponents
 import platform.Foundation.NSDateFormatter
+import platform.Foundation.NSDateFormatterFullStyle
 import platform.Foundation.NSDateFormatterMediumStyle
 import platform.Foundation.NSDateFormatterNoStyle
 import platform.Foundation.NSDateFormatterShortStyle
@@ -42,4 +44,24 @@ actual fun formatDate(date: LocalDate, style: DateStyle): String {
             formatter.stringFromDate(nsDate) ?: date.toString()
         }
     }
+}
+
+actual fun formatDateTime(dateTime: LocalDateTime, style: DateStyle): String {
+    val components = NSDateComponents().apply {
+        year = dateTime.year.toLong()
+        month = dateTime.month.number.toLong()
+        day = dateTime.day.toLong()
+        hour = dateTime.hour.toLong()
+        minute = dateTime.minute.toLong()
+    }
+    val nsDate = NSCalendar.currentCalendar.dateFromComponents(components)
+        ?: return dateTime.toString()
+    val formatter = NSDateFormatter().apply { locale = NSLocale.currentLocale }
+    formatter.dateStyle = when (style) {
+        DateStyle.Full -> NSDateFormatterFullStyle
+        DateStyle.Medium -> NSDateFormatterMediumStyle
+        DateStyle.Short -> NSDateFormatterShortStyle
+    }
+    formatter.timeStyle = NSDateFormatterShortStyle
+    return formatter.stringFromDate(nsDate) ?: dateTime.toString()
 }

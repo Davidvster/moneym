@@ -29,7 +29,7 @@
     <string name="transactions_pending_deletions">%1$d ставки отстранети на друг уред — прегледај</string>
     <string name="transactions_sync_conflict_body">Синхронизацијата е паузирана. Отворете Резервна копија и враќање во Поставки за да ја внесете лозинката.</string>
     <string name="transactions_bank_sync_section">Синхронизација со банка</string>
-    <string name="transactions_bank_review">Прегледај %1$d предлози</string>
+    <string name="transactions_bank_review">Прегледајте %1$d предложени трансакции</string>
     <string name="transactions_sync_last">Последна синхронизација %1$s</string>
     <string name="transactions_sync_never">Сè уште не е синхронизирано</string>
     <string name="transactions_sync_now">Синхронизирај сега</string>

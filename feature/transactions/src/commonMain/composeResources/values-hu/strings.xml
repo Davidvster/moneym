@@ -29,7 +29,7 @@
     <string name="transactions_pending_deletions">%1$d elem eltávolítva egy másik eszközön — áttekintés</string>
     <string name="transactions_sync_conflict_body">A szinkronizálás szünetel. A jelszó megadásához nyisd meg a Biztonsági mentés és visszaállítás menüt a Beállításokban.</string>
     <string name="transactions_bank_sync_section">Banki szinkronizálás</string>
-    <string name="transactions_bank_review">%1$d javaslat áttekintése</string>
+    <string name="transactions_bank_review">%1$d javasolt tranzakció áttekintése</string>
     <string name="transactions_sync_last">Utoljára szinkronizálva: %1$s</string>
     <string name="transactions_sync_never">Még nincs szinkronizálva</string>
     <string name="transactions_sync_now">Szinkronizálás most</string>

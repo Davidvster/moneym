@@ -29,7 +29,7 @@
     <string name="transactions_pending_deletions">%1$d kohdetta poistettu toiselta laitteelta — tarkista</string>
     <string name="transactions_sync_conflict_body">Synkronointi on keskeytetty. Avaa Varmuuskopiointi ja palautus Asetuksissa ja syötä salasana.</string>
     <string name="transactions_bank_sync_section">Pankkisynkronointi</string>
-    <string name="transactions_bank_review">Tarkista %1$d ehdotusta</string>
+    <string name="transactions_bank_review">Tarkista %1$d ehdotettua tapahtumaa</string>
     <string name="transactions_sync_last">Viimeksi synkronoitu %1$s</string>
     <string name="transactions_sync_never">Ei vielä synkronoitu</string>
     <string name="transactions_sync_now">Synkronoi nyt</string>

@@ -29,7 +29,7 @@
     <string name="transactions_pending_deletions">%1$d elementer fjernet på en annen enhet — gjennomgå</string>
     <string name="transactions_sync_conflict_body">Synkronisering er satt på pause. Åpne Sikkerhetskopiering og gjenoppretting i Innstillinger for å skrive inn passordet.</string>
     <string name="transactions_bank_sync_section">Banksynkronisering</string>
-    <string name="transactions_bank_review">Gå gjennom %1$d forslag</string>
+    <string name="transactions_bank_review">Gjennomgå %1$d foreslåtte transaksjoner</string>
     <string name="transactions_sync_last">Sist synkronisert %1$s</string>
     <string name="transactions_sync_never">Ikke synkronisert ennå</string>
     <string name="transactions_sync_now">Synkroniser nå</string>

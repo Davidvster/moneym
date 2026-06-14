@@ -29,7 +29,7 @@
     <string name="transactions_pending_deletions">%1$d элементов удалено на другом устройстве — проверить</string>
     <string name="transactions_sync_conflict_body">Синхронизация приостановлена. Откройте «Резервное копирование и восстановление» в настройках, чтобы ввести пароль.</string>
     <string name="transactions_bank_sync_section">Синхронизация с банком</string>
-    <string name="transactions_bank_review">Просмотреть %1$d предложений</string>
+    <string name="transactions_bank_review">Проверить предложенные транзакции: %1$d</string>
     <string name="transactions_sync_last">Последняя синхронизация %1$s</string>
     <string name="transactions_sync_never">Ещё не синхронизировано</string>
     <string name="transactions_sync_now">Синхронизировать</string>

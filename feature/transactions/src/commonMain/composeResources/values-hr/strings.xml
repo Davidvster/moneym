@@ -29,7 +29,7 @@
     <string name="transactions_pending_deletions">%1$d stavki uklonjeno na drugom uređaju — pregled</string>
     <string name="transactions_sync_conflict_body">Sinkronizacija je pauzirana. Otvorite Sigurnosna kopija i vraćanje u Postavkama da unesete lozinku.</string>
     <string name="transactions_bank_sync_section">Sinkronizacija banke</string>
-    <string name="transactions_bank_review">Pregledaj %1$d prijedloga</string>
+    <string name="transactions_bank_review">Pregledajte %1$d predloženih transakcija</string>
     <string name="transactions_sync_last">Zadnja sinkronizacija %1$s</string>
     <string name="transactions_sync_never">Još nije sinkronizirano</string>
     <string name="transactions_sync_now">Sinkroniziraj sad</string>

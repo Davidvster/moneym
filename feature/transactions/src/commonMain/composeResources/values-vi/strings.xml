@@ -29,7 +29,7 @@
     <string name="transactions_pending_deletions">%1$d mục đã bị xóa trên thiết bị khác — xem lại</string>
     <string name="transactions_sync_conflict_body">Đồng bộ đang tạm dừng. Mở Sao lưu và khôi phục trong Cài đặt để nhập mật khẩu.</string>
     <string name="transactions_bank_sync_section">Đồng bộ ngân hàng</string>
-    <string name="transactions_bank_review">Xem %1$d gợi ý</string>
+    <string name="transactions_bank_review">Xem lại %1$d giao dịch được đề xuất</string>
     <string name="transactions_sync_last">Đồng bộ lần cuối %1$s</string>
     <string name="transactions_sync_never">Chưa đồng bộ</string>
     <string name="transactions_sync_now">Đồng bộ ngay</string>

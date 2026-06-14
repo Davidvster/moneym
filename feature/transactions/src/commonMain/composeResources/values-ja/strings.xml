@@ -29,7 +29,7 @@
     <string name="transactions_pending_deletions">別のデバイスで %1$d 件削除されました — 確認してください</string>
     <string name="transactions_sync_conflict_body">同期が一時停止しています。設定の「バックアップと復元」を開いてパスワードを入力してください。</string>
     <string name="transactions_bank_sync_section">銀行同期</string>
-    <string name="transactions_bank_review">%1$d件の候補を確認</string>
+    <string name="transactions_bank_review">%1$d 件の候補取引を確認</string>
     <string name="transactions_sync_last">最終同期 %1$s</string>
     <string name="transactions_sync_never">まだ同期されていません</string>
     <string name="transactions_sync_now">今すぐ同期</string>

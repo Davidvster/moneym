@@ -63,6 +63,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.dv.moneym.core.common.formatDateTime
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.designsystem.categoryColor
@@ -98,10 +99,7 @@ import com.dv.moneym.feature.transactions.list.components.DayGroupHeader
 import com.dv.moneym.feature.transactions.list.page.TransactionPageScreen
 import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
-import kotlinx.datetime.toLocalDateTime
-import kotlin.time.Instant
 import kotlinx.serialization.Serializable
 import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.transactions_add
@@ -682,12 +680,7 @@ private fun SyncStatusSheet(
     }
 }
 
-private fun formatSyncTime(ms: Long): String {
-    val dt = Instant.fromEpochMilliseconds(ms).toLocalDateTime(TimeZone.currentSystemDefault())
-    val h = dt.hour.toString().padStart(2, '0')
-    val m = dt.minute.toString().padStart(2, '0')
-    return "${dt.date} $h:$m"
-}
+private fun formatSyncTime(ms: Long): String = formatDateTime(ms)
 
 @Composable
 private fun TransactionListHeader(

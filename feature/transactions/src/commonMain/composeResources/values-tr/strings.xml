@@ -29,7 +29,7 @@
     <string name="transactions_pending_deletions">Başka bir cihazda %1$d öğe kaldırıldı — incele</string>
     <string name="transactions_sync_conflict_body">Eşitleme duraklatıldı. Parolayı girmek için Ayarlar\'da Yedekleme ve Geri Yükleme\'yi açın.</string>
     <string name="transactions_bank_sync_section">Banka senkronizasyonu</string>
-    <string name="transactions_bank_review">%1$d öneriyi incele</string>
+    <string name="transactions_bank_review">%1$d önerilen işlemi incele</string>
     <string name="transactions_sync_last">Son eşitleme %1$s</string>
     <string name="transactions_sync_never">Henüz eşitlenmedi</string>
     <string name="transactions_sync_now">Şimdi eşitle</string>

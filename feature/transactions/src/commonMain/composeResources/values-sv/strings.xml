@@ -29,7 +29,7 @@
     <string name="transactions_pending_deletions">%1$d objekt borttagna på en annan enhet — granska</string>
     <string name="transactions_sync_conflict_body">Synkroniseringen är pausad. Öppna Säkerhetskopiering och återställning i Inställningar för att ange lösenordet.</string>
     <string name="transactions_bank_sync_section">Banksynkronisering</string>
-    <string name="transactions_bank_review">Granska %1$d förslag</string>
+    <string name="transactions_bank_review">Granska %1$d föreslagna transaktioner</string>
     <string name="transactions_sync_last">Senast synkroniserad %1$s</string>
     <string name="transactions_sync_never">Inte synkroniserad ännu</string>
     <string name="transactions_sync_now">Synkronisera nu</string>
