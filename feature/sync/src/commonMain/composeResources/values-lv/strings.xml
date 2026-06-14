@@ -19,6 +19,7 @@
     <string name="sync_settings_devices_header">IERĪCES</string>
     <string name="sync_settings_this_device">Šī ierīce</string>
     <string name="sync_settings_remove">Noņemt</string>
+    <string name="sync_settings_removed_snackbar">Ierīce noņemta</string>
     <string name="sync_settings_last_synced_just_now">sinhronizēts tikko</string>
     <string name="sync_settings_last_synced_minutes">sinhronizēts %1$d min. atpakaļ</string>
     <string name="sync_settings_last_synced_hours">sinhronizēts %1$d st. atpakaļ</string>

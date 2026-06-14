@@ -19,6 +19,7 @@
     <string name="sync_settings_devices_header">ESZKÖZÖK</string>
     <string name="sync_settings_this_device">Ez az eszköz</string>
     <string name="sync_settings_remove">Eltávolítás</string>
+    <string name="sync_settings_removed_snackbar">Eszköz eltávolítva</string>
     <string name="sync_settings_last_synced_just_now">szinkronizálva most</string>
     <string name="sync_settings_last_synced_minutes">szinkronizálva %1$d perce</string>
     <string name="sync_settings_last_synced_hours">szinkronizálva %1$d órája</string>

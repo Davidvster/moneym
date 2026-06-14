@@ -19,6 +19,7 @@
     <string name="sync_settings_devices_header">ENHETER</string>
     <string name="sync_settings_this_device">Den här enheten</string>
     <string name="sync_settings_remove">Ta bort</string>
+    <string name="sync_settings_removed_snackbar">Enhet borttagen</string>
     <string name="sync_settings_last_synced_just_now">synkroniserades just nu</string>
     <string name="sync_settings_last_synced_minutes">synkroniserades %1$d min sedan</string>
     <string name="sync_settings_last_synced_hours">synkroniserades %1$d h sedan</string>

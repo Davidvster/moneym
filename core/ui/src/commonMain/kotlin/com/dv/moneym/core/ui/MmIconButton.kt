@@ -27,25 +27,33 @@ fun MmIconButton(
     modifier: Modifier = Modifier,
     variant: MmIconButtonVariant = MmIconButtonVariant.Default,
     size: Dp = MM.dimen.padding_5x,
+    enabled: Boolean = true,
     contentDescription: String? = null,
 ) {
     val colors = MM.colors
-    val iconColor = when (variant) {
+    val baseColor = when (variant) {
         MmIconButtonVariant.Default -> colors.text
         MmIconButtonVariant.Accent -> colors.accent
         MmIconButtonVariant.Danger -> colors.danger
+    }
+    val iconColor = if (enabled) baseColor else baseColor.copy(alpha = 0.4f)
+
+    val clickModifier = if (enabled) {
+        Modifier.mmClickable(
+            bounded = false,
+            radius = size / 2,
+            rippleColor = baseColor,
+            role = Role.Button,
+            onClick = onClick,
+        )
+    } else {
+        Modifier
     }
 
     Box(
         modifier = modifier
             .size(size)
-            .mmClickable(
-                bounded = false,
-                radius = size / 2,
-                rippleColor = iconColor,
-                role = Role.Button,
-                onClick = onClick,
-            ),
+            .then(clickModifier),
         contentAlignment = Alignment.Center,
     ) {
         Icon(

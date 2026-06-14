@@ -35,6 +35,7 @@ kotlin {
             implementation(projects.core.datastore)
             implementation(libs.androidx.navigation3.runtime)
             implementation(projects.core.navigation)
+            implementation(projects.core.utils)
             implementation(projects.data.sync)
         }
         commonTest.dependencies {

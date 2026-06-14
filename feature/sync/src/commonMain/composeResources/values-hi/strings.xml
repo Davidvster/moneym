@@ -19,6 +19,7 @@
     <string name="sync_settings_devices_header">डिवाइस</string>
     <string name="sync_settings_this_device">यह डिवाइस</string>
     <string name="sync_settings_remove">हटाएँ</string>
+    <string name="sync_settings_removed_snackbar">डिवाइस हटाया गया</string>
     <string name="sync_settings_last_synced_just_now">अभी-अभी सिंक हुआ</string>
     <string name="sync_settings_last_synced_minutes">%1$d मिनट पहले सिंक हुआ</string>
     <string name="sync_settings_last_synced_hours">%1$d घंटे पहले सिंक हुआ</string>

@@ -19,6 +19,7 @@
     <string name="sync_settings_devices_header">URZĄDZENIA</string>
     <string name="sync_settings_this_device">To urządzenie</string>
     <string name="sync_settings_remove">Usuń</string>
+    <string name="sync_settings_removed_snackbar">Urządzenie usunięte</string>
     <string name="sync_settings_last_synced_just_now">zsynchronizowano właśnie teraz</string>
     <string name="sync_settings_last_synced_minutes">zsynchronizowano %1$d min temu</string>
     <string name="sync_settings_last_synced_hours">zsynchronizowano %1$d godz. temu</string>

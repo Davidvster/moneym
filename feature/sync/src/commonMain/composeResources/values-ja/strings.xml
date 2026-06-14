@@ -19,6 +19,7 @@
     <string name="sync_settings_devices_header">デバイス</string>
     <string name="sync_settings_this_device">このデバイス</string>
     <string name="sync_settings_remove">削除</string>
+    <string name="sync_settings_removed_snackbar">デバイスを削除しました</string>
     <string name="sync_settings_last_synced_just_now">たった今同期しました</string>
     <string name="sync_settings_last_synced_minutes">%1$d分前に同期しました</string>
     <string name="sync_settings_last_synced_hours">%1$d時間前に同期しました</string>

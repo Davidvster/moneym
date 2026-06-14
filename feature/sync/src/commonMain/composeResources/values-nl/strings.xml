@@ -19,6 +19,7 @@
     <string name="sync_settings_devices_header">APPARATEN</string>
     <string name="sync_settings_this_device">Dit apparaat</string>
     <string name="sync_settings_remove">Verwijderen</string>
+    <string name="sync_settings_removed_snackbar">Apparaat verwijderd</string>
     <string name="sync_settings_last_synced_just_now">zojuist gesynchroniseerd</string>
     <string name="sync_settings_last_synced_minutes">%1$d min geleden gesynchroniseerd</string>
     <string name="sync_settings_last_synced_hours">%1$d u geleden gesynchroniseerd</string>

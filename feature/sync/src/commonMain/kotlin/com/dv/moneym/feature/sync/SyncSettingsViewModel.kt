@@ -9,9 +9,11 @@ import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.data.sync.DeviceEntry
 import com.dv.moneym.data.sync.DeviceRegistryController
 import com.dv.moneym.data.sync.SyncPuller
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -25,6 +27,13 @@ class SyncSettingsViewModel(
 
     private val _state by savedStateHandle.saved { MutableStateFlow(SyncSettingsUiState()) }
     internal val state = _state.onStart { init() }.stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
+
+    sealed interface SyncSettingsSingleUiEvent {
+        data object DeviceRemoved : SyncSettingsSingleUiEvent
+    }
+
+    private val _singleEvent = Channel<SyncSettingsSingleUiEvent>(Channel.BUFFERED)
+    val singleEvents = _singleEvent.receiveAsFlow()
 
     private suspend fun init() {
         refreshNow()
@@ -106,9 +115,13 @@ class SyncSettingsViewModel(
     }
 
     private fun removeDevice(id: String) {
+        if (id in _state.value.removingIds) return
+        _state.update { it.copy(removingIds = it.removingIds + id) }
         viewModelScope.launch {
             registry.remove(id)
-            refresh()
+            refreshNow()
+            _state.update { it.copy(removingIds = it.removingIds - id) }
+            _singleEvent.send(SyncSettingsSingleUiEvent.DeviceRemoved)
         }
     }
 }

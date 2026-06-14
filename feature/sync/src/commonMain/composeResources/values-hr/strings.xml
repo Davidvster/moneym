@@ -19,6 +19,7 @@
     <string name="sync_settings_devices_header">UREĐAJI</string>
     <string name="sync_settings_this_device">Ovaj uređaj</string>
     <string name="sync_settings_remove">Ukloni</string>
+    <string name="sync_settings_removed_snackbar">Uređaj uklonjen</string>
     <string name="sync_settings_last_synced_just_now">sinkronizirano upravo sada</string>
     <string name="sync_settings_last_synced_minutes">sinkronizirano prije %1$d min</string>
     <string name="sync_settings_last_synced_hours">sinkronizirano prije %1$d h</string>

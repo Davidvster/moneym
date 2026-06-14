@@ -19,6 +19,7 @@
     <string name="sync_settings_devices_header">THIẾT BỊ</string>
     <string name="sync_settings_this_device">Thiết bị này</string>
     <string name="sync_settings_remove">Xóa</string>
+    <string name="sync_settings_removed_snackbar">Đã xóa thiết bị</string>
     <string name="sync_settings_last_synced_just_now">vừa đồng bộ</string>
     <string name="sync_settings_last_synced_minutes">đồng bộ %1$d phút trước</string>
     <string name="sync_settings_last_synced_hours">đồng bộ %1$d giờ trước</string>

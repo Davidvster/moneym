@@ -19,6 +19,7 @@
     <string name="sync_settings_devices_header">APPAREILS</string>
     <string name="sync_settings_this_device">Cet appareil</string>
     <string name="sync_settings_remove">Supprimer</string>
+    <string name="sync_settings_removed_snackbar">Appareil supprimé</string>
     <string name="sync_settings_last_synced_just_now">synchronisé à l'instant</string>
     <string name="sync_settings_last_synced_minutes">synchronisé il y a %1$d min</string>
     <string name="sync_settings_last_synced_hours">synchronisé il y a %1$d h</string>

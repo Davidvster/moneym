@@ -9,11 +9,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
@@ -32,8 +36,10 @@ import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIconButtonVariant
 import com.dv.moneym.core.ui.MmLoadingSpinner
+import com.dv.moneym.core.ui.MmSnackbarHost
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.core.utils.observeWithLifecycle
 import kotlinx.serialization.Serializable
 import moneym.feature.sync.generated.resources.Res
 import moneym.feature.sync.generated.resources.sync_settings_devices_header
@@ -43,11 +49,13 @@ import moneym.feature.sync.generated.resources.sync_settings_last_synced_just_no
 import moneym.feature.sync.generated.resources.sync_settings_last_synced_longer
 import moneym.feature.sync.generated.resources.sync_settings_last_synced_minutes
 import moneym.feature.sync.generated.resources.sync_settings_remove
+import moneym.feature.sync.generated.resources.sync_settings_removed_snackbar
 import moneym.feature.sync.generated.resources.sync_settings_rename_cancel
 import moneym.feature.sync.generated.resources.sync_settings_rename_label
 import moneym.feature.sync.generated.resources.sync_settings_rename_save
 import moneym.feature.sync.generated.resources.sync_settings_this_device
 import moneym.feature.sync.generated.resources.sync_settings_title
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -67,51 +75,82 @@ fun SyncSettingsScreen(
     viewModel: SyncSettingsViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    SyncSettingsContent(state = state, onBack = onBack, onIntent = viewModel::onIntent)
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    viewModel.singleEvents.observeWithLifecycle { event ->
+        when (event) {
+            SyncSettingsViewModel.SyncSettingsSingleUiEvent.DeviceRemoved -> {
+                snackbarHostState.showSnackbar(
+                    message = getString(Res.string.sync_settings_removed_snackbar),
+                    duration = SnackbarDuration.Short,
+                )
+            }
+        }
+    }
+
+    SyncSettingsContent(
+        state = state,
+        snackbarHostState = snackbarHostState,
+        onBack = onBack,
+        onIntent = viewModel::onIntent,
+    )
 }
 
 @Composable
 private fun SyncSettingsContent(
     state: SyncSettingsUiState,
+    snackbarHostState: SnackbarHostState,
     onBack: () -> Unit,
     onIntent: (SyncSettingsIntent) -> Unit,
 ) {
     val colors = MM.colors
     val space = MM.dimen
 
-    Column(modifier = Modifier.fillMaxSize().background(colors.bg)) {
-        ScreenHeader(title = stringResource(Res.string.sync_settings_title), onBack = onBack)
+    Box(modifier = Modifier.fillMaxSize().background(colors.bg)) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            ScreenHeader(title = stringResource(Res.string.sync_settings_title), onBack = onBack)
 
-        if (state.isLoading) {
-            Box(
-                modifier = Modifier.weight(1f).fillMaxWidth(),
-                contentAlignment = Alignment.Center,
-            ) {
-                MmLoadingSpinner()
-            }
-        } else {
-            LazyColumn(
-                modifier = Modifier.weight(1f),
-                contentPadding = PaddingValues(
-                    horizontal = space.padding_2x,
-                    vertical = space.padding_2x,
-                ),
-                verticalArrangement = Arrangement.spacedBy(space.padding_2x),
-            ) {
-                item { RenameCard(state = state, onIntent = onIntent) }
-                item {
-                    Text(
-                        text = stringResource(Res.string.sync_settings_devices_header),
-                        style = MM.type.micro,
-                        color = colors.text2,
-                        modifier = Modifier.padding(top = space.padding_1x),
-                    )
+            if (state.isLoading) {
+                Box(
+                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    MmLoadingSpinner()
                 }
-                items(state.devices, key = { it.id }) { device ->
-                    DeviceCard(device = device, onIntent = onIntent)
+            } else {
+                LazyColumn(
+                    modifier = Modifier.weight(1f),
+                    contentPadding = PaddingValues(
+                        horizontal = space.padding_2x,
+                        vertical = space.padding_2x,
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(space.padding_2x),
+                ) {
+                    item { RenameCard(state = state, onIntent = onIntent) }
+                    item {
+                        Text(
+                            text = stringResource(Res.string.sync_settings_devices_header),
+                            style = MM.type.micro,
+                            color = colors.text2,
+                            modifier = Modifier.padding(top = space.padding_1x),
+                        )
+                    }
+                    items(state.devices, key = { it.id }) { device ->
+                        DeviceCard(
+                            device = device,
+                            isRemoving = device.id in state.removingIds,
+                            removeEnabled = state.removingIds.isEmpty(),
+                            onIntent = onIntent,
+                        )
+                    }
                 }
             }
         }
+
+        MmSnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter).padding(space.padding_2x),
+        )
     }
 }
 
@@ -173,6 +212,8 @@ private fun RenameCard(
 @Composable
 private fun DeviceCard(
     device: DeviceRow,
+    isRemoving: Boolean,
+    removeEnabled: Boolean,
     onIntent: (SyncSettingsIntent) -> Unit,
 ) {
     val colors = MM.colors
@@ -197,12 +238,22 @@ private fun DeviceCard(
                 )
             }
             if (!device.isThisDevice) {
-                MmIconButton(
-                    icon = Icon.Trash.imageVector,
-                    onClick = { onIntent(SyncSettingsIntent.RemoveDevice(device.id)) },
-                    variant = MmIconButtonVariant.Danger,
-                    contentDescription = stringResource(Res.string.sync_settings_remove),
-                )
+                if (isRemoving) {
+                    Box(
+                        modifier = Modifier.size(MM.dimen.padding_5x),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        MmLoadingSpinner(modifier = Modifier.size(MM.dimen.iconLg))
+                    }
+                } else {
+                    MmIconButton(
+                        icon = Icon.Trash.imageVector,
+                        onClick = { onIntent(SyncSettingsIntent.RemoveDevice(device.id)) },
+                        variant = MmIconButtonVariant.Danger,
+                        enabled = removeEnabled,
+                        contentDescription = stringResource(Res.string.sync_settings_remove),
+                    )
+                }
             }
         }
     }
@@ -246,6 +297,7 @@ private fun SyncSettingsPreview() {
                     DeviceRow("2", "iPhone 15", "iOS", 0L, isThisDevice = false),
                 ),
             ),
+            snackbarHostState = remember { SnackbarHostState() },
             onBack = {},
             onIntent = {},
         )

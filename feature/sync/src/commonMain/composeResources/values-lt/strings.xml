@@ -19,6 +19,7 @@
     <string name="sync_settings_devices_header">ĮRENGINIAI</string>
     <string name="sync_settings_this_device">Šis įrenginys</string>
     <string name="sync_settings_remove">Pašalinti</string>
+    <string name="sync_settings_removed_snackbar">Įrenginys pašalintas</string>
     <string name="sync_settings_last_synced_just_now">sinchronizuota ką tik</string>
     <string name="sync_settings_last_synced_minutes">sinchronizuota prieš %1$d min.</string>
     <string name="sync_settings_last_synced_hours">sinchronizuota prieš %1$d val.</string>

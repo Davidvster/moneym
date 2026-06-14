@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,6 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.ui.MmRadio
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.MmButton
@@ -177,7 +176,7 @@ private fun ModelRow(row: ModelRowUi, onIntent: (AiModelsIntent) -> Unit) {
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
                     ) {
-                        ModelRadio(selected = false, onClick = { onIntent(AiModelsIntent.SetActive(row.id)) })
+                        MmRadio(selected = false, onClick = { onIntent(AiModelsIntent.SetActive(row.id)) })
                         MmButton(
                             text = stringResource(Res.string.ai_models_delete),
                             onClick = { onIntent(AiModelsIntent.Delete(row.id)) },
@@ -190,7 +189,7 @@ private fun ModelRow(row: ModelRowUi, onIntent: (AiModelsIntent) -> Unit) {
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
                     ) {
-                        ModelRadio(selected = true, onClick = {})
+                        MmRadio(selected = true)
                         Text(
                             text = stringResource(Res.string.ai_models_active),
                             style = type.caption,
@@ -265,19 +264,6 @@ private fun etaLabel(seconds: Long): String = when {
     )
     seconds >= 60 -> stringResource(Res.string.ai_models_eta_minutes, (seconds / 60).toInt())
     else -> stringResource(Res.string.ai_models_eta_seconds, seconds.toInt())
-}
-
-@Composable
-private fun ModelRadio(selected: Boolean, onClick: () -> Unit) {
-    val colors = MM.colors
-    RadioButton(
-        selected = selected,
-        onClick = onClick,
-        colors = RadioButtonDefaults.colors(
-            selectedColor = colors.accent,
-            unselectedColor = colors.text3,
-        ),
-    )
 }
 
 private fun String.modelNameRes(): StringResource = when (this) {

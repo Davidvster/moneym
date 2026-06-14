@@ -19,6 +19,7 @@
     <string name="sync_settings_devices_header">SEADMED</string>
     <string name="sync_settings_this_device">See seade</string>
     <string name="sync_settings_remove">Eemalda</string>
+    <string name="sync_settings_removed_snackbar">Seade eemaldatud</string>
     <string name="sync_settings_last_synced_just_now">sünkroonitud just nüüd</string>
     <string name="sync_settings_last_synced_minutes">sünkroonitud %1$d min tagasi</string>
     <string name="sync_settings_last_synced_hours">sünkroonitud %1$d h tagasi</string>

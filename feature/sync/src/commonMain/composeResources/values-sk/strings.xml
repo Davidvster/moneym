@@ -19,6 +19,7 @@
     <string name="sync_settings_devices_header">ZARIADENIA</string>
     <string name="sync_settings_this_device">Toto zariadenie</string>
     <string name="sync_settings_remove">Odstrániť</string>
+    <string name="sync_settings_removed_snackbar">Zariadenie odstránené</string>
     <string name="sync_settings_last_synced_just_now">synchronizované práve teraz</string>
     <string name="sync_settings_last_synced_minutes">synchronizované pred %1$d min</string>
     <string name="sync_settings_last_synced_hours">synchronizované pred %1$d h</string>
