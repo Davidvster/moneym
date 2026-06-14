@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Pretraži aplikacije</string>
     <string name="wallet_sync_done">Gotovo</string>
     <string name="wallet_sync_apps_loading">Učitavanje aplikacija…</string>
+    <string name="wallet_sync_manage_apps">Upravljaj</string>
+    <string name="wallet_sync_remove_app_title">Ukloniti aplikaciju?</string>
+    <string name="wallet_sync_remove_app_body">Prestati bilježiti obavijesti iz %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Ukloni</string>
+    <string name="wallet_sync_remove_app_cancel">Odustani</string>
 </resources>

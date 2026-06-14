@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Meklēt lietotnes</string>
     <string name="wallet_sync_done">Gatavs</string>
     <string name="wallet_sync_apps_loading">Notiek lietotņu ielāde…</string>
+    <string name="wallet_sync_manage_apps">Pārvaldīt</string>
+    <string name="wallet_sync_remove_app_title">Noņemt lietotni?</string>
+    <string name="wallet_sync_remove_app_body">Pārtraukt paziņojumu tveršanu no %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Noņemt</string>
+    <string name="wallet_sync_remove_app_cancel">Atcelt</string>
 </resources>

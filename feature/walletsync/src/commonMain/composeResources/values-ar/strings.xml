@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">بحث عن تطبيقات</string>
     <string name="wallet_sync_done">تم</string>
     <string name="wallet_sync_apps_loading">جارٍ تحميل التطبيقات…</string>
+    <string name="wallet_sync_manage_apps">إدارة</string>
+    <string name="wallet_sync_remove_app_title">إزالة التطبيق؟</string>
+    <string name="wallet_sync_remove_app_body">إيقاف التقاط الإشعارات من %1$s؟</string>
+    <string name="wallet_sync_remove_app_confirm">إزالة</string>
+    <string name="wallet_sync_remove_app_cancel">إلغاء</string>
 </resources>

@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Tìm ứng dụng</string>
     <string name="wallet_sync_done">Xong</string>
     <string name="wallet_sync_apps_loading">Đang tải ứng dụng…</string>
+    <string name="wallet_sync_manage_apps">Quản lý</string>
+    <string name="wallet_sync_remove_app_title">Xóa ứng dụng?</string>
+    <string name="wallet_sync_remove_app_body">Dừng ghi lại thông báo từ %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Xóa</string>
+    <string name="wallet_sync_remove_app_cancel">Hủy</string>
 </resources>

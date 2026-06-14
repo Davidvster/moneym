@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Sök appar</string>
     <string name="wallet_sync_done">Klar</string>
     <string name="wallet_sync_apps_loading">Laddar appar…</string>
+    <string name="wallet_sync_manage_apps">Hantera</string>
+    <string name="wallet_sync_remove_app_title">Ta bort app?</string>
+    <string name="wallet_sync_remove_app_body">Sluta fånga aviseringar från %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Ta bort</string>
+    <string name="wallet_sync_remove_app_cancel">Avbryt</string>
 </resources>

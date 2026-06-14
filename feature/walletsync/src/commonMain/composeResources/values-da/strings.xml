@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Søg apps</string>
     <string name="wallet_sync_done">Færdig</string>
     <string name="wallet_sync_apps_loading">Indlæser apps…</string>
+    <string name="wallet_sync_manage_apps">Administrer</string>
+    <string name="wallet_sync_remove_app_title">Fjern app?</string>
+    <string name="wallet_sync_remove_app_body">Stop med at registrere notifikationer fra %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Fjern</string>
+    <string name="wallet_sync_remove_app_cancel">Annuller</string>
 </resources>

@@ -23,6 +23,7 @@ data class WalletSyncHomeUiState(
     val appsLoading: Boolean = false,
     val installedApps: List<InstalledApp> = emptyList(),
     val appQuery: String = "",
+    val pendingRemovePackage: String? = null,
 ) {
     val filteredApps: List<InstalledApp>
         get() = if (appQuery.isBlank()) installedApps
@@ -33,6 +34,11 @@ data class WalletSyncHomeUiState(
 
     val otherApps: List<InstalledApp>
         get() = filteredApps.filterNot { it.packageName in WALLET_SYNC_SUGGESTED_PACKAGES }
+
+    val selectedApps: List<InstalledApp>
+        get() = selectedPackages
+            .map { pkg -> installedApps.firstOrNull { it.packageName == pkg } ?: InstalledApp(pkg, pkg) }
+            .sortedBy { it.label.lowercase() }
 }
 
 sealed interface WalletSyncHomeIntent {
@@ -42,4 +48,7 @@ sealed interface WalletSyncHomeIntent {
     data class ShowAppPicker(val show: Boolean) : WalletSyncHomeIntent
     data class ToggleApp(val packageName: String) : WalletSyncHomeIntent
     data class SetAppQuery(val text: String) : WalletSyncHomeIntent
+    data class RemoveAppRequested(val packageName: String) : WalletSyncHomeIntent
+    data object ConfirmRemoveApp : WalletSyncHomeIntent
+    data object DismissRemoveDialog : WalletSyncHomeIntent
 }

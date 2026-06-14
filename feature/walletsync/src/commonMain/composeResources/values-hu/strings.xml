@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Alkalmazások keresése</string>
     <string name="wallet_sync_done">Kész</string>
     <string name="wallet_sync_apps_loading">Alkalmazások betöltése…</string>
+    <string name="wallet_sync_manage_apps">Kezelés</string>
+    <string name="wallet_sync_remove_app_title">Eltávolítja az alkalmazást?</string>
+    <string name="wallet_sync_remove_app_body">Leállítja az értesítések rögzítését innen: %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Eltávolítás</string>
+    <string name="wallet_sync_remove_app_cancel">Mégse</string>
 </resources>

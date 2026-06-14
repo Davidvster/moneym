@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">搜索应用</string>
     <string name="wallet_sync_done">完成</string>
     <string name="wallet_sync_apps_loading">正在加载应用…</string>
+    <string name="wallet_sync_manage_apps">管理</string>
+    <string name="wallet_sync_remove_app_title">移除应用？</string>
+    <string name="wallet_sync_remove_app_body">停止捕获来自 %1$s 的通知？</string>
+    <string name="wallet_sync_remove_app_confirm">移除</string>
+    <string name="wallet_sync_remove_app_cancel">取消</string>
 </resources>

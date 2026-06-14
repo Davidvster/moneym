@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Apps zoeken</string>
     <string name="wallet_sync_done">Klaar</string>
     <string name="wallet_sync_apps_loading">Apps laden…</string>
+    <string name="wallet_sync_manage_apps">Beheren</string>
+    <string name="wallet_sync_remove_app_title">App verwijderen?</string>
+    <string name="wallet_sync_remove_app_body">Stoppen met het vastleggen van meldingen van %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Verwijderen</string>
+    <string name="wallet_sync_remove_app_cancel">Annuleren</string>
 </resources>

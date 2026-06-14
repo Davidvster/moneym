@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Søk apper</string>
     <string name="wallet_sync_done">Ferdig</string>
     <string name="wallet_sync_apps_loading">Laster apper…</string>
+    <string name="wallet_sync_manage_apps">Administrer</string>
+    <string name="wallet_sync_remove_app_title">Fjerne app?</string>
+    <string name="wallet_sync_remove_app_body">Slutte å fange varsler fra %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Fjern</string>
+    <string name="wallet_sync_remove_app_cancel">Avbryt</string>
 </resources>

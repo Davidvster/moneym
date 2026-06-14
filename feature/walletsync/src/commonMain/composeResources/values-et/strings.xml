@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Otsi rakendusi</string>
     <string name="wallet_sync_done">Valmis</string>
     <string name="wallet_sync_apps_loading">Rakenduste laadimine…</string>
+    <string name="wallet_sync_manage_apps">Halda</string>
+    <string name="wallet_sync_remove_app_title">Eemaldada rakendus?</string>
+    <string name="wallet_sync_remove_app_body">Lõpetada teavituste jäädvustamine rakendusest %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Eemalda</string>
+    <string name="wallet_sync_remove_app_cancel">Tühista</string>
 </resources>

@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Cerca app</string>
     <string name="wallet_sync_done">Fatto</string>
     <string name="wallet_sync_apps_loading">Caricamento app…</string>
+    <string name="wallet_sync_manage_apps">Gestisci</string>
+    <string name="wallet_sync_remove_app_title">Rimuovere l\'app?</string>
+    <string name="wallet_sync_remove_app_body">Smettere di acquisire le notifiche da %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Rimuovi</string>
+    <string name="wallet_sync_remove_app_cancel">Annulla</string>
 </resources>

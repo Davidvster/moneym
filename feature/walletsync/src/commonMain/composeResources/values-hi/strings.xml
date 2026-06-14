@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">ऐप्स खोजें</string>
     <string name="wallet_sync_done">पूर्ण</string>
     <string name="wallet_sync_apps_loading">ऐप्स लोड हो रहे हैं…</string>
+    <string name="wallet_sync_manage_apps">प्रबंधित करें</string>
+    <string name="wallet_sync_remove_app_title">ऐप हटाएं?</string>
+    <string name="wallet_sync_remove_app_body">%1$s से सूचनाएं कैप्चर करना बंद करें?</string>
+    <string name="wallet_sync_remove_app_confirm">हटाएं</string>
+    <string name="wallet_sync_remove_app_cancel">रद्द करें</string>
 </resources>

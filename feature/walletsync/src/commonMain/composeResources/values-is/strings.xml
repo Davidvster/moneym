@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Leita að forritum</string>
     <string name="wallet_sync_done">Lokið</string>
     <string name="wallet_sync_apps_loading">Hleð forritum…</string>
+    <string name="wallet_sync_manage_apps">Stjórna</string>
+    <string name="wallet_sync_remove_app_title">Fjarlægja forrit?</string>
+    <string name="wallet_sync_remove_app_body">Hætta að fanga tilkynningar frá %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Fjarlægja</string>
+    <string name="wallet_sync_remove_app_cancel">Hætta við</string>
 </resources>

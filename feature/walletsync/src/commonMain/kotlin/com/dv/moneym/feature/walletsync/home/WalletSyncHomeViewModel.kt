@@ -26,14 +26,16 @@ class WalletSyncHomeViewModel(
         .stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
     private fun init() {
+        val selected = loadSelectedPackages()
         _state.update {
             it.copy(
                 isLoading = false,
                 enabled = appSettings.getBoolean(PrefKeys.WALLET_SYNC_ENABLED, defaultValue = false),
-                selectedPackages = loadSelectedPackages(),
+                selectedPackages = selected,
                 accessGranted = notificationAccess.isAccessGranted(),
             )
         }
+        if (selected.isNotEmpty()) loadApps()
         viewModelScope.launch {
             walletSyncRepository.observePendingCount().collect { count ->
                 _state.update { it.copy(pendingCount = count) }
@@ -62,13 +64,32 @@ class WalletSyncHomeViewModel(
             is WalletSyncHomeIntent.ToggleApp -> {
                 val next = _state.value.selectedPackages.toMutableSet()
                 if (!next.remove(intent.packageName)) next.add(intent.packageName)
-                appSettings.putString(PrefKeys.WALLET_SYNC_PACKAGES, next.joinToString(","))
-                _state.update { it.copy(selectedPackages = next) }
+                persistSelection(next)
             }
 
             is WalletSyncHomeIntent.SetAppQuery ->
                 _state.update { it.copy(appQuery = intent.text) }
+
+            is WalletSyncHomeIntent.RemoveAppRequested ->
+                _state.update { it.copy(pendingRemovePackage = intent.packageName) }
+
+            WalletSyncHomeIntent.ConfirmRemoveApp -> {
+                val pkg = _state.value.pendingRemovePackage
+                if (pkg != null) {
+                    val next = _state.value.selectedPackages - pkg
+                    persistSelection(next)
+                }
+                _state.update { it.copy(pendingRemovePackage = null) }
+            }
+
+            WalletSyncHomeIntent.DismissRemoveDialog ->
+                _state.update { it.copy(pendingRemovePackage = null) }
         }
+    }
+
+    private fun persistSelection(packages: Set<String>) {
+        appSettings.putString(PrefKeys.WALLET_SYNC_PACKAGES, packages.joinToString(","))
+        _state.update { it.copy(selectedPackages = packages) }
     }
 
     private fun loadApps() {

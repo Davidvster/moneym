@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Поиск приложений</string>
     <string name="wallet_sync_done">Готово</string>
     <string name="wallet_sync_apps_loading">Загрузка приложений…</string>
+    <string name="wallet_sync_manage_apps">Управлять</string>
+    <string name="wallet_sync_remove_app_title">Удалить приложение?</string>
+    <string name="wallet_sync_remove_app_body">Прекратить сбор уведомлений из %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Удалить</string>
+    <string name="wallet_sync_remove_app_cancel">Отмена</string>
 </resources>

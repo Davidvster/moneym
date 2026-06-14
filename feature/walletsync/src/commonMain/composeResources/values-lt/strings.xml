@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Ieškoti programėlių</string>
     <string name="wallet_sync_done">Atlikta</string>
     <string name="wallet_sync_apps_loading">Įkeliamos programėlės…</string>
+    <string name="wallet_sync_manage_apps">Tvarkyti</string>
+    <string name="wallet_sync_remove_app_title">Pašalinti programą?</string>
+    <string name="wallet_sync_remove_app_body">Nustoti fiksuoti pranešimus iš %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Pašalinti</string>
+    <string name="wallet_sync_remove_app_cancel">Atšaukti</string>
 </resources>

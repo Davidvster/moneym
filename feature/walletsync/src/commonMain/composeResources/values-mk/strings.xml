@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Барај апликации</string>
     <string name="wallet_sync_done">Готово</string>
     <string name="wallet_sync_apps_loading">Се вчитуваат апликации…</string>
+    <string name="wallet_sync_manage_apps">Управувај</string>
+    <string name="wallet_sync_remove_app_title">Да се отстрани апликацијата?</string>
+    <string name="wallet_sync_remove_app_body">Да се запре снимањето известувања од %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Отстрани</string>
+    <string name="wallet_sync_remove_app_cancel">Откажи</string>
 </resources>

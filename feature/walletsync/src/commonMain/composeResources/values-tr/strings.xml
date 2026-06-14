@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Uygulama ara</string>
     <string name="wallet_sync_done">Bitti</string>
     <string name="wallet_sync_apps_loading">Uygulamalar yükleniyor…</string>
+    <string name="wallet_sync_manage_apps">Yönet</string>
+    <string name="wallet_sync_remove_app_title">Uygulama kaldırılsın mı?</string>
+    <string name="wallet_sync_remove_app_body">%1$s uygulamasından bildirim yakalama durdurulsun mu?</string>
+    <string name="wallet_sync_remove_app_confirm">Kaldır</string>
+    <string name="wallet_sync_remove_app_cancel">İptal</string>
 </resources>

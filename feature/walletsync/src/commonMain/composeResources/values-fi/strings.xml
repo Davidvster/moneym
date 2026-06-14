@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Hae sovelluksia</string>
     <string name="wallet_sync_done">Valmis</string>
     <string name="wallet_sync_apps_loading">Ladataan sovelluksia…</string>
+    <string name="wallet_sync_manage_apps">Hallitse</string>
+    <string name="wallet_sync_remove_app_title">Poistetaanko sovellus?</string>
+    <string name="wallet_sync_remove_app_body">Lopetetaanko ilmoitusten tallennus sovelluksesta %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Poista</string>
+    <string name="wallet_sync_remove_app_cancel">Peruuta</string>
 </resources>

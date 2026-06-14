@@ -18,4 +18,9 @@
     <string name="wallet_sync_search">Hľadať aplikácie</string>
     <string name="wallet_sync_done">Hotovo</string>
     <string name="wallet_sync_apps_loading">Načítavanie aplikácií…</string>
+    <string name="wallet_sync_manage_apps">Spravovať</string>
+    <string name="wallet_sync_remove_app_title">Odstrániť aplikáciu?</string>
+    <string name="wallet_sync_remove_app_body">Zastaviť zachytávanie upozornení z %1$s?</string>
+    <string name="wallet_sync_remove_app_confirm">Odstrániť</string>
+    <string name="wallet_sync_remove_app_cancel">Zrušiť</string>
 </resources>
