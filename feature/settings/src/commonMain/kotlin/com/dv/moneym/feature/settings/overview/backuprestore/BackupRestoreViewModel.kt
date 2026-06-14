@@ -70,6 +70,7 @@ data class BackupRestoreUiState(
     val showRemoteRestoreDialog: Boolean = false,
     val showDisconnectDialog: Boolean = false,
     val showDeleteRemoteDialog: Boolean = false,
+    val remoteErrorDialog: String? = null,
     val remoteRestorePreview: RemoteBackupMetadata? = null,
     val remoteRestoreEncrypted: Boolean = false,
     val remoteRestoreErrorDialog: String? = null,
@@ -114,6 +115,7 @@ sealed interface BackupRestoreIntent {
     data object DeleteRemoteDataTapped : BackupRestoreIntent
     data object DeleteRemoteDataConfirmed : BackupRestoreIntent
     data object DeleteRemoteDataDismissed : BackupRestoreIntent
+    data object RemoteErrorDismissed : BackupRestoreIntent
     // Unified cloud sync
     data class CloudSyncToggled(val enabled: Boolean) : BackupRestoreIntent
     data class CloudCreateSubmitted(val value: CharArray, val encrypt: Boolean) : BackupRestoreIntent
@@ -127,7 +129,6 @@ sealed interface BackupRestoreEffect {
     data object LaunchRestorePicker : BackupRestoreEffect
     data class RestoreError(val message: String) : BackupRestoreEffect
     data object LaunchFolderPicker : BackupRestoreEffect
-    data class RemoteError(val message: String) : BackupRestoreEffect
     data object RemoteSignedIn : BackupRestoreEffect
 }
 
@@ -239,6 +240,7 @@ class BackupRestoreViewModel(
             BackupRestoreIntent.DeleteRemoteDataTapped -> _base.update { it.copy(showDeleteRemoteDialog = true) }
             BackupRestoreIntent.DeleteRemoteDataConfirmed -> handleDeleteRemoteData()
             BackupRestoreIntent.DeleteRemoteDataDismissed -> _base.update { it.copy(showDeleteRemoteDialog = false) }
+            BackupRestoreIntent.RemoteErrorDismissed -> _base.update { it.copy(remoteErrorDialog = null) }
             is BackupRestoreIntent.CloudSyncToggled -> handleCloudSyncToggled(intent.enabled)
             is BackupRestoreIntent.CloudCreateSubmitted -> handleCloudCreate(intent.value, intent.encrypt)
             is BackupRestoreIntent.CloudJoinSubmitted -> handleCloudJoin(intent.value)
@@ -471,7 +473,8 @@ class BackupRestoreViewModel(
                 _effects.send(BackupRestoreEffect.RemoteSignedIn)
             }.onFailure { t ->
                 logger.e(t) { "Google sign-in failed" }
-                _effects.send(BackupRestoreEffect.RemoteError(t.message ?: getString(Res.string.settings_remote_error_sign_in_failed)))
+                val msg = t.message ?: getString(Res.string.settings_remote_error_sign_in_failed)
+                _base.update { it.copy(remoteErrorDialog = msg) }
             }
         }
     }
@@ -562,7 +565,8 @@ class BackupRestoreViewModel(
         viewModelScope.launch {
             manager.flushNow().onFailure { t ->
                 logger.e(t) { "Remote backup-now failed" }
-                _effects.send(BackupRestoreEffect.RemoteError(t.message ?: getString(Res.string.settings_remote_error_backup_failed)))
+                val msg = t.message ?: getString(Res.string.settings_remote_error_backup_failed)
+                _base.update { it.copy(remoteErrorDialog = msg) }
             }
         }
     }

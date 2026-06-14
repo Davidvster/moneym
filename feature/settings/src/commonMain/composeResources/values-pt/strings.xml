@@ -263,4 +263,5 @@
     <string name="settings_export_date_to">Até</string>
     <string name="settings_export_date_ok">OK</string>
     <string name="settings_export_date_clear">Limpar</string>
+    <string name="settings_remote_error_title">Algo deu errado</string>
 </resources>

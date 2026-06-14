@@ -263,4 +263,5 @@
     <string name="settings_export_date_to">Bitiş</string>
     <string name="settings_export_date_ok">Tamam</string>
     <string name="settings_export_date_clear">Temizle</string>
+    <string name="settings_remote_error_title">Bir şeyler ters gitti</string>
 </resources>

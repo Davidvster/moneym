@@ -263,4 +263,5 @@
     <string name="settings_export_date_to">Till</string>
     <string name="settings_export_date_ok">OK</string>
     <string name="settings_export_date_clear">Rensa</string>
+    <string name="settings_remote_error_title">Något gick fel</string>
 </resources>

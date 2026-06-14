@@ -263,4 +263,5 @@
     <string name="settings_export_date_to">到</string>
     <string name="settings_export_date_ok">确定</string>
     <string name="settings_export_date_clear">清除</string>
+    <string name="settings_remote_error_title">出了点问题</string>
 </resources>

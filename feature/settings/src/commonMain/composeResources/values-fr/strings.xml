@@ -275,4 +275,5 @@
     <string name="settings_export_date_to">Au</string>
     <string name="settings_export_date_ok">OK</string>
     <string name="settings_export_date_clear">Effacer</string>
+    <string name="settings_remote_error_title">Une erreur s'est produite</string>
 </resources>

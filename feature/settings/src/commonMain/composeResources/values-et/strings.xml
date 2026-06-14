@@ -263,4 +263,5 @@
     <string name="settings_export_date_to">Kuni</string>
     <string name="settings_export_date_ok">OK</string>
     <string name="settings_export_date_clear">Tühjenda</string>
+    <string name="settings_remote_error_title">Midagi läks valesti</string>
 </resources>

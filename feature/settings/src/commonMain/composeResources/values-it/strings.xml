@@ -273,4 +273,5 @@
     <string name="settings_export_date_to">A</string>
     <string name="settings_export_date_ok">OK</string>
     <string name="settings_export_date_clear">Cancella</string>
+    <string name="settings_remote_error_title">Qualcosa è andato storto</string>
 </resources>

@@ -82,6 +82,7 @@ import moneym.feature.settings.generated.resources.settings_remote_disconnect
 import moneym.feature.settings.generated.resources.settings_remote_disconnect_body
 import moneym.feature.settings.generated.resources.settings_remote_disconnect_confirm
 import moneym.feature.settings.generated.resources.settings_remote_disconnect_title
+import moneym.feature.settings.generated.resources.settings_remote_error_title
 import moneym.feature.settings.generated.resources.settings_remote_last_backup
 import moneym.feature.settings.generated.resources.settings_remote_last_backup_never
 import moneym.feature.settings.generated.resources.settings_remote_status_retry
@@ -165,7 +166,6 @@ private fun BackupRestoreScreen(
                 BackupRestoreEffect.LaunchRestorePicker -> restorePicker()
                 is BackupRestoreEffect.RestoreError -> Unit
                 BackupRestoreEffect.LaunchFolderPicker -> folderPicker()
-                is BackupRestoreEffect.RemoteError -> Unit
                 BackupRestoreEffect.RemoteSignedIn -> Unit
             }
         }
@@ -237,6 +237,15 @@ private fun BackupRestoreScreen(
             message = message,
             confirmText = stringResource(Res.string.settings_ok),
             onDismiss = { viewModel.onIntent(BackupRestoreIntent.RemoteRestoreErrorDismissed) },
+        )
+    }
+
+    state.remoteErrorDialog?.let { message ->
+        MmErrorDialog(
+            title = stringResource(Res.string.settings_remote_error_title),
+            message = message,
+            confirmText = stringResource(Res.string.settings_ok),
+            onDismiss = { viewModel.onIntent(BackupRestoreIntent.RemoteErrorDismissed) },
         )
     }
 

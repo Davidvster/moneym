@@ -263,4 +263,5 @@
     <string name="settings_export_date_to">Iki</string>
     <string name="settings_export_date_ok">Gerai</string>
     <string name="settings_export_date_clear">Išvalyti</string>
+    <string name="settings_remote_error_title">Kažkas nepavyko</string>
 </resources>

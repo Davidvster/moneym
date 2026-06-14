@@ -263,4 +263,5 @@
     <string name="settings_export_date_to">Do</string>
     <string name="settings_export_date_ok">V redu</string>
     <string name="settings_export_date_clear">Počisti</string>
+    <string name="settings_remote_error_title">Nekaj je šlo narobe</string>
 </resources>
