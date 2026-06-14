@@ -38,6 +38,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -569,20 +570,18 @@ private fun SyncStatusSheet(
         sheetState = sheetState,
         shape = RoundedCornerShape(topStart = space.padding_2_5x, topEnd = space.padding_2_5x),
         containerColor = colors.bg,
-        dragHandle = null,
+        dragHandle = { BottomSheetDefaults.DragHandle(color = colors.text3) },
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = space.padding_2_5x, vertical = space.padding_3x),
+            modifier = Modifier.padding(horizontal = space.padding_2_5x, vertical = space.padding_2x),
             verticalArrangement = Arrangement.spacedBy(space.padding_2x),
         ) {
-            MmSheetHeader(onClose = onDismiss)
+            MmSheetHeader(
+                onClose = onDismiss,
+                title = stringResource(Res.string.transactions_sync_sheet_title),
+            )
 
             if (crossDeviceEnabled) {
-                Text(
-                    text = stringResource(Res.string.transactions_sync_sheet_title),
-                    style = type.title3,
-                    color = colors.text,
-                )
                 Text(text = statusText, style = type.body, color = colors.text2)
 
                 if (hasConflict) {
