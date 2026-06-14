@@ -47,4 +47,6 @@
     <string name="onboarding_welcome_feature_bank_desc">通过PSD2开放银行从欧盟银行导入交易作为您审核的建议 — 使用您自己的免费密钥。</string>
     <string name="onboarding_welcome_feature_backup_title">备份与同步</string>
     <string name="onboarding_welcome_feature_backup_desc">可选的 Google 云端硬盘备份让你的数据安全无虞，并在各设备间保持同步。</string>
+<string name="onboarding_terms">条款和条件</string>
+<string name="onboarding_privacy">隐私政策</string>
 </resources>

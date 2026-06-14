@@ -47,4 +47,6 @@
     <string name="onboarding_welcome_feature_bank_desc">استيراد المعاملات من بنكك في الاتحاد الأوروبي عبر خدمات البنكية المفتوحة PSD2 كاقتراحات تراجعها — باستخدام مفتاحك المجاني الخاص.</string>
     <string name="onboarding_welcome_feature_backup_title">النسخ الاحتياطي والمزامنة</string>
     <string name="onboarding_welcome_feature_backup_desc">نسخ احتياطي اختياري على Google Drive يحافظ على بياناتك آمنة ومتزامنة عبر أجهزتك.</string>
+<string name="onboarding_terms">الشروط والأحكام</string>
+<string name="onboarding_privacy">سياسة الخصوصية</string>
 </resources>

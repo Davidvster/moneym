@@ -47,4 +47,6 @@
     <string name="onboarding_welcome_feature_bank_desc">Flytja inn viðskipti frá EU-bankanum þínum í gegnum PSD2 opna bankastarfsemi sem tillögur sem þú skoðar — með eigin fríu lykilnum.</string>
     <string name="onboarding_welcome_feature_backup_title">Afrit og samstilling</string>
     <string name="onboarding_welcome_feature_backup_desc">Valfrjáls Google Drive afritun heldur gögnunum þínum öruggum og samstilltum milli tækja.</string>
+<string name="onboarding_terms">Skilmálar</string>
+<string name="onboarding_privacy">Persónuverndarstefna</string>
 </resources>

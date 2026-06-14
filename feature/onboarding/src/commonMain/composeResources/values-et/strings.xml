@@ -47,4 +47,6 @@
     <string name="onboarding_welcome_feature_bank_desc">Impordi oma EL-panga tehingud PSD2 avatud pangandusvõimaluste kaudu soovitustena, mida sa üle vaatad — kasutades oma tasuta võtit.</string>
     <string name="onboarding_welcome_feature_backup_title">Varundus ja sünkroonimine</string>
     <string name="onboarding_welcome_feature_backup_desc">Valikuline Google Drive'i varundus hoiab su andmed turvalisena ja seadmete vahel sünkroonis.</string>
+<string name="onboarding_terms">Tingimused</string>
+<string name="onboarding_privacy">Privaatsuspoliitika</string>
 </resources>

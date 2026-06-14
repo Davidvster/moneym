@@ -47,4 +47,6 @@
     <string name="onboarding_welcome_feature_bank_desc">Увезете трансакции од вашата ЕУ банка преку PSD2 отворено банкарство како предлози што ги прегледувате — користејќи ваш vlastit бесплатен клуч.</string>
     <string name="onboarding_welcome_feature_backup_title">Резервна копија и синхронизација</string>
     <string name="onboarding_welcome_feature_backup_desc">Изборната резервна копија на Google Drive ги чува вашите податоци безбедни и синхронизирани на сите уреди.</string>
+<string name="onboarding_terms">Услови и правила</string>
+<string name="onboarding_privacy">Политика за приватност</string>
 </resources>

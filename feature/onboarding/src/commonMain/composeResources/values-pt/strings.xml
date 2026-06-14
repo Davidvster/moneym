@@ -47,4 +47,6 @@
     <string name="onboarding_welcome_feature_bank_desc">Importe transações do seu banco da UE via open banking PSD2 como sugestões que você analisa — usando sua própria chave gratuita.</string>
     <string name="onboarding_welcome_feature_backup_title">Backup e sincronização</string>
     <string name="onboarding_welcome_feature_backup_desc">O backup opcional no Google Drive mantém os seus dados seguros e sincronizados entre dispositivos.</string>
+<string name="onboarding_terms">Termos e Condições</string>
+<string name="onboarding_privacy">Política de Privacidade</string>
 </resources>

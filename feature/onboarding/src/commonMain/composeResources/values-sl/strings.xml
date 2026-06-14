@@ -47,4 +47,6 @@
     <string name="onboarding_welcome_feature_bank_desc">Uvozite transakcije iz svoje EU banke prek PSD2 odprtega bančništva kot predloge, ki jih pregledate — z lastnim brezplačnim ključem.</string>
     <string name="onboarding_welcome_feature_backup_title">Varnostna kopija in sinhronizacija</string>
     <string name="onboarding_welcome_feature_backup_desc">Izbirna varnostna kopija v Google Drive ohranja vaše podatke varne in sinhronizirane med napravami.</string>
+<string name="onboarding_terms">Pogoji uporabe</string>
+<string name="onboarding_privacy">Pravilnik o zasebnosti</string>
 </resources>

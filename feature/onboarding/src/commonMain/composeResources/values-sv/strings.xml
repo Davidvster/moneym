@@ -47,4 +47,6 @@
     <string name="onboarding_welcome_feature_bank_desc">Importera transaktioner från din EU-bank via PSD2 öppen bankverksamhet som förslag som du granskar — med hjälp av din egen gratis nyckel.</string>
     <string name="onboarding_welcome_feature_backup_title">Säkerhetskopia och synk</string>
     <string name="onboarding_welcome_feature_backup_desc">Valfri Google Drive-säkerhetskopia håller dina data säkra och synkade mellan enheter.</string>
+<string name="onboarding_terms">Villkor</string>
+<string name="onboarding_privacy">Integritetspolicy</string>
 </resources>

@@ -47,4 +47,6 @@
     <string name="onboarding_welcome_feature_bank_desc">Tuo EU-pankistasi liiketoimet PSD2-avointen pankkipalvelujen kautta ehdotuksiksi, jotka tarkistat — käyttämällä omaa ilmaista avainta.</string>
     <string name="onboarding_welcome_feature_backup_title">Varmuuskopiointi ja synkronointi</string>
     <string name="onboarding_welcome_feature_backup_desc">Valinnainen Google Drive -varmuuskopiointi pitää tietosi turvassa ja synkronoituna laitteidesi välillä.</string>
+<string name="onboarding_terms">Käyttöehdot</string>
+<string name="onboarding_privacy">Tietosuojakäytäntö</string>
 </resources>

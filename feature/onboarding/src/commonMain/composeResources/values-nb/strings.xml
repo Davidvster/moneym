@@ -47,4 +47,6 @@
     <string name="onboarding_welcome_feature_bank_desc">Importer transaksjoner fra din EU-bank via PSD2 åpent bankingsystem som forslag du gjennomgår — ved hjelp av din egen gratis nøkkel.</string>
     <string name="onboarding_welcome_feature_backup_title">Sikkerhetskopi og synk</string>
     <string name="onboarding_welcome_feature_backup_desc">Valgfri Google Disk-sikkerhetskopi holder dataene dine trygge og synkronisert på tvers av enheter.</string>
+<string name="onboarding_terms">Vilkår og betingelser</string>
+<string name="onboarding_privacy">Personvernerklæring</string>
 </resources>

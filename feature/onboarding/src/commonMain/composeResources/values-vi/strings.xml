@@ -47,4 +47,6 @@
     <string name="onboarding_welcome_feature_bank_desc">Nhập các giao dịch từ ngân hàng EU của bạn thông qua dịch vụ ngân hàng mở PSD2 dưới dạng những gợi ý mà bạn xem xét — sử dụng khóa miễn phí của riêng bạn.</string>
     <string name="onboarding_welcome_feature_backup_title">Sao lưu và đồng bộ</string>
     <string name="onboarding_welcome_feature_backup_desc">Bản sao lưu Google Drive tùy chọn giữ dữ liệu của bạn an toàn và đồng bộ trên các thiết bị.</string>
+<string name="onboarding_terms">Điều khoản &amp; Điều kiện</string>
+<string name="onboarding_privacy">Chính sách bảo mật</string>
 </resources>

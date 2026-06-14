@@ -47,4 +47,6 @@
     <string name="onboarding_welcome_feature_bank_desc">Importeer transacties van uw EU-bank via PSD2 open banking als suggesties die u beoordeelt — met uw eigen gratis sleutel.</string>
     <string name="onboarding_welcome_feature_backup_title">Back-up en synchronisatie</string>
     <string name="onboarding_welcome_feature_backup_desc">Optionele Google Drive-back-up houdt je gegevens veilig en gesynchroniseerd op al je apparaten.</string>
+<string name="onboarding_terms">Algemene voorwaarden</string>
+<string name="onboarding_privacy">Privacybeleid</string>
 </resources>

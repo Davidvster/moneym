@@ -47,4 +47,6 @@
     <string name="onboarding_welcome_feature_bank_desc">Importujte transakcie z vašej EU banky prostredníctvom otvoreného bankovníctva PSD2 ako návrhy, ktoré si prehliadzate — pomocou vlastného bezplatného kľúča.</string>
     <string name="onboarding_welcome_feature_backup_title">Záloha a synchronizácia</string>
     <string name="onboarding_welcome_feature_backup_desc">Voliteľná záloha na Google Disk udrží vaše dáta v bezpečí a synchronizované medzi zariadeniami.</string>
+<string name="onboarding_terms">Zmluvné podmienky</string>
+<string name="onboarding_privacy">Zásady ochrany súkromia</string>
 </resources>

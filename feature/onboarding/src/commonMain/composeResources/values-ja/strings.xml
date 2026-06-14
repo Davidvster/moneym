@@ -47,4 +47,6 @@
     <string name="onboarding_welcome_feature_bank_desc">PSD2オープンバンキングを通じてEU銀行からのトランザクションをインポートし、確認するための提案として使用します—独自の無料キーを使用します。</string>
     <string name="onboarding_welcome_feature_backup_title">バックアップと同期</string>
     <string name="onboarding_welcome_feature_backup_desc">任意の Google ドライブ バックアップで、データを安全に保ち、複数のデバイス間で同期します。</string>
+<string name="onboarding_terms">利用規約</string>
+<string name="onboarding_privacy">プライバシーポリシー</string>
 </resources>
