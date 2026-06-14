@@ -24,6 +24,8 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Money
+import com.dv.moneym.core.model.currencyDisplay
+import com.dv.moneym.core.ui.LocalUseCurrencySymbol
 import com.dv.moneym.core.ui.MmBudgetProgressBar
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.feature.overview.usecase.BudgetProgress
@@ -90,7 +92,10 @@ private fun BudgetProgressRow(p: BudgetProgress) {
         }
         MmBudgetProgressBar(
             budgetName = p.name,
-            spentLabel = formatBudgetAmount(p.spent.minorUnits / 100.0, p.spent.currency.value),
+            spentLabel = formatBudgetAmount(
+                p.spent.minorUnits / 100.0,
+                currencyDisplay(p.spent.currency.value, LocalUseCurrencySymbol.current),
+            ),
             limitLabel = formatBudgetAmount(p.amount.minorUnits / 100.0, ""),
             remainingLabel = remainingLabel,
             fraction = p.fraction,

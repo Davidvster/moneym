@@ -24,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
+import com.dv.moneym.core.model.currencyDisplay
+import com.dv.moneym.core.ui.LocalUseCurrencySymbol
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.localizedMonthNames
@@ -64,7 +66,10 @@ internal fun MonthlySpendingBarChart(
                     color = colors.text,
                     modifier = Modifier.weight(1f),
                 )
-                Text(text = currencyCode, style = type.captionMono.copy(color = colors.text3))
+                Text(
+                    text = currencyDisplay(currencyCode, LocalUseCurrencySymbol.current),
+                    style = type.captionMono.copy(color = colors.text3),
+                )
             }
 
             selectedBarIndex?.let { barIndex ->

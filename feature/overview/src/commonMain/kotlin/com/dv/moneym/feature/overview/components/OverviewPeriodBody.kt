@@ -467,7 +467,7 @@ private fun LegendTotalToggle(
     ) {
         Spacer(Modifier.weight(1f))
         MmSegmented(
-            options = listOf("%", currencyCode),
+            options = listOf("%", currencyDisplay(currencyCode, LocalUseCurrencySymbol.current)),
             selectedIndex = if (showPercent) 0 else 1,
             onOptionSelected = { if ((it == 0) != showPercent) onTogglePercent() },
             size = MmSegmentedSize.Sm,
@@ -503,7 +503,7 @@ private fun LegendHeaderRow(
         Spacer(Modifier.weight(0.3f))
         LegendVDivider()
         Text(
-            text = if (showPercent) "%" else currencyCode,
+            text = if (showPercent) "%" else currencyDisplay(currencyCode, LocalUseCurrencySymbol.current),
             style = colStyle,
             modifier = Modifier.weight(0.25f),
             textAlign = TextAlign.End,
@@ -713,6 +713,7 @@ private fun TrendsBarSection(
     val colors = MM.colors
     val type = MM.type
     val space = MM.dimen
+    val displayCurrency = currencyDisplay(currencyCode, LocalUseCurrencySymbol.current)
     if (trend.avgPerMonth > 0 || trend.avgPerDay > 0) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -721,13 +722,13 @@ private fun TrendsBarSection(
         ) {
             if (trend.avgPerMonth > 0) {
                 Text(
-                    text = "${stringResource(Res.string.overview_cat_avg_month)}: ${formatAmount(trend.avgPerMonth)} $currencyCode",
+                    text = "${stringResource(Res.string.overview_cat_avg_month)}: ${formatAmount(trend.avgPerMonth)} $displayCurrency",
                     style = type.caption.copy(color = colors.text2),
                 )
             }
             if (trend.avgPerDay > 0) {
                 Text(
-                    text = "${stringResource(Res.string.overview_cat_avg_day)}: ${formatAmount(trend.avgPerDay)} $currencyCode",
+                    text = "${stringResource(Res.string.overview_cat_avg_day)}: ${formatAmount(trend.avgPerDay)} $displayCurrency",
                     style = type.caption.copy(color = colors.text2),
                 )
             }
@@ -755,6 +756,7 @@ private fun TrendsCumulativeSection(
     val colors = MM.colors
     val type = MM.type
     val space = MM.dimen
+    val displayCurrency = currencyDisplay(currencyCode, LocalUseCurrencySymbol.current)
     if (trend.avgPerDay > 0) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -763,7 +765,7 @@ private fun TrendsCumulativeSection(
             Text(
                 text = "${stringResource(Res.string.overview_cat_avg_day)}: " +
                         "${formatAmount(trend.avgPerDay)} " +
-                        currencyCode,
+                        displayCurrency,
                 style = type.caption.copy(color = colors.text2),
             )
         }

@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.Icon
+import com.dv.moneym.core.model.currencyDisplay
 import moneym.core.ui.generated.resources.Res
 import moneym.core.ui.generated.resources.amount_input_calculator_desc
 import org.jetbrains.compose.resources.stringResource
@@ -56,7 +57,7 @@ fun MmAmountInput(
             modifier = Modifier.fillMaxWidth(),
         ) {
             Text(
-                text = currencyCode,
+                text = currencyDisplay(currencyCode, LocalUseCurrencySymbol.current),
                 style = type.bodyMono,
                 color = colors.text3,
             )

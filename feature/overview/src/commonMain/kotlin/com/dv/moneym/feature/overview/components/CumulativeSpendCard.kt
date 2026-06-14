@@ -18,7 +18,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
+import com.dv.moneym.core.model.currencyDisplay
 import com.dv.moneym.core.uigraphs.CumulativeChart
+import com.dv.moneym.core.ui.LocalUseCurrencySymbol
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmMoney
 import moneym.feature.overview.generated.resources.Res
@@ -53,7 +55,7 @@ internal fun CumulativeSpendCard(
                     modifier = Modifier.weight(1f),
                 )
                 Text(
-                    text = currencyCode,
+                    text = currencyDisplay(currencyCode, LocalUseCurrencySymbol.current),
                     style = type.captionMono.copy(color = colors.text3),
                 )
             }
