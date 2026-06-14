@@ -20,6 +20,7 @@ import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.feature.settings.overview.components.LockTimeoutPickerDialog
 import com.dv.moneym.feature.settings.overview.components.SettingsLazyList
+import com.dv.moneym.feature.settings.overview.components.ThemePickerSheet
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_lang_system_default
@@ -126,6 +127,7 @@ fun SettingsScreen(
     val useCurrencySymbol by overviewViewModel.useCurrencySymbol.collectAsStateWithLifecycle()
     val walletCurrency by overviewViewModel.walletCurrency.collectAsStateWithLifecycle()
     val showLockPicker by overviewViewModel.showLockPicker.collectAsStateWithLifecycle()
+    val showThemeSheet by overviewViewModel.showThemeSheet.collectAsStateWithLifecycle()
     val securityState by securityViewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(securityViewModel) {
@@ -145,6 +147,7 @@ fun SettingsScreen(
         useCurrencySymbol = useCurrencySymbol,
         walletCurrency = walletCurrency,
         showLockPicker = showLockPicker,
+        showThemeSheet = showThemeSheet,
     )
 
     SettingsContent(
@@ -154,6 +157,7 @@ fun SettingsScreen(
         onPaymentModeEnabledChanged = { overviewViewModel.onIntent(SettingsOverviewIntent.SetPaymentModeEnabled(it)) },
         onUseCurrencySymbolChanged = { overviewViewModel.onIntent(SettingsOverviewIntent.SetUseCurrencySymbol(it)) },
         onShowLockPicker = { overviewViewModel.onIntent(SettingsOverviewIntent.ShowLockPicker(it)) },
+        onShowThemeSheet = { overviewViewModel.onIntent(SettingsOverviewIntent.ShowThemeSheet(it)) },
         onSecurityIntent = securityViewModel::onIntent,
         onNavigateToCategories = onNavigateToCategories,
         onNavigateToBudgets = onNavigateToBudgets,
@@ -179,6 +183,7 @@ private fun SettingsContent(
     onPaymentModeEnabledChanged: (Boolean) -> Unit,
     onUseCurrencySymbolChanged: (Boolean) -> Unit,
     onShowLockPicker: (Boolean) -> Unit,
+    onShowThemeSheet: (Boolean) -> Unit,
     onSecurityIntent: (SecuritySettingsIntent) -> Unit,
     onNavigateToCategories: () -> Unit,
     onNavigateToBudgets: () -> Unit,
@@ -197,12 +202,6 @@ private fun SettingsContent(
     val colors = MM.colors
     val type = MM.type
     val space = MM.dimen
-    val themeIndex = when (state.themeMode) {
-        ThemeMode.Light -> 0
-        ThemeMode.Dark -> 1
-        ThemeMode.Auto -> 2
-    }
-    val themeModes = listOf(ThemeMode.Light, ThemeMode.Dark, ThemeMode.Auto)
     val lockAfterLabel = when (securityState.backgroundLockSeconds) {
         0 -> stringResource(Res.string.settings_lock_immediately)
         30 -> stringResource(Res.string.settings_lock_30s)
@@ -254,6 +253,14 @@ private fun SettingsContent(
         )
     }
 
+    if (state.showThemeSheet) {
+        ThemePickerSheet(
+            current = state.themeMode,
+            onSelect = { onThemeModeChanged(it); onShowThemeSheet(false) },
+            onDismiss = { onShowThemeSheet(false) },
+        )
+    }
+
     Column(modifier = Modifier.fillMaxSize().background(colors.bg)) {
         // Fixed title header — stays pinned at top during scroll
         Text(
@@ -274,11 +281,9 @@ private fun SettingsContent(
             modifier = Modifier.weight(1f),
             state = state,
             securityState = securityState,
-            themeIndex = themeIndex,
-            themeModes = themeModes,
             lockAfterLabel = lockAfterLabel,
             languageSubtitle = languageSubtitle,
-            onThemeModeChanged = onThemeModeChanged,
+            onOpenThemeSheet = { onShowThemeSheet(true) },
             onPaymentModeEnabledChanged = onPaymentModeEnabledChanged,
             onUseCurrencySymbolChanged = onUseCurrencySymbolChanged,
             onSecurityIntent = onSecurityIntent,
@@ -311,6 +316,7 @@ private fun SettingsScreenPreview() {
             onPaymentModeEnabledChanged = {},
             onUseCurrencySymbolChanged = {},
             onShowLockPicker = {},
+            onShowThemeSheet = {},
             onSecurityIntent = {},
             onNavigateToCategories = {},
             onNavigateToBudgets = {},

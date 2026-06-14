@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Icon
-import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmSettingsRow
 import com.dv.moneym.core.ui.SectionLabel
@@ -33,11 +32,9 @@ internal fun SettingsLazyList(
     modifier: Modifier,
     state: SettingsUiState,
     securityState: SecuritySettingsUiState,
-    themeIndex: Int,
-    themeModes: List<ThemeMode>,
     lockAfterLabel: String,
     languageSubtitle: String,
-    onThemeModeChanged: (ThemeMode) -> Unit,
+    onOpenThemeSheet: () -> Unit,
     onPaymentModeEnabledChanged: (Boolean) -> Unit,
     onUseCurrencySymbolChanged: (Boolean) -> Unit,
     onSecurityIntent: (SecuritySettingsIntent) -> Unit,
@@ -71,9 +68,7 @@ internal fun SettingsLazyList(
         item(key = SettingsItem.APPEARANCE_CARD.name) {
             AppearanceSection(
                 themeMode = state.themeMode,
-                themeIndex = themeIndex,
-                themeModes = themeModes,
-                onThemeModeChanged = onThemeModeChanged,
+                onOpenThemeSheet = onOpenThemeSheet,
                 onNavigateToTxDisplay = onNavigateToTxDisplay,
             )
         }

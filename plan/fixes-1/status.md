@@ -8,8 +8,8 @@ Master plan: `~/.claude/plans/1-missing-transaltions-tingly-aurora.md`
 | 2 | Payment types + budgets delete/add UX | ✅ done | `34c2338a` |
 | 3 | avg/mo & avg/day deep investigation | ⚠️ done (no-op) | `<docs>` |
 | 4 | Notification (wallet) sync app picker | ✅ done | `a4b0638f` |
-| 5 | Sync button visibility + sync-picker row clickability | ⏳ in progress | — |
-| 6 | Theme picker → bottom sheet | ⬜ todo | — |
+| 5 | Sync button visibility + sync-picker row clickability | ✅ done | `059c26b7` |
+| 6 | Theme picker → bottom sheet | ⏳ in progress | — |
 | 7 | Export/Import screen redesign | ⬜ todo | — |
 
 Legend: ⬜ todo · ⏳ in progress · ✅ done · ⚠️ done-with-notes

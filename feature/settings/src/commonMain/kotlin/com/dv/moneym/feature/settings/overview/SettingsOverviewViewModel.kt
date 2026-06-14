@@ -54,6 +54,9 @@ class SettingsOverviewViewModel(
     private val _showLockPicker = MutableStateFlow(false)
     val showLockPicker: StateFlow<Boolean> = _showLockPicker.asStateFlow()
 
+    private val _showThemeSheet = MutableStateFlow(false)
+    val showThemeSheet: StateFlow<Boolean> = _showThemeSheet.asStateFlow()
+
     fun onIntent(intent: SettingsOverviewIntent) {
         when (intent) {
             is SettingsOverviewIntent.SetThemeMode -> setThemeMode(intent.mode)
@@ -61,6 +64,7 @@ class SettingsOverviewViewModel(
             is SettingsOverviewIntent.SetPaymentModeEnabled -> setPaymentModeEnabled(intent.enabled)
             is SettingsOverviewIntent.SetUseCurrencySymbol -> setUseCurrencySymbol(intent.enabled)
             is SettingsOverviewIntent.ShowLockPicker -> _showLockPicker.update { intent.visible }
+            is SettingsOverviewIntent.ShowThemeSheet -> _showThemeSheet.update { intent.visible }
         }
     }
 

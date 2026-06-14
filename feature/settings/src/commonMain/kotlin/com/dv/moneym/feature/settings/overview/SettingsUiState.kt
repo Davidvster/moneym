@@ -20,6 +20,7 @@ data class SettingsUiState(
     val useCurrencySymbol: Boolean = false,
     val walletCurrency: String = "EUR",
     val showLockPicker: Boolean = false,
+    val showThemeSheet: Boolean = false,
 )
 
 sealed interface SettingsOverviewIntent {
@@ -28,4 +29,5 @@ sealed interface SettingsOverviewIntent {
     data class SetPaymentModeEnabled(val enabled: Boolean) : SettingsOverviewIntent
     data class SetUseCurrencySymbol(val enabled: Boolean) : SettingsOverviewIntent
     data class ShowLockPicker(val visible: Boolean) : SettingsOverviewIntent
+    data class ShowThemeSheet(val visible: Boolean) : SettingsOverviewIntent
 }
