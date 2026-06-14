@@ -46,6 +46,18 @@
 # ── Biometric ────────────────────────────────────────────────────────────────
 -keep class androidx.biometric.** { *; }
 
+# ── LiteRT-LM (local LLM, e.g. Gemma) ────────────────────────────────────────
+# liblitertlm_jni.so resolves the JNI callback methods (onMessage/onDone) by
+# literal name at runtime. R8 renaming them makes the native lookup throw
+# NoSuchMethodError → SIGABRT on the first streamed reply. Keep names intact.
+-keep class com.google.ai.edge.litertlm.** { *; }
+-keepclassmembers class com.google.ai.edge.litertlm.** { *; }
+-dontwarn com.google.ai.edge.litertlm.**
+
+# ── ML Kit GenAI (Gemini Nano) ───────────────────────────────────────────────
+-keep class com.google.mlkit.genai.** { *; }
+-dontwarn com.google.mlkit.genai.**
+
 # ── App entry points ─────────────────────────────────────────────────────────
 -keep class com.dv.moneym.MainActivity { *; }
 -keep class * extends androidx.lifecycle.ViewModel { *; }
