@@ -110,6 +110,7 @@ val featureTransactionsModule = module {
             ephemeralState = get(),
             syncStatus = get<SyncEngine>(),
             syncPuller = get<SyncEngine>(),
+            bankSyncStatus = get(),
             walletSyncStatus = get(),
             clock = get(),
             transactionSavedSignal = get(),

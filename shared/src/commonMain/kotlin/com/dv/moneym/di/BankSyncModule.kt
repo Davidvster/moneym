@@ -3,6 +3,7 @@ package com.dv.moneym.di
 import com.dv.moneym.data.banksync.BankAuthCallbackBus
 import com.dv.moneym.data.banksync.BankSyncEngine
 import com.dv.moneym.data.banksync.BankSyncRepository
+import com.dv.moneym.data.banksync.BankSyncStatusProvider
 import com.dv.moneym.data.banksync.EnableBankingClient
 import com.dv.moneym.data.banksync.EnableBankingCredentialsStore
 import com.dv.moneym.data.banksync.ExternalIdResolver
@@ -34,4 +35,5 @@ val bankSyncCommonModule: Module = module {
             clock = get(),
         )
     }
+    single<BankSyncStatusProvider> { get<BankSyncEngine>() }
 }
