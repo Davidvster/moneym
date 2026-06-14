@@ -45,4 +45,6 @@
     <string name="onboarding_welcome_feature_privacy_desc">Her şey cihazınızda kalır, PIN veya biyometri ile kilitlenir.</string>
     <string name="onboarding_welcome_feature_bank_title">Banka senkronizasyonu</string>
     <string name="onboarding_welcome_feature_bank_desc">AB bankanızdan PSD2 açık bankacılık aracılığıyla işlemleri içe aktarın, gözden geçireceğiniz öneriler olarak — kendi ücretsiz anahtarınızı kullanarak.</string>
+    <string name="onboarding_welcome_feature_backup_title">Yedekleme ve eşitleme</string>
+    <string name="onboarding_welcome_feature_backup_desc">İsteğe bağlı Google Drive yedeklemesi verilerinizi güvende ve cihazlarınız arasında eşitlenmiş tutar.</string>
 </resources>

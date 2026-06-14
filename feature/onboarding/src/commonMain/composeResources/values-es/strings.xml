@@ -47,4 +47,6 @@
     <string name="default_account_name">Principal</string>
     <string name="onboarding_welcome_feature_bank_title">Sincronización bancaria</string>
     <string name="onboarding_welcome_feature_bank_desc">Importa transacciones de tu banco de la UE a través de banca abierta PSD2 como sugerencias que revisas — usando tu propia clave gratuita.</string>
+    <string name="onboarding_welcome_feature_backup_title">Copia y sincronización</string>
+    <string name="onboarding_welcome_feature_backup_desc">La copia de seguridad opcional en Google Drive mantiene tus datos seguros y sincronizados entre dispositivos.</string>
 </resources>

@@ -47,4 +47,6 @@
     <string name="default_account_name">Main</string>
     <string name="onboarding_welcome_feature_bank_title">Bank sync</string>
     <string name="onboarding_welcome_feature_bank_desc">Import transactions from your EU bank via PSD2 open banking as suggestions you review — using your own free key.</string>
+    <string name="onboarding_welcome_feature_backup_title">Backup &amp; sync</string>
+    <string name="onboarding_welcome_feature_backup_desc">Optional Google Drive backup keeps your data safe and in sync across your devices.</string>
 </resources>

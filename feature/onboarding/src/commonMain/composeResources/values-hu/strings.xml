@@ -45,4 +45,6 @@
     <string name="onboarding_welcome_feature_privacy_desc">Minden a készülékeden marad, PIN-kóddal vagy biometriával védve.</string>
     <string name="onboarding_welcome_feature_bank_title">Banki szinkronizálás</string>
     <string name="onboarding_welcome_feature_bank_desc">Importáljon tranzakciókat EU-s bankjából PSD2 nyílt banki szolgáltatásokon keresztül javaslatokként, amelyeket felülvizsgál — saját ingyenes kulcs használatával.</string>
+    <string name="onboarding_welcome_feature_backup_title">Biztonsági mentés és szinkron</string>
+    <string name="onboarding_welcome_feature_backup_desc">Az opcionális Google Drive biztonsági mentés biztonságban és eszközök között szinkronban tartja adataidat.</string>
 </resources>

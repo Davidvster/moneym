@@ -47,4 +47,6 @@
     <string name="default_account_name">Hauptkonto</string>
     <string name="onboarding_welcome_feature_bank_title">Bank-Synchronisierung</string>
     <string name="onboarding_welcome_feature_bank_desc">Importiere Transaktionen deiner EU-Bank über PSD2-Bankverbindungen als Vorschläge zur Prüfung — mit deinem eigenen kostenlosen Schlüssel.</string>
+    <string name="onboarding_welcome_feature_backup_title">Backup &amp; Sync</string>
+    <string name="onboarding_welcome_feature_backup_desc">Optionales Google-Drive-Backup hält deine Daten sicher und geräteübergreifend synchron.</string>
 </resources>

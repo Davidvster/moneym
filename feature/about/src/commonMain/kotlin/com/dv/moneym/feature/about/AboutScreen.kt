@@ -26,7 +26,8 @@ import moneym.feature.about.generated.resources.about_terms
 import moneym.feature.about.generated.resources.about_title
 import org.jetbrains.compose.resources.stringResource
 
-private const val ABOUT_URL = "https://davidvster.github.io/moneym.github.io/"
+private const val TERMS_URL = "https://davidvster.github.io/moneym.github.io/terms.html"
+private const val PRIVACY_URL = "https://davidvster.github.io/moneym.github.io/privacy.html"
 
 @Serializable
 data object AboutKey : NavKey
@@ -55,12 +56,12 @@ private fun AboutScreen(onBack: () -> Unit, onNavigateToLibraries: () -> Unit = 
                     MmSettingsRow(
                         title = stringResource(Res.string.about_terms),
                         leadingIcon = Icon.Info.imageVector,
-                        onClick = { uriHandler.openUri(ABOUT_URL) },
+                        onClick = { uriHandler.openUri(TERMS_URL) },
                     )
                     MmSettingsRow(
                         title = stringResource(Res.string.about_privacy),
                         leadingIcon = Icon.Info.imageVector,
-                        onClick = { uriHandler.openUri(ABOUT_URL) },
+                        onClick = { uriHandler.openUri(PRIVACY_URL) },
                     )
                     MmSettingsRow(
                         title = stringResource(Res.string.about_libraries),

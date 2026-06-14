@@ -45,4 +45,6 @@
     <string name="onboarding_welcome_feature_privacy_desc">Wszystko pozostaje na Twoim urządzeniu, chronione kodem PIN lub biometrią.</string>
     <string name="onboarding_welcome_feature_bank_title">Synchronizacja bankowa</string>
     <string name="onboarding_welcome_feature_bank_desc">Importuj transakcje z twojego banku UE za pośrednictwem otwartej bankowości PSD2 jako sugestie, które przeglądasz — używając własnego bezpłatnego klucza.</string>
+    <string name="onboarding_welcome_feature_backup_title">Kopia zapasowa i synchronizacja</string>
+    <string name="onboarding_welcome_feature_backup_desc">Opcjonalna kopia zapasowa na Dysku Google chroni Twoje dane i synchronizuje je między urządzeniami.</string>
 </resources>

@@ -45,4 +45,6 @@
     <string name="onboarding_welcome_feature_privacy_desc">Tout reste sur votre appareil, protégé par un code PIN ou la biométrie.</string>
     <string name="onboarding_welcome_feature_bank_title">Synchronisation bancaire</string>
     <string name="onboarding_welcome_feature_bank_desc">Importez les transactions de votre banque de l'UE via le service bancaire ouvert PSD2 comme des suggestions que vous examinez — en utilisant votre propre clé gratuite.</string>
+    <string name="onboarding_welcome_feature_backup_title">Sauvegarde et synchro</string>
+    <string name="onboarding_welcome_feature_backup_desc">La sauvegarde Google Drive optionnelle garde vos données en sécurité et synchronisées sur tous vos appareils.</string>
 </resources>

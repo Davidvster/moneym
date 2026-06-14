@@ -45,4 +45,6 @@
     <string name="onboarding_welcome_feature_privacy_desc">Alt forbliver på din enhed, beskyttet med en PIN-kode eller biometri.</string>
     <string name="onboarding_welcome_feature_bank_title">Banksynkronisering</string>
     <string name="onboarding_welcome_feature_bank_desc">Importér transaktioner fra din EU-bank via PSD2 open banking som forslag, som du gennemgår — ved hjælp af din egen gratis nøgle.</string>
+    <string name="onboarding_welcome_feature_backup_title">Backup og synkronisering</string>
+    <string name="onboarding_welcome_feature_backup_desc">Valgfri Google Drev-backup holder dine data sikre og synkroniseret på tværs af enheder.</string>
 </resources>

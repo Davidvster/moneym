@@ -45,4 +45,6 @@
     <string name="onboarding_welcome_feature_privacy_desc">Все данные остаются на устройстве под защитой PIN-кода или биометрии.</string>
     <string name="onboarding_welcome_feature_bank_title">Банковская синхронизация</string>
     <string name="onboarding_welcome_feature_bank_desc">Импортируйте транзакции из своего банка ЕС через открытое банковское обслуживание PSD2 как предложения, которые вы проверяете — используя свой собственный бесплатный ключ.</string>
+    <string name="onboarding_welcome_feature_backup_title">Резервное копирование и синхронизация</string>
+    <string name="onboarding_welcome_feature_backup_desc">Дополнительная резервная копия в Google Диске сохраняет ваши данные и синхронизирует их между устройствами.</string>
 </resources>

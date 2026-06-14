@@ -45,4 +45,6 @@
     <string name="onboarding_welcome_feature_privacy_desc">Viss paliek jūsu ierīcē, aizsargāts ar PIN kodu vai biometriju.</string>
     <string name="onboarding_welcome_feature_bank_title">Bankas sinhronizācija</string>
     <string name="onboarding_welcome_feature_bank_desc">Importējiet darījumus no sava ES bankas, izmantojot PSD2 atvērtās bankas pakalpojumus, kā ieteikumus, kurus pārskatāt — izmantojot savu bezmaksas atslēgu.</string>
+    <string name="onboarding_welcome_feature_backup_title">Dublēšana un sinhronizācija</string>
+    <string name="onboarding_welcome_feature_backup_desc">Neobligāta Google Drive dublēšana saglabā jūsu datus drošus un sinhronizētus visās ierīcēs.</string>
 </resources>

@@ -45,4 +45,6 @@
     <string name="onboarding_welcome_feature_privacy_desc">Viskas lieka jūsų įrenginyje, apsaugota PIN kodu arba biometriniais duomenimis.</string>
     <string name="onboarding_welcome_feature_bank_title">Banko sinchronizavimas</string>
     <string name="onboarding_welcome_feature_bank_desc">Importuokite operacijas iš savo ES banko per PSD2 atvirą bankininkystę kaip pasiūlymus, kuriuos peržiūrite — naudodami savą nemokamą raktą.</string>
+    <string name="onboarding_welcome_feature_backup_title">Atsarginė kopija ir sinchronizavimas</string>
+    <string name="onboarding_welcome_feature_backup_desc">Pasirinktinė „Google Drive“ atsarginė kopija saugo jūsų duomenis ir sinchronizuoja juos tarp įrenginių.</string>
 </resources>

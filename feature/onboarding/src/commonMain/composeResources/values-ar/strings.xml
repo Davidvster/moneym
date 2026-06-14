@@ -45,4 +45,6 @@
     <string name="onboarding_welcome_feature_privacy_desc">يبقى كل شيء على جهازك، محميًا برمز PIN أو القياسات الحيوية.</string>
     <string name="onboarding_welcome_feature_bank_title">مزامنة البنك</string>
     <string name="onboarding_welcome_feature_bank_desc">استيراد المعاملات من بنكك في الاتحاد الأوروبي عبر خدمات البنكية المفتوحة PSD2 كاقتراحات تراجعها — باستخدام مفتاحك المجاني الخاص.</string>
+    <string name="onboarding_welcome_feature_backup_title">النسخ الاحتياطي والمزامنة</string>
+    <string name="onboarding_welcome_feature_backup_desc">نسخ احتياطي اختياري على Google Drive يحافظ على بياناتك آمنة ومتزامنة عبر أجهزتك.</string>
 </resources>

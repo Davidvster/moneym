@@ -45,4 +45,6 @@
     <string name="onboarding_welcome_feature_privacy_desc">Allt stannar på din enhet, skyddat med en PIN-kod eller biometri.</string>
     <string name="onboarding_welcome_feature_bank_title">Banksynkronisering</string>
     <string name="onboarding_welcome_feature_bank_desc">Importera transaktioner från din EU-bank via PSD2 öppen bankverksamhet som förslag som du granskar — med hjälp av din egen gratis nyckel.</string>
+    <string name="onboarding_welcome_feature_backup_title">Säkerhetskopia och synk</string>
+    <string name="onboarding_welcome_feature_backup_desc">Valfri Google Drive-säkerhetskopia håller dina data säkra och synkade mellan enheter.</string>
 </resources>

@@ -722,13 +722,13 @@ private fun TrendsBarSection(
         ) {
             if (trend.avgPerMonth > 0) {
                 Text(
-                    text = "avg/mo: ${formatAmount(trend.avgPerMonth)} $currencyCode",
+                    text = "${stringResource(Res.string.overview_cat_avg_month)}: ${formatAmount(trend.avgPerMonth)} $currencyCode",
                     style = type.caption.copy(color = colors.text2),
                 )
             }
             if (trend.avgPerDay > 0) {
                 Text(
-                    text = "avg/day: ${formatAmount(trend.avgPerDay)} $currencyCode",
+                    text = "${stringResource(Res.string.overview_cat_avg_day)}: ${formatAmount(trend.avgPerDay)} $currencyCode",
                     style = type.caption.copy(color = colors.text2),
                 )
             }

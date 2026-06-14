@@ -45,4 +45,6 @@
     <string name="onboarding_welcome_feature_privacy_desc">Mọi thứ được lưu trên thiết bị của bạn, khóa bằng mã PIN hoặc sinh trắc học.</string>
     <string name="onboarding_welcome_feature_bank_title">Đồng bộ ngân hàng</string>
     <string name="onboarding_welcome_feature_bank_desc">Nhập các giao dịch từ ngân hàng EU của bạn thông qua dịch vụ ngân hàng mở PSD2 dưới dạng những gợi ý mà bạn xem xét — sử dụng khóa miễn phí của riêng bạn.</string>
+    <string name="onboarding_welcome_feature_backup_title">Sao lưu và đồng bộ</string>
+    <string name="onboarding_welcome_feature_backup_desc">Bản sao lưu Google Drive tùy chọn giữ dữ liệu của bạn an toàn và đồng bộ trên các thiết bị.</string>
 </resources>

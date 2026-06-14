@@ -45,4 +45,6 @@
     <string name="onboarding_welcome_feature_privacy_desc">Alt forblir på enheten din, låst bak en PIN-kode eller biometri.</string>
     <string name="onboarding_welcome_feature_bank_title">Banksynkronisering</string>
     <string name="onboarding_welcome_feature_bank_desc">Importer transaksjoner fra din EU-bank via PSD2 åpent bankingsystem som forslag du gjennomgår — ved hjelp av din egen gratis nøkkel.</string>
+    <string name="onboarding_welcome_feature_backup_title">Sikkerhetskopi og synk</string>
+    <string name="onboarding_welcome_feature_backup_desc">Valgfri Google Disk-sikkerhetskopi holder dataene dine trygge og synkronisert på tvers av enheter.</string>
 </resources>

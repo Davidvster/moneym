@@ -45,4 +45,6 @@
     <string name="onboarding_welcome_feature_privacy_desc">सब कुछ आपके डिवाइस पर रहता है, PIN या बायोमेट्रिक्स से सुरक्षित.</string>
     <string name="onboarding_welcome_feature_bank_title">बैंक सिंक</string>
     <string name="onboarding_welcome_feature_bank_desc">अपने EU बैंक से PSD2 ओपन बैंकिंग के माध्यम से लेनदेन आयात करें जो आप समीक्षा करते हैं — अपनी अपनी मुफ़्त कुंजी का उपयोग करके।</string>
+    <string name="onboarding_welcome_feature_backup_title">बैकअप और सिंक</string>
+    <string name="onboarding_welcome_feature_backup_desc">वैकल्पिक Google Drive बैकअप आपके डेटा को सुरक्षित और सभी डिवाइस पर सिंक रखता है।</string>
 </resources>

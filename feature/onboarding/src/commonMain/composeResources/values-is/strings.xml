@@ -45,4 +45,6 @@
     <string name="onboarding_welcome_feature_privacy_desc">Allt er áfram í tækinu þínu, læst með PIN-númeri eða lífkenni.</string>
     <string name="onboarding_welcome_feature_bank_title">Bankasamstilling</string>
     <string name="onboarding_welcome_feature_bank_desc">Flytja inn viðskipti frá EU-bankanum þínum í gegnum PSD2 opna bankastarfsemi sem tillögur sem þú skoðar — með eigin fríu lykilnum.</string>
+    <string name="onboarding_welcome_feature_backup_title">Afrit og samstilling</string>
+    <string name="onboarding_welcome_feature_backup_desc">Valfrjáls Google Drive afritun heldur gögnunum þínum öruggum og samstilltum milli tækja.</string>
 </resources>

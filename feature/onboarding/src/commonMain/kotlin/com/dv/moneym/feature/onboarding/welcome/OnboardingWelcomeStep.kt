@@ -46,6 +46,8 @@ import moneym.feature.onboarding.generated.resources.onboarding_terms
 import moneym.feature.onboarding.generated.resources.onboarding_welcome
 import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_ai_desc
 import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_ai_title
+import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_backup_desc
+import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_backup_title
 import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_bank_desc
 import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_bank_title
 import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_insights_desc
@@ -57,7 +59,8 @@ import moneym.feature.onboarding.generated.resources.onboarding_welcome_feature_
 import moneym.feature.onboarding.generated.resources.onboarding_welcome_subtitle
 import org.jetbrains.compose.resources.stringResource
 
-private const val LEGAL_URL = "https://davidvster.github.io/moneym.github.io/"
+private const val TERMS_URL = "https://davidvster.github.io/moneym.github.io/terms.html"
+private const val PRIVACY_URL = "https://davidvster.github.io/moneym.github.io/privacy.html"
 
 @Serializable
 data object OnboardingWelcomeKey : NavKey
@@ -107,6 +110,12 @@ internal fun WelcomeStep(
             tint = colors.catRent,
             title = stringResource(Res.string.onboarding_welcome_feature_bank_title),
             description = stringResource(Res.string.onboarding_welcome_feature_bank_desc),
+        ),
+        Capability(
+            icon = MmIcon.Sync.imageVector,
+            tint = colors.catGroceries,
+            title = stringResource(Res.string.onboarding_welcome_feature_backup_title),
+            description = stringResource(Res.string.onboarding_welcome_feature_backup_desc),
         ),
         Capability(
             icon = MmIcon.Lock.imageVector,
@@ -161,13 +170,13 @@ internal fun WelcomeStep(
                     text = stringResource(Res.string.onboarding_terms),
                     style = type.caption,
                     color = colors.accent,
-                    modifier = Modifier.clickable { uriHandler.openUri(LEGAL_URL) },
+                    modifier = Modifier.clickable { uriHandler.openUri(TERMS_URL) },
                 )
                 Text(
                     text = stringResource(Res.string.onboarding_privacy),
                     style = type.caption,
                     color = colors.accent,
-                    modifier = Modifier.clickable { uriHandler.openUri(LEGAL_URL) },
+                    modifier = Modifier.clickable { uriHandler.openUri(PRIVACY_URL) },
                 )
             }
             Spacer(Modifier.height(MM.dimen.padding_1_5x))
