@@ -236,8 +236,10 @@ private fun SuggestionsContent(
                 else -> LazyColumn(
                     modifier = Modifier.weight(1f),
                     contentPadding = PaddingValues(
-                        horizontal = space.padding_2x,
-                        vertical = space.padding_1x
+                        start = space.padding_2x,
+                        end = space.padding_2x,
+                        top = space.padding_1x,
+                        bottom = space.padding_4x,
                     ),
                     verticalArrangement = Arrangement.spacedBy(space.padding_2x),
                 ) {
