@@ -1,7 +1,6 @@
 package com.dv.moneym.feature.banksync.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -38,6 +36,7 @@ import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmCard
+import com.dv.moneym.core.ui.mmClickable
 import com.dv.moneym.core.ui.MmDeleteSheet
 import com.dv.moneym.core.ui.MmEmptyState
 import com.dv.moneym.core.ui.MmIconButton
@@ -369,8 +368,7 @@ private fun AccountCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(MM.dimen.padding_1x))
-                .clickable { onIntent(BankSyncHomeIntent.ShowAccountPicker(account.uid)) }
+                .mmClickable(shape = RoundedCornerShape(MM.dimen.padding_1x)) { onIntent(BankSyncHomeIntent.ShowAccountPicker(account.uid)) }
                 .padding(
                     top = space.padding_1x,
                     bottom = space.padding_0_5x,

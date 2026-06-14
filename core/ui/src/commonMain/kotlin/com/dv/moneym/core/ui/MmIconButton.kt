@@ -1,20 +1,13 @@
 package com.dv.moneym.core.ui
 
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Arrangement
@@ -43,23 +36,16 @@ fun MmIconButton(
         MmIconButtonVariant.Danger -> colors.danger
     }
 
-    var pressed by remember { mutableStateOf(false) }
-    val latestOnClick by rememberUpdatedState(onClick)
-
     Box(
         modifier = modifier
             .size(size)
-            .alpha(if (pressed) 0.6f else 1f)
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onPress = {
-                        pressed = true
-                        tryAwaitRelease()
-                        pressed = false
-                    },
-                    onTap = { latestOnClick() },
-                )
-            },
+            .mmClickable(
+                bounded = false,
+                radius = size / 2,
+                rippleColor = iconColor,
+                role = Role.Button,
+                onClick = onClick,
+            ),
         contentAlignment = Alignment.Center,
     ) {
         Icon(

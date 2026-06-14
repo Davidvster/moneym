@@ -1,7 +1,6 @@
 package com.dv.moneym.feature.banksync.suggestions
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,7 +32,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -51,7 +49,9 @@ import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmCategoryPickerSheet
+import androidx.compose.ui.draw.clip
 import com.dv.moneym.core.ui.MmCheckbox
+import com.dv.moneym.core.ui.mmClickable
 import com.dv.moneym.core.ui.MmDialog
 import com.dv.moneym.core.ui.MmEmptyState
 import com.dv.moneym.core.ui.MmField
@@ -518,10 +518,8 @@ private fun SuggestionCard(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = if (isPendingTab) {
-                Modifier.clickable {
-                    onIntent(
-                        SuggestionsIntent.ToggleSelect(row.id)
-                    )
+                Modifier.mmClickable(shape = RoundedCornerShape(MM.dimen.padding_1x)) {
+                    onIntent(SuggestionsIntent.ToggleSelect(row.id))
                 }
             } else {
                 Modifier
@@ -588,8 +586,7 @@ private fun SuggestionCard(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(MM.dimen.padding_1x))
-                    .clickable { onIntent(SuggestionsIntent.ShowCategoryPicker(row.id)) }
+                    .mmClickable(shape = RoundedCornerShape(MM.dimen.padding_1x)) { onIntent(SuggestionsIntent.ShowCategoryPicker(row.id)) }
                     .padding(vertical = space.padding_1_5x, horizontal = space.padding_0_5x),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -609,8 +606,7 @@ private fun SuggestionCard(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(MM.dimen.padding_1x))
-                    .clickable { onIntent(SuggestionsIntent.ShowAccountPicker(row.id)) }
+                    .mmClickable(shape = RoundedCornerShape(MM.dimen.padding_1x)) { onIntent(SuggestionsIntent.ShowAccountPicker(row.id)) }
                     .padding(vertical = space.padding_1_5x, horizontal = space.padding_0_5x),
                 verticalAlignment = Alignment.CenterVertically,
             ) {

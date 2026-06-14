@@ -6,8 +6,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,6 +40,7 @@ import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.model.Money
+import com.dv.moneym.core.ui.mmClickable
 import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.model.currencyDisplay
@@ -547,7 +546,7 @@ private fun LegendDataRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(indication = null, interactionSource = remember { MutableInteractionSource() }, onClick = onClick)
+            .mmClickable(onClick = onClick)
             .padding(vertical = MM.dimen.padding_0_5x),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),

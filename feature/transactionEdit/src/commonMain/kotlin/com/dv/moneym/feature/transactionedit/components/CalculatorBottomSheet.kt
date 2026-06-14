@@ -2,7 +2,6 @@ package com.dv.moneym.feature.transactionedit.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,11 +26,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmSheetHeader
+import com.dv.moneym.core.ui.mmClickable
 import moneym.feature.transactionedit.generated.resources.Res
 import moneym.feature.transactionedit.generated.resources.edit_calculator_title
 import org.jetbrains.compose.resources.stringResource
@@ -235,9 +234,7 @@ internal fun CalculatorBottomSheet(
                                     },
                                     RoundedCornerShape(MM.dimen.padding_1_5x),
                                 )
-                                .pointerInput(Unit) {
-                                    detectTapGestures { onCalcKey(key) }
-                                },
+                                .mmClickable { onCalcKey(key) },
                             contentAlignment = Alignment.Center,
                         ) {
                             Text(
@@ -268,9 +265,7 @@ internal fun CalculatorBottomSheet(
                         .clip(RoundedCornerShape(MM.dimen.padding_1_5x))
                         .background(colors.surface)
                         .border(1.dp, colors.border, RoundedCornerShape(MM.dimen.padding_1_5x))
-                        .pointerInput(Unit) {
-                            detectTapGestures { onCalcKey("⌫") }
-                        },
+                        .mmClickable { onCalcKey("⌫") },
                     contentAlignment = Alignment.Center,
                 ) {
                     Text("⌫", style = type.title3.copy(color = colors.text))
@@ -287,9 +282,7 @@ internal fun CalculatorBottomSheet(
                             colors.accent.copy(alpha = 0.3f),
                             RoundedCornerShape(MM.dimen.padding_1_5x)
                         )
-                        .pointerInput(Unit) {
-                            detectTapGestures { onCalcKey("=") }
-                        },
+                        .mmClickable { onCalcKey("=") },
                     contentAlignment = Alignment.Center,
                 ) {
                     Text("=", style = type.title3.copy(color = colors.accent))
@@ -301,16 +294,14 @@ internal fun CalculatorBottomSheet(
                         .height(MM.dimen.padding_7x)
                         .clip(RoundedCornerShape(MM.dimen.padding_1_5x))
                         .background(colors.accent)
-                        .pointerInput(Unit) {
-                            detectTapGestures {
-                                val result = calcResult()
-                                val finalDisplay = if (display.isEmpty()) {
-                                    formatResult(currentValue)
-                                } else {
-                                    formatResult(result)
-                                }
-                                onAmountSaved(finalDisplay)
+                        .mmClickable(rippleColor = Color.White) {
+                            val result = calcResult()
+                            val finalDisplay = if (display.isEmpty()) {
+                                formatResult(currentValue)
+                            } else {
+                                formatResult(result)
                             }
+                            onAmountSaved(finalDisplay)
                         },
                     contentAlignment = Alignment.Center,
                 ) {

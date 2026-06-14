@@ -2,7 +2,6 @@ package com.dv.moneym.feature.walletsync.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +35,7 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmButton
+import com.dv.moneym.core.ui.mmClickable
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmCard
@@ -167,12 +167,12 @@ private fun WalletSyncHomeContent(
                     }
                 }
 
-                MmCard(modifier = Modifier.fillMaxWidth(), padded = true) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { onIntent(WalletSyncHomeIntent.ShowAppPicker(true)) },
-                    ) {
+                MmCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    padded = true,
+                    onClick = { onIntent(WalletSyncHomeIntent.ShowAppPicker(true)) },
+                ) {
+                    Column(modifier = Modifier.fillMaxWidth()) {
                         Text(
                             text = stringResource(Res.string.wallet_sync_select_apps),
                             style = MM.type.body,
@@ -317,7 +317,7 @@ private fun AppRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onToggle() }
+            .mmClickable { onToggle() }
             .padding(vertical = space.padding_1x),
         verticalAlignment = Alignment.CenterVertically,
     ) {

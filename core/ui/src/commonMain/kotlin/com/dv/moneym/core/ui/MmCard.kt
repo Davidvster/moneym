@@ -21,6 +21,7 @@ fun MmCard(
     modifier: Modifier = Modifier,
     padded: Boolean = false,
     shape: Shape? = null,
+    onClick: (() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
     val colors = MM.colors
@@ -33,6 +34,7 @@ fun MmCard(
             .clip(resolvedShape)
             .background(colors.surface, resolvedShape)
             .border(1.dp, colors.border, resolvedShape)
+            .then(if (onClick != null) Modifier.mmClickable(shape = resolvedShape, onClick = onClick) else Modifier)
             .then(if (padded) Modifier.padding(MM.dimen.padding_2_5x) else Modifier),
     ) {
         content()
