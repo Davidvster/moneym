@@ -10,13 +10,21 @@ Master plan: `~/.claude/plans/1-missing-transaltions-tingly-aurora.md`
 | 4 | Notification (wallet) sync app picker | ✅ done | `a4b0638f` |
 | 5 | Sync button visibility + sync-picker row clickability | ✅ done | `059c26b7` |
 | 6 | Theme picker → bottom sheet | ✅ done | `17d62517` |
-| 7 | Export/Import screen redesign | ⏳ in progress | — |
+| 7 | Export/Import screen redesign | ✅ done | `2489b242` |
 
 Legend: ⬜ todo · ⏳ in progress · ✅ done · ⚠️ done-with-notes
 
+## Final cross-platform build — ✅ all green
+- `:androidApp:assembleDebug` — BUILD SUCCESSFUL
+- `:shared:linkDebugFrameworkIosArm64` + `IosSimulatorArm64` — BUILD SUCCESSFUL
+- iOS app `xcodebuild` (sim, no signing) — ** BUILD SUCCEEDED **
+
+All 7 phases complete on branch `fixes-1-ux-i18n`.
+
 ## Notes
 - Locale dirs in feature/settings: 28 locales + base (`values/`).
-- Final step after Phase 7: full Android + iOS build.
+- Branch name is `fixes-1-ux-i18n` (the `fixes-1` branch already existed with
+  unrelated work).
 
 ### Phase 3 finding (no-op)
 avg/mo & avg/day in yearly overview graphs are **already fully localized**:
