@@ -19,9 +19,9 @@ import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.core.ui.MmDateRangePickerDialog
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
-import com.dv.moneym.feature.overview.components.DateRangePickerDialog
 import com.dv.moneym.feature.overview.components.OverviewHeader
 import com.dv.moneym.core.ui.MmMonthPickerDialog
 import com.dv.moneym.feature.overview.components.OverviewYearPickerDialog
@@ -37,6 +37,9 @@ import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
 import moneym.feature.overview.generated.resources.Res
 import moneym.feature.overview.generated.resources.overview_cancel
+import moneym.feature.overview.generated.resources.overview_date_range_from
+import moneym.feature.overview.generated.resources.overview_date_range_title
+import moneym.feature.overview.generated.resources.overview_date_range_to
 import moneym.feature.overview.generated.resources.overview_dialog_select_month
 import moneym.feature.overview.generated.resources.overview_next_year_cd
 import moneym.feature.overview.generated.resources.overview_now
@@ -271,13 +274,18 @@ private fun OverviewContent(
 
                 is OverviewPeriod.Year -> Triple(p.year, 12, 31)
             }
-            DateRangePickerDialog(
+            MmDateRangePickerDialog(
                 initStartYear = initStart.first,
                 initStartMonth = initStart.second,
                 initStartDay = initStart.third,
                 initEndYear = initEnd.first,
                 initEndMonth = initEnd.second,
                 initEndDay = initEnd.third,
+                title = stringResource(Res.string.overview_date_range_title),
+                fromLabel = stringResource(Res.string.overview_date_range_from),
+                toLabel = stringResource(Res.string.overview_date_range_to),
+                okLabel = stringResource(Res.string.overview_ok),
+                cancelLabel = stringResource(Res.string.overview_cancel),
                 minSelectableDateIso = state.minSelectableDateIso,
                 maxSelectableDateIso = state.maxSelectableDateIso,
                 onDismiss = { onIntent(OverviewIntent.ShowDateRangePicker(false)) },

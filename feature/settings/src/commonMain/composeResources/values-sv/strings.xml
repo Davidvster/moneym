@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">Försök igen.</string>
     <string name="settings_bank_sync">Banksynkronisering</string>
     <string name="settings_wallet_sync">Plånbokssynk</string>
+    <string name="settings_export_desc">Spara dina data som en JSON-säkerhetskopia eller en CSV-fil.</string>
+    <string name="settings_import_desc">Återställ en MoneyM-säkerhetskopia eller importera en CSV-fil.</string>
+    <string name="settings_export_date_range">Datumintervall</string>
+    <string name="settings_export_date_all">Alla datum</string>
+    <string name="settings_export_date_from">Från</string>
+    <string name="settings_export_date_to">Till</string>
+    <string name="settings_export_date_ok">OK</string>
+    <string name="settings_export_date_clear">Rensa</string>
 </resources>

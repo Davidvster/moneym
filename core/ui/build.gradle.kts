@@ -23,6 +23,7 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
             implementation(libs.compose.uiToolingPreview)
+            implementation(libs.kotlinx.datetime)
             implementation(projects.core.designsystem)
             implementation(projects.core.model)
             implementation(projects.core.common)

@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">Tente novamente.</string>
     <string name="settings_bank_sync">Sincronização bancária</string>
     <string name="settings_wallet_sync">Sincronização da carteira</string>
+    <string name="settings_export_desc">Salve seus dados como um backup JSON ou um arquivo CSV.</string>
+    <string name="settings_import_desc">Restaure um backup do MoneyM ou importe um arquivo CSV.</string>
+    <string name="settings_export_date_range">Intervalo de datas</string>
+    <string name="settings_export_date_all">Todas as datas</string>
+    <string name="settings_export_date_from">De</string>
+    <string name="settings_export_date_to">Até</string>
+    <string name="settings_export_date_ok">OK</string>
+    <string name="settings_export_date_clear">Limpar</string>
 </resources>

@@ -39,25 +39,54 @@ class ExportViewModel(
 
     fun onIntent(intent: ExportIntent) {
         when (intent) {
-            ExportIntent.ExportJsonRequested -> {
-                _state.update { it.copy(isExporting = true) }
+            is ExportIntent.SetExportFormat ->
+                _state.update { it.copy(exportFormatCsv = intent.csv) }
+
+            is ExportIntent.ShowExportSheet ->
+                _state.update { it.copy(showExportSheet = intent.visible) }
+
+            is ExportIntent.ShowExportDateDialog ->
+                _state.update { it.copy(showExportDateDialog = intent.visible) }
+
+            is ExportIntent.SetExportDateRange ->
+                _state.update {
+                    it.copy(
+                        exportStartDate = intent.start,
+                        exportEndDate = intent.end,
+                        showExportDateDialog = false,
+                    )
+                }
+
+            ExportIntent.ClearExportDateRange ->
+                _state.update { it.copy(exportStartDate = null, exportEndDate = null) }
+
+            ExportIntent.ExportRequested -> {
+                val s = _state.value
+                _state.update { it.copy(isExporting = true, showExportSheet = false) }
                 viewModelScope.launch {
-                    val json = withContext(dispatchers.io) { exporter.exportToJson() }
+                    val result = withContext(dispatchers.io) {
+                        if (s.exportFormatCsv)
+                            Triple(
+                                exporter.exportToCsv(s.exportStartDate, s.exportEndDate),
+                                "moneym_export.csv",
+                                "text/csv",
+                            )
+                        else
+                            Triple(
+                                exporter.exportToJson(s.exportStartDate, s.exportEndDate),
+                                "moneym_backup.json",
+                                "application/json",
+                            )
+                    }
                     _state.update { it.copy(isExporting = false) }
                     _effects.send(
-                        ExportEffect.ExportReady(json, "moneym_backup.json", "application/json")
+                        ExportEffect.ExportReady(result.first, result.second, result.third)
                     )
                 }
             }
 
-            ExportIntent.ExportCsvRequested -> {
-                _state.update { it.copy(isExporting = true) }
-                viewModelScope.launch {
-                    val csv = withContext(dispatchers.io) { exporter.exportToCsv() }
-                    _state.update { it.copy(isExporting = false) }
-                    _effects.send(ExportEffect.ExportReady(csv, "moneym_export.csv", "text/csv"))
-                }
-            }
+            is ExportIntent.ShowImportSheet ->
+                _state.update { it.copy(showImportSheet = intent.visible) }
 
             ExportIntent.ImportRequested -> {
                 viewModelScope.launch { _effects.send(ExportEffect.ImportRequested) }

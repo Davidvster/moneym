@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">Vui lòng thử lại.</string>
     <string name="settings_bank_sync">Đồng bộ ngân hàng</string>
     <string name="settings_wallet_sync">Đồng bộ ví</string>
+    <string name="settings_export_desc">Lưu dữ liệu của bạn dưới dạng bản sao lưu JSON hoặc tệp CSV.</string>
+    <string name="settings_import_desc">Khôi phục bản sao lưu MoneyM hoặc nhập tệp CSV.</string>
+    <string name="settings_export_date_range">Phạm vi ngày</string>
+    <string name="settings_export_date_all">Tất cả ngày</string>
+    <string name="settings_export_date_from">Từ</string>
+    <string name="settings_export_date_to">Đến</string>
+    <string name="settings_export_date_ok">OK</string>
+    <string name="settings_export_date_clear">Xóa</string>
 </resources>

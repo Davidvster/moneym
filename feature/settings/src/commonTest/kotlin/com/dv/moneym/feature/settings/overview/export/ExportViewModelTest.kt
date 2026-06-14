@@ -82,7 +82,8 @@ class ExportViewModelTest {
         val vm = vm()
         backgroundScope.launch { vm.state.collect {} }
         vm.effects.test {
-            vm.onIntent(ExportIntent.ExportJsonRequested)
+            vm.onIntent(ExportIntent.SetExportFormat(csv = false))
+            vm.onIntent(ExportIntent.ExportRequested)
             val effect = awaitItem()
             assertIs<ExportEffect.ExportReady>(effect)
             assertEquals("moneym_backup.json", effect.fileName)
@@ -97,7 +98,8 @@ class ExportViewModelTest {
         val vm = vm()
         backgroundScope.launch { vm.state.collect {} }
         vm.effects.test {
-            vm.onIntent(ExportIntent.ExportCsvRequested)
+            vm.onIntent(ExportIntent.SetExportFormat(csv = true))
+            vm.onIntent(ExportIntent.ExportRequested)
             val effect = awaitItem()
             assertIs<ExportEffect.ExportReady>(effect)
             assertEquals("moneym_export.csv", effect.fileName)

@@ -267,4 +267,12 @@
     <string name="settings_remote_restore_try_again">Veuillez réessayer.</string>
     <string name="settings_bank_sync">Synchronisation bancaire</string>
     <string name="settings_wallet_sync">Synchronisation du portefeuille</string>
+    <string name="settings_export_desc">Enregistrez vos données sous forme de sauvegarde JSON ou de fichier CSV.</string>
+    <string name="settings_import_desc">Restaurez une sauvegarde MoneyM ou importez un fichier CSV.</string>
+    <string name="settings_export_date_range">Plage de dates</string>
+    <string name="settings_export_date_all">Toutes les dates</string>
+    <string name="settings_export_date_from">Du</string>
+    <string name="settings_export_date_to">Au</string>
+    <string name="settings_export_date_ok">OK</string>
+    <string name="settings_export_date_clear">Effacer</string>
 </resources>

@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">कृपया पुनः प्रयास करें.</string>
     <string name="settings_bank_sync">बैंक सिंक</string>
     <string name="settings_wallet_sync">वॉलेट सिंक</string>
+    <string name="settings_export_desc">अपना डेटा JSON बैकअप या CSV फ़ाइल के रूप में सहेजें।</string>
+    <string name="settings_import_desc">MoneyM बैकअप पुनर्स्थापित करें या CSV फ़ाइल आयात करें।</string>
+    <string name="settings_export_date_range">तिथि सीमा</string>
+    <string name="settings_export_date_all">सभी तिथियाँ</string>
+    <string name="settings_export_date_from">से</string>
+    <string name="settings_export_date_to">तक</string>
+    <string name="settings_export_date_ok">ठीक है</string>
+    <string name="settings_export_date_clear">साफ़ करें</string>
 </resources>

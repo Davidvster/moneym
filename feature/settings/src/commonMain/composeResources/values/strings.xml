@@ -267,4 +267,12 @@
     <string name="settings_import_failed">Import failed</string>
     <string name="settings_bank_sync">Bank sync</string>
     <string name="settings_wallet_sync">Wallet sync</string>
+    <string name="settings_export_desc">Save your data as a JSON backup or a CSV file.</string>
+    <string name="settings_import_desc">Restore a MoneyM backup or import a CSV file.</string>
+    <string name="settings_export_date_range">Date range</string>
+    <string name="settings_export_date_all">All dates</string>
+    <string name="settings_export_date_from">From</string>
+    <string name="settings_export_date_to">To</string>
+    <string name="settings_export_date_ok">OK</string>
+    <string name="settings_export_date_clear">Clear</string>
 </resources>

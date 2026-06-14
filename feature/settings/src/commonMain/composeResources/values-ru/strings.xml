@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">Повторите попытку.</string>
     <string name="settings_bank_sync">Банковская синхронизация</string>
     <string name="settings_wallet_sync">Синхронизация кошелька</string>
+    <string name="settings_export_desc">Сохраните данные в виде резервной копии JSON или файла CSV.</string>
+    <string name="settings_import_desc">Восстановите резервную копию MoneyM или импортируйте файл CSV.</string>
+    <string name="settings_export_date_range">Диапазон дат</string>
+    <string name="settings_export_date_all">Все даты</string>
+    <string name="settings_export_date_from">С</string>
+    <string name="settings_export_date_to">По</string>
+    <string name="settings_export_date_ok">ОК</string>
+    <string name="settings_export_date_clear">Очистить</string>
 </resources>

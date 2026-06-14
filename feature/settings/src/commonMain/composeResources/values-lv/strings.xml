@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">Lūdzu, mēģiniet vēlreiz.</string>
     <string name="settings_bank_sync">Bankas sinhronizācija</string>
     <string name="settings_wallet_sync">Maka sinhronizācija</string>
+    <string name="settings_export_desc">Saglabājiet datus kā JSON dublējumu vai CSV failu.</string>
+    <string name="settings_import_desc">Atjaunojiet MoneyM dublējumu vai importējiet CSV failu.</string>
+    <string name="settings_export_date_range">Datumu diapazons</string>
+    <string name="settings_export_date_all">Visi datumi</string>
+    <string name="settings_export_date_from">No</string>
+    <string name="settings_export_date_to">Līdz</string>
+    <string name="settings_export_date_ok">Labi</string>
+    <string name="settings_export_date_clear">Notīrīt</string>
 </resources>

@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">Próbáld újra.</string>
     <string name="settings_bank_sync">Banki szinkronizálás</string>
     <string name="settings_wallet_sync">Tárca szinkronizálás</string>
+    <string name="settings_export_desc">Mentse adatait JSON biztonsági másolatként vagy CSV fájlként.</string>
+    <string name="settings_import_desc">Állítson vissza egy MoneyM biztonsági másolatot vagy importáljon CSV fájlt.</string>
+    <string name="settings_export_date_range">Dátumtartomány</string>
+    <string name="settings_export_date_all">Minden dátum</string>
+    <string name="settings_export_date_from">Tól</string>
+    <string name="settings_export_date_to">Ig</string>
+    <string name="settings_export_date_ok">OK</string>
+    <string name="settings_export_date_clear">Törlés</string>
 </resources>

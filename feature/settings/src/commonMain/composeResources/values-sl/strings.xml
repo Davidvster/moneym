@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">Poskusite znova.</string>
     <string name="settings_bank_sync">Bančna sinhronizacija</string>
     <string name="settings_wallet_sync">Sinhronizacija denarnice</string>
+    <string name="settings_export_desc">Shranite svoje podatke kot varnostno kopijo JSON ali datoteko CSV.</string>
+    <string name="settings_import_desc">Obnovite varnostno kopijo MoneyM ali uvozite datoteko CSV.</string>
+    <string name="settings_export_date_range">Obseg datumov</string>
+    <string name="settings_export_date_all">Vsi datumi</string>
+    <string name="settings_export_date_from">Od</string>
+    <string name="settings_export_date_to">Do</string>
+    <string name="settings_export_date_ok">V redu</string>
+    <string name="settings_export_date_clear">Počisti</string>
 </resources>

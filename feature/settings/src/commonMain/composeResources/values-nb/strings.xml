@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">Prøv igjen.</string>
     <string name="settings_bank_sync">Banksynkronisering</string>
     <string name="settings_wallet_sync">Lommebok-synk</string>
+    <string name="settings_export_desc">Lagre dataene dine som en JSON-sikkerhetskopi eller en CSV-fil.</string>
+    <string name="settings_import_desc">Gjenopprett en MoneyM-sikkerhetskopi eller importer en CSV-fil.</string>
+    <string name="settings_export_date_range">Datointervall</string>
+    <string name="settings_export_date_all">Alle datoer</string>
+    <string name="settings_export_date_from">Fra</string>
+    <string name="settings_export_date_to">Til</string>
+    <string name="settings_export_date_ok">OK</string>
+    <string name="settings_export_date_clear">Tøm</string>
 </resources>

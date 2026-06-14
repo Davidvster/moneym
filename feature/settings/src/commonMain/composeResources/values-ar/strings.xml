@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">يرجى المحاولة مرة أخرى.</string>
     <string name="settings_bank_sync">مزامنة البنك</string>
     <string name="settings_wallet_sync">مزامنة المحفظة</string>
+    <string name="settings_export_desc">احفظ بياناتك كنسخة احتياطية JSON أو ملف CSV.</string>
+    <string name="settings_import_desc">استعد نسخة MoneyM الاحتياطية أو استورد ملف CSV.</string>
+    <string name="settings_export_date_range">النطاق الزمني</string>
+    <string name="settings_export_date_all">كل التواريخ</string>
+    <string name="settings_export_date_from">من</string>
+    <string name="settings_export_date_to">إلى</string>
+    <string name="settings_export_date_ok">موافق</string>
+    <string name="settings_export_date_clear">مسح</string>
 </resources>

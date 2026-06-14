@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">Reyndu aftur.</string>
     <string name="settings_bank_sync">Bankasamstilling</string>
     <string name="settings_wallet_sync">Veskissamstilling</string>
+    <string name="settings_export_desc">Vistaðu gögnin þín sem JSON-afrit eða CSV-skrá.</string>
+    <string name="settings_import_desc">Endurheimtu MoneyM-afrit eða flyttu inn CSV-skrá.</string>
+    <string name="settings_export_date_range">Dagsetningabil</string>
+    <string name="settings_export_date_all">Allar dagsetningar</string>
+    <string name="settings_export_date_from">Frá</string>
+    <string name="settings_export_date_to">Til</string>
+    <string name="settings_export_date_ok">Í lagi</string>
+    <string name="settings_export_date_clear">Hreinsa</string>
 </resources>

@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">Palun proovi uuesti.</string>
     <string name="settings_bank_sync">Panga sünkroonimine</string>
     <string name="settings_wallet_sync">Rahakoti sünk</string>
+    <string name="settings_export_desc">Salvesta oma andmed JSON-varukoopiana või CSV-failina.</string>
+    <string name="settings_import_desc">Taasta MoneyM varukoopia või impordi CSV-fail.</string>
+    <string name="settings_export_date_range">Kuupäevavahemik</string>
+    <string name="settings_export_date_all">Kõik kuupäevad</string>
+    <string name="settings_export_date_from">Alates</string>
+    <string name="settings_export_date_to">Kuni</string>
+    <string name="settings_export_date_ok">OK</string>
+    <string name="settings_export_date_clear">Tühjenda</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.dv.moneym.feature.overview.components
+package com.dv.moneym.core.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -20,24 +20,22 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
-import moneym.feature.overview.generated.resources.Res
-import moneym.feature.overview.generated.resources.overview_cancel
-import moneym.feature.overview.generated.resources.overview_date_range_from
-import moneym.feature.overview.generated.resources.overview_date_range_title
-import moneym.feature.overview.generated.resources.overview_date_range_to
-import moneym.feature.overview.generated.resources.overview_ok
-import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Instant
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun DateRangePickerDialog(
+fun MmDateRangePickerDialog(
     initStartYear: Int,
     initStartMonth: Int,
     initStartDay: Int,
     initEndYear: Int,
     initEndMonth: Int,
     initEndDay: Int,
+    title: String,
+    fromLabel: String,
+    toLabel: String,
+    okLabel: String,
+    cancelLabel: String,
     minSelectableDateIso: String? = null,
     maxSelectableDateIso: String? = null,
     onDismiss: () -> Unit,
@@ -120,12 +118,12 @@ internal fun DateRangePickerDialog(
                     onDismiss()
                 }
             }) {
-                Text(stringResource(Res.string.overview_ok), color = colors.accent)
+                Text(okLabel, color = colors.accent)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(stringResource(Res.string.overview_cancel), color = colors.text2)
+                Text(cancelLabel, color = colors.text2)
             }
         },
         colors = themedColors,
@@ -135,7 +133,7 @@ internal fun DateRangePickerDialog(
             colors = themedColors,
             title = {
                 Text(
-                    text = stringResource(Res.string.overview_date_range_title),
+                    text = title,
                     style = MM.type.title3,
                     color = colors.text,
                     modifier = Modifier.padding(
@@ -154,8 +152,6 @@ internal fun DateRangePickerDialog(
                     Instant.fromEpochMilliseconds(it)
                         .toLocalDateTime(TimeZone.UTC).date
                 }
-                val fromLabel = stringResource(Res.string.overview_date_range_from)
-                val toLabel = stringResource(Res.string.overview_date_range_to)
                 Row(
                     modifier = Modifier.padding(
                         start = MM.dimen.padding_3x,

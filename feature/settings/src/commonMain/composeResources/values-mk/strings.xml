@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">Обидете се повторно.</string>
     <string name="settings_bank_sync">Банкарска синхронизација</string>
     <string name="settings_wallet_sync">Синхронизација на паричник</string>
+    <string name="settings_export_desc">Зачувајте ги вашите податоци како JSON резервна копија или CSV-датотека.</string>
+    <string name="settings_import_desc">Вратете резервна копија на MoneyM или увезете CSV-датотека.</string>
+    <string name="settings_export_date_range">Опсег на датуми</string>
+    <string name="settings_export_date_all">Сите датуми</string>
+    <string name="settings_export_date_from">Од</string>
+    <string name="settings_export_date_to">До</string>
+    <string name="settings_export_date_ok">Во ред</string>
+    <string name="settings_export_date_clear">Исчисти</string>
 </resources>

@@ -265,4 +265,12 @@
     <string name="settings_import_failed">Importazione non riuscita</string>
     <string name="settings_bank_sync">Sincronizzazione bancaria</string>
     <string name="settings_wallet_sync">Sincronizzazione wallet</string>
+    <string name="settings_export_desc">Salva i tuoi dati come backup JSON o file CSV.</string>
+    <string name="settings_import_desc">Ripristina un backup MoneyM o importa un file CSV.</string>
+    <string name="settings_export_date_range">Intervallo di date</string>
+    <string name="settings_export_date_all">Tutte le date</string>
+    <string name="settings_export_date_from">Da</string>
+    <string name="settings_export_date_to">A</string>
+    <string name="settings_export_date_ok">OK</string>
+    <string name="settings_export_date_clear">Cancella</string>
 </resources>

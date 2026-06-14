@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">Skúste to znova.</string>
     <string name="settings_bank_sync">Banková synchronizácia</string>
     <string name="settings_wallet_sync">Synchronizácia peňaženky</string>
+    <string name="settings_export_desc">Uložte svoje údaje ako zálohu JSON alebo súbor CSV.</string>
+    <string name="settings_import_desc">Obnovte zálohu MoneyM alebo importujte súbor CSV.</string>
+    <string name="settings_export_date_range">Rozsah dátumov</string>
+    <string name="settings_export_date_all">Všetky dátumy</string>
+    <string name="settings_export_date_from">Od</string>
+    <string name="settings_export_date_to">Do</string>
+    <string name="settings_export_date_ok">OK</string>
+    <string name="settings_export_date_clear">Vymazať</string>
 </resources>

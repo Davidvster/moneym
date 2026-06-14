@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">Lütfen tekrar deneyin.</string>
     <string name="settings_bank_sync">Banka senkronizasyonu</string>
     <string name="settings_wallet_sync">Cüzdan senkronizasyonu</string>
+    <string name="settings_export_desc">Verilerinizi JSON yedeği veya CSV dosyası olarak kaydedin.</string>
+    <string name="settings_import_desc">Bir MoneyM yedeğini geri yükleyin veya bir CSV dosyası içe aktarın.</string>
+    <string name="settings_export_date_range">Tarih aralığı</string>
+    <string name="settings_export_date_all">Tüm tarihler</string>
+    <string name="settings_export_date_from">Başlangıç</string>
+    <string name="settings_export_date_to">Bitiş</string>
+    <string name="settings_export_date_ok">Tamam</string>
+    <string name="settings_export_date_clear">Temizle</string>
 </resources>

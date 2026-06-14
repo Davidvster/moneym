@@ -9,8 +9,8 @@ Master plan: `~/.claude/plans/1-missing-transaltions-tingly-aurora.md`
 | 3 | avg/mo & avg/day deep investigation | ⚠️ done (no-op) | `<docs>` |
 | 4 | Notification (wallet) sync app picker | ✅ done | `a4b0638f` |
 | 5 | Sync button visibility + sync-picker row clickability | ✅ done | `059c26b7` |
-| 6 | Theme picker → bottom sheet | ⏳ in progress | — |
-| 7 | Export/Import screen redesign | ⬜ todo | — |
+| 6 | Theme picker → bottom sheet | ✅ done | `17d62517` |
+| 7 | Export/Import screen redesign | ⏳ in progress | — |
 
 Legend: ⬜ todo · ⏳ in progress · ✅ done · ⚠️ done-with-notes
 

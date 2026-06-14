@@ -255,4 +255,12 @@
     <string name="settings_remote_restore_try_again">Yritä uudelleen.</string>
     <string name="settings_bank_sync">Pankkisynkronointi</string>
     <string name="settings_wallet_sync">Lompakon synkronointi</string>
+    <string name="settings_export_desc">Tallenna tietosi JSON-varmuuskopiona tai CSV-tiedostona.</string>
+    <string name="settings_import_desc">Palauta MoneyM-varmuuskopio tai tuo CSV-tiedosto.</string>
+    <string name="settings_export_date_range">Aikaväli</string>
+    <string name="settings_export_date_all">Kaikki päivämäärät</string>
+    <string name="settings_export_date_from">Alkaen</string>
+    <string name="settings_export_date_to">Asti</string>
+    <string name="settings_export_date_ok">OK</string>
+    <string name="settings_export_date_clear">Tyhjennä</string>
 </resources>

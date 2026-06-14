@@ -8,6 +8,7 @@ import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.transactions.RecurringTransactionRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlinx.coroutines.flow.first
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.json.Json
 import kotlin.time.Clock
 
@@ -21,10 +22,14 @@ class BackupExporter(
 ) {
     private val json = Json { prettyPrint = false; encodeDefaults = true }
 
-    suspend fun exportToJson(): String {
+    suspend fun exportToJson(startDate: LocalDate? = null, endDate: LocalDate? = null): String {
         val categories = categoryRepository.observeAll().first()
         val accounts = accountRepository.observeAll().first()
         val transactions = transactionRepository.observeAll().first()
+            .filter {
+                (startDate == null || it.occurredOn >= startDate) &&
+                    (endDate == null || it.occurredOn <= endDate)
+            }
         val budgets = budgetRepository.observeAll().first()
         val recurring = recurringTransactionRepository.observeAll().first()
         val currency = accounts.firstOrNull { it.isDefault }?.currency?.value ?: "USD"
@@ -51,8 +56,12 @@ class BackupExporter(
         return json.encodeToString(backup)
     }
 
-    suspend fun exportToCsv(): String {
+    suspend fun exportToCsv(startDate: LocalDate? = null, endDate: LocalDate? = null): String {
         val transactions = transactionRepository.observeAll().first()
+            .filter {
+                (startDate == null || it.occurredOn >= startDate) &&
+                    (endDate == null || it.occurredOn <= endDate)
+            }
         val categories = categoryRepository.observeAll().first().associateBy { it.id }
         val accounts = accountRepository.observeAll().first().associateBy { it.id }
 
