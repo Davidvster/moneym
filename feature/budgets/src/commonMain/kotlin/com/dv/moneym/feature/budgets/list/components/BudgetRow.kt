@@ -32,10 +32,11 @@ internal fun BudgetRow(
     recurringLabel: String?,
     onClick: () -> Unit,
     onDelete: () -> Unit,
+    divider: Boolean = true,
 ) {
     val colors = MM.colors
     val type = MM.type
-    MmRow(onClick = onClick) {
+    MmRow(onClick = onClick, divider = divider) {
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Text(row.name, style = type.body, color = colors.text)
             Row(

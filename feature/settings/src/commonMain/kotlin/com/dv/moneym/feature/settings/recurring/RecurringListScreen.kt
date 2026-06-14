@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -81,13 +80,20 @@ private fun RecurringListContent(
                 state.isLoading -> Unit
                 state.rules.isEmpty() -> EmptyView()
                 else -> LazyColumn(modifier = Modifier.padding(MM.dimen.padding_2x)) {
-                    items(state.rules, key = { it.id.value }) { rule ->
-                        MmCard(modifier = Modifier.padding(bottom = MM.dimen.padding_1x)) {
-                            MmRow(onClick = { onEdit(rule.id) }) {
-                                RuleSummary(
-                                    rule = rule,
-                                    categoryName = state.categories[rule.categoryId]?.name ?: "—",
-                                )
+                    item {
+                        MmCard(padded = false, shape = MM.dimen.radius_1_5x) {
+                            Column {
+                                state.rules.forEachIndexed { idx, rule ->
+                                    MmRow(
+                                        onClick = { onEdit(rule.id) },
+                                        divider = idx < state.rules.lastIndex,
+                                    ) {
+                                        RuleSummary(
+                                            rule = rule,
+                                            categoryName = state.categories[rule.categoryId]?.name ?: "—",
+                                        )
+                                    }
+                                }
                             }
                         }
                     }

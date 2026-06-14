@@ -1,7 +1,6 @@
 package com.dv.moneym.feature.budgets.list
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,12 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
@@ -27,6 +24,7 @@ import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
+import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmEmptyState
 import com.dv.moneym.core.ui.MmDeleteSheet
 import com.dv.moneym.core.ui.ScreenHeader
@@ -117,30 +115,37 @@ private fun BudgetListContent(
             LazyColumn(
                 modifier = Modifier.weight(1f),
                 contentPadding = PaddingValues(
-                    vertical = MM.dimen.padding_1x,
+                    horizontal = MM.dimen.padding_2_5x,
+                    vertical = MM.dimen.padding_2x,
                 ),
-                verticalArrangement = Arrangement.spacedBy(2.dp),
             ) {
-                items(state.rows, key = { it.id.value }) { row ->
-                    val scope = when (row.scopeLabel) {
-                        BudgetListViewModel.ALL_CATEGORIES_SENTINEL -> allCategoriesLabel
-                        else -> row.scopeLabel
-                    }
-                    val recurring = when (row.recurringLabel) {
-                        null -> null
-                        BudgetListViewModel.RECURRING_UNLIMITED_SENTINEL -> unlimitedLabel
-                        else -> {
-                            val n = row.recurringLabel.toIntOrNull() ?: 0
-                            recurringNMonthsString(n)
+                item {
+                    MmCard(padded = false, shape = MM.dimen.radius_1_5x) {
+                        Column {
+                            state.rows.forEachIndexed { idx, row ->
+                                val scope = when (row.scopeLabel) {
+                                    BudgetListViewModel.ALL_CATEGORIES_SENTINEL -> allCategoriesLabel
+                                    else -> row.scopeLabel
+                                }
+                                val recurring = when (row.recurringLabel) {
+                                    null -> null
+                                    BudgetListViewModel.RECURRING_UNLIMITED_SENTINEL -> unlimitedLabel
+                                    else -> {
+                                        val n = row.recurringLabel.toIntOrNull() ?: 0
+                                        recurringNMonthsString(n)
+                                    }
+                                }
+                                BudgetRow(
+                                    row = row,
+                                    scopeLabel = scope,
+                                    recurringLabel = recurring,
+                                    onClick = { onEdit(row.id) },
+                                    onDelete = { onIntent(BudgetListIntent.DeleteRequested(row.id)) },
+                                    divider = idx < state.rows.lastIndex,
+                                )
+                            }
                         }
                     }
-                    BudgetRow(
-                        row = row,
-                        scopeLabel = scope,
-                        recurringLabel = recurring,
-                        onClick = { onEdit(row.id) },
-                        onDelete = { onIntent(BudgetListIntent.DeleteRequested(row.id)) },
-                    )
                 }
             }
         }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -38,6 +39,7 @@ import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
+import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmDeleteSheet
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
@@ -113,21 +115,36 @@ private fun PaymentModeListContent(
             onBack = onBack,
         )
 
-        LazyColumn(modifier = Modifier.weight(1f)) {
-            items(state.modes, key = { it.id.value }) { mode ->
-                MmRow(onClick = { onRenameClick(mode) }) {
-                    Text(
-                        text = mode.name,
-                        style = type.body,
-                        color = colors.text,
-                        modifier = Modifier.weight(1f),
-                    )
-                    MmIconButton(
-                        icon = Icon.Trash.imageVector,
-                        onClick = { onDeleteClick(mode) },
-                        variant = MmIconButtonVariant.Danger,
-                        contentDescription = stringResource(Res.string.settings_payment_mode_delete_title),
-                    )
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(
+                horizontal = space.padding_2_5x,
+                vertical = space.padding_2x,
+            ),
+        ) {
+            item {
+                MmCard(padded = false, shape = space.radius_1_5x) {
+                    Column {
+                        state.modes.forEachIndexed { idx, mode ->
+                            MmRow(
+                                onClick = { onRenameClick(mode) },
+                                divider = idx < state.modes.lastIndex,
+                            ) {
+                                Text(
+                                    text = mode.name,
+                                    style = type.body,
+                                    color = colors.text,
+                                    modifier = Modifier.weight(1f),
+                                )
+                                MmIconButton(
+                                    icon = Icon.Trash.imageVector,
+                                    onClick = { onDeleteClick(mode) },
+                                    variant = MmIconButtonVariant.Danger,
+                                    contentDescription = stringResource(Res.string.settings_payment_mode_delete_title),
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
