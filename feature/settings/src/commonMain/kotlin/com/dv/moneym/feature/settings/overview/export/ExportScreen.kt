@@ -33,7 +33,6 @@ import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmButton
-import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmDateRangePickerDialog
@@ -156,7 +155,6 @@ private fun ExportContent(
                                 text = stringResource(Res.string.settings_export_start),
                                 onClick = { onIntent(ExportIntent.ShowExportSheet(true)) },
                                 modifier = Modifier.fillMaxWidth(),
-                                size = MmButtonSize.Lg,
                                 enabled = !state.isExporting,
                             )
                         }
@@ -178,7 +176,6 @@ private fun ExportContent(
                                 text = stringResource(Res.string.settings_import),
                                 onClick = { onIntent(ExportIntent.ShowImportSheet(true)) },
                                 modifier = Modifier.fillMaxWidth(),
-                                size = MmButtonSize.Lg,
                                 variant = MmButtonVariant.Secondary,
                             )
                         }
@@ -343,7 +340,6 @@ private fun ExportOptionsSheet(
                 text = stringResource(Res.string.settings_export_start),
                 onClick = { onIntent(ExportIntent.ExportRequested) },
                 modifier = Modifier.fillMaxWidth(),
-                size = MmButtonSize.Lg,
             )
 
             Spacer(Modifier.height(space.padding_1x))

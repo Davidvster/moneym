@@ -43,7 +43,6 @@ import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.ui.MmButton
-import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmCheckbox
 import com.dv.moneym.core.ui.MmMoney
@@ -258,7 +257,6 @@ private fun ImportDataContent(
                                 stringResource(Res.string.settings_import_button_other, selectedCount),
                             onClick = { onIntent(ImportDataIntent.ImportConfirmed) },
                             modifier = Modifier.fillMaxWidth(),
-                            size = MmButtonSize.Lg,
                             enabled = selectedCount > 0 && state.selectedAccountId != null,
                         )
                     }

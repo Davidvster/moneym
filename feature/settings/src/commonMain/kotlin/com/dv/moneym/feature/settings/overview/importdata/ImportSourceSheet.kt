@@ -20,7 +20,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.ui.MmButton
-import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmSheetHeader
 import moneym.feature.settings.generated.resources.Res
@@ -77,7 +76,6 @@ internal fun ImportSourceSheet(
                 text = stringResource(Res.string.settings_import_source_moneym),
                 onClick = onMoneyMSelected,
                 variant = MmButtonVariant.Secondary,
-                size = MmButtonSize.Lg,
                 fullWidth = true,
             )
 
@@ -85,7 +83,6 @@ internal fun ImportSourceSheet(
                 text = stringResource(Res.string.settings_import_source_ehf),
                 onClick = onEasyHomeFinanceSelected,
                 variant = MmButtonVariant.Secondary,
-                size = MmButtonSize.Lg,
                 fullWidth = true,
             )
 
