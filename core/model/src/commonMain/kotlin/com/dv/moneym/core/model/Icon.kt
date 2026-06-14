@@ -56,6 +56,15 @@ enum class Icon(val key: String) {
     Sparkles("sparkles"),
     Sync("sync"),
     Warning("warning"),
+    Coffee("coffee"),
+    Plane("plane"),
+    Book("book"),
+    Paw("paw"),
+    MedicalCross("medical_cross"),
+    Fuel("fuel"),
+    Phone("phone"),
+    Dumbbell("dumbbell"),
+    Shirt("shirt"),
     ;
 
     companion object {

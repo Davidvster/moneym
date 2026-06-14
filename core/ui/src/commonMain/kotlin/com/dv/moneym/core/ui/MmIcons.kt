@@ -1395,5 +1395,14 @@ internal object MmIcons {
         Icon.Sparkles -> sparkles
         Icon.Sync -> sync
         Icon.Warning -> warning
+        Icon.Coffee -> coffee
+        Icon.Plane -> plane
+        Icon.Book -> book
+        Icon.Paw -> paw
+        Icon.MedicalCross -> medicalCross
+        Icon.Fuel -> fuel
+        Icon.Phone -> phone
+        Icon.Dumbbell -> dumbbell
+        Icon.Shirt -> shirt
     }
 }

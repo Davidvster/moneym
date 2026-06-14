@@ -410,6 +410,15 @@ private val CATEGORY_ICON_OPTIONS = listOf(
     Icon.Moon,
     Icon.Globe,
     Icon.Folder,
+    Icon.Coffee,
+    Icon.Plane,
+    Icon.Book,
+    Icon.Paw,
+    Icon.MedicalCross,
+    Icon.Fuel,
+    Icon.Phone,
+    Icon.Dumbbell,
+    Icon.Shirt,
 )
 
 @androidx.compose.ui.tooling.preview.Preview
