@@ -49,8 +49,7 @@ jobs:
       - name: Publish AAB to private repo release
         uses: softprops/action-gh-release@v2
         with:
-          # TODO: set to your private repo, e.g. davidvalic/moneym-releases
-          repository: OWNER/PRIVATE_REPO
+          repository: Davidvster/moneym-artefacts
           token: ${{ secrets.PRIVATE_REPO_PAT }}
           tag_name: ${{ github.event.inputs.tag || github.ref_name }}
           files: androidApp/build/outputs/bundle/release/*.aab
