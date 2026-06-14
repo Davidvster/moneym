@@ -13,6 +13,17 @@ Open source under the [MIT License](LICENSE). Issues and pull requests welcome.
 
 ---
 
+## Screenshots
+
+<p align="center">
+  <img src="playstore/framed/phone_transactions.png" width="23%" alt="Transactions" />
+  <img src="playstore/framed/phone_newtx.png" width="23%" alt="New transaction" />
+  <img src="playstore/framed/phone_overview.png" width="23%" alt="Overview" />
+  <img src="playstore/framed/phone_settings.png" width="23%" alt="Settings" />
+</p>
+
+---
+
 ## Features
 
 - **Transactions** — quick add/edit with categories, payment modes (cash / card / transfer), and

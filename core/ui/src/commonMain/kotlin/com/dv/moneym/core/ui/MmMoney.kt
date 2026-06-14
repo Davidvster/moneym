@@ -11,6 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -44,7 +45,7 @@ fun MmMoney(
 
     val displayCurrency = currencyDisplay(currency, LocalUseCurrencySymbol.current)
 
-    val displayValue = if (animate) {
+    val displayValue = if (animate && !LocalInspectionMode.current) {
         val animatable = remember {
             Animatable(0.0, DoubleVectorConverter)
         }

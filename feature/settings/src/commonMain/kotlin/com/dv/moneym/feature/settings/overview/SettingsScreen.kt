@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
@@ -302,6 +304,48 @@ private fun SettingsContent(
             onShowLockPicker = { onShowLockPicker(true) },
         )
         MmTabBar(activeTab = TabRoute.Settings, onTabSelected = onTabSelected)
+    }
+}
+
+// Store screenshot — full settings home, light theme, EUR. Rendered directly by
+// StoreScreenshotTest (no @Preview so the package scanner skips it).
+@Composable
+internal fun StoreSettingsPreview() {
+    CompositionLocalProvider(LocalInspectionMode provides true) {
+        MoneyMTheme(darkTheme = false) {
+            SettingsContent(
+                state = SettingsUiState(
+                    themeMode = ThemeMode.Light,
+                    paymentModeEnabled = true,
+                    useCurrencySymbol = true,
+                    walletCurrency = "EUR",
+                ),
+                securityState = SecuritySettingsUiState(
+                    pinEnabled = true,
+                    biometricAvailable = true,
+                    biometricEnabled = true,
+                ),
+                onThemeModeChanged = {},
+                onPaymentModeEnabledChanged = {},
+                onUseCurrencySymbolChanged = {},
+                onShowLockPicker = {},
+                onShowThemeSheet = {},
+                onSecurityIntent = {},
+                onNavigateToCategories = {},
+                onNavigateToBudgets = {},
+                onNavigateToRecurring = {},
+                onNavigateToTxDisplay = {},
+                onNavigateToLanguage = {},
+                onNavigateToExport = {},
+                onNavigateToBankSync = {},
+                onNavigateToWalletSync = {},
+                onNavigateToWallets = {},
+                onNavigateToPaymentModes = {},
+                onNavigateToBackupRestore = {},
+                onNavigateToAbout = {},
+                onTabSelected = {},
+            )
+        }
     }
 }
 

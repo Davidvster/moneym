@@ -10,11 +10,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 fun Modifier.mmStaggeredAppear(index: Int, baseDelayMs: Int = 50): Modifier = composed {
+    // Snap to the settled state under inspection (Compose @Preview / Paparazzi), where the
+    // animation clock never advances and the content would otherwise stay invisible.
+    if (LocalInspectionMode.current) return@composed this
     val alpha = remember { Animatable(0f) }
     val offsetPx = with(LocalDensity.current) { 12.dp.toPx() }
     val translation = remember { Animatable(offsetPx) }

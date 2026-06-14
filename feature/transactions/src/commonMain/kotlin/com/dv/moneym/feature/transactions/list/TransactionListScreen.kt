@@ -43,11 +43,13 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -1047,6 +1049,118 @@ private fun TransactionListFooter(
             activeTab = TabRoute.Transactions,
             onTabSelected = onTabSelected,
         )
+    }
+}
+
+// Store screenshot — full transaction list, light theme, EUR, May 2026 data.
+// Rebuilds header + body + footer with mock data so it renders without the pager's
+// koinViewModel pages. Called directly by StoreScreenshotTest (no @Preview scan).
+@Composable
+internal fun StoreTransactionListPreview() {
+    fun tx(
+        id: Long,
+        income: Boolean,
+        amount: String,
+        minor: Long,
+        category: String,
+        color: String,
+        icon: Icon,
+        note: String?,
+        day: Int,
+        payment: String?,
+    ) = TransactionUiModel(
+        id = TransactionId(id),
+        type = if (income) TransactionType.INCOME else TransactionType.EXPENSE,
+        amountFormatted = amount,
+        amountMinorUnits = minor,
+        currency = "EUR",
+        isExpense = !income,
+        categoryName = category,
+        categoryColorHex = color,
+        categoryIcon = icon,
+        note = note,
+        occurredOn = LocalDate(2026, 5, day),
+        paymentModeName = payment,
+    )
+
+    val dayGroups = listOf(
+        DayGroup(
+            date = LocalDate(2026, 5, 28),
+            label = "Today, May 28",
+            transactions = listOf(
+                tx(1, false, "38.40", 3840, "Groceries", "#4CAF50", Icon.Basket, "Weekly shop", 28, "Card"),
+                tx(2, false, "4.20", 420, "Restaurants", "#FF7043", Icon.Restaurant, "Coffee", 28, "Cash"),
+            ),
+        ),
+        DayGroup(
+            date = LocalDate(2026, 5, 27),
+            label = "Yesterday, May 27",
+            transactions = listOf(
+                tx(3, false, "62.00", 6200, "Transport", "#42A5F5", Icon.Car, "Fuel", 27, "Card"),
+                tx(4, false, "11.99", 1199, "Entertainment", "#EC407A", Icon.PlayCircle, "Streaming", 27, "Card"),
+            ),
+        ),
+        DayGroup(
+            date = LocalDate(2026, 5, 25),
+            label = "Sun, May 25",
+            transactions = listOf(
+                tx(5, true, "2500.00", 250000, "Salary", "#66BB6A", Icon.Banknote, "Monthly salary", 25, "Bank transfer"),
+                tx(6, false, "29.90", 2990, "Shopping", "#AB47BC", Icon.Bag, "New shirt", 25, "Card"),
+            ),
+        ),
+        DayGroup(
+            date = LocalDate(2026, 5, 23),
+            label = "Fri, May 23",
+            transactions = listOf(
+                tx(7, false, "850.00", 85000, "Home", "#26A69A", Icon.Home, "Rent", 23, "Bank transfer"),
+                tx(8, false, "45.60", 4560, "Groceries", "#4CAF50", Icon.Basket, null, 23, "Card"),
+            ),
+        ),
+    )
+
+    CompositionLocalProvider(LocalInspectionMode provides true) {
+        MoneyMTheme(darkTheme = false) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MM.colors.bg),
+        ) {
+            TransactionListHeader(
+                state = TransactionListUiState(
+                    currentMonth = YearMonth(2026, 5),
+                    today = LocalDate(2026, 5, 28),
+                    netAmount = 142191L,
+                    totalIncome = 250000L,
+                    totalExpenses = 107809L,
+                    netCurrency = "EUR",
+                    canGoBack = true,
+                ),
+                isSearchActive = false,
+                onSearchActiveChange = {},
+                onShowMonthPicker = {},
+                onShowWalletSwitcher = {},
+                onShowCategoryFilter = {},
+                onOpenSyncSheet = {},
+                onIntent = {},
+                onPreviousMonth = {},
+                onNextMonth = {},
+            )
+            TransactionListBody(
+                dayGroups = dayGroups,
+                txDisplayPrefs = TxDisplayPrefs(),
+                isLoading = false,
+                isEmpty = false,
+                onEditTransaction = {},
+                onEditRecurring = {},
+                modifier = Modifier.weight(1f),
+            )
+            TransactionListFooter(
+                onAddTransaction = {},
+                onTabSelected = {},
+                dividerColor = MM.colors.border,
+            )
+        }
+        }
     }
 }
 

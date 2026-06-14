@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalInspectionMode
 
 /** Refined ease-out curve (no overshoot) shared by every chart's draw-on motion. */
 val ChartEase = CubicBezierEasing(0.33f, 0f, 0f, 1f)
@@ -23,6 +24,8 @@ object ChartDurations {
  */
 @Composable
 fun rememberChartEntryProgress(key: Any?): Float {
+    // Settled state under inspection (@Preview / Paparazzi); the clock never advances there.
+    if (LocalInspectionMode.current) return 1f
     val anim = remember { Animatable(0f) }
     LaunchedEffect(key) {
         anim.snapTo(0f)

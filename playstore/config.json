@@ -1,0 +1,31 @@
+{
+  "style": {
+    "background": "#0A0A0A",
+    "background_gradient": "#161616",
+    "title_color": "#FFFFFF",
+    "subtitle_color": "#9AA0A6",
+    "accent": "#33B36B",
+    "bezel_color": "#000000",
+    "bezel_edge": "#2A2A2A",
+    "title_font": "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
+    "subtitle_font": "/System/Library/Fonts/Supplemental/Arial.ttf"
+  },
+  "devices": {
+    "phone": { "canvas": [1242, 2208], "title_pt": 78, "subtitle_pt": 44, "device_width_frac": 0.74 },
+    "tab7":  { "canvas": [1600, 2240], "title_pt": 92, "subtitle_pt": 52, "device_width_frac": 0.72 },
+    "tab10": { "canvas": [1800, 2560], "title_pt": 100, "subtitle_pt": 56, "device_width_frac": 0.70 }
+  },
+  "slots": [
+    { "screen": "transactions", "title": "Every transaction, organised", "subtitle": "Log income and spending in seconds" },
+    { "screen": "newtx",        "title": "Add in two taps",              "subtitle": "Fast, distraction-free entry" },
+    { "screen": "overview",     "title": "See where your money goes",    "subtitle": "Monthly insights, budgets and trends" },
+    { "screen": "settings",     "title": "Yours to shape",               "subtitle": "Private, secure, fully customisable" }
+  ],
+  "hero": {
+    "size": [1024, 500],
+    "title": "MoneyM",
+    "subtitle": "Simple personal finance — private by design",
+    "feature": "Track · Budget · Understand",
+    "screen": "overview"
+  }
+}
