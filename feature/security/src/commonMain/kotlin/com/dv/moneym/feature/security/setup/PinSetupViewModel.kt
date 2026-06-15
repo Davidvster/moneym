@@ -128,7 +128,8 @@ class PinSetupViewModel(
         _state.value = PinSetupUiState(
             biometryType = if (biometricAuth.isAvailable) biometricAuth.biometryType else BiometryType.None,
         )
-        while (_effects.tryReceive().isSuccess) {
-        }
+        // Drain any queued effects so a reset starts from a clean channel.
+        var drained = _effects.tryReceive()
+        while (drained.isSuccess) drained = _effects.tryReceive()
     }
 }
