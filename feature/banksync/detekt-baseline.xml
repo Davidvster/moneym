@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:SuggestionsScreen.kt$@Composable private fun SuggestionsContent( state: SuggestionsUiState, snackbarHostState: SnackbarHostState, onBack: () -&gt; Unit, onIntent: (SuggestionsIntent) -&gt; Unit, )</ID>
+    <ID>CyclomaticComplexMethod:SuggestionsViewModel.kt$SuggestionsViewModel$fun onIntent(intent: SuggestionsIntent)</ID>
+    <ID>LongMethod:BankSyncHomeScreen.kt$@Composable private fun BankSyncHomeContent( state: BankSyncHomeUiState, onBack: () -&gt; Unit, onOpenSuggestions: () -&gt; Unit, onNavigateToCredentials: () -&gt; Unit, onNavigateToBankPicker: () -&gt; Unit, onNavigateToInfo: () -&gt; Unit, onIntent: (BankSyncHomeIntent) -&gt; Unit, )</ID>
+    <ID>LongMethod:SuggestionsScreen.kt$@Composable private fun SuggestionCard( row: SuggestionRow, state: SuggestionsUiState, onIntent: (SuggestionsIntent) -&gt; Unit, )</ID>
+    <ID>LongMethod:SuggestionsScreen.kt$@Composable private fun SuggestionsContent( state: SuggestionsUiState, snackbarHostState: SnackbarHostState, onBack: () -&gt; Unit, onIntent: (SuggestionsIntent) -&gt; Unit, )</ID>
+    <ID>LongMethod:SuggestionsScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable private fun FilterSheet( filter: SuggestionFilter, onIntent: (SuggestionsIntent) -&gt; Unit, )</ID>
+    <ID>LongMethod:SuggestionsViewModel.kt$SuggestionsViewModel$fun onIntent(intent: SuggestionsIntent)</ID>
+    <ID>LoopWithTooManyJumpStatements:SuggestionsViewModel.kt$SuggestionsViewModel$for</ID>
+    <ID>MatchingDeclarationName:BankPickerScreen.kt$BankPickerKey : NavKey</ID>
+    <ID>MatchingDeclarationName:BankSyncCredentialsScreen.kt$BankSyncCredentialsKey : NavKey</ID>
+    <ID>MatchingDeclarationName:BankSyncHomeScreen.kt$BankSyncSettingsKey : NavKey</ID>
+  </CurrentIssues>
+</SmellBaseline>

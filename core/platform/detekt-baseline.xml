@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>MatchingDeclarationName:NotificationAccessController.android.kt$AndroidNotificationAccessController : NotificationAccessController</ID>
+    <ID>TooGenericExceptionCaught:DbPlatform.ios.kt$DbPlatform$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:FilePlatform.android.kt$FilePlatform$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:FilePlatform.ios.kt$FilePlatform$e: Exception</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:CalculatorBottomSheet.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable internal fun CalculatorBottomSheet( initialAmountText: String, onDismiss: () -&gt; Unit, onAmountSaved: (String) -&gt; Unit, )</ID>
+    <ID>CyclomaticComplexMethod:TransactionEditViewModel.kt$TransactionEditViewModel$internal fun onIntent(intent: TransactionEditIntent)</ID>
+    <ID>DestructuringDeclarationWithTooManyEntries:RecurringEditViewModel.kt$RecurringEditViewModel$(cats, accs, modes, pmEnabled)</ID>
+    <ID>EmptyFunctionBlock:FakePaymentModeRepository.kt$FakePaymentModeRepository${}</ID>
+    <ID>LongMethod:CalculatorBottomSheet.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable internal fun CalculatorBottomSheet( initialAmountText: String, onDismiss: () -&gt; Unit, onAmountSaved: (String) -&gt; Unit, )</ID>
+    <ID>LongMethod:RecurrenceSection.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable private fun EndConditionRow( state: TransactionEditUiState, onIntent: (TransactionEditIntent) -&gt; Unit, )</ID>
+    <ID>LongMethod:RecurringEditScreen.kt$@OptIn(ExperimentalLayoutApi::class) @Composable private fun RecurringEditContent( state: TransactionEditUiState, onIntent: (TransactionEditIntent) -&gt; Unit, onDismiss: () -&gt; Unit, )</ID>
+    <ID>LongMethod:TransactionEditBody.kt$@OptIn(ExperimentalLayoutApi::class) @Composable internal fun TransactionEditScrollBody( state: TransactionEditUiState, focusRequester: FocusRequester, onIntent: (TransactionEditIntent) -&gt; Unit, onDatePickerOpen: () -&gt; Unit, onCalculatorOpen: () -&gt; Unit, modifier: Modifier = Modifier, )</ID>
+    <ID>LongMethod:TransactionEditViewModel.kt$TransactionEditViewModel$internal fun onIntent(intent: TransactionEditIntent)</ID>
+    <ID>LongMethod:TransactionEditViewModel.kt$TransactionEditViewModel$private suspend fun init()</ID>
+    <ID>MatchingDeclarationName:RecurringEditScreen.kt$RecurringEditKey : ModalKey</ID>
+    <ID>MatchingDeclarationName:TransactionEditScreen.kt$TransactionEditKey : ModalKey</ID>
+    <ID>NewLineAtEndOfFile:CalculatorBottomSheet.kt$com.dv.moneym.feature.transactionedit.components.CalculatorBottomSheet.kt</ID>
+    <ID>UnusedParameter:DateFormatting.kt$today: LocalDate</ID>
+    <ID>UnusedPrivateMember:AmountDisplay.kt$@Preview @Composable private fun AmountDisplayPreview()</ID>
+    <ID>UnusedPrivateMember:BudgetRemainingChip.kt$@Preview @Composable private fun BudgetRemainingChipPreview()</ID>
+    <ID>UnusedPrivateMember:RecurringEditScreen.kt$@androidx.compose.ui.tooling.preview.Preview @androidx.compose.runtime.Composable private fun RecurringEditContentPreview()</ID>
+    <ID>UnusedPrivateMember:SaveBar.kt$@Preview @Composable private fun TransactionEditSaveBarPreview()</ID>
+    <ID>UnusedPrivateMember:TransactionEditBody.kt$@OptIn(ExperimentalLayoutApi::class) @Preview @Composable private fun TransactionEditScrollBodyPreview()</ID>
+    <ID>UnusedPrivateMember:TransactionEditScreen.kt$@androidx.compose.ui.tooling.preview.Preview @androidx.compose.runtime.Composable private fun TransactionEditContentPreview()</ID>
+    <ID>UnusedPrivateMember:TransactionEditViewModel.kt$private fun AccountId.toCurrencyCode(accounts: List&lt;Account&gt;): CurrencyCode</ID>
+    <ID>UnusedPrivateMember:TypeToggleBar.kt$@Preview @Composable private fun TypeToggleBarPreview()</ID>
+    <ID>UnusedPrivateProperty:RecurringEditViewModel.kt$RecurringEditViewModel$val r = rule.rule</ID>
+    <ID>UnusedPrivateProperty:ValidateAndBuildTransactionUseCaseTest.kt$ValidateAndBuildTransactionUseCaseTest$private val useCase = ValidateAndBuildTransactionUseCase()</ID>
+  </CurrentIssues>
+</SmellBaseline>

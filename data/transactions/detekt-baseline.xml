@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>DestructuringDeclarationWithTooManyEntries:RecurringTransactionMappers.kt$val (freqUnit, interval, dow, dom, lastDay) = when (val r = rule) { is RecurrenceRule.Daily -&gt; Quintuple("DAILY", r.interval, null, null, false) is RecurrenceRule.Weekly -&gt; Quintuple("WEEKLY", r.interval, r.dayOfWeek, null, false) is RecurrenceRule.Monthly -&gt; when (val d = r.dayKind) { is MonthlyDayKind.OnDay -&gt; Quintuple("MONTHLY", r.interval, null, d.day, false) MonthlyDayKind.LastDay -&gt; Quintuple("MONTHLY", r.interval, null, null, true) } }</ID>
+  </CurrentIssues>
+</SmellBaseline>

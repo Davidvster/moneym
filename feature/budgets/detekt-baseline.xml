@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ComplexCondition:BudgetCreateViewModel.kt$BudgetCreateViewModel$nameErr || amountErr || recurringErr || startYm == null || accountId == null</ID>
+    <ID>LongMethod:BudgetCreateScreen.kt$@OptIn(ExperimentalLayoutApi::class) @Composable private fun BudgetCreateContent( state: BudgetCreateUiState, onBack: () -&gt; Unit, onIntent: (BudgetCreateIntent) -&gt; Unit, )</ID>
+    <ID>LongMethod:BudgetListScreen.kt$@Composable private fun BudgetListContent( state: BudgetListUiState, onBack: () -&gt; Unit, onCreate: () -&gt; Unit, onEdit: (BudgetId) -&gt; Unit, onIntent: (BudgetListIntent) -&gt; Unit, )</ID>
+    <ID>MatchingDeclarationName:BudgetCreateScreen.kt$BudgetCreateKey : ModalKey</ID>
+    <ID>MatchingDeclarationName:BudgetListScreen.kt$BudgetListKey : ModalKey</ID>
+    <ID>UnusedPrivateMember:BudgetCreateScreen.kt$@Preview @Composable private fun BudgetCreateContentPreview()</ID>
+    <ID>UnusedPrivateMember:BudgetListScreen.kt$@Preview @Composable private fun BudgetListContentPreview()</ID>
+    <ID>UnusedPrivateMember:BudgetRow.kt$@Preview @Composable private fun BudgetRowPreview()</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>UnusedPrivateMember:SeedAccountsUseCaseTest.kt$SeedAccountsUseCaseTest$private fun makeUseCase( repo: FakeAccountRepository = FakeAccountRepository(), settings: FakeAppSettings = FakeAppSettings(), name: String = "Main", )</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:SyncApplier.kt$SyncApplier$suspend fun apply(toApply: SyncSnapshot)</ID>
+    <ID>CyclomaticComplexMethod:SyncExporter.kt$SyncExporter$suspend fun export(): SyncSnapshot</ID>
+    <ID>LongMethod:SyncApplier.kt$SyncApplier$suspend fun apply(toApply: SyncSnapshot)</ID>
+    <ID>LongMethod:SyncExporter.kt$SyncExporter$suspend fun export(): SyncSnapshot</ID>
+    <ID>LoopWithTooManyJumpStatements:SyncApplier.kt$SyncApplier$for</ID>
+    <ID>LoopWithTooManyJumpStatements:SyncReconciler.kt$SyncReconciler$for</ID>
+    <ID>UnusedPrivateProperty:SyncEngineTest.kt$SyncEngineTest$private val eur = CurrencyCode("EUR")</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:CategoryListViewModel.kt$CategoryListViewModel$internal fun onIntent(intent: CategoryListIntent)</ID>
+    <ID>LongMethod:CategoryListScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable private fun ManageCategoriesScreen( state: CategoryListUiState, onBack: () -&gt; Unit, onIntent: (CategoryListIntent) -&gt; Unit, )</ID>
+    <ID>MatchingDeclarationName:CategoryListScreen.kt$CategoriesKey : ModalKey</ID>
+    <ID>NewLineAtEndOfFile:NewCategorySheetBody.kt$com.dv.moneym.feature.categories.list.components.NewCategorySheetBody.kt</ID>
+    <ID>UnusedPrivateMember:CategoryListHeader.kt$@Preview @Composable private fun CategoryListHeaderPreview()</ID>
+    <ID>UnusedPrivateMember:CategoryListScreen.kt$@androidx.compose.ui.tooling.preview.Preview @Composable private fun ManageCategoriesScreenPreview()</ID>
+    <ID>UnusedPrivateMember:DraggableCategoryList.kt$@Preview @Composable private fun DraggableCategoryListPreview()</ID>
+    <ID>UnusedPrivateMember:NewCategorySheetBody.kt$@Preview @Composable private fun NewCategorySheetBodyPreview()</ID>
+  </CurrentIssues>
+</SmellBaseline>

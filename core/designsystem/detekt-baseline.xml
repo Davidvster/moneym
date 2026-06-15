@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val icon_1x: Dp = 18.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_0_25x: Dp = 2.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_0_5x: Dp = 4.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_0_75x: Dp = 6.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_10x: Dp = 80.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_1_25x: Dp = 10.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_1_5x: Dp = 12.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_1x: Dp = 8.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_2_5x: Dp = 20.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_2x: Dp = 16.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_3x: Dp = 24.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_4x: Dp = 32.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_5x: Dp = 40.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_6x: Dp = 48.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_7x: Dp = 56.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_8x: Dp = 64.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val padding_9x: Dp = 72.dp</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val radius_0_5x: RoundedCornerShape = RoundedCornerShape(4.dp)</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val radius_1_5x: RoundedCornerShape = RoundedCornerShape(12.dp)</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val radius_1x: RoundedCornerShape = RoundedCornerShape(8.dp)</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val radius_2_5x: RoundedCornerShape = RoundedCornerShape(20.dp)</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val radius_2x: RoundedCornerShape = RoundedCornerShape(16.dp)</ID>
+    <ID>ConstructorParameterNaming:MoneyMDimensions.kt$MoneyMDimensions$val radius_3x: RoundedCornerShape = RoundedCornerShape(24.dp)</ID>
+    <ID>LongMethod:MoneyMTypography.kt$fun moneyMType(geist: FontFamily, geistMono: FontFamily)</ID>
+    <ID>MatchingDeclarationName:MoneyMTypography.kt$MoneyMType</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ComplexCondition:AvgStatsCard.kt$avgMonthlyExpense &gt; 0 || avgDailyExpenseYear &gt; 0 || avgMonthlyIncome &gt; 0 || avgDailyIncomeYear &gt; 0</ID>
+    <ID>CyclomaticComplexMethod:AvgStatsCard.kt$@Composable internal fun AvgStatsCard( inMonthMode: Boolean, spendingFilter: SpendingFilter, avgDailyExpense: Double, avgMonthlyExpense: Double, avgDailyExpenseYear: Double, avgDailyIncome: Double, avgMonthlyIncome: Double, avgDailyIncomeYear: Double, avgDailyNet: Double, avgMonthlyNet: Double, avgDailyNetYear: Double, currencyCode: String, modifier: Modifier = Modifier, )</ID>
+    <ID>CyclomaticComplexMethod:OverviewHeader.kt$@Composable internal fun OverviewHeader( period: OverviewPeriod, periodLabel: String, spendingFilter: SpendingFilter, onTogglePeriod: () -&gt; Unit, onPreviousPeriod: () -&gt; Unit, onNextPeriod: () -&gt; Unit, onShowPeriodPicker: () -&gt; Unit, onShowDateRangePicker: () -&gt; Unit, onSpendingFilterChanged: (SpendingFilter) -&gt; Unit, canGoBack: Boolean = true, accounts: List&lt;Account&gt; = emptyList(), selectedAccountId: AccountId? = null, onAccountSelected: (AccountId) -&gt; Unit = {}, aiAvailable: Boolean = false, onAnalyzeClick: () -&gt; Unit = {}, )</ID>
+    <ID>CyclomaticComplexMethod:OverviewScreen.kt$@Composable private fun OverviewContent( state: OverviewUiState, onIntent: (OverviewIntent) -&gt; Unit, onTabSelected: (TabRoute) -&gt; Unit, onAnalyze: (year: Int, month: Int) -&gt; Unit = { _, _ -&gt; }, )</ID>
+    <ID>LongMethod:AvgStatsCard.kt$@Composable internal fun AvgStatsCard( inMonthMode: Boolean, spendingFilter: SpendingFilter, avgDailyExpense: Double, avgMonthlyExpense: Double, avgDailyExpenseYear: Double, avgDailyIncome: Double, avgMonthlyIncome: Double, avgDailyIncomeYear: Double, avgDailyNet: Double, avgMonthlyNet: Double, avgDailyNetYear: Double, currencyCode: String, modifier: Modifier = Modifier, )</ID>
+    <ID>LongMethod:BuildOverviewPageStateUseCase.kt$BuildOverviewPageStateUseCase$internal operator fun invoke( period: OverviewPeriod, today: LocalDate, allTransactions: List&lt;Transaction&gt;, categories: List&lt;Category&gt;, selectedAccountId: Long, selectedCategoryId: CategoryId?, budgets: List&lt;Budget&gt;, ): OverviewPageUiState</ID>
+    <ID>LongMethod:BuildOverviewPageStateUseCase.kt$BuildOverviewPageStateUseCase$private fun buildPeriodSeries( period: OverviewPeriod, today: LocalDate, range: PeriodRange, periodTxns: List&lt;Transaction&gt;, accountFilteredTransactions: List&lt;Transaction&gt;, catMap: Map&lt;CategoryId, Category&gt;, expensesDouble: Double, incomeDouble: Double, netDouble: Double, ): PeriodSeriesBundle</ID>
+    <ID>LongMethod:CumulativeSpendCard.kt$@Composable internal fun CumulativeSpendCard( cumulativeTotals: List&lt;Double&gt;, todayIndex: Int, currencyCode: String, modifier: Modifier = Modifier, )</ID>
+    <ID>LongMethod:IncomeExpensesCard.kt$@Composable internal fun IncomeExpensesCard( income: Double, expenses: Double, currencyCode: String, filter: SpendingFilter = SpendingFilter.All, modifier: Modifier = Modifier, )</ID>
+    <ID>LongMethod:MonthlySpendingBarChart.kt$@Composable internal fun MonthlySpendingBarChart( monthlyTotals: List&lt;Double&gt;, currentMonthIndex: Int, currencyCode: String, title: String, modifier: Modifier = Modifier, )</ID>
+    <ID>LongMethod:OverviewHeader.kt$@Composable internal fun OverviewHeader( period: OverviewPeriod, periodLabel: String, spendingFilter: SpendingFilter, onTogglePeriod: () -&gt; Unit, onPreviousPeriod: () -&gt; Unit, onNextPeriod: () -&gt; Unit, onShowPeriodPicker: () -&gt; Unit, onShowDateRangePicker: () -&gt; Unit, onSpendingFilterChanged: (SpendingFilter) -&gt; Unit, canGoBack: Boolean = true, accounts: List&lt;Account&gt; = emptyList(), selectedAccountId: AccountId? = null, onAccountSelected: (AccountId) -&gt; Unit = {}, aiAvailable: Boolean = false, onAnalyzeClick: () -&gt; Unit = {}, )</ID>
+    <ID>LongMethod:OverviewPeriodBody.kt$@Composable internal fun OverviewPeriodBody( state: OverviewPageUiState, spendingFilter: SpendingFilter, currencyCode: String, onIntent: (OverviewPageIntent) -&gt; Unit = {}, )</ID>
+    <ID>LongMethod:OverviewPeriodBody.kt$@Composable private fun TrendsCumulativeSection( trend: CategoryTrend, highlightIndex: Int, xLabels: List&lt;String&gt;, currencyCode: String, )</ID>
+    <ID>LongMethod:OverviewPeriodBody.kt$@Preview @Composable private fun OverviewPeriodBodyPreview()</ID>
+    <ID>LongMethod:OverviewScreen.kt$@Composable private fun OverviewContent( state: OverviewUiState, onIntent: (OverviewIntent) -&gt; Unit, onTabSelected: (TabRoute) -&gt; Unit, onAnalyze: (year: Int, month: Int) -&gt; Unit = { _, _ -&gt; }, )</ID>
+    <ID>LongMethod:StoreOverviewPreview.kt$@Composable internal fun StoreOverviewPreview()</ID>
+    <ID>MatchingDeclarationName:OverviewScreen.kt$OverviewKey : NavKey</ID>
+    <ID>NewLineAtEndOfFile:OverviewPeriodBody.kt$com.dv.moneym.feature.overview.components.OverviewPeriodBody.kt</ID>
+    <ID>NewLineAtEndOfFile:OverviewYearPickerDialog.kt$com.dv.moneym.feature.overview.components.OverviewYearPickerDialog.kt</ID>
+    <ID>UnusedParameter:OverviewPeriodBody.kt$total: Double</ID>
+    <ID>UnusedPrivateMember:AvgStatsCard.kt$@Preview @Composable private fun AvgStatsCardPreview()</ID>
+    <ID>UnusedPrivateMember:BudgetBreakdownCard.kt$@Preview @Composable private fun BudgetBreakdownCardPreview()</ID>
+    <ID>UnusedPrivateMember:CumulativeSpendCard.kt$@Preview @Composable private fun CumulativeSpendCardPreview()</ID>
+    <ID>UnusedPrivateMember:IncomeExpensesCard.kt$@Preview @Composable private fun IncomeExpensesCardPreview()</ID>
+    <ID>UnusedPrivateMember:MonthlySpendingBarChart.kt$@Preview @Composable private fun MonthlySpendingBarChartPreview()</ID>
+    <ID>UnusedPrivateMember:OverviewHeader.kt$@Preview @Composable private fun OverviewHeaderPreview()</ID>
+    <ID>UnusedPrivateMember:OverviewPageScreen.kt$@androidx.compose.ui.tooling.preview.Preview @Composable private fun OverviewPageContentPreview()</ID>
+    <ID>UnusedPrivateMember:OverviewPeriodBody.kt$@Preview @Composable private fun OverviewPeriodBodyPreview()</ID>
+    <ID>UnusedPrivateMember:OverviewScreen.kt$@Preview(group = "no-screenshot") @Composable private fun OverviewScreenPreview()</ID>
+    <ID>UnusedPrivateMember:OverviewSkeleton.kt$@Preview @Composable private fun OverviewSkeletonPreview()</ID>
+  </CurrentIssues>
+</SmellBaseline>

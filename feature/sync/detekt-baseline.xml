@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>MatchingDeclarationName:PendingDeletionsScreen.kt$PendingDeletionsKey : NavKey</ID>
+    <ID>MatchingDeclarationName:SyncSettingsScreen.kt$SyncSettingsKey : NavKey</ID>
+    <ID>UnusedPrivateMember:PendingDeletionsScreen.kt$@Preview @Composable private fun PendingDeletionsContentPreview()</ID>
+    <ID>UnusedPrivateMember:SyncSettingsScreen.kt$@Preview @Composable private fun SyncSettingsPreview()</ID>
+  </CurrentIssues>
+</SmellBaseline>

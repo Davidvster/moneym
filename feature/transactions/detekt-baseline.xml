@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:TransactionListScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable private fun SyncStatusSheet( isSyncing: Boolean, hasConflict: Boolean, lastSyncedMs: Long, pendingDeletionCount: Int, onSyncNow: () -&gt; Unit, onReviewDeletions: () -&gt; Unit, crossDeviceEnabled: Boolean, bankEnabled: Boolean, bankIsSyncing: Boolean, bankLastSyncedMs: Long, bankPendingCount: Int, onBankSyncNow: () -&gt; Unit, onReviewSuggestions: () -&gt; Unit, walletEnabled: Boolean, walletPendingCount: Int, onReviewWalletSuggestions: () -&gt; Unit, onDismiss: () -&gt; Unit, )</ID>
+    <ID>CyclomaticComplexMethod:TransactionListViewModel.kt$TransactionListViewModel$internal fun onIntent(intent: TransactionListIntent)</ID>
+    <ID>LongMethod:TransactionListScreen.kt$@Composable internal fun StoreTransactionListPreview()</ID>
+    <ID>LongMethod:TransactionListScreen.kt$@Composable private fun MonthNavRow( state: TransactionListUiState, onShowMonthPicker: () -&gt; Unit, onPreviousMonth: () -&gt; Unit, onNextMonth: () -&gt; Unit, )</ID>
+    <ID>LongMethod:TransactionListScreen.kt$@Composable private fun TransactionListHeader( state: TransactionListUiState, isSearchActive: Boolean, onSearchActiveChange: (Boolean) -&gt; Unit, onShowMonthPicker: () -&gt; Unit, onShowWalletSwitcher: () -&gt; Unit, onShowCategoryFilter: () -&gt; Unit, onOpenSyncSheet: () -&gt; Unit, onIntent: (TransactionListIntent) -&gt; Unit, onPreviousMonth: () -&gt; Unit, onNextMonth: () -&gt; Unit, )</ID>
+    <ID>LongMethod:TransactionListScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable private fun SyncStatusSheet( isSyncing: Boolean, hasConflict: Boolean, lastSyncedMs: Long, pendingDeletionCount: Int, onSyncNow: () -&gt; Unit, onReviewDeletions: () -&gt; Unit, crossDeviceEnabled: Boolean, bankEnabled: Boolean, bankIsSyncing: Boolean, bankLastSyncedMs: Long, bankPendingCount: Int, onBankSyncNow: () -&gt; Unit, onReviewSuggestions: () -&gt; Unit, walletEnabled: Boolean, walletPendingCount: Int, onReviewWalletSuggestions: () -&gt; Unit, onDismiss: () -&gt; Unit, )</ID>
+    <ID>LongMethod:TransactionListScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable private fun TransactionListContent( state: TransactionListUiState, onIntent: (TransactionListIntent) -&gt; Unit, onAddTransaction: () -&gt; Unit, onEditTransaction: (TransactionId) -&gt; Unit, onEditRecurring: (RecurringTransactionId) -&gt; Unit, onTabSelected: (TabRoute) -&gt; Unit, onNavigateToPendingDeletions: () -&gt; Unit = {}, onNavigateToBankSuggestions: () -&gt; Unit = {}, onNavigateToWalletSuggestions: () -&gt; Unit = {}, )</ID>
+    <ID>LongMethod:TransactionPageScreen.kt$@androidx.compose.ui.tooling.preview.Preview @Composable private fun TransactionPageScreenPreview()</ID>
+    <ID>MatchingDeclarationName:TransactionListScreen.kt$TransactionsKey : NavKey</ID>
+    <ID>NewLineAtEndOfFile:TransactionPageUiState.kt$com.dv.moneym.feature.transactions.list.page.TransactionPageUiState.kt</ID>
+    <ID>UnusedPrivateMember:DayGroupHeader.kt$@Preview @Composable private fun DayGroupHeaderPreview()</ID>
+    <ID>UnusedPrivateMember:TransactionListScreen.kt$@Preview(group = "no-screenshot") @Composable private fun TransactionListScreenPreview()</ID>
+    <ID>UnusedPrivateMember:TransactionPageScreen.kt$@androidx.compose.ui.tooling.preview.Preview @Composable private fun TransactionPageScreenPreview()</ID>
+  </CurrentIssues>
+</SmellBaseline>

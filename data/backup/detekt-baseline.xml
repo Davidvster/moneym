@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>DestructuringDeclarationWithTooManyEntries:DtoMappers.kt$val (freqUnit, dow, dom, lastDay) = when (val r = rule) { is RecurrenceRule.Daily -&gt; Quad("DAILY", null, null, false) is RecurrenceRule.Weekly -&gt; Quad("WEEKLY", r.dayOfWeek, null, false) is RecurrenceRule.Monthly -&gt; when (val d = r.dayKind) { is MonthlyDayKind.OnDay -&gt; Quad("MONTHLY", null, d.day, false) MonthlyDayKind.LastDay -&gt; Quad("MONTHLY", null, null, true) } }</ID>
+    <ID>LoopWithTooManyJumpStatements:CsvParser.kt$CsvParser$for</ID>
+    <ID>LoopWithTooManyJumpStatements:ZipUtils.kt$while</ID>
+    <ID>MatchingDeclarationName:ZipUtils.kt$Crc32</ID>
+    <ID>TooGenericExceptionCaught:BackupImporter.kt$BackupImporter$e: Exception</ID>
+  </CurrentIssues>
+</SmellBaseline>

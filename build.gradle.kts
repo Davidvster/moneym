@@ -35,7 +35,9 @@ subprojects {
         buildUponDefaultConfig = true
         parallel = true
         config.setFrom(rootProject.files("config/detekt/detekt.yml"))
-        baseline = rootProject.file("config/detekt/baseline.xml")
+        // Per-module baseline: a single shared file would be overwritten as
+        // detektBaseline runs across subprojects.
+        baseline = file("detekt-baseline.xml")
         source.setFrom(
             "src/commonMain/kotlin",
             "src/androidMain/kotlin",

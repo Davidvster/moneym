@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ThrowsCount:EbJwtSigner.kt$EbJwtSigner$suspend fun sign(applicationId: String, privateKeyPem: String, now: Instant): String</ID>
+    <ID>TooGenericExceptionCaught:EbJwtSigner.kt$EbJwtSigner$t: Throwable</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>LongMethod:OnboardingCurrencyStep.kt$@Composable internal fun CurrencyStep( selected: String, searchQuery: String, onSelect: (String) -&gt; Unit, onSearchQueryChanged: (String) -&gt; Unit, onContinue: () -&gt; Unit, onRestoreFromBackup: () -&gt; Unit = {}, onImportCsv: () -&gt; Unit = {}, )</ID>
+    <ID>LongMethod:OnboardingSecurityStep.kt$@Composable internal fun SecurityStep( pinEnabled: Boolean, biometricAvailable: Boolean, biometricEnabled: Boolean, onSetupPin: () -&gt; Unit, onFinish: () -&gt; Unit, onBiometricToggle: (Boolean) -&gt; Unit, )</ID>
+    <ID>LongMethod:OnboardingWelcomeStep.kt$@Composable internal fun WelcomeStep( onGetStarted: () -&gt; Unit, )</ID>
+    <ID>MatchingDeclarationName:OnboardingCurrencyStep.kt$OnboardingKey : NavKey</ID>
+    <ID>MatchingDeclarationName:OnboardingRestoreScreen.kt$OnboardingRestoreKey : NavKey</ID>
+    <ID>MatchingDeclarationName:OnboardingSecurityStep.kt$OnboardingSecurityKey : NavKey</ID>
+    <ID>NewLineAtEndOfFile:OnboardingPinSetupKey.kt$com.dv.moneym.feature.onboarding.pin.OnboardingPinSetupKey.kt</ID>
+    <ID>TooGenericExceptionCaught:OnboardingRestoreViewModel.kt$OnboardingRestoreViewModel$e: Exception</ID>
+    <ID>UnusedPrivateMember:OnboardingCurrencyStep.kt$@Preview @Composable private fun CurrencyStepPreview()</ID>
+    <ID>UnusedPrivateMember:OnboardingRestoreScreen.kt$@Preview @Composable private fun OnboardingRestoreContentPreview()</ID>
+    <ID>UnusedPrivateMember:OnboardingSecurityStep.kt$@Preview @Composable private fun SecurityStepPreview()</ID>
+    <ID>UnusedPrivateMember:OnboardingWelcomeStep.kt$@Preview @Composable private fun WelcomeStepPreview()</ID>
+  </CurrentIssues>
+</SmellBaseline>

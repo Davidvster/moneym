@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>MatchingDeclarationName:LibrariesScreen.kt$LibrariesKey : NavKey</ID>
+    <ID>UnusedPrivateMember:AboutScreen.kt$@Preview @Composable private fun AboutScreenPreview()</ID>
+    <ID>UnusedPrivateMember:LibrariesScreen.kt$@Preview @Composable private fun LibrariesScreenPreview()</ID>
+  </CurrentIssues>
+</SmellBaseline>

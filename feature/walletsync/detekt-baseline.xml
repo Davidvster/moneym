@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>LongMethod:WalletSyncHomeScreen.kt$@Composable private fun WalletSyncHomeContent( state: WalletSyncHomeUiState, onBack: () -&gt; Unit, onOpenSuggestions: () -&gt; Unit, onIntent: (WalletSyncHomeIntent) -&gt; Unit, )</ID>
+    <ID>MatchingDeclarationName:WalletSyncHomeScreen.kt$WalletSyncSettingsKey : NavKey</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:MmIcons.kt$MmIcons$internal fun forIcon(icon: Icon): ImageVector</ID>
+    <ID>LargeClass:MmIcons.kt$MmIcons</ID>
+    <ID>LongMethod:HsvColorPickerDialog.kt$@Composable private fun HsvColorPickerContent( colors: MoneyMColors, currentColor: Color, hue: Float, saturation: Float, brightness: Float, hexText: String, onHueChange: (Float) -&gt; Unit, onSaturationChange: (Float) -&gt; Unit, onBrightnessChange: (Float) -&gt; Unit, onHexTextChange: (String) -&gt; Unit, onHsvChange: (Float, Float, Float) -&gt; Unit, onDismiss: () -&gt; Unit, onColorSelected: (Color) -&gt; Unit, )</ID>
+    <ID>LongMethod:MmBudgetProgressBar.kt$@Composable fun MmBudgetProgressBar( budgetName: String, spentLabel: String, limitLabel: String, remainingLabel: String, fraction: Float, isOverrun: Boolean, modifier: Modifier = Modifier, percentLabel: String? = null, projectedSpentLabel: String? = null, projectedRemainingLabel: String? = null, projectedPercentLabel: String? = null, projectedFraction: Float? = null, projectedIsOverrun: Boolean = false, )</ID>
+    <ID>LongMethod:MmButton.kt$@Composable fun MmButton( text: String, onClick: () -&gt; Unit, modifier: Modifier = Modifier, variant: MmButtonVariant = MmButtonVariant.Primary, size: MmButtonSize = MmButtonSize.Md, leadingIcon: ImageVector? = null, enabled: Boolean = true, fullWidth: Boolean = false, )</ID>
+    <ID>LongMethod:MmCategoryPickerSheet.kt$@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class) @Composable private fun CategoryPickerSheetImpl( categories: List&lt;Category&gt;, selectedIds: Set&lt;CategoryId&gt;, onCategoryClick: (CategoryId) -&gt; Unit, onClearAll: (() -&gt; Unit)?, onDismiss: () -&gt; Unit, titleRes: StringResource, showConfirmButton: Boolean, )</ID>
+    <ID>LongMethod:MmDateRangePickerDialog.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun MmDateRangePickerDialog( initStartYear: Int, initStartMonth: Int, initStartDay: Int, initEndYear: Int, initEndMonth: Int, initEndDay: Int, title: String, fromLabel: String, toLabel: String, okLabel: String, cancelLabel: String, minSelectableDateIso: String? = null, maxSelectableDateIso: String? = null, onDismiss: () -&gt; Unit, onConfirm: (startYear: Int, startMonth: Int, startDay: Int, endYear: Int, endMonth: Int, endDay: Int) -&gt; Unit, )</ID>
+    <ID>LongMethod:MmMonthPickerDialog.kt$@Composable fun MmMonthPickerDialog( currentYear: Int, currentMonth: Int, nowYear: Int, nowMonth: Int, title: String, nowLabel: String, okLabel: String, cancelLabel: String, prevYearContentDescription: String, nextYearContentDescription: String, minYear: Int? = null, minMonth: Int? = null, onDismiss: () -&gt; Unit, onConfirm: (year: Int, month: Int) -&gt; Unit, )</ID>
+    <ID>LongMethod:MmSegmented.kt$@Composable fun MmSegmented( options: List&lt;String&gt;, selectedIndex: Int, onOptionSelected: (Int) -&gt; Unit, modifier: Modifier = Modifier, size: MmSegmentedSize = MmSegmentedSize.Md, fillWidth: Boolean = false, )</ID>
+    <ID>LongMethod:TxRow.kt$@Composable fun TxRow( categoryName: String, categoryColor: Color, categoryIcon: ImageVector, note: String?, isExpense: Boolean, amountValue: Double, currency: String, prefs: TxDisplayPrefs, paymentModeName: String? = null, onClick: (() -&gt; Unit)? = null, divider: Boolean = true, isPending: Boolean = false, modifier: Modifier = Modifier, )</ID>
+    <ID>MatchingDeclarationName:MmIconButton.kt$MmIconButtonVariant</ID>
+    <ID>MatchingDeclarationName:MmSegmented.kt$MmSegmentedSize</ID>
+    <ID>MatchingDeclarationName:MmTabBar.kt$TabRoute</ID>
+    <ID>UnusedPrivateMember:CategoryChip.kt$@Preview @Composable private fun CategoryChipPreview()</ID>
+    <ID>UnusedPrivateMember:CategoryIconTile.kt$@Preview @Composable private fun CategoryIconTilePreview()</ID>
+    <ID>UnusedPrivateMember:HsvColorPickerDialog.kt$@Preview @Composable private fun HsvColorPickerDialogPreview()</ID>
+    <ID>UnusedPrivateMember:Icon.kt$@Preview @Composable private fun IconPreview()</ID>
+    <ID>UnusedPrivateMember:MmAmountInput.kt$@Preview @Composable private fun MmAmountInputPreview()</ID>
+    <ID>UnusedPrivateMember:MmBudgetProgressBar.kt$@Preview @Composable private fun MmBudgetProgressBarPreview()</ID>
+    <ID>UnusedPrivateMember:MmButton.kt$@Preview @Composable private fun MmButtonPreview()</ID>
+    <ID>UnusedPrivateMember:MmCard.kt$@Preview @Composable private fun MmCardPreview()</ID>
+    <ID>UnusedPrivateMember:MmCheckbox.kt$@Preview @Composable private fun MmCheckboxPreview()</ID>
+    <ID>UnusedPrivateMember:MmCheckbox.kt$@Preview @Composable private fun MmCheckboxUncheckedPreview()</ID>
+    <ID>UnusedPrivateMember:MmChip.kt$@Preview @Composable private fun MmChipPreview()</ID>
+    <ID>UnusedPrivateMember:MmDeleteSheet.kt$@OptIn(ExperimentalMaterial3Api::class) @Preview @Composable private fun MmDeleteSheetPreview()</ID>
+    <ID>UnusedPrivateMember:MmDialog.kt$@Preview @Composable private fun MmDialogPreview()</ID>
+    <ID>UnusedPrivateMember:MmEmptyState.kt$@Preview @Composable private fun MmEmptyStatePreview()</ID>
+    <ID>UnusedPrivateMember:MmErrorDialog.kt$@Preview @Composable private fun MmErrorDialogPreview()</ID>
+    <ID>UnusedPrivateMember:MmField.kt$@Preview @Composable private fun MmFieldPreview()</ID>
+    <ID>UnusedPrivateMember:MmIconButton.kt$@Preview @Composable private fun MmIconButtonPreview()</ID>
+    <ID>UnusedPrivateMember:MmLoadingOverlay.kt$@Preview @Composable private fun MmLoadingOverlayPreview()</ID>
+    <ID>UnusedPrivateMember:MmLoadingSpinner.kt$@Preview @Composable private fun MmLoadingSpinnerPreview()</ID>
+    <ID>UnusedPrivateMember:MmMoney.kt$@Preview @Composable private fun MmMoneyPreview()</ID>
+    <ID>UnusedPrivateMember:MmMonthPickerDialog.kt$@Preview @Composable private fun MmMonthPickerDialogPreview()</ID>
+    <ID>UnusedPrivateMember:MmRadio.kt$@Preview @Composable private fun MmRadioPreview()</ID>
+    <ID>UnusedPrivateMember:MmRadio.kt$@Preview @Composable private fun MmRadioUnselectedPreview()</ID>
+    <ID>UnusedPrivateMember:MmRow.kt$@Preview @Composable private fun MmRowPreview()</ID>
+    <ID>UnusedPrivateMember:MmSegmented.kt$@Preview @Composable private fun MmSegmentedPreview()</ID>
+    <ID>UnusedPrivateMember:MmSettingsRow.kt$@Preview @Composable private fun MmSettingsRowPreview()</ID>
+    <ID>UnusedPrivateMember:MmSkeleton.kt$@Preview @Composable private fun MmSkeletonPreview()</ID>
+    <ID>UnusedPrivateMember:MmTabBar.kt$@Preview @Composable private fun MmTabBarPreview()</ID>
+    <ID>UnusedPrivateMember:MmToggle.kt$@Preview @Composable private fun MmTogglePreview()</ID>
+    <ID>UnusedPrivateMember:MmWalletPickerSheet.kt$@OptIn(ExperimentalMaterial3Api::class) @Preview @Composable private fun MmWalletPickerSheetPreview()</ID>
+    <ID>UnusedPrivateMember:ScreenHeader.kt$@Preview @Composable private fun ScreenHeaderPreview()</ID>
+    <ID>UnusedPrivateMember:SectionLabel.kt$@Preview @Composable private fun SectionLabelPreview()</ID>
+    <ID>UnusedPrivateMember:TxRow.kt$@Preview @Composable private fun TxRowPreview()</ID>
+    <ID>UnusedPrivateMember:WalletChip.kt$@Preview @Composable private fun WalletChipPreview()</ID>
+    <ID>UnusedPrivateMember:WalletSelector.kt$@Preview @Composable private fun WalletSelectorPreview()</ID>
+  </CurrentIssues>
+</SmellBaseline>

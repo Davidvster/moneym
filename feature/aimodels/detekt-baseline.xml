@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>LongMethod:AiModelsScreen.kt$@Composable private fun ModelRow(row: ModelRowUi, onIntent: (AiModelsIntent) -&gt; Unit)</ID>
+    <ID>MatchingDeclarationName:AiModelsScreen.kt$AiModelsKey : ModalKey</ID>
+    <ID>UnusedPrivateMember:AiModelsScreen.kt$@Preview @Composable private fun AiModelsContentPreview()</ID>
+    <ID>UseCheckOrError:AiModelsViewModelTest.kt$AiModelsViewModelTest.ThrowingDeleteRepository$throw IllegalStateException("boom")</ID>
+  </CurrentIssues>
+</SmellBaseline>

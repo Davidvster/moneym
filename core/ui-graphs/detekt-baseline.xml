@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:BarChart.kt$@Composable fun BarChart( values: List&lt;Double&gt;, barColors: BarColors, modifier: Modifier = Modifier, currentIndex: Int = -1, selectedIndex: Int? = null, onSelect: (Int?) -&gt; Unit = {}, avgValue: Double = 0.0, barWidth: Dp = MM.dimen.padding_2x, )</ID>
+    <ID>LongMethod:BarChart.kt$@Composable fun BarChart( values: List&lt;Double&gt;, barColors: BarColors, modifier: Modifier = Modifier, currentIndex: Int = -1, selectedIndex: Int? = null, onSelect: (Int?) -&gt; Unit = {}, avgValue: Double = 0.0, barWidth: Dp = MM.dimen.padding_2x, )</ID>
+    <ID>LongMethod:CumulativeChart.kt$@Composable fun CumulativeChart( values: List&lt;Double&gt;, todayIndex: Int, modifier: Modifier = Modifier, xLabels: List&lt;String&gt; = emptyList(), lineColor: Color = MM.colors.text, )</ID>
+    <ID>MatchingDeclarationName:BarChart.kt$BarColors</ID>
+    <ID>MatchingDeclarationName:DonutChart.kt$DonutSlice</ID>
+    <ID>UnusedPrivateMember:BarChart.kt$@Preview @Composable private fun BarChartPreview()</ID>
+    <ID>UnusedPrivateMember:CumulativeChart.kt$@Preview @Composable private fun CumulativeChartPreview()</ID>
+    <ID>UnusedPrivateMember:DonutChart.kt$@Preview @Composable private fun DonutChartPreview()</ID>
+    <ID>UnusedPrivateMember:MiniBars.kt$@Preview @Composable private fun MiniBarsPreview()</ID>
+    <ID>UnusedPrivateMember:MiniCumulativeLine.kt$@Preview @Composable private fun MiniCumulativeLinePreview()</ID>
+  </CurrentIssues>
+</SmellBaseline>

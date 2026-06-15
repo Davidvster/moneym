@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>UnusedPrivateMember:LocalLlmAiEngine.kt$LocalLlmAiEngine.StopStreaming$private fun readResolve(): Any</ID>
+  </CurrentIssues>
+</SmellBaseline>

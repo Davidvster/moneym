@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ThrowsCount:AndroidGoogleAuthManager.kt$AndroidGoogleAuthManager$private suspend fun authorize(activity: Activity?): String</ID>
+  </CurrentIssues>
+</SmellBaseline>

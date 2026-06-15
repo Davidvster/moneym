@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ComplexCondition:PinUnlockViewModel.kt$PinUnlockViewModel$_state.value.biometricAvailable &amp;&amp; !_state.value.isVerifying &amp;&amp; _state.value.backoffRemainingMs &lt;= 0 &amp;&amp; !biometricDeclinedThisSession</ID>
+    <ID>LongMethod:PinUnlockScreen.kt$@Composable private fun PinUnlockContent( state: PinUnlockUiState, onIntent: (PinUnlockIntent) -&gt; Unit, biometricPrompt: String, )</ID>
+    <ID>MatchingDeclarationName:PinSetupScreen.kt$PinSetupKey : ModalKey</ID>
+    <ID>NewLineAtEndOfFile:PinKeypad.kt$com.dv.moneym.feature.security.shared.PinKeypad.kt</ID>
+    <ID>UnusedParameter:PinShared.kt$colors: MoneyMColors</ID>
+    <ID>UnusedParameter:PinShared.kt$type: MoneyMType</ID>
+    <ID>UnusedPrivateMember:PinKeypad.kt$@Preview @Composable private fun PinKeypadPreview()</ID>
+    <ID>UnusedPrivateMember:PinSetupScreen.kt$@Preview @Composable private fun PinSetupContentPreview()</ID>
+    <ID>UnusedPrivateMember:PinUnlockScreen.kt$@Preview @Composable private fun PinUnlockContentPreview()</ID>
+  </CurrentIssues>
+</SmellBaseline>
