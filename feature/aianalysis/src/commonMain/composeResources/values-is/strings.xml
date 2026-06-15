@@ -7,15 +7,12 @@
     <string name="analyze_grounding_label">Gagnaveita</string>
     <string name="analyze_grounding_snapshot">Skyndimynd</string>
     <string name="analyze_grounding_tools">Verkfæri</string>
-    <string name="analyze_grounding_snapshot_hint">Sendir samantekt valda ársins. Best fyrir spurningar um það tímabil.</string>
-    <string name="analyze_grounding_tools_hint">Leyfir gervigreindinni að leita í allri sögunni þinni og sækja það sem hún þarf. Best fyrir opnar spurningar.</string>
     <string name="analyze_year_label">Ár skyndimyndar</string>
     <string name="analyze_year_prev_cd">Fyrra ár</string>
     <string name="analyze_year_next_cd">Næsta ár</string>
     <string name="analyze_tools_fallback_notice">Verkfæri eru ekki studd af þessu líkani. Notar skyndimynd í staðinn.</string>
     <string name="analyze_error">Eitthvað fór úrskeiðis. Reyndu aftur.</string>
     <string name="analyze_generating">Hugsar…</string>
-    <string name="analyze_disclaimer">Tilraunaaðgerð. Svörin eru framleidd af gervigreindum og geta verið ónákvæm og eru ekki fjármálaráðgjöf. Engin ábyrgð er tekin á sig fyrir ákvarðanir sem teknar eru á grundvelli þeirra.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Hvað eyðdi ég í þessum mánuði?</item>
         <item>Hverjar eru helstu útgjaldaflokkar mínir?</item>
@@ -47,4 +44,5 @@
     <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
     <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
     <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="analyze_info_cd">Um gervigreindargreiningu</string>
 </resources>

@@ -7,15 +7,12 @@
     <string name="analyze_grounding_label">Veri kaynağı</string>
     <string name="analyze_grounding_snapshot">Anlık görüntü</string>
     <string name="analyze_grounding_tools">Araçlar</string>
-    <string name="analyze_grounding_snapshot_hint">Seçilen yılın bir özetini gönderir. O döneme ilişkin sorular için idealdir.</string>
-    <string name="analyze_grounding_tools_hint">Yapay zekânın tüm geçmişinizde arama yapıp ihtiyacı olanı almasını sağlar. Açık uçlu sorular için idealdir.</string>
     <string name="analyze_year_label">Anlık görüntü yılı</string>
     <string name="analyze_year_prev_cd">Önceki yıl</string>
     <string name="analyze_year_next_cd">Sonraki yıl</string>
     <string name="analyze_tools_fallback_notice">Bu model araçları desteklemiyor. Bunun yerine anlık görüntü kullanılıyor.</string>
     <string name="analyze_error">Bir şeyler ters gitti. Lütfen tekrar deneyin.</string>
     <string name="analyze_generating">Düşünüyor…</string>
-    <string name="analyze_disclaimer">Deneysel bir özellik. Yanıtlar yapay zeka tarafından oluşturulmuş, hatalı olabilir ve finansal tavsiye değildir. Bunlara dayanarak alınan kararlardan hiçbir sorumluluk alınmaz.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Bu ay ne kadar harcadım?</item>
         <item>En fazla harcama yaptığım kategoriler neler?</item>
@@ -47,4 +44,5 @@
     <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
     <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
     <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="analyze_info_cd">Yapay zekâ analizi hakkında</string>
 </resources>

@@ -7,15 +7,12 @@
     <string name="analyze_grounding_label">Source de données</string>
     <string name="analyze_grounding_snapshot">Instantané</string>
     <string name="analyze_grounding_tools">Outils</string>
-    <string name="analyze_grounding_snapshot_hint">Envoie un résumé de l'année sélectionnée. Idéal pour les questions sur cette période.</string>
-    <string name="analyze_grounding_tools_hint">Permet à l'IA de parcourir tout votre historique et d'extraire ce dont elle a besoin. Idéal pour les questions ouvertes.</string>
     <string name="analyze_year_label">Année de l'instantané</string>
     <string name="analyze_year_prev_cd">Année précédente</string>
     <string name="analyze_year_next_cd">Année suivante</string>
     <string name="analyze_tools_fallback_notice">Les outils ne sont pas pris en charge par ce modèle. Utilisation d'un instantané à la place.</string>
     <string name="analyze_error">Une erreur s'est produite. Veuillez réessayer.</string>
     <string name="analyze_generating">Réflexion en cours…</string>
-    <string name="analyze_disclaimer">Fonction expérimentale. Les réponses sont générées par IA, peuvent être inexactes et ne constituent pas des conseils financiers. Aucune responsabilité n\'est assumée pour les décisions prises en fonction de celles-ci.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Combien ai-je dépensé ce mois-ci ?</item>
         <item>Quelles sont mes principales catégories de dépenses ?</item>
@@ -47,4 +44,5 @@
     <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
     <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
     <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="analyze_info_cd">À propos de l'analyse IA</string>
 </resources>

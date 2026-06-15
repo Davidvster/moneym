@@ -7,15 +7,12 @@
     <string name="analyze_grounding_label">Fonte de dados</string>
     <string name="analyze_grounding_snapshot">Instantâneo</string>
     <string name="analyze_grounding_tools">Ferramentas</string>
-    <string name="analyze_grounding_snapshot_hint">Envia um resumo do ano selecionado. Ideal para perguntas sobre esse período.</string>
-    <string name="analyze_grounding_tools_hint">Permite que a IA pesquise todo o seu histórico e busque o que precisa. Ideal para perguntas abertas.</string>
     <string name="analyze_year_label">Ano do resumo</string>
     <string name="analyze_year_prev_cd">Ano anterior</string>
     <string name="analyze_year_next_cd">Próximo ano</string>
     <string name="analyze_tools_fallback_notice">As ferramentas não são suportadas por este modelo. A utilizar um instantâneo em alternativa.</string>
     <string name="analyze_error">Ocorreu um erro. Por favor tente novamente.</string>
     <string name="analyze_generating">A processar…</string>
-    <string name="analyze_disclaimer">Funcionalidade experimental. As respostas são geradas por IA, podem ser imprecisas e não constituem aconselhamento financeiro. Nenhuma responsabilidade é assumida por decisões tomadas com base nelas.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Quanto gastei este mês?</item>
         <item>Quais são as minhas categorias de maior despesa?</item>
@@ -47,4 +44,5 @@
     <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
     <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
     <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="analyze_info_cd">Sobre a análise com IA</string>
 </resources>

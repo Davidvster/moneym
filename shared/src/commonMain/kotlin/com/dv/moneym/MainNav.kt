@@ -229,6 +229,7 @@ internal fun MainNav(lockController: AppLockController) {
                 onBack = { tabBackStack.removeLast() },
                 onManageModels = { tabBackStack.push(AiModelsKey) },
                 onShowHistory = { year, month -> tabBackStack.push(AnalyzeHistoryKey(year, month)) },
+                onShowInfo = { tabBackStack.push(InfoPageKey("aianalysis")) },
                 metadata = modalTransitionMeta,
             )
             analyzeHistoryEntry(

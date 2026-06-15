@@ -7,15 +7,12 @@
     <string name="analyze_grounding_label">Adatforrás</string>
     <string name="analyze_grounding_snapshot">Pillanatkép</string>
     <string name="analyze_grounding_tools">Eszközök</string>
-    <string name="analyze_grounding_snapshot_hint">Elküldi a kiválasztott év összegzését. Ideális az adott időszakra vonatkozó kérdésekhez.</string>
-    <string name="analyze_grounding_tools_hint">Lehetővé teszi, hogy az MI az egész előzményt átkutassa, és lekérje, amire szüksége van. Ideális nyitott kérdésekhez.</string>
     <string name="analyze_year_label">Pillanatkép éve</string>
     <string name="analyze_year_prev_cd">Előző év</string>
     <string name="analyze_year_next_cd">Következő év</string>
     <string name="analyze_tools_fallback_notice">Ez a modell nem támogatja az eszközöket. Ehelyett pillanatkép kerül felhasználásra.</string>
     <string name="analyze_error">Valami hiba történt. Próbálja újra.</string>
     <string name="analyze_generating">Gondolkodom…</string>
-    <string name="analyze_disclaimer">Kísérleti funkció. A válaszok MI által generáltak, pontatlanok lehetnek, és nem számítanak pénzügyi tanácsnak. Az alapján hozott döntésekért nem vállalunk felelősséget.</string>
     <string-array name="analyze_suggested_prompts">
         <item>Mennyit költöttem ebben a hónapban?</item>
         <item>Melyek a legmagasabb kiadási kategóriáim?</item>
@@ -47,4 +44,5 @@
     <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
     <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
     <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="analyze_info_cd">Az MI-elemzésről</string>
 </resources>

@@ -7,15 +7,12 @@
     <string name="analyze_grounding_label">データソース</string>
     <string name="analyze_grounding_snapshot">スナップショット</string>
     <string name="analyze_grounding_tools">ツール</string>
-    <string name="analyze_grounding_snapshot_hint">選択した年の要約を送信します。その期間に関する質問に最適です。</string>
-    <string name="analyze_grounding_tools_hint">AIが全履歴を検索し、必要な情報を取得できます。自由な質問に最適です。</string>
     <string name="analyze_year_label">スナップショットの年</string>
     <string name="analyze_year_prev_cd">前の年</string>
     <string name="analyze_year_next_cd">次の年</string>
     <string name="analyze_tools_fallback_notice">このモデルはツールに対応していません。代わりにスナップショットを使用します。</string>
     <string name="analyze_error">エラーが発生しました。もう一度お試しください。</string>
     <string name="analyze_generating">考え中…</string>
-    <string name="analyze_disclaimer">実験的機能です。回答はAIによって生成され、不正確な場合があり、財務的助言ではありません。これに基づいて行われた決定について責任を取りません。</string>
     <string-array name="analyze_suggested_prompts">
         <item>今月はいくら使いましたか？</item>
         <item>支出が多いカテゴリは何ですか？</item>
@@ -47,4 +44,5 @@
     <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
     <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
     <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="analyze_info_cd">AI分析について</string>
 </resources>

@@ -7,8 +7,6 @@
     <string name="analyze_grounding_label">Datenquelle</string>
     <string name="analyze_grounding_snapshot">Snapshot</string>
     <string name="analyze_grounding_tools">Tools</string>
-    <string name="analyze_grounding_snapshot_hint">Sendet eine Zusammenfassung des ausgewählten Jahres. Ideal für Fragen zu diesem Zeitraum.</string>
-    <string name="analyze_grounding_tools_hint">Lässt die KI deinen gesamten Verlauf durchsuchen und abrufen, was sie braucht. Ideal für offene Fragen.</string>
     <string name="analyze_year_label">Snapshot-Jahr</string>
     <string name="analyze_year_prev_cd">Vorheriges Jahr</string>
     <string name="analyze_year_next_cd">Nächstes Jahr</string>
@@ -26,7 +24,6 @@
     <string name="analyze_engine_status_download">Zum Herunterladen tippen</string>
     <string name="analyze_engine_status_unavailable">Nicht verfügbar</string>
     <string name="analyze_generating">Denkt nach…</string>
-    <string name="analyze_disclaimer">Experimentelle Funktion. Antworten werden von KI generiert, können ungenau sein und sind keine Finanzberatung. Es wird keine Verantwortung für Entscheidungen übernommen, die auf ihnen basieren.</string>
     <string name="analyze_history_cd">Chatverlauf</string>
     <string name="analyze_new_chat_cd">Neuer Chat</string>
     <string name="analyze_history_title">Chatverlauf</string>
@@ -47,4 +44,5 @@
     <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
     <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
     <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="analyze_info_cd">Über die KI-Analyse</string>
 </resources>

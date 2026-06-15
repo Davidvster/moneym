@@ -68,7 +68,6 @@ import moneym.feature.aianalysis.generated.resources.Res
 import moneym.feature.aianalysis.generated.resources.ai_model_gemma4_e2b_it
 import moneym.feature.aianalysis.generated.resources.ai_model_qwen25_1_5b
 import moneym.feature.aianalysis.generated.resources.ai_model_smollm2_135m
-import moneym.feature.aianalysis.generated.resources.analyze_disclaimer
 import moneym.feature.aianalysis.generated.resources.analyze_download_model
 import moneym.feature.aianalysis.generated.resources.analyze_engine_apple_intelligence
 import moneym.feature.aianalysis.generated.resources.analyze_engine_gemini_nano
@@ -80,13 +79,12 @@ import moneym.feature.aianalysis.generated.resources.analyze_engine_status_ready
 import moneym.feature.aianalysis.generated.resources.analyze_engine_status_unavailable
 import moneym.feature.aianalysis.generated.resources.analyze_error
 import moneym.feature.aianalysis.generated.resources.analyze_history_cd
+import moneym.feature.aianalysis.generated.resources.analyze_info_cd
 import moneym.feature.aianalysis.generated.resources.analyze_manage_models
 import moneym.feature.aianalysis.generated.resources.analyze_model_picker_cd
 import moneym.feature.aianalysis.generated.resources.analyze_grounding_label
 import moneym.feature.aianalysis.generated.resources.analyze_grounding_snapshot
-import moneym.feature.aianalysis.generated.resources.analyze_grounding_snapshot_hint
 import moneym.feature.aianalysis.generated.resources.analyze_grounding_tools
-import moneym.feature.aianalysis.generated.resources.analyze_grounding_tools_hint
 import moneym.feature.aianalysis.generated.resources.analyze_year_label
 import moneym.feature.aianalysis.generated.resources.analyze_year_next_cd
 import moneym.feature.aianalysis.generated.resources.analyze_year_prev_cd
@@ -104,6 +102,7 @@ fun EntryProviderScope<NavKey>.analyzeEntry(
     onBack: () -> Unit,
     onManageModels: () -> Unit,
     onShowHistory: (year: Int, month: Int) -> Unit,
+    onShowInfo: () -> Unit,
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<AnalyzeKey>(metadata = metadata) { key ->
     AnalyzeScreen(
@@ -112,6 +111,7 @@ fun EntryProviderScope<NavKey>.analyzeEntry(
         onBack = onBack,
         onManageModels = onManageModels,
         onShowHistory = { onShowHistory(key.year, key.month) },
+        onShowInfo = onShowInfo,
     )
 }
 
@@ -122,6 +122,7 @@ fun AnalyzeScreen(
     onBack: () -> Unit,
     onManageModels: () -> Unit,
     onShowHistory: () -> Unit,
+    onShowInfo: () -> Unit,
     viewModel: AnalyzeViewModel = koinViewModel { parametersOf(year, month) },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -137,6 +138,7 @@ fun AnalyzeScreen(
         onBack = onBack,
         onManageModels = onManageModels,
         onShowHistory = onShowHistory,
+        onShowInfo = onShowInfo,
     )
 }
 
@@ -148,6 +150,7 @@ private fun AnalyzeContent(
     onBack: () -> Unit,
     onManageModels: () -> Unit,
     onShowHistory: () -> Unit,
+    onShowInfo: () -> Unit,
 ) {
     val colors = MM.colors
     val listState = rememberLazyListState()
@@ -196,6 +199,11 @@ private fun AnalyzeContent(
                         icon = Icon.List.imageVector,
                         onClick = onShowHistory,
                         contentDescription = stringResource(Res.string.analyze_history_cd),
+                    )
+                    MmIconButton(
+                        icon = Icon.Info.imageVector,
+                        onClick = onShowInfo,
+                        contentDescription = stringResource(Res.string.analyze_info_cd),
                     )
                     if (state.engines.isNotEmpty()) {
                         ModelPicker(
@@ -263,17 +271,6 @@ private fun AnalyzeContent(
                     },
                 )
             }
-            Text(
-                text = stringResource(
-                    if (isSnapshot) {
-                        Res.string.analyze_grounding_snapshot_hint
-                    } else {
-                        Res.string.analyze_grounding_tools_hint
-                    },
-                ),
-                style = MM.type.caption,
-                color = colors.text3,
-            )
             if (isSnapshot && state.selectedYear != null) {
                 YearStepper(
                     year = state.selectedYear,
@@ -331,15 +328,6 @@ private fun AnalyzeContent(
             }
         }
 
-        Text(
-            text = stringResource(Res.string.analyze_disclaimer),
-            style = MM.type.caption,
-            color = colors.text3,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = MM.dimen.padding_2_5x, vertical = MM.dimen.padding_0_5x),
-        )
-
         AnalyzeInputBar(
             input = state.input,
             enabled = !state.isGenerating,
@@ -364,6 +352,7 @@ private fun AnalyzeContentPreview() {
             onBack = {},
             onManageModels = {},
             onShowHistory = {},
+            onShowInfo = {},
         )
     }
 }
