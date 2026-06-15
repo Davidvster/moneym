@@ -9,6 +9,7 @@ import android.os.Build
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
+import com.dv.moneym.core.common.AppLogger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -37,6 +38,7 @@ actual class FilePlatform(private val context: Context) {
                 )
                 true
             } catch (e: Exception) {
+                AppLogger.tag("FilePlatform").e(e) { "saveFile failed for $suggestedName" }
                 false
             }
         }

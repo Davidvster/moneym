@@ -1,5 +1,6 @@
 package com.dv.moneym.platform
 
+import com.dv.moneym.core.common.AppLogger
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
@@ -61,6 +62,7 @@ actual class FilePlatform {
                 )
                 filePath
             } catch (e: Exception) {
+                AppLogger.tag("FilePlatform").e(e) { "saveFileLocally failed for $name" }
                 null
             }
         }

@@ -1,5 +1,6 @@
 package com.dv.moneym.platform
 
+import com.dv.moneym.core.common.AppLogger
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
@@ -41,6 +42,7 @@ actual class DbPlatform {
                 }
             }
         } catch (e: Exception) {
+            AppLogger.tag("DbPlatform").e(e) { "readBytes failed for $path" }
             null
         }
     }

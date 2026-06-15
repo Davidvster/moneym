@@ -37,7 +37,7 @@ class DefaultBackupCrypto(
             key.cipher(tagSize = BackupCryptoConstants.TAG_BITS.bits)
                 .encryptWithIv(iv, plain)
         } catch (t: Throwable) {
-            throw BackupCryptoError.PlatformFailure(t.message ?: "encrypt failed")
+            throw BackupCryptoError.PlatformFailure(t)
         } finally {
             keyBytes.fill(0)
         }
@@ -74,7 +74,7 @@ class DefaultBackupCrypto(
                 key.cipher(tagSize = envelope.cipher.tagBits.bits)
                     .decryptWithIv(iv, ct)
             } catch (t: Throwable) {
-                throw BackupCryptoError.WrongPassphrase()
+                throw BackupCryptoError.WrongPassphrase(t)
             } finally {
                 keyBytes.fill(0)
             }

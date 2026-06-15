@@ -31,11 +31,14 @@ data class CipherParams(
     val tagBits: Int = 128,
 )
 
-sealed class BackupCryptoError(message: String) : RuntimeException(message) {
-    class WrongPassphrase : BackupCryptoError("Wrong passphrase or corrupted backup")
+sealed class BackupCryptoError(message: String, cause: Throwable? = null) :
+    RuntimeException(message, cause) {
+    class WrongPassphrase(cause: Throwable? = null) :
+        BackupCryptoError("Wrong passphrase or corrupted backup", cause)
     class UnsupportedEnvelope(val got: Int, val max: Int) :
         BackupCryptoError("Unsupported envelope version $got (max $max)")
-    class PlatformFailure(cause: String) : BackupCryptoError("Crypto platform failure: $cause")
+    class PlatformFailure(cause: Throwable) :
+        BackupCryptoError("Crypto platform failure: ${cause.message}", cause)
 }
 
 interface BackupCrypto {

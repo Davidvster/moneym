@@ -33,7 +33,7 @@ internal class EbJwtSigner(
             pkcs1.privateKeyDecoder(SHA256)
                 .decodeFromByteArray(RSA.PrivateKey.Format.PEM, pem.encodeToByteArray())
         } catch (t: Throwable) {
-            throw EbError.InvalidPrivateKey("Could not parse the private key: ${t.message}")
+            throw EbError.InvalidPrivateKey("Could not parse the private key: ${t.message}", t)
         }
 
         val header = buildJsonObject {
