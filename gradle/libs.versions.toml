@@ -6,6 +6,7 @@ android-minSdk = "26"
 android-targetSdk = "36"
 kotlin = "2.3.21"
 ksp = "2.3.8"
+detekt = "1.23.8"
 
 # AndroidX
 androidx-activity = "1.13.0"
@@ -179,3 +180,4 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

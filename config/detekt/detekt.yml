@@ -1,0 +1,69 @@
+# detekt overrides on top of the bundled default rule set
+# (buildUponDefaultConfig = true). Focus: correctness/bug-risk rules.
+# Style / formatting noise is silenced so the signal is real findings.
+
+build:
+  maxIssues: 0
+  weights:
+    complexity: 1
+    LongParameterList: 0
+    style: 0
+    comments: 0
+
+complexity:
+  LongMethod:
+    active: true
+    threshold: 80
+  LongParameterList:
+    active: false
+  CyclomaticComplexMethod:
+    active: true
+    threshold: 20
+  TooManyFunctions:
+    active: false
+  NestedBlockDepth:
+    active: true
+    threshold: 6
+
+style:
+  active: true
+  MagicNumber:
+    active: false
+  WildcardImport:
+    active: false
+  ForbiddenComment:
+    active: false
+  ReturnCount:
+    active: false
+  UnusedPrivateMember:
+    active: true
+  MaxLineLength:
+    active: false
+  DataClassContainsFunctions:
+    active: false
+  UnnecessaryAbstractClass:
+    active: false
+
+comments:
+  active: false
+
+naming:
+  active: true
+  FunctionNaming:
+    # Composable functions are PascalCase by convention.
+    ignoreAnnotated: ['Composable']
+
+exceptions:
+  active: true
+  TooGenericExceptionCaught:
+    active: true
+  SwallowedException:
+    active: true
+  PrintStackTrace:
+    active: true
+
+potential-bugs:
+  active: true
+
+coroutines:
+  active: true

@@ -23,6 +23,33 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.room) apply false
     alias(libs.plugins.paparazzi) apply false
+    alias(libs.plugins.detekt) apply false
+}
+
+// detekt static analysis across every Kotlin module. Lint-only (no type
+// resolution) so it stays stable across KMP source sets and configuration-cache.
+subprojects {
+    apply(plugin = "io.gitlab.arturbosch.detekt")
+
+    extensions.configure<io.gitlab.arturbosch.detekt.extensions.DetektExtension> {
+        buildUponDefaultConfig = true
+        parallel = true
+        config.setFrom(rootProject.files("config/detekt/detekt.yml"))
+        baseline = rootProject.file("config/detekt/baseline.xml")
+        source.setFrom(
+            "src/commonMain/kotlin",
+            "src/androidMain/kotlin",
+            "src/iosMain/kotlin",
+            "src/commonTest/kotlin",
+            "src/androidUnitTest/kotlin",
+            "src/iosTest/kotlin",
+        )
+    }
+
+    // Keep analysis lint-only: the type-resolution variants need a full compile
+    // classpath, which is slow and flaky on KMP multi-target builds.
+    tasks.matching { it.name == "detektMain" || it.name == "detektTest" }
+        .configureEach { enabled = false }
 }
 
 // Paparazzi runs on the JVM without an Android Context, so Compose Multiplatform
