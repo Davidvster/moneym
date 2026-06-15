@@ -54,7 +54,7 @@ class DbBackupManager(
             files.forEach { (name, bytes) ->
                 val path = "${dbPlatform.dbDirectory}/$name"
                 val ok = dbPlatform.writeBytes(path, bytes)
-                if (!ok) throw Exception("Failed to write $name")
+                check(ok) { "Failed to write $name" }
             }
         }
     }
