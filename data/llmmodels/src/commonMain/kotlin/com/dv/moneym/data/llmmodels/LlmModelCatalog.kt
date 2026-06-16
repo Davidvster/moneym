@@ -5,16 +5,16 @@ object LlmModelCatalog {
     private const val FORMAT_LITERTLM = "litertlm"
 
     val models: List<LlmModel> = listOf(
-        LlmModel(
-            id = "smollm2-135m-it",
-            displayNameKey = "ai_model_smollm2_135m",
-            fileName = "SmolLM2_135M_Instruct.litertlm",
-            url = "https://huggingface.co/litert-community/SmolLM2-135M-Instruct/resolve/main/" +
-                "SmolLM2_135M_Instruct.litertlm",
-            sizeBytes = 142819328L,
-            sha256 = "ccdc5c85735743f081b7d44ca309cab569f76c0f2f0e8e163449a63721969c37",
-            format = FORMAT_LITERTLM,
-        ),
+//        LlmModel(
+//            id = "smollm2-135m-it",
+//            displayNameKey = "ai_model_smollm2_135m",
+//            fileName = "SmolLM2_135M_Instruct.litertlm",
+//            url = "https://huggingface.co/litert-community/SmolLM2-135M-Instruct/resolve/main/" +
+//                "SmolLM2_135M_Instruct.litertlm",
+//            sizeBytes = 142819328L,
+//            sha256 = "ccdc5c85735743f081b7d44ca309cab569f76c0f2f0e8e163449a63721969c37",
+//            format = FORMAT_LITERTLM,
+//        ),
         LlmModel(
             id = "qwen2.5-1.5b-it",
             displayNameKey = "ai_model_qwen25_1_5b",
@@ -36,6 +36,4 @@ object LlmModelCatalog {
             format = FORMAT_LITERTLM,
         ),
     )
-
-    fun byId(id: String): LlmModel? = models.firstOrNull { it.id == id }
 }
