@@ -32,6 +32,17 @@ class NotificationParserTest {
     }
 
     @Test
+    fun parsesGooglePayExpenseWithSymbolAndMerchantActual() {
+        val s = parse(title = "1040 Starbucks", text = "€32.34 with the card bank **1234")
+        assertTrue(s != null)
+            assertEquals(3234L, s.amountMinor)
+        assertEquals("EUR", s.currency)
+        assertEquals(SyncDirection.DEBIT, s.direction)
+        assertEquals("1040 Starbucks", s.description)
+        assertEquals(today, s.date)
+    }
+
+    @Test
     fun parsesDollarAmount() {
         val s = parse(text = "Paid $5.00 at Target")
         assertEquals(500L, s?.amountMinor)

@@ -11,6 +11,10 @@ val WALLET_SYNC_SUGGESTED_PACKAGES: Set<String> = setOf(
     "de.number26.android",                    // N26
     "com.squareup.cash",                      // Cash App
     "com.venmo",                              // Venmo
+    "com.chase.sig.android",                  // Chase Mobile
+    "com.infonow.bofa",                       // Bank of America
+    "co.uk.getmondo",                         // Monzo
+    "com.chase.intl",                         // Chase UK
 )
 
 data class WalletSyncHomeUiState(
