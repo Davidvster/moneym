@@ -2,6 +2,7 @@ package com.dv.moneym.data.walletsync
 
 import androidx.room.Room
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import com.dv.moneym.data.walletsync.db.MIGRATION_WALLET_SYNC_1_2
 import com.dv.moneym.data.walletsync.db.WalletSyncRoomDatabase
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +20,7 @@ fun createWalletSyncDatabase(): WalletSyncRoomDatabase {
     )
     return Room.databaseBuilder<WalletSyncRoomDatabase>(name = "$appSupport/moneym_walletsync.db")
         .setDriver(BundledSQLiteDriver())
+        .addMigrations(MIGRATION_WALLET_SYNC_1_2)
         .setQueryCoroutineContext(Dispatchers.Default)
         .build()
 }

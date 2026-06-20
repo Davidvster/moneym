@@ -12,7 +12,6 @@ expect object WalletSyncRoomDatabaseConstructor : RoomDatabaseConstructor<Wallet
 @Database(
     entities = [WalletSuggestionEntity::class],
     version = 2,
-    autoMigrations = [AutoMigration(from = 1, to = 2)]
 )
 @ConstructedBy(WalletSyncRoomDatabaseConstructor::class)
 abstract class WalletSyncRoomDatabase : RoomDatabase() {
