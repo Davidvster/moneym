@@ -27,4 +27,6 @@ data class WalletSuggestionEntity(
     @ColumnInfo(name = "created_transaction_id") val createdTransactionId: Long? = null,
     @ColumnInfo(name = "captured_at")    val capturedAt: Long,
     @ColumnInfo(name = "decided_at")     val decidedAt: Long? = null,
+    @ColumnInfo(name = "suggested_account_id") val suggestedAccountId: Long? = null,
+    @ColumnInfo(name = "suggested_category_id") val suggestedCategoryId: Long? = null,
 )

@@ -24,4 +24,6 @@ data class WalletSuggestion(
     val createdTransactionId: Long? = null,
     val capturedAt: Long,
     val decidedAt: Long? = null,
+    val suggestedAccountId: Long? = null,
+    val suggestedCategoryId: Long? = null,
 )

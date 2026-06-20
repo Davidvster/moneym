@@ -1,0 +1,135 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "622afa20f0019b25a07060716f01c912",
+    "entities": [
+      {
+        "tableName": "WalletSuggestion",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `external_id` TEXT NOT NULL, `amount_minor` INTEGER NOT NULL, `currency` TEXT NOT NULL, `direction` TEXT NOT NULL, `date` TEXT NOT NULL, `description` TEXT, `counterparty` TEXT, `source_package` TEXT NOT NULL, `source_app_label` TEXT, `status` TEXT NOT NULL DEFAULT 'PENDING', `created_transaction_id` INTEGER, `captured_at` INTEGER NOT NULL, `decided_at` INTEGER, `suggested_account_id` INTEGER, `suggested_category_id` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "externalId",
+            "columnName": "external_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amountMinor",
+            "columnName": "amount_minor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currency",
+            "columnName": "currency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "direction",
+            "columnName": "direction",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "counterparty",
+            "columnName": "counterparty",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "sourcePackage",
+            "columnName": "source_package",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceAppLabel",
+            "columnName": "source_app_label",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "'PENDING'"
+          },
+          {
+            "fieldPath": "createdTransactionId",
+            "columnName": "created_transaction_id",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "capturedAt",
+            "columnName": "captured_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "decidedAt",
+            "columnName": "decided_at",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "suggestedAccountId",
+            "columnName": "suggested_account_id",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "suggestedCategoryId",
+            "columnName": "suggested_category_id",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "idx_ws_external",
+            "unique": true,
+            "columnNames": [
+              "external_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `idx_ws_external` ON `${TABLE_NAME}` (`external_id`)"
+          },
+          {
+            "name": "idx_ws_status",
+            "unique": false,
+            "columnNames": [
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_ws_status` ON `${TABLE_NAME}` (`status`)"
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '622afa20f0019b25a07060716f01c912')"
+    ]
+  }
+}

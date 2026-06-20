@@ -38,6 +38,8 @@ kotlin {
             implementation(libs.androidx.navigation3.runtime)
             implementation(projects.core.navigation)
             implementation(projects.data.walletsync)
+            implementation(projects.data.accounts)
+            implementation(projects.data.transactions)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

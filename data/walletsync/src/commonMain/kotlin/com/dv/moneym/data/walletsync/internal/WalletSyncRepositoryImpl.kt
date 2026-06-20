@@ -63,7 +63,8 @@ internal class WalletSyncRepositoryImpl(
             description = description,
             counterparty = counterparty,
             sourceLabel = sourceAppLabel ?: sourcePackage,
-            suggestedAccountId = null,
+            suggestedAccountId = suggestedAccountId,
+            suggestedCategoryId = suggestedCategoryId,
         )
 
     private fun WalletSuggestion.toEntity(): WalletSuggestionEntity =
@@ -82,5 +83,7 @@ internal class WalletSyncRepositoryImpl(
             createdTransactionId = createdTransactionId,
             capturedAt = capturedAt,
             decidedAt = decidedAt,
+            suggestedAccountId = suggestedAccountId,
+            suggestedCategoryId = suggestedCategoryId,
         )
 }

@@ -24,6 +24,7 @@ data class SuggestionRecord(
     val counterparty: String?,
     val sourceLabel: String?,
     val suggestedAccountId: Long?,
+    val suggestedCategoryId: Long? = null,
 )
 
 /**

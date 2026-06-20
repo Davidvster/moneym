@@ -6,14 +6,21 @@ import android.service.notification.StatusBarNotification
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
+import com.dv.moneym.data.accounts.AccountRepository
+import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.data.walletsync.NotificationParser
 import com.dv.moneym.data.walletsync.WalletSyncRepository
+import com.dv.moneym.feature.walletsync.usecase.EnrichWalletSuggestionUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDate
 import org.koin.core.context.GlobalContext
+import java.time.LocalDate as JavaLocalDate
+import java.time.ZoneId
 
 /**
  * Captures payment notifications from user-selected apps and turns them into pending wallet
@@ -27,6 +34,9 @@ class MoneyMNotificationListenerService : NotificationListenerService() {
     private val parser: NotificationParser by lazy { GlobalContext.get().get() }
     private val repository: WalletSyncRepository by lazy { GlobalContext.get().get() }
     private val clock: AppClock by lazy { GlobalContext.get().get() }
+    private val accountRepository: AccountRepository by lazy { GlobalContext.get().get() }
+    private val transactionRepository: TransactionRepository by lazy { GlobalContext.get().get() }
+    private val enrichUseCase: EnrichWalletSuggestionUseCase by lazy { GlobalContext.get().get() }
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
         if (!appSettings.getBoolean(PrefKeys.WALLET_SYNC_ENABLED, defaultValue = false)) return
@@ -57,7 +67,16 @@ class MoneyMNotificationListenerService : NotificationListenerService() {
         ) ?: return
 
         scope.launch {
-            val inserted = repository.insertSuggestionsIfNew(listOf(suggestion))
+            val accounts = accountRepository.observeAll().first()
+            val allTxns = transactionRepository.observeAll().first()
+            val today = clock.today()
+            val sixMonthsAgo = JavaLocalDate.of(today.year, today.monthNumber, today.dayOfMonth)
+                .minusMonths(6)
+            val recentTxns = allTxns.filter { txn ->
+                JavaLocalDate.of(txn.occurredOn.year, txn.occurredOn.monthNumber, txn.occurredOn.dayOfMonth) >= sixMonthsAgo
+            }
+            val enriched = enrichUseCase(suggestion, accounts, recentTxns)
+            val inserted = repository.insertSuggestionsIfNew(listOf(enriched))
             if (inserted > 0) {
                 appSettings.putLong(PrefKeys.WALLET_SYNC_LAST_CAPTURE_MS, clock.now().toEpochMilliseconds())
             }
@@ -68,6 +87,11 @@ class MoneyMNotificationListenerService : NotificationListenerService() {
         val pm = packageManager
         pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)).toString()
     }.getOrNull()
+
+    companion object {
+        private const val EXTRA_TEXT = "android.text"
+        private const val EXTRA_BIG_TEXT = "android.bigText"
+    }
 
     override fun onDestroy() {
         super.onDestroy()
