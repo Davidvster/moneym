@@ -46,6 +46,7 @@ class NotificationParser {
             ?: titleCandidate?.takeIf { isUsefulTitle(it, appLabel, packageName) }
 
         val description = when {
+            textMerchant != null -> textMerchant
             titleCandidate != null && isUsefulTitle(titleCandidate, appLabel, packageName) -> titleCandidate
             merchant != null -> merchant
             rawTitle.isNotBlank() -> rawTitle
@@ -114,20 +115,23 @@ class NotificationParser {
                 ?: normalizeCurrency(afterCurrency, defaultCurrency)
 
             var score = 0
-            if (source == Source.TEXT) score += 20 else score += 5
+            score += if (source == Source.TEXT) 20 else 5
             if (currency != null) score += 40
             if (looksDecimal(rawNumber)) score += 10
             if (containsAny(context, AMOUNT_HINTS)) score += 10
             if (containsAny(context, CARD_HINTS) || MASKED_CARD_REGEX.containsMatchIn(context)) score -= 40
             if (looksLikeYear(rawNumber) && currency == null) score -= 25
             if (looksLikeTime(rawNumber)) score -= 25
+            if (containsAny(context, DATE_HINTS) && currency == null) score -= 30
 
-            out += AmountCandidate(
-                amountMinor = signedMinor,
-                currency = currency,
-                source = source,
-                score = score,
-            )
+            if (score > 0) {
+                out += AmountCandidate(
+                    amountMinor = signedMinor,
+                    currency = currency,
+                    source = source,
+                    score = score,
+                )
+            }
         }
 
         return out
@@ -153,7 +157,12 @@ class NotificationParser {
         s = trimLeadingTokens(s, LEADING_CONNECTORS)
         s = trimTrailingTokens(s, TRAILING_MERCHANT_NOISE)
         s = trimCardTail(s)
-        s = normalize(s).trim(' ', '.', ',', ':', ';', '-', '–', '—', '|', '•', '·')
+        s = normalize(s)
+        // Trim leading punctuation but preserve trailing dots for abbreviations (S.A., Ltd., Inc.)
+        s = s.trimStart(' ', '.', ',', ':', ';', '-', '–', '—', '|', '•', '·')
+        s = s.trimEnd(' ', ',', ':', ';', '-', '–', '—', '|', '•', '·')
+        // Collapse consecutive trailing dots to one: "S.A.." → "S.A."
+        while (s.endsWith("..")) s = s.dropLast(1)
 
         return s.takeIf { it.isNotBlank() }
     }
@@ -287,7 +296,7 @@ class NotificationParser {
 
         val negative = s.startsWith("-") || s.startsWith("−")
         s = s.removePrefix("+").removePrefix("-").removePrefix("−").trim()
-        s = s.replace(" ", "").replace("'", "").replace("’", "")
+        s = s.replace(" ", "").replace("'", "").replace("'", "")
         if (s.isBlank()) return null
 
         val lastComma = s.lastIndexOf(',')
@@ -491,7 +500,7 @@ class NotificationParser {
             "(?:$currencySymbolPattern|$currencyCodePattern)"
 
         private const val NUMBER_PATTERN: String =
-            "[+\\-−]?\\d{1,3}(?:[ ,.'’]\\d{3})*(?:[.,]\\d{1,2})|[+\\-−]?\\d+(?:[.,]\\d{1,2})?"
+            "[+\\-−]?\\d{1,3}(?:[ ,.'']\\d{3})*(?:[.,]\\d{1,2})|[+\\-−]?\\d+(?:[.,]\\d{1,2})?"
 
         private val AMOUNT_REGEX = Regex(
             "($currencyTokenPattern)?\\s*($NUMBER_PATTERN)(?:\\s*($currencyTokenPattern))?",
@@ -507,6 +516,7 @@ class NotificationParser {
             Regex("\\b(?:to|at|from)\\s+(.+)$", RegexOption.IGNORE_CASE),
             Regex("\\b(?:an|bei|von)\\s+(.+)$", RegexOption.IGNORE_CASE),
             Regex("\\b(?:aan|bij|van)\\s+(.+)$", RegexOption.IGNORE_CASE),
+            Regex("\\b(?:em|para)\\s+(.+)$", RegexOption.IGNORE_CASE),         // Portuguese — before chez|de
             Regex("\\b(?:chez|de)\\s+(.+)$", RegexOption.IGNORE_CASE),
         )
 
@@ -515,11 +525,13 @@ class NotificationParser {
             "an", "bei", "von",
             "aan", "bij", "van",
             "chez", "de",
+            "em", "para",                                                        // Portuguese
         )
 
         private val TRAILING_MERCHANT_NOISE = listOf(
             "gezahlt", "bezahlt", "received", "refunded", "refund", "credited",
             "with the card", "with card", "with the", "with",
+            "aprovada", "aprovado", "recebida", "recebido",                      // Portuguese bank status
         )
 
         private val CARD_TAIL_MARKERS = listOf(
@@ -537,6 +549,11 @@ class NotificationParser {
             "****",
             "xxxx",
             "••••",
+            " para o cartão",                                                    // Portuguese
+            " para o cartao",
+            " com final ",
+            " cartão com",
+            " cartao com",
         )
 
         private val CARD_HINTS = listOf(
@@ -546,6 +563,28 @@ class NotificationParser {
         private val AMOUNT_HINTS = listOf(
             "paid", "payment", "purchase", "spent", "refund", "received", "credited",
             "gezahlt", "bezahlt", "zahlung", "kauf",
+        )
+
+        private val DATE_HINTS = listOf(
+            // English
+            "january", "february", "march", "april", "may", "june", "july",
+            "august", "september", "october", "november", "december",
+            "jan", "feb", "mar", "apr", "jun", "jul", "aug", "sep", "oct", "nov", "dec",
+            // Portuguese
+            "janeiro", "fevereiro", "março", "abril", "junho", "julho",
+            "agosto", "setembro", "outubro", "novembro", "dezembro",
+            // German
+            "januar", "februar", "märz", "mai", "juni", "juli",
+            // Spanish
+            "septiembre", "octubre", "noviembre", "diciembre",
+            // French
+            "janvier", "février", "mars", "avril", "juin", "juillet",
+            "août", "octobre", "novembre", "décembre",
+            // Dutch
+            "januari", "februari", "maart", "april", "augustus",
+            // Swedish / Norwegian / Danish
+            "januari", "februari", "mars", "april", "maj", "juni", "juli",
+            "augusti", "september", "oktober", "november", "december",
         )
 
         private val CREDIT_HINTS = listOf(
