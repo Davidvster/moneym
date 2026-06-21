@@ -144,7 +144,7 @@ class SyncReconcilerTest {
             remote = snapshot(transactions = listOf(transaction("t1", updatedAt = 20L, deleted = true))),
         )
 
-        assertEquals("1000 EUR · 2026-01-01", result.pendingDeletions.single().label)
+        assertEquals("€ 10.00 · 2026-01-01", result.pendingDeletions.single().label)
     }
 
     @Test
