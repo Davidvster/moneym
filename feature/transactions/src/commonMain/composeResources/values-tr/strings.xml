@@ -27,7 +27,7 @@
     <string name="transactions_wallet_all">Tüm cüzdanlar</string>
     <string name="transactions_syncing">Senkronize ediliyor…</string>
     <string name="transactions_pending_deletions">Başka bir cihazda %1$d öğe kaldırıldı — incele</string>
-    <string name="transactions_sync_conflict_body">Eşitleme duraklatıldı. Parolayı girmek için Ayarlar\'da Yedekleme ve Geri Yükleme\'yi açın.</string>
+    <string name="transactions_sync_conflict_body">Eşitleme duraklatıldı. Parolayı girmek için Ayarlar'da Yedekleme ve Geri Yükleme'yi açın.</string>
     <string name="transactions_bank_sync_section">Banka senkronizasyonu</string>
     <string name="transactions_bank_review">%1$d önerilen işlemi incele</string>
     <string name="transactions_sync_last">Son eşitleme %1$s</string>

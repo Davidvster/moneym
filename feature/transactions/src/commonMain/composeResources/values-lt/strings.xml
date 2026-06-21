@@ -39,4 +39,6 @@
     <string name="transactions_wallet_sync_section">Piniginės sinchronizavimas</string>
     <string name="transactions_wallet_review">Peržiūrėti %1$d pasiūlymų</string>
     <string name="transactions_wallet_empty">Kol kas nėra pasiūlymų</string>
+    <string name="transactions_wallet_sync_banner_title">Piniginės sinchronizavimo pasiūlymai</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d naujų operacijų iš pranešimų — peržiūrėti</string>
 </resources>

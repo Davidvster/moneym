@@ -39,4 +39,6 @@
     <string name="transactions_wallet_sync_section">Đồng bộ ví</string>
     <string name="transactions_wallet_review">Xem %1$d gợi ý</string>
     <string name="transactions_wallet_empty">Chưa có gợi ý</string>
+    <string name="transactions_wallet_sync_banner_title">Gợi ý đồng bộ ví</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d giao dịch mới từ thông báo — xem lại</string>
 </resources>

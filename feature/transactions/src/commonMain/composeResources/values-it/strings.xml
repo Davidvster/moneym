@@ -40,4 +40,6 @@
     <string name="transactions_wallet_sync_section">Sincronizzazione wallet</string>
     <string name="transactions_wallet_review">Rivedi %1$d suggerimenti</string>
     <string name="transactions_wallet_empty">Ancora nessun suggerimento</string>
+    <string name="transactions_wallet_sync_banner_title">Suggerimenti sincronizzazione wallet</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d nuove transazioni dalle notifiche — rivedi</string>
 </resources>

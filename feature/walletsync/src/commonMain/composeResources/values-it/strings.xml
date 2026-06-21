@@ -4,7 +4,7 @@
     <string name="wallet_sync_intro">Crea suggerimenti di transazioni dalle notifiche delle tue app di pagamento. Tutto resta sul tuo dispositivo.</string>
     <string name="wallet_sync_enable_title">Ascolta le notifiche</string>
     <string name="wallet_sync_enable_subtitle">Trasforma le notifiche delle app scelte in suggerimenti</string>
-    <string name="wallet_sync_access_required">MoneyM ha bisogno dell\'accesso alle notifiche per leggere le notifiche di pagamento.</string>
+    <string name="wallet_sync_access_required">MoneyM ha bisogno dell'accesso alle notifiche per leggere le notifiche di pagamento.</string>
     <string name="wallet_sync_grant_access">Concedi accesso alle notifiche</string>
     <string name="wallet_sync_access_granted">Accesso alle notifiche concesso</string>
     <string name="wallet_sync_select_apps">Scegli le app</string>
@@ -19,7 +19,7 @@
     <string name="wallet_sync_done">Fatto</string>
     <string name="wallet_sync_apps_loading">Caricamento app…</string>
     <string name="wallet_sync_manage_apps">Gestisci</string>
-    <string name="wallet_sync_remove_app_title">Rimuovere l\'app?</string>
+    <string name="wallet_sync_remove_app_title">Rimuovere l'app?</string>
     <string name="wallet_sync_remove_app_body">Smettere di acquisire le notifiche da %1$s?</string>
     <string name="wallet_sync_remove_app_confirm">Rimuovi</string>
     <string name="wallet_sync_remove_app_cancel">Annulla</string>

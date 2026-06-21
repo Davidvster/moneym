@@ -43,7 +43,7 @@
     <string name="categories_name_blank">Le nom ne peut pas être vide</string>
     <string name="categories_name_duplicate">Une catégorie portant ce nom existe déjà</string>
     <string name="categories_options_subtitle">%1$d transactions utilisent cette catégorie</string>
-    <string name="categories_option_archive">La conserver et l\'archiver plutôt</string>
+    <string name="categories_option_archive">La conserver et l'archiver plutôt</string>
     <string name="categories_option_unarchive">Désarchiver la catégorie</string>
     <string name="categories_option_migrate">Déplacer les transactions vers une autre catégorie</string>
     <string name="categories_option_delete_all">Supprimer la catégorie et toutes les transactions</string>

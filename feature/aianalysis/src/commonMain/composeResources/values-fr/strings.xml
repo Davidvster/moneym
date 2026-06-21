@@ -22,9 +22,9 @@
     <string name="analyze_download_model">Télécharger un modèle</string>
     <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
     <string name="analyze_engine_gemini_nano">Gemini Nano</string>
-    <string name="analyze_engine_label">Moteur d\'IA</string>
-    <string name="analyze_engine_local_llm">Modèle sur l\'appareil</string>
-    <string name="analyze_engine_needs_download_notice">Ce moteur n\'est pas disponible. Téléchargez un modèle pour continuer.</string>
+    <string name="analyze_engine_label">Moteur d'IA</string>
+    <string name="analyze_engine_local_llm">Modèle sur l'appareil</string>
+    <string name="analyze_engine_needs_download_notice">Ce moteur n'est pas disponible. Téléchargez un modèle pour continuer.</string>
     <string name="analyze_engine_status_download">Touchez pour télécharger</string>
     <string name="analyze_engine_status_ready">Prêt</string>
     <string name="analyze_engine_status_unavailable">Indisponible</string>
@@ -34,7 +34,7 @@
     <string name="analyze_history_delete_cd">Supprimer la conversation</string>
     <string name="analyze_history_delete_confirm">Supprimer</string>
     <string name="analyze_history_delete_title">Supprimer la conversation ?</string>
-    <string name="analyze_history_empty">Aucune conversation pour l\'instant. Vos discussions apparaîtront ici.</string>
+    <string name="analyze_history_empty">Aucune conversation pour l'instant. Vos discussions apparaîtront ici.</string>
     <string name="analyze_history_new_chat">Nouvelle analyse</string>
     <string name="analyze_history_new_chat_cd">Nouvelle discussion</string>
     <string name="analyze_history_title">Historique des discussions</string>

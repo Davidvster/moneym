@@ -39,4 +39,6 @@
     <string name="transactions_wallet_sync_section">Lompakon synkronointi</string>
     <string name="transactions_wallet_review">Tarkista %1$d ehdotusta</string>
     <string name="transactions_wallet_empty">Ei vielä ehdotuksia</string>
+    <string name="transactions_wallet_sync_banner_title">Lompakon synkronointiehdotukset</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d uutta tapahtumaa ilmoituksista — tarkista</string>
 </resources>

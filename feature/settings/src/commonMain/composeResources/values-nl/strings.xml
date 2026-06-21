@@ -90,7 +90,7 @@
     <string name="settings_currency_picker_title">Valuta</string>
     <string name="settings_search_currency">Valuta zoeken…</string>
     <string name="settings_currency_popular">POPULAIR</string>
-    <string name="settings_currency_all">ALLE VALUTA\'S</string>
+    <string name="settings_currency_all">ALLE VALUTA'S</string>
     <string name="settings_language_picker_title">Taal</string>
     <string name="settings_tx_list_display_title">Transactielijst</string>
     <string name="settings_lang_system_default">Systeemstandaard</string>

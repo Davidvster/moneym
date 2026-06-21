@@ -39,4 +39,6 @@
     <string name="transactions_wallet_sync_section">Tárca szinkronizálás</string>
     <string name="transactions_wallet_review">%1$d javaslat áttekintése</string>
     <string name="transactions_wallet_empty">Még nincsenek javaslatok</string>
+    <string name="transactions_wallet_sync_banner_title">Tárca szinkronizálás javaslatok</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d új tranzakció értesítésekből — áttekintés</string>
 </resources>

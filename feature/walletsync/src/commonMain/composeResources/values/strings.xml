@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="wallet_sync_title">Wallet sync</string>
-    <string name="wallet_sync_intro">Create transaction suggestions from your payment apps\' notifications. Everything stays on your device.</string>
+    <string name="wallet_sync_intro">Create transaction suggestions from your payment apps' notifications. Everything stays on your device.</string>
     <string name="wallet_sync_enable_title">Listen to notifications</string>
     <string name="wallet_sync_enable_subtitle">Turn notifications from the chosen apps into suggestions</string>
     <string name="wallet_sync_access_required">MoneyM needs notification access to read payment notifications.</string>

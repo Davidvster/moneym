@@ -39,4 +39,6 @@
     <string name="transactions_wallet_sync_section">Synchronizacja portfela</string>
     <string name="transactions_wallet_review">Przejrzyj %1$d propozycji</string>
     <string name="transactions_wallet_empty">Brak propozycji</string>
+    <string name="transactions_wallet_sync_banner_title">Propozycje synchronizacji portfela</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d nowych transakcji z powiadomień — przejrzyj</string>
 </resources>

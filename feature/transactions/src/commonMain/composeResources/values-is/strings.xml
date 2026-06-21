@@ -39,4 +39,6 @@
     <string name="transactions_wallet_sync_section">Veskissamstilling</string>
     <string name="transactions_wallet_review">Skoða %1$d tillögur</string>
     <string name="transactions_wallet_empty">Engar tillögur enn</string>
+    <string name="transactions_wallet_sync_banner_title">Tillögur um veskisamstillingu</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d nýjar færslur frá tilkynningum — yfirfara</string>
 </resources>

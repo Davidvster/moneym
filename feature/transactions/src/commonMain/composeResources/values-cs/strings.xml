@@ -39,4 +39,6 @@
     <string name="transactions_wallet_sync_section">Synchronizace peněženky</string>
     <string name="transactions_wallet_review">Zkontrolovat %1$d návrhů</string>
     <string name="transactions_wallet_empty">Zatím žádné návrhy</string>
+    <string name="transactions_wallet_sync_banner_title">Návrhy synchronizace peněženky</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d nových transakcí z upozornění — zkontrolovat</string>
 </resources>

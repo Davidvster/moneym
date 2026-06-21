@@ -40,5 +40,7 @@
     <string name="transactions_synced">Synchronisé</string>
     <string name="transactions_wallet_sync_section">Synchronisation du portefeuille</string>
     <string name="transactions_wallet_review">Examiner %1$d suggestions</string>
-    <string name="transactions_wallet_empty">Aucune suggestion pour l\'instant</string>
+    <string name="transactions_wallet_empty">Aucune suggestion pour l'instant</string>
+    <string name="transactions_wallet_sync_banner_title">Suggestions de synchronisation du portefeuille</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d nouvelles transactions des notifications — examiner</string>
 </resources>

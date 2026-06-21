@@ -16,7 +16,7 @@
     <string name="bank_sync_country_label">Codice paese</string>
     <string name="bank_sync_load_banks">Trova banche</string>
     <string name="bank_sync_search_banks">Cerca banche</string>
-    <string name="bank_sync_awaiting_auth">Completa l\'autorizzazione nel browser, poi incolla qui sotto il link di reindirizzamento.</string>
+    <string name="bank_sync_awaiting_auth">Completa l'autorizzazione nel browser, poi incolla qui sotto il link di reindirizzamento.</string>
     <string name="bank_sync_redirect_label">Link di reindirizzamento o codice</string>
     <string name="bank_sync_redirect_invalid">Nessun codice trovato nel testo incollato</string>
     <string name="bank_sync_submit_redirect">Completa il collegamento</string>
@@ -25,7 +25,7 @@
     <string name="bank_sync_account_target_label">Importa in</string>
     <string name="bank_sync_account_target_none">Scegli un portafoglio</string>
     <string name="bank_sync_auto_title">Sincronizza automaticamente</string>
-    <string name="bank_sync_auto_subtitle">Cerca nuove transazioni bancarie all\'avvio dell\'app.</string>
+    <string name="bank_sync_auto_subtitle">Cerca nuove transazioni bancarie all'avvio dell'app.</string>
     <string name="bank_sync_sync_now">Sincronizza ora</string>
     <string name="bank_sync_syncing">Sincronizzazione…</string>
     <string name="bank_sync_last_sync_never">Non ancora sincronizzato</string>

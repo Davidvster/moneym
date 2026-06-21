@@ -4,8 +4,8 @@
     <string name="wallet_sync_intro">Créez des suggestions de transactions à partir des notifications de vos applis de paiement. Tout reste sur votre appareil.</string>
     <string name="wallet_sync_enable_title">Écouter les notifications</string>
     <string name="wallet_sync_enable_subtitle">Transformez les notifications des applis choisies en suggestions</string>
-    <string name="wallet_sync_access_required">MoneyM a besoin de l\'accès aux notifications pour lire les notifications de paiement.</string>
-    <string name="wallet_sync_grant_access">Autoriser l\'accès aux notifications</string>
+    <string name="wallet_sync_access_required">MoneyM a besoin de l'accès aux notifications pour lire les notifications de paiement.</string>
+    <string name="wallet_sync_grant_access">Autoriser l'accès aux notifications</string>
     <string name="wallet_sync_access_granted">Accès aux notifications autorisé</string>
     <string name="wallet_sync_select_apps">Choisir les applis</string>
     <string name="wallet_sync_select_apps_subtitle">Capturer les notifications de ces applis</string>
@@ -19,7 +19,7 @@
     <string name="wallet_sync_done">Terminé</string>
     <string name="wallet_sync_apps_loading">Chargement des applis…</string>
     <string name="wallet_sync_manage_apps">Gérer</string>
-    <string name="wallet_sync_remove_app_title">Supprimer l\'application ?</string>
+    <string name="wallet_sync_remove_app_title">Supprimer l'application ?</string>
     <string name="wallet_sync_remove_app_body">Arrêter de capturer les notifications de %1$s ?</string>
     <string name="wallet_sync_remove_app_confirm">Supprimer</string>
     <string name="wallet_sync_remove_app_cancel">Annuler</string>

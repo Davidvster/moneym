@@ -39,4 +39,6 @@
     <string name="transactions_wallet_sync_section">Plånbokssynk</string>
     <string name="transactions_wallet_review">Granska %1$d förslag</string>
     <string name="transactions_wallet_empty">Inga förslag ännu</string>
+    <string name="transactions_wallet_sync_banner_title">Plånbokssynk-förslag</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d nya transaktioner från notifieringar — granska</string>
 </resources>

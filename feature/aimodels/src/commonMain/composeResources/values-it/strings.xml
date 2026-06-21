@@ -11,7 +11,7 @@
     <string name="ai_models_delete_title">Eliminare il modello?</string>
     <string name="ai_models_delete_body">Rimuove il file del modello scaricato da questo dispositivo.</string>
     <string name="ai_models_verifying">Verifica in corso…</string>
-    <string name="ai_models_keep_awake">Tieni l\'app aperta e lo schermo acceso. Non lasciare questa schermata finché il download non è completato.</string>
+    <string name="ai_models_keep_awake">Tieni l'app aperta e lo schermo acceso. Non lasciare questa schermata finché il download non è completato.</string>
     <string name="ai_models_eta_seconds">~%1$d s rimasti</string>
     <string name="ai_models_eta_minutes">~%1$d min rimasti</string>
     <string name="ai_models_eta_hours">~%1$d h %2$d min rimasti</string>

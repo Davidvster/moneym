@@ -40,4 +40,6 @@
     <string name="transactions_wallet_sync_section">Sincronización de cartera</string>
     <string name="transactions_wallet_review">Revisar %1$d sugerencias</string>
     <string name="transactions_wallet_empty">Aún no hay sugerencias</string>
+    <string name="transactions_wallet_sync_banner_title">Sugerencias de sincronización de cartera</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d nuevas transacciones de notificaciones: revisar</string>
 </resources>

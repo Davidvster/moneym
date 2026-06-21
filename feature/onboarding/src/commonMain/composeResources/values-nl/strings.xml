@@ -11,7 +11,7 @@
     <string name="onboarding_skip">Nu overslaan</string>
     <string name="onboarding_skip_short">Overslaan</string>
     <string name="onboarding_search_currency">Valuta zoeken…</string>
-    <string name="onboarding_currencies_header">VALUTA\'S</string>
+    <string name="onboarding_currencies_header">VALUTA'S</string>
     <string name="onboarding_biometrics_label">Biometrie</string>
     <string name="onboarding_biometrics_subtitle">Ontgrendelen met Face ID of vingerafdruk</string>
     <string name="onboarding_restore_from_backup">Herstellen vanuit back-up</string>

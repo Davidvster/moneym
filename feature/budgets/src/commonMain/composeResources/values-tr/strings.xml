@@ -26,8 +26,8 @@
     <string name="budgets_delete_confirm_body">Bu bütçe kaldırılacak. İşlemler etkilenmez.</string>
     <string name="budgets_placeholder_name">Market</string>
     <string name="budgets_error_required">Zorunlu</string>
-    <string name="budgets_error_amount">0\'dan büyük bir tutar girin</string>
-    <string name="budgets_error_count">0\'dan büyük olmalı</string>
+    <string name="budgets_error_amount">0'dan büyük bir tutar girin</string>
+    <string name="budgets_error_count">0'dan büyük olmalı</string>
     <string name="budgets_prev_month">Önceki ay</string>
     <string name="budgets_next_month">Sonraki ay</string>
     <string name="budgets_no_month">—</string>

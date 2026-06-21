@@ -39,4 +39,6 @@
     <string name="transactions_wallet_sync_section">Sinhronizacija denarnice</string>
     <string name="transactions_wallet_review">Preglej %1$d predlogov</string>
     <string name="transactions_wallet_empty">Še ni predlogov</string>
+    <string name="transactions_wallet_sync_banner_title">Predlogi sinhronizacije denarnice</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d novih transakcij iz obvestil — preglej</string>
 </resources>

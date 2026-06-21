@@ -29,8 +29,8 @@
     <string name="settings_export_json">JSON olarak dışa aktar</string>
     <string name="settings_export_csv">CSV olarak dışa aktar</string>
     <string name="settings_exported_content">Dışa aktarılan içerik (%1$d karakter)</string>
-    <string name="settings_import_json">JSON\'dan içe aktar</string>
-    <string name="settings_paste_hint">JSON\'u buraya yapıştırın</string>
+    <string name="settings_import_json">JSON'dan içe aktar</string>
+    <string name="settings_paste_hint">JSON'u buraya yapıştırın</string>
     <string name="settings_copy">Panoya kopyala</string>
     <string name="settings_preview">Önizleme</string>
     <string name="settings_import">İçe aktar</string>
@@ -170,7 +170,7 @@
     <string name="settings_backup_saved">Yedek kaydedildi</string>
     <string name="settings_last_backup">Son yedekleme: %1$s</string>
     <string name="settings_edit_currency_title">Para Birimini Değiştir</string>
-    <string name="settings_edit_currency_warning">Bu cüzdandaki tüm işlemler %1$s\'dan %2$s\'a dönüştürülecek.</string>
+    <string name="settings_edit_currency_warning">Bu cüzdandaki tüm işlemler %1$s'dan %2$s'a dönüştürülecek.</string>
     <string name="settings_edit_currency_rate_label">Dönüşüm oranı</string>
     <string name="settings_edit_currency_example">1 %1$s = %2$s %3$s</string>
     <string name="settings_edit_currency_confirm">Dönüştür</string>
@@ -181,9 +181,9 @@
     <string name="settings_remote_disconnect">Bağlantıyı kes</string>
     <string name="settings_remote_signed_in_as">%1$s olarak oturum açıldı</string>
     <string name="settings_remote_auto_backup">Otomatik uzaktan yedekleme</string>
-    <string name="settings_remote_auto_backup_subtitle">Her değişiklikten sonra yedeği şifreleyin ve Google Drive\'a yükleyin</string>
+    <string name="settings_remote_auto_backup_subtitle">Her değişiklikten sonra yedeği şifreleyin ve Google Drive'a yükleyin</string>
     <string name="settings_remote_backup_now">Şimdi yedekle</string>
-    <string name="settings_remote_restore">Google Drive\'dan geri yükle</string>
+    <string name="settings_remote_restore">Google Drive'dan geri yükle</string>
     <string name="settings_remote_last_backup">Son uzak yedekleme: %1$s</string>
     <string name="settings_remote_last_backup_never">Hiç</string>
     <string name="settings_remote_passphrase_title">Yedek parolası ayarla</string>
@@ -201,8 +201,8 @@
     <string name="settings_remote_password_mismatch">Şifreler eşleşmiyor</string>
     <string name="settings_remote_password_too_short">Şifre en az %1$d karakter olmalı</string>
     <string name="settings_remote_dont_encrypt">Şifreleme</string>
-    <string name="settings_remote_plaintext_warning">Mali verileriniz Google Drive\'da şifrelenmemiş olarak saklanacak. Drive\'ınıza erişimi olan herkes okuyabilir.</string>
-    <string name="settings_remote_restore_title">Google Drive\'dan geri yüklensin mi?</string>
+    <string name="settings_remote_plaintext_warning">Mali verileriniz Google Drive'da şifrelenmemiş olarak saklanacak. Drive'ınıza erişimi olan herkes okuyabilir.</string>
+    <string name="settings_remote_restore_title">Google Drive'dan geri yüklensin mi?</string>
     <string name="settings_remote_restore_body">Bu işlem tüm mevcut verileri en son şifreli yedekle kalıcı olarak değiştirecek. Devam etmek için parolanızı girin.</string>
     <string name="settings_remote_restore_confirm">Geri yükle</string>
     <string name="settings_remote_status_encrypting">Şifreleniyor…</string>
@@ -218,7 +218,7 @@
     <string name="settings_remote_relative_days">%1$d gün önce</string>
     <string name="settings_remote_relative_longer">çok uzun zaman önce</string>
     <string name="settings_remote_disconnect_title">Google hesabının bağlantısı kesilsin mi?</string>
-    <string name="settings_remote_disconnect_body">Bağlantıyı kesmek yeni yedeklemeleri durduracak ancak mevcut uzak yedekler Google Drive\'ınızda kalır. Bunlara erişmek için istediğiniz zaman yeniden bağlanın.</string>
+    <string name="settings_remote_disconnect_body">Bağlantıyı kesmek yeni yedeklemeleri durduracak ancak mevcut uzak yedekler Google Drive'ınızda kalır. Bunlara erişmek için istediğiniz zaman yeniden bağlanın.</string>
     <string name="settings_remote_disconnect_confirm">Bağlantıyı kes</string>
     <string name="settings_remote_quota_warning">Yeterli Google Drive alanı yok (%1$d KB boş, %2$d KB gerekli)</string>
     <string name="settings_remote_restore_preview_created">%1$s tarihinde oluşturuldu</string>
@@ -242,7 +242,7 @@
     <string name="settings_cloud_sync_subtitle">Verilerinizi Google Drive üzerinden yedekleyin ve cihazlar arasında eşitleyin.</string>
     <string name="settings_cloud_wrong_password">Bu parola bulut verileriyle eşleşmiyor.</string>
     <string name="settings_import_failed">İçe aktarma başarısız</string>
-    <string name="settings_remote_delete_body">Bu, Google Drive\'ınızdaki tüm bulut yedeklerini ve eşitleme verilerini kalıcı olarak siler ve otomatik yedeklemeyi ile cihazlar arası eşitlemeyi kapatır. Bu geri alınamaz.</string>
+    <string name="settings_remote_delete_body">Bu, Google Drive'ınızdaki tüm bulut yedeklerini ve eşitleme verilerini kalıcı olarak siler ve otomatik yedeklemeyi ile cihazlar arası eşitlemeyi kapatır. Bu geri alınamaz.</string>
     <string name="settings_remote_delete_confirm">Sil</string>
     <string name="settings_remote_delete_data">Google Drive verilerini sil</string>
     <string name="settings_remote_delete_title">Google Drive verileri silinsin mi?</string>
@@ -251,7 +251,7 @@
     <string name="settings_remote_error_restore_failed">Geri yükleme başarısız</string>
     <string name="settings_remote_error_sign_in_failed">Oturum açma başarısız</string>
     <string name="settings_remote_restore_error_title">Yedek yüklenemedi</string>
-    <string name="settings_remote_restore_no_backup">Google Drive\'da yedek bulunamadı.</string>
+    <string name="settings_remote_restore_no_backup">Google Drive'da yedek bulunamadı.</string>
     <string name="settings_remote_restore_try_again">Lütfen tekrar deneyin.</string>
     <string name="settings_bank_sync">Banka senkronizasyonu</string>
     <string name="settings_wallet_sync">Cüzdan senkronizasyonu</string>

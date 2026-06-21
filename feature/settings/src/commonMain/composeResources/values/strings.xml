@@ -177,7 +177,7 @@
     <string name="settings_cloud_join_body">Enter the same password you set on your other device so this device can read the cloud data.</string>
     <string name="settings_cloud_join_confirm">Join</string>
     <string name="settings_cloud_join_plaintext_title">Turn on cloud sync</string>
-    <string name="settings_cloud_join_plaintext_body">Your other device\'s cloud data is not encrypted. Turn on cloud sync on this device too?</string>
+    <string name="settings_cloud_join_plaintext_body">Your other device's cloud data is not encrypted. Turn on cloud sync on this device too?</string>
     <string name="settings_cloud_wrong_password">That password does not match the cloud data.</string>
     <string name="settings_backup_to_file">Back up to file</string>
     <string name="settings_restore_from_file">Restore from file</string>

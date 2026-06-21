@@ -18,7 +18,7 @@
     <string name="settings_categories">Gestisci categorie</string>
     <string name="settings_budgets">Budget</string>
     <string name="settings_language_section">Lingua</string>
-    <string name="settings_language_label">Lingua dell\'app</string>
+    <string name="settings_language_label">Lingua dell'app</string>
     <string name="settings_language_dialog_title">Seleziona lingua</string>
     <string name="settings_lang_system">Predefinita di sistema</string>
     <string name="settings_lang_en">Inglese</string>
@@ -37,7 +37,7 @@
     <string name="settings_clear">Cancella</string>
     <string name="settings_import_success">Importazione completata!</string>
     <string name="settings_language_use_device">Usa lingua del dispositivo</string>
-    <string name="settings_language_restart_note">Cambiare la lingua riavvierà l\'app al prossimo avvio.</string>
+    <string name="settings_language_restart_note">Cambiare la lingua riavvierà l'app al prossimo avvio.</string>
     <string name="settings_language_all_languages">TUTTE LE LINGUE</string>
     <string name="settings_txdisplay_preview">ANTEPRIMA</string>
     <string name="settings_txdisplay_color_indicator">INDICATORE COLORE</string>
@@ -48,7 +48,7 @@
     <string name="settings_txdisplay_daily_sums">Totali giornalieri</string>
     <string name="settings_txdisplay_pending_recurring">Mostra ricorrenze in arrivo</string>
     <string name="settings_recurring_title">Transazioni ricorrenti</string>
-    <string name="settings_recurring_empty">Nessuna transazione ricorrente.\nCrea una transazione e abilita l\'opzione ricorrente, oppure tocca + per creare direttamente un modello.</string>
+    <string name="settings_recurring_empty">Nessuna transazione ricorrente.\nCrea una transazione e abilita l'opzione ricorrente, oppure tocca + per creare direttamente un modello.</string>
     <string name="settings_recurring_nav">Transazioni ricorrenti</string>
     <string name="settings_txdisplay_density">DENSITÀ</string>
     <string name="settings_txdisplay_row_size">Dimensione riga</string>
@@ -173,10 +173,10 @@
     <string name="settings_cloud_sync_subtitle">Esegui il backup e sincronizza i tuoi dati tra dispositivi tramite Google Drive.</string>
     <string name="settings_cloud_devices">Dispositivi</string>
     <string name="settings_cloud_join_title">Collega il tuo altro dispositivo</string>
-    <string name="settings_cloud_join_body">Inserisci la stessa password impostata sull\'altro dispositivo affinché questo possa leggere i dati nel cloud.</string>
+    <string name="settings_cloud_join_body">Inserisci la stessa password impostata sull'altro dispositivo affinché questo possa leggere i dati nel cloud.</string>
     <string name="settings_cloud_join_confirm">Collega</string>
     <string name="settings_cloud_join_plaintext_title">Attiva la sincronizzazione cloud</string>
-    <string name="settings_cloud_join_plaintext_body">I dati nel cloud dell\'altro dispositivo non sono cifrati. Attivare la sincronizzazione cloud anche su questo dispositivo?</string>
+    <string name="settings_cloud_join_plaintext_body">I dati nel cloud dell'altro dispositivo non sono cifrati. Attivare la sincronizzazione cloud anche su questo dispositivo?</string>
     <string name="settings_cloud_wrong_password">La password non corrisponde ai dati nel cloud.</string>
     <string name="settings_backup_to_file">Salva backup su file</string>
     <string name="settings_restore_from_file">Ripristina da file</string>
