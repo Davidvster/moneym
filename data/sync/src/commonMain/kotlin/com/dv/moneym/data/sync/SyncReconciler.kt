@@ -1,5 +1,9 @@
 package com.dv.moneym.data.sync
 
+import com.dv.moneym.core.model.CurrencyCode
+import com.dv.moneym.core.model.Money
+import com.dv.moneym.core.model.format
+
 /**
  * Pure last-write-wins reconciliation by syncId. No repository / IO dependencies.
  *
@@ -18,34 +22,71 @@ class SyncReconciler {
         val pendingDeletions = mutableListOf<PendingDeletion>()
 
         val accounts = reconcileList(
-            local.accounts, remote.accounts, SyncEntityType.ACCOUNT,
-            syncId = { it.syncId }, deleted = { it.deleted }, updatedAt = { it.updatedAt },
-            label = { it.name }, pendingDeletions = pendingDeletions,
+            local = local.accounts,
+            remote = remote.accounts,
+            type = SyncEntityType.ACCOUNT,
+            syncId = { it.syncId },
+            deleted = { it.deleted },
+            updatedAt = { it.updatedAt },
+            label = { it.name },
+            pendingDeletions = pendingDeletions,
         )
         val categories = reconcileList(
-            local.categories, remote.categories, SyncEntityType.CATEGORY,
-            syncId = { it.syncId }, deleted = { it.deleted }, updatedAt = { it.updatedAt },
-            label = { it.name }, pendingDeletions = pendingDeletions,
+            local = local.categories,
+            remote = remote.categories,
+            type = SyncEntityType.CATEGORY,
+            syncId = { it.syncId },
+            deleted = { it.deleted },
+            updatedAt = { it.updatedAt },
+            label = { it.name },
+            pendingDeletions = pendingDeletions,
         )
         val paymentModes = reconcileList(
-            local.paymentModes, remote.paymentModes, SyncEntityType.PAYMENT_MODE,
-            syncId = { it.syncId }, deleted = { it.deleted }, updatedAt = { it.updatedAt },
-            label = { it.name }, pendingDeletions = pendingDeletions,
+            local = local.paymentModes,
+            remote = remote.paymentModes,
+            type = SyncEntityType.PAYMENT_MODE,
+            syncId = { it.syncId },
+            deleted = { it.deleted },
+            updatedAt = { it.updatedAt },
+            label = { it.name },
+            pendingDeletions = pendingDeletions,
         )
         val recurring = reconcileList(
-            local.recurring, remote.recurring, SyncEntityType.RECURRING,
-            syncId = { it.syncId }, deleted = { it.deleted }, updatedAt = { it.updatedAt },
-            label = { it.note ?: "recurring" }, pendingDeletions = pendingDeletions,
+            local = local.recurring,
+            remote = remote.recurring,
+            type = SyncEntityType.RECURRING,
+            syncId = { it.syncId },
+            deleted = { it.deleted },
+            updatedAt = { it.updatedAt },
+            label = { it.note ?: "recurring" },
+            pendingDeletions = pendingDeletions,
         )
         val budgets = reconcileList(
-            local.budgets, remote.budgets, SyncEntityType.BUDGET,
-            syncId = { it.syncId }, deleted = { it.deleted }, updatedAt = { it.updatedAt },
-            label = { it.name }, pendingDeletions = pendingDeletions,
+            local = local.budgets,
+            remote = remote.budgets,
+            type = SyncEntityType.BUDGET,
+            syncId = { it.syncId },
+            deleted = { it.deleted },
+            updatedAt = { it.updatedAt },
+            label = { it.name },
+            pendingDeletions = pendingDeletions,
         )
         val transactions = reconcileList(
-            local.transactions, remote.transactions, SyncEntityType.TRANSACTION,
-            syncId = { it.syncId }, deleted = { it.deleted }, updatedAt = { it.updatedAt },
-            label = { "${it.amountMinor} ${it.currency} · ${it.occurredOn}" }, pendingDeletions = pendingDeletions,
+            local = local.transactions,
+            remote = remote.transactions,
+            type = SyncEntityType.TRANSACTION,
+            syncId = { it.syncId },
+            deleted = { it.deleted },
+            updatedAt = { it.updatedAt },
+            label = {
+                "${
+                    Money(
+                        it.amountMinor,
+                        CurrencyCode(it.currency)
+                    ).format(useSymbol = true)
+                } · ${it.occurredOn}"
+            },
+            pendingDeletions = pendingDeletions,
         )
 
         val toApply = SyncSnapshot(
