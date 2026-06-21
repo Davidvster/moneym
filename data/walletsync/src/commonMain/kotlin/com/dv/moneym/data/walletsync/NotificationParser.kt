@@ -512,90 +512,14 @@ class NotificationParser {
             RegexOption.IGNORE_CASE,
         )
 
-        private val MERCHANT_PATTERNS = listOf(
-            Regex("\\b(?:to|at|from)\\s+(.+)$", RegexOption.IGNORE_CASE),
-            Regex("\\b(?:an|bei|von)\\s+(.+)$", RegexOption.IGNORE_CASE),
-            Regex("\\b(?:aan|bij|van)\\s+(.+)$", RegexOption.IGNORE_CASE),
-            Regex("\\b(?:em|para)\\s+(.+)$", RegexOption.IGNORE_CASE),         // Portuguese — before chez|de
-            Regex("\\b(?:chez|de)\\s+(.+)$", RegexOption.IGNORE_CASE),
-        )
-
-        private val LEADING_CONNECTORS = listOf(
-            "to", "at", "from",
-            "an", "bei", "von",
-            "aan", "bij", "van",
-            "chez", "de",
-            "em", "para",                                                        // Portuguese
-        )
-
-        private val TRAILING_MERCHANT_NOISE = listOf(
-            "gezahlt", "bezahlt", "received", "refunded", "refund", "credited",
-            "with the card", "with card", "with the", "with",
-            "aprovada", "aprovado", "recebida", "recebido",                      // Portuguese bank status
-        )
-
-        private val CARD_TAIL_MARKERS = listOf(
-            " card ",
-            " with the card",
-            " with card",
-            " visa ",
-            " mastercard ",
-            " debit ",
-            " credit ",
-            " ending ",
-            " last ",
-            " digits ",
-            "**",
-            "****",
-            "xxxx",
-            "••••",
-            " para o cartão",                                                    // Portuguese
-            " para o cartao",
-            " com final ",
-            " cartão com",
-            " cartao com",
-        )
-
-        private val CARD_HINTS = listOf(
-            "card", "visa", "mastercard", "debit", "credit", "ending", "last", "digits",
-        )
-
-        private val AMOUNT_HINTS = listOf(
-            "paid", "payment", "purchase", "spent", "refund", "received", "credited",
-            "gezahlt", "bezahlt", "zahlung", "kauf",
-        )
-
-        private val DATE_HINTS = listOf(
-            // English
-            "january", "february", "march", "april", "may", "june", "july",
-            "august", "september", "october", "november", "december",
-            "jan", "feb", "mar", "apr", "jun", "jul", "aug", "sep", "oct", "nov", "dec",
-            // Portuguese
-            "janeiro", "fevereiro", "março", "abril", "junho", "julho",
-            "agosto", "setembro", "outubro", "novembro", "dezembro",
-            // German
-            "januar", "februar", "märz", "mai", "juni", "juli",
-            // Spanish
-            "septiembre", "octubre", "noviembre", "diciembre",
-            // French
-            "janvier", "février", "mars", "avril", "juin", "juillet",
-            "août", "octobre", "novembre", "décembre",
-            // Dutch
-            "januari", "februari", "maart", "april", "augustus",
-            // Swedish / Norwegian / Danish
-            "januari", "februari", "mars", "april", "maj", "juni", "juli",
-            "augusti", "september", "oktober", "november", "december",
-        )
-
-        private val CREDIT_HINTS = listOf(
-            "refund", "refunded", "received", "credited", "credit", "cashback", "deposit",
-            "erstattet", "gutschrift", "reembolso", "rimborso", "remboursement",
-            "recebeu", "recebida", "recebido",
-        )
-
-        private val DEBIT_HINTS = listOf(
-            "paid", "payment", "purchase", "spent", "charge", "charged", "debit",
-            "gezahlt", "bezahlt", "zahlung", "kauf", "compra", "paiement", "pagato",
-        )
+        private val MERCHANT_PATTERNS        get() = NotificationParserHints.MERCHANT_PATTERNS
+        private val LEADING_CONNECTORS       get() = NotificationParserHints.LEADING_CONNECTORS
+        private val TRAILING_MERCHANT_NOISE get() = NotificationParserHints.TRAILING_MERCHANT_NOISE
+        private val CARD_TAIL_MARKERS       get() = NotificationParserHints.CARD_TAIL_MARKERS
+        private val CARD_HINTS              get() = NotificationParserHints.CARD_HINTS
+        private val AMOUNT_HINTS            get() = NotificationParserHints.AMOUNT_HINTS
+        private val DATE_HINTS              get() = NotificationParserHints.DATE_HINTS
+        private val CREDIT_HINTS            get() = NotificationParserHints.CREDIT_HINTS
+        private val DEBIT_HINTS             get() = NotificationParserHints.DEBIT_HINTS
     }
 }
