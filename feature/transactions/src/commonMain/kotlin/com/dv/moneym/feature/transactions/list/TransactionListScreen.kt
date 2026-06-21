@@ -15,6 +15,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,13 +33,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -49,14 +49,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
@@ -79,6 +79,7 @@ import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
+import com.dv.moneym.core.ui.MmCategoryPickerSheet
 import com.dv.moneym.core.ui.MmEmptyState
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
@@ -90,10 +91,9 @@ import com.dv.moneym.core.ui.MmSheetHeader
 import com.dv.moneym.core.ui.MmSkeleton
 import com.dv.moneym.core.ui.MmSkeletonCircle
 import com.dv.moneym.core.ui.MmTabBar
+import com.dv.moneym.core.ui.MmWalletPickerSheet
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.core.ui.TxRow
-import com.dv.moneym.core.ui.MmCategoryPickerSheet
-import com.dv.moneym.core.ui.MmWalletPickerSheet
 import com.dv.moneym.core.ui.WalletChip
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.monthLabel
@@ -107,9 +107,6 @@ import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.transactions_add
 import moneym.feature.transactions.generated.resources.transactions_bank_review
 import moneym.feature.transactions.generated.resources.transactions_bank_sync_section
-import moneym.feature.transactions.generated.resources.transactions_wallet_empty
-import moneym.feature.transactions.generated.resources.transactions_wallet_review
-import moneym.feature.transactions.generated.resources.transactions_wallet_sync_section
 import moneym.feature.transactions.generated.resources.transactions_cancel
 import moneym.feature.transactions.generated.resources.transactions_close_search_cd
 import moneym.feature.transactions.generated.resources.transactions_dialog_select_month
@@ -129,15 +126,20 @@ import moneym.feature.transactions.generated.resources.transactions_prev_year_cd
 import moneym.feature.transactions.generated.resources.transactions_previous_month
 import moneym.feature.transactions.generated.resources.transactions_search_cd
 import moneym.feature.transactions.generated.resources.transactions_search_placeholder
-import moneym.feature.transactions.generated.resources.transactions_syncing
-import moneym.feature.transactions.generated.resources.transactions_synced
-import moneym.feature.transactions.generated.resources.transactions_sync_paused
-import moneym.feature.transactions.generated.resources.transactions_sync_sheet_title
-import moneym.feature.transactions.generated.resources.transactions_sync_now
+import moneym.feature.transactions.generated.resources.transactions_sync_conflict_body
 import moneym.feature.transactions.generated.resources.transactions_sync_last
 import moneym.feature.transactions.generated.resources.transactions_sync_never
-import moneym.feature.transactions.generated.resources.transactions_sync_conflict_body
+import moneym.feature.transactions.generated.resources.transactions_sync_now
+import moneym.feature.transactions.generated.resources.transactions_sync_paused
+import moneym.feature.transactions.generated.resources.transactions_sync_sheet_title
+import moneym.feature.transactions.generated.resources.transactions_synced
+import moneym.feature.transactions.generated.resources.transactions_syncing
 import moneym.feature.transactions.generated.resources.transactions_title
+import moneym.feature.transactions.generated.resources.transactions_wallet_empty
+import moneym.feature.transactions.generated.resources.transactions_wallet_review
+import moneym.feature.transactions.generated.resources.transactions_wallet_sync_banner_body
+import moneym.feature.transactions.generated.resources.transactions_wallet_sync_banner_title
+import moneym.feature.transactions.generated.resources.transactions_wallet_sync_section
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -332,7 +334,9 @@ private fun TransactionListContent(
         SyncBanner(
             hasSyncConflict = state.hasSyncConflict,
             pendingDeletionCount = state.pendingDeletionCount,
+            walletPendingCount = state.walletPendingCount,
             onNavigateToPendingDeletions = onNavigateToPendingDeletions,
+            onNavigateToWalletSuggestions = onNavigateToWalletSuggestions,
             onOpenSyncSheet = { onIntent(TransactionListIntent.ShowSyncSheet(true)) },
         )
 
@@ -452,12 +456,14 @@ private fun SyncActionButton(
 }
 
 // Prominent, full-width rows for states that warrant action: a sync conflict (needs the
-// user) and pending deletions. Rendered below the header so they only appear when relevant.
+// user), wallet sync suggestions, and pending deletions. Rendered below the header so they only appear when relevant.
 @Composable
 private fun SyncBanner(
     hasSyncConflict: Boolean,
     pendingDeletionCount: Int,
+    walletPendingCount: Int,
     onNavigateToPendingDeletions: () -> Unit,
+    onNavigateToWalletSuggestions: () -> Unit,
     onOpenSyncSheet: () -> Unit,
 ) {
     val colors = MM.colors
@@ -487,6 +493,43 @@ private fun SyncBanner(
                 )
                 Text(
                     text = stringResource(Res.string.transactions_sync_conflict_body),
+                    style = type.caption,
+                    color = colors.text2,
+                )
+            }
+            Icon(
+                imageVector = Icon.ChevronRight.imageVector,
+                contentDescription = null,
+                tint = colors.text3,
+                modifier = Modifier.size(MM.dimen.icon_1x),
+            )
+        }
+    }
+
+    AnimatedVisibility(visible = walletPendingCount > 0) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(colors.surface2)
+                .clickable(onClick = onNavigateToWalletSuggestions)
+                .padding(horizontal = MM.dimen.padding_2x, vertical = MM.dimen.padding_1x),
+        ) {
+            Icon(
+                imageVector = Icon.Bell.imageVector,
+                contentDescription = null,
+                tint = colors.accent,
+                modifier = Modifier.size(MM.dimen.icon_1x),
+            )
+            Spacer(Modifier.width(MM.dimen.padding_1x))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(Res.string.transactions_wallet_sync_banner_title),
+                    style = type.body,
+                    color = colors.text,
+                )
+                Text(
+                    text = stringResource(Res.string.transactions_wallet_sync_banner_body, walletPendingCount),
                     style = type.caption,
                     color = colors.text2,
                 )
@@ -1161,6 +1204,21 @@ internal fun StoreTransactionListPreview() {
             )
         }
         }
+    }
+}
+
+@Preview(name = "WalletSyncBanner")
+@Composable
+private fun WalletSyncBannerPreview() {
+    MoneyMTheme {
+        SyncBanner(
+            hasSyncConflict = false,
+            pendingDeletionCount = 0,
+            walletPendingCount = 3,
+            onNavigateToPendingDeletions = {},
+            onNavigateToWalletSuggestions = {},
+            onOpenSyncSheet = {},
+        )
     }
 }
 

@@ -1342,6 +1342,53 @@ internal object MmIcons {
         }.build()
     }
 
+    private val bell: ImageVector by lazy {
+        ImageVector.Builder(
+            name = "bell",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+        ).apply {
+            addPath(
+                pathData = addPathNodes("M18 17 A6 6 0 1 0 6 17"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+            addPath(
+                pathData = addPathNodes("M18 15 A8 8 0 0 0 6 15"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+            addPath(
+                pathData = addPathNodes("M12 9 A3 3 0 1 0 12 15 A3 3 0 1 0 12 9 Z"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+            addPath(
+                pathData = addPathNodes("M10 19 L14 19"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+        }.build()
+    }
+
     internal fun forIcon(icon: Icon): ImageVector = when (icon) {
         Icon.Plus -> plus
         Icon.Close -> close
@@ -1395,6 +1442,7 @@ internal object MmIcons {
         Icon.Sparkles -> sparkles
         Icon.Sync -> sync
         Icon.Warning -> warning
+        Icon.Bell -> bell
         Icon.Coffee -> coffee
         Icon.Plane -> plane
         Icon.Book -> book

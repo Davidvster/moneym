@@ -56,6 +56,7 @@ enum class Icon(val key: String) {
     Sparkles("sparkles"),
     Sync("sync"),
     Warning("warning"),
+    Bell("bell"),
     Coffee("coffee"),
     Plane("plane"),
     Book("book"),

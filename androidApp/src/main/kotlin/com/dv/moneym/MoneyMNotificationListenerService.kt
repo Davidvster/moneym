@@ -17,10 +17,8 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDate
 import org.koin.core.context.GlobalContext
 import java.time.LocalDate as JavaLocalDate
-import java.time.ZoneId
 
 /**
  * Captures payment notifications from user-selected apps and turns them into pending wallet
@@ -73,12 +71,19 @@ class MoneyMNotificationListenerService : NotificationListenerService() {
             val sixMonthsAgo = JavaLocalDate.of(today.year, today.monthNumber, today.dayOfMonth)
                 .minusMonths(6)
             val recentTxns = allTxns.filter { txn ->
-                JavaLocalDate.of(txn.occurredOn.year, txn.occurredOn.monthNumber, txn.occurredOn.dayOfMonth) >= sixMonthsAgo
+                JavaLocalDate.of(
+                    txn.occurredOn.year,
+                    txn.occurredOn.monthNumber,
+                    txn.occurredOn.dayOfMonth
+                ) >= sixMonthsAgo
             }
             val enriched = enrichUseCase(suggestion, accounts, recentTxns)
             val inserted = repository.insertSuggestionsIfNew(listOf(enriched))
             if (inserted > 0) {
-                appSettings.putLong(PrefKeys.WALLET_SYNC_LAST_CAPTURE_MS, clock.now().toEpochMilliseconds())
+                appSettings.putLong(
+                    PrefKeys.WALLET_SYNC_LAST_CAPTURE_MS,
+                    clock.now().toEpochMilliseconds()
+                )
             }
         }
     }
@@ -87,11 +92,6 @@ class MoneyMNotificationListenerService : NotificationListenerService() {
         val pm = packageManager
         pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)).toString()
     }.getOrNull()
-
-    companion object {
-        private const val EXTRA_TEXT = "android.text"
-        private const val EXTRA_BIG_TEXT = "android.bigText"
-    }
 
     override fun onDestroy() {
         super.onDestroy()
