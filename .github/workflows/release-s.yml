@@ -1,4 +1,4 @@
-name: release
+name: release-s
 
 # Signs a release AAB and publishes it as a Release asset in a SEPARATE PRIVATE repo.
 # Triggers are restricted to manual dispatch and version tags ONLY — never pull_request —

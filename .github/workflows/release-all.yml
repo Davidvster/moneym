@@ -2,7 +2,7 @@
 # Triggers are restricted to manual dispatch and version tags ONLY — never pull_request —
 # so the signing keystore and secrets are never exposed to untrusted fork PRs.
 
-name: release
+name: release-all
 
 on:
   workflow_dispatch:
