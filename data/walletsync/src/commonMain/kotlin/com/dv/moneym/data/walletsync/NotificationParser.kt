@@ -500,7 +500,7 @@ class NotificationParser {
             "(?:$currencySymbolPattern|$currencyCodePattern)"
 
         private const val NUMBER_PATTERN: String =
-            "[+\\-−]?\\d{1,3}(?:[ ,.'']\\d{3})*(?:[.,]\\d{1,2})|[+\\-−]?\\d+(?:[.,]\\d{1,2})?"
+            "[+\\-−]?\\d{1,3}(?:[ ,.'']\\d{3})+(?:[.,]\\d{1,2}(?!\\d))?|[+\\-−]?\\d+(?:[.,]\\d{1,2}(?!\\d))?"
 
         private val AMOUNT_REGEX = Regex(
             "($currencyTokenPattern)?\\s*($NUMBER_PATTERN)(?:\\s*($currencyTokenPattern))?",
@@ -590,6 +590,7 @@ class NotificationParser {
         private val CREDIT_HINTS = listOf(
             "refund", "refunded", "received", "credited", "credit", "cashback", "deposit",
             "erstattet", "gutschrift", "reembolso", "rimborso", "remboursement",
+            "recebeu", "recebida", "recebido",
         )
 
         private val DEBIT_HINTS = listOf(
