@@ -2,7 +2,7 @@
 
 | Phase | Status | Verification | Commit |
 | --- | --- | --- | --- |
-| Phase 0: Planning and orchestration files | Built | File presence checked | Pending |
+| Phase 0: Planning and orchestration files | Committed | File presence checked | 72e4e205 |
 | Phase 1: Shared persisted filters | Planned | Not run | Pending |
 | Phase 2: Edit transaction from suggestions | Planned | Not run | Pending |
 | Phase 3: Prevent last wallet deletion | Planned | Not run | Pending |
