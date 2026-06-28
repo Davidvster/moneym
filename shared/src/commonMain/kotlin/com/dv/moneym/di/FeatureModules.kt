@@ -63,7 +63,6 @@ import com.dv.moneym.feature.security.unlock.PinUnlockViewModel
 import com.dv.moneym.feature.settings.overview.SecuritySettingsViewModel
 import com.dv.moneym.feature.settings.overview.SettingsOverviewViewModel
 import com.dv.moneym.feature.settings.overview.backuprestore.BackupRestoreViewModel
-import com.dv.moneym.feature.settings.overview.currencypicker.CurrencyPickerViewModel
 import com.dv.moneym.feature.settings.overview.export.ExportViewModel
 import com.dv.moneym.feature.settings.overview.importdata.CsvImportHolder
 import com.dv.moneym.feature.settings.overview.importdata.ImportDataViewModel
@@ -234,11 +233,6 @@ val featureSettingsModule = module {
             exporter = get(),
             importer = get(),
             dispatchers = get(),
-            savedStateHandle = get(),
-        )
-    }
-    viewModel {
-        CurrencyPickerViewModel(
             savedStateHandle = get(),
         )
     }

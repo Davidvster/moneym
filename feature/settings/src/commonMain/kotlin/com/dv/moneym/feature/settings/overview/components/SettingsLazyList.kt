@@ -178,7 +178,7 @@ internal fun SettingsLazyList(
         }
         item(key = SettingsItem.VERSION.name) {
             Text(
-                text = "MoneyM v1.0",
+                text = "MoneyM v1.0.0",
                 style = type.captionMono.copy(color = colors.text3),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth().padding(space.padding_3x),
