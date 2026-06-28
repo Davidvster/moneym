@@ -14,6 +14,8 @@ import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.PaymentMode
 import com.dv.moneym.core.model.PaymentModeId
+import com.dv.moneym.core.model.SuggestionRecord
+import com.dv.moneym.core.model.SuggestionSource
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
@@ -34,6 +36,8 @@ import com.dv.moneym.feature.transactionedit.usecase.ComputeCategoryBudgetRemain
 import com.dv.moneym.feature.transactionedit.usecase.SuggestNotesUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ValidateAndBuildTransactionUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -97,10 +101,16 @@ class TransactionEditViewModelTest {
         val paymentModes = FakePaymentModeRepository()
     }
 
-    private fun vm(editingId: TransactionId?, deps: Deps): TransactionEditViewModel {
+    private fun vm(
+        editingId: TransactionId?,
+        deps: Deps,
+        draft: TransactionEditDraft? = null,
+        suggestionSources: Map<String, SuggestionSource> = emptyMap(),
+    ): TransactionEditViewModel {
         val dispatchers = TestDispatcherProvider(testDispatcher)
         return TransactionEditViewModel(
             editingId = editingId,
+            draft = draft,
             getTransaction = GetTransactionUseCase(deps.txRepo),
             upsertTransaction = UpsertTransactionUseCase(deps.txRepo),
             deleteTransaction = DeleteTransactionUseCase(deps.txRepo),
@@ -115,8 +125,33 @@ class TransactionEditViewModelTest {
             suggestNotes = SuggestNotesUseCase(),
             dispatchers = dispatchers,
             clock = clock,
+            suggestionSources = suggestionSources,
             savedStateHandle = SavedStateHandle(),
         )
+    }
+
+    private class FakeSuggestionSource : SuggestionSource {
+        private val pending = MutableStateFlow<List<SuggestionRecord>>(emptyList())
+        private val rejected = MutableStateFlow<List<SuggestionRecord>>(emptyList())
+
+        var acceptedId: Long? = null
+        var acceptedTransactionId: Long? = null
+        var acceptedAt: Long? = null
+
+        override fun observePending(): Flow<List<SuggestionRecord>> = pending
+        override fun observeRejected(): Flow<List<SuggestionRecord>> = rejected
+        override fun observePendingCount(): Flow<Int> = MutableStateFlow(pending.value.size)
+        override suspend fun getRecord(id: Long): SuggestionRecord? =
+            pending.value.firstOrNull { it.id == id }
+
+        override suspend fun accept(id: Long, createdTransactionId: Long, decidedAt: Long) {
+            acceptedId = id
+            acceptedTransactionId = createdTransactionId
+            acceptedAt = decidedAt
+        }
+
+        override suspend fun reject(id: Long, decidedAt: Long) = Unit
+        override suspend fun restoreToPending(id: Long) = Unit
     }
 
     private fun seedCatsAccounts(deps: Deps) {
@@ -169,6 +204,26 @@ class TransactionEditViewModelTest {
             assertEquals(CategoryId(1), s.selectedCategoryId)
             assertEquals(AccountId(2), s.selectedAccountId)
             assertEquals("Lunch", s.note)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun newTransactionPrefillsFromDraftAfterReferencesLoad() = runTest(testDispatcher) {
+        val deps = Deps()
+        seedCatsAccounts(deps)
+        val draft = suggestionDraft()
+        val vm = vm(null, deps, draft = draft)
+        vm.state.test {
+            var s = awaitItem()
+            while (!s.draftApplied) s = awaitItem()
+            assertFalse(s.isEditMode)
+            assertEquals(TransactionType.INCOME, s.type)
+            assertEquals("98.76", s.amountText)
+            assertEquals(LocalDate(2026, 5, 5), s.date)
+            assertEquals(AccountId(2), s.selectedAccountId)
+            assertEquals(CategoryId(2), s.selectedCategoryId)
+            assertEquals("Wallet refund", s.note)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -399,6 +454,38 @@ class TransactionEditViewModelTest {
     }
 
     @Test
+    fun saveSuggestionDraftStoresExternalIdAndAcceptsSuggestion() = runTest(testDispatcher) {
+        val deps = Deps()
+        seedCatsAccounts(deps)
+        val source = FakeSuggestionSource()
+        val vm = vm(
+            editingId = null,
+            deps = deps,
+            draft = suggestionDraft(),
+            suggestionSources = mapOf("WALLET" to source),
+        )
+        vm.state.test {
+            var s = awaitItem()
+            while (!s.draftApplied) s = awaitItem()
+            cancelAndIgnoreRemainingEvents()
+        }
+
+        vm.effects.test {
+            vm.onIntent(TransactionEditIntent.SaveRequested)
+            assertIs<TransactionEditEffect.Saved>(awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+
+        val saved = deps.txRepo.transactions.single()
+        assertEquals(9876, saved.amount.minorUnits)
+        assertEquals(TransactionType.INCOME, saved.type)
+        assertTrue(deps.txRepo.existsByExternalId("wallet:notification:1"))
+        assertEquals(42L, source.acceptedId)
+        assertEquals(saved.id.value, source.acceptedTransactionId)
+        assertEquals(clock.now().toEpochMilliseconds(), source.acceptedAt)
+    }
+
+    @Test
     fun saveRecurringCreatesRuleAndMaterializesPastTransaction() = runTest(testDispatcher) {
         val deps = Deps()
         seedCatsAccounts(deps)
@@ -471,4 +558,18 @@ class TransactionEditViewModelTest {
             cancelAndIgnoreRemainingEvents()
         }
     }
+
+    private fun suggestionDraft() = TransactionEditDraft(
+        amountMinor = 9876,
+        currency = "EUR",
+        type = TransactionType.INCOME.name,
+        dateIso = "2026-05-05",
+        note = "Wallet refund",
+        accountId = 2,
+        categoryId = 2,
+        suggestionSourceName = "Wallet",
+        suggestionSourceType = "WALLET",
+        suggestionId = 42,
+        externalId = "wallet:notification:1",
+    )
 }

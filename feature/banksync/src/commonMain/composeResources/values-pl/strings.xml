@@ -77,4 +77,5 @@
     <string name="suggestions_filter_clear">Wyczyść</string>
     <string name="suggestions_assign_category">Przypisz kategorię</string>
     <string name="suggestions_assign_account">Przypisz portfel</string>
+    <string name="suggestions_edit">Edytuj sugestię</string>
 </resources>

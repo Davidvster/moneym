@@ -54,6 +54,7 @@ data class DuplicateInfo(
 @Serializable
 data class SuggestionRow(
     val id: Long,
+    val externalId: String,
     val description: String?,
     val counterparty: String?,
     val dateIso: String,
@@ -72,6 +73,7 @@ data class SuggestionRow(
 data class SuggestionsUiState(
     val isLoading: Boolean = true,
     val isProcessing: Boolean = false,
+    val canEditPendingRows: Boolean = false,
     val tab: SuggestionsTab = SuggestionsTab.PENDING,
     val pending: List<SuggestionRow> = emptyList(),
     val rejected: List<SuggestionRow> = emptyList(),

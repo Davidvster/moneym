@@ -77,4 +77,5 @@
     <string name="suggestions_filter_clear">مسح</string>
     <string name="suggestions_assign_category">تعيين فئة</string>
     <string name="suggestions_assign_account">تعيين محفظة</string>
+    <string name="suggestions_edit">تحرير الاقتراح</string>
 </resources>

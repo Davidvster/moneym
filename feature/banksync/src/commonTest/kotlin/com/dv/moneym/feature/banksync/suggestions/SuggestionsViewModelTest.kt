@@ -25,6 +25,7 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -50,7 +51,8 @@ class SuggestionsViewModelTest {
     private val accountRepo = FakeAccountRepository()
     private val clock = FixedClock(Instant.parse("2026-06-10T12:00:00Z"))
 
-    private fun vm() = SuggestionsViewModel(
+    private fun vm(sourceType: SuggestionSourceType = SuggestionSourceType.BANK) = SuggestionsViewModel(
+        sourceType = sourceType,
         source = bankRepo,
         accountRepository = accountRepo,
         categoryRepository = categoryRepo,
@@ -107,6 +109,26 @@ class SuggestionsViewModelTest {
             assertEquals(1L, row.categoryId)
             assertEquals("Food", row.categoryName)
             assertNull(row.duplicate)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun editActionIsAvailableOnlyForWalletSuggestions() = runTest(testDispatcher) {
+        seed()
+        val bankVm = vm(SuggestionSourceType.BANK)
+        bankVm.state.test {
+            var s = awaitItem()
+            while (s.pending.isEmpty()) s = awaitItem()
+            assertFalse(s.canEditPendingRows)
+            cancelAndIgnoreRemainingEvents()
+        }
+
+        val walletVm = vm(SuggestionSourceType.WALLET)
+        walletVm.state.test {
+            var s = awaitItem()
+            while (s.pending.isEmpty()) s = awaitItem()
+            assertTrue(s.canEditPendingRows)
             cancelAndIgnoreRemainingEvents()
         }
     }

@@ -77,4 +77,5 @@
     <string name="suggestions_filter_clear">Išvalyti</string>
     <string name="suggestions_assign_category">Priskirti kategoriją</string>
     <string name="suggestions_assign_account">Priskirti piniginę</string>
+    <string name="suggestions_edit">Redaguoti pasiūlymą</string>
 </resources>

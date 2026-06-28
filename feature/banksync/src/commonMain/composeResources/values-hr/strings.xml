@@ -77,4 +77,5 @@
     <string name="suggestions_filter_clear">Očisti</string>
     <string name="suggestions_assign_category">Dodijeli kategoriju</string>
     <string name="suggestions_assign_account">Dodijeli novčanik</string>
+    <string name="suggestions_edit">Uredi prijedlog</string>
 </resources>

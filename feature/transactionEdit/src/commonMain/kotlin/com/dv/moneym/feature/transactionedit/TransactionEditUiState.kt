@@ -18,6 +18,7 @@ internal data class TransactionEditUiState(
     val isLoading: Boolean = false,
     val isEditMode: Boolean = false,
     val existingId: TransactionId? = null,
+    val draftApplied: Boolean = false,
     val type: TransactionType = TransactionType.EXPENSE,
     val amountText: String = "",
     val date: LocalDate? = null,

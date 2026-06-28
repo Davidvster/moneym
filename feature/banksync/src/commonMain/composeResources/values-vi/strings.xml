@@ -77,4 +77,5 @@
     <string name="suggestions_filter_clear">Xóa</string>
     <string name="suggestions_assign_category">Gán danh mục</string>
     <string name="suggestions_assign_account">Gán ví</string>
+    <string name="suggestions_edit">Chỉnh sửa đề xuất</string>
 </resources>

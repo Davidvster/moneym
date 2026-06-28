@@ -77,4 +77,5 @@
     <string name="suggestions_filter_clear">Hreinsa</string>
     <string name="suggestions_assign_category">Úthluta flokki</string>
     <string name="suggestions_assign_account">Úthluta veski</string>
+    <string name="suggestions_edit">Breyta tillögu</string>
 </resources>

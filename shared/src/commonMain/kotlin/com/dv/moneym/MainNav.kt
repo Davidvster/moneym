@@ -39,6 +39,8 @@ import com.dv.moneym.feature.security.setup.pinSetupEntry
 import com.dv.moneym.feature.sync.PendingDeletionsKey
 import com.dv.moneym.feature.sync.pendingDeletionsEntry
 import com.dv.moneym.feature.banksync.suggestions.BankSuggestionsKey
+import com.dv.moneym.feature.banksync.suggestions.SuggestionRow
+import com.dv.moneym.feature.banksync.suggestions.SuggestionSourceType
 import com.dv.moneym.feature.banksync.suggestions.WalletSuggestionsKey
 import com.dv.moneym.feature.banksync.home.BankSyncSettingsKey
 import com.dv.moneym.feature.banksync.suggestions.bankSuggestionsEntry
@@ -90,6 +92,7 @@ import com.dv.moneym.feature.settings.wallet.editWalletCurrencyEntry
 import com.dv.moneym.feature.settings.wallet.editWalletEntry
 import com.dv.moneym.feature.settings.wallet.walletManageEntry
 import com.dv.moneym.feature.transactionedit.RecurringEditKey
+import com.dv.moneym.feature.transactionedit.TransactionEditDraft
 import com.dv.moneym.feature.transactionedit.TransactionEditKey
 import com.dv.moneym.feature.transactionedit.recurringEditEntry
 import com.dv.moneym.feature.transactionedit.transactionEditEntry
@@ -277,6 +280,9 @@ internal fun MainNav(lockController: AppLockController) {
             )
             walletSuggestionsEntry(
                 onBack = { tabBackStack.removeLast() },
+                onEditSuggestion = { row ->
+                    tabBackStack.push(TransactionEditKey(draft = row.toTransactionEditDraft()))
+                },
                 metadata = modalTransitionMeta,
             )
             budgetListEntry(
@@ -371,3 +377,17 @@ internal fun MainNav(lockController: AppLockController) {
     )
     }
 }
+
+private fun SuggestionRow.toTransactionEditDraft() = TransactionEditDraft(
+    amountMinor = amountMinor,
+    currency = currency,
+    type = if (isExpense) "EXPENSE" else "INCOME",
+    dateIso = dateIso,
+    note = description ?: counterparty,
+    accountId = targetAccountId,
+    categoryId = categoryId,
+    suggestionSourceName = sourceLabel.takeIf { it.isNotBlank() },
+    suggestionSourceType = SuggestionSourceType.WALLET.name,
+    suggestionId = id,
+    externalId = externalId,
+)

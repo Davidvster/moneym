@@ -52,7 +52,8 @@ import kotlin.time.Clock
 
 @Serializable
 data class TransactionEditKey(
-    val id: Long? = null
+    val id: Long? = null,
+    val draft: TransactionEditDraft? = null,
 ) : ModalKey
 
 fun EntryProviderScope<NavKey>.transactionEditEntry(
@@ -61,6 +62,7 @@ fun EntryProviderScope<NavKey>.transactionEditEntry(
 ) = entry<TransactionEditKey>(metadata = metadata) { key ->
     TransactionEditScreen(
         transactionId = key.id?.let { TransactionId(it) },
+        draft = key.draft.takeIf { key.id == null },
         onDismiss = onDismiss,
     )
 }
@@ -68,9 +70,10 @@ fun EntryProviderScope<NavKey>.transactionEditEntry(
 @Composable
 private fun TransactionEditScreen(
     transactionId: TransactionId?,
+    draft: TransactionEditDraft?,
     onDismiss: () -> Unit,
     viewModel: TransactionEditViewModel = koinViewModel(
-        parameters = { parametersOf(transactionId) },
+        parameters = { parametersOf(transactionId, draft) },
     ),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()

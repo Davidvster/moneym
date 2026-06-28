@@ -77,4 +77,5 @@
     <string name="suggestions_filter_clear">Temizle</string>
     <string name="suggestions_assign_category">Kategori ata</string>
     <string name="suggestions_assign_account">Cüzdan ata</string>
+    <string name="suggestions_edit">Öneriyi düzenle</string>
 </resources>

@@ -77,6 +77,7 @@ import com.dv.moneym.feature.settings.wallet.EditWalletCurrencyViewModel
 import com.dv.moneym.feature.settings.wallet.EditWalletViewModel
 import com.dv.moneym.feature.settings.wallet.WalletManageViewModel
 import com.dv.moneym.feature.transactionedit.RecurringEditViewModel
+import com.dv.moneym.feature.transactionedit.TransactionEditDraft
 import com.dv.moneym.feature.transactionedit.TransactionEditViewModel
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
@@ -142,6 +143,7 @@ val featureTransactionEditModule = module {
     viewModel { params ->
         TransactionEditViewModel(
             editingId = params.getOrNull<TransactionId>(),
+            draft = params.getOrNull<TransactionEditDraft>(),
             getTransaction = get(),
             upsertTransaction = get(),
             deleteTransaction = get(),
@@ -156,6 +158,10 @@ val featureTransactionEditModule = module {
             suggestNotes = get(),
             dispatchers = get(),
             clock = get(),
+            suggestionSources = mapOf(
+                SuggestionSourceType.BANK.name to get(named(SuggestionSourceType.BANK.name)),
+                SuggestionSourceType.WALLET.name to get(named(SuggestionSourceType.WALLET.name)),
+            ),
             transactionSavedSignal = get(),
             savedStateHandle = get(),
         )
@@ -360,6 +366,7 @@ val featureBankSyncModule = module {
     single<SuggestionSource>(named(SuggestionSourceType.WALLET.name)) { get<WalletSyncRepository>() }
     viewModel { (sourceType: SuggestionSourceType) ->
         SuggestionsViewModel(
+            sourceType = sourceType,
             source = get(named(sourceType.name)),
             accountRepository = get(),
             categoryRepository = get(),

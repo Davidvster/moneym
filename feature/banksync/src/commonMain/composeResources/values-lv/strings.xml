@@ -77,4 +77,5 @@
     <string name="suggestions_filter_clear">Notīrīt</string>
     <string name="suggestions_assign_category">Piešķirt kategoriju</string>
     <string name="suggestions_assign_account">Piešķirt maku</string>
+    <string name="suggestions_edit">Rediģēt ieteikumu</string>
 </resources>

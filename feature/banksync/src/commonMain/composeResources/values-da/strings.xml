@@ -77,4 +77,5 @@
     <string name="suggestions_filter_clear">Ryd</string>
     <string name="suggestions_assign_category">Tildel kategori</string>
     <string name="suggestions_assign_account">Tildel wallet</string>
+    <string name="suggestions_edit">Rediger forslag</string>
 </resources>

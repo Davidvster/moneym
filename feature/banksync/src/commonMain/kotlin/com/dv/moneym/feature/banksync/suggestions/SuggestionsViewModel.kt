@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SuggestionsViewModel(
+    private val sourceType: SuggestionSourceType,
     private val source: SuggestionSource,
     private val accountRepository: AccountRepository,
     private val categoryRepository: CategoryRepository,
@@ -50,6 +51,7 @@ class SuggestionsViewModel(
     private val accountOverrides = mutableMapOf<Long, Long>()
 
     private fun init() {
+        _state.update { it.copy(canEditPendingRows = sourceType == SuggestionSourceType.WALLET) }
         viewModelScope.launch {
             combine(
                 source.observePending(),
@@ -98,6 +100,7 @@ class SuggestionsViewModel(
         }
         return SuggestionRow(
             id = id,
+            externalId = externalId,
             description = description,
             counterparty = counterparty,
             dateIso = date.toString(),

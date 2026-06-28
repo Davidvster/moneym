@@ -77,4 +77,5 @@
     <string name="suggestions_filter_clear">साफ़ करें</string>
     <string name="suggestions_assign_category">श्रेणी असाइन करें</string>
     <string name="suggestions_assign_account">वॉलेट असाइन करें</string>
+    <string name="suggestions_edit">सुझाव संपादित करें</string>
 </resources>

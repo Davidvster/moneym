@@ -77,4 +77,5 @@
     <string name="suggestions_filter_clear">Cancella</string>
     <string name="suggestions_assign_category">Assegna categoria</string>
     <string name="suggestions_assign_account">Assegna wallet</string>
+    <string name="suggestions_edit">Modifica suggerimento</string>
 </resources>

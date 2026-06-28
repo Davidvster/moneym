@@ -77,4 +77,5 @@
     <string name="suggestions_filter_clear">Clear</string>
     <string name="suggestions_assign_category">Assign category</string>
     <string name="suggestions_assign_account">Assign wallet</string>
+    <string name="suggestions_edit">Edit suggestion</string>
 </resources>

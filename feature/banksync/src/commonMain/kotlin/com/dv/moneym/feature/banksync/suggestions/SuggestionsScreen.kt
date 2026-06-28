@@ -55,6 +55,7 @@ import com.dv.moneym.core.ui.mmClickable
 import com.dv.moneym.core.ui.MmDialog
 import com.dv.moneym.core.ui.MmEmptyState
 import com.dv.moneym.core.ui.MmField
+import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmLoadingOverlay
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmSegmented
@@ -79,6 +80,7 @@ import moneym.feature.banksync.generated.resources.suggestions_assign_account
 import moneym.feature.banksync.generated.resources.suggestions_assign_category
 import moneym.feature.banksync.generated.resources.suggestions_category_label
 import moneym.feature.banksync.generated.resources.suggestions_duplicate_hint
+import moneym.feature.banksync.generated.resources.suggestions_edit
 import moneym.feature.banksync.generated.resources.suggestions_empty_pending
 import moneym.feature.banksync.generated.resources.suggestions_empty_rejected
 import moneym.feature.banksync.generated.resources.suggestions_filter
@@ -123,15 +125,21 @@ fun EntryProviderScope<NavKey>.bankSuggestionsEntry(
 
 fun EntryProviderScope<NavKey>.walletSuggestionsEntry(
     onBack: () -> Unit,
+    onEditSuggestion: (SuggestionRow) -> Unit,
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<WalletSuggestionsKey>(metadata = metadata) {
-    SuggestionsScreen(source = SuggestionSourceType.WALLET, onBack = onBack)
+    SuggestionsScreen(
+        source = SuggestionSourceType.WALLET,
+        onBack = onBack,
+        onEditSuggestion = onEditSuggestion,
+    )
 }
 
 @Composable
 fun SuggestionsScreen(
     source: SuggestionSourceType,
     onBack: () -> Unit,
+    onEditSuggestion: ((SuggestionRow) -> Unit)? = null,
     viewModel: SuggestionsViewModel = koinViewModel(parameters = { parametersOf(source) }),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -156,6 +164,7 @@ fun SuggestionsScreen(
         state = state,
         snackbarHostState = snackbarHostState,
         onBack = onBack,
+        onEditSuggestion = onEditSuggestion,
         onIntent = viewModel::onIntent,
     )
 }
@@ -165,6 +174,7 @@ private fun SuggestionsContent(
     state: SuggestionsUiState,
     snackbarHostState: SnackbarHostState,
     onBack: () -> Unit,
+    onEditSuggestion: ((SuggestionRow) -> Unit)?,
     onIntent: (SuggestionsIntent) -> Unit,
 ) {
     val colors = MM.colors
@@ -244,7 +254,12 @@ private fun SuggestionsContent(
                     verticalArrangement = Arrangement.spacedBy(space.padding_2x),
                 ) {
                     items(state.rows, key = { it.id }) { row ->
-                        SuggestionCard(row = row, state = state, onIntent = onIntent)
+                        SuggestionCard(
+                            row = row,
+                            state = state,
+                            onEditSuggestion = onEditSuggestion,
+                            onIntent = onIntent,
+                        )
                     }
                 }
             }
@@ -510,6 +525,7 @@ private fun FilterSheet(
 private fun SuggestionCard(
     row: SuggestionRow,
     state: SuggestionsUiState,
+    onEditSuggestion: ((SuggestionRow) -> Unit)?,
     onIntent: (SuggestionsIntent) -> Unit,
 ) {
     val colors = MM.colors
@@ -631,6 +647,7 @@ private fun SuggestionCard(
             Row(
                 modifier = Modifier.fillMaxWidth().padding(top = space.padding_1x),
                 horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 MmButton(
                     text = stringResource(Res.string.suggestions_accept),
@@ -645,6 +662,13 @@ private fun SuggestionCard(
                     variant = MmButtonVariant.Danger,
                     size = MmButtonSize.Sm,
                 )
+                if (state.canEditPendingRows && onEditSuggestion != null) {
+                    MmIconButton(
+                        icon = Icon.Edit.imageVector,
+                        onClick = { onEditSuggestion(row) },
+                        contentDescription = stringResource(Res.string.suggestions_edit),
+                    )
+                }
             }
         } else {
             MmButton(

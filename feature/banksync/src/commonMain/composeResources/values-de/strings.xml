@@ -77,4 +77,5 @@
     <string name="suggestions_filter_clear">Zurücksetzen</string>
     <string name="suggestions_assign_category">Kategorie zuweisen</string>
     <string name="suggestions_assign_account">Wallet zuweisen</string>
+    <string name="suggestions_edit">Vorschlag bearbeiten</string>
 </resources>
