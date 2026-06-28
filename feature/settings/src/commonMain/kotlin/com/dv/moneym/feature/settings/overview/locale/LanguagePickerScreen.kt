@@ -49,7 +49,7 @@ fun EntryProviderScope<NavKey>.languagePickerEntry(
 
 data class LanguageInfo(val code: String, val nativeName: String, val englishName: String)
 
-private val supportedLanguages = listOf(
+val supportedLanguages = listOf(
     LanguageInfo("en", "English", "English"),
     LanguageInfo("de", "Deutsch", "German"),
     LanguageInfo("es", "Español", "Spanish"),

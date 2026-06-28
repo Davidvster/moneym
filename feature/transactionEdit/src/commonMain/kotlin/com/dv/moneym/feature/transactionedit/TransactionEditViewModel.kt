@@ -24,14 +24,11 @@ import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
+import com.dv.moneym.feature.transactionedit.usecase.ComputeCategoryBudgetRemainingUseCase
 import com.dv.moneym.feature.transactionedit.usecase.RecurrenceInput
 import com.dv.moneym.feature.transactionedit.usecase.SuggestNotesUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ValidateAndBuildTransactionUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ValidationOutcome
-import com.dv.moneym.feature.transactionedit.usecase.ComputeCategoryBudgetRemainingUseCase
-import kotlinx.datetime.isoDayNumber
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.plus
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -47,7 +44,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.minus
+import kotlinx.datetime.plus
 
 class TransactionEditViewModel(
     private val editingId: TransactionId?,
@@ -188,9 +188,20 @@ class TransactionEditViewModel(
                         }
                         val parsedAmount = parseMinorFromText(s.amountText)
                         val projected = if (parsedAmount > 0L) withContext(dispatchers.io) {
-                            computeBudgetRemaining(catId, date, s.existingId, accountId, additionalExpenseMinor = parsedAmount)
+                            computeBudgetRemaining(
+                                catId,
+                                date,
+                                s.existingId,
+                                accountId,
+                                additionalExpenseMinor = parsedAmount
+                            )
                         } else null
-                        _state.update { it.copy(budgetRemaining = remaining, budgetProjected = projected) }
+                        _state.update {
+                            it.copy(
+                                budgetRemaining = remaining,
+                                budgetProjected = projected
+                            )
+                        }
                     } else {
                         _state.update { it.copy(budgetRemaining = null, budgetProjected = null) }
                     }
@@ -238,6 +249,7 @@ class TransactionEditViewModel(
                 _state.update { it.copy(selectedAccountId = intent.id) }
                 viewModelScope.launch { appSettingsRepository.setSelectedAccountId(intent.id.value) }
             }
+
             is TransactionEditIntent.NoteChanged -> {
                 _state.update { it.copy(note = intent.note) }
                 updateNoteSuggestions(intent.note)
@@ -283,7 +295,12 @@ class TransactionEditViewModel(
                         isRecurring = true,
                         recurrenceError = false,
                         weekDay = startDate.dayOfWeek.isoDayNumber,
-                        monthDayKind = MonthlyDayKind.OnDay(minOf(startDate.day, 28).coerceAtLeast(1)),
+                        monthDayKind = MonthlyDayKind.OnDay(
+                            minOf(
+                                startDate.day,
+                                28
+                            ).coerceAtLeast(1)
+                        ),
                     )
                 }
             }
@@ -296,11 +313,18 @@ class TransactionEditViewModel(
                         weekDay = startDate.dayOfWeek.isoDayNumber,
                         recurrenceError = false,
                     )
+
                     FreqUnit.MONTHS -> s.copy(
                         freqUnit = intent.unit,
-                        monthDayKind = MonthlyDayKind.OnDay(minOf(startDate.day, 28).coerceAtLeast(1)),
+                        monthDayKind = MonthlyDayKind.OnDay(
+                            minOf(
+                                startDate.day,
+                                28
+                            ).coerceAtLeast(1)
+                        ),
                         recurrenceError = false,
                     )
+
                     FreqUnit.DAYS -> s.copy(freqUnit = intent.unit, recurrenceError = false)
                 }
             }
@@ -391,12 +415,15 @@ class TransactionEditViewModel(
             is ValidationOutcome.Invalid -> when (outcome.reason) {
                 ValidationOutcome.Reason.InvalidAmount ->
                     _state.update { it.copy(amountError = true) }
+
                 ValidationOutcome.Reason.MissingCategory ->
                     _state.update { it.copy(categoryError = true) }
+
                 ValidationOutcome.Reason.MissingDateOrAccount -> Unit
                 ValidationOutcome.Reason.InvalidRecurrence ->
                     _state.update { it.copy(recurrenceError = true) }
             }
+
             is ValidationOutcome.Ok -> {
                 _state.update { it.copy(isSaving = true) }
                 viewModelScope.launch {
@@ -404,14 +431,21 @@ class TransactionEditViewModel(
                         val rule = outcome.rule
                         if (rule == null) {
                             val id = upsertTransaction(outcome.transaction)
-                            acceptDraftIfNeeded(id, outcome.transaction.updatedAt.toEpochMilliseconds())
+                            acceptDraftIfNeeded(
+                                id,
+                                outcome.transaction.updatedAt.toEpochMilliseconds()
+                            )
                             SavedTransaction(outcome.transaction.occurredOn)
                         } else {
                             val ruleId = recurringTransactionRepository.upsert(rule)
                             val startDate = rule.startDate
                             if (startDate <= today) {
-                                val id = upsertTransaction(outcome.transaction.copy(recurringId = ruleId))
-                                acceptDraftIfNeeded(id, outcome.transaction.updatedAt.toEpochMilliseconds())
+                                val id =
+                                    upsertTransaction(outcome.transaction.copy(recurringId = ruleId))
+                                acceptDraftIfNeeded(
+                                    id,
+                                    outcome.transaction.updatedAt.toEpochMilliseconds()
+                                )
                                 recurringTransactionRepository.updateCursor(ruleId, startDate)
                                 SavedTransaction(outcome.transaction.occurredOn)
                             } else {
@@ -442,9 +476,10 @@ class TransactionEditViewModel(
         defaultAccount: Account?,
     ): TransactionEditUiState {
         if (draftApplied) return this
-        val draftType = runCatching { TransactionType.valueOf(draft.type) }.getOrDefault(type)
+        val draftType = draft.type
         val draftDate = runCatching { LocalDate.parse(draft.dateIso) }.getOrNull() ?: date
-        val accountId = draft.accountId?.let { AccountId(it) } ?: selectedAccountId ?: defaultAccount?.id
+        val accountId =
+            draft.accountId?.let { AccountId(it) } ?: selectedAccountId ?: defaultAccount?.id
         return copy(
             draftApplied = true,
             type = draftType,
@@ -489,5 +524,3 @@ private fun Long.toAmountText(): String {
     return "$major.${cents.toString().padStart(2, '0')}"
 }
 
-private fun AccountId.toCurrencyCode(accounts: List<Account>): CurrencyCode =
-    accounts.firstOrNull { it.id == this }?.currency ?: CurrencyCode("USD")

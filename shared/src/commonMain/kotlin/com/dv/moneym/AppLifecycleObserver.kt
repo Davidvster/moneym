@@ -26,10 +26,12 @@ class AppLifecycleObserver(
                     scope.launch { manager.flushNow() }
                 }
             }
+
             Lifecycle.Event.ON_RESUME -> {
                 lockController.onForeground()
                 scope.launch { syncEngine?.pullNow() }
             }
+
             else -> {}
         }
     }

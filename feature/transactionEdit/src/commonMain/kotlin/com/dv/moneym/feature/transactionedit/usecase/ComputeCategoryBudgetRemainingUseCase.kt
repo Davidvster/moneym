@@ -1,7 +1,6 @@
 package com.dv.moneym.feature.transactionedit.usecase
 
 import com.dv.moneym.core.model.AccountId
-import com.dv.moneym.core.model.Budget
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.TransactionId
@@ -34,9 +33,10 @@ class ComputeCategoryBudgetRemainingUseCase(
     ): CategoryBudgetRemaining? {
         @Suppress("DEPRECATION")
         val ym = YearMonth(date.year, date.monthNumber)
-        val budgets = (if (accountId != null) budgetRepository.observeByAccount(accountId) else budgetRepository.observeAll())
-            .first()
-            .filter { it.isActiveIn(ym) }
+        val budgets =
+            (if (accountId != null) budgetRepository.observeByAccount(accountId) else budgetRepository.observeAll())
+                .first()
+                .filter { it.isActiveIn(ym) }
         val matching = budgets.firstOrNull { it.categoryId == categoryId }
             ?: budgets.firstOrNull { it.categoryId == null }
             ?: return null

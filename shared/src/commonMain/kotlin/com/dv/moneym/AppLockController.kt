@@ -2,10 +2,10 @@ package com.dv.moneym
 
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.security.SecurityPrefs
-import kotlin.time.Clock
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlin.time.Clock
 
 class AppLockController(private val settings: AppSettings) {
 
@@ -35,8 +35,10 @@ class AppLockController(private val settings: AppSettings) {
         val lastBackground = settings.getLong(SecurityPrefs.LAST_BACKGROUND_AT)
         if (lastBackground == 0L) return
         val elapsed = Clock.System.now().toEpochMilliseconds() - lastBackground
-        val lockAfterMs = settings.getInt(SecurityPrefs.BACKGROUND_LOCK_SECONDS,
-            SecurityPrefs.DEFAULT_LOCK_SECONDS).toLong() * 1000L
+        val lockAfterMs = settings.getInt(
+            SecurityPrefs.BACKGROUND_LOCK_SECONDS,
+            SecurityPrefs.DEFAULT_LOCK_SECONDS
+        ).toLong() * 1000L
         if (elapsed >= lockAfterMs) {
             _isLocked.value = true
         }

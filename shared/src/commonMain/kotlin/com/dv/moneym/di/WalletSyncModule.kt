@@ -1,7 +1,5 @@
 package com.dv.moneym.di
 
-import com.dv.moneym.data.accounts.AccountRepository
-import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.data.walletsync.DefaultWalletSyncStatusProvider
 import com.dv.moneym.data.walletsync.NotificationParser
 import com.dv.moneym.data.walletsync.WalletSyncRepository
@@ -14,6 +12,11 @@ import org.koin.dsl.module
 val walletSyncCommonModule: Module = module {
     single { NotificationParser() }
     single<WalletSyncRepository> { createWalletSyncRepository(db = get()) }
-    single<WalletSyncStatusProvider> { DefaultWalletSyncStatusProvider(appSettings = get(), repository = get()) }
-    single { EnrichWalletSuggestionUseCase(get<AccountRepository>(), get<TransactionRepository>()) }
+    single<WalletSyncStatusProvider> {
+        DefaultWalletSyncStatusProvider(
+            appSettings = get(),
+            repository = get()
+        )
+    }
+    single { EnrichWalletSuggestionUseCase() }
 }

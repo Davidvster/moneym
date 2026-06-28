@@ -4,14 +4,9 @@ import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.SyncDirection
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionType
-import com.dv.moneym.data.accounts.AccountRepository
-import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.data.walletsync.WalletSuggestion
 
-class EnrichWalletSuggestionUseCase(
-    private val accountRepository: AccountRepository,
-    private val transactionRepository: TransactionRepository,
-) {
+class EnrichWalletSuggestionUseCase {
 
     operator fun invoke(
         suggestion: WalletSuggestion,

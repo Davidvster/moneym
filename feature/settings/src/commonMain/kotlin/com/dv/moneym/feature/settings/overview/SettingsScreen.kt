@@ -23,6 +23,7 @@ import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.feature.settings.overview.components.LockTimeoutPickerDialog
 import com.dv.moneym.feature.settings.overview.components.SettingsLazyList
 import com.dv.moneym.feature.settings.overview.components.ThemePickerSheet
+import com.dv.moneym.feature.settings.overview.locale.supportedLanguages
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_lang_system_default
@@ -39,9 +40,6 @@ data object SettingsKey : NavKey
 
 @Serializable
 data object TxListDisplayKey : NavKey
-
-@Serializable
-data object CurrencyPickerKey : NavKey
 
 @Serializable
 data object LanguagePickerKey : NavKey
@@ -156,8 +154,20 @@ fun SettingsScreen(
         state = state,
         securityState = securityState,
         onThemeModeChanged = { overviewViewModel.onIntent(SettingsOverviewIntent.SetThemeMode(it)) },
-        onPaymentModeEnabledChanged = { overviewViewModel.onIntent(SettingsOverviewIntent.SetPaymentModeEnabled(it)) },
-        onUseCurrencySymbolChanged = { overviewViewModel.onIntent(SettingsOverviewIntent.SetUseCurrencySymbol(it)) },
+        onPaymentModeEnabledChanged = {
+            overviewViewModel.onIntent(
+                SettingsOverviewIntent.SetPaymentModeEnabled(
+                    it
+                )
+            )
+        },
+        onUseCurrencySymbolChanged = {
+            overviewViewModel.onIntent(
+                SettingsOverviewIntent.SetUseCurrencySymbol(
+                    it
+                )
+            )
+        },
         onShowLockPicker = { overviewViewModel.onIntent(SettingsOverviewIntent.ShowLockPicker(it)) },
         onShowThemeSheet = { overviewViewModel.onIntent(SettingsOverviewIntent.ShowThemeSheet(it)) },
         onSecurityIntent = securityViewModel::onIntent,
@@ -211,38 +221,8 @@ private fun SettingsContent(
         300 -> stringResource(Res.string.settings_lock_5m)
         else -> "${securityState.backgroundLockSeconds}s"
     }
-    val languageSubtitle = when (state.language) {
-        "en" -> "English"
-        "de" -> "Deutsch"
-        "es" -> "Español"
-        "it" -> "Italiano"
-        "fr" -> "Français"
-        "pt" -> "Português"
-        "lt" -> "Lietuvių"
-        "et" -> "Eesti"
-        "mk" -> "Македонски"
-        "sv" -> "Svenska"
-        "nb" -> "Norsk bokmål"
-        "is" -> "Íslenska"
-        "lv" -> "Latviešu"
-        "pl" -> "Polski"
-        "nl" -> "Nederlands"
-        "da" -> "Dansk"
-        "fi" -> "Suomi"
-        "hr" -> "Hrvatski"
-        "sk" -> "Slovenčina"
-        "cs" -> "Čeština"
-        "hu" -> "Magyar"
-        "ja" -> "日本語"
-        "vi" -> "Tiếng Việt"
-        "tr" -> "Türkçe"
-        "sl" -> "Slovenščina"
-        "ru" -> "Русский"
-        "ar" -> "العربية"
-        "hi" -> "हिन्दी"
-        "zh" -> "中文"
-        else -> stringResource(Res.string.settings_lang_system_default)
-    }
+    val languageSubtitle = supportedLanguages.find { it.code == state.language }?.nativeName
+        ?: stringResource(Res.string.settings_lang_system_default)
 
     if (state.showLockPicker) {
         LockTimeoutPickerDialog(
@@ -300,7 +280,7 @@ private fun SettingsContent(
             onNavigateToWallets = onNavigateToWallets,
             onNavigateToPaymentModes = onNavigateToPaymentModes,
             onNavigateToBackupRestore = onNavigateToBackupRestore,
-                onNavigateToAbout = onNavigateToAbout,
+            onNavigateToAbout = onNavigateToAbout,
             onShowLockPicker = { onShowLockPicker(true) },
         )
         MmTabBar(activeTab = TabRoute.Settings, onTabSelected = onTabSelected)

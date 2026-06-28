@@ -14,7 +14,9 @@ internal class TabBackStack(startTab: NavKey) {
     private val _currentTab = mutableStateOf<NavKey>(startTab)
     var currentTab: NavKey
         get() = _currentTab.value
-        private set(value) { _currentTab.value = value }
+        private set(value) {
+            _currentTab.value = value
+        }
 
     val backStack: SnapshotStateList<NavKey> = mutableStateListOf(startTab)
 

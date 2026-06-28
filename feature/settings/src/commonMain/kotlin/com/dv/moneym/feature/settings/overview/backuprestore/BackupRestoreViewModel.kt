@@ -92,8 +92,40 @@ enum class PendingBackup { RemoteAuto, RemoteNow, LocalAuto, LocalNow }
 
 sealed interface BackupRestoreIntent {
     data object BackupTapped : BackupRestoreIntent
-    data class RestoreFileSelected(val bytes: ByteArray) : BackupRestoreIntent
-    data class RestoreConfirmed(val passphrase: CharArray? = null) : BackupRestoreIntent
+    data class RestoreFileSelected(val bytes: ByteArray) : BackupRestoreIntent {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || this::class != other::class) return false
+
+            other as RestoreFileSelected
+
+            if (!bytes.contentEquals(other.bytes)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return bytes.contentHashCode()
+        }
+    }
+
+    data class RestoreConfirmed(val passphrase: CharArray? = null) : BackupRestoreIntent {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || this::class != other::class) return false
+
+            other as RestoreConfirmed
+
+            if (!passphrase.contentEquals(other.passphrase)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return passphrase?.contentHashCode() ?: 0
+        }
+    }
+
     data object RestoreDismissed : BackupRestoreIntent
     data class AutoBackupToggled(val enabled: Boolean) : BackupRestoreIntent
     data class BackupSaveCompleted(val path: String?) : BackupRestoreIntent
@@ -106,10 +138,45 @@ sealed interface BackupRestoreIntent {
     data class RemoteAutoBackupToggled(val enabled: Boolean) : BackupRestoreIntent
     data object PassphrasePromptOpened : BackupRestoreIntent
     data object PassphrasePromptDismissed : BackupRestoreIntent
-    data class PasswordSubmitted(val value: CharArray, val encrypt: Boolean) : BackupRestoreIntent
+    data class PasswordSubmitted(val value: CharArray, val encrypt: Boolean) : BackupRestoreIntent {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || this::class != other::class) return false
+
+            other as PasswordSubmitted
+
+            if (encrypt != other.encrypt) return false
+            if (!value.contentEquals(other.value)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = encrypt.hashCode()
+            result = 31 * result + value.contentHashCode()
+            return result
+        }
+    }
+
     data object RemoteBackupNowTapped : BackupRestoreIntent
     data object RemoteRestoreTapped : BackupRestoreIntent
-    data class RemoteRestoreConfirmed(val passphrase: CharArray) : BackupRestoreIntent
+    data class RemoteRestoreConfirmed(val passphrase: CharArray) : BackupRestoreIntent {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || this::class != other::class) return false
+
+            other as RemoteRestoreConfirmed
+
+            if (!passphrase.contentEquals(other.passphrase)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return passphrase.contentHashCode()
+        }
+    }
+
     data object RemoteRestoreDismissed : BackupRestoreIntent
     data object RemoteRestoreErrorDismissed : BackupRestoreIntent
     data object DeleteRemoteDataTapped : BackupRestoreIntent
@@ -118,14 +185,68 @@ sealed interface BackupRestoreIntent {
     data object RemoteErrorDismissed : BackupRestoreIntent
     // Unified cloud sync
     data class CloudSyncToggled(val enabled: Boolean) : BackupRestoreIntent
-    data class CloudCreateSubmitted(val value: CharArray, val encrypt: Boolean) : BackupRestoreIntent
-    data class CloudJoinSubmitted(val value: CharArray) : BackupRestoreIntent
+    data class CloudCreateSubmitted(val value: CharArray, val encrypt: Boolean) : BackupRestoreIntent {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || this::class != other::class) return false
+
+            other as CloudCreateSubmitted
+
+            if (encrypt != other.encrypt) return false
+            if (!value.contentEquals(other.value)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = encrypt.hashCode()
+            result = 31 * result + value.contentHashCode()
+            return result
+        }
+    }
+
+    data class CloudJoinSubmitted(val value: CharArray) : BackupRestoreIntent {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || this::class != other::class) return false
+
+            other as CloudJoinSubmitted
+
+            if (!value.contentEquals(other.value)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return value.contentHashCode()
+        }
+    }
+
     data object CloudJoinPlaintextConfirmed : BackupRestoreIntent
     data object CloudEnableDismissed : BackupRestoreIntent
 }
 
 sealed interface BackupRestoreEffect {
-    data class LaunchFileSaver(val bytes: ByteArray, val fileName: String) : BackupRestoreEffect
+    data class LaunchFileSaver(val bytes: ByteArray, val fileName: String) : BackupRestoreEffect {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || this::class != other::class) return false
+
+            other as LaunchFileSaver
+
+            if (!bytes.contentEquals(other.bytes)) return false
+            if (fileName != other.fileName) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = bytes.contentHashCode()
+            result = 31 * result + fileName.hashCode()
+            return result
+        }
+    }
+
     data object LaunchRestorePicker : BackupRestoreEffect
     data class RestoreError(val message: String) : BackupRestoreEffect
     data object LaunchFolderPicker : BackupRestoreEffect

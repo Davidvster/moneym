@@ -3,8 +3,6 @@ package com.dv.moneym
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -52,44 +50,44 @@ internal fun OnboardingNav() {
     }
 
     Box(modifier = Modifier.fillMaxSize().background(MM.colors.bg)) {
-    NavDisplay(
-        backStack = backStack,
-        onBack = { backStack.removeLastOrNull() },
-        transitionSpec = {
-            fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-        },
-        popTransitionSpec = {
-            fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-        },
-        predictivePopTransitionSpec = { _ ->
-            fadeIn(tween(220)) togetherWith fadeOut(tween(220))
-        },
-        entryProvider = entryProvider {
-            onboardingWelcomeEntry(
-                onGetStarted = { backStack.add(OnboardingSecurityKey) },
-            )
-            onboardingSecurityEntry(
-                viewModel = securityVm,
-                onNavigateToPinSetup = { backStack.add(OnboardingPinSetupKey) },
-                onNavigateToCurrency = { backStack.add(OnboardingKey) },
-            )
-            onboardingCurrencyEntry(
-                viewModel = currencyVm,
-                onComplete = { },
-                onOpenCsvFilePicker = csvFilePicker,
-                onOpenRestore = { backStack.add(OnboardingRestoreKey) },
-            )
-            onboardingRestoreEntry(onBack = { backStack.removeLastOrNull() })
-            entry<OnboardingPinSetupKey> {
-                PinSetupScreen(
-                    onDone = {
-                        securityVm.onIntent(OnboardingSecurityIntent.ReturnFromPinSetup)
-                        backStack.removeLastOrNull()
-                    },
+        NavDisplay(
+            backStack = backStack,
+            onBack = { backStack.removeLastOrNull() },
+            transitionSpec = {
+                fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+            },
+            popTransitionSpec = {
+                fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+            },
+            predictivePopTransitionSpec = { _ ->
+                fadeIn(tween(220)) togetherWith fadeOut(tween(220))
+            },
+            entryProvider = entryProvider {
+                onboardingWelcomeEntry(
+                    onGetStarted = { backStack.add(OnboardingSecurityKey) },
                 )
-            }
-            importDataEntry(onBack = { backStack.removeLastOrNull() })
-        },
-    )
+                onboardingSecurityEntry(
+                    viewModel = securityVm,
+                    onNavigateToPinSetup = { backStack.add(OnboardingPinSetupKey) },
+                    onNavigateToCurrency = { backStack.add(OnboardingKey) },
+                )
+                onboardingCurrencyEntry(
+                    viewModel = currencyVm,
+                    onComplete = { },
+                    onOpenCsvFilePicker = csvFilePicker,
+                    onOpenRestore = { backStack.add(OnboardingRestoreKey) },
+                )
+                onboardingRestoreEntry(onBack = { backStack.removeLastOrNull() })
+                entry<OnboardingPinSetupKey> {
+                    PinSetupScreen(
+                        onDone = {
+                            securityVm.onIntent(OnboardingSecurityIntent.ReturnFromPinSetup)
+                            backStack.removeLastOrNull()
+                        },
+                    )
+                }
+                importDataEntry(onBack = { backStack.removeLastOrNull() })
+            },
+        )
     }
 }

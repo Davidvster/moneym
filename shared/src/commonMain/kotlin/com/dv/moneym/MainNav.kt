@@ -19,6 +19,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.dv.moneym.core.designsystem.MM
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.feature.aianalysis.AnalyzeKey
 import com.dv.moneym.feature.aianalysis.analyzeEntry
@@ -378,10 +379,11 @@ internal fun MainNav(lockController: AppLockController) {
     }
 }
 
+// TODO move this out of MainNav.kt -> this should live somewhere else? Make the transaction edit accept the suggestion differntly? Maybe pass the source of suggestions and have a mapper somewhere else?
 private fun SuggestionRow.toTransactionEditDraft() = TransactionEditDraft(
     amountMinor = amountMinor,
     currency = currency,
-    type = if (isExpense) "EXPENSE" else "INCOME",
+    type = if (isExpense) TransactionType.EXPENSE else TransactionType.INCOME,
     dateIso = dateIso,
     note = description ?: counterparty,
     accountId = targetAccountId,

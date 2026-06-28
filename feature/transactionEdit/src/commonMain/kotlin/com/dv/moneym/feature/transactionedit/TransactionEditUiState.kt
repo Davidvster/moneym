@@ -12,6 +12,7 @@ import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.feature.transactionedit.usecase.CategoryBudgetRemaining
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Serializable
 internal data class TransactionEditUiState(
@@ -46,8 +47,8 @@ internal data class TransactionEditUiState(
     val endCount: Int = 12,
     val endDate: LocalDate? = null,
     val recurrenceError: Boolean = false,
-    @kotlinx.serialization.Transient val budgetRemaining: CategoryBudgetRemaining? = null,
-    @kotlinx.serialization.Transient val budgetProjected: CategoryBudgetRemaining? = null,
+    @Transient val budgetRemaining: CategoryBudgetRemaining? = null,
+    @Transient val budgetProjected: CategoryBudgetRemaining? = null,
 )
 
 enum class FreqUnit { DAYS, WEEKS, MONTHS }
