@@ -14,12 +14,16 @@ import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeRecurringTransactionRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.common.DispatcherProvider
-import com.dv.moneym.core.testing.runTestWithDispatchers
 import com.dv.moneym.core.testing.InMemorySecureStore
+import com.dv.moneym.core.testing.runTestWithDispatchers
+import com.dv.moneym.data.remotebackup.RemoteBackupError
+import com.dv.moneym.data.remotebackup.RemoteBackupProvider
+import com.dv.moneym.data.remotebackup.RemoteFileRef
 import com.dv.moneym.data.remotebackup.SessionPassphrase
 import com.dv.moneym.data.remotebackup.SyncPassphraseStore
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlin.time.Instant
@@ -36,6 +40,48 @@ class SyncEngineTest {
         val transactions = FakeTransactionRepository()
         val recurring = FakeRecurringTransactionRepository()
         val budgets = FakeBudgetRepository()
+    }
+
+    private class FailingRemoteBackupProvider : RemoteBackupProvider {
+        override val id: String = "failing"
+        var fail = true
+        private var stored: Pair<RemoteFileRef, ByteArray>? = null
+
+        override suspend fun upload(
+            bytes: ByteArray,
+            name: String,
+            properties: Map<String, String>,
+        ): RemoteFileRef {
+            if (fail) throw RemoteBackupError.Network(RuntimeException("offline"))
+            val ref = RemoteFileRef(id = "id-1", name = name, modifiedAtMs = 1L, sizeBytes = bytes.size.toLong())
+            stored = ref to bytes
+            return ref
+        }
+
+        override suspend fun latest(): RemoteFileRef? = stored?.first
+
+        override suspend fun list(limit: Int): List<RemoteFileRef> {
+            if (fail) throw RemoteBackupError.Network(RuntimeException("offline"))
+            return stored?.first?.let(::listOf).orEmpty()
+        }
+
+        override suspend fun download(ref: RemoteFileRef): ByteArray =
+            stored?.second ?: error("not found: ${ref.name}")
+
+        override suspend fun delete(ref: RemoteFileRef) {
+            stored = null
+        }
+
+        override suspend fun updateContents(
+            ref: RemoteFileRef,
+            bytes: ByteArray,
+            properties: Map<String, String>,
+        ): RemoteFileRef {
+            if (fail) throw RemoteBackupError.Network(RuntimeException("offline"))
+            val updated = ref.copy(sizeBytes = bytes.size.toLong())
+            stored = updated to bytes
+            return updated
+        }
     }
 
     private fun account(id: Long, updatedAt: Long = 0L, name: String = "Acc $id") = Account(
@@ -136,6 +182,28 @@ class SyncEngineTest {
         val remote = codec.open(bytes, null)
         assertEquals(1, remote.accounts.size)
         assertEquals(1, remote.categories.size)
+    }
+
+    @Test
+    fun networkFailureSetsRetryableFailureAndRetryClearsIt() = runTestWithDispatchers { dispatchers ->
+        val device = Device().apply { accounts.addAll(listOf(account(1))) }
+        val provider = FailingRemoteBackupProvider()
+        val store = SyncRemoteStore(provider)
+        val settings = InMemoryAppSettings()
+        settings.putBoolean(PrefKeys.CROSS_DEVICE_SYNC_ENABLED, true)
+        val engine = engine(device, store, settings, dispatchers)
+
+        val failed = engine.pullNow()
+
+        assertTrue(failed.isFailure)
+        val error = assertIs<SyncRuntimeState.Error>(engine.runtime.value)
+        assertEquals(SyncFailureReason.Network, error.reason)
+
+        provider.fail = false
+        engine.pullNow().getOrThrow()
+
+        assertEquals(SyncRuntimeState.Idle, engine.runtime.value)
+        assertTrue(store.readSnapshotBytes() != null)
     }
 
     @Test

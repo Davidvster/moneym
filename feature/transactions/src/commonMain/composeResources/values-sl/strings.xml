@@ -36,6 +36,10 @@
     <string name="transactions_sync_paused">Sinhronizacija zaustavljena — potrebno je dejanje</string>
     <string name="transactions_sync_sheet_title">Sinhronizacija v oblaku</string>
     <string name="transactions_synced">Sinhronizirano</string>
+    <string name="transactions_sync_failed">Sync failed</string>
+    <string name="transactions_sync_failed_network">No internet connection</string>
+    <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
+    <string name="transactions_sync_failed_unknown">Try again in a moment</string>
     <string name="transactions_wallet_sync_section">Sinhronizacija denarnice</string>
     <string name="transactions_wallet_review">Preglej %1$d predlogov</string>
     <string name="transactions_wallet_empty">Še ni predlogov</string>

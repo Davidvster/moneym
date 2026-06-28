@@ -36,6 +36,10 @@
     <string name="transactions_sync_paused">Synkronisering pausad — åtgärd krävs</string>
     <string name="transactions_sync_sheet_title">Molnsynkronisering</string>
     <string name="transactions_synced">Synkroniserad</string>
+    <string name="transactions_sync_failed">Sync failed</string>
+    <string name="transactions_sync_failed_network">No internet connection</string>
+    <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
+    <string name="transactions_sync_failed_unknown">Try again in a moment</string>
     <string name="transactions_wallet_sync_section">Plånbokssynk</string>
     <string name="transactions_wallet_review">Granska %1$d förslag</string>
     <string name="transactions_wallet_empty">Inga förslag ännu</string>

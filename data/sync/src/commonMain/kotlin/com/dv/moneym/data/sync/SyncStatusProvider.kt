@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface SyncStatusProvider {
     val isEnabled: Flow<Boolean>
     val isSyncing: Flow<Boolean>
+    val failure: Flow<SyncFailure?>
     val pendingDeletionCount: Flow<Int>
     val conflict: Flow<SyncConflict?>
     val lastSyncedMs: Flow<Long>

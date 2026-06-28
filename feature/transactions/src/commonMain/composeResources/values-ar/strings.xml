@@ -36,6 +36,10 @@
     <string name="transactions_sync_paused">المزامنة متوقفة — يلزم اتخاذ إجراء</string>
     <string name="transactions_sync_sheet_title">المزامنة السحابية</string>
     <string name="transactions_synced">تمت المزامنة</string>
+    <string name="transactions_sync_failed">Sync failed</string>
+    <string name="transactions_sync_failed_network">No internet connection</string>
+    <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
+    <string name="transactions_sync_failed_unknown">Try again in a moment</string>
     <string name="transactions_wallet_sync_section">مزامنة المحفظة</string>
     <string name="transactions_wallet_review">مراجعة %1$d اقتراحات</string>
     <string name="transactions_wallet_empty">لا توجد اقتراحات بعد</string>

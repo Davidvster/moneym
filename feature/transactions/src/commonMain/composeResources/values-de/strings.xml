@@ -29,6 +29,10 @@
     <string name="transactions_syncing">Synchronisierung…</string>
     <string name="transactions_pending_deletions">%1$d Einträge auf einem anderen Gerät entfernt – prüfen</string>
     <string name="transactions_synced">Synchronisiert</string>
+    <string name="transactions_sync_failed">Sync fehlgeschlagen</string>
+    <string name="transactions_sync_failed_network">Keine Internetverbindung</string>
+    <string name="transactions_sync_failed_auth">Verbinde dein Konto erneut, um weiter zu synchronisieren</string>
+    <string name="transactions_sync_failed_unknown">Versuche es gleich noch einmal</string>
     <string name="transactions_sync_paused">Sync pausiert – Aktion erforderlich</string>
     <string name="transactions_sync_sheet_title">Cloud-Sync</string>
     <string name="transactions_sync_now">Jetzt synchronisieren</string>

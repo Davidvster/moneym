@@ -36,6 +36,10 @@
     <string name="transactions_sync_paused">Synchronisatie onderbroken — actie vereist</string>
     <string name="transactions_sync_sheet_title">Cloudsynchronisatie</string>
     <string name="transactions_synced">Gesynchroniseerd</string>
+    <string name="transactions_sync_failed">Sync failed</string>
+    <string name="transactions_sync_failed_network">No internet connection</string>
+    <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
+    <string name="transactions_sync_failed_unknown">Try again in a moment</string>
     <string name="transactions_wallet_sync_section">Wallet-synchronisatie</string>
     <string name="transactions_wallet_review">%1$d voorstellen bekijken</string>
     <string name="transactions_wallet_empty">Nog geen voorstellen</string>

@@ -36,6 +36,10 @@
     <string name="transactions_sync_paused">Sinchronizavimas pristabdytas — reikia veiksmo</string>
     <string name="transactions_sync_sheet_title">Debesų sinchronizavimas</string>
     <string name="transactions_synced">Sinchronizuota</string>
+    <string name="transactions_sync_failed">Sync failed</string>
+    <string name="transactions_sync_failed_network">No internet connection</string>
+    <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
+    <string name="transactions_sync_failed_unknown">Try again in a moment</string>
     <string name="transactions_wallet_sync_section">Piniginės sinchronizavimas</string>
     <string name="transactions_wallet_review">Peržiūrėti %1$d pasiūlymų</string>
     <string name="transactions_wallet_empty">Kol kas nėra pasiūlymų</string>

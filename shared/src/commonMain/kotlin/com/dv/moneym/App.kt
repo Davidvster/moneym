@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import com.dv.moneym.core.common.AppLogger
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.AppSettingsRepository
 import com.dv.moneym.core.datastore.PrefKeys
@@ -24,6 +25,7 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.ui.LocalUseCurrencySymbol
+import com.dv.moneym.data.banksync.BankSyncEngine
 import com.dv.moneym.data.sync.SyncEngine
 import com.dv.moneym.di.appModules
 import com.dv.moneym.feature.security.unlock.PinUnlockScreen
@@ -31,6 +33,7 @@ import com.dv.moneym.platform.AppRestartCoordinator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
@@ -39,6 +42,8 @@ import org.koin.core.module.Module
 import org.koin.mp.KoinPlatformTools
 
 // ── Entry point ───────────────────────────────────────────────────────────────
+
+private val appLogger = AppLogger.tag("App")
 
 /**
  * Starts the global Koin graph once. Called by each platform entry point before [App]. Also wires
@@ -100,8 +105,19 @@ private fun AppContent() {
     val appSettingsRepo = koinInject<AppSettingsRepository>()
     val autoBackupManager = koinInject<AutoBackupManager>()
     val syncEngine = koinInject<SyncEngine>()
+    val bankSyncEngine = koinInject<BankSyncEngine>()
 
-    LaunchedEffect(Unit) { initializer.initialize() }
+    LaunchedEffect(Unit) {
+        initializer.initialize()
+        launch {
+            syncEngine.pullNow()
+                .onFailure { appLogger.w(it) { "Startup cloud sync failed" } }
+        }
+        launch {
+            bankSyncEngine.autoSyncIfDue()
+                .onFailure { appLogger.w(it) { "Startup bank auto-sync failed" } }
+        }
+    }
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleObserver = remember { AppLifecycleObserver(lockController, syncEngine = syncEngine) }

@@ -29,6 +29,10 @@
     <string name="transactions_syncing">Sincronizzazione…</string>
     <string name="transactions_pending_deletions">%1$d elementi rimossi su un altro dispositivo — rivedi</string>
     <string name="transactions_synced">Sincronizzato</string>
+    <string name="transactions_sync_failed">Sincronizzazione non riuscita</string>
+    <string name="transactions_sync_failed_network">Nessuna connessione internet</string>
+    <string name="transactions_sync_failed_auth">Ricollega il tuo account per continuare la sincronizzazione</string>
+    <string name="transactions_sync_failed_unknown">Riprova tra un momento</string>
     <string name="transactions_sync_paused">Sincronizzazione in pausa — azione necessaria</string>
     <string name="transactions_sync_sheet_title">Sincronizzazione cloud</string>
     <string name="transactions_sync_now">Sincronizza ora</string>

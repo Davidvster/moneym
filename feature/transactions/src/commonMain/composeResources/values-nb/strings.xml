@@ -36,6 +36,10 @@
     <string name="transactions_sync_paused">Synkronisering satt på pause — handling kreves</string>
     <string name="transactions_sync_sheet_title">Skysynkronisering</string>
     <string name="transactions_synced">Synkronisert</string>
+    <string name="transactions_sync_failed">Sync failed</string>
+    <string name="transactions_sync_failed_network">No internet connection</string>
+    <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
+    <string name="transactions_sync_failed_unknown">Try again in a moment</string>
     <string name="transactions_wallet_sync_section">Lommebok-synk</string>
     <string name="transactions_wallet_review">Gå gjennom %1$d forslag</string>
     <string name="transactions_wallet_empty">Ingen forslag ennå</string>

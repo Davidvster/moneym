@@ -16,7 +16,12 @@ import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.FixedClock
 import com.dv.moneym.core.testing.runTestWithDispatchers
+import com.dv.moneym.data.banksync.BankSyncFailure
+import com.dv.moneym.data.banksync.BankSyncFailureReason
+import com.dv.moneym.data.banksync.BankSyncStatusProvider
 import com.dv.moneym.data.sync.SyncConflict
+import com.dv.moneym.data.sync.SyncFailure
+import com.dv.moneym.data.sync.SyncFailureReason
 import com.dv.moneym.data.sync.SyncStatusProvider
 import com.dv.moneym.feature.transactions.list.TransactionListEphemeralState
 import com.dv.moneym.feature.transactions.list.TransactionListIntent
@@ -42,11 +47,32 @@ private class FakeSyncStatusProvider(
 ) : SyncStatusProvider {
     val syncingFlow = MutableStateFlow(syncing)
     val pendingCountFlow = MutableStateFlow(pendingCount)
+    val failureFlow = MutableStateFlow<SyncFailure?>(null)
     override val isEnabled: Flow<Boolean> = MutableStateFlow(enabled)
     override val isSyncing: Flow<Boolean> = syncingFlow
+    override val failure: Flow<SyncFailure?> = failureFlow
     override val pendingDeletionCount: Flow<Int> = pendingCountFlow
     override val conflict: Flow<SyncConflict?> = MutableStateFlow(null)
     override val lastSyncedMs: Flow<Long> = MutableStateFlow(0L)
+}
+
+private class FakeBankSyncStatusProvider(
+    syncing: Boolean = false,
+    enabled: Boolean = true,
+) : BankSyncStatusProvider {
+    val syncingFlow = MutableStateFlow(syncing)
+    val failureFlow = MutableStateFlow<BankSyncFailure?>(null)
+    override val isEnabled: Flow<Boolean> = MutableStateFlow(enabled)
+    override val isSyncing: Flow<Boolean> = syncingFlow
+    override val failure: Flow<BankSyncFailure?> = failureFlow
+    override val pendingCount: Flow<Int> = MutableStateFlow(0)
+    override val lastSyncedMs: Flow<Long> = MutableStateFlow(0L)
+    var requestCount = 0
+        private set
+
+    override suspend fun requestSync() {
+        requestCount++
+    }
 }
 
 class TransactionListViewModelTest {
@@ -93,6 +119,7 @@ class TransactionListViewModelTest {
         accRepo: FakeAccountRepository = FakeAccountRepository(),
         settings: FakeAppSettingsRepository = FakeAppSettingsRepository(),
         syncStatus: SyncStatusProvider = FakeSyncStatusProvider(),
+        bankSyncStatus: BankSyncStatusProvider? = null,
     ) = TransactionListViewModel(
         transactionRepository = txnRepo,
         categoryRepository = catRepo,
@@ -100,6 +127,7 @@ class TransactionListViewModelTest {
         appSettingsRepository = settings,
         ephemeralState = TransactionListEphemeralState(),
         syncStatus = syncStatus,
+        bankSyncStatus = bankSyncStatus,
         clock = clock,
         savedStateHandle = SavedStateHandle(),
     )
@@ -199,6 +227,58 @@ class TransactionListViewModelTest {
             var after = awaitItem()
             while (after.pendingDeletionCount == 0) after = awaitItem()
             assertEquals(3, after.pendingDeletionCount)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun cloudSyncFailureReflectsFailureFlow() = runTestWithDispatchers {
+        val sync = FakeSyncStatusProvider()
+        val vm = makeVm(syncStatus = sync)
+        vm.state.test {
+            var s = awaitItem()
+            while (s.currentMonth == null) s = awaitItem()
+            assertNull(s.syncFailure)
+            sync.failureFlow.value = SyncFailure(SyncFailureReason.Network)
+            var after = awaitItem()
+            while (after.syncFailure == null) after = awaitItem()
+            assertEquals(SyncFailureReason.Network, after.syncFailure)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun bankSyncFailureReflectsFailureFlow() = runTestWithDispatchers {
+        val bank = FakeBankSyncStatusProvider()
+        val vm = makeVm(bankSyncStatus = bank)
+        vm.state.test {
+            var s = awaitItem()
+            while (s.currentMonth == null) s = awaitItem()
+            assertNull(s.bankSyncFailure)
+            bank.failureFlow.value = BankSyncFailure(BankSyncFailureReason.Network)
+            var after = awaitItem()
+            while (after.bankSyncFailure == null) after = awaitItem()
+            assertEquals(BankSyncFailureReason.Network, after.bankSyncFailure)
+            assertEquals(false, after.bankSyncReconnectRequired)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun bankSyncReconnectRequiredReflectsFailureFlow() = runTestWithDispatchers {
+        val bank = FakeBankSyncStatusProvider()
+        val vm = makeVm(bankSyncStatus = bank)
+        vm.state.test {
+            var s = awaitItem()
+            while (s.currentMonth == null) s = awaitItem()
+            bank.failureFlow.value = BankSyncFailure(
+                reason = BankSyncFailureReason.Auth,
+                reconnectRequired = true,
+            )
+            var after = awaitItem()
+            while (!after.bankSyncReconnectRequired) after = awaitItem()
+            assertEquals(BankSyncFailureReason.Auth, after.bankSyncFailure)
+            assertEquals(true, after.bankSyncReconnectRequired)
             cancelAndIgnoreRemainingEvents()
         }
     }

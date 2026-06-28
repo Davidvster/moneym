@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface BankSyncStatusProvider {
     val isEnabled: Flow<Boolean>
     val isSyncing: Flow<Boolean>
+    val failure: Flow<BankSyncFailure?>
     val pendingCount: Flow<Int>
     val lastSyncedMs: Flow<Long>
     suspend fun requestSync()

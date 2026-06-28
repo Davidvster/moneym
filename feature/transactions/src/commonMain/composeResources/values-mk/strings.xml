@@ -36,6 +36,10 @@
     <string name="transactions_sync_paused">Синхронизацијата е паузирана — потребно е дејство</string>
     <string name="transactions_sync_sheet_title">Синхронизација во облак</string>
     <string name="transactions_synced">Синхронизирано</string>
+    <string name="transactions_sync_failed">Sync failed</string>
+    <string name="transactions_sync_failed_network">No internet connection</string>
+    <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
+    <string name="transactions_sync_failed_unknown">Try again in a moment</string>
     <string name="transactions_wallet_sync_section">Синхронизација на паричник</string>
     <string name="transactions_wallet_review">Прегледај %1$d предлози</string>
     <string name="transactions_wallet_empty">Сè уште нема предлози</string>

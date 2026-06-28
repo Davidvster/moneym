@@ -36,6 +36,10 @@
     <string name="transactions_sync_paused">Samstilling í bið — aðgerða þörf</string>
     <string name="transactions_sync_sheet_title">Skýjasamstilling</string>
     <string name="transactions_synced">Samstillt</string>
+    <string name="transactions_sync_failed">Sync failed</string>
+    <string name="transactions_sync_failed_network">No internet connection</string>
+    <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
+    <string name="transactions_sync_failed_unknown">Try again in a moment</string>
     <string name="transactions_wallet_sync_section">Veskissamstilling</string>
     <string name="transactions_wallet_review">Skoða %1$d tillögur</string>
     <string name="transactions_wallet_empty">Engar tillögur enn</string>

@@ -8,5 +8,20 @@ sealed interface SyncRuntimeState {
     @Serializable data object Pulling : SyncRuntimeState
     @Serializable data object Applying : SyncRuntimeState
     @Serializable data object Pushing : SyncRuntimeState
-    @Serializable data class Error(val message: String) : SyncRuntimeState
+    @Serializable data class Error(
+        val message: String,
+        val reason: SyncFailureReason = SyncFailureReason.Unknown,
+    ) : SyncRuntimeState
+}
+
+@Serializable
+data class SyncFailure(
+    val reason: SyncFailureReason,
+)
+
+@Serializable
+enum class SyncFailureReason {
+    Network,
+    Auth,
+    Unknown,
 }

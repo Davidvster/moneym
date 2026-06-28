@@ -36,6 +36,10 @@
     <string name="transactions_sync_paused">Đã tạm dừng đồng bộ — cần thao tác</string>
     <string name="transactions_sync_sheet_title">Đồng bộ đám mây</string>
     <string name="transactions_synced">Đã đồng bộ</string>
+    <string name="transactions_sync_failed">Sync failed</string>
+    <string name="transactions_sync_failed_network">No internet connection</string>
+    <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
+    <string name="transactions_sync_failed_unknown">Try again in a moment</string>
     <string name="transactions_wallet_sync_section">Đồng bộ ví</string>
     <string name="transactions_wallet_review">Xem %1$d gợi ý</string>
     <string name="transactions_wallet_empty">Chưa có gợi ý</string>

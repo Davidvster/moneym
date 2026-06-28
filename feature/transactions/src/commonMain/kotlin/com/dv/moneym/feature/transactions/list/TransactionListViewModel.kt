@@ -149,11 +149,18 @@ class TransactionListViewModel(
         }
         .combine(syncStatus.isEnabled) { state, enabled -> state.copy(isSyncEnabled = enabled) }
         .combine(syncStatus.isSyncing) { state, syncing -> state.copy(isSyncInProgress = syncing) }
+        .combine(syncStatus.failure) { state, failure -> state.copy(syncFailure = failure?.reason) }
         .combine(syncStatus.pendingDeletionCount) { state, count -> state.copy(pendingDeletionCount = count) }
         .combine(syncStatus.conflict) { state, c -> state.copy(hasSyncConflict = c != null) }
         .combine(syncStatus.lastSyncedMs) { state, ms -> state.copy(lastSyncedMs = ms) }
         .combine(bankSyncStatus?.isEnabled ?: flowOf(false)) { s, e -> s.copy(isBankSyncEnabled = e) }
         .combine(bankSyncStatus?.isSyncing ?: flowOf(false)) { s, b -> s.copy(isBankSyncing = b) }
+        .combine(bankSyncStatus?.failure ?: flowOf(null)) { s, failure ->
+            s.copy(
+                bankSyncFailure = failure?.reason,
+                bankSyncReconnectRequired = failure?.reconnectRequired == true,
+            )
+        }
         .combine(bankSyncStatus?.pendingCount ?: flowOf(0)) { s, c -> s.copy(bankPendingCount = c) }
         .combine(bankSyncStatus?.lastSyncedMs ?: flowOf(0L)) { s, ms -> s.copy(bankLastSyncedMs = ms) }
         .combine(walletSyncStatus?.isEnabled ?: flowOf(false)) { s, e -> s.copy(isWalletSyncEnabled = e) }

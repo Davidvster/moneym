@@ -36,6 +36,10 @@
     <string name="transactions_sync_paused">同期を一時停止中 — 操作が必要です</string>
     <string name="transactions_sync_sheet_title">クラウド同期</string>
     <string name="transactions_synced">同期済み</string>
+    <string name="transactions_sync_failed">Sync failed</string>
+    <string name="transactions_sync_failed_network">No internet connection</string>
+    <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
+    <string name="transactions_sync_failed_unknown">Try again in a moment</string>
     <string name="transactions_wallet_sync_section">ウォレット同期</string>
     <string name="transactions_wallet_review">%1$d 件の候補を確認</string>
     <string name="transactions_wallet_empty">まだ候補はありません</string>

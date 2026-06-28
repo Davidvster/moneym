@@ -17,6 +17,7 @@ import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.data.banksync.internal.platformCryptographyProvider
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
 import kotlin.time.Instant
@@ -232,7 +233,23 @@ class BankSyncEngineTest {
 
         val state = e.runtime.value
         assertIs<BankSyncRuntimeState.Error>(state)
+        assertEquals(BankSyncFailureReason.Auth, state.reason)
         assertTrue(state.reconnectRequired)
+    }
+
+    @Test
+    fun networkErrorsSurfaceAsRetryableFailure() = runTest {
+        connect()
+        bankRepo.upsertAccounts(listOf(account()))
+        client.failure = EbError.Network(RuntimeException("offline"))
+
+        val e = engine()
+        val result = e.syncNow()
+
+        assertTrue(result.isFailure)
+        val state = assertIs<BankSyncRuntimeState.Error>(e.runtime.value)
+        assertEquals(BankSyncFailureReason.Network, state.reason)
+        assertFalse(state.reconnectRequired)
     }
 
     @Test

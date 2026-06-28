@@ -9,6 +9,7 @@ import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.budgets.BudgetRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.remotebackup.RemoteBackupManager
+import com.dv.moneym.data.remotebackup.RemoteBackupError
 import com.dv.moneym.data.remotebackup.SessionPassphrase
 import com.dv.moneym.data.remotebackup.SyncPassphraseStore
 import com.dv.moneym.data.transactions.PaymentModeRepository
@@ -72,6 +73,11 @@ class SyncEngine(
 
     override val isSyncing: Flow<Boolean> =
         runtime.map { it != SyncRuntimeState.Idle && it !is SyncRuntimeState.Error }
+
+    override val failure: Flow<SyncFailure?> =
+        runtime.map { state ->
+            (state as? SyncRuntimeState.Error)?.let { SyncFailure(it.reason) }
+        }
 
     override val pendingDeletionCount: Flow<Int> = pendingDeletionStore.count
 
@@ -166,7 +172,10 @@ class SyncEngine(
             _runtime.value = SyncRuntimeState.Idle
             touchSelfQuietly()
         }.onFailure { t ->
-            _runtime.value = SyncRuntimeState.Error(t.message ?: "Sync pull failed")
+            _runtime.value = SyncRuntimeState.Error(
+                message = t.message ?: "Sync pull failed",
+                reason = t.toSyncFailureReason(),
+            )
             logger.e(t) { "Sync pull failed" }
         }
     }
@@ -177,7 +186,10 @@ class SyncEngine(
             touchSelfQuietly()
         }
             .onFailure { t ->
-                _runtime.value = SyncRuntimeState.Error(t.message ?: "Sync push failed")
+                _runtime.value = SyncRuntimeState.Error(
+                    message = t.message ?: "Sync push failed",
+                    reason = t.toSyncFailureReason(),
+                )
                 logger.e(t) { "Sync push failed" }
             }
     }
@@ -197,7 +209,10 @@ class SyncEngine(
             pendingDeletionStore.clear()
             pushInternal()
         }.onFailure { t ->
-            _runtime.value = SyncRuntimeState.Error(t.message ?: "Resolve deletions failed")
+            _runtime.value = SyncRuntimeState.Error(
+                message = t.message ?: "Resolve deletions failed",
+                reason = t.toSyncFailureReason(),
+            )
             logger.e(t) { "Resolve deletions failed" }
         }
     }
@@ -338,4 +353,29 @@ class SyncEngine(
     companion object {
         const val DEFAULT_DEBOUNCE_MS = 3_000L
     }
+}
+
+private fun Throwable.toSyncFailureReason(): SyncFailureReason = when (this) {
+    is RemoteBackupError.Network -> SyncFailureReason.Network
+    is RemoteBackupError.NotAuthenticated -> SyncFailureReason.Auth
+    is RemoteBackupError.Http -> if (status == 401 || status == 403) SyncFailureReason.Auth else SyncFailureReason.Unknown
+    else -> if (isLikelyNetworkFailure()) SyncFailureReason.Network else SyncFailureReason.Unknown
+}
+
+private fun Throwable.isLikelyNetworkFailure(): Boolean {
+    val text = listOfNotNull(this::class.simpleName, message, cause?.message)
+        .joinToString(separator = " ")
+        .lowercase()
+    return listOf(
+        "network",
+        "timeout",
+        "timed out",
+        "unresolved",
+        "unable to resolve",
+        "connection",
+        "connectexception",
+        "unknownhost",
+        "dns",
+        "socket",
+    ).any { it in text }
 }

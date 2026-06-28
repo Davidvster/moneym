@@ -10,6 +10,8 @@ import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.TxDisplayPrefs
 import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.data.banksync.BankSyncFailureReason
+import com.dv.moneym.data.sync.SyncFailureReason
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 
@@ -50,12 +52,15 @@ internal data class TransactionListUiState(
     val showCategoryFilter: Boolean = false,
     val isSyncEnabled: Boolean = false,
     val isSyncInProgress: Boolean = false,
+    val syncFailure: SyncFailureReason? = null,
     val pendingDeletionCount: Int = 0,
     val hasSyncConflict: Boolean = false,
     val lastSyncedMs: Long = 0L,
     val showSyncSheet: Boolean = false,
     val isBankSyncEnabled: Boolean = false,
     val isBankSyncing: Boolean = false,
+    val bankSyncFailure: BankSyncFailureReason? = null,
+    val bankSyncReconnectRequired: Boolean = false,
     val bankPendingCount: Int = 0,
     val bankLastSyncedMs: Long = 0L,
     val isWalletSyncEnabled: Boolean = false,

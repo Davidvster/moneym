@@ -36,6 +36,10 @@
     <string name="transactions_sync_paused">Синхронизация приостановлена — требуется действие</string>
     <string name="transactions_sync_sheet_title">Облачная синхронизация</string>
     <string name="transactions_synced">Синхронизировано</string>
+    <string name="transactions_sync_failed">Sync failed</string>
+    <string name="transactions_sync_failed_network">No internet connection</string>
+    <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
+    <string name="transactions_sync_failed_unknown">Try again in a moment</string>
     <string name="transactions_wallet_sync_section">Синхронизация кошелька</string>
     <string name="transactions_wallet_review">Просмотреть %1$d предложений</string>
     <string name="transactions_wallet_empty">Пока нет предложений</string>

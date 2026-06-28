@@ -97,6 +97,8 @@ import com.dv.moneym.core.ui.TxRow
 import com.dv.moneym.core.ui.WalletChip
 import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.monthLabel
+import com.dv.moneym.data.banksync.BankSyncFailureReason
+import com.dv.moneym.data.sync.SyncFailureReason
 import com.dv.moneym.feature.transactions.list.components.DayGroupHeader
 import com.dv.moneym.feature.transactions.list.page.TransactionPageScreen
 import kotlinx.coroutines.delay
@@ -127,6 +129,10 @@ import moneym.feature.transactions.generated.resources.transactions_previous_mon
 import moneym.feature.transactions.generated.resources.transactions_search_cd
 import moneym.feature.transactions.generated.resources.transactions_search_placeholder
 import moneym.feature.transactions.generated.resources.transactions_sync_conflict_body
+import moneym.feature.transactions.generated.resources.transactions_sync_failed
+import moneym.feature.transactions.generated.resources.transactions_sync_failed_auth
+import moneym.feature.transactions.generated.resources.transactions_sync_failed_network
+import moneym.feature.transactions.generated.resources.transactions_sync_failed_unknown
 import moneym.feature.transactions.generated.resources.transactions_sync_last
 import moneym.feature.transactions.generated.resources.transactions_sync_never
 import moneym.feature.transactions.generated.resources.transactions_sync_now
@@ -260,6 +266,7 @@ private fun TransactionListContent(
     if (state.showSyncSheet) {
         SyncStatusSheet(
             isSyncing = state.isSyncInProgress,
+            syncFailure = state.syncFailure,
             hasConflict = state.hasSyncConflict,
             lastSyncedMs = state.lastSyncedMs,
             pendingDeletionCount = state.pendingDeletionCount,
@@ -271,6 +278,8 @@ private fun TransactionListContent(
             crossDeviceEnabled = state.isSyncEnabled,
             bankEnabled = state.isBankSyncEnabled,
             bankIsSyncing = state.isBankSyncing,
+            bankSyncFailure = state.bankSyncFailure,
+            bankSyncReconnectRequired = state.bankSyncReconnectRequired,
             bankLastSyncedMs = state.bankLastSyncedMs,
             bankPendingCount = state.bankPendingCount,
             onBankSyncNow = { onIntent(TransactionListIntent.BankSyncNow) },
@@ -362,7 +371,7 @@ private fun TransactionListContent(
     }
 }
 
-private enum class SyncVisual { Idle, Syncing, Synced, Conflict }
+private enum class SyncVisual { Idle, Syncing, Synced, Conflict, Failed }
 
 // Compact sync control that lives in the header action row. Only shown when cross-device sync
 // is enabled, so a manual sync is one tap away; reflects progress/conflict inline without
@@ -371,6 +380,7 @@ private enum class SyncVisual { Idle, Syncing, Synced, Conflict }
 private fun SyncActionButton(
     isSyncInProgress: Boolean,
     hasSyncConflict: Boolean,
+    hasSyncFailure: Boolean,
     onClick: () -> Unit,
 ) {
     val colors = MM.colors
@@ -388,6 +398,7 @@ private fun SyncActionButton(
 
     val target = when {
         hasSyncConflict -> SyncVisual.Conflict
+        hasSyncFailure -> SyncVisual.Failed
         isSyncInProgress -> SyncVisual.Syncing
         showSynced -> SyncVisual.Synced
         else -> SyncVisual.Idle
@@ -443,6 +454,13 @@ private fun SyncActionButton(
                             .graphicsLayer { scaleX = scale; scaleY = scale },
                     )
                 }
+
+                SyncVisual.Failed -> Icon(
+                    imageVector = Icon.Warning.imageVector,
+                    contentDescription = stringResource(Res.string.transactions_sync_failed),
+                    tint = colors.warning,
+                    modifier = Modifier.size(MM.dimen.icon_1x),
+                )
 
                 SyncVisual.Idle -> Icon(
                     imageVector = Icon.Sync.imageVector,
@@ -573,6 +591,7 @@ private fun SyncBanner(
 @Composable
 private fun SyncStatusSheet(
     isSyncing: Boolean,
+    syncFailure: SyncFailureReason?,
     hasConflict: Boolean,
     lastSyncedMs: Long,
     pendingDeletionCount: Int,
@@ -581,6 +600,8 @@ private fun SyncStatusSheet(
     crossDeviceEnabled: Boolean,
     bankEnabled: Boolean,
     bankIsSyncing: Boolean,
+    bankSyncFailure: BankSyncFailureReason?,
+    bankSyncReconnectRequired: Boolean,
     bankLastSyncedMs: Long,
     bankPendingCount: Int,
     onBankSyncNow: () -> Unit,
@@ -598,15 +619,19 @@ private fun SyncStatusSheet(
     val statusText = when {
         isSyncing -> stringResource(Res.string.transactions_syncing)
         hasConflict -> stringResource(Res.string.transactions_sync_paused)
+        syncFailure != null -> stringResource(Res.string.transactions_sync_failed)
         lastSyncedMs > 0L -> stringResource(Res.string.transactions_sync_last, formatSyncTime(lastSyncedMs))
         else -> stringResource(Res.string.transactions_sync_never)
     }
+    val syncFailureText = syncFailure?.let { syncFailureText(it) }
 
     val bankStatusText = when {
         bankIsSyncing -> stringResource(Res.string.transactions_syncing)
+        bankSyncFailure != null -> stringResource(Res.string.transactions_sync_failed)
         bankLastSyncedMs > 0L -> stringResource(Res.string.transactions_sync_last, formatSyncTime(bankLastSyncedMs))
         else -> stringResource(Res.string.transactions_sync_never)
     }
+    val bankFailureText = bankSyncFailure?.let { bankSyncFailureText(it, bankSyncReconnectRequired) }
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -630,6 +655,14 @@ private fun SyncStatusSheet(
                 if (hasConflict) {
                     Text(
                         text = stringResource(Res.string.transactions_sync_conflict_body),
+                        style = type.caption,
+                        color = colors.danger,
+                    )
+                }
+
+                if (syncFailureText != null) {
+                    Text(
+                        text = syncFailureText,
                         style = type.caption,
                         color = colors.danger,
                     )
@@ -679,6 +712,14 @@ private fun SyncStatusSheet(
                 )
                 Text(text = bankStatusText, style = type.body, color = colors.text2)
 
+                if (bankFailureText != null) {
+                    Text(
+                        text = bankFailureText,
+                        style = type.caption,
+                        color = colors.danger,
+                    )
+                }
+
                 if (bankPendingCount > 0) {
                     MmButton(
                         text = stringResource(Res.string.transactions_bank_review, bankPendingCount),
@@ -726,6 +767,21 @@ private fun SyncStatusSheet(
 }
 
 private fun formatSyncTime(ms: Long): String = formatDateTime(ms)
+
+@Composable
+private fun syncFailureText(reason: SyncFailureReason): String = when (reason) {
+    SyncFailureReason.Network -> stringResource(Res.string.transactions_sync_failed_network)
+    SyncFailureReason.Auth -> stringResource(Res.string.transactions_sync_failed_auth)
+    SyncFailureReason.Unknown -> stringResource(Res.string.transactions_sync_failed_unknown)
+}
+
+@Composable
+private fun bankSyncFailureText(reason: BankSyncFailureReason, reconnectRequired: Boolean): String = when {
+    reconnectRequired -> stringResource(Res.string.transactions_sync_failed_auth)
+    reason == BankSyncFailureReason.Network -> stringResource(Res.string.transactions_sync_failed_network)
+    reason == BankSyncFailureReason.Auth -> stringResource(Res.string.transactions_sync_failed_auth)
+    else -> stringResource(Res.string.transactions_sync_failed_unknown)
+}
 
 @Composable
 private fun TransactionListHeader(
@@ -824,6 +880,7 @@ private fun TransactionListHeader(
                     SyncActionButton(
                         isSyncInProgress = state.isSyncInProgress || state.isBankSyncing,
                         hasSyncConflict = state.hasSyncConflict,
+                        hasSyncFailure = state.syncFailure != null || state.bankSyncFailure != null,
                         onClick = onOpenSyncSheet,
                     )
                 }

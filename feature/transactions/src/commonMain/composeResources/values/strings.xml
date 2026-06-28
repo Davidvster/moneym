@@ -29,6 +29,10 @@
     <!-- Sync -->
     <string name="transactions_syncing">Syncing…</string>
     <string name="transactions_synced">Synced</string>
+    <string name="transactions_sync_failed">Sync failed</string>
+    <string name="transactions_sync_failed_network">No internet connection</string>
+    <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
+    <string name="transactions_sync_failed_unknown">Try again in a moment</string>
     <string name="transactions_sync_paused">Sync paused — action needed</string>
     <string name="transactions_pending_deletions">%1$d items removed on another device — review</string>
     <string name="transactions_sync_sheet_title">Cloud sync</string>

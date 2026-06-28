@@ -36,6 +36,12 @@ class BankSyncEngine(
         get() = appSettings.observeBoolean(PrefKeys.BANK_SYNC_CONFIGURED, defaultValue = false)
     override val isSyncing: Flow<Boolean>
         get() = runtime.map { it is BankSyncRuntimeState.Running }
+    override val failure: Flow<BankSyncFailure?>
+        get() = runtime.map { state ->
+            (state as? BankSyncRuntimeState.Error)?.let {
+                BankSyncFailure(reason = it.reason, reconnectRequired = it.reconnectRequired)
+            }
+        }
     override val pendingCount: Flow<Int>
         get() = bankSyncRepository.observePendingCount()
     override val lastSyncedMs: Flow<Long>
@@ -73,6 +79,7 @@ class BankSyncEngine(
             val reconnect = t is EbError.SessionExpired || t is EbError.Unauthorized
             _runtime.value = BankSyncRuntimeState.Error(
                 message = t.message ?: "Bank sync failed",
+                reason = t.toBankSyncFailureReason(),
                 reconnectRequired = reconnect,
             )
             logger.e(t) { "Bank sync failed" }
@@ -150,4 +157,11 @@ class BankSyncEngine(
         const val INITIAL_WINDOW_DAYS = 730
         const val FALLBACK_WINDOW_DAYS = 90
     }
+}
+
+private fun Throwable.toBankSyncFailureReason(): BankSyncFailureReason = when (this) {
+    is EbError.Network -> BankSyncFailureReason.Network
+    is EbError.SessionExpired,
+    is EbError.Unauthorized -> BankSyncFailureReason.Auth
+    else -> BankSyncFailureReason.Unknown
 }
