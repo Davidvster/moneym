@@ -10,6 +10,8 @@ import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
+import com.dv.moneym.core.model.selectedCategoryIds
+import com.dv.moneym.core.model.withType
 import com.dv.moneym.core.testing.FakeAccountRepository
 import com.dv.moneym.core.testing.FakeAppSettingsRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
@@ -180,6 +182,55 @@ class TransactionListViewModelTest {
             var after = awaitItem()
             while (after.activeFilter !is TransactionFilter.ByType) after = awaitItem()
             assertEquals(TransactionFilter.ByType(TransactionType.EXPENSE), after.activeFilter)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun categoryFilterPersistsAndSurvivesViewModelRecreation() = runTestWithDispatchers {
+        val settings = FakeAppSettingsRepository()
+        val firstVm = makeVm(settings = settings)
+
+        firstVm.state.test {
+            var s = awaitItem()
+            while (s.currentMonth == null) s = awaitItem()
+            firstVm.onIntent(TransactionListIntent.CategoryFilterToggled(CategoryId(7)))
+            var filtered = awaitItem()
+            while (CategoryId(7) !in filtered.selectedCategoryIds) filtered = awaitItem()
+            assertEquals(setOf(CategoryId(7)), filtered.selectedCategoryIds)
+            cancelAndIgnoreRemainingEvents()
+        }
+
+        val recreatedVm = makeVm(settings = settings)
+        recreatedVm.state.test {
+            var s = awaitItem()
+            while (s.currentMonth == null || CategoryId(7) !in s.selectedCategoryIds) s = awaitItem()
+            assertEquals(setOf(CategoryId(7)), s.selectedCategoryIds)
+            assertEquals(setOf(CategoryId(7)), s.activeFilter.selectedCategoryIds())
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun typeFilterPreservesPersistedCategorySelection() = runTestWithDispatchers {
+        val settings = FakeAppSettingsRepository()
+        settings.setLastTransactionFilter(TransactionFilter.ByCategory(CategoryId(3)))
+        val vm = makeVm(settings = settings)
+
+        vm.state.test {
+            var s = awaitItem()
+            while (s.currentMonth == null || CategoryId(3) !in s.selectedCategoryIds) s = awaitItem()
+            vm.onIntent(
+                TransactionListIntent.FilterChanged(
+                    s.activeFilter.withType(TransactionType.INCOME)
+                )
+            )
+            var updated = awaitItem()
+            while (updated.activeFilter !is TransactionFilter.ByCategoryAndType) updated = awaitItem()
+            assertEquals(
+                TransactionFilter.ByCategoryAndType(CategoryId(3), TransactionType.INCOME),
+                updated.activeFilter,
+            )
             cancelAndIgnoreRemainingEvents()
         }
     }

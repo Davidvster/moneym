@@ -10,6 +10,7 @@ import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.Transaction
+import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
@@ -75,7 +76,7 @@ class BuildOverviewPageStateUseCaseTest {
             allTransactions = emptyList(),
             categories = listOf(cat1),
             selectedAccountId = 0L,
-            selectedCategoryId = null,
+            transactionFilter = TransactionFilter.None,
             budgets = emptyList(),
         )
         assertTrue(state.isEmpty)
@@ -98,7 +99,7 @@ class BuildOverviewPageStateUseCaseTest {
             allTransactions = txns,
             categories = listOf(cat1, cat2),
             selectedAccountId = 0L,
-            selectedCategoryId = null,
+            transactionFilter = TransactionFilter.None,
             budgets = emptyList(),
         )
         assertFalse(state.isEmpty)
@@ -122,7 +123,7 @@ class BuildOverviewPageStateUseCaseTest {
             allTransactions = txns,
             categories = listOf(cat1),
             selectedAccountId = 1L,
-            selectedCategoryId = null,
+            transactionFilter = TransactionFilter.None,
             budgets = emptyList(),
         )
         assertEquals(500.0, state.expenses)
@@ -140,11 +141,37 @@ class BuildOverviewPageStateUseCaseTest {
             allTransactions = txns,
             categories = listOf(cat1, cat2),
             selectedAccountId = 0L,
-            selectedCategoryId = CategoryId(1),
+            transactionFilter = TransactionFilter.ByCategory(CategoryId(1)),
             budgets = emptyList(),
         )
         assertEquals(500.0, state.expenses)
         assertFalse(state.isEmpty)
+    }
+
+    @Test
+    fun transaction_filter_combines_type_and_multiple_categories() {
+        val txns = listOf(
+            txn(1, TransactionType.EXPENSE, 50000, LocalDate(2026, 5, 2), categoryId = 1),
+            txn(2, TransactionType.EXPENSE, 30000, LocalDate(2026, 5, 2), categoryId = 2),
+            txn(3, TransactionType.EXPENSE, 70000, LocalDate(2026, 5, 2), categoryId = 3),
+            txn(4, TransactionType.INCOME, 90000, LocalDate(2026, 5, 2), categoryId = 1),
+        )
+        val state = useCase(
+            period = OverviewPeriod.Month(YearMonth(2026, 5)),
+            today = today,
+            allTransactions = txns,
+            categories = listOf(cat1, cat2),
+            selectedAccountId = 0L,
+            transactionFilter = TransactionFilter.BySelection(
+                type = TransactionType.EXPENSE,
+                categoryIds = setOf(CategoryId(1), CategoryId(2)),
+            ),
+            budgets = emptyList(),
+        )
+
+        assertEquals(800.0, state.expenses)
+        assertEquals(0.0, state.income)
+        assertEquals(2, state.categoryBreakdown.size)
     }
 
     @Test
@@ -159,7 +186,7 @@ class BuildOverviewPageStateUseCaseTest {
             allTransactions = txns,
             categories = listOf(cat1),
             selectedAccountId = 0L,
-            selectedCategoryId = null,
+            transactionFilter = TransactionFilter.None,
             budgets = emptyList(),
         )
         assertEquals(12, state.monthlyTotals.size)
@@ -181,7 +208,7 @@ class BuildOverviewPageStateUseCaseTest {
             allTransactions = txns,
             categories = listOf(cat1),
             selectedAccountId = 0L,
-            selectedCategoryId = null,
+            transactionFilter = TransactionFilter.None,
             budgets = emptyList(),
         )
         assertEquals(300.0, state.expenses)
@@ -210,7 +237,7 @@ class BuildOverviewPageStateUseCaseTest {
             allTransactions = txns,
             categories = listOf(cat1),
             selectedAccountId = 0L,
-            selectedCategoryId = null,
+            transactionFilter = TransactionFilter.None,
             budgets = listOf(budget),
         )
         assertEquals(1, state.budgetProgress.size)

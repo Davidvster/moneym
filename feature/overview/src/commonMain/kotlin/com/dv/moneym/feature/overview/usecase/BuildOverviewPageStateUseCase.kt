@@ -4,7 +4,9 @@ import com.dv.moneym.core.model.Budget
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Transaction
+import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
+import com.dv.moneym.core.model.matches
 import com.dv.moneym.feature.overview.CategoryTrend
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.page.OverviewPageUiState
@@ -25,23 +27,21 @@ class BuildOverviewPageStateUseCase(
         allTransactions: List<Transaction>,
         categories: List<Category>,
         selectedAccountId: Long,
-        selectedCategoryId: CategoryId?,
+        transactionFilter: TransactionFilter,
         budgets: List<Budget>,
     ): OverviewPageUiState {
         val catMap = categories.associateBy { it.id }
         val accountFilteredTransactions = if (selectedAccountId > 0L) {
             allTransactions.filter { it.accountId.value == selectedAccountId }
         } else allTransactions
-        val periodTxns = resolvePeriodRange.filterByPeriod(accountFilteredTransactions, period)
-        val filteredTxns = if (selectedCategoryId != null) {
-            periodTxns.filter { it.categoryId == selectedCategoryId }
-        } else periodTxns
+        val filterableTransactions = accountFilteredTransactions.filter { transactionFilter.matches(it) }
+        val periodTxns = resolvePeriodRange.filterByPeriod(filterableTransactions, period)
 
-        val incomeDouble = filteredTxns
+        val incomeDouble = periodTxns
             .filter { it.type == TransactionType.INCOME }
             .sumOf { it.amount.minorUnits }
             .toDouble() / 100.0
-        val expensesDouble = filteredTxns
+        val expensesDouble = periodTxns
             .filter { it.type == TransactionType.EXPENSE }
             .sumOf { it.amount.minorUnits }
             .toDouble() / 100.0
@@ -54,7 +54,7 @@ class BuildOverviewPageStateUseCase(
             today = today,
             range = range,
             periodTxns = periodTxns,
-            accountFilteredTransactions = accountFilteredTransactions,
+            accountFilteredTransactions = filterableTransactions,
             catMap = catMap,
             expensesDouble = expensesDouble,
             incomeDouble = incomeDouble,

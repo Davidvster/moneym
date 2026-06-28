@@ -1,9 +1,12 @@
 package com.dv.moneym.core.datastore
 
 import app.cash.turbine.test
+import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Density
 import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.model.ThemeMode
+import com.dv.moneym.core.model.TransactionFilter
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.TxDisplayPrefs
 import com.russhwolf.settings.MapSettings
 import kotlinx.coroutines.test.runTest
@@ -59,5 +62,53 @@ class DefaultAppSettingsRepositoryTest {
             assertEquals(42L, awaitItem()) // updated
             cancelAndIgnoreRemainingEvents()
         }
+    }
+
+    @Test
+    fun `observeLastTransactionFilter decodes legacy values`() = runTest {
+        val settings = MapSettings()
+        val repo = DefaultAppSettingsRepository(DefaultAppSettings(settings))
+
+        settings.putString(PrefKeys.TX_LAST_FILTER, "expense")
+        repo.observeLastTransactionFilter().test {
+            assertEquals(TransactionFilter.ByType(TransactionType.EXPENSE), awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+
+        settings.putString(PrefKeys.TX_LAST_FILTER, "income")
+        repo.observeLastTransactionFilter().test {
+            assertEquals(TransactionFilter.ByType(TransactionType.INCOME), awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+
+        settings.putString(PrefKeys.TX_LAST_FILTER, "all")
+        repo.observeLastTransactionFilter().test {
+            assertEquals(TransactionFilter.None, awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `setLastTransactionFilter persists type with multiple categories`() = runTest {
+        val settings = MapSettings()
+        val repo = DefaultAppSettingsRepository(DefaultAppSettings(settings))
+        val filter = TransactionFilter.BySelection(
+            type = TransactionType.INCOME,
+            categoryIds = setOf(CategoryId(2), CategoryId(1)),
+        )
+
+        repo.observeLastTransactionFilter().test {
+            assertEquals(TransactionFilter.None, awaitItem())
+            repo.setLastTransactionFilter(filter)
+            assertEquals(
+                TransactionFilter.BySelection(
+                    type = TransactionType.INCOME,
+                    categoryIds = setOf(CategoryId(1), CategoryId(2)),
+                ),
+                awaitItem(),
+            )
+            cancelAndIgnoreRemainingEvents()
+        }
+        assertEquals("v2|type=income|categories=1,2", settings.getString(PrefKeys.TX_LAST_FILTER, ""))
     }
 }

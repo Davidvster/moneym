@@ -15,6 +15,8 @@ import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.SpendingFilter
+import com.dv.moneym.core.model.TransactionFilter
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
@@ -92,13 +94,14 @@ internal fun StoreOverviewPreview() {
                 OverviewHeader(
                     period = period,
                     periodLabel = "May 2026",
-                    spendingFilter = SpendingFilter.Expenses,
+                    transactionFilter = TransactionFilter.ByType(TransactionType.EXPENSE),
                     onTogglePeriod = {},
                     onPreviousPeriod = {},
                     onNextPeriod = {},
                     onShowPeriodPicker = {},
                     onShowDateRangePicker = {},
-                    onSpendingFilterChanged = {},
+                    onShowCategoryFilter = {},
+                    onTransactionFilterChanged = {},
                 )
                 Column(
                     modifier = Modifier

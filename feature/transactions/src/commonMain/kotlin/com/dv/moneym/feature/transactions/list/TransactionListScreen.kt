@@ -71,11 +71,12 @@ import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.designsystem.categoryColor
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.RecurringTransactionId
-import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.TxDisplayPrefs
 import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.core.model.selectedType
+import com.dv.moneym.core.model.withType
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
@@ -798,10 +799,10 @@ private fun TransactionListHeader(
 ) {
     val colors = MM.colors
     val type = MM.type
-    val selectedFilterIndex = when (val f = state.activeFilter) {
-        is TransactionFilter.None -> 0
-        is TransactionFilter.ByType -> if (f.type == TransactionType.EXPENSE) 1 else 2
-        else -> 0
+    val selectedFilterIndex = when (state.activeFilter.selectedType()) {
+        TransactionType.EXPENSE -> 1
+        TransactionType.INCOME -> 2
+        null -> 0
     }
 
     Column(
@@ -895,11 +896,13 @@ private fun TransactionListHeader(
             ),
             selectedIndex = selectedFilterIndex,
             onOptionSelected = { idx ->
-                val filter = when (idx) {
-                    1 -> TransactionFilter.ByType(TransactionType.EXPENSE)
-                    2 -> TransactionFilter.ByType(TransactionType.INCOME)
-                    else -> TransactionFilter.None
-                }
+                val filter = state.activeFilter.withType(
+                    when (idx) {
+                        1 -> TransactionType.EXPENSE
+                        2 -> TransactionType.INCOME
+                        else -> null
+                    }
+                )
                 onIntent(TransactionListIntent.FilterChanged(filter))
             },
             fillWidth = true,
@@ -933,20 +936,22 @@ private fun MonthNavRow(
     val displayLabel: String
     val displayColor: Color
     val displaySign: String
-    when (val f = state.activeFilter) {
-        is TransactionFilter.ByType -> if (f.type == TransactionType.EXPENSE) {
+    when (state.activeFilter.selectedType()) {
+        TransactionType.EXPENSE -> {
             displayAmount = state.totalExpenses / 100.0
             displayLabel = stringResource(Res.string.transactions_filter_expenses)
             displayColor = colors.text
             displaySign = ""
-        } else {
+        }
+
+        TransactionType.INCOME -> {
             displayAmount = state.totalIncome / 100.0
             displayLabel = stringResource(Res.string.transactions_filter_income)
             displayColor = colors.accent
             displaySign = ""
         }
 
-        else -> {
+        null -> {
             displayAmount = state.netAmount / 100.0
             displayLabel = stringResource(Res.string.transactions_net_label)
             displayColor = if (state.netAmount >= 0) colors.accent else colors.text

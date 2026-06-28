@@ -8,6 +8,7 @@ import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
+import com.dv.moneym.core.model.matches
 import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.data.transactions.TransactionSyncRow
 import kotlinx.coroutines.flow.Flow
@@ -39,6 +40,9 @@ internal class TransactionRepositoryImpl(
             is TransactionFilter.ByCategoryAndType ->
                 dataSource.observeByCategoryAndType(filter.categoryId.value, filter.type.name)
                     .map { it.map { r -> r.toDomain() } }
+
+            is TransactionFilter.BySelection ->
+                observeAll().map { rows -> rows.filter { filter.matches(it) } }
         }
 
     override suspend fun getById(id: TransactionId): Transaction? =

@@ -7,6 +7,7 @@ import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.Transaction
+import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.core.model.YearMonth
@@ -61,13 +62,20 @@ class OverviewPageViewModelTest {
         buildBudgetProgress = BuildBudgetProgressUseCase(),
     )
 
-    private fun makeVm(period: OverviewPeriod) = OverviewPageViewModel(
+    private fun makeVm(
+        period: OverviewPeriod,
+        transactions: FakeTransactionRepository = txnRepo,
+        categories: FakeCategoryRepository = catRepo,
+        accounts: FakeAccountRepository = accountRepo,
+        settings: FakeAppSettingsRepository = settingsRepo,
+        budgets: FakeBudgetRepository = budgetRepo,
+    ) = OverviewPageViewModel(
         period = period,
-        transactionRepository = txnRepo,
-        categoryRepository = catRepo,
-        accountRepository = accountRepo,
-        appSettingsRepository = settingsRepo,
-        budgetRepository = budgetRepo,
+        transactionRepository = transactions,
+        categoryRepository = categories,
+        accountRepository = accounts,
+        appSettingsRepository = settings,
+        budgetRepository = budgets,
         buildOverviewPageState = buildOverviewPageState,
         clock = clock,
     )
@@ -192,6 +200,54 @@ class OverviewPageViewModelTest {
             var s = awaitItem()
             while (s.isLoading || s.expenses == 0.0) s = awaitItem()
             assertEquals(40.0, s.expenses)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun persistedTransactionFilterAffectsTotalsAfterViewModelRecreation() = runTestWithDispatchers(testDispatcher) {
+        val transactions = FakeTransactionRepository()
+        val categories = FakeCategoryRepository()
+        val settings = FakeAppSettingsRepository()
+
+        categories.addAll(
+            listOf(category(1, TransactionType.EXPENSE), category(2, TransactionType.EXPENSE)),
+        )
+        transactions.upsert(txn(TransactionType.EXPENSE, 3000, catId = 1))
+        transactions.upsert(txn(TransactionType.EXPENSE, 2000, catId = 2))
+        transactions.upsert(txn(TransactionType.INCOME, 9999, catId = 1))
+        settings.setLastTransactionFilter(
+            TransactionFilter.BySelection(
+                type = TransactionType.EXPENSE,
+                categoryIds = setOf(CategoryId(1), CategoryId(2)),
+            )
+        )
+
+        val firstVm = makeVm(
+            period = OverviewPeriod.Month(YearMonth(2026, 5)),
+            transactions = transactions,
+            categories = categories,
+            settings = settings,
+        )
+        firstVm.state.test {
+            var s = awaitItem()
+            while (s.isLoading || s.expenses == 0.0) s = awaitItem()
+            assertEquals(50.0, s.expenses)
+            assertEquals(0.0, s.income)
+            cancelAndIgnoreRemainingEvents()
+        }
+
+        val recreatedVm = makeVm(
+            period = OverviewPeriod.Month(YearMonth(2026, 5)),
+            transactions = transactions,
+            categories = categories,
+            settings = settings,
+        )
+        recreatedVm.state.test {
+            var s = awaitItem()
+            while (s.isLoading || s.expenses == 0.0) s = awaitItem()
+            assertEquals(50.0, s.expenses)
+            assertEquals(0.0, s.income)
             cancelAndIgnoreRemainingEvents()
         }
     }

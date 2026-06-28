@@ -2,7 +2,7 @@ package com.dv.moneym.feature.overview.page
 
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
-import com.dv.moneym.core.model.SpendingFilter
+import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.feature.overview.CategoryAvgSpend
 import com.dv.moneym.feature.overview.CategorySpend
@@ -59,11 +59,14 @@ internal sealed interface OverviewIntent {
         val endDay: Int,
     ) : OverviewIntent
 
-    data class SpendingFilterChanged(val filter: SpendingFilter) : OverviewIntent
+    data class TransactionFilterChanged(val filter: TransactionFilter) : OverviewIntent
+    data class CategoryFilterToggled(val id: CategoryId) : OverviewIntent
+    data object CategoryFilterCleared : OverviewIntent
     data class MonthPagerSwiped(val yearMonth: YearMonth) : OverviewIntent
     data class YearPagerSwiped(val year: Int) : OverviewIntent
     data class ShowPeriodPicker(val visible: Boolean) : OverviewIntent
     data class ShowDateRangePicker(val visible: Boolean) : OverviewIntent
+    data class ShowCategoryFilter(val visible: Boolean) : OverviewIntent
     data class ShowWalletPicker(val visible: Boolean) : OverviewIntent
     data class AccountSelected(val id: AccountId) : OverviewIntent
 }

@@ -1,6 +1,7 @@
 package com.dv.moneym.core.datastore
 
 import com.dv.moneym.core.model.Density
+import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.IndicatorStyle
 import com.dv.moneym.core.model.OverviewPeriodMode
 import com.dv.moneym.core.model.SpendingFilter
@@ -8,6 +9,9 @@ import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.TxDisplayPrefs
+import com.dv.moneym.core.model.selectedCategoryIds
+import com.dv.moneym.core.model.selectedType
+import com.dv.moneym.core.model.transactionFilterOf
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
@@ -117,20 +121,50 @@ class DefaultAppSettingsRepository(
     }
 
     // Private helpers — strings are ONLY here
-    private fun encodeFilter(filter: TransactionFilter): String = when (filter) {
-        is TransactionFilter.None -> "all"
-        is TransactionFilter.ByType -> when (filter.type) {
-            TransactionType.EXPENSE -> "expense"
-            TransactionType.INCOME -> "income"
+    private fun encodeFilter(filter: TransactionFilter): String {
+        val type = filter.selectedType()
+        val categoryIds = filter.selectedCategoryIds()
+        if (categoryIds.isEmpty()) {
+            return when (type) {
+                TransactionType.EXPENSE -> "expense"
+                TransactionType.INCOME -> "income"
+                null -> "all"
+            }
         }
-
-        else -> "all"
+        val typeValue = type?.name?.lowercase().orEmpty()
+        val categoryValue = categoryIds.map { it.value }.sorted().joinToString(",")
+        return "v2|type=$typeValue|categories=$categoryValue"
     }
 
     private fun decodeFilter(encoded: String): TransactionFilter = when (encoded) {
         "expense" -> TransactionFilter.ByType(TransactionType.EXPENSE)
         "income" -> TransactionFilter.ByType(TransactionType.INCOME)
-        else -> TransactionFilter.None
+        "all" -> TransactionFilter.None
+        else -> decodeStructuredFilter(encoded)
+    }
+
+    private fun decodeStructuredFilter(encoded: String): TransactionFilter {
+        if (!encoded.startsWith("v2|")) return TransactionFilter.None
+        val fields = encoded
+            .removePrefix("v2|")
+            .split("|")
+            .mapNotNull { part ->
+                val index = part.indexOf("=")
+                if (index < 0) null else part.substring(0, index) to part.substring(index + 1)
+            }
+            .toMap()
+        val type = when (fields["type"]) {
+            "expense" -> TransactionType.EXPENSE
+            "income" -> TransactionType.INCOME
+            else -> null
+        }
+        val categoryIds = fields["categories"]
+            ?.split(",")
+            ?.mapNotNull { it.toLongOrNull() }
+            ?.map { CategoryId(it) }
+            ?.toSet()
+            ?: emptySet()
+        return transactionFilterOf(type, categoryIds)
     }
 
     private fun encodeOverviewPeriod(mode: OverviewPeriodMode): String = when (mode) {

@@ -11,6 +11,7 @@ import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
+import com.dv.moneym.core.model.matches
 import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.data.transactions.TransactionSyncRow
 import kotlinx.coroutines.flow.Flow
@@ -53,6 +54,7 @@ class FakeTransactionRepository : TransactionRepository {
                 is TransactionFilter.ByType -> list.filter { it.type == filter.type }
                 is TransactionFilter.ByCategoryAndType ->
                     list.filter { it.categoryId == filter.categoryId && it.type == filter.type }
+                is TransactionFilter.BySelection -> list.filter { filter.matches(it) }
             }
         }
 

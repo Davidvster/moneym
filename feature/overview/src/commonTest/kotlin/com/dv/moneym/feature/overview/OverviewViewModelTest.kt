@@ -1,11 +1,14 @@
 package com.dv.moneym.feature.overview
 
+import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
+import com.dv.moneym.core.ai.AiEngineRegistry
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Money
 import com.dv.moneym.core.model.Transaction
+import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.core.model.YearMonth
@@ -16,6 +19,7 @@ import com.dv.moneym.core.testing.FakeCategoryRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.FixedClock
 import com.dv.moneym.core.testing.runTestWithDispatchers
+import com.dv.moneym.feature.overview.page.OverviewIntent
 import com.dv.moneym.feature.overview.page.OverviewPageViewModel
 import com.dv.moneym.feature.overview.usecase.BuildBudgetProgressUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCategoryBreakdownUseCase
@@ -75,6 +79,21 @@ class OverviewViewModelTest {
         budgetRepository = budgetRepo,
         buildOverviewPageState = buildOverviewPageState,
         clock = clock,
+    )
+
+    private fun makeOverviewVm(
+        transactions: FakeTransactionRepository = FakeTransactionRepository(),
+        categories: FakeCategoryRepository = FakeCategoryRepository(),
+        accounts: FakeAccountRepository = FakeAccountRepository(),
+        settings: FakeAppSettingsRepository = FakeAppSettingsRepository(),
+    ) = OverviewViewModel(
+        transactionRepository = transactions,
+        categoryRepository = categories,
+        accountRepository = accounts,
+        appSettingsRepository = settings,
+        aiEngineRegistry = AiEngineRegistry(emptyList()),
+        clock = clock,
+        savedStateHandle = SavedStateHandle(),
     )
 
     private fun makeTxn(
@@ -138,6 +157,33 @@ class OverviewViewModelTest {
             while (state.isLoading) state = awaitItem()
             assertIs<OverviewPeriod.Year>(state.period)
             assertEquals(12, state.monthlyTotals.size)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun transactionFilterControlPersistsAcrossViewModelRecreation() = runTestWithDispatchers(testDispatcher) {
+        val settings = FakeAppSettingsRepository()
+        val firstVm = makeOverviewVm(settings = settings)
+
+        firstVm.state.test {
+            var state = awaitItem()
+            while (state.currentPeriod == null) state = awaitItem()
+            firstVm.onIntent(OverviewIntent.TransactionFilterChanged(TransactionFilter.ByCategory(CategoryId(5))))
+            var filtered = awaitItem()
+            while (CategoryId(5) !in filtered.selectedCategoryIds) filtered = awaitItem()
+            assertEquals(setOf(CategoryId(5)), filtered.selectedCategoryIds)
+            cancelAndIgnoreRemainingEvents()
+        }
+
+        val recreatedVm = makeOverviewVm(settings = settings)
+        recreatedVm.state.test {
+            var state = awaitItem()
+            while (state.currentPeriod == null || CategoryId(5) !in state.selectedCategoryIds) {
+                state = awaitItem()
+            }
+            assertEquals(setOf(CategoryId(5)), state.selectedCategoryIds)
+            assertEquals(TransactionFilter.ByCategory(CategoryId(5)), state.transactionFilter)
             cancelAndIgnoreRemainingEvents()
         }
     }

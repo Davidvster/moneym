@@ -1,6 +1,7 @@
 package com.dv.moneym.feature.overview.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -17,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,9 +27,14 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
+import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Icon
-import com.dv.moneym.core.model.SpendingFilter
+import com.dv.moneym.core.model.TransactionFilter
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.core.model.selectedType
+import com.dv.moneym.core.model.withType
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIconButtonVariant
 import com.dv.moneym.core.ui.MmSegmented
@@ -42,6 +50,7 @@ import moneym.feature.overview.generated.resources.overview_income
 import moneym.feature.overview.generated.resources.overview_period_custom
 import moneym.feature.overview.generated.resources.overview_period_month
 import moneym.feature.overview.generated.resources.overview_period_year
+import moneym.feature.overview.generated.resources.overview_spending_by_category
 import moneym.feature.overview.generated.resources.overview_title
 import org.jetbrains.compose.resources.stringResource
 
@@ -49,14 +58,17 @@ import org.jetbrains.compose.resources.stringResource
 internal fun OverviewHeader(
     period: OverviewPeriod,
     periodLabel: String,
-    spendingFilter: SpendingFilter,
+    transactionFilter: TransactionFilter,
     onTogglePeriod: () -> Unit,
     onPreviousPeriod: () -> Unit,
     onNextPeriod: () -> Unit,
     onShowPeriodPicker: () -> Unit,
     onShowDateRangePicker: () -> Unit,
-    onSpendingFilterChanged: (SpendingFilter) -> Unit,
+    onShowCategoryFilter: () -> Unit,
+    onTransactionFilterChanged: (TransactionFilter) -> Unit,
     canGoBack: Boolean = true,
+    availableCategories: List<Category> = emptyList(),
+    selectedCategoryIds: Set<CategoryId> = emptySet(),
     accounts: List<Account> = emptyList(),
     selectedAccountId: AccountId? = null,
     onAccountSelected: (AccountId) -> Unit = {},
@@ -98,6 +110,25 @@ internal fun OverviewHeader(
                     onSelect = onAccountSelected,
                 )
             }
+            if (availableCategories.isNotEmpty()) {
+                Box {
+                    MmIconButton(
+                        icon = Icon.Sliders.imageVector,
+                        size = MM.dimen.padding_4x,
+                        onClick = onShowCategoryFilter,
+                        contentDescription = stringResource(Res.string.overview_spending_by_category),
+                    )
+                    if (selectedCategoryIds.isNotEmpty()) {
+                        Box(
+                            modifier = Modifier
+                                .size(MM.dimen.padding_1x)
+                                .clip(CircleShape)
+                                .background(colors.accent)
+                                .align(Alignment.TopEnd),
+                        )
+                    }
+                }
+            }
             if (aiAvailable) {
                 MmIconButton(
                     icon = Icon.Sparkles.imageVector,
@@ -136,18 +167,20 @@ internal fun OverviewHeader(
                 stringResource(Res.string.overview_expenses),
                 stringResource(Res.string.overview_income),
             ),
-            selectedIndex = when (spendingFilter) {
-                SpendingFilter.All -> 0
-                SpendingFilter.Expenses -> 1
-                SpendingFilter.Income -> 2
+            selectedIndex = when (transactionFilter.selectedType()) {
+                TransactionType.EXPENSE -> 1
+                TransactionType.INCOME -> 2
+                null -> 0
             },
             onOptionSelected = { idx ->
-                onSpendingFilterChanged(
-                    when (idx) {
-                        0 -> SpendingFilter.All
-                        1 -> SpendingFilter.Expenses
-                        else -> SpendingFilter.Income
-                    }
+                onTransactionFilterChanged(
+                    transactionFilter.withType(
+                        when (idx) {
+                            1 -> TransactionType.EXPENSE
+                            2 -> TransactionType.INCOME
+                            else -> null
+                        }
+                    )
                 )
             },
             size = MmSegmentedSize.Md,
@@ -208,13 +241,14 @@ private fun OverviewHeaderPreview() {
         OverviewHeader(
             period = OverviewPeriod.Month(YearMonth(2024, 3)),
             periodLabel = "March 2024",
-            spendingFilter = SpendingFilter.Expenses,
+            transactionFilter = TransactionFilter.ByType(TransactionType.EXPENSE),
             onTogglePeriod = {},
             onPreviousPeriod = {},
             onNextPeriod = {},
             onShowPeriodPicker = {},
             onShowDateRangePicker = {},
-            onSpendingFilterChanged = {},
+            onShowCategoryFilter = {},
+            onTransactionFilterChanged = {},
         )
     }
 }

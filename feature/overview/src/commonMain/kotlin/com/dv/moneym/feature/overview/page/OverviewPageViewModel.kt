@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.datastore.AppSettingsRepository
-import com.dv.moneym.core.model.CategoryId
+import com.dv.moneym.core.model.TransactionFilter
+import com.dv.moneym.core.model.clearCategories
+import com.dv.moneym.core.model.toggleCategory
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.budgets.BudgetRepository
 import com.dv.moneym.data.categories.CategoryRepository
@@ -16,13 +18,14 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class OverviewPageViewModel(
     private val period: OverviewPeriod,
     transactionRepository: TransactionRepository,
     categoryRepository: CategoryRepository,
     accountRepository: AccountRepository,
-    appSettingsRepository: AppSettingsRepository,
+    private val appSettingsRepository: AppSettingsRepository,
     budgetRepository: BudgetRepository,
     private val buildOverviewPageState: BuildOverviewPageStateUseCase,
     clock: AppClock,
@@ -30,7 +33,9 @@ class OverviewPageViewModel(
 
     private val today = clock.today()
 
-    private val _selectedCategoryId = MutableStateFlow<CategoryId?>(null)
+    private val transactionFilter = appSettingsRepository.observeLastTransactionFilter()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, TransactionFilter.None)
+
     private val _selectedSliceIndex = MutableStateFlow<Int?>(null)
 
     internal val state = combine(
@@ -40,16 +45,16 @@ class OverviewPageViewModel(
             appSettingsRepository.observeSelectedAccountId(),
             accountRepository.observeAll(),
         ) { id, accs -> id to accs },
-        _selectedCategoryId,
+        transactionFilter,
         budgetRepository.observeAll(),
-    ) { allTransactions, categories, (selectedAccId, _), selectedCatId, budgets ->
+    ) { allTransactions, categories, (selectedAccId, _), transactionFilter, budgets ->
         buildOverviewPageState(
             period = period,
             today = today,
             allTransactions = allTransactions,
             categories = categories,
             selectedAccountId = selectedAccId,
-            selectedCategoryId = selectedCatId,
+            transactionFilter = transactionFilter,
             budgets = budgets,
         )
     }
@@ -67,9 +72,16 @@ class OverviewPageViewModel(
             }
 
             is OverviewPageIntent.CategoryFilterSelected -> {
-                _selectedCategoryId.update { id -> if (id == intent.id) null else intent.id }
+                persistTransactionFilter(
+                    intent.id?.let { transactionFilter.value.toggleCategory(it) }
+                        ?: transactionFilter.value.clearCategories()
+                )
                 _selectedSliceIndex.value = null
             }
         }
+    }
+
+    private fun persistTransactionFilter(filter: TransactionFilter) {
+        viewModelScope.launch { appSettingsRepository.setLastTransactionFilter(filter) }
     }
 }

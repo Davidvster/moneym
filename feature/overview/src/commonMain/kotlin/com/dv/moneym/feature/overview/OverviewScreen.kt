@@ -20,6 +20,7 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.ui.MmDateRangePickerDialog
+import com.dv.moneym.core.ui.MmCategoryPickerSheet
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.feature.overview.components.OverviewHeader
@@ -164,14 +165,17 @@ private fun OverviewContent(
         OverviewHeader(
             period = currentPeriod,
             periodLabel = periodLabel,
-            spendingFilter = state.spendingFilter,
+            transactionFilter = state.transactionFilter,
             onTogglePeriod = { onIntent(OverviewIntent.TogglePeriod) },
             onPreviousPeriod = { onIntent(OverviewIntent.PreviousPeriod) },
             onNextPeriod = { onIntent(OverviewIntent.NextPeriod) },
             onShowPeriodPicker = { onIntent(OverviewIntent.ShowPeriodPicker(true)) },
             onShowDateRangePicker = { onIntent(OverviewIntent.ShowDateRangePicker(true)) },
-            onSpendingFilterChanged = { onIntent(OverviewIntent.SpendingFilterChanged(it)) },
+            onShowCategoryFilter = { onIntent(OverviewIntent.ShowCategoryFilter(true)) },
+            onTransactionFilterChanged = { onIntent(OverviewIntent.TransactionFilterChanged(it)) },
             canGoBack = state.canGoBack,
+            availableCategories = state.availableCategories,
+            selectedCategoryIds = state.selectedCategoryIds,
             accounts = state.accounts,
             selectedAccountId = state.selectedAccountId,
             onAccountSelected = { onIntent(OverviewIntent.AccountSelected(it)) },
@@ -256,6 +260,16 @@ private fun OverviewContent(
                     },
                 )
             }
+        }
+
+        if (state.showCategoryFilter) {
+            MmCategoryPickerSheet(
+                categories = state.availableCategories,
+                selectedIds = state.selectedCategoryIds,
+                onToggle = { onIntent(OverviewIntent.CategoryFilterToggled(it)) },
+                onClearAll = { onIntent(OverviewIntent.CategoryFilterCleared) },
+                onDismiss = { onIntent(OverviewIntent.ShowCategoryFilter(false)) },
+            )
         }
 
         if (state.showDateRangePicker) {

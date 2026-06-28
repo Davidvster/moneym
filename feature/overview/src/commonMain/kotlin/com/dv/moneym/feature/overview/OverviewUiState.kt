@@ -2,8 +2,11 @@ package com.dv.moneym.feature.overview
 
 import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
+import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.SpendingFilter
+import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.YearMonth
 import kotlinx.serialization.Serializable
 
@@ -93,8 +96,12 @@ internal data class OverviewUiState(
     val maxSelectableDateIso: String? = null,
     val transactionDateIsos: Set<String> = emptySet(),
     val currency: String = "EUR",
+    val transactionFilter: TransactionFilter = TransactionFilter.None,
+    val availableCategories: List<Category> = emptyList(),
+    val selectedCategoryIds: Set<CategoryId> = emptySet(),
     val showPeriodPicker: Boolean = false,
     val showDateRangePicker: Boolean = false,
+    val showCategoryFilter: Boolean = false,
     val accounts: List<Account> = emptyList(),
     val selectedAccountId: AccountId? = null,
     val aiAvailable: Boolean = false,

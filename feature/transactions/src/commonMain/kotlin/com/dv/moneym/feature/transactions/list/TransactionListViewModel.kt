@@ -11,6 +11,9 @@ import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.core.model.clearCategories
+import com.dv.moneym.core.model.selectedCategoryIds
+import com.dv.moneym.core.model.toggleCategory
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.banksync.BankSyncStatusProvider
 import com.dv.moneym.data.walletsync.WalletSyncStatusProvider
@@ -124,7 +127,12 @@ class TransactionListViewModel(
                 )
             }
         }
-        .combine(_filter) { state, filter -> state.copy(activeFilter = filter) }
+        .combine(_filter) { state, filter ->
+            state.copy(
+                activeFilter = filter,
+                selectedCategoryIds = filter.selectedCategoryIds(),
+            )
+        }
         .combine(_earliestMonth) { state, earliestMonth ->
             val anchor = earliestMonth ?: YearMonth(today.year, today.month.number)
             val currentMonth = state.currentMonth ?: YearMonth(today.year, today.month.number)
@@ -138,7 +146,6 @@ class TransactionListViewModel(
             )
         }
         .combine(ephemeralState.searchQuery) { state, q -> state.copy(searchQuery = q) }
-        .combine(ephemeralState.selectedCategoryIds) { state, ids -> state.copy(selectedCategoryIds = ids) }
         .combine(_uiBooleans) { state, ui ->
             state.copy(
                 isSearchActive = ui.isSearchActive,
@@ -199,8 +206,7 @@ class TransactionListViewModel(
             TransactionListIntent.NextMonth -> _currentMonth.update { it.next() }
 
             is TransactionListIntent.FilterChanged -> {
-                _filter.update { intent.filter }
-                viewModelScope.launch { appSettingsRepository.setLastTransactionFilter(intent.filter) }
+                persistFilter(intent.filter)
             }
 
             is TransactionListIntent.SearchQueryChanged -> ephemeralState.searchQuery.value = intent.query
@@ -219,13 +225,11 @@ class TransactionListViewModel(
             }
 
             is TransactionListIntent.CategoryFilterToggled -> {
-                ephemeralState.selectedCategoryIds.update { ids ->
-                    if (intent.categoryId in ids) ids - intent.categoryId else ids + intent.categoryId
-                }
+                persistFilter(_filter.value.toggleCategory(intent.categoryId))
             }
 
             TransactionListIntent.CategoryFilterCleared -> {
-                ephemeralState.selectedCategoryIds.value = emptySet()
+                persistFilter(_filter.value.clearCategories())
             }
 
             is TransactionListIntent.ToggleSearch -> {
@@ -253,5 +257,10 @@ class TransactionListViewModel(
             TransactionListIntent.BankSyncNow ->
                 viewModelScope.launch { bankSyncStatus?.requestSync() }
         }
+    }
+
+    private fun persistFilter(filter: TransactionFilter) {
+        _filter.value = filter
+        viewModelScope.launch { appSettingsRepository.setLastTransactionFilter(filter) }
     }
 }

@@ -7,11 +7,17 @@ import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.ai.AiEngineRegistry
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.datastore.AppSettingsRepository
-import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.OverviewPeriodMode
 import com.dv.moneym.core.model.SpendingFilter
+import com.dv.moneym.core.model.TransactionFilter
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.core.model.clearCategories
+import com.dv.moneym.core.model.selectedCategoryIds
+import com.dv.moneym.core.model.selectedType
+import com.dv.moneym.core.model.toggleCategory
 import com.dv.moneym.data.accounts.AccountRepository
+import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.feature.overview.page.OverviewIntent
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,6 +37,7 @@ import kotlinx.datetime.number
 
 class OverviewViewModel(
     private val transactionRepository: TransactionRepository,
+    private val categoryRepository: CategoryRepository,
     private val accountRepository: AccountRepository,
     private val appSettingsRepository: AppSettingsRepository,
     private val aiEngineRegistry: AiEngineRegistry,
@@ -52,13 +59,14 @@ class OverviewViewModel(
             )
         )
     }
-    private val _spendingFilter = MutableStateFlow(SpendingFilter.Expenses)
+    private val _transactionFilter = MutableStateFlow<TransactionFilter>(TransactionFilter.None)
     private val _selectedAccountId by savedStateHandle.saved { MutableStateFlow<Long>(-1L) }
 
     private data class UiBooleans(
         val showPeriodPicker: Boolean = false,
         val showDateRangePicker: Boolean = false,
         val showWalletPicker: Boolean = false,
+        val showCategoryFilter: Boolean = false,
     )
 
     private val _uiBooleans = MutableStateFlow(UiBooleans())
@@ -93,19 +101,22 @@ class OverviewViewModel(
                 _selectedAccountId.value = id
             }
         }
-        appSettingsRepository.observeLastOverviewFilter()
-            .onEach { filter -> _spendingFilter.value = filter }
+        appSettingsRepository.observeLastTransactionFilter()
+            .onEach { filter -> _transactionFilter.value = filter }
             .launchIn(viewModelScope)
         _aiAvailable.value = aiEngineRegistry.all().isNotEmpty()
     }
 
     internal val state: StateFlow<OverviewUiState> = combine(
         _currentPeriod.onStart { init() },
-        _spendingFilter,
+        combine(_transactionFilter, categoryRepository.observeAll()) { filter, categories -> filter to categories },
         _earliestMonth,
         _dateBounds,
         combine(_selectedAccountId, accountRepository.observeAll()) { id, accs -> id to accs },
-    ) { period, spendingFilter, earliestMonth, (minIso, maxIso), (selectedAccId, accounts) ->
+    ) { period, filterAndCategories, earliestMonth, dateBounds, accountSelection ->
+        val (transactionFilter, categories) = filterAndCategories
+        val (minIso, maxIso) = dateBounds
+        val (selectedAccId, accounts) = accountSelection
         val todayYearMonth = YearMonth(today.year, today.month.number)
         val monthAnchor = earliestMonth ?: todayYearMonth
         val yearAnchor = earliestMonth?.year ?: today.year
@@ -145,7 +156,7 @@ class OverviewViewModel(
         OverviewUiState(
             currentPeriod = period,
             canGoBack = canGoBack,
-            spendingFilter = spendingFilter,
+            spendingFilter = transactionFilter.toSpendingFilter(),
             monthAnchor = monthAnchor,
             monthCurrentPage = monthCurrentPage,
             monthPageCount = monthPageCount,
@@ -155,6 +166,9 @@ class OverviewViewModel(
             minSelectableDateIso = minIso ?: today.toString(),
             maxSelectableDateIso = maxIso,
             currency = currency,
+            transactionFilter = transactionFilter,
+            availableCategories = categories,
+            selectedCategoryIds = transactionFilter.selectedCategoryIds(),
             accounts = accounts,
             selectedAccountId = selectedAccount?.id,
         )
@@ -164,6 +178,7 @@ class OverviewViewModel(
             s.copy(
                 showPeriodPicker = ui.showPeriodPicker,
                 showDateRangePicker = ui.showDateRangePicker,
+                showCategoryFilter = ui.showCategoryFilter,
             )
         }
         .combine(_aiAvailable) { s, avail -> s.copy(aiAvailable = avail) }
@@ -182,9 +197,16 @@ class OverviewViewModel(
 
             is OverviewIntent.DateRangeSelected -> selectDateRange(intent)
 
-            is OverviewIntent.SpendingFilterChanged -> {
-                _spendingFilter.value = intent.filter
-                viewModelScope.launch { appSettingsRepository.setLastOverviewFilter(intent.filter) }
+            is OverviewIntent.TransactionFilterChanged -> {
+                persistTransactionFilter(intent.filter)
+            }
+
+            is OverviewIntent.CategoryFilterToggled -> {
+                persistTransactionFilter(_transactionFilter.value.toggleCategory(intent.id))
+            }
+
+            OverviewIntent.CategoryFilterCleared -> {
+                persistTransactionFilter(_transactionFilter.value.clearCategories())
             }
 
             is OverviewIntent.MonthPagerSwiped -> {
@@ -200,6 +222,9 @@ class OverviewViewModel(
 
             is OverviewIntent.ShowDateRangePicker ->
                 _uiBooleans.update { it.copy(showDateRangePicker = intent.visible) }
+
+            is OverviewIntent.ShowCategoryFilter ->
+                _uiBooleans.update { it.copy(showCategoryFilter = intent.visible) }
 
             is OverviewIntent.ShowWalletPicker ->
                 _uiBooleans.update { it.copy(showWalletPicker = intent.visible) }
@@ -269,6 +294,11 @@ class OverviewViewModel(
         viewModelScope.launch { appSettingsRepository.setLastOverviewPeriod(mode) }
     }
 
+    private fun persistTransactionFilter(filter: TransactionFilter) {
+        _transactionFilter.value = filter
+        viewModelScope.launch { appSettingsRepository.setLastTransactionFilter(filter) }
+    }
+
     private fun OverviewPeriod.previous(): OverviewPeriod = when (this) {
         is OverviewPeriod.Month -> OverviewPeriod.Month(yearMonth.previous())
         is OverviewPeriod.Year -> OverviewPeriod.Year(year - 1)
@@ -279,5 +309,11 @@ class OverviewViewModel(
         is OverviewPeriod.Month -> OverviewPeriod.Month(yearMonth.next())
         is OverviewPeriod.Year -> OverviewPeriod.Year(year + 1)
         is OverviewPeriod.DateRange -> this
+    }
+
+    private fun TransactionFilter.toSpendingFilter(): SpendingFilter = when (selectedType()) {
+        TransactionType.EXPENSE -> SpendingFilter.Expenses
+        TransactionType.INCOME -> SpendingFilter.Income
+        null -> SpendingFilter.All
     }
 }

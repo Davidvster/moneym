@@ -17,6 +17,9 @@ import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.TxDisplayPrefs
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.model.format
+import com.dv.moneym.core.model.matches
+import com.dv.moneym.core.model.selectedCategoryIds
+import com.dv.moneym.core.model.selectedType
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.transactions.PaymentModeRepository
@@ -30,7 +33,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.number
 
@@ -45,11 +47,6 @@ class TransactionPageViewModel(
     private val clock: AppClock,
     private val ephemeralState: TransactionListEphemeralState,
 ) : ViewModel() {
-
-    private val ephemeralFilters = combine(
-        ephemeralState.searchQuery,
-        ephemeralState.selectedCategoryIds,
-    ) { q, ids -> q to ids }
 
     private data class FilterBase(
         val filter: TransactionFilter,
@@ -69,29 +66,19 @@ class TransactionPageViewModel(
     ) { filter, prefs, pmEnabled, cats, showPending ->
         FilterBase(filter, prefs, pmEnabled, cats.associateBy { it.id }, showPending)
     }.flatMapLatest { base ->
-        val txnFlow = if (base.filter == TransactionFilter.None) {
-            transactionRepository.observeByMonth(yearMonth.year, yearMonth.monthNumber)
-        } else {
-            transactionRepository.observeFiltered(base.filter).map { all ->
-                all.filter {
-                    it.occurredOn.year == yearMonth.year &&
-                            it.occurredOn.month.number == yearMonth.monthNumber
-                }
-            }
-        }
         combine(
-            txnFlow,
+            transactionRepository.observeByMonth(yearMonth.year, yearMonth.monthNumber),
             appSettingsRepository.observeSelectedAccountId(),
             accountRepository.observeAll(),
             paymentModeRepository.observeAll(),
-            ephemeralFilters,
+            ephemeralState.searchQuery,
             recurringTransactionRepository.observeAll(),
         ) { args ->
             @Suppress("UNCHECKED_CAST")
             val transactions = args[0] as List<Transaction>
             val selectedAccId = args[1] as Long
             val paymentModes = args[3] as List<PaymentMode>
-            val (searchQuery, selectedCatIds) = args[4] as Pair<String, Set<CategoryId>>
+            val searchQuery = args[4] as String
             val rules = args[5] as List<RecurringTransaction>
 
             val accountFilteredTxns = if (selectedAccId > 0L) {
@@ -100,7 +87,7 @@ class TransactionPageViewModel(
 
             val filtered = accountFilteredTxns
                 .filter { tx ->
-                    selectedCatIds.isEmpty() || tx.categoryId in selectedCatIds
+                    base.filter.matches(tx)
                 }
                 .filter { tx ->
                     if (searchQuery.isBlank()) true
@@ -117,7 +104,7 @@ class TransactionPageViewModel(
                 ym = yearMonth,
                 today = clock.today(),
                 selectedAccId = selectedAccId,
-                selectedCatIds = selectedCatIds,
+                filter = base.filter,
                 searchQuery = searchQuery,
                 catMap = base.catMap,
             )
@@ -153,13 +140,16 @@ class TransactionPageViewModel(
         ym: YearMonth,
         today: kotlinx.datetime.LocalDate,
         selectedAccId: Long,
-        selectedCatIds: Set<CategoryId>,
+        filter: TransactionFilter,
         searchQuery: String,
         catMap: Map<CategoryId, Category>,
     ): List<Pair<kotlinx.datetime.LocalDate, TransactionUiModel>> {
         val q = searchQuery.trim().lowercase()
+        val selectedType = filter.selectedType()
+        val selectedCatIds = filter.selectedCategoryIds()
         return rules.flatMap { rule ->
             if (selectedAccId > 0L && rule.accountId.value != selectedAccId) return@flatMap emptyList()
+            if (selectedType != null && rule.type != selectedType) return@flatMap emptyList()
             if (selectedCatIds.isNotEmpty() && rule.categoryId !in selectedCatIds) return@flatMap emptyList()
             if (q.isNotBlank()) {
                 val catName = catMap[rule.categoryId]?.name?.lowercase() ?: ""
