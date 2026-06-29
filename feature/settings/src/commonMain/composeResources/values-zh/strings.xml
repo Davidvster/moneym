@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">此钱包中的所有交易记录将被永久删除，此操作无法撤销。</string>
     <string name="settings_wallet_delete_confirm_ok">删除</string>
     <string name="settings_wallet_delete_confirm_cancel">取消</string>
+    <string name="settings_wallet_delete_last_title">无法删除最后一个钱包</string>
+    <string name="settings_wallet_delete_last_body">请先创建另一个钱包，然后再删除这个钱包。MoneyM 至少需要一个钱包来添加新交易。</string>
+    <string name="settings_wallet_delete_last_ok">知道了</string>
     <string name="settings_default_tx_type">默认交易类型</string>
     <string name="settings_default_tx_expense">支出</string>
     <string name="settings_default_tx_income">收入</string>

@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Alle transaksjoner i denne lommeboken vil bli permanent slettet. Dette kan ikke angres.</string>
     <string name="settings_wallet_delete_confirm_ok">Slett</string>
     <string name="settings_wallet_delete_confirm_cancel">Avbryt</string>
+    <string name="settings_wallet_delete_last_title">Kan ikke slette siste lommebok</string>
+    <string name="settings_wallet_delete_last_body">Opprett en annen lommebok først, og slett deretter denne. MoneyM trenger minst én lommebok for nye transaksjoner.</string>
+    <string name="settings_wallet_delete_last_ok">Skjønner</string>
     <string name="settings_default_tx_type">Standard transaksjonstype</string>
     <string name="settings_default_tx_expense">Utgift</string>
     <string name="settings_default_tx_income">Inntekt</string>

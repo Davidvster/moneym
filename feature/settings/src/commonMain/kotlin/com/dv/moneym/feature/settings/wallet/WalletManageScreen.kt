@@ -23,6 +23,7 @@ import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmDeleteSheet
+import com.dv.moneym.core.ui.MmDialog
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmRow
 import com.dv.moneym.core.ui.ScreenHeader
@@ -35,6 +36,9 @@ import moneym.feature.settings.generated.resources.settings_wallet_delete_confir
 import moneym.feature.settings.generated.resources.settings_wallet_delete_confirm_cancel
 import moneym.feature.settings.generated.resources.settings_wallet_delete_confirm_ok
 import moneym.feature.settings.generated.resources.settings_wallet_delete_confirm_title
+import moneym.feature.settings.generated.resources.settings_wallet_delete_last_body
+import moneym.feature.settings.generated.resources.settings_wallet_delete_last_ok
+import moneym.feature.settings.generated.resources.settings_wallet_delete_last_title
 import moneym.feature.settings.generated.resources.settings_wallet_add_title
 import moneym.feature.settings.generated.resources.settings_wallet_manage_title
 import moneym.feature.settings.generated.resources.settings_wallet_no_wallets
@@ -108,6 +112,21 @@ private fun WalletManageContent(
                     onConfirm = { onIntent(WalletManageIntent.DeleteConfirmed) },
                     onCancel = { onIntent(WalletManageIntent.DeleteCancelled) },
                 )
+            }
+
+            if (state.showLastWalletDeleteBlockedDialog) {
+                MmDialog(
+                    title = stringResource(Res.string.settings_wallet_delete_last_title),
+                    confirmText = stringResource(Res.string.settings_wallet_delete_last_ok),
+                    onConfirm = { onIntent(WalletManageIntent.LastWalletDeleteBlockedDismissed) },
+                    onDismiss = { onIntent(WalletManageIntent.LastWalletDeleteBlockedDismissed) },
+                ) {
+                    Text(
+                        text = stringResource(Res.string.settings_wallet_delete_last_body),
+                        style = type.body,
+                        color = colors.text2,
+                    )
+                }
             }
 
             LazyColumn(

@@ -127,6 +127,9 @@
     <string name="settings_wallet_delete_confirm_body">Toutes les transactions de ce portefeuille seront définitivement supprimées. Cette action est irréversible.</string>
     <string name="settings_wallet_delete_confirm_ok">Supprimer</string>
     <string name="settings_wallet_delete_confirm_cancel">Annuler</string>
+    <string name="settings_wallet_delete_last_title">Impossible de supprimer le dernier portefeuille</string>
+    <string name="settings_wallet_delete_last_body">Créez d'abord un autre portefeuille, puis supprimez celui-ci. MoneyM a besoin d'au moins un portefeuille pour les nouvelles transactions.</string>
+    <string name="settings_wallet_delete_last_ok">Compris</string>
     <!-- Default transaction type preference -->
     <string name="settings_default_tx_type">Type de transaction par défaut</string>
     <string name="settings_default_tx_expense">Dépense</string>

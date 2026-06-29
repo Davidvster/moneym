@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Visos šios piniginės operacijos bus visam laikui ištrintos. Šio veiksmo negalima atšaukti.</string>
     <string name="settings_wallet_delete_confirm_ok">Ištrinti</string>
     <string name="settings_wallet_delete_confirm_cancel">Atšaukti</string>
+    <string name="settings_wallet_delete_last_title">Paskutinės piniginės ištrinti negalima</string>
+    <string name="settings_wallet_delete_last_body">Pirmiausia sukurkite kitą piniginę, tada ištrinkite šią. MoneyM naujoms operacijoms reikia bent vienos piniginės.</string>
+    <string name="settings_wallet_delete_last_ok">Supratau</string>
     <string name="settings_default_tx_type">Numatytasis operacijos tipas</string>
     <string name="settings_default_tx_expense">Išlaidos</string>
     <string name="settings_default_tx_income">Pajamos</string>

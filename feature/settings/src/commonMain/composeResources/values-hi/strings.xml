@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">इस वॉलेट के सभी लेन-देन स्थायी रूप से हट जाएँगे। यह पूर्ववत नहीं किया जा सकता।</string>
     <string name="settings_wallet_delete_confirm_ok">हटाएँ</string>
     <string name="settings_wallet_delete_confirm_cancel">रद्द करें</string>
+    <string name="settings_wallet_delete_last_title">आखिरी वॉलेट हटाया नहीं जा सकता</string>
+    <string name="settings_wallet_delete_last_body">पहले दूसरा वॉलेट बनाएँ, फिर इसे हटाएँ। नई लेन-देन के लिए MoneyM को कम से कम एक वॉलेट चाहिए।</string>
+    <string name="settings_wallet_delete_last_ok">समझ गया</string>
     <string name="settings_default_tx_type">डिफ़ॉल्ट लेन-देन प्रकार</string>
     <string name="settings_default_tx_expense">व्यय</string>
     <string name="settings_default_tx_income">आय</string>

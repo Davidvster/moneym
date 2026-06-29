@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">A tárcában lévő összes tranzakció véglegesen törlődik. Ez nem vonható vissza.</string>
     <string name="settings_wallet_delete_confirm_ok">Törlés</string>
     <string name="settings_wallet_delete_confirm_cancel">Mégsem</string>
+    <string name="settings_wallet_delete_last_title">Az utolsó tárca nem törölhető</string>
+    <string name="settings_wallet_delete_last_body">Előbb hozzon létre egy másik tárcát, majd törölje ezt. A MoneyM-nek legalább egy tárcára szüksége van az új tranzakciókhoz.</string>
+    <string name="settings_wallet_delete_last_ok">Értem</string>
     <string name="settings_default_tx_type">Alapértelmezett tranzakciótípus</string>
     <string name="settings_default_tx_expense">Kiadás</string>
     <string name="settings_default_tx_income">Bevétel</string>

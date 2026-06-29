@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Kõik selle rahakoti tehingud kustutatakse jäädavalt. Seda ei saa tagasi võtta.</string>
     <string name="settings_wallet_delete_confirm_ok">Kustuta</string>
     <string name="settings_wallet_delete_confirm_cancel">Tühista</string>
+    <string name="settings_wallet_delete_last_title">Viimast rahakotti ei saa kustutada</string>
+    <string name="settings_wallet_delete_last_body">Loo esmalt teine rahakott ja kustuta siis see. MoneyM vajab uute tehingute jaoks vähemalt ühte rahakotti.</string>
+    <string name="settings_wallet_delete_last_ok">Selge</string>
     <string name="settings_default_tx_type">Vaikimisi tehingu tüüp</string>
     <string name="settings_default_tx_expense">Kulu</string>
     <string name="settings_default_tx_income">Tulu</string>

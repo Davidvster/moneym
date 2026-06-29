@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Bu cüzdandaki tüm işlemler kalıcı olarak silinecek. Bu işlem geri alınamaz.</string>
     <string name="settings_wallet_delete_confirm_ok">Sil</string>
     <string name="settings_wallet_delete_confirm_cancel">İptal</string>
+    <string name="settings_wallet_delete_last_title">Son cüzdan silinemez</string>
+    <string name="settings_wallet_delete_last_body">Önce başka bir cüzdan oluşturun, ardından bunu silin. MoneyM yeni işlemler için en az bir cüzdana ihtiyaç duyar.</string>
+    <string name="settings_wallet_delete_last_ok">Anladım</string>
     <string name="settings_default_tx_type">Varsayılan işlem türü</string>
     <string name="settings_default_tx_expense">Gider</string>
     <string name="settings_default_tx_income">Gelir</string>

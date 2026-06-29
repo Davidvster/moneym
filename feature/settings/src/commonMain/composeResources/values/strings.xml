@@ -129,6 +129,9 @@
     <string name="settings_wallet_delete_confirm_body">All transactions in this wallet will be permanently deleted. This cannot be undone.</string>
     <string name="settings_wallet_delete_confirm_ok">Delete</string>
     <string name="settings_wallet_delete_confirm_cancel">Cancel</string>
+    <string name="settings_wallet_delete_last_title">Cannot delete last wallet</string>
+    <string name="settings_wallet_delete_last_body">Create another wallet first, then delete this one. MoneyM needs at least one wallet for new transactions.</string>
+    <string name="settings_wallet_delete_last_ok">Got it</string>
     <!-- Default transaction type preference -->
     <string name="settings_default_tx_type">Default transaction type</string>
     <string name="settings_default_tx_expense">Expense</string>

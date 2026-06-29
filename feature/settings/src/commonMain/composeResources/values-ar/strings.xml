@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">ستُحذف جميع المعاملات في هذه المحفظة بشكل دائم. لا يمكن التراجع عن ذلك.</string>
     <string name="settings_wallet_delete_confirm_ok">حذف</string>
     <string name="settings_wallet_delete_confirm_cancel">إلغاء</string>
+    <string name="settings_wallet_delete_last_title">لا يمكن حذف آخر محفظة</string>
+    <string name="settings_wallet_delete_last_body">أنشئ محفظة أخرى أولاً، ثم احذف هذه المحفظة. يحتاج MoneyM إلى محفظة واحدة على الأقل للمعاملات الجديدة.</string>
+    <string name="settings_wallet_delete_last_ok">حسنًا</string>
     <string name="settings_default_tx_type">نوع المعاملة الافتراضي</string>
     <string name="settings_default_tx_expense">مصروف</string>
     <string name="settings_default_tx_income">دخل</string>

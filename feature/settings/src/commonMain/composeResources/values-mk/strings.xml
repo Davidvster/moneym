@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Сите трансакции во овој паричник ќе бидат трајно избришани. Ова не може да се откаже.</string>
     <string name="settings_wallet_delete_confirm_ok">Избриши</string>
     <string name="settings_wallet_delete_confirm_cancel">Откажи</string>
+    <string name="settings_wallet_delete_last_title">Последниот паричник не може да се избрише</string>
+    <string name="settings_wallet_delete_last_body">Прво создајте друг паричник, а потоа избришете го овој. На MoneyM му треба барем еден паричник за нови трансакции.</string>
+    <string name="settings_wallet_delete_last_ok">Разбирам</string>
     <string name="settings_default_tx_type">Стандарден тип на трансакција</string>
     <string name="settings_default_tx_expense">Расход</string>
     <string name="settings_default_tx_income">Приход</string>

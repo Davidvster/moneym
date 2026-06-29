@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Todas as transações desta carteira serão eliminadas permanentemente. Esta ação não pode ser desfeita.</string>
     <string name="settings_wallet_delete_confirm_ok">Eliminar</string>
     <string name="settings_wallet_delete_confirm_cancel">Cancelar</string>
+    <string name="settings_wallet_delete_last_title">Não é possível eliminar a última carteira</string>
+    <string name="settings_wallet_delete_last_body">Crie primeiro outra carteira e depois elimine esta. O MoneyM precisa de pelo menos uma carteira para novas transações.</string>
+    <string name="settings_wallet_delete_last_ok">Entendi</string>
     <string name="settings_default_tx_type">Tipo de transação predefinido</string>
     <string name="settings_default_tx_expense">Despesa</string>
     <string name="settings_default_tx_income">Receita</string>

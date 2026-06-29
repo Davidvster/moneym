@@ -145,6 +145,9 @@
     <string name="settings_wallet_delete_confirm_body">Tutte le transazioni in questo portafoglio verranno eliminate definitivamente. Questa azione non può essere annullata.</string>
     <string name="settings_wallet_delete_confirm_ok">Elimina</string>
     <string name="settings_wallet_delete_confirm_cancel">Annulla</string>
+    <string name="settings_wallet_delete_last_title">Impossibile eliminare l'ultimo portafoglio</string>
+    <string name="settings_wallet_delete_last_body">Crea prima un altro portafoglio, poi elimina questo. MoneyM richiede almeno un portafoglio per le nuove transazioni.</string>
+    <string name="settings_wallet_delete_last_ok">Capito</string>
     <!-- Default transaction type preference -->
     <string name="settings_default_tx_type">Tipo transazione predefinito</string>
     <string name="settings_default_tx_expense">Spesa</string>

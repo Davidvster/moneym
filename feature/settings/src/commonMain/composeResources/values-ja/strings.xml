@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">このウォレットのすべての取引が完全に削除されます。この操作は元に戻せません。</string>
     <string name="settings_wallet_delete_confirm_ok">削除</string>
     <string name="settings_wallet_delete_confirm_cancel">キャンセル</string>
+    <string name="settings_wallet_delete_last_title">最後のウォレットは削除できません</string>
+    <string name="settings_wallet_delete_last_body">先に別のウォレットを作成してから、このウォレットを削除してください。MoneyM では新しい取引に少なくとも1つのウォレットが必要です。</string>
+    <string name="settings_wallet_delete_last_ok">了解</string>
     <string name="settings_default_tx_type">デフォルトの取引タイプ</string>
     <string name="settings_default_tx_expense">支出</string>
     <string name="settings_default_tx_income">収入</string>

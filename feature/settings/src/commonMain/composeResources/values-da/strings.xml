@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Alle transaktioner i denne pung slettes permanent. Dette kan ikke fortrydes.</string>
     <string name="settings_wallet_delete_confirm_ok">Slet</string>
     <string name="settings_wallet_delete_confirm_cancel">Annuller</string>
+    <string name="settings_wallet_delete_last_title">Den sidste pung kan ikke slettes</string>
+    <string name="settings_wallet_delete_last_body">Opret først en anden pung, og slet derefter denne. MoneyM skal bruge mindst én pung til nye transaktioner.</string>
+    <string name="settings_wallet_delete_last_ok">Forstået</string>
     <string name="settings_default_tx_type">Standard transaktionstype</string>
     <string name="settings_default_tx_expense">Udgift</string>
     <string name="settings_default_tx_income">Indkomst</string>

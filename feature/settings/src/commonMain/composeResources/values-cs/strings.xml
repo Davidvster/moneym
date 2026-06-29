@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Všechny transakce v této peněžence budou trvale smazány. Toto nelze vrátit zpět.</string>
     <string name="settings_wallet_delete_confirm_ok">Smazat</string>
     <string name="settings_wallet_delete_confirm_cancel">Zrušit</string>
+    <string name="settings_wallet_delete_last_title">Poslední peněženku nelze smazat</string>
+    <string name="settings_wallet_delete_last_body">Nejprve vytvořte jinou peněženku a potom smažte tuto. MoneyM potřebuje alespoň jednu peněženku pro nové transakce.</string>
+    <string name="settings_wallet_delete_last_ok">Rozumím</string>
     <string name="settings_default_tx_type">Výchozí typ transakce</string>
     <string name="settings_default_tx_expense">Výdaj</string>
     <string name="settings_default_tx_income">Příjem</string>

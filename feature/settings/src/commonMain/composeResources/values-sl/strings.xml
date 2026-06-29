@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Vse transakcije v tej denarnici bodo trajno izbrisane. Tega ni mogoče razveljaviti.</string>
     <string name="settings_wallet_delete_confirm_ok">Izbriši</string>
     <string name="settings_wallet_delete_confirm_cancel">Prekliči</string>
+    <string name="settings_wallet_delete_last_title">Zadnje denarnice ni mogoče izbrisati</string>
+    <string name="settings_wallet_delete_last_body">Najprej ustvarite drugo denarnico, nato izbrišite to. MoneyM za nove transakcije potrebuje vsaj eno denarnico.</string>
+    <string name="settings_wallet_delete_last_ok">Razumem</string>
     <string name="settings_default_tx_type">Privzeta vrsta transakcije</string>
     <string name="settings_default_tx_expense">Strošek</string>
     <string name="settings_default_tx_income">Prihodek</string>

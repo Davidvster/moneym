@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Все транзакции в этом кошельке будут безвозвратно удалены. Это действие нельзя отменить.</string>
     <string name="settings_wallet_delete_confirm_ok">Удалить</string>
     <string name="settings_wallet_delete_confirm_cancel">Отмена</string>
+    <string name="settings_wallet_delete_last_title">Нельзя удалить последний кошелёк</string>
+    <string name="settings_wallet_delete_last_body">Сначала создайте другой кошелёк, затем удалите этот. MoneyM нужен хотя бы один кошелёк для новых транзакций.</string>
+    <string name="settings_wallet_delete_last_ok">Понятно</string>
     <string name="settings_default_tx_type">Тип транзакции по умолчанию</string>
     <string name="settings_default_tx_expense">Расход</string>
     <string name="settings_default_tx_income">Доход</string>

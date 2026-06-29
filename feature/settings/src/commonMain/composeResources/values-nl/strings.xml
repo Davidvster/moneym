@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Alle transacties in deze portemonnee worden permanent verwijderd. Dit kan niet ongedaan worden gemaakt.</string>
     <string name="settings_wallet_delete_confirm_ok">Verwijderen</string>
     <string name="settings_wallet_delete_confirm_cancel">Annuleren</string>
+    <string name="settings_wallet_delete_last_title">Kan laatste portemonnee niet verwijderen</string>
+    <string name="settings_wallet_delete_last_body">Maak eerst een andere portemonnee aan en verwijder daarna deze. MoneyM heeft minstens één portemonnee nodig voor nieuwe transacties.</string>
+    <string name="settings_wallet_delete_last_ok">Begrepen</string>
     <string name="settings_default_tx_type">Standaard transactietype</string>
     <string name="settings_default_tx_expense">Uitgave</string>
     <string name="settings_default_tx_income">Inkomsten</string>

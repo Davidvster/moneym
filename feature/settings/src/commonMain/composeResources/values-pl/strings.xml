@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Wszystkie transakcje w tym portfelu zostaną trwale usunięte. Tej operacji nie można cofnąć.</string>
     <string name="settings_wallet_delete_confirm_ok">Usuń</string>
     <string name="settings_wallet_delete_confirm_cancel">Anuluj</string>
+    <string name="settings_wallet_delete_last_title">Nie można usunąć ostatniego portfela</string>
+    <string name="settings_wallet_delete_last_body">Najpierw utwórz inny portfel, a potem usuń ten. MoneyM potrzebuje co najmniej jednego portfela dla nowych transakcji.</string>
+    <string name="settings_wallet_delete_last_ok">Rozumiem</string>
     <string name="settings_default_tx_type">Domyślny typ transakcji</string>
     <string name="settings_default_tx_expense">Wydatek</string>
     <string name="settings_default_tx_income">Przychód</string>

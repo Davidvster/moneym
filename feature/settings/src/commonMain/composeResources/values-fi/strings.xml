@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Kaikki tämän lompakon tapahtumat poistetaan pysyvästi. Tätä ei voi peruuttaa.</string>
     <string name="settings_wallet_delete_confirm_ok">Poista</string>
     <string name="settings_wallet_delete_confirm_cancel">Peruuta</string>
+    <string name="settings_wallet_delete_last_title">Viimeistä lompakkoa ei voi poistaa</string>
+    <string name="settings_wallet_delete_last_body">Luo ensin toinen lompakko ja poista sitten tämä. MoneyM tarvitsee vähintään yhden lompakon uusia tapahtumia varten.</string>
+    <string name="settings_wallet_delete_last_ok">Selvä</string>
     <string name="settings_default_tx_type">Oletustapahtumatyyppi</string>
     <string name="settings_default_tx_expense">Meno</string>
     <string name="settings_default_tx_income">Tulo</string>

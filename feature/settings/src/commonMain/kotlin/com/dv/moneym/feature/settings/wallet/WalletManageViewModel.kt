@@ -28,16 +28,21 @@ class WalletManageViewModel(
 ) : ViewModel() {
 
     private val _pendingDeleteId by savedStateHandle.saved { MutableStateFlow<Long?>(null) }
+    private val _showLastWalletDeleteBlockedDialog by savedStateHandle.saved {
+        MutableStateFlow(false)
+    }
 
     internal val state: StateFlow<WalletManageUiState> = combine(
         accountRepository.observeAll(),
         appSettingsRepository.observeSelectedAccountId(),
         _pendingDeleteId,
-    ) { accounts, selectedId, pendingDeleteId ->
+        _showLastWalletDeleteBlockedDialog,
+    ) { accounts, selectedId, pendingDeleteId, showLastWalletDeleteBlockedDialog ->
         WalletManageUiState(
             accounts = accounts,
             selectedAccountId = selectedId,
             pendingDeleteId = pendingDeleteId,
+            showLastWalletDeleteBlockedDialog = showLastWalletDeleteBlockedDialog,
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, WalletManageUiState())
 
@@ -65,9 +70,20 @@ class WalletManageViewModel(
                 }
             }
 
-            is WalletManageIntent.DeleteRequested -> _pendingDeleteId.value = intent.id
+            is WalletManageIntent.DeleteRequested -> {
+                val activeWalletCount = state.value.accounts.count { !it.archived }
+                if (activeWalletCount <= 1) {
+                    _pendingDeleteId.value = null
+                    _showLastWalletDeleteBlockedDialog.value = true
+                } else {
+                    _pendingDeleteId.value = intent.id
+                }
+            }
 
             WalletManageIntent.DeleteCancelled -> _pendingDeleteId.value = null
+
+            WalletManageIntent.LastWalletDeleteBlockedDismissed ->
+                _showLastWalletDeleteBlockedDialog.value = false
 
             WalletManageIntent.DeleteConfirmed -> {
                 val id = _pendingDeleteId.value ?: return

@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Sve transakcije u ovom novčaniku bit će trajno obrisane. Ovo se ne može poništiti.</string>
     <string name="settings_wallet_delete_confirm_ok">Obriši</string>
     <string name="settings_wallet_delete_confirm_cancel">Odustani</string>
+    <string name="settings_wallet_delete_last_title">Zadnji novčanik ne može se obrisati</string>
+    <string name="settings_wallet_delete_last_body">Najprije izradite drugi novčanik, a zatim obrišite ovaj. MoneyM treba barem jedan novčanik za nove transakcije.</string>
+    <string name="settings_wallet_delete_last_ok">Razumijem</string>
     <string name="settings_default_tx_type">Zadana vrsta transakcije</string>
     <string name="settings_default_tx_expense">Trošak</string>
     <string name="settings_default_tx_income">Prihod</string>

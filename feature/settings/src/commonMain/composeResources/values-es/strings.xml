@@ -145,6 +145,9 @@
     <string name="settings_wallet_delete_confirm_body">Todas las transacciones de esta billetera se eliminarán permanentemente. Esta acción no se puede deshacer.</string>
     <string name="settings_wallet_delete_confirm_ok">Eliminar</string>
     <string name="settings_wallet_delete_confirm_cancel">Cancelar</string>
+    <string name="settings_wallet_delete_last_title">No puedes eliminar la última billetera</string>
+    <string name="settings_wallet_delete_last_body">Crea otra billetera primero y luego elimina esta. MoneyM necesita al menos una billetera para las nuevas transacciones.</string>
+    <string name="settings_wallet_delete_last_ok">Entendido</string>
     <!-- Default transaction type preference -->
     <string name="settings_default_tx_type">Tipo de transacción predeterminado</string>
     <string name="settings_default_tx_expense">Gasto</string>

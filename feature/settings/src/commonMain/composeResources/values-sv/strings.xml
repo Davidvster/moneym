@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Alla transaktioner i den här plånboken tas bort permanent. Det kan inte ångras.</string>
     <string name="settings_wallet_delete_confirm_ok">Ta bort</string>
     <string name="settings_wallet_delete_confirm_cancel">Avbryt</string>
+    <string name="settings_wallet_delete_last_title">Det går inte att ta bort den sista plånboken</string>
+    <string name="settings_wallet_delete_last_body">Skapa en annan plånbok först och ta sedan bort den här. MoneyM behöver minst en plånbok för nya transaktioner.</string>
+    <string name="settings_wallet_delete_last_ok">Jag förstår</string>
     <string name="settings_default_tx_type">Standardtransaktionstyp</string>
     <string name="settings_default_tx_expense">Utgift</string>
     <string name="settings_default_tx_income">Inkomst</string>

@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Allar færslur í þessu veski verða eytt að fullu. Þetta er ekki hægt að afturkalla.</string>
     <string name="settings_wallet_delete_confirm_ok">Eyða</string>
     <string name="settings_wallet_delete_confirm_cancel">Hætta við</string>
+    <string name="settings_wallet_delete_last_title">Ekki er hægt að eyða síðasta veskinu</string>
+    <string name="settings_wallet_delete_last_body">Búðu fyrst til annað veski og eyddu síðan þessu. MoneyM þarf að minnsta kosti eitt veski fyrir nýjar færslur.</string>
+    <string name="settings_wallet_delete_last_ok">Skilið</string>
     <string name="settings_default_tx_type">Sjálfgefinn færslutegund</string>
     <string name="settings_default_tx_expense">Útgjöld</string>
     <string name="settings_default_tx_income">Tekjur</string>

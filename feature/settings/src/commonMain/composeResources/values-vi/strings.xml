@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Tất cả giao dịch trong ví này sẽ bị xóa vĩnh viễn. Không thể hoàn tác.</string>
     <string name="settings_wallet_delete_confirm_ok">Xóa</string>
     <string name="settings_wallet_delete_confirm_cancel">Hủy</string>
+    <string name="settings_wallet_delete_last_title">Không thể xóa ví cuối cùng</string>
+    <string name="settings_wallet_delete_last_body">Hãy tạo một ví khác trước, rồi xóa ví này. MoneyM cần ít nhất một ví cho các giao dịch mới.</string>
+    <string name="settings_wallet_delete_last_ok">Đã hiểu</string>
     <string name="settings_default_tx_type">Loại giao dịch mặc định</string>
     <string name="settings_default_tx_expense">Chi tiêu</string>
     <string name="settings_default_tx_income">Thu nhập</string>

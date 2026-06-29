@@ -114,16 +114,41 @@ class WalletManageViewModelTest {
     }
 
     @Test
-    fun deleteRequestedThenCancelledClearsPending() = runTest(testDispatcher) {
+    fun deleteRequestedForLastWalletShowsBlockedDialog() = runTest(testDispatcher) {
         val accountRepo = FakeAccountRepository().apply { addAll(listOf(account(1))) }
         val vm = vm(accountRepo = accountRepo)
         vm.state.test {
             var s = awaitItem()
             while (s.accounts.isEmpty()) s = awaitItem()
             vm.onIntent(WalletManageIntent.DeleteRequested(1))
-            assertEquals(1L, awaitItem().pendingDeleteId)
+            var blocked = awaitItem()
+            while (!blocked.showLastWalletDeleteBlockedDialog) blocked = awaitItem()
+            assertNull(blocked.pendingDeleteId)
+            assertTrue(blocked.showLastWalletDeleteBlockedDialog)
+            vm.onIntent(WalletManageIntent.LastWalletDeleteBlockedDismissed)
+            var dismissed = awaitItem()
+            while (dismissed.showLastWalletDeleteBlockedDialog) dismissed = awaitItem()
+            assertNull(dismissed.pendingDeleteId)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun deleteRequestedWithMultipleWalletsCanBeCancelled() = runTest(testDispatcher) {
+        val accountRepo = FakeAccountRepository().apply { addAll(listOf(account(1), account(2))) }
+        val vm = vm(accountRepo = accountRepo)
+        vm.state.test {
+            var s = awaitItem()
+            while (s.accounts.size != 2) s = awaitItem()
+            vm.onIntent(WalletManageIntent.DeleteRequested(1))
+            var pending = awaitItem()
+            while (pending.pendingDeleteId != 1L) pending = awaitItem()
+            assertEquals(1L, pending.pendingDeleteId)
+            assertEquals(false, pending.showLastWalletDeleteBlockedDialog)
             vm.onIntent(WalletManageIntent.DeleteCancelled)
-            assertNull(awaitItem().pendingDeleteId)
+            var cancelled = awaitItem()
+            while (cancelled.pendingDeleteId != null) cancelled = awaitItem()
+            assertNull(cancelled.pendingDeleteId)
             cancelAndIgnoreRemainingEvents()
         }
     }

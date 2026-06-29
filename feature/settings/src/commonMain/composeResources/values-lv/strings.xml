@@ -122,6 +122,9 @@
     <string name="settings_wallet_delete_confirm_body">Visi darījumi šajā makā tiks neatgriezeniski dzēsti. To nevar atsaukt.</string>
     <string name="settings_wallet_delete_confirm_ok">Dzēst</string>
     <string name="settings_wallet_delete_confirm_cancel">Atcelt</string>
+    <string name="settings_wallet_delete_last_title">Pēdējo maku nevar dzēst</string>
+    <string name="settings_wallet_delete_last_body">Vispirms izveidojiet citu maku un pēc tam dzēsiet šo. MoneyM jaunajiem darījumiem nepieciešams vismaz viens maks.</string>
+    <string name="settings_wallet_delete_last_ok">Sapratu</string>
     <string name="settings_default_tx_type">Noklusējuma darījuma tips</string>
     <string name="settings_default_tx_expense">Izdevumi</string>
     <string name="settings_default_tx_income">Ienākumi</string>
