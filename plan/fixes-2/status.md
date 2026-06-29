@@ -2,7 +2,7 @@
 
 | Phase | Status | Verification | Commit |
 | --- | --- | --- | --- |
-| Phase 0: Planning and orchestration files | In progress | Pending | Pending |
+| Phase 0: Planning and orchestration files | Committed | File presence checked | 65d7e3b1 |
 | Phase 1: Small UI and sync fixes | Pending | Pending | Pending |
 | Phase 2: Bulk transaction mutation support | Pending | Pending | Pending |
 | Phase 3: Transaction list multiselect UI | Pending | Pending | Pending |
