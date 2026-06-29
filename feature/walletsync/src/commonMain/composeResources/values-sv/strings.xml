@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wallet_sync_title">Plånbokssynk</string>
-    <string name="wallet_sync_intro">Skapa transaktionsförslag från dina betalappars aviseringar. Allt stannar på din enhet.</string>
-    <string name="wallet_sync_enable_title">Lyssna på aviseringar</string>
-    <string name="wallet_sync_enable_subtitle">Gör aviseringar från valda appar till förslag</string>
+    <string name="wallet_sync_title">Payment notifications</string>
+    <string name="wallet_sync_intro">Import transaction suggestions from your payment apps' notifications. Everything stays on your device.</string>
+    <string name="wallet_sync_enable_title">Import notifications</string>
+    <string name="wallet_sync_enable_subtitle">Turn notifications from the chosen apps into suggestions</string>
     <string name="wallet_sync_access_required">MoneyM behöver aviseringsåtkomst för att läsa betalningsaviseringar.</string>
     <string name="wallet_sync_grant_access">Ge aviseringsåtkomst</string>
     <string name="wallet_sync_access_granted">Aviseringsåtkomst beviljad</string>
     <string name="wallet_sync_select_apps">Välj appar</string>
-    <string name="wallet_sync_select_apps_subtitle">Fånga aviseringar från dessa appar</string>
+    <string name="wallet_sync_select_apps_subtitle">Import notifications from these apps</string>
     <string name="wallet_sync_apps_selected">%1$d valda</string>
     <string name="wallet_sync_apps_none">Inga valda</string>
     <string name="wallet_sync_apps_suggested">Föreslagna</string>

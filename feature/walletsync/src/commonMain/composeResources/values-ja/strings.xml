@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wallet_sync_title">ウォレット同期</string>
-    <string name="wallet_sync_intro">決済アプリの通知から取引候補を作成します。すべてのデータは端末内に保存されます。</string>
-    <string name="wallet_sync_enable_title">通知を監視</string>
-    <string name="wallet_sync_enable_subtitle">選択したアプリの通知を候補に変換します</string>
+    <string name="wallet_sync_title">Payment notifications</string>
+    <string name="wallet_sync_intro">Import transaction suggestions from your payment apps' notifications. Everything stays on your device.</string>
+    <string name="wallet_sync_enable_title">Import notifications</string>
+    <string name="wallet_sync_enable_subtitle">Turn notifications from the chosen apps into suggestions</string>
     <string name="wallet_sync_access_required">決済通知を読み取るには通知アクセスが必要です。</string>
     <string name="wallet_sync_grant_access">通知アクセスを許可</string>
     <string name="wallet_sync_access_granted">通知アクセスが許可されました</string>
     <string name="wallet_sync_select_apps">アプリを選択</string>
-    <string name="wallet_sync_select_apps_subtitle">これらのアプリの通知を取得します</string>
+    <string name="wallet_sync_select_apps_subtitle">Import notifications from these apps</string>
     <string name="wallet_sync_apps_selected">%1$d 件選択中</string>
     <string name="wallet_sync_apps_none">未選択</string>
     <string name="wallet_sync_apps_suggested">おすすめ</string>

@@ -36,7 +36,9 @@ import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.model.selectedType
 import com.dv.moneym.core.model.withType
 import com.dv.moneym.core.ui.MmIconButton
-import com.dv.moneym.core.ui.MmIconButtonVariant
+import com.dv.moneym.core.ui.MmButton
+import com.dv.moneym.core.ui.MmButtonSize
+import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
 import com.dv.moneym.core.ui.WalletSelector
@@ -130,12 +132,13 @@ internal fun OverviewHeader(
                 }
             }
             if (aiAvailable) {
-                MmIconButton(
-                    icon = Icon.Sparkles.imageVector,
-                    size = MM.dimen.padding_4x,
+                MmButton(
+                    text = stringResource(Res.string.overview_analyze_cd),
                     onClick = onAnalyzeClick,
-                    variant = MmIconButtonVariant.Accent,
-                    contentDescription = stringResource(Res.string.overview_analyze_cd),
+                    modifier = Modifier.padding(start = MM.dimen.padding_1x),
+                    variant = MmButtonVariant.Accent,
+                    size = MmButtonSize.Sm,
+                    leadingIcon = Icon.Sparkles.imageVector,
                 )
             }
         }

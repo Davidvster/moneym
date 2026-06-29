@@ -40,7 +40,7 @@
     <string name="transactions_sync_failed_network">No internet connection</string>
     <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
     <string name="transactions_sync_failed_unknown">Try again in a moment</string>
-    <string name="transactions_wallet_sync_section">钱包同步</string>
+    <string name="transactions_wallet_sync_section">Payment notifications</string>
     <string name="transactions_wallet_review">查看 %1$d 条建议</string>
     <string name="transactions_wallet_empty">暂无建议</string>
 </resources>

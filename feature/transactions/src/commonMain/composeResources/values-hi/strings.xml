@@ -40,9 +40,9 @@
     <string name="transactions_sync_failed_network">No internet connection</string>
     <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
     <string name="transactions_sync_failed_unknown">Try again in a moment</string>
-    <string name="transactions_wallet_sync_section">वॉलेट सिंक</string>
+    <string name="transactions_wallet_sync_section">Payment notifications</string>
     <string name="transactions_wallet_review">%1$d सुझाव देखें</string>
     <string name="transactions_wallet_empty">अभी तक कोई सुझाव नहीं</string>
-    <string name="transactions_wallet_sync_banner_title">वॉलेट सिंक सुझाव</string>
-    <string name="transactions_wallet_sync_banner_body">%1$d सूचनाओं से नए लेन-देन — समीक्षा करें</string>
+    <string name="transactions_wallet_sync_banner_title">Payment notification suggestions</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d new transactions from payment notifications — review</string>
 </resources>

@@ -40,9 +40,9 @@
     <string name="transactions_sync_failed_network">No internet connection</string>
     <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
     <string name="transactions_sync_failed_unknown">Try again in a moment</string>
-    <string name="transactions_wallet_sync_section">Sinhronizacija denarnice</string>
+    <string name="transactions_wallet_sync_section">Payment notifications</string>
     <string name="transactions_wallet_review">Preglej %1$d predlogov</string>
     <string name="transactions_wallet_empty">Še ni predlogov</string>
-    <string name="transactions_wallet_sync_banner_title">Predlogi sinhronizacije denarnice</string>
-    <string name="transactions_wallet_sync_banner_body">%1$d novih transakcij iz obvestil — preglej</string>
+    <string name="transactions_wallet_sync_banner_title">Payment notification suggestions</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d new transactions from payment notifications — review</string>
 </resources>

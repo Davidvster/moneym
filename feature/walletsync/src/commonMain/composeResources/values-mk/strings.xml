@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wallet_sync_title">Синхронизација на паричник</string>
-    <string name="wallet_sync_intro">Создавајте предлози за трансакции од известувањата на вашите апликации за плаќање. Сè останува на вашиот уред.</string>
-    <string name="wallet_sync_enable_title">Слушај известувања</string>
-    <string name="wallet_sync_enable_subtitle">Претворете ги известувањата од избраните апликации во предлози</string>
+    <string name="wallet_sync_title">Payment notifications</string>
+    <string name="wallet_sync_intro">Import transaction suggestions from your payment apps' notifications. Everything stays on your device.</string>
+    <string name="wallet_sync_enable_title">Import notifications</string>
+    <string name="wallet_sync_enable_subtitle">Turn notifications from the chosen apps into suggestions</string>
     <string name="wallet_sync_access_required">На MoneyM му треба пристап до известувањата за да ги чита известувањата за плаќање.</string>
     <string name="wallet_sync_grant_access">Дозволи пристап до известувања</string>
     <string name="wallet_sync_access_granted">Пристапот до известувања е дозволен</string>
     <string name="wallet_sync_select_apps">Избери апликации</string>
-    <string name="wallet_sync_select_apps_subtitle">Снимај известувања од овие апликации</string>
+    <string name="wallet_sync_select_apps_subtitle">Import notifications from these apps</string>
     <string name="wallet_sync_apps_selected">Избрани: %1$d</string>
     <string name="wallet_sync_apps_none">Ништо не е избрано</string>
     <string name="wallet_sync_apps_suggested">Предложени</string>

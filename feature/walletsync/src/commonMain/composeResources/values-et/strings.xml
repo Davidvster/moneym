@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wallet_sync_title">Rahakoti sünk</string>
-    <string name="wallet_sync_intro">Loo tehinguettepanekuid oma makserakenduste teavitustest. Kõik jääb sinu seadmesse.</string>
-    <string name="wallet_sync_enable_title">Kuula teavitusi</string>
-    <string name="wallet_sync_enable_subtitle">Muuda valitud rakenduste teavitused ettepanekuteks</string>
+    <string name="wallet_sync_title">Payment notifications</string>
+    <string name="wallet_sync_intro">Import transaction suggestions from your payment apps' notifications. Everything stays on your device.</string>
+    <string name="wallet_sync_enable_title">Import notifications</string>
+    <string name="wallet_sync_enable_subtitle">Turn notifications from the chosen apps into suggestions</string>
     <string name="wallet_sync_access_required">MoneyM vajab makseteavituste lugemiseks teavitusõigust.</string>
     <string name="wallet_sync_grant_access">Anna teavitusõigus</string>
     <string name="wallet_sync_access_granted">Teavitusõigus antud</string>
     <string name="wallet_sync_select_apps">Vali rakendused</string>
-    <string name="wallet_sync_select_apps_subtitle">Püüa teavitused nendest rakendustest</string>
+    <string name="wallet_sync_select_apps_subtitle">Import notifications from these apps</string>
     <string name="wallet_sync_apps_selected">%1$d valitud</string>
     <string name="wallet_sync_apps_none">Ühtegi pole valitud</string>
     <string name="wallet_sync_apps_suggested">Soovitatud</string>

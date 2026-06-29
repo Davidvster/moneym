@@ -40,9 +40,9 @@
     <string name="transactions_sync_failed_network">No internet connection</string>
     <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
     <string name="transactions_sync_failed_unknown">Try again in a moment</string>
-    <string name="transactions_wallet_sync_section">Tárca szinkronizálás</string>
+    <string name="transactions_wallet_sync_section">Payment notifications</string>
     <string name="transactions_wallet_review">%1$d javaslat áttekintése</string>
     <string name="transactions_wallet_empty">Még nincsenek javaslatok</string>
-    <string name="transactions_wallet_sync_banner_title">Tárca szinkronizálás javaslatok</string>
-    <string name="transactions_wallet_sync_banner_body">%1$d új tranzakció értesítésekből — áttekintés</string>
+    <string name="transactions_wallet_sync_banner_title">Payment notification suggestions</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d new transactions from payment notifications — review</string>
 </resources>

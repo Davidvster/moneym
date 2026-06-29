@@ -40,9 +40,9 @@
     <string name="transactions_sync_failed_network">No internet connection</string>
     <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
     <string name="transactions_sync_failed_unknown">Try again in a moment</string>
-    <string name="transactions_wallet_sync_section">ウォレット同期</string>
+    <string name="transactions_wallet_sync_section">Payment notifications</string>
     <string name="transactions_wallet_review">%1$d 件の候補を確認</string>
     <string name="transactions_wallet_empty">まだ候補はありません</string>
-    <string name="transactions_wallet_sync_banner_title">ウォレット同期の候補</string>
-    <string name="transactions_wallet_sync_banner_body">通知から %1$d 件の新しい取引 — 確認してください</string>
+    <string name="transactions_wallet_sync_banner_title">Payment notification suggestions</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d new transactions from payment notifications — review</string>
 </resources>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wallet_sync_title">Tárca szinkronizálás</string>
-    <string name="wallet_sync_intro">Hozz létre tranzakciójavaslatokat fizetési alkalmazásaid értesítéseiből. Minden a készülékeden marad.</string>
-    <string name="wallet_sync_enable_title">Értesítések figyelése</string>
-    <string name="wallet_sync_enable_subtitle">Alakítsd a kiválasztott alkalmazások értesítéseit javaslatokká</string>
+    <string name="wallet_sync_title">Payment notifications</string>
+    <string name="wallet_sync_intro">Import transaction suggestions from your payment apps' notifications. Everything stays on your device.</string>
+    <string name="wallet_sync_enable_title">Import notifications</string>
+    <string name="wallet_sync_enable_subtitle">Turn notifications from the chosen apps into suggestions</string>
     <string name="wallet_sync_access_required">A MoneyM értesítési hozzáférést igényel a fizetési értesítések olvasásához.</string>
     <string name="wallet_sync_grant_access">Értesítési hozzáférés megadása</string>
     <string name="wallet_sync_access_granted">Értesítési hozzáférés megadva</string>
     <string name="wallet_sync_select_apps">Alkalmazások kiválasztása</string>
-    <string name="wallet_sync_select_apps_subtitle">Értesítések rögzítése ezekből az alkalmazásokból</string>
+    <string name="wallet_sync_select_apps_subtitle">Import notifications from these apps</string>
     <string name="wallet_sync_apps_selected">%1$d kiválasztva</string>
     <string name="wallet_sync_apps_none">Nincs kiválasztva</string>
     <string name="wallet_sync_apps_suggested">Javasolt</string>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wallet_sync_title">Veskissamstilling</string>
-    <string name="wallet_sync_intro">Búðu til færslutillögur úr tilkynningum greiðsluforrita þinna. Allt helst í tækinu þínu.</string>
-    <string name="wallet_sync_enable_title">Hlusta á tilkynningar</string>
-    <string name="wallet_sync_enable_subtitle">Breyttu tilkynningum valinna forrita í tillögur</string>
+    <string name="wallet_sync_title">Payment notifications</string>
+    <string name="wallet_sync_intro">Import transaction suggestions from your payment apps' notifications. Everything stays on your device.</string>
+    <string name="wallet_sync_enable_title">Import notifications</string>
+    <string name="wallet_sync_enable_subtitle">Turn notifications from the chosen apps into suggestions</string>
     <string name="wallet_sync_access_required">MoneyM þarf aðgang að tilkynningum til að lesa greiðslutilkynningar.</string>
     <string name="wallet_sync_grant_access">Veita aðgang að tilkynningum</string>
     <string name="wallet_sync_access_granted">Aðgangur að tilkynningum veittur</string>
     <string name="wallet_sync_select_apps">Velja forrit</string>
-    <string name="wallet_sync_select_apps_subtitle">Ná í tilkynningar úr þessum forritum</string>
+    <string name="wallet_sync_select_apps_subtitle">Import notifications from these apps</string>
     <string name="wallet_sync_apps_selected">%1$d valin</string>
     <string name="wallet_sync_apps_none">Engin valin</string>
     <string name="wallet_sync_apps_suggested">Tillögur</string>

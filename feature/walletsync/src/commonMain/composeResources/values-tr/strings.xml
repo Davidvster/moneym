@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wallet_sync_title">Cüzdan senkronizasyonu</string>
-    <string name="wallet_sync_intro">Ödeme uygulamalarınızın bildirimlerinden işlem önerileri oluşturun. Her şey cihazınızda kalır.</string>
-    <string name="wallet_sync_enable_title">Bildirimleri dinle</string>
-    <string name="wallet_sync_enable_subtitle">Seçili uygulamaların bildirimlerini önerilere dönüştürün</string>
+    <string name="wallet_sync_title">Payment notifications</string>
+    <string name="wallet_sync_intro">Import transaction suggestions from your payment apps' notifications. Everything stays on your device.</string>
+    <string name="wallet_sync_enable_title">Import notifications</string>
+    <string name="wallet_sync_enable_subtitle">Turn notifications from the chosen apps into suggestions</string>
     <string name="wallet_sync_access_required">MoneyM, ödeme bildirimlerini okumak için bildirim erişimine ihtiyaç duyar.</string>
     <string name="wallet_sync_grant_access">Bildirim erişimi ver</string>
     <string name="wallet_sync_access_granted">Bildirim erişimi verildi</string>
     <string name="wallet_sync_select_apps">Uygulama seç</string>
-    <string name="wallet_sync_select_apps_subtitle">Bu uygulamalardan bildirim yakala</string>
+    <string name="wallet_sync_select_apps_subtitle">Import notifications from these apps</string>
     <string name="wallet_sync_apps_selected">%1$d seçildi</string>
     <string name="wallet_sync_apps_none">Hiçbiri seçilmedi</string>
     <string name="wallet_sync_apps_suggested">Önerilenler</string>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wallet_sync_title">Đồng bộ ví</string>
-    <string name="wallet_sync_intro">Tạo gợi ý giao dịch từ thông báo của các ứng dụng thanh toán. Mọi dữ liệu vẫn ở trên thiết bị của bạn.</string>
-    <string name="wallet_sync_enable_title">Lắng nghe thông báo</string>
-    <string name="wallet_sync_enable_subtitle">Biến thông báo từ các ứng dụng đã chọn thành gợi ý</string>
+    <string name="wallet_sync_title">Payment notifications</string>
+    <string name="wallet_sync_intro">Import transaction suggestions from your payment apps' notifications. Everything stays on your device.</string>
+    <string name="wallet_sync_enable_title">Import notifications</string>
+    <string name="wallet_sync_enable_subtitle">Turn notifications from the chosen apps into suggestions</string>
     <string name="wallet_sync_access_required">MoneyM cần quyền truy cập thông báo để đọc các thông báo thanh toán.</string>
     <string name="wallet_sync_grant_access">Cấp quyền truy cập thông báo</string>
     <string name="wallet_sync_access_granted">Đã cấp quyền truy cập thông báo</string>
     <string name="wallet_sync_select_apps">Chọn ứng dụng</string>
-    <string name="wallet_sync_select_apps_subtitle">Thu thập thông báo từ các ứng dụng này</string>
+    <string name="wallet_sync_select_apps_subtitle">Import notifications from these apps</string>
     <string name="wallet_sync_apps_selected">Đã chọn %1$d</string>
     <string name="wallet_sync_apps_none">Chưa chọn</string>
     <string name="wallet_sync_apps_suggested">Đề xuất</string>

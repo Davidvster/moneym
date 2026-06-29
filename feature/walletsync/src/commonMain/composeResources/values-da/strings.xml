@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wallet_sync_title">Wallet-synk</string>
-    <string name="wallet_sync_intro">Opret transaktionsforslag ud fra dine betalingsappers notifikationer. Alt forbliver på din enhed.</string>
-    <string name="wallet_sync_enable_title">Lyt til notifikationer</string>
-    <string name="wallet_sync_enable_subtitle">Lav notifikationer fra de valgte apps om til forslag</string>
+    <string name="wallet_sync_title">Payment notifications</string>
+    <string name="wallet_sync_intro">Import transaction suggestions from your payment apps' notifications. Everything stays on your device.</string>
+    <string name="wallet_sync_enable_title">Import notifications</string>
+    <string name="wallet_sync_enable_subtitle">Turn notifications from the chosen apps into suggestions</string>
     <string name="wallet_sync_access_required">MoneyM kræver notifikationsadgang for at læse betalingsnotifikationer.</string>
     <string name="wallet_sync_grant_access">Giv notifikationsadgang</string>
     <string name="wallet_sync_access_granted">Notifikationsadgang givet</string>
     <string name="wallet_sync_select_apps">Vælg apps</string>
-    <string name="wallet_sync_select_apps_subtitle">Indfang notifikationer fra disse apps</string>
+    <string name="wallet_sync_select_apps_subtitle">Import notifications from these apps</string>
     <string name="wallet_sync_apps_selected">%1$d valgt</string>
     <string name="wallet_sync_apps_none">Ingen valgt</string>
     <string name="wallet_sync_apps_suggested">Foreslået</string>

@@ -41,9 +41,9 @@
     <string name="transactions_sync_conflict_body">Sync ist pausiert. Öffne „Backup &amp; Wiederherstellung“ in den Einstellungen, um das Passwort einzugeben.</string>
     <string name="transactions_bank_sync_section">Banksynchronisierung</string>
     <string name="transactions_bank_review">%1$d vorgeschlagene Transaktionen prüfen</string>
-    <string name="transactions_wallet_sync_section">Wallet-Synchronisierung</string>
+    <string name="transactions_wallet_sync_section">Payment notifications</string>
     <string name="transactions_wallet_review">%1$d Vorschläge prüfen</string>
     <string name="transactions_wallet_empty">Noch keine Vorschläge</string>
-    <string name="transactions_wallet_sync_banner_title">Wallet-Sync-Vorschläge</string>
-    <string name="transactions_wallet_sync_banner_body">%1$d neue Transaktionen aus Benachrichtigungen – prüfen</string>
+    <string name="transactions_wallet_sync_banner_title">Payment notification suggestions</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d new transactions from payment notifications — review</string>
 </resources>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wallet_sync_title">Lompakon synkronointi</string>
-    <string name="wallet_sync_intro">Luo tapahtumaehdotuksia maksusovellustesi ilmoituksista. Kaikki pysyy laitteellasi.</string>
-    <string name="wallet_sync_enable_title">Kuuntele ilmoituksia</string>
-    <string name="wallet_sync_enable_subtitle">Muunna valittujen sovellusten ilmoitukset ehdotuksiksi</string>
+    <string name="wallet_sync_title">Payment notifications</string>
+    <string name="wallet_sync_intro">Import transaction suggestions from your payment apps' notifications. Everything stays on your device.</string>
+    <string name="wallet_sync_enable_title">Import notifications</string>
+    <string name="wallet_sync_enable_subtitle">Turn notifications from the chosen apps into suggestions</string>
     <string name="wallet_sync_access_required">MoneyM tarvitsee ilmoitusten käyttöoikeuden lukeakseen maksuilmoitukset.</string>
     <string name="wallet_sync_grant_access">Myönnä ilmoitusten käyttöoikeus</string>
     <string name="wallet_sync_access_granted">Ilmoitusten käyttöoikeus myönnetty</string>
     <string name="wallet_sync_select_apps">Valitse sovellukset</string>
-    <string name="wallet_sync_select_apps_subtitle">Kaappaa ilmoitukset näistä sovelluksista</string>
+    <string name="wallet_sync_select_apps_subtitle">Import notifications from these apps</string>
     <string name="wallet_sync_apps_selected">%1$d valittu</string>
     <string name="wallet_sync_apps_none">Ei valintoja</string>
     <string name="wallet_sync_apps_suggested">Ehdotetut</string>

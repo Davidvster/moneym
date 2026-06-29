@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wallet_sync_title">Lommebok-synk</string>
-    <string name="wallet_sync_intro">Lag transaksjonsforslag fra varslene til betalingsappene dine. Alt blir på enheten din.</string>
-    <string name="wallet_sync_enable_title">Lytt til varsler</string>
-    <string name="wallet_sync_enable_subtitle">Gjør varsler fra valgte apper til forslag</string>
+    <string name="wallet_sync_title">Payment notifications</string>
+    <string name="wallet_sync_intro">Import transaction suggestions from your payment apps' notifications. Everything stays on your device.</string>
+    <string name="wallet_sync_enable_title">Import notifications</string>
+    <string name="wallet_sync_enable_subtitle">Turn notifications from the chosen apps into suggestions</string>
     <string name="wallet_sync_access_required">MoneyM trenger varseltilgang for å lese betalingsvarsler.</string>
     <string name="wallet_sync_grant_access">Gi varseltilgang</string>
     <string name="wallet_sync_access_granted">Varseltilgang gitt</string>
     <string name="wallet_sync_select_apps">Velg apper</string>
-    <string name="wallet_sync_select_apps_subtitle">Fang varsler fra disse appene</string>
+    <string name="wallet_sync_select_apps_subtitle">Import notifications from these apps</string>
     <string name="wallet_sync_apps_selected">%1$d valgt</string>
     <string name="wallet_sync_apps_none">Ingen valgt</string>
     <string name="wallet_sync_apps_suggested">Foreslått</string>

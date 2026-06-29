@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wallet_sync_title">مزامنة المحفظة</string>
-    <string name="wallet_sync_intro">أنشئ اقتراحات معاملات من إشعارات تطبيقات الدفع لديك. يبقى كل شيء على جهازك.</string>
-    <string name="wallet_sync_enable_title">الاستماع إلى الإشعارات</string>
-    <string name="wallet_sync_enable_subtitle">حوّل إشعارات التطبيقات المختارة إلى اقتراحات</string>
+    <string name="wallet_sync_title">Payment notifications</string>
+    <string name="wallet_sync_intro">Import transaction suggestions from your payment apps' notifications. Everything stays on your device.</string>
+    <string name="wallet_sync_enable_title">Import notifications</string>
+    <string name="wallet_sync_enable_subtitle">Turn notifications from the chosen apps into suggestions</string>
     <string name="wallet_sync_access_required">يحتاج MoneyM إلى الوصول إلى الإشعارات لقراءة إشعارات الدفع.</string>
     <string name="wallet_sync_grant_access">منح الوصول إلى الإشعارات</string>
     <string name="wallet_sync_access_granted">تم منح الوصول إلى الإشعارات</string>
     <string name="wallet_sync_select_apps">اختيار التطبيقات</string>
-    <string name="wallet_sync_select_apps_subtitle">التقاط الإشعارات من هذه التطبيقات</string>
+    <string name="wallet_sync_select_apps_subtitle">Import notifications from these apps</string>
     <string name="wallet_sync_apps_selected">تم اختيار %1$d</string>
     <string name="wallet_sync_apps_none">لم يتم الاختيار</string>
     <string name="wallet_sync_apps_suggested">مقترحة</string>

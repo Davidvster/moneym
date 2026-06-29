@@ -40,9 +40,9 @@
     <string name="transactions_sync_failed_network">No internet connection</string>
     <string name="transactions_sync_failed_auth">Reconnect your account to continue syncing</string>
     <string name="transactions_sync_failed_unknown">Try again in a moment</string>
-    <string name="transactions_wallet_sync_section">Rahakoti sünk</string>
+    <string name="transactions_wallet_sync_section">Payment notifications</string>
     <string name="transactions_wallet_review">Vaata üle %1$d ettepanekut</string>
     <string name="transactions_wallet_empty">Ettepanekuid veel pole</string>
-    <string name="transactions_wallet_sync_banner_title">Rahakoti sünkroonimisettepanekud</string>
-    <string name="transactions_wallet_sync_banner_body">%1$d uut tehingut teatistest — vaata üle</string>
+    <string name="transactions_wallet_sync_banner_title">Payment notification suggestions</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d new transactions from payment notifications — review</string>
 </resources>
