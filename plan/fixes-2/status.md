@@ -6,7 +6,7 @@
 | Phase 1: Small UI and sync fixes | Committed | `./gradlew --no-configuration-cache :feature:transactionEdit:testDebugUnitTest :feature:categories:testDebugUnitTest :feature:settings:testDebugUnitTest :feature:sync:testDebugUnitTest :feature:transactions:testDebugUnitTest` | 7a209a8b |
 | Phase 2: Bulk transaction mutation support | Committed | `./gradlew --no-configuration-cache :data:transactions:testDebugUnitTest :feature:transactions:testDebugUnitTest` | 951d12ac |
 | Phase 3: Transaction list multiselect UI | Committed | `./gradlew --no-configuration-cache :feature:transactions:testDebugUnitTest :data:transactions:testDebugUnitTest` | fd81b09f |
-| Phase 4: Final Android/iOS verification | Pending | Pending | Pending |
+| Phase 4: Final Android/iOS verification | Passed | `./gradlew :androidApp:assembleDebug`; `./gradlew :shared:linkDebugFrameworkIosArm64 :shared:linkDebugFrameworkIosSimulatorArm64` | TBD |
 
 ## Notes
 
