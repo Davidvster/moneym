@@ -7,7 +7,7 @@
 | Phase 2: Edit transaction from suggestions | Built | Plain target failed before tests on Gradle configuration-cache serialization for `:feature:transactionEdit:testDebugUnitTest`; passed `./gradlew --no-configuration-cache :feature:transactionEdit:testDebugUnitTest :feature:banksync:testDebugUnitTest`; extra wiring check passed `./gradlew --no-configuration-cache :shared:compileDebugKotlinAndroid` | b3a85fce |
 | Phase 3: Prevent last wallet deletion | Built | Plain target failed before tests on Gradle configuration-cache serialization for `:feature:settings:testDebugUnitTest`; passed `./gradlew --no-configuration-cache :feature:settings:testDebugUnitTest` | 8592adf6 |
 | Phase 4: Copy, icons, AI visibility | Built | Passed `./gradlew --no-configuration-cache :feature:overview:testDebugUnitTest :feature:transactions:testDebugUnitTest :feature:walletsync:compileDebugKotlinAndroid` | 961db4cb |
-| Final verification | Planned | Not run | Pending |
+| Final verification | Passed | Passed `./gradlew :androidApp:assembleDebug` and `./gradlew :shared:linkDebugFrameworkIosArm64 :shared:linkDebugFrameworkIosSimulatorArm64` | Pending |
 
 ## Notes
 
