@@ -4,11 +4,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.toList
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.contentOrNull
 
 class LocalLlmAiEngine(
     private val runner: LocalLlmRunner,
@@ -17,7 +12,7 @@ class LocalLlmAiEngine(
 
     override val id = AiEngineId.LOCAL_LLM
 
-    override val supportsTools = true
+    override val supportsTools = false
 
     // A cheap, non-blocking check: an active downloaded model means the engine is usable. The
     // actual (potentially slow) native load is deferred to streamReply so the availability probe
@@ -39,96 +34,7 @@ class LocalLlmAiEngine(
             val ready = path != null && (runner.isModelLoaded() || runner.loadModel(path))
             emit(ready)
         }.flatMapConcat { ready ->
-            when {
-                !ready -> emptyFlow()
-                grounding is Grounding.Tools -> streamReplyWithTools(
-                    messages = messages,
-                    grounding = grounding,
-                    responseLanguage = responseLanguage,
-                )
-                else -> runner.streamReply(prompt).stopAtTurnBoundary()
-            }
-        }
-    }
-
-    private fun streamReplyWithTools(
-        messages: List<ChatMessage>,
-        grounding: Grounding.Tools,
-        responseLanguage: String?,
-    ): Flow<String> = flow {
-        val results = mutableListOf<ToolResult>()
-        repeat(MAX_TOOL_ITERATIONS) {
-            val reply = collectReply(messages, grounding, responseLanguage, results)
-            val call = parseToolCall(reply)
-            if (call == null) {
-                emit(reply)
-                return@flow
-            }
-            results += executeToolCall(call, grounding.tools)
-        }
-
-        results += ToolResult(
-            name = "system",
-            text = "Tool call limit reached. Answer using the available tool results without making another tool call.",
-        )
-        val finalReply = collectReply(messages, grounding, responseLanguage, results)
-        if (parseToolCall(finalReply) == null) {
-            emit(finalReply)
-        } else {
-            emit("I couldn't complete the tool request.")
-        }
-    }
-
-    private suspend fun collectReply(
-        messages: List<ChatMessage>,
-        grounding: Grounding.Tools,
-        responseLanguage: String?,
-        toolResults: List<ToolResult>,
-    ): String {
-        val prompt = PromptBuilder.build(
-            messages = messages,
-            grounding = grounding,
-            systemInstruction = aiSystemInstruction(responseLanguage),
-            toolResults = toolResults,
-        )
-        return runner.streamReply(prompt)
-            .stopAtTurnBoundary()
-            .toList()
-            .joinToString("")
-            .trim()
-    }
-
-    private suspend fun executeToolCall(
-        call: ToolCall,
-        tools: List<AiTool>,
-    ): ToolResult {
-        val tool = tools.firstOrNull { it.name == call.name }
-            ?: return ToolResult(call.name, "Tool error: unknown tool.")
-        if (call.malformedArgs) {
-            return ToolResult(tool.name, "Tool error: malformed parameters.")
-        }
-        return ToolResult(
-            name = tool.name,
-            text = runCatching { tool.invoke(call.args) }
-                .getOrElse { "Tool error: ${it.message ?: "tool failed"}" },
-        )
-    }
-
-    private fun parseToolCall(text: String): ToolCall? {
-        val match = TOOL_CALL_REGEX.find(text) ?: return null
-        val name = match.groupValues[1]
-        val rawArgs = match.groupValues.getOrNull(2).orEmpty().ifBlank { "{}" }
-        val args = runCatching { parseArgs(rawArgs) }
-            .getOrElse { return ToolCall(name, emptyMap(), malformedArgs = true) }
-        return ToolCall(name, args)
-    }
-
-    private fun parseArgs(rawArgs: String): Map<String, String> {
-        val element = Json.parseToJsonElement(rawArgs)
-        val obj = element as? JsonObject ?: return emptyMap()
-        return obj.mapValues { (_, value) ->
-            val primitive = value as? JsonPrimitive
-            primitive?.contentOrNull ?: value.toString()
+            if (ready) runner.streamReply(prompt).stopAtTurnBoundary() else emptyFlow()
         }
     }
 
@@ -183,14 +89,6 @@ class LocalLlmAiEngine(
 
     private companion object {
         val STOP_SEQUENCES = listOf("\nUser:", "\nAssistant:")
-        val TOOL_CALL_REGEX = Regex("""TOOL_CALL:\s*([A-Za-z0-9_-]+)\s*(\{.*})?""", RegexOption.DOT_MATCHES_ALL)
         const val MAX_OUTPUT_CHARS = 4000
-        const val MAX_TOOL_ITERATIONS = 3
     }
-
-    private data class ToolCall(
-        val name: String,
-        val args: Map<String, String>,
-        val malformedArgs: Boolean = false,
-    )
 }
