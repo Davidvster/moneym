@@ -23,6 +23,24 @@
     <string name="transactions_now">Şimdi</string>
     <string name="transactions_ok">Tamam</string>
     <string name="transactions_cancel">İptal</string>
+    <string name="transactions_delete">Delete</string>
+    <string name="transactions_selected_count">%1$d selected</string>
+    <string name="transactions_bulk_cancel">Cancel</string>
+    <string name="transactions_bulk_save">Save</string>
+    <string name="transactions_bulk_edit_title">Edit selected</string>
+    <string name="transactions_bulk_assign_category">Assign category</string>
+    <string name="transactions_bulk_move_wallet">Move to wallet</string>
+    <string name="transactions_bulk_move_payment_mode">Move payment mode</string>
+    <string name="transactions_bulk_delete_title">Delete selected?</string>
+    <string name="transactions_bulk_delete_body">Delete %1$d selected transactions?</string>
+    <string name="transactions_bulk_category_confirm_title">Change category?</string>
+    <string name="transactions_bulk_category_confirm_body">Move selected transactions to %1$s and update their type to match it?</string>
+    <string name="transactions_bulk_wallet_confirm_title">Move wallet?</string>
+    <string name="transactions_bulk_wallet_confirm_body">Move selected transactions to %1$s?</string>
+    <string name="transactions_bulk_payment_confirm_title">Change payment mode?</string>
+    <string name="transactions_bulk_payment_confirm_body">Move selected transactions to %1$s?</string>
+    <string name="transactions_bulk_rate_label">Conversion rate to %1$s</string>
+    <string name="transactions_bulk_rate_error">Enter a rate greater than zero.</string>
     <string name="transactions_wallet_select">Cüzdan Seç</string>
     <string name="transactions_wallet_all">Tüm cüzdanlar</string>
     <string name="transactions_syncing">Senkronize ediliyor…</string>
@@ -43,4 +61,6 @@
     <string name="transactions_wallet_sync_section">Payment notifications</string>
     <string name="transactions_wallet_review">%1$d öneriyi incele</string>
     <string name="transactions_wallet_empty">Henüz öneri yok</string>
+    <string name="transactions_wallet_sync_banner_title">Payment notification suggestions</string>
+    <string name="transactions_wallet_sync_banner_body">%1$d new transactions from payment notifications — review</string>
 </resources>

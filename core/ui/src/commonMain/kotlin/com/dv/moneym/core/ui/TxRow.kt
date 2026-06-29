@@ -1,6 +1,7 @@
 package com.dv.moneym.core.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -47,8 +49,11 @@ fun TxRow(
     prefs: TxDisplayPrefs,
     paymentModeName: String? = null,
     onClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
     divider: Boolean = true,
     isPending: Boolean = false,
+    selected: Boolean = false,
+    selectionMode: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
     val colors = MM.colors
@@ -68,14 +73,28 @@ fun TxRow(
     val dividerColor = colors.divider
 
     val baseAlpha = if (isPending) 0.5f else 1f
+    val rowBackground = when {
+        selected -> colors.accent.copy(alpha = 0.12f)
+        selectionMode -> colors.surface2.copy(alpha = 0.6f)
+        else -> colors.bg
+    }
 
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(colors.bg)
+            .background(rowBackground)
             .alpha(baseAlpha)
             .then(
-                if (onClick != null) Modifier.mmClickable(onClick = onClick) else Modifier,
+                if (onClick != null || onLongClick != null) {
+                    Modifier.pointerInput(onClick, onLongClick) {
+                        detectTapGestures(
+                            onTap = { onClick?.invoke() },
+                            onLongPress = { onLongClick?.invoke() },
+                        )
+                    }
+                } else {
+                    Modifier
+                },
             )
             .then(
                 if (divider) {

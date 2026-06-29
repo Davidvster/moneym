@@ -6,13 +6,16 @@ import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.common.DateStyle
 import com.dv.moneym.core.common.formatDate
 import com.dv.moneym.core.datastore.AppSettingsRepository
+import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.PaymentMode
+import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.RecurringTransaction
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
+import com.dv.moneym.core.model.TransactionId
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.TxDisplayPrefs
 import com.dv.moneym.core.model.YearMonth
@@ -30,10 +33,13 @@ import com.dv.moneym.feature.transactions.list.DayGroup
 import com.dv.moneym.feature.transactions.list.TransactionListEphemeralState
 import com.dv.moneym.feature.transactions.list.TransactionUiModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.datetime.number
 
 class TransactionPageViewModel(
@@ -52,9 +58,16 @@ class TransactionPageViewModel(
         val filter: TransactionFilter,
         val prefs: TxDisplayPrefs,
         val pmEnabled: Boolean,
-        val catMap: Map<CategoryId, Category>,
+        val categories: List<Category>,
         val showPending: Boolean,
-    )
+    ) {
+        val catMap: Map<CategoryId, Category> = categories.associateBy { it.id }
+    }
+
+    private val selectedIds = MutableStateFlow<Set<TransactionId>>(emptySet())
+    private val bulkSheet = MutableStateFlow<BulkSheetState>(BulkSheetState.None)
+    private val bulkRateText = MutableStateFlow("")
+    private val bulkRateError = MutableStateFlow(false)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     internal val state = combine(
@@ -64,7 +77,7 @@ class TransactionPageViewModel(
         categoryRepository.observeAll(),
         appSettingsRepository.observeShowPendingRecurring(),
     ) { filter, prefs, pmEnabled, cats, showPending ->
-        FilterBase(filter, prefs, pmEnabled, cats.associateBy { it.id }, showPending)
+        FilterBase(filter, prefs, pmEnabled, cats, showPending)
     }.flatMapLatest { base ->
         combine(
             transactionRepository.observeByMonth(yearMonth.year, yearMonth.monthNumber),
@@ -73,13 +86,26 @@ class TransactionPageViewModel(
             paymentModeRepository.observeAll(),
             ephemeralState.searchQuery,
             recurringTransactionRepository.observeAll(),
+            selectedIds,
+            bulkSheet,
+            bulkRateText,
+            bulkRateError,
         ) { args ->
             @Suppress("UNCHECKED_CAST")
             val transactions = args[0] as List<Transaction>
             val selectedAccId = args[1] as Long
+            @Suppress("UNCHECKED_CAST")
+            val accounts = args[2] as List<Account>
+            @Suppress("UNCHECKED_CAST")
             val paymentModes = args[3] as List<PaymentMode>
             val searchQuery = args[4] as String
+            @Suppress("UNCHECKED_CAST")
             val rules = args[5] as List<RecurringTransaction>
+            @Suppress("UNCHECKED_CAST")
+            val currentSelectedIds = args[6] as Set<TransactionId>
+            val currentBulkSheet = args[7] as BulkSheetState
+            val currentBulkRateText = args[8] as String
+            val currentBulkRateError = args[9] as Boolean
 
             val accountFilteredTxns = if (selectedAccId > 0L) {
                 transactions.filter { it.accountId.value == selectedAccId }
@@ -122,11 +148,43 @@ class TransactionPageViewModel(
                 }
                 .sortedByDescending { it.date }
 
+            val selectableIds = filtered.mapTo(mutableSetOf()) { it.id }
+            val effectiveSelectedIds = currentSelectedIds.intersect(selectableIds)
+            if (effectiveSelectedIds.size != currentSelectedIds.size) {
+                selectedIds.value = effectiveSelectedIds
+            }
+            val selectedTransactions = filtered.filter { it.id in effectiveSelectedIds }
+            val currencyTotals = selectedTransactions
+                .groupBy { it.amount.currency.value }
+                .map { (currency, rows) ->
+                    SelectionCurrencyTotal(
+                        currency = currency,
+                        minorUnits = rows.sumOf { tx ->
+                            if (tx.type == TransactionType.INCOME) tx.amount.minorUnits else -tx.amount.minorUnits
+                        },
+                    )
+                }
+                .sortedBy { it.currency }
+
             TransactionPageUiState(
                 isLoading = false,
                 dayGroups = dayGroups,
                 isEmpty = dayGroups.isEmpty(),
                 txDisplayPrefs = base.prefs,
+                selection = TransactionSelectionUiState(
+                    selectedIds = effectiveSelectedIds,
+                    selectedCount = selectedTransactions.size,
+                    currencyTotals = currencyTotals,
+                    canMoveWallet = accounts.count { !it.archived } > 1,
+                    canMovePaymentMode = base.pmEnabled && paymentModes.size > 1,
+                ),
+                availableCategories = base.categories.filter { !it.archived },
+                availableAccounts = accounts.filter { !it.archived },
+                paymentModes = paymentModes,
+                paymentModeEnabled = base.pmEnabled,
+                bulkSheet = currentBulkSheet,
+                bulkRateText = currentBulkRateText,
+                bulkRateError = currentBulkRateError,
             )
         }
     }.stateIn(
@@ -134,6 +192,140 @@ class TransactionPageViewModel(
         started = SharingStarted.Lazily,
         initialValue = TransactionPageUiState(),
     )
+
+    internal fun onIntent(intent: TransactionPageIntent) {
+        when (intent) {
+            is TransactionPageIntent.TransactionPressed -> toggleSelectionIfActive(intent.id)
+            is TransactionPageIntent.TransactionLongPressed -> startSelection(intent.id)
+            TransactionPageIntent.ClearSelection -> clearSelection()
+            TransactionPageIntent.DeleteRequested -> if (selectedIds.value.isNotEmpty()) {
+                bulkSheet.value = BulkSheetState.DeleteConfirm
+            }
+            TransactionPageIntent.EditRequested -> if (selectedIds.value.isNotEmpty()) {
+                bulkSheet.value = BulkSheetState.Actions
+            }
+            TransactionPageIntent.DismissBulkSheet -> dismissBulkSheet()
+            TransactionPageIntent.ConfirmDelete -> applyDelete()
+            TransactionPageIntent.PickCategoryRequested -> bulkSheet.value = BulkSheetState.CategoryPicker
+            is TransactionPageIntent.CategoryPicked -> pickCategory(intent.id)
+            TransactionPageIntent.ConfirmCategory -> applyCategory()
+            TransactionPageIntent.PickWalletRequested -> bulkSheet.value = BulkSheetState.WalletPicker
+            is TransactionPageIntent.WalletPicked -> pickWallet(intent.account)
+            is TransactionPageIntent.WalletRateChanged -> {
+                bulkRateText.value = intent.text.filter { it.isDigit() || it == '.' || it == ',' }
+                bulkRateError.value = false
+            }
+            TransactionPageIntent.ConfirmWallet -> applyWallet()
+            TransactionPageIntent.PickPaymentModeRequested -> bulkSheet.value = BulkSheetState.PaymentModePicker
+            is TransactionPageIntent.PaymentModePicked -> pickPaymentMode(intent.id)
+            TransactionPageIntent.ConfirmPaymentMode -> applyPaymentMode()
+        }
+    }
+
+    private fun startSelection(id: TransactionId) {
+        if (id.value <= 0L) return
+        selectedIds.update { it + id }
+    }
+
+    private fun toggleSelectionIfActive(id: TransactionId) {
+        if (selectedIds.value.isEmpty() || id.value <= 0L) return
+        selectedIds.update { ids -> if (id in ids) ids - id else ids + id }
+    }
+
+    private fun clearSelection() {
+        selectedIds.value = emptySet()
+        dismissBulkSheet()
+    }
+
+    private fun dismissBulkSheet() {
+        bulkSheet.value = BulkSheetState.None
+        bulkRateText.value = ""
+        bulkRateError.value = false
+    }
+
+    private fun selectedOrDismiss(): Set<TransactionId> {
+        val ids = selectedIds.value
+        if (ids.isEmpty()) dismissBulkSheet()
+        return ids
+    }
+
+    private fun applyDelete() {
+        val ids = selectedOrDismiss()
+        if (ids.isEmpty()) return
+        viewModelScope.launch {
+            transactionRepository.delete(ids)
+            clearSelection()
+        }
+    }
+
+    private fun pickCategory(id: CategoryId) {
+        val category = state.value.availableCategories.firstOrNull { it.id == id } ?: return
+        bulkSheet.value = BulkSheetState.CategoryConfirm(category)
+    }
+
+    private fun applyCategory() {
+        val category = (bulkSheet.value as? BulkSheetState.CategoryConfirm)?.category ?: return
+        val ids = selectedOrDismiss()
+        if (ids.isEmpty()) return
+        viewModelScope.launch {
+            transactionRepository.updateCategory(ids, category.id, category.type)
+            clearSelection()
+        }
+    }
+
+    private fun pickWallet(account: Account) {
+        val ids = selectedOrDismiss()
+        if (ids.isEmpty()) return
+        val selectedCurrencies = currentSelectedCurrencies(ids)
+        val requiresRate = selectedCurrencies.any { it != account.currency.value }
+        bulkRateText.value = ""
+        bulkRateError.value = false
+        bulkSheet.value = BulkSheetState.WalletConfirm(account, requiresRate)
+    }
+
+    private fun applyWallet() {
+        val sheet = bulkSheet.value as? BulkSheetState.WalletConfirm ?: return
+        val ids = selectedOrDismiss()
+        if (ids.isEmpty()) return
+        val rate = if (sheet.requiresRate) {
+            bulkRateText.value.replace(',', '.').toDoubleOrNull()
+                ?.takeIf { it > 0.0 }
+                ?: run {
+                    bulkRateError.value = true
+                    return
+                }
+        } else null
+        viewModelScope.launch {
+            transactionRepository.updateAccount(
+                ids = ids,
+                accountId = sheet.account.id,
+                currency = sheet.account.currency,
+                rate = rate,
+            )
+            clearSelection()
+        }
+    }
+
+    private fun pickPaymentMode(id: PaymentModeId) {
+        val paymentMode = state.value.paymentModes.firstOrNull { it.id == id } ?: return
+        bulkSheet.value = BulkSheetState.PaymentModeConfirm(paymentMode)
+    }
+
+    private fun applyPaymentMode() {
+        val sheet = bulkSheet.value as? BulkSheetState.PaymentModeConfirm ?: return
+        val ids = selectedOrDismiss()
+        if (ids.isEmpty()) return
+        viewModelScope.launch {
+            transactionRepository.updatePaymentMode(ids, sheet.paymentMode.id)
+            clearSelection()
+        }
+    }
+
+    private fun currentSelectedCurrencies(ids: Set<TransactionId>): Set<String> =
+        state.value.dayGroups
+            .flatMap { it.transactions }
+            .filter { !it.isPending && it.id in ids }
+            .mapTo(mutableSetOf()) { it.currency }
 
     private fun buildPendingForMonth(
         rules: List<RecurringTransaction>,

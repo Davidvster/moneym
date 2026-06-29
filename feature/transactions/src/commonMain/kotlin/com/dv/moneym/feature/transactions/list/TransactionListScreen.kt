@@ -103,6 +103,7 @@ import com.dv.moneym.data.banksync.BankSyncFailureReason
 import com.dv.moneym.data.sync.SyncFailureReason
 import com.dv.moneym.feature.transactions.list.components.DayGroupHeader
 import com.dv.moneym.feature.transactions.list.page.TransactionPageScreen
+import com.dv.moneym.feature.transactions.list.page.VisibleTransactionSelection
 import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.number
@@ -111,8 +112,10 @@ import moneym.feature.transactions.generated.resources.Res
 import moneym.feature.transactions.generated.resources.transactions_add
 import moneym.feature.transactions.generated.resources.transactions_bank_review
 import moneym.feature.transactions.generated.resources.transactions_bank_sync_section
+import moneym.feature.transactions.generated.resources.transactions_bulk_edit_title
 import moneym.feature.transactions.generated.resources.transactions_cancel
 import moneym.feature.transactions.generated.resources.transactions_close_search_cd
+import moneym.feature.transactions.generated.resources.transactions_delete
 import moneym.feature.transactions.generated.resources.transactions_dialog_select_month
 import moneym.feature.transactions.generated.resources.transactions_empty
 import moneym.feature.transactions.generated.resources.transactions_empty_add_first
@@ -130,6 +133,7 @@ import moneym.feature.transactions.generated.resources.transactions_prev_year_cd
 import moneym.feature.transactions.generated.resources.transactions_previous_month
 import moneym.feature.transactions.generated.resources.transactions_search_cd
 import moneym.feature.transactions.generated.resources.transactions_search_placeholder
+import moneym.feature.transactions.generated.resources.transactions_selected_count
 import moneym.feature.transactions.generated.resources.transactions_sync_conflict_body
 import moneym.feature.transactions.generated.resources.transactions_sync_failed
 import moneym.feature.transactions.generated.resources.transactions_sync_failed_auth
@@ -150,6 +154,7 @@ import moneym.feature.transactions.generated.resources.transactions_wallet_sync_
 import moneym.feature.transactions.generated.resources.transactions_wallet_sync_section
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.math.abs
 
 @Serializable
 data object TransactionsKey : NavKey
@@ -214,6 +219,7 @@ private fun TransactionListContent(
     onNavigateToWalletSuggestions: () -> Unit = {},
 ) {
     var initialScrollDone by remember { mutableStateOf(false) }
+    var visibleSelection by remember { mutableStateOf<VisibleTransactionSelection?>(null) }
 
     val today = state.today ?: return  // wait for first VM emission
     val currentMonth = state.currentMonth ?: return
@@ -324,23 +330,31 @@ private fun TransactionListContent(
         initialScrollDone = true
     }
 
+    LaunchedEffect(currentMonth) {
+        visibleSelection = null
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MM.colors.bg),
     ) {
-        TransactionListHeader(
-            state = state,
-            isSearchActive = state.isSearchActive,
-            onSearchActiveChange = { onIntent(TransactionListIntent.ToggleSearch(it)) },
-            onShowMonthPicker = { onIntent(TransactionListIntent.ShowMonthPicker(true)) },
-            onShowWalletSwitcher = { onIntent(TransactionListIntent.ShowWalletSwitcher(true)) },
-            onShowCategoryFilter = { onIntent(TransactionListIntent.ShowCategoryFilter(true)) },
-            onOpenSyncSheet = { onIntent(TransactionListIntent.ShowSyncSheet(true)) },
-            onIntent = onIntent,
-            onPreviousMonth = { onIntent(TransactionListIntent.PreviousMonth) },
-            onNextMonth = { onIntent(TransactionListIntent.NextMonth) },
-        )
+        if (visibleSelection != null) {
+            TransactionSelectionHeader(selection = visibleSelection!!)
+        } else {
+            TransactionListHeader(
+                state = state,
+                isSearchActive = state.isSearchActive,
+                onSearchActiveChange = { onIntent(TransactionListIntent.ToggleSearch(it)) },
+                onShowMonthPicker = { onIntent(TransactionListIntent.ShowMonthPicker(true)) },
+                onShowWalletSwitcher = { onIntent(TransactionListIntent.ShowWalletSwitcher(true)) },
+                onShowCategoryFilter = { onIntent(TransactionListIntent.ShowCategoryFilter(true)) },
+                onOpenSyncSheet = { onIntent(TransactionListIntent.ShowSyncSheet(true)) },
+                onIntent = onIntent,
+                onPreviousMonth = { onIntent(TransactionListIntent.PreviousMonth) },
+                onNextMonth = { onIntent(TransactionListIntent.NextMonth) },
+            )
+        }
 
         SyncBanner(
             hasSyncConflict = state.hasSyncConflict,
@@ -363,6 +377,10 @@ private fun TransactionListContent(
                 onEditTransaction = onEditTransaction,
                 onEditRecurring = onEditRecurring,
                 onAddFirst = onAddTransaction,
+                isVisible = yearMonth == currentMonth,
+                onSelectionChanged = { selection ->
+                    if (yearMonth == currentMonth) visibleSelection = selection
+                },
             )
         }
 
@@ -812,6 +830,59 @@ private fun bankSyncFailureText(reason: BankSyncFailureReason, reconnectRequired
 }
 
 @Composable
+private fun TransactionSelectionHeader(
+    selection: VisibleTransactionSelection,
+) {
+    val colors = MM.colors
+    val summary = selection.summary
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .statusBarsPadding()
+            .padding(
+                start = MM.dimen.padding_1x,
+                end = MM.dimen.padding_1x,
+                top = MM.dimen.padding_0_5x,
+                bottom = MM.dimen.padding_1x,
+            ),
+    ) {
+        MmIconButton(
+            icon = Icon.Close.imageVector,
+            onClick = selection.actions.clearSelection,
+            contentDescription = stringResource(Res.string.transactions_cancel),
+        )
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = stringResource(Res.string.transactions_selected_count, summary.selectedCount),
+                style = MM.type.body,
+                color = colors.text,
+            )
+            Row(horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x)) {
+                summary.currencyTotals.take(3).forEach { total ->
+                    MmMoney(
+                        value = abs(total.minorUnits) / 100.0,
+                        sign = if (total.minorUnits >= 0) "+" else "−",
+                        style = MM.type.caption,
+                        color = if (total.minorUnits >= 0) colors.accent else colors.text2,
+                        currency = total.currency,
+                    )
+                }
+            }
+        }
+        MmIconButton(
+            icon = Icon.Trash.imageVector,
+            onClick = selection.actions.requestDelete,
+            contentDescription = stringResource(Res.string.transactions_delete),
+        )
+        MmIconButton(
+            icon = Icon.Edit.imageVector,
+            onClick = selection.actions.requestEdit,
+            contentDescription = stringResource(Res.string.transactions_bulk_edit_title),
+        )
+    }
+}
+
+@Composable
 private fun TransactionListHeader(
     state: TransactionListUiState,
     isSearchActive: Boolean,
@@ -1051,6 +1122,10 @@ internal fun TransactionListBody(
     onEditTransaction: (TransactionId) -> Unit,
     onEditRecurring: (RecurringTransactionId) -> Unit = {},
     onAddFirst: (() -> Unit)? = null,
+    selectionMode: Boolean = false,
+    selectedIds: Set<TransactionId> = emptySet(),
+    onToggleSelection: (TransactionId) -> Unit = {},
+    onStartSelection: (TransactionId) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     when {
@@ -1087,11 +1162,18 @@ internal fun TransactionListBody(
                             currency = tx.currency,
                             prefs = txDisplayPrefs,
                             paymentModeName = tx.paymentModeName,
-                            onClick = if (tx.isPending) {
+                            onClick = if (selectionMode && !tx.isPending) {
+                                { onToggleSelection(tx.id) }
+                            } else if (tx.isPending) {
                                 tx.recurringId?.let { rid -> ({ onEditRecurring(rid) }) }
                             } else ({ onEditTransaction(tx.id) }),
+                            onLongClick = if (!tx.isPending) {
+                                { onStartSelection(tx.id) }
+                            } else null,
                             divider = tx != group.transactions.last(),
                             isPending = tx.isPending,
+                            selected = tx.id in selectedIds,
+                            selectionMode = selectionMode,
                         )
                     }
                 }
