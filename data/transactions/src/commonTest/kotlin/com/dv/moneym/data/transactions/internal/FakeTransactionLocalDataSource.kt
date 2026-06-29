@@ -92,6 +92,41 @@ internal class FakeTransactionLocalDataSource : TransactionLocalDataSource {
         mutate { list -> list.map { if (it.id == id) it.copy(deleted = true, updatedAt = now) else it } }
     }
 
+    override suspend fun softDelete(ids: Set<Long>, now: Long) {
+        mutate { list -> list.map { if (it.id in ids && !it.deleted) it.copy(deleted = true, updatedAt = now) else it } }
+    }
+
+    override suspend fun updateCategory(ids: Set<Long>, categoryId: Long, type: String, now: Long) {
+        mutate { list ->
+            list.map {
+                if (it.id in ids && !it.deleted) it.copy(categoryId = categoryId, type = type, updatedAt = now) else it
+            }
+        }
+    }
+
+    override suspend fun updateAccount(ids: Set<Long>, accountId: Long, currency: String, rate: Double?, now: Long) {
+        mutate { list ->
+            list.map {
+                if (it.id in ids && !it.deleted) {
+                    it.copy(
+                        accountId = accountId,
+                        amountMinor = if (rate == null) it.amountMinor else (it.amountMinor.toDouble() * rate).roundToLong(),
+                        currency = currency,
+                        updatedAt = now,
+                    )
+                } else {
+                    it
+                }
+            }
+        }
+    }
+
+    override suspend fun updatePaymentMode(ids: Set<Long>, paymentModeId: Long?, now: Long) {
+        mutate { list ->
+            list.map { if (it.id in ids && !it.deleted) it.copy(paymentModeId = paymentModeId, updatedAt = now) else it }
+        }
+    }
+
     override suspend fun softDeleteByAccountId(accountId: Long, now: Long) {
         mutate { list -> list.map { if (it.accountId == accountId) it.copy(deleted = true, updatedAt = now) else it } }
     }

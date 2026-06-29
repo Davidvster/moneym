@@ -3,10 +3,12 @@ package com.dv.moneym.data.transactions
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.CurrencyCode
+import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
+import com.dv.moneym.core.model.TransactionType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDate
 
@@ -17,6 +19,10 @@ interface TransactionRepository {
     suspend fun getById(id: TransactionId): Transaction?
     suspend fun upsert(transaction: Transaction): TransactionId
     suspend fun delete(id: TransactionId)
+    suspend fun delete(ids: Set<TransactionId>)
+    suspend fun updateCategory(ids: Set<TransactionId>, categoryId: CategoryId, type: TransactionType)
+    suspend fun updateAccount(ids: Set<TransactionId>, accountId: AccountId, currency: CurrencyCode, rate: Double?)
+    suspend fun updatePaymentMode(ids: Set<TransactionId>, paymentModeId: PaymentModeId?)
     suspend fun deleteByAccountId(id: AccountId)
     suspend fun reassignCategory(from: CategoryId, to: CategoryId)
     suspend fun deleteByCategory(id: CategoryId)

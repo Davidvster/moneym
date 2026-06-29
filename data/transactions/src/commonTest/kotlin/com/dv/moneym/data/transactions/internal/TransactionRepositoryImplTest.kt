@@ -5,6 +5,7 @@ import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Money
+import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
@@ -36,6 +37,7 @@ class TransactionRepositoryImplTest {
         type: TransactionType = TransactionType.EXPENSE,
         categoryId: Long = 1,
         accountId: Long = 1,
+        paymentModeId: Long? = null,
         recurringId: Long? = null,
     ) = Transaction(
         id = TransactionId(id),
@@ -47,6 +49,7 @@ class TransactionRepositoryImplTest {
         accountId = AccountId(accountId),
         createdAt = epoch,
         updatedAt = epoch,
+        paymentModeId = paymentModeId?.let(::PaymentModeId),
         recurringId = recurringId?.let(::RecurringTransactionId),
     )
 
@@ -169,6 +172,76 @@ class TransactionRepositoryImplTest {
             assertTrue(awaitItem().isEmpty())
             cancelAndIgnoreRemainingEvents()
         }
+    }
+
+    @Test
+    fun bulkDeleteTombstonesSelectedRowsOnly() = runTestWithDispatchers {
+        val first = repo.upsert(txn())
+        val second = repo.upsert(txn())
+        val third = repo.upsert(txn())
+
+        repo.delete(setOf(first, third))
+
+        assertTrue(ds.rows.value.first { it.id == first.value }.deleted)
+        assertFalse(ds.rows.value.first { it.id == second.value }.deleted)
+        assertTrue(ds.rows.value.first { it.id == third.value }.deleted)
+    }
+
+    @Test
+    fun bulkUpdateCategoryChangesCategoryAndType() = runTestWithDispatchers {
+        val first = repo.upsert(txn(categoryId = 1, type = TransactionType.EXPENSE))
+        val second = repo.upsert(txn(categoryId = 1, type = TransactionType.EXPENSE))
+        repo.upsert(txn(categoryId = 1, type = TransactionType.EXPENSE))
+
+        repo.updateCategory(setOf(first, second), CategoryId(9), TransactionType.INCOME)
+
+        val changed = ds.rows.value.filter { it.id in setOf(first.value, second.value) }
+        assertTrue(changed.all { it.categoryId == 9L })
+        assertTrue(changed.all { it.type == TransactionType.INCOME.name })
+        assertEquals(1, ds.rows.value.count { it.categoryId == 1L })
+    }
+
+    @Test
+    fun bulkUpdateAccountWithoutRateMovesWalletAndCurrencyOnly() = runTestWithDispatchers {
+        val first = repo.upsert(txn(amount = 100, accountId = 1))
+        val second = repo.upsert(txn(amount = 250, accountId = 1))
+
+        repo.updateAccount(setOf(first, second), AccountId(7), CurrencyCode("EUR"), rate = null)
+
+        val changed = ds.rows.value.filter { it.id in setOf(first.value, second.value) }
+        assertTrue(changed.all { it.accountId == 7L })
+        assertTrue(changed.all { it.currency == "EUR" })
+        assertEquals(listOf(100L, 250L), changed.sortedBy { it.id }.map { it.amountMinor })
+    }
+
+    @Test
+    fun bulkUpdateAccountWithRateConvertsSelectedAmounts() = runTestWithDispatchers {
+        val first = repo.upsert(txn(amount = 100, accountId = 1))
+        val second = repo.upsert(txn(amount = 250, accountId = 1))
+        val untouched = repo.upsert(txn(amount = 500, accountId = 1))
+
+        repo.updateAccount(setOf(first, second), AccountId(7), CurrencyCode("USD"), rate = 1.5)
+
+        val changed = ds.rows.value.filter { it.id in setOf(first.value, second.value) }.sortedBy { it.id }
+        assertEquals(listOf(150L, 375L), changed.map { it.amountMinor })
+        assertTrue(changed.all { it.accountId == 7L && it.currency == "USD" })
+        assertEquals(500L, ds.rows.value.first { it.id == untouched.value }.amountMinor)
+        assertEquals("EUR", ds.rows.value.first { it.id == untouched.value }.currency)
+    }
+
+    @Test
+    fun bulkUpdatePaymentModeChangesSelectedRows() = runTestWithDispatchers {
+        val first = repo.upsert(txn(paymentModeId = 1))
+        val second = repo.upsert(txn(paymentModeId = 1))
+        val untouched = repo.upsert(txn(paymentModeId = 1))
+
+        repo.updatePaymentMode(setOf(first, second), PaymentModeId(9))
+
+        assertEquals(setOf(9L), ds.rows.value.filter { it.id in setOf(first.value, second.value) }.map { it.paymentModeId }.toSet())
+        assertEquals(1L, ds.rows.value.first { it.id == untouched.value }.paymentModeId)
+
+        repo.updatePaymentMode(setOf(first), null)
+        assertNull(ds.rows.value.first { it.id == first.value }.paymentModeId)
     }
 
     @Test

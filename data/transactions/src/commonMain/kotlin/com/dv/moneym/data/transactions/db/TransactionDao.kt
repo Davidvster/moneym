@@ -41,6 +41,34 @@ interface TransactionDao {
     @Query("UPDATE TransactionEntry SET deleted = 1, updated_at = :now WHERE id = :id")
     suspend fun softDeleteById(id: Long, now: Long)
 
+    @Query("UPDATE TransactionEntry SET deleted = 1, updated_at = :now WHERE id IN (:ids) AND deleted = 0")
+    suspend fun softDeleteByIds(ids: Set<Long>, now: Long)
+
+    @Query("UPDATE TransactionEntry SET category_id = :categoryId, type = :type, updated_at = :now WHERE id IN (:ids) AND deleted = 0")
+    suspend fun updateCategoryByIds(ids: Set<Long>, categoryId: Long, type: String, now: Long)
+
+    @Query("""
+        UPDATE TransactionEntry
+        SET account_id = :accountId,
+            currency = :currency,
+            updated_at = :now
+        WHERE id IN (:ids) AND deleted = 0
+    """)
+    suspend fun updateAccountByIds(ids: Set<Long>, accountId: Long, currency: String, now: Long)
+
+    @Query("""
+        UPDATE TransactionEntry
+        SET account_id = :accountId,
+            amount_minor = CAST(ROUND(CAST(amount_minor AS REAL) * :rate) AS INTEGER),
+            currency = :currency,
+            updated_at = :now
+        WHERE id IN (:ids) AND deleted = 0
+    """)
+    suspend fun updateAccountByIdsWithRate(ids: Set<Long>, accountId: Long, currency: String, rate: Double, now: Long)
+
+    @Query("UPDATE TransactionEntry SET payment_mode_id = :paymentModeId, updated_at = :now WHERE id IN (:ids) AND deleted = 0")
+    suspend fun updatePaymentModeByIds(ids: Set<Long>, paymentModeId: Long?, now: Long)
+
     @Query("UPDATE TransactionEntry SET deleted = 1, updated_at = :now WHERE account_id = :accountId")
     suspend fun softDeleteByAccountId(accountId: Long, now: Long)
 

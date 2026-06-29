@@ -75,6 +75,27 @@ internal class SqlDelightTransactionDataSource(
 
     override suspend fun softDelete(id: Long, now: Long) = dao.softDeleteById(id, now)
 
+    override suspend fun softDelete(ids: Set<Long>, now: Long) {
+        if (ids.isNotEmpty()) dao.softDeleteByIds(ids, now)
+    }
+
+    override suspend fun updateCategory(ids: Set<Long>, categoryId: Long, type: String, now: Long) {
+        if (ids.isNotEmpty()) dao.updateCategoryByIds(ids, categoryId, type, now)
+    }
+
+    override suspend fun updateAccount(ids: Set<Long>, accountId: Long, currency: String, rate: Double?, now: Long) {
+        if (ids.isEmpty()) return
+        if (rate == null) {
+            dao.updateAccountByIds(ids, accountId, currency, now)
+        } else {
+            dao.updateAccountByIdsWithRate(ids, accountId, currency, rate, now)
+        }
+    }
+
+    override suspend fun updatePaymentMode(ids: Set<Long>, paymentModeId: Long?, now: Long) {
+        if (ids.isNotEmpty()) dao.updatePaymentModeByIds(ids, paymentModeId, now)
+    }
+
     override suspend fun softDeleteByAccountId(accountId: Long, now: Long) =
         dao.softDeleteByAccountId(accountId, now)
 

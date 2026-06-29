@@ -24,6 +24,10 @@ internal interface TransactionLocalDataSource {
     )
 
     suspend fun softDelete(id: Long, now: Long)
+    suspend fun softDelete(ids: Set<Long>, now: Long)
+    suspend fun updateCategory(ids: Set<Long>, categoryId: Long, type: String, now: Long)
+    suspend fun updateAccount(ids: Set<Long>, accountId: Long, currency: String, rate: Double?, now: Long)
+    suspend fun updatePaymentMode(ids: Set<Long>, paymentModeId: Long?, now: Long)
     suspend fun softDeleteByAccountId(accountId: Long, now: Long)
     suspend fun reassignCategory(from: Long, to: Long, now: Long)
     suspend fun softDeleteByCategory(categoryId: Long, now: Long)

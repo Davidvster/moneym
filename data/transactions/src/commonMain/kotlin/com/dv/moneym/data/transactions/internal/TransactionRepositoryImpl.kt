@@ -3,10 +3,12 @@ package com.dv.moneym.data.transactions.internal
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.CurrencyCode
+import com.dv.moneym.core.model.PaymentModeId
 import com.dv.moneym.core.model.RecurringTransactionId
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionId
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.core.model.matches
 import com.dv.moneym.data.transactions.TransactionRepository
@@ -85,6 +87,38 @@ internal class TransactionRepositoryImpl(
 
     override suspend fun delete(id: TransactionId) =
         dataSource.softDelete(id.value, Clock.System.now().toEpochMilliseconds())
+
+    override suspend fun delete(ids: Set<TransactionId>) =
+        dataSource.softDelete(ids.mapTo(mutableSetOf()) { it.value }, Clock.System.now().toEpochMilliseconds())
+
+    override suspend fun updateCategory(ids: Set<TransactionId>, categoryId: CategoryId, type: TransactionType) =
+        dataSource.updateCategory(
+            ids = ids.mapTo(mutableSetOf()) { it.value },
+            categoryId = categoryId.value,
+            type = type.name,
+            now = Clock.System.now().toEpochMilliseconds(),
+        )
+
+    override suspend fun updateAccount(
+        ids: Set<TransactionId>,
+        accountId: AccountId,
+        currency: CurrencyCode,
+        rate: Double?,
+    ) =
+        dataSource.updateAccount(
+            ids = ids.mapTo(mutableSetOf()) { it.value },
+            accountId = accountId.value,
+            currency = currency.value,
+            rate = rate,
+            now = Clock.System.now().toEpochMilliseconds(),
+        )
+
+    override suspend fun updatePaymentMode(ids: Set<TransactionId>, paymentModeId: PaymentModeId?) =
+        dataSource.updatePaymentMode(
+            ids = ids.mapTo(mutableSetOf()) { it.value },
+            paymentModeId = paymentModeId?.value,
+            now = Clock.System.now().toEpochMilliseconds(),
+        )
 
     override suspend fun deleteByAccountId(id: AccountId) =
         dataSource.softDeleteByAccountId(id.value, Clock.System.now().toEpochMilliseconds())

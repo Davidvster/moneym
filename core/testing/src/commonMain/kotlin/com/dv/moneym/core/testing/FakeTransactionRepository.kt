@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.number
+import kotlin.math.roundToLong
 import kotlin.time.Instant
 
 class FakeTransactionRepository : TransactionRepository {
@@ -74,6 +75,53 @@ class FakeTransactionRepository : TransactionRepository {
 
     override suspend fun delete(id: TransactionId) {
         tombstoned.add(id.value)
+    }
+
+    override suspend fun delete(ids: Set<TransactionId>) {
+        tombstoned.addAll(ids.map { it.value })
+    }
+
+    override suspend fun updateCategory(ids: Set<TransactionId>, categoryId: CategoryId, type: TransactionType) {
+        val idValues = ids.mapTo(mutableSetOf()) { it.value }
+        _transactions.update { list ->
+            list.map {
+                if (it.id.value in idValues && it.id.value !in tombstoned) it.copy(categoryId = categoryId, type = type) else it
+            }
+        }
+    }
+
+    override suspend fun updateAccount(
+        ids: Set<TransactionId>,
+        accountId: AccountId,
+        currency: CurrencyCode,
+        rate: Double?,
+    ) {
+        val idValues = ids.mapTo(mutableSetOf()) { it.value }
+        _transactions.update { list ->
+            list.map { tx ->
+                if (tx.id.value in idValues && tx.id.value !in tombstoned) {
+                    tx.copy(
+                        accountId = accountId,
+                        amount = tx.amount.copy(
+                            minorUnits = if (rate == null) tx.amount.minorUnits
+                            else (tx.amount.minorUnits.toDouble() * rate).roundToLong(),
+                            currency = currency,
+                        ),
+                    )
+                } else {
+                    tx
+                }
+            }
+        }
+    }
+
+    override suspend fun updatePaymentMode(ids: Set<TransactionId>, paymentModeId: PaymentModeId?) {
+        val idValues = ids.mapTo(mutableSetOf()) { it.value }
+        _transactions.update { list ->
+            list.map {
+                if (it.id.value in idValues && it.id.value !in tombstoned) it.copy(paymentModeId = paymentModeId) else it
+            }
+        }
     }
 
     override suspend fun deleteByAccountId(id: AccountId) {
