@@ -4,7 +4,7 @@
 | --- | --- | --- | --- |
 | Phase 0: Planning and orchestration files | Committed | File presence checked | 65d7e3b1 |
 | Phase 1: Small UI and sync fixes | Committed | `./gradlew --no-configuration-cache :feature:transactionEdit:testDebugUnitTest :feature:categories:testDebugUnitTest :feature:settings:testDebugUnitTest :feature:sync:testDebugUnitTest :feature:transactions:testDebugUnitTest` | 7a209a8b |
-| Phase 2: Bulk transaction mutation support | Pending | Pending | Pending |
+| Phase 2: Bulk transaction mutation support | Committed | `./gradlew --no-configuration-cache :data:transactions:testDebugUnitTest :feature:transactions:testDebugUnitTest` | 951d12ac |
 | Phase 3: Transaction list multiselect UI | Pending | Pending | Pending |
 | Phase 4: Final Android/iOS verification | Pending | Pending | Pending |
 
