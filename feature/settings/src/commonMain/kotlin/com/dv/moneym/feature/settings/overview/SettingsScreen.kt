@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.dv.moneym.core.common.SupportedLanguage
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.ThemeMode
@@ -23,7 +24,6 @@ import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.feature.settings.overview.components.LockTimeoutPickerDialog
 import com.dv.moneym.feature.settings.overview.components.SettingsLazyList
 import com.dv.moneym.feature.settings.overview.components.ThemePickerSheet
-import com.dv.moneym.feature.settings.overview.locale.supportedLanguages
 import kotlinx.serialization.Serializable
 import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_lang_system_default
@@ -221,7 +221,7 @@ private fun SettingsContent(
         300 -> stringResource(Res.string.settings_lock_5m)
         else -> "${securityState.backgroundLockSeconds}s"
     }
-    val languageSubtitle = supportedLanguages.find { it.code == state.language }?.nativeName
+    val languageSubtitle = SupportedLanguage.fromCode(state.language)?.nativeName
         ?: stringResource(Res.string.settings_lang_system_default)
 
     if (state.showLockPicker) {

@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.dv.moneym.core.common.SupportedLanguage
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.ui.MmRow
@@ -46,40 +47,6 @@ fun EntryProviderScope<NavKey>.languagePickerEntry(
 ) = entry<LanguagePickerKey>(metadata = metadata) {
     LanguagePickerScreen(onBack = onBack)
 }
-
-data class LanguageInfo(val code: String, val nativeName: String, val englishName: String)
-
-val supportedLanguages = listOf(
-    LanguageInfo("en", "English", "English"),
-    LanguageInfo("de", "Deutsch", "German"),
-    LanguageInfo("es", "Español", "Spanish"),
-    LanguageInfo("it", "Italiano", "Italian"),
-    LanguageInfo("fr", "Français", "French"),
-    LanguageInfo("pt", "Português", "Portuguese"),
-    LanguageInfo("lt", "Lietuvių", "Lithuanian"),
-    LanguageInfo("et", "Eesti", "Estonian"),
-    LanguageInfo("mk", "Македонски", "Macedonian"),
-    LanguageInfo("sv", "Svenska", "Swedish"),
-    LanguageInfo("nb", "Norsk bokmål", "Norwegian"),
-    LanguageInfo("is", "Íslenska", "Icelandic"),
-    LanguageInfo("lv", "Latviešu", "Latvian"),
-    LanguageInfo("pl", "Polski", "Polish"),
-    LanguageInfo("nl", "Nederlands", "Dutch"),
-    LanguageInfo("da", "Dansk", "Danish"),
-    LanguageInfo("fi", "Suomi", "Finnish"),
-    LanguageInfo("hr", "Hrvatski", "Croatian"),
-    LanguageInfo("sk", "Slovenčina", "Slovak"),
-    LanguageInfo("cs", "Čeština", "Czech"),
-    LanguageInfo("hu", "Magyar", "Hungarian"),
-    LanguageInfo("ja", "日本語", "Japanese"),
-    LanguageInfo("vi", "Tiếng Việt", "Vietnamese"),
-    LanguageInfo("tr", "Türkçe", "Turkish"),
-    LanguageInfo("sl", "Slovenščina", "Slovenian"),
-    LanguageInfo("ru", "Русский", "Russian"),
-    LanguageInfo("ar", "العربية", "Arabic"),
-    LanguageInfo("hi", "हिन्दी", "Hindi"),
-    LanguageInfo("zh", "中文", "Chinese"),
-)
 
 @Composable
 private fun LanguagePickerScreen(
@@ -169,8 +136,8 @@ private fun LanguagePickerContent(
         )
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(supportedLanguages, key = { it.code }) { lang ->
-                val isLast = lang == supportedLanguages.last()
+            items(SupportedLanguage.entries, key = { it.code }) { lang ->
+                val isLast = lang == SupportedLanguage.entries.last()
                 MmRow(
                     onClick = { if (!useDeviceLanguage) onLanguageSelected(lang.code) },
                     divider = !isLast,

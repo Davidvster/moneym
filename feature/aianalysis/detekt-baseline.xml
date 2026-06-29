@@ -3,7 +3,6 @@
   <ManuallySuppressedIssues/>
   <CurrentIssues>
     <ID>CyclomaticComplexMethod:AnalyzeScreen.kt$@OptIn(ExperimentalLayoutApi::class) @Composable private fun AnalyzeContent( state: AnalyzeUiState, onIntent: (AnalyzeIntent) -&gt; Unit, onBack: () -&gt; Unit, onManageModels: () -&gt; Unit, onShowHistory: () -&gt; Unit, onShowInfo: () -&gt; Unit, )</ID>
-    <ID>CyclomaticComplexMethod:AnalyzeViewModel.kt$private fun languageNameForTag(tag: String): String?</ID>
     <ID>LongMethod:AnalyzeScreen.kt$@OptIn(ExperimentalLayoutApi::class) @Composable private fun AnalyzeContent( state: AnalyzeUiState, onIntent: (AnalyzeIntent) -&gt; Unit, onBack: () -&gt; Unit, onManageModels: () -&gt; Unit, onShowHistory: () -&gt; Unit, onShowInfo: () -&gt; Unit, )</ID>
     <ID>LongMethod:BuildFinanceToolsetUseCase.kt$BuildFinanceToolsetUseCase$operator fun invoke(year: Int, month: Int): List&lt;AiTool&gt;</ID>
     <ID>MatchingDeclarationName:AnalyzeHistoryScreen.kt$AnalyzeHistoryKey : ModalKey</ID>

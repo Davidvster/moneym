@@ -14,6 +14,7 @@ import com.dv.moneym.core.ai.Grounding
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.common.LocaleController
+import com.dv.moneym.core.common.SupportedLanguage
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.data.aichat.AiChatRepository
@@ -255,7 +256,8 @@ class AnalyzeViewModel(
             val assistantIndex = _state.value.messages.size
             _state.update { it.copy(messages = it.messages + ChatMessage(ChatRole.ASSISTANT, "")) }
 
-            val responseLanguage = languageNameForTag(localeController.getCurrentLanguageTag())
+            val responseLanguage =
+                SupportedLanguage.responseLanguageNameForTag(localeController.getCurrentLanguageTag())
             engine.streamReply(_state.value.messages.dropLast(1), grounding, responseLanguage)
                 .catch { _state.update { it.copy(error = AnalyzeError.GenerationFailed, isGenerating = false) } }
                 .onCompletion {
@@ -310,43 +312,5 @@ class AnalyzeViewModel(
     private companion object {
         const val BUILTIN_PROBE_TIMEOUT_MS = 3000L
         const val CONVERSATION_TITLE_MAX = 40
-    }
-}
-
-// Maps an IETF language tag (e.g. "de", "pt-BR") to the English language name fed to the model as
-// a reply-language directive. English (and unknown tags) return null, leaving the default English
-// reply behaviour untouched.
-private fun languageNameForTag(tag: String): String? {
-    val primary = tag.substringBefore('-').trim().lowercase()
-    return when (primary) {
-        "ar" -> "Arabic"
-        "cs" -> "Czech"
-        "da" -> "Danish"
-        "de" -> "German"
-        "es" -> "Spanish"
-        "et" -> "Estonian"
-        "fi" -> "Finnish"
-        "fr" -> "French"
-        "hi" -> "Hindi"
-        "hr" -> "Croatian"
-        "hu" -> "Hungarian"
-        "is" -> "Icelandic"
-        "it" -> "Italian"
-        "ja" -> "Japanese"
-        "lt" -> "Lithuanian"
-        "lv" -> "Latvian"
-        "mk" -> "Macedonian"
-        "nb", "nn", "no" -> "Norwegian"
-        "nl" -> "Dutch"
-        "pl" -> "Polish"
-        "pt" -> "Portuguese"
-        "ru" -> "Russian"
-        "sk" -> "Slovak"
-        "sl" -> "Slovenian"
-        "sv" -> "Swedish"
-        "tr" -> "Turkish"
-        "vi" -> "Vietnamese"
-        "zh" -> "Chinese"
-        else -> null
     }
 }
