@@ -81,7 +81,11 @@ import com.dv.moneym.feature.transactionedit.TransactionEditViewModel
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
+import com.dv.moneym.feature.transactionedit.usecase.ApplyTransactionEditDraftUseCase
+import com.dv.moneym.feature.transactionedit.usecase.BuildNoteSuggestionsUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ComputeCategoryBudgetRemainingUseCase
+import com.dv.moneym.feature.transactionedit.usecase.SaveTransactionEditUseCase
+import com.dv.moneym.feature.transactionedit.usecase.SelectNoteUseCase
 import com.dv.moneym.feature.transactionedit.usecase.SuggestNotesUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ValidateAndBuildTransactionUseCase
 import com.dv.moneym.feature.transactions.list.TransactionListEphemeralState
@@ -139,22 +143,26 @@ val featureTransactionEditModule = module {
     single { ComputeCategoryBudgetRemainingUseCase(get(), get()) }
     single { ValidateAndBuildTransactionUseCase() }
     single { SuggestNotesUseCase() }
+    single { ApplyTransactionEditDraftUseCase() }
+    single { BuildNoteSuggestionsUseCase(get(), get()) }
+    single { SelectNoteUseCase(get()) }
+    single { SaveTransactionEditUseCase(get(), get(), get()) }
     viewModel { params ->
         TransactionEditViewModel(
             editingId = params.getOrNull<TransactionId>(),
             draft = params.getOrNull<TransactionEditDraft>(),
             getTransaction = get(),
-            upsertTransaction = get(),
             deleteTransaction = get(),
             validateAndBuildTransaction = get(),
+            saveTransactionEdit = get(),
+            applyTransactionEditDraft = get(),
+            buildNoteSuggestions = get(),
+            selectNote = get(),
             categoryRepository = get(),
             accountRepository = get(),
-            transactionRepository = get(),
-            recurringTransactionRepository = get(),
             appSettingsRepository = get(),
             paymentModeRepository = get(),
             computeBudgetRemaining = get(),
-            suggestNotes = get(),
             dispatchers = get(),
             clock = get(),
             suggestionSources = mapOf(

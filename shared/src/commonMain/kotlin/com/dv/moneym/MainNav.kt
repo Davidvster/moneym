@@ -19,7 +19,6 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.dv.moneym.core.designsystem.MM
-import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.ui.TabRoute
 import com.dv.moneym.feature.aianalysis.AnalyzeKey
 import com.dv.moneym.feature.aianalysis.analyzeEntry
@@ -40,7 +39,6 @@ import com.dv.moneym.feature.security.setup.pinSetupEntry
 import com.dv.moneym.feature.sync.PendingDeletionsKey
 import com.dv.moneym.feature.sync.pendingDeletionsEntry
 import com.dv.moneym.feature.banksync.suggestions.BankSuggestionsKey
-import com.dv.moneym.feature.banksync.suggestions.SuggestionRow
 import com.dv.moneym.feature.banksync.suggestions.SuggestionSourceType
 import com.dv.moneym.feature.banksync.suggestions.WalletSuggestionsKey
 import com.dv.moneym.feature.banksync.home.BankSyncSettingsKey
@@ -93,10 +91,10 @@ import com.dv.moneym.feature.settings.wallet.editWalletCurrencyEntry
 import com.dv.moneym.feature.settings.wallet.editWalletEntry
 import com.dv.moneym.feature.settings.wallet.walletManageEntry
 import com.dv.moneym.feature.transactionedit.RecurringEditKey
-import com.dv.moneym.feature.transactionedit.TransactionEditDraft
 import com.dv.moneym.feature.transactionedit.TransactionEditKey
 import com.dv.moneym.feature.transactionedit.recurringEditEntry
 import com.dv.moneym.feature.transactionedit.transactionEditEntry
+import com.dv.moneym.feature.transactionedit.transactionEditDraftFromSuggestion
 import com.dv.moneym.feature.transactions.list.TransactionsKey
 import com.dv.moneym.feature.transactions.list.transactionsEntry
 import com.dv.moneym.platform.FilePlatform
@@ -282,7 +280,24 @@ internal fun MainNav(lockController: AppLockController) {
             walletSuggestionsEntry(
                 onBack = { tabBackStack.removeLast() },
                 onEditSuggestion = { row ->
-                    tabBackStack.push(TransactionEditKey(draft = row.toTransactionEditDraft()))
+                    tabBackStack.push(
+                        TransactionEditKey(
+                            draft = transactionEditDraftFromSuggestion(
+                                amountMinor = row.amountMinor,
+                                currency = row.currency,
+                                isExpense = row.isExpense,
+                                dateIso = row.dateIso,
+                                description = row.description,
+                                counterparty = row.counterparty,
+                                targetAccountId = row.targetAccountId,
+                                categoryId = row.categoryId,
+                                sourceLabel = row.sourceLabel,
+                                suggestionSourceType = SuggestionSourceType.WALLET.name,
+                                suggestionId = row.id,
+                                externalId = row.externalId,
+                            ),
+                        ),
+                    )
                 },
                 metadata = modalTransitionMeta,
             )
@@ -378,18 +393,3 @@ internal fun MainNav(lockController: AppLockController) {
     )
     }
 }
-
-// TODO move this out of MainNav.kt -> this should live somewhere else? Make the transaction edit accept the suggestion differntly? Maybe pass the source of suggestions and have a mapper somewhere else?
-private fun SuggestionRow.toTransactionEditDraft() = TransactionEditDraft(
-    amountMinor = amountMinor,
-    currency = currency,
-    type = if (isExpense) TransactionType.EXPENSE else TransactionType.INCOME,
-    dateIso = dateIso,
-    note = description ?: counterparty,
-    accountId = targetAccountId,
-    categoryId = categoryId,
-    suggestionSourceName = sourceLabel.takeIf { it.isNotBlank() },
-    suggestionSourceType = SuggestionSourceType.WALLET.name,
-    suggestionId = id,
-    externalId = externalId,
-)

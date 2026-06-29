@@ -32,7 +32,11 @@ import com.dv.moneym.core.testing.TestDispatcherProvider
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
+import com.dv.moneym.feature.transactionedit.usecase.ApplyTransactionEditDraftUseCase
+import com.dv.moneym.feature.transactionedit.usecase.BuildNoteSuggestionsUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ComputeCategoryBudgetRemainingUseCase
+import com.dv.moneym.feature.transactionedit.usecase.SaveTransactionEditUseCase
+import com.dv.moneym.feature.transactionedit.usecase.SelectNoteUseCase
 import com.dv.moneym.feature.transactionedit.usecase.SuggestNotesUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ValidateAndBuildTransactionUseCase
 import kotlinx.coroutines.Dispatchers
@@ -112,17 +116,21 @@ class TransactionEditViewModelTest {
             editingId = editingId,
             draft = draft,
             getTransaction = GetTransactionUseCase(deps.txRepo),
-            upsertTransaction = UpsertTransactionUseCase(deps.txRepo),
             deleteTransaction = DeleteTransactionUseCase(deps.txRepo),
             validateAndBuildTransaction = ValidateAndBuildTransactionUseCase(),
+            saveTransactionEdit = SaveTransactionEditUseCase(
+                UpsertTransactionUseCase(deps.txRepo),
+                deps.recurringRepo,
+                deps.txRepo,
+            ),
+            applyTransactionEditDraft = ApplyTransactionEditDraftUseCase(),
+            buildNoteSuggestions = BuildNoteSuggestionsUseCase(deps.txRepo, SuggestNotesUseCase()),
+            selectNote = SelectNoteUseCase(deps.txRepo),
             categoryRepository = deps.catRepo,
             accountRepository = deps.accountRepo,
-            transactionRepository = deps.txRepo,
-            recurringTransactionRepository = deps.recurringRepo,
             appSettingsRepository = deps.settings,
             paymentModeRepository = deps.paymentModes,
             computeBudgetRemaining = ComputeCategoryBudgetRemainingUseCase(deps.budgetRepo, deps.txRepo),
-            suggestNotes = SuggestNotesUseCase(),
             dispatchers = dispatchers,
             clock = clock,
             suggestionSources = suggestionSources,

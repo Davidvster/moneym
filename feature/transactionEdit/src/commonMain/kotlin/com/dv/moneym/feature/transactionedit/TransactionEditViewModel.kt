@@ -8,10 +8,8 @@ import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.common.TransactionSavedSignal
 import com.dv.moneym.core.datastore.AppSettingsRepository
-import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
-import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.MonthlyDayKind
 import com.dv.moneym.core.model.SuggestionSource
 import com.dv.moneym.core.model.TransactionId
@@ -19,14 +17,14 @@ import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.transactions.PaymentModeRepository
-import com.dv.moneym.data.transactions.RecurringTransactionRepository
-import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.feature.transactionedit.domain.DeleteTransactionUseCase
 import com.dv.moneym.feature.transactionedit.domain.GetTransactionUseCase
-import com.dv.moneym.feature.transactionedit.domain.UpsertTransactionUseCase
+import com.dv.moneym.feature.transactionedit.usecase.ApplyTransactionEditDraftUseCase
+import com.dv.moneym.feature.transactionedit.usecase.BuildNoteSuggestionsUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ComputeCategoryBudgetRemainingUseCase
 import com.dv.moneym.feature.transactionedit.usecase.RecurrenceInput
-import com.dv.moneym.feature.transactionedit.usecase.SuggestNotesUseCase
+import com.dv.moneym.feature.transactionedit.usecase.SaveTransactionEditUseCase
+import com.dv.moneym.feature.transactionedit.usecase.SelectNoteUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ValidateAndBuildTransactionUseCase
 import com.dv.moneym.feature.transactionedit.usecase.ValidationOutcome
 import kotlinx.coroutines.channels.Channel
@@ -53,17 +51,17 @@ class TransactionEditViewModel(
     private val editingId: TransactionId?,
     private val draft: TransactionEditDraft?,
     private val getTransaction: GetTransactionUseCase,
-    private val upsertTransaction: UpsertTransactionUseCase,
     private val deleteTransaction: DeleteTransactionUseCase,
     private val validateAndBuildTransaction: ValidateAndBuildTransactionUseCase,
+    private val saveTransactionEdit: SaveTransactionEditUseCase,
+    private val applyTransactionEditDraft: ApplyTransactionEditDraftUseCase,
+    private val buildNoteSuggestions: BuildNoteSuggestionsUseCase,
+    private val selectNote: SelectNoteUseCase,
     private val categoryRepository: CategoryRepository,
     private val accountRepository: AccountRepository,
-    private val transactionRepository: TransactionRepository,
-    private val recurringTransactionRepository: RecurringTransactionRepository,
     private val appSettingsRepository: AppSettingsRepository,
     private val paymentModeRepository: PaymentModeRepository,
     private val computeBudgetRemaining: ComputeCategoryBudgetRemainingUseCase,
-    private val suggestNotes: SuggestNotesUseCase,
     private val dispatchers: DispatcherProvider,
     private val clock: AppClock,
     private val suggestionSources: Map<String, SuggestionSource> = emptyMap(),
@@ -140,7 +138,14 @@ class TransactionEditViewModel(
                                 s.selectedCategoryId
                             },
                         )
-                        activeDraft?.let { withReferences.applyDraft(it, defaultAcc) }
+                        activeDraft?.let {
+                            applyTransactionEditDraft(
+                                state = withReferences,
+                                draft = it,
+                                defaultAccount = defaultAcc,
+                                today = today,
+                            )
+                        }
                             ?: withReferences
                     }
                 }
@@ -262,17 +267,12 @@ class TransactionEditViewModel(
                 val note = intent.note
                 val currentType = _state.value.type
                 viewModelScope.launch {
-                    val allTxns = withContext(dispatchers.io) {
-                        transactionRepository.observeAll().first()
-                    }
-                    val matchTxn = allTxns
-                        .filter { it.note == note && it.type == currentType }
-                        .maxByOrNull { it.occurredOn }
+                    val selected = withContext(dispatchers.io) { selectNote(note, currentType) }
                     _state.update { s ->
                         s.copy(
-                            note = note,
+                            note = selected.note,
                             noteSuggestions = emptyList(),
-                            selectedCategoryId = matchTxn?.categoryId ?: s.selectedCategoryId,
+                            selectedCategoryId = selected.categoryId ?: s.selectedCategoryId,
                             categoryError = false,
                         )
                     }
@@ -383,10 +383,8 @@ class TransactionEditViewModel(
                 _state.update { it.copy(noteSuggestions = emptyList()) }
                 return@launch
             }
-            val allTxns = withContext(dispatchers.io) {
-                transactionRepository.observeAll().first()
-            }
-            _state.update { it.copy(noteSuggestions = suggestNotes(allTxns, query, today)) }
+            val suggestions = withContext(dispatchers.io) { buildNoteSuggestions(query, today) }
+            _state.update { it.copy(noteSuggestions = suggestions) }
         }
     }
 
@@ -436,30 +434,12 @@ class TransactionEditViewModel(
                 _state.update { it.copy(isSaving = true) }
                 viewModelScope.launch {
                     val saved = withContext(dispatchers.io) {
-                        val rule = outcome.rule
-                        if (rule == null) {
-                            val id = upsertTransaction(outcome.transaction)
-                            acceptDraftIfNeeded(
-                                id,
-                                outcome.transaction.updatedAt.toEpochMilliseconds()
-                            )
-                            SavedTransaction(outcome.transaction.occurredOn)
-                        } else {
-                            val ruleId = recurringTransactionRepository.upsert(rule)
-                            val startDate = rule.startDate
-                            if (startDate <= today) {
-                                val id =
-                                    upsertTransaction(outcome.transaction.copy(recurringId = ruleId))
-                                acceptDraftIfNeeded(
-                                    id,
-                                    outcome.transaction.updatedAt.toEpochMilliseconds()
-                                )
-                                recurringTransactionRepository.updateCursor(ruleId, startDate)
-                                SavedTransaction(outcome.transaction.occurredOn)
-                            } else {
-                                SavedTransaction(null)
-                            }
-                        }
+                        saveTransactionEdit(
+                            outcome = outcome,
+                            draft = activeDraft,
+                            suggestionSources = suggestionSources,
+                            today = today,
+                        )
                     }
                     _state.update { it.copy(isSaving = false) }
                     if (existingIdOverride == null && saved.date != null) {
@@ -478,44 +458,6 @@ class TransactionEditViewModel(
             _effects.send(TransactionEditEffect.Deleted)
         }
     }
-
-    private fun TransactionEditUiState.applyDraft(
-        draft: TransactionEditDraft,
-        defaultAccount: Account?,
-    ): TransactionEditUiState {
-        if (draftApplied) return this
-        val draftType = draft.type
-        val draftDate = runCatching { LocalDate.parse(draft.dateIso) }.getOrNull() ?: date
-        val accountId =
-            draft.accountId?.let { AccountId(it) } ?: selectedAccountId ?: defaultAccount?.id
-        return copy(
-            draftApplied = true,
-            type = draftType,
-            amountText = draft.amountMinor.toAmountText(),
-            date = draftDate,
-            isToday = draftDate == today,
-            note = draft.note.orEmpty(),
-            selectedAccountId = accountId,
-            visibleCategories = availableCategories.filter { it.type == draftType },
-            selectedCategoryId = draft.categoryId?.let { CategoryId(it) }
-                ?: selectedCategoryId
-                ?: availableCategories.firstOrNull { it.type == draftType }?.id,
-        )
-    }
-
-    private suspend fun acceptDraftIfNeeded(transactionId: TransactionId, decidedAt: Long) {
-        val draft = activeDraft ?: return
-        transactionRepository.setExternalId(transactionId, draft.externalId)
-        suggestionSources[draft.suggestionSourceType]?.accept(
-            id = draft.suggestionId,
-            createdTransactionId = transactionId.value,
-            decidedAt = decidedAt,
-        )
-    }
-
-    private data class SavedTransaction(
-        val date: LocalDate?,
-    )
 }
 
 private fun parseMinorFromText(text: String): Long {
