@@ -6,7 +6,7 @@
 | Phase 1: Shared persisted filters | Built | Passed `./gradlew --no-configuration-cache :core:datastore:testDebugUnitTest :feature:transactions:testDebugUnitTest :feature:overview:testDebugUnitTest`; plain requested target failed before tests on Gradle configuration-cache serialization for `:feature:transactions:testDebugUnitTest` | 6f4f6ef5 |
 | Phase 2: Edit transaction from suggestions | Built | Plain target failed before tests on Gradle configuration-cache serialization for `:feature:transactionEdit:testDebugUnitTest`; passed `./gradlew --no-configuration-cache :feature:transactionEdit:testDebugUnitTest :feature:banksync:testDebugUnitTest`; extra wiring check passed `./gradlew --no-configuration-cache :shared:compileDebugKotlinAndroid` | b3a85fce |
 | Phase 3: Prevent last wallet deletion | Built | Plain target failed before tests on Gradle configuration-cache serialization for `:feature:settings:testDebugUnitTest`; passed `./gradlew --no-configuration-cache :feature:settings:testDebugUnitTest` | 8592adf6 |
-| Phase 4: Copy, icons, AI visibility | Planned | Not run | Pending |
+| Phase 4: Copy, icons, AI visibility | Built | Passed `./gradlew --no-configuration-cache :feature:overview:testDebugUnitTest :feature:transactions:testDebugUnitTest :feature:walletsync:compileDebugKotlinAndroid` | 961db4cb |
 | Final verification | Planned | Not run | Pending |
 
 ## Notes
