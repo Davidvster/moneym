@@ -47,6 +47,7 @@
     <string name="settings_txdisplay_note">Белешка / опис</string>
     <string name="settings_txdisplay_daily_sums">Дневни вкупни суми</string>
     <string name="settings_txdisplay_pending_recurring">Прикажи претстојни повторувачки</string>
+    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
     <string name="settings_recurring_title">Повторувачки трансакции</string>
     <string name="settings_recurring_empty">Сè уште нема повторувачки трансакции.\nЗа да додадете, создајте трансакција и овозможете ја опцијата за повторување, или допрете + за директно создавање на повторувачки шаблон.</string>
     <string name="settings_recurring_nav">Повторувачки трансакции</string>

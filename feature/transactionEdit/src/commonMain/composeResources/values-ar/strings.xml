@@ -16,6 +16,7 @@
     <string name="edit_category_error">اختر فئة</string>
     <string name="edit_save">حفظ</string>
     <string name="edit_save_changes">حفظ التغييرات</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">إضافة معاملة</string>
     <string name="edit_delete">حذف</string>
     <string name="edit_close">إغلاق</string>

@@ -13,4 +13,5 @@ data class TxDisplayPrefs(
     val showNote: Boolean = true,
     val density: Density = Density.Comfortable,
     val showDailySums: Boolean = true,
+    val showSyncSuggestionBanner: Boolean = true,
 )

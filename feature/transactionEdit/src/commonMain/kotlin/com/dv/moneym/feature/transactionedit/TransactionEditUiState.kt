@@ -29,6 +29,7 @@ internal data class TransactionEditUiState(
     val noteSuggestions: List<String> = emptyList(),
     val isToday: Boolean? = null,
     val availableCategories: List<Category> = emptyList(),
+    val visibleCategories: List<Category> = emptyList(),
     val availableAccounts: List<Account> = emptyList(),
     val showDeleteConfirm: Boolean = false,
     val isSaving: Boolean = false,

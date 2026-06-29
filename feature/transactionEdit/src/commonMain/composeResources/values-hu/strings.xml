@@ -16,6 +16,7 @@
     <string name="edit_category_error">Válasszon kategóriát</string>
     <string name="edit_save">Mentés</string>
     <string name="edit_save_changes">Változtatások mentése</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Tranzakció hozzáadása</string>
     <string name="edit_delete">Törlés</string>
     <string name="edit_close">Bezárás</string>

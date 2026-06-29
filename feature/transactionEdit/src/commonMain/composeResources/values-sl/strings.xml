@@ -16,6 +16,7 @@
     <string name="edit_category_error">Izberite kategorijo</string>
     <string name="edit_save">Shrani</string>
     <string name="edit_save_changes">Shrani spremembe</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Dodaj transakcijo</string>
     <string name="edit_delete">Izbriši</string>
     <string name="edit_close">Zapri</string>

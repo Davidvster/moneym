@@ -11,6 +11,7 @@ import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.core.model.TxDisplayPrefs
 import com.dv.moneym.core.model.clearCategories
 import com.dv.moneym.core.model.selectedCategoryIds
 import com.dv.moneym.core.model.toggleCategory
@@ -81,13 +82,18 @@ class TransactionListViewModel(
         .map { dates -> dates.minOrNull()?.let { YearMonth(it.year, it.month.number) } }
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
-    private data class BaseState(val month: YearMonth, val categories: List<Category>)
+    private data class BaseState(
+        val month: YearMonth,
+        val categories: List<Category>,
+        val txDisplayPrefs: TxDisplayPrefs,
+    )
 
     @OptIn(ExperimentalCoroutinesApi::class)
     internal val state = combine(
         _currentMonth.onStart { init() },
         categoryRepository.observeAll(),
-    ) { month, cats -> BaseState(month, cats) }
+        appSettingsRepository.observeTxDisplayPrefs(),
+    ) { month, cats, prefs -> BaseState(month, cats, prefs) }
         .flatMapLatest { base ->
             combine(
                 transactionRepository.observeByMonth(base.month.year, base.month.monthNumber),
@@ -117,6 +123,7 @@ class TransactionListViewModel(
                 TransactionListUiState(
                     currentMonth = base.month,
                     availableCategories = base.categories,
+                    txDisplayPrefs = base.txDisplayPrefs,
                     netAmount = netMinor,
                     totalIncome = incomeMinor,
                     totalExpenses = expenseMinor,
@@ -173,6 +180,12 @@ class TransactionListViewModel(
         .combine(walletSyncStatus?.isEnabled ?: flowOf(false)) { s, e -> s.copy(isWalletSyncEnabled = e) }
         .combine(walletSyncStatus?.pendingCount ?: flowOf(0)) { s, c -> s.copy(walletPendingCount = c) }
         .combine(_showSyncSheet) { state, show -> state.copy(showSyncSheet = show) }
+        .map { state ->
+            state.copy(
+                syncAttentionCount = state.pendingDeletionCount + state.walletPendingCount +
+                    if (state.hasSyncConflict) 1 else 0,
+            )
+        }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,

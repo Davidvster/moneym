@@ -6,6 +6,7 @@ import com.dv.moneym.core.model.AccountId
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Money
+import com.dv.moneym.core.model.TxDisplayPrefs
 import com.dv.moneym.core.model.Transaction
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
@@ -50,11 +51,12 @@ private class FakeSyncStatusProvider(
     val syncingFlow = MutableStateFlow(syncing)
     val pendingCountFlow = MutableStateFlow(pendingCount)
     val failureFlow = MutableStateFlow<SyncFailure?>(null)
+    val conflictFlow = MutableStateFlow<SyncConflict?>(null)
     override val isEnabled: Flow<Boolean> = MutableStateFlow(enabled)
     override val isSyncing: Flow<Boolean> = syncingFlow
     override val failure: Flow<SyncFailure?> = failureFlow
     override val pendingDeletionCount: Flow<Int> = pendingCountFlow
-    override val conflict: Flow<SyncConflict?> = MutableStateFlow(null)
+    override val conflict: Flow<SyncConflict?> = conflictFlow
     override val lastSyncedMs: Flow<Long> = MutableStateFlow(0L)
 }
 
@@ -278,6 +280,22 @@ class TransactionListViewModelTest {
             var after = awaitItem()
             while (after.pendingDeletionCount == 0) after = awaitItem()
             assertEquals(3, after.pendingDeletionCount)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun displayPrefsAndAttentionCountReflectSettingsAndSyncState() = runTestWithDispatchers {
+        val settings = FakeAppSettingsRepository()
+        settings.setTxDisplayPrefs(TxDisplayPrefs(showSyncSuggestionBanner = false))
+        val sync = FakeSyncStatusProvider(pendingCount = 2)
+        sync.conflictFlow.value = SyncConflict(remoteEncrypted = true)
+        val vm = makeVm(settings = settings, syncStatus = sync)
+        vm.state.test {
+            var s = awaitItem()
+            while (s.currentMonth == null || s.syncAttentionCount == 0) s = awaitItem()
+            assertEquals(false, s.txDisplayPrefs.showSyncSuggestionBanner)
+            assertEquals(3, s.syncAttentionCount)
             cancelAndIgnoreRemainingEvents()
         }
     }

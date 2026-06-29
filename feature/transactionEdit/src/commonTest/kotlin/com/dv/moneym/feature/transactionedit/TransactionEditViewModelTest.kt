@@ -454,6 +454,48 @@ class TransactionEditViewModelTest {
     }
 
     @Test
+    fun saveAsNewFromEditPreservesOriginalAndInsertsCopy() = runTest(testDispatcher) {
+        val deps = Deps()
+        seedCatsAccounts(deps)
+        val originalId = deps.txRepo.upsert(
+            Transaction(
+                id = UNSAVED_TRANSACTION_ID,
+                type = TransactionType.EXPENSE,
+                amount = Money(1000, CurrencyCode("EUR")),
+                occurredOn = today,
+                note = "Original",
+                categoryId = CategoryId(1),
+                accountId = AccountId(1),
+                createdAt = epoch,
+                updatedAt = epoch,
+            ),
+        )
+        val vm = vm(originalId, deps)
+        vm.state.test {
+            var s = awaitItem()
+            while (s.isLoading || s.existingId == null) s = awaitItem()
+            cancelAndIgnoreRemainingEvents()
+        }
+        vm.onIntent(TransactionEditIntent.AmountChanged("22.50"))
+        vm.onIntent(TransactionEditIntent.NoteChanged("Copy"))
+
+        vm.effects.test {
+            vm.onIntent(TransactionEditIntent.SaveAsNewRequested)
+            assertIs<TransactionEditEffect.Saved>(awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+
+        assertEquals(2, deps.txRepo.transactions.size)
+        val original = deps.txRepo.getById(originalId)
+        assertNotNull(original)
+        assertEquals(1000, original.amount.minorUnits)
+        assertEquals("Original", original.note)
+        val copy = deps.txRepo.transactions.single { it.id != originalId }
+        assertEquals(2250, copy.amount.minorUnits)
+        assertEquals("Copy", copy.note)
+    }
+
+    @Test
     fun saveSuggestionDraftStoresExternalIdAndAcceptsSuggestion() = runTest(testDispatcher) {
         val deps = Deps()
         seedCatsAccounts(deps)
@@ -562,7 +604,7 @@ class TransactionEditViewModelTest {
     private fun suggestionDraft() = TransactionEditDraft(
         amountMinor = 9876,
         currency = "EUR",
-        type = TransactionType.INCOME.name,
+        type = TransactionType.INCOME,
         dateIso = "2026-05-05",
         note = "Wallet refund",
         accountId = 2,

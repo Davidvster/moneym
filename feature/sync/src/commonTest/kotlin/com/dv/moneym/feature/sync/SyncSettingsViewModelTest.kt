@@ -9,6 +9,7 @@ import com.dv.moneym.data.sync.DeviceEntry
 import com.dv.moneym.data.sync.DeviceRegistryController
 import com.dv.moneym.data.sync.SyncPuller
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -24,6 +25,7 @@ import kotlin.test.assertTrue
 private class FakeRegistry(
     override val thisDeviceId: String = "self",
     initial: List<DeviceEntry> = emptyList(),
+    private val renameDelayMs: Long = 0L,
 ) : DeviceRegistryController {
     var devices: List<DeviceEntry> = initial
     var renamedTo: String? = null
@@ -33,6 +35,7 @@ private class FakeRegistry(
 
     override suspend fun load(): List<DeviceEntry> = devices
     override suspend fun rename(name: String) {
+        if (renameDelayMs > 0L) delay(renameDelayMs)
         renamedTo = name
         devices = devices.map { if (it.id == thisDeviceId) it.copy(displayName = name) else it }
     }
@@ -163,6 +166,31 @@ class SyncSettingsViewModelTest {
             cancelAndIgnoreRemainingEvents()
         }
         assertEquals("New Name", registry.renamedTo)
+    }
+
+    @Test
+    fun submitRenameSetsSavingBeforeRegistryCompletes() = runTest(testDispatcher) {
+        val registry = FakeRegistry(
+            initial = listOf(entry("self", name = "Old")),
+            renameDelayMs = 1_000L,
+        )
+        val settings = FakeAppSettings()
+        settings.putString(PrefKeys.DEVICE_NAME, "Old")
+        val vm = vm(registry = registry, settings = settings)
+
+        vm.state.test {
+            skipItems(1)
+            awaitSettled()
+            vm.onIntent(SyncSettingsIntent.StartRename)
+            assertTrue(awaitItem().isRenaming)
+            vm.onIntent(SyncSettingsIntent.RenameDraftChanged("New Name"))
+            assertEquals("New Name", awaitItem().renameDraft)
+            vm.onIntent(SyncSettingsIntent.SubmitRename)
+            var saving = awaitItem()
+            while (!saving.isRenameSaving) saving = awaitItem()
+            assertTrue(saving.isRenameSaving)
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
     @Test

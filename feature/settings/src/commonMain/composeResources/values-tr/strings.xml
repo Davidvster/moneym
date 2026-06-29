@@ -47,6 +47,7 @@
     <string name="settings_txdisplay_note">Not / açıklama</string>
     <string name="settings_txdisplay_daily_sums">Günlük toplamlar</string>
     <string name="settings_txdisplay_pending_recurring">Yaklaşan tekrarlayanları göster</string>
+    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
     <string name="settings_recurring_title">Tekrarlayan işlemler</string>
     <string name="settings_recurring_empty">Henüz tekrarlayan işlem yok.\nEklemek için bir işlem oluşturun ve tekrarlayan seçeneğini etkinleştirin ya da doğrudan tekrarlayan şablon oluşturmak için + öğesine dokunun.</string>
     <string name="settings_recurring_nav">Tekrarlayan işlemler</string>

@@ -16,6 +16,7 @@
     <string name="edit_category_error">Valitse kategoria</string>
     <string name="edit_save">Tallenna</string>
     <string name="edit_save_changes">Tallenna muutokset</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Lisää tapahtuma</string>
     <string name="edit_delete">Poista</string>
     <string name="edit_close">Sulje</string>

@@ -47,6 +47,7 @@
     <string name="settings_txdisplay_note">Notat / beskrivelse</string>
     <string name="settings_txdisplay_daily_sums">Daglige totaler</string>
     <string name="settings_txdisplay_pending_recurring">Vis kommende gjentakende</string>
+    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
     <string name="settings_recurring_title">Gjentakende transaksjoner</string>
     <string name="settings_recurring_empty">Ingen gjentakende transaksjoner ennå.\nFor å legge til en, opprett en transaksjon og aktiver det gjentakende alternativet, eller trykk + for å opprette en gjentakende mal direkte.</string>
     <string name="settings_recurring_nav">Gjentakende transaksjoner</string>

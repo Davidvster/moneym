@@ -130,6 +130,7 @@ class TransactionEditViewModel(
                         val defaultAcc = accs.firstOrNull { it.isDefault } ?: accs.firstOrNull()
                         val withReferences = s.copy(
                             availableCategories = cats,
+                            visibleCategories = cats.filter { it.type == s.type },
                             availableAccounts = accs,
                             selectedAccountId = s.selectedAccountId ?: defaultAcc?.id,
                             // For new transactions, pre-select the first category if none selected yet
@@ -156,6 +157,7 @@ class TransactionEditViewModel(
                             amountText = txn.amount.minorUnits.toAmountText(),
                             date = txn.occurredOn,
                             selectedCategoryId = txn.categoryId,
+                            visibleCategories = s.availableCategories.filter { it.type == txn.type },
                             selectedAccountId = txn.accountId,
                             note = txn.note ?: "",
                             selectedPaymentModeId = txn.paymentModeId,
@@ -214,7 +216,8 @@ class TransactionEditViewModel(
             is TransactionEditIntent.TypeChanged -> _state.update {
                 it.copy(
                     type = intent.type,
-                    selectedCategoryId = null
+                    selectedCategoryId = null,
+                    visibleCategories = it.availableCategories.filter { category -> category.type == intent.type },
                 )
             }
 
@@ -280,6 +283,7 @@ class TransactionEditViewModel(
                 _state.update { it.copy(selectedPaymentModeId = intent.id) }
 
             TransactionEditIntent.SaveRequested -> save()
+            TransactionEditIntent.SaveAsNewRequested -> save(existingIdOverride = null)
             TransactionEditIntent.DeleteRequested -> _state.update { it.copy(showDeleteConfirm = true) }
             TransactionEditIntent.DeleteConfirmed -> delete()
             TransactionEditIntent.DeleteCancelled -> _state.update { it.copy(showDeleteConfirm = false) }
@@ -387,9 +391,13 @@ class TransactionEditViewModel(
     }
 
     private fun save() {
+        save(existingIdOverride = _state.value.existingId)
+    }
+
+    private fun save(existingIdOverride: TransactionId?) {
         val s = _state.value
         val outcome = validateAndBuildTransaction(
-            existingId = s.existingId,
+            existingId = existingIdOverride,
             type = s.type,
             amountText = s.amountText,
             date = s.date,
@@ -454,7 +462,7 @@ class TransactionEditViewModel(
                         }
                     }
                     _state.update { it.copy(isSaving = false) }
-                    if (isNewTransaction && saved.date != null) {
+                    if (existingIdOverride == null && saved.date != null) {
                         transactionSavedSignal.notifySaved(saved.date)
                     }
                     _effects.send(TransactionEditEffect.Saved)
@@ -488,6 +496,7 @@ class TransactionEditViewModel(
             isToday = draftDate == today,
             note = draft.note.orEmpty(),
             selectedAccountId = accountId,
+            visibleCategories = availableCategories.filter { it.type == draftType },
             selectedCategoryId = draft.categoryId?.let { CategoryId(it) }
                 ?: selectedCategoryId
                 ?: availableCategories.firstOrNull { it.type == draftType }?.id,
@@ -523,4 +532,3 @@ private fun Long.toAmountText(): String {
     val cents = abs % 100
     return "$major.${cents.toString().padStart(2, '0')}"
 }
-

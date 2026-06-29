@@ -141,6 +141,25 @@ class CategoryListViewModelTest {
     }
 
     @Test
+    fun stateIncludesTransactionCountsByCategory() = runTestWithDispatchers(testDispatcher) {
+        catRepo.addAll(listOf(makeCategory(1), makeCategory(2)))
+        txnRepo.addAll(
+            listOf(
+                makeTransaction(categoryId = 1),
+                makeTransaction(categoryId = 1),
+                makeTransaction(categoryId = 2),
+            ),
+        )
+        vm().state.test {
+            var state = awaitItem()
+            while (state.isLoading || state.transactionCountsByCategoryId.isEmpty()) state = awaitItem()
+            assertEquals(2, state.transactionCountsByCategoryId[CategoryId(1)])
+            assertEquals(1, state.transactionCountsByCategoryId[CategoryId(2)])
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
     fun confirmDeleteAllRemovesCategoryAndTransactions() = runTestWithDispatchers(testDispatcher) {
         catRepo.addAll(listOf(makeCategory(1)))
         txnRepo.addAll(listOf(makeTransaction(categoryId = 1)))

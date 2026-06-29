@@ -165,7 +165,11 @@ private fun RenameCard(
         if (state.isRenaming) {
             MmField(
                 value = state.renameDraft,
-                onValueChange = { onIntent(SyncSettingsIntent.RenameDraftChanged(it)) },
+                onValueChange = {
+                    if (!state.isRenameSaving) {
+                        onIntent(SyncSettingsIntent.RenameDraftChanged(it))
+                    }
+                },
                 label = stringResource(Res.string.sync_settings_rename_label),
             )
             Row(
@@ -176,12 +180,22 @@ private fun RenameCard(
                     text = stringResource(Res.string.sync_settings_rename_save),
                     onClick = { onIntent(SyncSettingsIntent.SubmitRename) },
                     size = MmButtonSize.Sm,
+                    enabled = !state.isRenameSaving,
                 )
+                if (state.isRenameSaving) {
+                    Box(
+                        modifier = Modifier.size(MM.dimen.padding_4x),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        MmLoadingSpinner(modifier = Modifier.size(MM.dimen.iconLg))
+                    }
+                }
                 MmButton(
                     text = stringResource(Res.string.sync_settings_rename_cancel),
                     onClick = { onIntent(SyncSettingsIntent.CancelRename) },
                     variant = MmButtonVariant.Outline,
                     size = MmButtonSize.Sm,
+                    enabled = !state.isRenameSaving,
                 )
             }
         } else {

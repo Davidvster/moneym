@@ -4,6 +4,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -37,6 +38,7 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 @Composable
 internal fun DraggableCategoryList(
     categories: List<Category>,
+    transactionCountsByCategoryId: Map<CategoryId, Int>,
     onReorder: (List<Category>) -> Unit,
     onCategoryClick: (Category) -> Unit,
     modifier: Modifier = Modifier,
@@ -99,6 +101,11 @@ internal fun DraggableCategoryList(
                         color = colors.text,
                         modifier = Modifier.weight(1f),
                     )
+                    Text(
+                        text = (transactionCountsByCategoryId[cat.id] ?: 0).toString(),
+                        style = MM.type.caption.copy(color = colors.text3),
+                        modifier = Modifier.padding(end = MM.dimen.padding_1x),
+                    )
                     Icon(
                         imageVector = Icon.ChevronRight.imageVector,
                         contentDescription = null,
@@ -150,6 +157,7 @@ private fun DraggableCategoryListPreview() {
     MoneyMTheme {
         DraggableCategoryList(
             categories = categories,
+            transactionCountsByCategoryId = mapOf(CategoryId(1) to 3, CategoryId(2) to 0, CategoryId(3) to 8),
             onReorder = {},
             onCategoryClick = {},
             modifier = Modifier.fillMaxWidth().height(300.dp),

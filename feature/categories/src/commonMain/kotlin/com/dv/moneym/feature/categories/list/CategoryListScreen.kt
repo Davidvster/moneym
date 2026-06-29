@@ -129,12 +129,14 @@ private fun ManageCategoriesScreen(
             if (showArchived) {
                 ArchivedCategoryList(
                     categories = state.archived,
+                    transactionCountsByCategoryId = state.transactionCountsByCategoryId,
                     onCategoryClick = { cat -> onIntent(CategoryListIntent.OpenDeleteOptions(cat)) },
                     modifier = Modifier.weight(1f),
                 )
             } else {
                 DraggableCategoryList(
                     categories = categories,
+                    transactionCountsByCategoryId = state.transactionCountsByCategoryId,
                     onReorder = { ordered ->
                         onIntent(CategoryListIntent.Reorder(ordered.map { it.id }))
                     },
@@ -330,6 +332,7 @@ private fun NewCategorySheet(
 @Composable
 private fun ArchivedCategoryList(
     categories: List<Category>,
+    transactionCountsByCategoryId: Map<CategoryId, Int>,
     onCategoryClick: (Category) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -352,6 +355,11 @@ private fun ArchivedCategoryList(
                     style = MM.type.body,
                     color = colors.text2,
                     modifier = Modifier.weight(1f),
+                )
+                Text(
+                    text = (transactionCountsByCategoryId[cat.id] ?: 0).toString(),
+                    style = MM.type.caption.copy(color = colors.text3),
+                    modifier = Modifier.padding(end = MM.dimen.padding_1x),
                 )
                 Icon(
                     imageVector = Icon.ChevronRight.imageVector,
@@ -453,6 +461,7 @@ private fun ManageCategoriesScreenPreview() {
                 isLoading = false,
                 active = sample,
                 orderedCategories = sample,
+                transactionCountsByCategoryId = mapOf(CategoryId(1) to 4, CategoryId(2) to 0),
             ),
             onBack = {},
             onIntent = {},

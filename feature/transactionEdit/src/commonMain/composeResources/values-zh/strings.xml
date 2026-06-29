@@ -16,6 +16,7 @@
     <string name="edit_category_error">请选择类别</string>
     <string name="edit_save">保存</string>
     <string name="edit_save_changes">保存更改</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">添加交易</string>
     <string name="edit_delete">删除</string>
     <string name="edit_close">关闭</string>

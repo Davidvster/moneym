@@ -16,6 +16,7 @@
     <string name="edit_category_error">Velg en kategori</string>
     <string name="edit_save">Lagre</string>
     <string name="edit_save_changes">Lagre endringer</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Legg til transaksjon</string>
     <string name="edit_delete">Slett</string>
     <string name="edit_close">Lukk</string>

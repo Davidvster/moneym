@@ -16,6 +16,7 @@
     <string name="edit_category_error">Vælg en kategori</string>
     <string name="edit_save">Gem</string>
     <string name="edit_save_changes">Gem ændringer</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Tilføj transaktion</string>
     <string name="edit_delete">Slet</string>
     <string name="edit_close">Luk</string>

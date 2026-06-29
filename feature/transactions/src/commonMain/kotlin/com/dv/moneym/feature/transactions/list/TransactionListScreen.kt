@@ -62,6 +62,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
@@ -348,6 +349,7 @@ private fun TransactionListContent(
             onNavigateToPendingDeletions = onNavigateToPendingDeletions,
             onNavigateToWalletSuggestions = onNavigateToWalletSuggestions,
             onOpenSyncSheet = { onIntent(TransactionListIntent.ShowSyncSheet(true)) },
+            visible = state.txDisplayPrefs.showSyncSuggestionBanner,
         )
 
         HorizontalPager(
@@ -382,6 +384,7 @@ private fun SyncActionButton(
     isSyncInProgress: Boolean,
     hasSyncConflict: Boolean,
     hasSyncFailure: Boolean,
+    attentionCount: Int,
     onClick: () -> Unit,
 ) {
     val colors = MM.colors
@@ -397,8 +400,9 @@ private fun SyncActionButton(
         }
     }
 
+    val hasAttention = attentionCount > 0
     val target = when {
-        hasSyncConflict -> SyncVisual.Conflict
+        hasAttention -> SyncVisual.Conflict
         hasSyncFailure -> SyncVisual.Failed
         isSyncInProgress -> SyncVisual.Syncing
         showSynced -> SyncVisual.Synced
@@ -435,7 +439,6 @@ private fun SyncActionButton(
                 )
 
                 SyncVisual.Conflict -> {
-                    // Gentle pulse to draw the eye to the actionable conflict state.
                     val pulse = rememberInfiniteTransition(label = "conflictPulse")
                     val scale by pulse.animateFloat(
                         initialValue = 1f,
@@ -446,14 +449,36 @@ private fun SyncActionButton(
                         ),
                         label = "conflictScale",
                     )
-                    Icon(
-                        imageVector = Icon.Warning.imageVector,
-                        contentDescription = stringResource(Res.string.transactions_sync_paused),
-                        tint = colors.warning,
-                        modifier = Modifier
-                            .size(MM.dimen.icon_1x)
-                            .graphicsLayer { scaleX = scale; scaleY = scale },
-                    )
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            imageVector = Icon.Warning.imageVector,
+                            contentDescription = stringResource(Res.string.transactions_sync_paused),
+                            tint = colors.warning,
+                            modifier = Modifier
+                                .size(MM.dimen.icon_1x)
+                                .graphicsLayer { scaleX = scale; scaleY = scale },
+                        )
+                        Text(
+                            text = "!",
+                            style = MM.type.micro.copy(fontSize = 8.sp),
+                            color = colors.bg,
+                            modifier = Modifier.padding(top = 1.dp),
+                        )
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .clip(CircleShape)
+                                .background(colors.danger)
+                                .padding(horizontal = 3.dp, vertical = 1.dp),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Text(
+                                text = attentionCount.coerceAtMost(99).toString(),
+                                style = MM.type.micro.copy(fontSize = 8.sp),
+                                color = colors.bg,
+                            )
+                        }
+                    }
                 }
 
                 SyncVisual.Failed -> Icon(
@@ -484,9 +509,11 @@ private fun SyncBanner(
     onNavigateToPendingDeletions: () -> Unit,
     onNavigateToWalletSuggestions: () -> Unit,
     onOpenSyncSheet: () -> Unit,
+    visible: Boolean,
 ) {
     val colors = MM.colors
     val type = MM.type
+    if (!visible) return
 
     AnimatedVisibility(visible = hasSyncConflict) {
         Row(
@@ -882,6 +909,7 @@ private fun TransactionListHeader(
                         isSyncInProgress = state.isSyncInProgress || state.isBankSyncing,
                         hasSyncConflict = state.hasSyncConflict,
                         hasSyncFailure = state.syncFailure != null || state.bankSyncFailure != null,
+                        attentionCount = state.syncAttentionCount,
                         onClick = onOpenSyncSheet,
                     )
                 }
@@ -1280,6 +1308,7 @@ private fun WalletSyncBannerPreview() {
             onNavigateToPendingDeletions = {},
             onNavigateToWalletSuggestions = {},
             onOpenSyncSheet = {},
+            visible = true,
         )
     }
 }

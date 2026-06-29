@@ -16,6 +16,7 @@
     <string name="edit_category_error">カテゴリを選択してください</string>
     <string name="edit_save">保存</string>
     <string name="edit_save_changes">変更を保存</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">取引を追加</string>
     <string name="edit_delete">削除</string>
     <string name="edit_close">閉じる</string>

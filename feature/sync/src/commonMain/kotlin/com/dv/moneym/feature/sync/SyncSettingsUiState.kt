@@ -16,6 +16,7 @@ data class SyncSettingsUiState(
     val crossDeviceSyncEnabled: Boolean = false,
     val thisDeviceName: String = "",
     val isRenaming: Boolean = false,
+    val isRenameSaving: Boolean = false,
     val renameDraft: String = "",
     val devices: List<DeviceRow> = emptyList(),
     val removingIds: Set<String> = emptySet(),

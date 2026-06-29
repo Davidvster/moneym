@@ -16,6 +16,7 @@
     <string name="edit_category_error">Chọn một danh mục</string>
     <string name="edit_save">Lưu</string>
     <string name="edit_save_changes">Lưu thay đổi</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Thêm giao dịch</string>
     <string name="edit_delete">Xóa</string>
     <string name="edit_close">Đóng</string>

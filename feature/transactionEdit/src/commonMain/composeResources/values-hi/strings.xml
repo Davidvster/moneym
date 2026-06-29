@@ -16,6 +16,7 @@
     <string name="edit_category_error">श्रेणी चुनें</string>
     <string name="edit_save">सहेजें</string>
     <string name="edit_save_changes">बदलाव सहेजें</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">लेन-देन जोड़ें</string>
     <string name="edit_delete">हटाएँ</string>
     <string name="edit_close">बंद करें</string>

@@ -47,6 +47,7 @@
     <string name="settings_txdisplay_note">Notitie / beschrijving</string>
     <string name="settings_txdisplay_daily_sums">Dagelijkse totalen</string>
     <string name="settings_txdisplay_pending_recurring">Komende terugkerende tonen</string>
+    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
     <string name="settings_recurring_title">Terugkerende transacties</string>
     <string name="settings_recurring_empty">Nog geen terugkerende transacties.\nVoeg er een toe door een transactie te maken en de terugkerende optie in te schakelen, of tik op + om rechtstreeks een terugkerend sjabloon te maken.</string>
     <string name="settings_recurring_nav">Terugkerende transacties</string>

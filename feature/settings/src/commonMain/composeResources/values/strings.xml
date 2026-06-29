@@ -47,6 +47,7 @@
     <string name="settings_txdisplay_note">Note / description</string>
     <string name="settings_txdisplay_daily_sums">Daily totals</string>
     <string name="settings_txdisplay_pending_recurring">Show upcoming recurring</string>
+    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
     <string name="settings_recurring_title">Recurring transactions</string>
     <string name="settings_recurring_empty">No recurring transactions yet.\nTo add one, create a transaction and enable the recurring option, or tap + to create a recurring template directly.</string>
     <string name="settings_recurring_nav">Recurring transactions</string>

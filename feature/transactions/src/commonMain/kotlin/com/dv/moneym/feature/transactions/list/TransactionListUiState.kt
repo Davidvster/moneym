@@ -30,6 +30,7 @@ internal data class TransactionListUiState(
     val currentMonth: YearMonth? = null,
     val activeFilter: TransactionFilter = TransactionFilter.None,
     val availableCategories: List<Category> = emptyList(),
+    val txDisplayPrefs: TxDisplayPrefs = TxDisplayPrefs(),
     val netAmount: Long = 0L,
     val totalIncome: Long = 0L,
     val totalExpenses: Long = 0L,
@@ -65,6 +66,7 @@ internal data class TransactionListUiState(
     val bankLastSyncedMs: Long = 0L,
     val isWalletSyncEnabled: Boolean = false,
     val walletPendingCount: Int = 0,
+    val syncAttentionCount: Int = 0,
 )
 
 @Serializable

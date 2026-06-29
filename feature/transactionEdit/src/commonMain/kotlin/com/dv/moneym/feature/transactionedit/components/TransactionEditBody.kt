@@ -139,7 +139,7 @@ internal fun TransactionEditScrollBody(
         }
         Spacer(Modifier.height(MM.dimen.padding_3x))
         CategoryPicker(
-            categories = state.availableCategories.filter { it.type == state.type },
+            categories = state.visibleCategories,
             selectedCategoryId = state.selectedCategoryId,
             categoryError = state.categoryError,
             onCategorySelected = { onIntent(TransactionEditIntent.CategorySelected(it)) },
@@ -297,6 +297,7 @@ private fun TransactionEditScrollBodyPreview() {
                 date = LocalDate(2026, 6, 10),
                 isToday = true,
                 selectedCategoryId = categories.first().id,
+                visibleCategories = categories.take(1),
                 selectedAccountId = accounts.first().id,
                 note = "Weekly shopping",
                 noteSuggestions = listOf("Groceries", "Supermarket"),
@@ -314,4 +315,3 @@ private fun TransactionEditScrollBodyPreview() {
         )
     }
 }
-

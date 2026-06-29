@@ -16,6 +16,7 @@
     <string name="edit_category_error">Välj en kategori</string>
     <string name="edit_save">Spara</string>
     <string name="edit_save_changes">Spara ändringar</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Lägg till transaktion</string>
     <string name="edit_delete">Radera</string>
     <string name="edit_close">Stäng</string>

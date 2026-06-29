@@ -27,6 +27,7 @@ object PrefKeys {
     const val TX_SHOW_NOTE = "pref.tx_show_note"
     const val TX_DENSITY = "pref.tx_density"
     const val TX_SHOW_DAILY_SUMS = "tx_show_daily_sums"
+    const val TX_SHOW_SYNC_SUGGESTION_BANNER = "pref.tx_show_sync_suggestion_banner"
 
     // User last-selected settings (persisted across sessions)
     const val TX_LAST_FILTER = "pref.tx_last_filter"

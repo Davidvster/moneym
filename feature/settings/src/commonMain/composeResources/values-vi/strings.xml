@@ -47,6 +47,7 @@
     <string name="settings_txdisplay_note">Ghi chú / mô tả</string>
     <string name="settings_txdisplay_daily_sums">Tổng hàng ngày</string>
     <string name="settings_txdisplay_pending_recurring">Hiện định kỳ sắp tới</string>
+    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
     <string name="settings_recurring_title">Giao dịch định kỳ</string>
     <string name="settings_recurring_empty">Chưa có giao dịch định kỳ.\nĐể thêm, tạo giao dịch và bật tùy chọn định kỳ, hoặc nhấn + để tạo mẫu định kỳ trực tiếp.</string>
     <string name="settings_recurring_nav">Giao dịch định kỳ</string>

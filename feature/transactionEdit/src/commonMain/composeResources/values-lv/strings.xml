@@ -16,6 +16,7 @@
     <string name="edit_category_error">Izvēlieties kategoriju</string>
     <string name="edit_save">Saglabāt</string>
     <string name="edit_save_changes">Saglabāt izmaiņas</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Pievienot darījumu</string>
     <string name="edit_delete">Dzēst</string>
     <string name="edit_close">Aizvērt</string>

@@ -16,6 +16,7 @@
     <string name="edit_category_error">Выберите категорию</string>
     <string name="edit_save">Сохранить</string>
     <string name="edit_save_changes">Сохранить изменения</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Добавить транзакцию</string>
     <string name="edit_delete">Удалить</string>
     <string name="edit_close">Закрыть</string>

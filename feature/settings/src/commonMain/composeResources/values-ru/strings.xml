@@ -47,6 +47,7 @@
     <string name="settings_txdisplay_note">Заметка / описание</string>
     <string name="settings_txdisplay_daily_sums">Дневные итоги</string>
     <string name="settings_txdisplay_pending_recurring">Показывать предстоящие повторяющиеся</string>
+    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
     <string name="settings_recurring_title">Повторяющиеся транзакции</string>
     <string name="settings_recurring_empty">Повторяющихся транзакций пока нет.\nЧтобы добавить, создайте транзакцию и включите опцию повторения или нажмите +, чтобы создать шаблон напрямую.</string>
     <string name="settings_recurring_nav">Повторяющиеся транзакции</string>

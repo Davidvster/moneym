@@ -47,6 +47,7 @@
     <string name="settings_txdisplay_note">Notering / beskrivning</string>
     <string name="settings_txdisplay_daily_sums">Dagliga summor</string>
     <string name="settings_txdisplay_pending_recurring">Visa kommande återkommande</string>
+    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
     <string name="settings_recurring_title">Återkommande transaktioner</string>
     <string name="settings_recurring_empty">Inga återkommande transaktioner ännu.\nFör att lägga till en, skapa en transaktion och aktivera alternativet för återkommande, eller tryck på + för att skapa en återkommande mall direkt.</string>
     <string name="settings_recurring_nav">Återkommande transaktioner</string>

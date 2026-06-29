@@ -45,7 +45,11 @@ class SyncSettingsViewModel(
             SyncSettingsIntent.StartRename -> startRename()
             is SyncSettingsIntent.RenameDraftChanged -> _state.update { it.copy(renameDraft = intent.value) }
             SyncSettingsIntent.SubmitRename -> submitRename()
-            SyncSettingsIntent.CancelRename -> _state.update { it.copy(isRenaming = false) }
+            SyncSettingsIntent.CancelRename -> {
+                if (!_state.value.isRenameSaving) {
+                    _state.update { it.copy(isRenaming = false) }
+                }
+            }
             is SyncSettingsIntent.RemoveDevice -> removeDevice(intent.id)
             SyncSettingsIntent.Refresh -> refresh()
         }
@@ -102,15 +106,28 @@ class SyncSettingsViewModel(
     }
 
     private fun submitRename() {
+        if (_state.value.isRenameSaving) return
         val draft = _state.value.renameDraft.trim()
         if (draft.isEmpty()) {
             _state.update { it.copy(isRenaming = false) }
             return
         }
+        _state.update { it.copy(isRenameSaving = true) }
         viewModelScope.launch {
-            registry.rename(draft)
-            _state.update { it.copy(isRenaming = false) }
-            refresh()
+            try {
+                registry.rename(draft)
+                _state.update {
+                    it.copy(
+                        isRenaming = false,
+                        isRenameSaving = false,
+                        thisDeviceName = draft,
+                    )
+                }
+                refresh()
+            } catch (t: Throwable) {
+                _state.update { it.copy(isRenameSaving = false) }
+                throw t
+            }
         }
     }
 

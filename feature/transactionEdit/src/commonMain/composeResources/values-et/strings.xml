@@ -16,6 +16,7 @@
     <string name="edit_category_error">Vali kategooria</string>
     <string name="edit_save">Salvesta</string>
     <string name="edit_save_changes">Salvesta muudatused</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Lisa tehing</string>
     <string name="edit_delete">Kustuta</string>
     <string name="edit_close">Sulge</string>

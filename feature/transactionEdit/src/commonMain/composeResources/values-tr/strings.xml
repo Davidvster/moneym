@@ -16,6 +16,7 @@
     <string name="edit_category_error">Bir kategori seçin</string>
     <string name="edit_save">Kaydet</string>
     <string name="edit_save_changes">Değişiklikleri kaydet</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">İşlem ekle</string>
     <string name="edit_delete">Sil</string>
     <string name="edit_close">Kapat</string>

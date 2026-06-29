@@ -61,6 +61,7 @@ import moneym.feature.settings.generated.resources.settings_txdisplay_pending_re
 import moneym.feature.settings.generated.resources.settings_txdisplay_note
 import moneym.feature.settings.generated.resources.settings_txdisplay_preview
 import moneym.feature.settings.generated.resources.settings_txdisplay_show
+import moneym.feature.settings.generated.resources.settings_txdisplay_sync_suggestions
 import moneym.feature.settings.generated.resources.settings_txdisplay_style_bar
 import moneym.feature.settings.generated.resources.settings_txdisplay_style_dot
 import moneym.feature.settings.generated.resources.settings_txdisplay_style_minimal
@@ -470,6 +471,29 @@ private fun ExtraShowOptions(
             MmToggle(
                 checked = currentPrefs.showDailySums,
                 onCheckedChange = { onPrefsChanged(currentPrefs.copy(showDailySums = !currentPrefs.showDailySums)) },
+            )
+        }
+        MmRow(
+            divider = true,
+            onClick = {
+                onPrefsChanged(
+                    currentPrefs.copy(showSyncSuggestionBanner = !currentPrefs.showSyncSuggestionBanner)
+                )
+            },
+        ) {
+            Text(
+                stringResource(Res.string.settings_txdisplay_sync_suggestions),
+                style = MM.type.body,
+                color = MM.colors.text,
+                modifier = Modifier.weight(1f),
+            )
+            MmToggle(
+                checked = currentPrefs.showSyncSuggestionBanner,
+                onCheckedChange = {
+                    onPrefsChanged(
+                        currentPrefs.copy(showSyncSuggestionBanner = !currentPrefs.showSyncSuggestionBanner)
+                    )
+                },
             )
         }
         MmRow(

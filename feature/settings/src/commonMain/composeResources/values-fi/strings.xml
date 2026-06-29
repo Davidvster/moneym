@@ -47,6 +47,7 @@
     <string name="settings_txdisplay_note">Muistiinpano / kuvaus</string>
     <string name="settings_txdisplay_daily_sums">Päivittäiset summat</string>
     <string name="settings_txdisplay_pending_recurring">Näytä tulevat toistuvat</string>
+    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
     <string name="settings_recurring_title">Toistuvat tapahtumat</string>
     <string name="settings_recurring_empty">Ei vielä toistuvia tapahtumia.\nLisätäksesi yhden, luo tapahtuma ja ota toistuva-asetus käyttöön tai napauta + luodaksesi toistuvan mallin suoraan.</string>
     <string name="settings_recurring_nav">Toistuvat tapahtumat</string>

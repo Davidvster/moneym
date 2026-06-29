@@ -16,6 +16,7 @@
     <string name="edit_category_error">Vyberte kategóriu</string>
     <string name="edit_save">Uložiť</string>
     <string name="edit_save_changes">Uložiť zmeny</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Pridať transakciu</string>
     <string name="edit_delete">Odstrániť</string>
     <string name="edit_close">Zatvoriť</string>

@@ -16,6 +16,7 @@
     <string name="edit_category_error">Selecione uma categoria</string>
     <string name="edit_save">Guardar</string>
     <string name="edit_save_changes">Guardar alterações</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Adicionar transação</string>
     <string name="edit_delete">Eliminar</string>
     <string name="edit_close">Fechar</string>

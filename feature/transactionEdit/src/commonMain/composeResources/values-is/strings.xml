@@ -16,6 +16,7 @@
     <string name="edit_category_error">Veldu flokk</string>
     <string name="edit_save">Vista</string>
     <string name="edit_save_changes">Vista breytingar</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Bæta við færslu</string>
     <string name="edit_delete">Eyða</string>
     <string name="edit_close">Loka</string>

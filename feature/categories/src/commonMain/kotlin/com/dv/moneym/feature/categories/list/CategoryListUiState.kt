@@ -13,6 +13,7 @@ internal data class CategoryListUiState(
     val isLoading: Boolean = true,
     val active: List<Category> = emptyList(),
     val archived: List<Category> = emptyList(),
+    val transactionCountsByCategoryId: Map<CategoryId, Int> = emptyMap(),
     val showArchived: Boolean = false,
     val activeTab: CategoryTab = CategoryTab.Expense,
     val orderedCategories: List<Category> = emptyList(),

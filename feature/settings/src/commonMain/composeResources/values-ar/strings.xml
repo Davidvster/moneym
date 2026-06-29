@@ -47,6 +47,7 @@
     <string name="settings_txdisplay_note">ملاحظة / وصف</string>
     <string name="settings_txdisplay_daily_sums">الإجماليات اليومية</string>
     <string name="settings_txdisplay_pending_recurring">عرض المتكررة القادمة</string>
+    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
     <string name="settings_recurring_title">المعاملات المتكررة</string>
     <string name="settings_recurring_empty">لا توجد معاملات متكررة بعد.\nلإضافة واحدة، أنشئ معاملة وفعّل خيار التكرار، أو اضغط + لإنشاء قالب متكرر مباشرة.</string>
     <string name="settings_recurring_nav">المعاملات المتكررة</string>

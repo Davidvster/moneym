@@ -171,6 +171,9 @@ private fun TransactionEditContent(
             isEditMode = state.isEditMode,
             isSaving = state.isSaving,
             onSave = { onIntent(TransactionEditIntent.SaveRequested) },
+            onSaveAsNew = if (state.isEditMode) {
+                { onIntent(TransactionEditIntent.SaveAsNewRequested) }
+            } else null,
         )
     }
 }
@@ -205,6 +208,7 @@ internal fun StoreTransactionEditPreview() {
                     date = LocalDate(2026, 5, 26),
                     isToday = false,
                     selectedCategoryId = CategoryId(1),
+                    visibleCategories = categories,
                     selectedAccountId = AccountId(1),
                     note = "Weekly groceries",
                     availableCategories = categories,

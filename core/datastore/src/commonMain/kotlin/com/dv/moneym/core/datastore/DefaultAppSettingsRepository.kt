@@ -58,8 +58,10 @@ class DefaultAppSettingsRepository(
             }
         val showDailySumsFlow = appSettings
             .observeBoolean(PrefKeys.TX_SHOW_DAILY_SUMS, true)
+        val showSyncSuggestionBannerFlow = appSettings
+            .observeBoolean(PrefKeys.TX_SHOW_SYNC_SUGGESTION_BANNER, true)
 
-        return combine(
+        val basePrefsFlow = combine(
             indicatorFlow,
             showCategoryFlow,
             showNoteFlow,
@@ -74,6 +76,9 @@ class DefaultAppSettingsRepository(
                 showDailySums = showDailySums,
             )
         }
+        return combine(basePrefsFlow, showSyncSuggestionBannerFlow) { prefs, showSyncSuggestionBanner ->
+            prefs.copy(showSyncSuggestionBanner = showSyncSuggestionBanner)
+        }
     }
 
     override suspend fun setTxDisplayPrefs(prefs: TxDisplayPrefs) {
@@ -82,6 +87,7 @@ class DefaultAppSettingsRepository(
         appSettings.putBoolean(PrefKeys.TX_SHOW_NOTE, prefs.showNote)
         appSettings.putString(PrefKeys.TX_DENSITY, prefs.density.name)
         appSettings.putBoolean(PrefKeys.TX_SHOW_DAILY_SUMS, prefs.showDailySums)
+        appSettings.putBoolean(PrefKeys.TX_SHOW_SYNC_SUGGESTION_BANNER, prefs.showSyncSuggestionBanner)
     }
 
     override fun observeLanguage(): Flow<String> =

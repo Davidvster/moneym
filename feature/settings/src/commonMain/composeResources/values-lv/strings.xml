@@ -47,6 +47,7 @@
     <string name="settings_txdisplay_note">Piezīme / apraksts</string>
     <string name="settings_txdisplay_daily_sums">Dienas kopsummas</string>
     <string name="settings_txdisplay_pending_recurring">Rādīt gaidāmos atkārtotos</string>
+    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
     <string name="settings_recurring_title">Atkārtotie darījumi</string>
     <string name="settings_recurring_empty">Vēl nav atkārtotu darījumu.\nLai pievienotu vienu, izveidojiet darījumu un iespējojiet atkārtošanās opciju vai nospiediet +, lai tieši izveidotu atkārtotu veidni.</string>
     <string name="settings_recurring_nav">Atkārtotie darījumi</string>

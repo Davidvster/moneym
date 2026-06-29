@@ -16,6 +16,7 @@
     <string name="edit_category_error">Избери категорија</string>
     <string name="edit_save">Зачувај</string>
     <string name="edit_save_changes">Зачувај промени</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Додај трансакција</string>
     <string name="edit_delete">Избриши</string>
     <string name="edit_close">Затвори</string>

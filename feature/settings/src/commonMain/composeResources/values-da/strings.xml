@@ -47,6 +47,7 @@
     <string name="settings_txdisplay_note">Note / beskrivelse</string>
     <string name="settings_txdisplay_daily_sums">Daglige totaler</string>
     <string name="settings_txdisplay_pending_recurring">Vis kommende tilbagevendende</string>
+    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
     <string name="settings_recurring_title">Tilbagevendende transaktioner</string>
     <string name="settings_recurring_empty">Ingen tilbagevendende transaktioner endnu.\nFor at tilføje en skal du oprette en transaktion og aktivere den tilbagevendende indstilling, eller tryk på + for at oprette en tilbagevendende skabelon direkte.</string>
     <string name="settings_recurring_nav">Tilbagevendende transaktioner</string>

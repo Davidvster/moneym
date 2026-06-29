@@ -18,6 +18,7 @@ internal sealed interface TransactionEditIntent {
     data class NoteSelected(val note: String) : TransactionEditIntent
     data class PaymentModeSelected(val id: PaymentModeId?) : TransactionEditIntent
     data object SaveRequested : TransactionEditIntent
+    data object SaveAsNewRequested : TransactionEditIntent
     data object DeleteRequested : TransactionEditIntent
     data object DeleteConfirmed : TransactionEditIntent
     data object DeleteCancelled : TransactionEditIntent

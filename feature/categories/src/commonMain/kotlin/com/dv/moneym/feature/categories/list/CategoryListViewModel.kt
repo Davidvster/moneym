@@ -65,19 +65,24 @@ class CategoryListViewModel(
 
     internal val state: StateFlow<CategoryListUiState> = combine(
         categoryRepository.observeAll(),
+        transactionRepository.observeAll(),
         _showArchived,
         _activeTab,
         _transient,
-    ) { categories, showArchived, tab, t ->
+    ) { categories, transactions, showArchived, tab, t ->
         val tabType =
             if (tab == CategoryTab.Expense) TransactionType.EXPENSE else TransactionType.INCOME
         val active = categories.filter { !it.archived && it.type == tabType }
         val archived = categories.filter { it.archived && it.type == tabType }
+        val transactionCountsByCategoryId = transactions
+            .groupingBy { it.categoryId }
+            .eachCount()
 
         CategoryListUiState(
             isLoading = false,
             active = active,
             archived = archived,
+            transactionCountsByCategoryId = transactionCountsByCategoryId,
             showArchived = showArchived,
             activeTab = tab,
             orderedCategories = active,

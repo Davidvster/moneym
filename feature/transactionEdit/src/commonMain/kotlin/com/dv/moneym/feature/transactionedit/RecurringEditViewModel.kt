@@ -221,7 +221,8 @@ class RecurringEditViewModel(
             is TransactionEditIntent.DateChanged,
             TransactionEditIntent.YesterdayTodayClicked,
             is TransactionEditIntent.NoteSelected,
-            is TransactionEditIntent.RecurringToggled -> Unit
+            is TransactionEditIntent.RecurringToggled,
+            TransactionEditIntent.SaveAsNewRequested -> Unit
         }
     }
 

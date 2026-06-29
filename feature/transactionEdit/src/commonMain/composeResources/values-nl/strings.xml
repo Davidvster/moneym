@@ -16,6 +16,7 @@
     <string name="edit_category_error">Selecteer een categorie</string>
     <string name="edit_save">Opslaan</string>
     <string name="edit_save_changes">Wijzigingen opslaan</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Transactie toevoegen</string>
     <string name="edit_delete">Verwijderen</string>
     <string name="edit_close">Sluiten</string>

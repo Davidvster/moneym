@@ -47,6 +47,7 @@
     <string name="settings_txdisplay_note">メモ / 説明</string>
     <string name="settings_txdisplay_daily_sums">日別合計</string>
     <string name="settings_txdisplay_pending_recurring">予定の繰り返しを表示</string>
+    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
     <string name="settings_recurring_title">定期取引</string>
     <string name="settings_recurring_empty">定期取引がまだありません。\n追加するには、取引を作成して繰り返しオプションを有効にするか、＋をタップして定期テンプレートを直接作成してください。</string>
     <string name="settings_recurring_nav">定期取引</string>

@@ -16,6 +16,7 @@
     <string name="edit_category_error">Pasirinkite kategoriją</string>
     <string name="edit_save">Išsaugoti</string>
     <string name="edit_save_changes">Išsaugoti pakeitimus</string>
+    <string name="edit_save_as_new">Save as new</string>
     <string name="edit_add_transaction">Pridėti operaciją</string>
     <string name="edit_delete">Ištrinti</string>
     <string name="edit_close">Uždaryti</string>
