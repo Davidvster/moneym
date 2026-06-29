@@ -278,4 +278,5 @@
     <string name="settings_export_date_ok">Aceptar</string>
     <string name="settings_export_date_clear">Borrar</string>
     <string name="settings_remote_error_title">Algo salió mal</string>
+    <string name="settings_app_info_footer">%1$s v%2$s</string>
 </resources>

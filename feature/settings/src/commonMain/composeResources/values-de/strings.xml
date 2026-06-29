@@ -278,4 +278,5 @@
     <string name="settings_export_date_ok">OK</string>
     <string name="settings_export_date_clear">Löschen</string>
     <string name="settings_remote_error_title">Etwas ist schiefgelaufen</string>
+    <string name="settings_app_info_footer">%1$s v%2$s</string>
 </resources>

@@ -268,4 +268,5 @@
     <string name="settings_export_date_ok">OK</string>
     <string name="settings_export_date_clear">Ryd</string>
     <string name="settings_remote_error_title">Noget gik galt</string>
+    <string name="settings_app_info_footer">%1$s v%2$s</string>
 </resources>

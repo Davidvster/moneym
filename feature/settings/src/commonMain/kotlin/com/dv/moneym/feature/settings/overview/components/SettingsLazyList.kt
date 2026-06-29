@@ -51,6 +51,7 @@ internal fun SettingsLazyList(
     onNavigateToBackupRestore: () -> Unit,
     onNavigateToAbout: () -> Unit,
     onShowLockPicker: () -> Unit,
+    appInfoLabel: String,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -178,7 +179,7 @@ internal fun SettingsLazyList(
         }
         item(key = SettingsItem.VERSION.name) {
             Text(
-                text = "MoneyM v1.0.0",
+                text = appInfoLabel,
                 style = type.captionMono.copy(color = colors.text3),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth().padding(space.padding_3x),

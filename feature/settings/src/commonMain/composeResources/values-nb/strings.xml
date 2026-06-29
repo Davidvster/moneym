@@ -268,4 +268,5 @@
     <string name="settings_export_date_ok">OK</string>
     <string name="settings_export_date_clear">Tøm</string>
     <string name="settings_remote_error_title">Noe gikk galt</string>
+    <string name="settings_app_info_footer">%1$s v%2$s</string>
 </resources>

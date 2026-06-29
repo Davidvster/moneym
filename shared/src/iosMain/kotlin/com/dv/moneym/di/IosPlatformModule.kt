@@ -18,6 +18,7 @@ import com.dv.moneym.data.budgets.createBudgetsDatabase
 import com.dv.moneym.data.categories.createCategoriesDatabase
 import com.dv.moneym.data.transactions.createTransactionsDatabase
 import com.dv.moneym.locale.IosLocaleController
+import com.dv.moneym.platform.AppInfo
 import com.dv.moneym.platform.DbPlatform
 import com.dv.moneym.platform.FilePlatform
 import com.dv.moneym.platform.InstalledAppsProvider
@@ -40,6 +41,7 @@ fun iosPlatformModule() = module {
     single<SecureStore> { IosSecureStore() }
     single<BiometricAuthenticator> { BiometricAuthenticatorImpl() }
     single<LocaleController> { IosLocaleController() }
+    single { AppInfo() }
     single { FilePlatform() }
     single { DbPlatform() }
     single<AiEngine>(named("appleIntelligence")) { IosFoundationModelsAiEngine() }

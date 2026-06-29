@@ -268,4 +268,5 @@
     <string name="settings_export_date_ok">Labi</string>
     <string name="settings_export_date_clear">Notīrīt</string>
     <string name="settings_remote_error_title">Kaut kas nogāja greizi</string>
+    <string name="settings_app_info_footer">%1$s v%2$s</string>
 </resources>

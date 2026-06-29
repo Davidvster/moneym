@@ -21,6 +21,7 @@ import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.ThemeMode
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
+import com.dv.moneym.platform.AppInfo
 import com.dv.moneym.feature.settings.overview.components.LockTimeoutPickerDialog
 import com.dv.moneym.feature.settings.overview.components.SettingsLazyList
 import com.dv.moneym.feature.settings.overview.components.ThemePickerSheet
@@ -31,8 +32,10 @@ import moneym.feature.settings.generated.resources.settings_lock_1m
 import moneym.feature.settings.generated.resources.settings_lock_30s
 import moneym.feature.settings.generated.resources.settings_lock_5m
 import moneym.feature.settings.generated.resources.settings_lock_immediately
+import moneym.feature.settings.generated.resources.settings_app_info_footer
 import moneym.feature.settings.generated.resources.settings_title
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
@@ -129,6 +132,12 @@ fun SettingsScreen(
     val showLockPicker by overviewViewModel.showLockPicker.collectAsStateWithLifecycle()
     val showThemeSheet by overviewViewModel.showThemeSheet.collectAsStateWithLifecycle()
     val securityState by securityViewModel.state.collectAsStateWithLifecycle()
+    val appInfo = koinInject<AppInfo>()
+    val appInfoLabel = stringResource(
+        Res.string.settings_app_info_footer,
+        appInfo.appName,
+        appInfo.versionName,
+    )
 
     LaunchedEffect(securityViewModel) {
         securityViewModel.effects.collect { effect ->
@@ -184,6 +193,7 @@ fun SettingsScreen(
         onNavigateToBackupRestore = onNavigateToBackupRestore,
         onNavigateToAbout = onNavigateToAbout,
         onTabSelected = onTabSelected,
+        appInfoLabel = appInfoLabel,
     )
 }
 
@@ -210,6 +220,7 @@ private fun SettingsContent(
     onNavigateToBackupRestore: () -> Unit,
     onNavigateToAbout: () -> Unit,
     onTabSelected: (TabRoute) -> Unit,
+    appInfoLabel: String,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -282,6 +293,7 @@ private fun SettingsContent(
             onNavigateToBackupRestore = onNavigateToBackupRestore,
             onNavigateToAbout = onNavigateToAbout,
             onShowLockPicker = { onShowLockPicker(true) },
+            appInfoLabel = appInfoLabel,
         )
         MmTabBar(activeTab = TabRoute.Settings, onTabSelected = onTabSelected)
     }
@@ -324,6 +336,11 @@ internal fun StoreSettingsPreview() {
                 onNavigateToBackupRestore = {},
                 onNavigateToAbout = {},
                 onTabSelected = {},
+                appInfoLabel = stringResource(
+                    Res.string.settings_app_info_footer,
+                    "MoneyM",
+                    "1.0.0",
+                ),
             )
         }
     }
@@ -355,6 +372,11 @@ private fun SettingsScreenPreview() {
             onNavigateToBackupRestore = {},
             onNavigateToAbout = {},
             onTabSelected = {},
+            appInfoLabel = stringResource(
+                Res.string.settings_app_info_footer,
+                "MoneyM",
+                "1.0.0",
+            ),
         )
     }
 }

@@ -268,4 +268,5 @@
     <string name="settings_export_date_ok">Во ред</string>
     <string name="settings_export_date_clear">Исчисти</string>
     <string name="settings_remote_error_title">Нешто тргна наопаку</string>
+    <string name="settings_app_info_footer">%1$s v%2$s</string>
 </resources>

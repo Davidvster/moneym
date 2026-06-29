@@ -1,41 +1,67 @@
 package com.dv.moneym.feature.infopage
 
-import androidx.compose.material3.Text
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import com.dv.moneym.core.designsystem.MM
+
+private const val UrlTag = "URL"
+private val hrefRegex = Regex("""href\s*=\s*["']([^"']+)["']""", RegexOption.IGNORE_CASE)
 
 @Composable
 fun HtmlText(html: String, modifier: Modifier = Modifier) {
     val colors = MM.colors
-    val annotated = remember(html) { parseBasicHtml(html) }
-    Text(
+    val uriHandler = LocalUriHandler.current
+    val annotated = remember(html) {
+        parseBasicHtml(
+            html = html,
+            linkStyle = SpanStyle(
+                color = colors.accent,
+                textDecoration = TextDecoration.Underline,
+            ),
+        )
+    }
+    ClickableText(
         text = annotated,
-        style = MM.type.body,
-        color = colors.text,
+        style = MM.type.body.copy(color = colors.text),
         modifier = modifier,
+        onClick = { offset ->
+            annotated.getStringAnnotations(UrlTag, offset, offset)
+                .firstOrNull()
+                ?.let { uriHandler.openUri(it.item) }
+        },
     )
 }
 
-private fun parseBasicHtml(html: String): AnnotatedString = buildAnnotatedString {
+private fun parseBasicHtml(
+    html: String,
+    linkStyle: SpanStyle,
+): AnnotatedString = buildAnnotatedString {
     var i = 0
     val src = html.trim()
 
     while (i < src.length) {
         if (src[i] == '<') {
             val end = src.indexOf('>', i)
-            if (end == -1) { append(src[i]); i++; continue }
-            val tag = src.substring(i + 1, end).trim().lowercase()
+            if (end == -1) {
+                append(src[i])
+                i++
+                continue
+            }
+            val rawTag = src.substring(i + 1, end).trim()
+            val tag = rawTag.lowercase()
             i = end + 1
             when {
                 tag == "br" || tag == "br/" || tag == "/p" -> append('\n')
-                tag == "p" -> { /* paragraph start — handled by /p */ }
+                tag == "p" -> Unit
                 tag == "h2" -> {
                     append('\n')
                     val closeH2 = src.indexOf("</h2>", i, ignoreCase = true)
@@ -48,13 +74,24 @@ private fun parseBasicHtml(html: String): AnnotatedString = buildAnnotatedString
                         i = closeH2 + 5
                     }
                 }
-                tag == "/h2" -> { /* already consumed by h2 handler */ }
+                tag == "/h2" -> Unit
                 tag == "b" -> pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                tag == "/b" -> { try { pop() } catch (_: Throwable) {} }
-                tag == "ul" -> { /* list start */ }
-                tag == "/ul" -> { append('\n') }
+                tag == "/b" -> runCatching { pop() }
+                tag == "a" || tag.startsWith("a ") -> {
+                    val href = hrefRegex.find(rawTag)?.groupValues?.getOrNull(1)
+                    if (href != null) {
+                        pushStringAnnotation(tag = UrlTag, annotation = href)
+                        pushStyle(linkStyle)
+                    }
+                }
+                tag == "/a" -> {
+                    runCatching { pop() }
+                    runCatching { pop() }
+                }
+                tag == "ul" -> Unit
+                tag == "/ul" -> append('\n')
                 tag == "li" -> append("\n• ")
-                tag == "/li" -> { /* nothing */ }
+                tag == "/li" -> Unit
             }
         } else {
             append(src[i])

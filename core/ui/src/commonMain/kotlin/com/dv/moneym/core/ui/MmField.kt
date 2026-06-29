@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
@@ -99,6 +100,93 @@ fun MmField(
                     }
                     Box(modifier = Modifier.weight(1f)) {
                         if (value.isEmpty() && placeholder != null) {
+                            Text(
+                                text = placeholder,
+                                style = type.body,
+                                color = colors.text3,
+                            )
+                        }
+                        innerTextField()
+                    }
+                    if (suffix != null) {
+                        Box(modifier = Modifier.padding(start = 6.dp)) {
+                            suffix()
+                        }
+                    }
+                }
+            },
+        )
+    }
+}
+
+@Composable
+fun MmField(
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    modifier: Modifier = Modifier,
+    label: String? = null,
+    placeholder: String? = null,
+    prefix: (@Composable () -> Unit)? = null,
+    suffix: (@Composable () -> Unit)? = null,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    singleLine: Boolean = true,
+    focusRequester: FocusRequester? = null,
+    imeAction: ImeAction = ImeAction.Default,
+    onImeAction: (() -> Unit)? = null,
+) {
+    val colors = MM.colors
+    val type = MM.type
+    val radius = MM.dimen
+
+    Column(modifier = modifier) {
+        if (label != null) {
+            Text(
+                text = label.uppercase(),
+                style = type.micro,
+                color = colors.text2,
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+        }
+
+        BasicTextField(
+            value = value,
+            onValueChange = onValueChange,
+            singleLine = singleLine,
+            visualTransformation = visualTransformation,
+            textStyle = type.body.copy(color = colors.text),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = keyboardType,
+                capitalization = KeyboardCapitalization.Sentences,
+                imeAction = imeAction,
+            ),
+            keyboardActions = KeyboardActions(
+                onNext = { onImeAction?.invoke() },
+                onDone = { onImeAction?.invoke() },
+            ),
+            cursorBrush = SolidColor(colors.accent),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(radius.radius_1_5x)
+                .background(colors.surface, radius.radius_1_5x)
+                .border(1.dp, colors.border, radius.radius_1_5x)
+                .defaultMinSize(minHeight = if (singleLine) 52.dp else 80.dp)
+                .then(if (focusRequester != null) Modifier.focusRequester(focusRequester) else Modifier),
+            decorationBox = { innerTextField ->
+                Row(
+                    modifier = Modifier.padding(
+                        horizontal = MM.dimen.padding_2x,
+                        vertical = MM.dimen.padding_2x
+                    ),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    if (prefix != null) {
+                        Box(modifier = Modifier.padding(end = 6.dp)) {
+                            prefix()
+                        }
+                    }
+                    Box(modifier = Modifier.weight(1f)) {
+                        if (value.text.isEmpty() && placeholder != null) {
                             Text(
                                 text = placeholder,
                                 style = type.body,

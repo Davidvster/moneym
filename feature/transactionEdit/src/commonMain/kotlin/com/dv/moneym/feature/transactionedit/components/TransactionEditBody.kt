@@ -14,12 +14,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dv.moneym.core.designsystem.MM
@@ -72,6 +78,24 @@ internal fun TransactionEditScrollBody(
     val yesterdayLabel = stringResource(Res.string.edit_date_yesterday)
     val dateText = if (state.date != null) state.date.toFriendlyString(state.date) else todayLabel
     val notesFocusRequester = remember { FocusRequester() }
+    var forceCursorToEnd by remember { mutableStateOf(false) }
+    var noteFieldValue by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = state.note,
+                selection = TextRange(state.note.length),
+            )
+        )
+    }
+    LaunchedEffect(state.note, forceCursorToEnd) {
+        if (forceCursorToEnd || noteFieldValue.text != state.note) {
+            noteFieldValue = noteFieldValue.copy(
+                text = state.note,
+                selection = TextRange(state.note.length),
+            )
+            forceCursorToEnd = false
+        }
+    }
 
     Column(
         modifier = modifier
@@ -122,8 +146,11 @@ internal fun TransactionEditScrollBody(
         )
 
         MmField(
-            value = state.note,
-            onValueChange = { onIntent(TransactionEditIntent.NoteChanged(it)) },
+            value = noteFieldValue,
+            onValueChange = {
+                noteFieldValue = it
+                onIntent(TransactionEditIntent.NoteChanged(it.text))
+            },
             placeholder = stringResource(Res.string.edit_note_placeholder),
             modifier = Modifier
                 .fillMaxWidth()
@@ -133,7 +160,11 @@ internal fun TransactionEditScrollBody(
         if (state.noteSuggestions.isNotEmpty()) {
             NoteSuggestionsRow(
                 suggestions = state.noteSuggestions,
-                onSelected = { onIntent(TransactionEditIntent.NoteSelected(it)) },
+                onSelected = {
+                    notesFocusRequester.requestFocus()
+                    forceCursorToEnd = true
+                    onIntent(TransactionEditIntent.NoteSelected(it))
+                },
                 modifier = Modifier.padding(top = 6.dp),
             )
         }

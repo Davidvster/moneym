@@ -268,4 +268,5 @@
     <string name="settings_export_date_ok">Gerai</string>
     <string name="settings_export_date_clear">Išvalyti</string>
     <string name="settings_remote_error_title">Kažkas nepavyko</string>
+    <string name="settings_app_info_footer">%1$s v%2$s</string>
 </resources>
