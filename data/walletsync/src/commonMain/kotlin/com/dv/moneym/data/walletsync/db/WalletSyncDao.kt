@@ -26,6 +26,9 @@ interface WalletSuggestionDao {
     @Query("UPDATE WalletSuggestion SET status = :status, created_transaction_id = :transactionId, decided_at = :decidedAt WHERE id = :id")
     suspend fun setStatus(id: Long, status: String, transactionId: Long?, decidedAt: Long?)
 
+    @Query("DELETE FROM WalletSuggestion WHERE status = 'REJECTED' AND id IN (:ids)")
+    suspend fun deleteRejected(ids: Set<Long>)
+
     @Query("DELETE FROM WalletSuggestion")
     suspend fun deleteAll()
 }

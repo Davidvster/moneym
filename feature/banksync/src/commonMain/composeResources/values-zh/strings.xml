@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">分配类别</string>
     <string name="suggestions_assign_account">分配钱包</string>
     <string name="suggestions_edit">编辑建议</string>
+    <string name="suggestions_delete">删除</string>
+    <string name="suggestions_delete_selected">删除所选项（%1$d）</string>
+    <string name="suggestions_delete_confirm_title">删除已拒绝的建议？</string>
+    <string name="suggestions_delete_confirm_body">这将永久删除 %1$d 条已拒绝的建议。此操作无法撤销。</string>
 </resources>

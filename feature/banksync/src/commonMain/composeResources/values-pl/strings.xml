@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Przypisz kategorię</string>
     <string name="suggestions_assign_account">Przypisz portfel</string>
     <string name="suggestions_edit">Edytuj sugestię</string>
+    <string name="suggestions_delete">Usuń</string>
+    <string name="suggestions_delete_selected">Usuń wybrane (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Usunąć odrzucone sugestie?</string>
+    <string name="suggestions_delete_confirm_body">Spowoduje to trwałe usunięcie %1$d odrzuconych sugestii. Tej czynności nie można cofnąć.</string>
 </resources>

@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Priskirti kategoriją</string>
     <string name="suggestions_assign_account">Priskirti piniginę</string>
     <string name="suggestions_edit">Redaguoti pasiūlymą</string>
+    <string name="suggestions_delete">Ištrinti</string>
+    <string name="suggestions_delete_selected">Ištrinti pasirinktus (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Ištrinti atmestus pasiūlymus?</string>
+    <string name="suggestions_delete_confirm_body">Tai visam laikui ištrins %1$d atmestus pasiūlymus. Šio veiksmo anuliuoti negalima.</string>
 </resources>

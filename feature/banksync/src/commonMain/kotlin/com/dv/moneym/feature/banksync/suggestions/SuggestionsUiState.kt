@@ -84,6 +84,7 @@ data class SuggestionsUiState(
     val accountPickerForId: Long? = null,
     val showAcceptConfirm: Boolean = false,
     val showRejectConfirm: Boolean = false,
+    val deleteConfirmIds: Set<Long> = emptySet(),
     val acceptConfirmId: Long? = null,
     val filter: SuggestionFilter = SuggestionFilter(),
     val showFilterSheet: Boolean = false,
@@ -93,7 +94,7 @@ data class SuggestionsUiState(
     val filteredPending: List<SuggestionRow> get() = pending.filter { filter.matches(it) }
     val rows: List<SuggestionRow> get() = if (tab == SuggestionsTab.PENDING) filteredPending else rejected
     val allSelected: Boolean
-        get() = filteredPending.isNotEmpty() && filteredPending.all { it.id in selectedIds }
+        get() = rows.isNotEmpty() && rows.all { it.id in selectedIds }
 }
 
 sealed interface SuggestionsIntent {
@@ -108,6 +109,9 @@ sealed interface SuggestionsIntent {
     data object ConfirmAcceptSelected : SuggestionsIntent
     data object RequestRejectSelected : SuggestionsIntent
     data object ConfirmRejectSelected : SuggestionsIntent
+    data class RequestDeleteRejected(val id: Long) : SuggestionsIntent
+    data object RequestDeleteSelectedRejected : SuggestionsIntent
+    data object ConfirmDeleteRejected : SuggestionsIntent
     data object DismissConfirm : SuggestionsIntent
     data class UndoReject(val id: Long) : SuggestionsIntent
     data class RestoreToPending(val id: Long) : SuggestionsIntent

@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">श्रेणी असाइन करें</string>
     <string name="suggestions_assign_account">वॉलेट असाइन करें</string>
     <string name="suggestions_edit">सुझाव संपादित करें</string>
+    <string name="suggestions_delete">हटाएँ</string>
+    <string name="suggestions_delete_selected">चयनित हटाएँ (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">अस्वीकृत सुझाव हटाएँ?</string>
+    <string name="suggestions_delete_confirm_body">यह %1$d अस्वीकृत सुझावों को स्थायी रूप से हटा देगा। इसे पूर्ववत नहीं किया जा सकता।</string>
 </resources>

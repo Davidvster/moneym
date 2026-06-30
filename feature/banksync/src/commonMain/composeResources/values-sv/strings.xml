@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Tilldela kategori</string>
     <string name="suggestions_assign_account">Tilldela plånbok</string>
     <string name="suggestions_edit">Redigera förslag</string>
+    <string name="suggestions_delete">Ta bort</string>
+    <string name="suggestions_delete_selected">Ta bort valda (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Ta bort avvisade förslag?</string>
+    <string name="suggestions_delete_confirm_body">Detta tar permanent bort %1$d avvisade förslag. Det går inte att ångra.</string>
 </resources>

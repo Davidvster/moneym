@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Tildel kategori</string>
     <string name="suggestions_assign_account">Tildel wallet</string>
     <string name="suggestions_edit">Rediger forslag</string>
+    <string name="suggestions_delete">Slet</string>
+    <string name="suggestions_delete_selected">Slet valgte (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Slet afviste forslag?</string>
+    <string name="suggestions_delete_confirm_body">Dette sletter %1$d afviste forslag permanent. Det kan ikke fortrydes.</string>
 </resources>

@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">تعيين فئة</string>
     <string name="suggestions_assign_account">تعيين محفظة</string>
     <string name="suggestions_edit">تحرير الاقتراح</string>
+    <string name="suggestions_delete">حذف</string>
+    <string name="suggestions_delete_selected">حذف المحدد (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">حذف الاقتراحات المرفوضة؟</string>
+    <string name="suggestions_delete_confirm_body">سيؤدي هذا إلى حذف %1$d اقتراحات مرفوضة نهائيًا. لا يمكن التراجع عن ذلك.</string>
 </resources>

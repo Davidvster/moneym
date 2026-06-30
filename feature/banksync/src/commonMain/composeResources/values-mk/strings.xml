@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Додели категорија</string>
     <string name="suggestions_assign_account">Додели паричник</string>
     <string name="suggestions_edit">Уреди предлог</string>
+    <string name="suggestions_delete">Избриши</string>
+    <string name="suggestions_delete_selected">Избриши избрани (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Да се избришат одбиените предлози?</string>
+    <string name="suggestions_delete_confirm_body">Ова трајно ќе избрише %1$d одбиени предлози. Дејството не може да се врати.</string>
 </resources>

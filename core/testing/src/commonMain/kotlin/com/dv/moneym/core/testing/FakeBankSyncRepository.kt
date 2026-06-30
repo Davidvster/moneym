@@ -120,6 +120,12 @@ class FakeBankSyncRepository : BankSyncRepository {
         setStatus(id, SuggestionStatus.PENDING, null, null)
     }
 
+    override suspend fun deleteRejected(ids: Set<Long>) {
+        _suggestions.update { list ->
+            list.filterNot { it.id in ids && it.status == SuggestionStatus.REJECTED }
+        }
+    }
+
     override suspend fun clearAll() {
         _accounts.value = emptyList()
         _suggestions.value = emptyList()

@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Dodeli kategorijo</string>
     <string name="suggestions_assign_account">Dodeli denarnico</string>
     <string name="suggestions_edit">Uredi predlog</string>
+    <string name="suggestions_delete">Izbriši</string>
+    <string name="suggestions_delete_selected">Izbriši izbrane (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Izbrisati zavrnjene predloge?</string>
+    <string name="suggestions_delete_confirm_body">To trajno izbriše %1$d zavrnjenih predlogov. Tega ni mogoče razveljaviti.</string>
 </resources>

@@ -39,4 +39,5 @@ interface SuggestionSource {
     suspend fun accept(id: Long, createdTransactionId: Long, decidedAt: Long)
     suspend fun reject(id: Long, decidedAt: Long)
     suspend fun restoreToPending(id: Long)
+    suspend fun deleteRejected(ids: Set<Long>)
 }

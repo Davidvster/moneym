@@ -202,6 +202,77 @@ class SuggestionsViewModelTest {
     }
 
     @Test
+    fun rejectedRowSelectionShowsDeleteSheetBeforeDeleting() = runTest(testDispatcher) {
+        val suggestion = seed()
+        bankRepo.reject(suggestion.id, decidedAt = 1)
+        val vm = vm()
+        vm.state.test {
+            var s = awaitItem()
+            while (s.rejected.isEmpty()) s = awaitItem()
+
+            vm.onIntent(SuggestionsIntent.SetTab(SuggestionsTab.REJECTED))
+            while (s.tab != SuggestionsTab.REJECTED) s = awaitItem()
+
+            vm.onIntent(SuggestionsIntent.ToggleSelect(suggestion.id))
+            while (suggestion.id !in s.selectedIds) s = awaitItem()
+
+            vm.onIntent(SuggestionsIntent.RequestDeleteSelectedRejected)
+            while (s.deleteConfirmIds.isEmpty()) s = awaitItem()
+
+            assertEquals(setOf(suggestion.id), s.selectedIds)
+            assertEquals(setOf(suggestion.id), s.deleteConfirmIds)
+            assertTrue(s.allSelected)
+            cancelAndIgnoreRemainingEvents()
+        }
+        assertEquals(SuggestionStatus.REJECTED, bankRepo.suggestions.single().status)
+    }
+
+    @Test
+    fun confirmedRejectedDeleteRemovesRowsAndClearsSelection() = runTest(testDispatcher) {
+        val rejected = seed()
+        bankRepo.insertSuggestionsIfNew(
+            listOf(
+                BankSuggestion(
+                    id = 0,
+                    externalId = "eb:acc-1:r2",
+                    bankAccountUid = "acc-1",
+                    amountMinor = 900,
+                    currency = "EUR",
+                    direction = EbDirection.DEBIT,
+                    bookingDate = LocalDate(2026, 6, 9),
+                    description = "LUNCH",
+                    fetchedAt = 0,
+                )
+            )
+        )
+        bankRepo.reject(rejected.id, decidedAt = 1)
+        val vm = vm()
+        vm.state.test {
+            var s = awaitItem()
+            while (s.rejected.isEmpty() || s.pending.isEmpty()) s = awaitItem()
+
+            vm.onIntent(SuggestionsIntent.SetTab(SuggestionsTab.REJECTED))
+            while (s.tab != SuggestionsTab.REJECTED) s = awaitItem()
+
+            vm.onIntent(SuggestionsIntent.ToggleSelect(rejected.id))
+            while (rejected.id !in s.selectedIds) s = awaitItem()
+
+            vm.onIntent(SuggestionsIntent.RequestDeleteSelectedRejected)
+            while (s.deleteConfirmIds.isEmpty()) s = awaitItem()
+
+            vm.onIntent(SuggestionsIntent.ConfirmDeleteRejected)
+            while (s.rejected.isNotEmpty() || s.selectedIds.isNotEmpty() || s.deleteConfirmIds.isNotEmpty()) {
+                s = awaitItem()
+            }
+
+            assertEquals(1, s.pending.size)
+            cancelAndIgnoreRemainingEvents()
+        }
+        assertEquals(1, bankRepo.suggestions.size)
+        assertEquals(SuggestionStatus.PENDING, bankRepo.suggestions.single().status)
+    }
+
+    @Test
     fun batchAcceptHandlesSelection() = runTest(testDispatcher) {
         seed()
         bankRepo.insertSuggestionsIfNew(

@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Přiřadit kategorii</string>
     <string name="suggestions_assign_account">Přiřadit peněženku</string>
     <string name="suggestions_edit">Upravit návrh</string>
+    <string name="suggestions_delete">Smazat</string>
+    <string name="suggestions_delete_selected">Smazat vybrané (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Smazat odmítnuté návrhy?</string>
+    <string name="suggestions_delete_confirm_body">Tím trvale smažeš %1$d odmítnutých návrhů. Akci nelze vrátit zpět.</string>
 </resources>

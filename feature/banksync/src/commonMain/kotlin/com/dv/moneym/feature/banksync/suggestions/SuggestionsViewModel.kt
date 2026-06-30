@@ -70,7 +70,13 @@ class SuggestionsViewModel(
                         rejected = rejectedRows,
                         categories = sources.categories,
                         accounts = sources.accounts,
-                        selectedIds = s.selectedIds.intersect(pendingRows.map { it.id }.toSet()),
+                        selectedIds = s.selectedIds.intersect(
+                            if (s.tab == SuggestionsTab.PENDING) {
+                                pendingRows.map { it.id }.toSet()
+                            } else {
+                                rejectedRows.map { it.id }.toSet()
+                            }
+                        ),
                     )
                 }
             }
@@ -119,7 +125,14 @@ class SuggestionsViewModel(
     fun onIntent(intent: SuggestionsIntent) {
         when (intent) {
             is SuggestionsIntent.SetTab ->
-                _state.update { it.copy(tab = intent.tab, selectedIds = emptySet(), categoryPickerForId = null) }
+                _state.update {
+                    it.copy(
+                        tab = intent.tab,
+                        selectedIds = emptySet(),
+                        categoryPickerForId = null,
+                        accountPickerForId = null,
+                    )
+                }
 
             is SuggestionsIntent.ToggleSelect -> _state.update {
                 val selected = it.selectedIds.toMutableSet()
@@ -128,9 +141,9 @@ class SuggestionsViewModel(
             }
 
             SuggestionsIntent.ToggleSelectAll -> _state.update { s ->
-                val filteredIds = s.filteredPending.map { it.id }.toSet()
-                if (s.allSelected) s.copy(selectedIds = s.selectedIds - filteredIds)
-                else s.copy(selectedIds = s.selectedIds + filteredIds)
+                val rowIds = s.rows.map { it.id }.toSet()
+                if (s.allSelected) s.copy(selectedIds = s.selectedIds - rowIds)
+                else s.copy(selectedIds = s.selectedIds + rowIds)
             }
 
             SuggestionsIntent.ClearSelection -> _state.update { it.copy(selectedIds = emptySet()) }
@@ -162,9 +175,26 @@ class SuggestionsViewModel(
                 rejectAll(_state.value.selectedIds.toList())
             }
 
+            is SuggestionsIntent.RequestDeleteRejected ->
+                _state.update { it.copy(deleteConfirmIds = setOf(intent.id)) }
+
+            SuggestionsIntent.RequestDeleteSelectedRejected ->
+                _state.update { it.copy(deleteConfirmIds = it.selectedIds) }
+
+            SuggestionsIntent.ConfirmDeleteRejected -> {
+                val ids = _state.value.deleteConfirmIds
+                _state.update { it.copy(deleteConfirmIds = emptySet()) }
+                deleteRejected(ids)
+            }
+
             SuggestionsIntent.DismissConfirm ->
                 _state.update {
-                    it.copy(showAcceptConfirm = false, showRejectConfirm = false, acceptConfirmId = null)
+                    it.copy(
+                        showAcceptConfirm = false,
+                        showRejectConfirm = false,
+                        deleteConfirmIds = emptySet(),
+                        acceptConfirmId = null,
+                    )
                 }
 
             is SuggestionsIntent.UndoReject ->
@@ -304,6 +334,14 @@ class SuggestionsViewModel(
             _state.update { it.copy(isProcessing = true) }
             val now = clock.now().toEpochMilliseconds()
             ids.forEach { source.reject(it, now) }
+            _state.update { it.copy(selectedIds = emptySet(), isProcessing = false) }
+        }
+    }
+
+    private fun deleteRejected(ids: Set<Long>) {
+        viewModelScope.launch {
+            _state.update { it.copy(isProcessing = true) }
+            source.deleteRejected(ids)
             _state.update { it.copy(selectedIds = emptySet(), isProcessing = false) }
         }
     }

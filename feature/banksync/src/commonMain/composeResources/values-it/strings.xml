@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Assegna categoria</string>
     <string name="suggestions_assign_account">Assegna wallet</string>
     <string name="suggestions_edit">Modifica suggerimento</string>
+    <string name="suggestions_delete">Elimina</string>
+    <string name="suggestions_delete_selected">Elimina selezionate (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Eliminare i suggerimenti rifiutati?</string>
+    <string name="suggestions_delete_confirm_body">Questo elimina definitivamente %1$d suggerimenti rifiutati. L'azione non può essere annullata.</string>
 </resources>

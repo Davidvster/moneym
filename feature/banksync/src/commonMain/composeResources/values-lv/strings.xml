@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Piešķirt kategoriju</string>
     <string name="suggestions_assign_account">Piešķirt maku</string>
     <string name="suggestions_edit">Rediģēt ieteikumu</string>
+    <string name="suggestions_delete">Dzēst</string>
+    <string name="suggestions_delete_selected">Dzēst atlasītos (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Dzēst noraidītos ieteikumus?</string>
+    <string name="suggestions_delete_confirm_body">Tas neatgriezeniski dzēsīs %1$d noraidītos ieteikumus. Šo darbību nevar atsaukt.</string>
 </resources>

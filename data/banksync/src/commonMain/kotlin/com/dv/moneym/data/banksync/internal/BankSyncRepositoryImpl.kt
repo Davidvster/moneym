@@ -117,6 +117,10 @@ internal class BankSyncRepositoryImpl(
     override suspend fun restoreToPending(id: Long) =
         suggestionDao.setStatus(id, SuggestionStatus.PENDING.name, null, null)
 
+    override suspend fun deleteRejected(ids: Set<Long>) {
+        if (ids.isNotEmpty()) suggestionDao.deleteRejected(ids)
+    }
+
     override suspend fun clearAll() {
         suggestionDao.deleteAll()
         accountDao.deleteAll()

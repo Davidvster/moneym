@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Määritä luokka</string>
     <string name="suggestions_assign_account">Määritä lompakko</string>
     <string name="suggestions_edit">Muokkaa ehdotusta</string>
+    <string name="suggestions_delete">Poista</string>
+    <string name="suggestions_delete_selected">Poista valitut (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Poistetaanko hylätyt ehdotukset?</string>
+    <string name="suggestions_delete_confirm_body">Tämä poistaa pysyvästi %1$d hylättyä ehdotusta. Toimintoa ei voi kumota.</string>
 </resources>

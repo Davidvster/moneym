@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Kategória hozzárendelése</string>
     <string name="suggestions_assign_account">Tárca hozzárendelése</string>
     <string name="suggestions_edit">Javaslat szerkesztése</string>
+    <string name="suggestions_delete">Törlés</string>
+    <string name="suggestions_delete_selected">Kijelöltek törlése (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Elutasított javaslatok törlése?</string>
+    <string name="suggestions_delete_confirm_body">Ez véglegesen töröl %1$d elutasított javaslatot. A művelet nem vonható vissza.</string>
 </resources>

@@ -160,6 +160,7 @@ class TransactionEditViewModelTest {
 
         override suspend fun reject(id: Long, decidedAt: Long) = Unit
         override suspend fun restoreToPending(id: Long) = Unit
+        override suspend fun deleteRejected(ids: Set<Long>) = Unit
     }
 
     private fun seedCatsAccounts(deps: Deps) {

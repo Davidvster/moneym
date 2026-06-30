@@ -50,6 +50,10 @@ internal class WalletSyncRepositoryImpl(
     override suspend fun restoreToPending(id: Long) =
         dao.setStatus(id, SuggestionStatus.PENDING.name, null, null)
 
+    override suspend fun deleteRejected(ids: Set<Long>) {
+        if (ids.isNotEmpty()) dao.deleteRejected(ids)
+    }
+
     override suspend fun clearAll() = dao.deleteAll()
 
     private fun WalletSuggestionEntity.toRecord(): SuggestionRecord =

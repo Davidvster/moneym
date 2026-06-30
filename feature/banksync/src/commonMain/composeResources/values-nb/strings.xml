@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Tildel kategori</string>
     <string name="suggestions_assign_account">Tildel lommebok</string>
     <string name="suggestions_edit">Rediger forslag</string>
+    <string name="suggestions_delete">Slett</string>
+    <string name="suggestions_delete_selected">Slett valgte (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Slette avviste forslag?</string>
+    <string name="suggestions_delete_confirm_body">Dette sletter %1$d avviste forslag permanent. Det kan ikke angres.</string>
 </resources>

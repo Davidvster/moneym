@@ -51,11 +51,13 @@ import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmCategoryPickerSheet
 import androidx.compose.ui.draw.clip
 import com.dv.moneym.core.ui.MmCheckbox
+import com.dv.moneym.core.ui.MmDeleteSheet
 import com.dv.moneym.core.ui.mmClickable
 import com.dv.moneym.core.ui.MmDialog
 import com.dv.moneym.core.ui.MmEmptyState
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
+import com.dv.moneym.core.ui.MmIconButtonVariant
 import com.dv.moneym.core.ui.MmLoadingOverlay
 import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmSegmented
@@ -79,6 +81,10 @@ import moneym.feature.banksync.generated.resources.suggestions_accept_selected
 import moneym.feature.banksync.generated.resources.suggestions_assign_account
 import moneym.feature.banksync.generated.resources.suggestions_assign_category
 import moneym.feature.banksync.generated.resources.suggestions_category_label
+import moneym.feature.banksync.generated.resources.suggestions_delete
+import moneym.feature.banksync.generated.resources.suggestions_delete_confirm_body
+import moneym.feature.banksync.generated.resources.suggestions_delete_confirm_title
+import moneym.feature.banksync.generated.resources.suggestions_delete_selected
 import moneym.feature.banksync.generated.resources.suggestions_duplicate_hint
 import moneym.feature.banksync.generated.resources.suggestions_edit
 import moneym.feature.banksync.generated.resources.suggestions_empty_pending
@@ -231,6 +237,23 @@ private fun SuggestionsContent(
                         size = MmButtonSize.Sm,
                     )
                 }
+            } else if (state.tab == SuggestionsTab.REJECTED && state.rejected.isNotEmpty()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = space.padding_2x),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    MmButton(
+                        text = if (state.allSelected) {
+                            stringResource(Res.string.suggestions_unselect_all)
+                        } else {
+                            stringResource(Res.string.suggestions_select_all)
+                        },
+                        onClick = { onIntent(SuggestionsIntent.ToggleSelectAll) },
+                        variant = MmButtonVariant.Ghost,
+                        size = MmButtonSize.Sm,
+                    )
+                }
             }
 
             when {
@@ -312,6 +335,23 @@ private fun SuggestionsContent(
                             modifier = Modifier.weight(1f),
                         )
                     }
+                }
+            } else if (state.tab == SuggestionsTab.REJECTED && state.selectedIds.isNotEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = space.padding_2x, vertical = space.padding_1x)
+                        .navigationBarsPadding(),
+                ) {
+                    MmButton(
+                        text = stringResource(
+                            Res.string.suggestions_delete_selected,
+                            state.selectedIds.size
+                        ),
+                        onClick = { onIntent(SuggestionsIntent.RequestDeleteSelectedRejected) },
+                        variant = MmButtonVariant.Danger,
+                        fullWidth = true,
+                    )
                 }
             }
         }
@@ -427,6 +467,20 @@ private fun SuggestionsContent(
             )
         }
     }
+
+    if (state.deleteConfirmIds.isNotEmpty()) {
+        MmDeleteSheet(
+            title = stringResource(Res.string.suggestions_delete_confirm_title),
+            body = stringResource(
+                Res.string.suggestions_delete_confirm_body,
+                state.deleteConfirmIds.size,
+            ),
+            cancelText = stringResource(Res.string.bank_sync_cancel),
+            confirmText = stringResource(Res.string.suggestions_delete),
+            onConfirm = { onIntent(SuggestionsIntent.ConfirmDeleteRejected) },
+            onCancel = { onIntent(SuggestionsIntent.DismissConfirm) },
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -531,18 +585,19 @@ private fun SuggestionCard(
     val colors = MM.colors
     val space = MM.dimen
     val isPendingTab = state.tab == SuggestionsTab.PENDING
+    val isRejectedTab = state.tab == SuggestionsTab.REJECTED
 
     MmCard(modifier = Modifier.fillMaxWidth(), padded = true) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = if (isPendingTab) {
+            modifier = if (isPendingTab || isRejectedTab) {
                 Modifier.mmClickable(shape = RoundedCornerShape(MM.dimen.padding_1x)) {
                     onIntent(SuggestionsIntent.ToggleSelect(row.id))
                 }
             } else {
                 Modifier
             }) {
-            if (isPendingTab) {
+            if (isPendingTab || isRejectedTab) {
                 MmCheckbox(
                     checked = row.id in state.selectedIds,
                     onCheckedChange = { onIntent(SuggestionsIntent.ToggleSelect(row.id)) },
@@ -671,13 +726,25 @@ private fun SuggestionCard(
                 }
             }
         } else {
-            MmButton(
-                text = stringResource(Res.string.suggestions_restore),
-                onClick = { onIntent(SuggestionsIntent.RestoreToPending(row.id)) },
-                variant = MmButtonVariant.Outline,
-                size = MmButtonSize.Sm,
-                modifier = Modifier.padding(top = space.padding_1x),
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(top = space.padding_1x),
+                horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                MmButton(
+                    text = stringResource(Res.string.suggestions_restore),
+                    onClick = { onIntent(SuggestionsIntent.RestoreToPending(row.id)) },
+                    variant = MmButtonVariant.Outline,
+                    size = MmButtonSize.Sm,
+                    modifier = Modifier.weight(1f),
+                )
+                MmIconButton(
+                    icon = Icon.Trash.imageVector,
+                    onClick = { onIntent(SuggestionsIntent.RequestDeleteRejected(row.id)) },
+                    variant = MmIconButtonVariant.Danger,
+                    contentDescription = stringResource(Res.string.suggestions_delete),
+                )
+            }
         }
     }
 }

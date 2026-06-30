@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Määra kategooria</string>
     <string name="suggestions_assign_account">Määra rahakott</string>
     <string name="suggestions_edit">Muuda soovitust</string>
+    <string name="suggestions_delete">Kustuta</string>
+    <string name="suggestions_delete_selected">Kustuta valitud (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Kas kustutada tagasi lükatud soovitused?</string>
+    <string name="suggestions_delete_confirm_body">See kustutab jäädavalt %1$d tagasi lükatud soovitust. Seda ei saa tagasi võtta.</string>
 </resources>

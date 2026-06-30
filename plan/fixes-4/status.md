@@ -26,10 +26,13 @@
   - `./gradlew :core:ui:compileDebugKotlinAndroid :feature:transactions:compileDebugKotlinAndroid :data:transactions:compileDebugKotlinAndroid --console=plain`
 
 ## Phase 4: Rejected Suggestions Delete Flow
-- Status: Pending
-- Plan: pending
-- Commit: pending
-- Verification: pending
+- Status: Complete
+- Plan: `plan/fixes-4/phase-4-plan.md`
+- Commit: `fixes-4 phase 4: delete rejected suggestions`
+- Verification:
+  - `git diff --check`
+  - `feature/banksync` string parity audit against all 27 locales
+  - `./gradlew :feature:banksync:testDebugUnitTest :data:banksync:testDebugUnitTest :data:walletsync:testDebugUnitTest --console=plain`
 
 ## Phase 5: Final Verification and Cleanup
 - Status: Pending

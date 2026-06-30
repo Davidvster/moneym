@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Assign category</string>
     <string name="suggestions_assign_account">Assign wallet</string>
     <string name="suggestions_edit">Edit suggestion</string>
+    <string name="suggestions_delete">Delete</string>
+    <string name="suggestions_delete_selected">Delete selected (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Delete rejected suggestions?</string>
+    <string name="suggestions_delete_confirm_body">This permanently deletes %1$d rejected suggestions. This can't be undone.</string>
 </resources>

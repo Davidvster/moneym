@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Kategorie zuweisen</string>
     <string name="suggestions_assign_account">Wallet zuweisen</string>
     <string name="suggestions_edit">Vorschlag bearbeiten</string>
+    <string name="suggestions_delete">Löschen</string>
+    <string name="suggestions_delete_selected">Ausgewählte löschen (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Abgelehnte Vorschläge löschen?</string>
+    <string name="suggestions_delete_confirm_body">Dies löscht %1$d abgelehnte Vorschläge dauerhaft. Das kann nicht rückgängig gemacht werden.</string>
 </resources>

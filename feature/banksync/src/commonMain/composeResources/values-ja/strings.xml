@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">カテゴリを割り当て</string>
     <string name="suggestions_assign_account">ウォレットを割り当て</string>
     <string name="suggestions_edit">提案を編集</string>
+    <string name="suggestions_delete">削除</string>
+    <string name="suggestions_delete_selected">選択項目を削除（%1$d）</string>
+    <string name="suggestions_delete_confirm_title">拒否済み候補を削除しますか？</string>
+    <string name="suggestions_delete_confirm_body">%1$d 件の拒否済み候補を完全に削除します。この操作は元に戻せません。</string>
 </resources>

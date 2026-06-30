@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Categorie toewijzen</string>
     <string name="suggestions_assign_account">Wallet toewijzen</string>
     <string name="suggestions_edit">Suggestie bewerken</string>
+    <string name="suggestions_delete">Verwijderen</string>
+    <string name="suggestions_delete_selected">Geselecteerde verwijderen (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Afgewezen suggesties verwijderen?</string>
+    <string name="suggestions_delete_confirm_body">Dit verwijdert %1$d afgewezen suggesties permanent. Dit kan niet ongedaan worden gemaakt.</string>
 </resources>

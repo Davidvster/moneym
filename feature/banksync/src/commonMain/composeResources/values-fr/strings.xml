@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Attribuer une catégorie</string>
     <string name="suggestions_assign_account">Attribuer un portefeuille</string>
     <string name="suggestions_edit">Modifier la suggestion</string>
+    <string name="suggestions_delete">Supprimer</string>
+    <string name="suggestions_delete_selected">Supprimer la sélection (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Supprimer les suggestions rejetées ?</string>
+    <string name="suggestions_delete_confirm_body">Cette action supprime définitivement %1$d suggestions rejetées. Elle est irréversible.</string>
 </resources>

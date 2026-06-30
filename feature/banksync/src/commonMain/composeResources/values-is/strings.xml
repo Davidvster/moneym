@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Úthluta flokki</string>
     <string name="suggestions_assign_account">Úthluta veski</string>
     <string name="suggestions_edit">Breyta tillögu</string>
+    <string name="suggestions_delete">Eyða</string>
+    <string name="suggestions_delete_selected">Eyða völdum (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Eyða höfnuðum tillögum?</string>
+    <string name="suggestions_delete_confirm_body">Þetta eyðir %1$d höfnuðum tillögum varanlega. Ekki er hægt að afturkalla þetta.</string>
 </resources>

@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Kategori ata</string>
     <string name="suggestions_assign_account">Cüzdan ata</string>
     <string name="suggestions_edit">Öneriyi düzenle</string>
+    <string name="suggestions_delete">Sil</string>
+    <string name="suggestions_delete_selected">Seçilenleri sil (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Reddedilen öneriler silinsin mi?</string>
+    <string name="suggestions_delete_confirm_body">Bu işlem %1$d reddedilen öneriyi kalıcı olarak siler. Geri alınamaz.</string>
 </resources>

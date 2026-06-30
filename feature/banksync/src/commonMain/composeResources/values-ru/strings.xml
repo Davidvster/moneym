@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Назначить категорию</string>
     <string name="suggestions_assign_account">Назначить кошелёк</string>
     <string name="suggestions_edit">Изменить предложение</string>
+    <string name="suggestions_delete">Удалить</string>
+    <string name="suggestions_delete_selected">Удалить выбранные (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">Удалить отклонённые предложения?</string>
+    <string name="suggestions_delete_confirm_body">Это навсегда удалит %1$d отклонённых предложений. Действие нельзя отменить.</string>
 </resources>

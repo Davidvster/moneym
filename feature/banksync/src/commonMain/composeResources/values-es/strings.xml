@@ -78,4 +78,8 @@
     <string name="suggestions_assign_category">Asignar categoría</string>
     <string name="suggestions_assign_account">Asignar cartera</string>
     <string name="suggestions_edit">Editar sugerencia</string>
+    <string name="suggestions_delete">Eliminar</string>
+    <string name="suggestions_delete_selected">Eliminar seleccionadas (%1$d)</string>
+    <string name="suggestions_delete_confirm_title">¿Eliminar sugerencias rechazadas?</string>
+    <string name="suggestions_delete_confirm_body">Esto elimina permanentemente %1$d sugerencias rechazadas. No se puede deshacer.</string>
 </resources>
