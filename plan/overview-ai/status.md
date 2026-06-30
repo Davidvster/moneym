@@ -4,15 +4,15 @@
 
 | Phase | Status | Commit | Notes |
 | --- | --- | --- | --- |
-| 1. Persistence, Models, Backup | Implemented locally | Pending parent commit | Added `:data:overview` Room persistence, fake repository, DI/database wiring, and backup export/import/restore coverage. |
-| 2. Modular Overview Blocks | Pending | Pending | Starts after phase 1 commit. |
+| 1. Persistence, Models, Backup | Complete | `2e919050` | Added `:data:overview` Room persistence, fake repository, DI/database wiring, and backup export/import/restore coverage. |
+| 2. Modular Overview Blocks | Planned | Pending | Builder handoff prepared in `phase-2-plan.md`. |
 | 3. Overview Settings Screen | Pending | Pending | Starts after phase 2 commit. |
 | 4. AI Widget Builder + A2UI Renderer | Pending | Pending | Starts after phase 3 commit. |
 | 5. Final Integration, QA, iOS/Android Build | Pending | Pending | Starts after phase 4 commit. |
 
 ## Current Handoff
 
-Phase 1 implementation is complete locally and has not been committed. The Phase 1 commit hash will be filled after the commit exists.
+Phase 2 is ready for implementation. The builder must update this file with test results before the Phase 2 commit.
 
 ## Phase 1 Verification
 
