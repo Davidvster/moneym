@@ -9,6 +9,7 @@ import com.dv.moneym.core.security.SecurityPrefs
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.budgets.BudgetRepository
 import com.dv.moneym.data.categories.CategoryRepository
+import com.dv.moneym.data.overview.OverviewRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlinx.serialization.json.Json
 
@@ -17,6 +18,7 @@ class BackupRestorer(
     private val accountRepository: AccountRepository,
     private val transactionRepository: TransactionRepository,
     private val budgetRepository: BudgetRepository,
+    private val overviewRepository: OverviewRepository,
     private val appSettings: AppSettings,
 ) {
     private val json = Json { ignoreUnknownKeys = true }
@@ -54,6 +56,9 @@ class BackupRestorer(
             val accId = accIdMap[dto.accountId] ?: AccountId(0)
             budgetRepository.insert(dto.toDomain(idOverride = BudgetId(0), accIdOverride = accId))
         }
+
+        overviewRepository.replaceLayout(backup.overviewLayout.toDomain().blocks)
+        overviewRepository.replaceAiWidgets(backup.overviewAiWidgets.map { it.toDomain(idOverride = 0) })
 
         backup.settings.let { settings ->
             appSettings.putInt(

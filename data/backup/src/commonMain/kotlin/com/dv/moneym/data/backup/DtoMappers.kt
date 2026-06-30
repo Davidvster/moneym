@@ -22,6 +22,10 @@ import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_RECURRING_ID
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.data.overview.OverviewAiWidget
+import com.dv.moneym.data.overview.OverviewBlockId
+import com.dv.moneym.data.overview.OverviewLayoutBlock
+import com.dv.moneym.data.overview.OverviewLayoutPrefs
 import kotlinx.datetime.LocalDate
 import kotlin.time.Instant
 
@@ -210,4 +214,50 @@ fun BudgetDto.toDomain(
     recurringMonths = recurringMonths,
     createdAt = Instant.fromEpochMilliseconds(createdAt),
     updatedAt = Instant.fromEpochMilliseconds(updatedAt),
+)
+
+fun OverviewLayoutPrefs.toDto() = OverviewLayoutPrefsDto(
+    blocks = blocks.map { it.toDto() },
+)
+
+fun OverviewLayoutPrefsDto.toDomain() = OverviewLayoutPrefs(
+    blocks = blocks.map { it.toDomain() },
+)
+
+fun OverviewLayoutBlock.toDto() = OverviewLayoutBlockDto(
+    blockId = blockId.value,
+    sortOrder = sortOrder,
+    visible = visible,
+)
+
+fun OverviewLayoutBlockDto.toDomain() = OverviewLayoutBlock(
+    blockId = OverviewBlockId(blockId),
+    sortOrder = sortOrder,
+    visible = visible,
+)
+
+fun OverviewAiWidget.toDto() = OverviewAiWidgetDto(
+    id = id,
+    title = title,
+    prompt = prompt,
+    a2uiJson = a2uiJson,
+    enabled = enabled,
+    sortOrder = sortOrder,
+    createdAt = createdAt.toEpochMilliseconds(),
+    updatedAt = updatedAt.toEpochMilliseconds(),
+    lastGeneratedAt = lastGeneratedAt?.toEpochMilliseconds(),
+    lastGenerationEngineId = lastGenerationEngineId,
+)
+
+fun OverviewAiWidgetDto.toDomain(idOverride: Long = id) = OverviewAiWidget(
+    id = idOverride,
+    title = title,
+    prompt = prompt,
+    a2uiJson = a2uiJson,
+    enabled = enabled,
+    sortOrder = sortOrder,
+    createdAt = Instant.fromEpochMilliseconds(createdAt),
+    updatedAt = Instant.fromEpochMilliseconds(updatedAt),
+    lastGeneratedAt = lastGeneratedAt?.let(Instant::fromEpochMilliseconds),
+    lastGenerationEngineId = lastGenerationEngineId,
 )

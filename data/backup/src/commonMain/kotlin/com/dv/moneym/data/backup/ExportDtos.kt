@@ -10,6 +10,8 @@ data class BackupDto(
     val transactions: List<TransactionDto> = emptyList(),
     val budgets: List<BudgetDto> = emptyList(),
     val recurringTransactions: List<RecurringTransactionDto> = emptyList(),
+    val overviewLayout: OverviewLayoutPrefsDto = OverviewLayoutPrefsDto(),
+    val overviewAiWidgets: List<OverviewAiWidgetDto> = emptyList(),
     val settings: BackupSettingsDto = BackupSettingsDto(),
 )
 
@@ -104,4 +106,30 @@ data class BackupSettingsDto(
     val themeMode: String = "system",
     val backgroundLockSeconds: Int = 30,
     val defaultCurrency: String = "EUR",
+)
+
+@Serializable
+data class OverviewLayoutPrefsDto(
+    val blocks: List<OverviewLayoutBlockDto> = emptyList(),
+)
+
+@Serializable
+data class OverviewLayoutBlockDto(
+    val blockId: String,
+    val sortOrder: Int,
+    val visible: Boolean,
+)
+
+@Serializable
+data class OverviewAiWidgetDto(
+    val id: Long,
+    val title: String,
+    val prompt: String,
+    val a2uiJson: String,
+    val enabled: Boolean,
+    val sortOrder: Int,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val lastGeneratedAt: Long? = null,
+    val lastGenerationEngineId: String? = null,
 )

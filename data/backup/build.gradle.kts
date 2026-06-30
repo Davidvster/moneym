@@ -26,6 +26,7 @@ kotlin {
             implementation(projects.data.accounts)
             implementation(projects.data.transactions)
             implementation(projects.data.budgets)
+            implementation(projects.data.overview)
             implementation(projects.core.platform)
         }
         commonTest.dependencies {

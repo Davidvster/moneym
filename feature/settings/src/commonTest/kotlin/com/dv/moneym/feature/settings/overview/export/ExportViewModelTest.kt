@@ -10,6 +10,7 @@ import com.dv.moneym.core.testing.FakeAccountRepository
 import com.dv.moneym.core.testing.FakeAppSettings
 import com.dv.moneym.core.testing.FakeBudgetRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
+import com.dv.moneym.core.testing.FakeOverviewRepository
 import com.dv.moneym.core.testing.FakeRecurringTransactionRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.TestDispatcherProvider
@@ -47,10 +48,11 @@ class ExportViewModelTest {
     private val transactions = FakeTransactionRepository()
     private val budgets = FakeBudgetRepository()
     private val recurring = FakeRecurringTransactionRepository()
+    private val overview = FakeOverviewRepository()
     private val settings = FakeAppSettings()
 
-    private fun exporter() = BackupExporter(categories, accounts, transactions, budgets, recurring, settings)
-    private fun importer() = BackupImporter(categories, accounts, transactions, recurring)
+    private fun exporter() = BackupExporter(categories, accounts, transactions, budgets, recurring, overview, settings)
+    private fun importer() = BackupImporter(categories, accounts, transactions, recurring, overview)
 
     private fun vm() = ExportViewModel(
         exporter(),

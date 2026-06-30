@@ -18,6 +18,7 @@ import com.dv.moneym.data.backup.BackupRestorer
 import com.dv.moneym.data.backup.DbBackupManager
 import com.dv.moneym.data.budgets.db.BudgetsRoomDatabase
 import com.dv.moneym.data.categories.db.CategoriesRoomDatabase
+import com.dv.moneym.data.overview.db.OverviewRoomDatabase
 import com.dv.moneym.data.transactions.db.TransactionsRoomDatabase
 import com.dv.moneym.feature.aianalysis.ActiveChatHolder
 import com.dv.moneym.feature.aianalysis.AnalyzeViewModel
@@ -203,9 +204,9 @@ val featureSecurityModule = module {
 }
 
 val dataBackupModule = module {
-    single { BackupExporter(get(), get(), get(), get(), get(), get()) }
-    single { BackupImporter(get(), get(), get(), get()) }
-    single { BackupRestorer(get(), get(), get(), get(), get()) }
+    single { BackupExporter(get(), get(), get(), get(), get(), get(), get()) }
+    single { BackupImporter(get(), get(), get(), get(), get()) }
+    single { BackupRestorer(get(), get(), get(), get(), get(), get()) }
     single { CsvImportHolder() }
     single {
         DbBackupManager(get()) {
@@ -213,6 +214,7 @@ val dataBackupModule = module {
             get<AccountsRoomDatabase>().close()
             get<TransactionsRoomDatabase>().close()
             get<BudgetsRoomDatabase>().close()
+            get<OverviewRoomDatabase>().close()
             get<AiChatRoomDatabase>().close()
         }
     }

@@ -25,6 +25,7 @@ kotlin {
             api(projects.data.transactions)
             api(projects.data.banksync)
             api(projects.data.budgets)
+            api(projects.data.overview)
             api(projects.data.llmmodels)
             api(projects.data.aichat)
             api(projects.core.ai)

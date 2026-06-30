@@ -17,6 +17,7 @@ import com.dv.moneym.data.banksync.createBankSyncDatabase
 import com.dv.moneym.data.walletsync.createWalletSyncDatabase
 import com.dv.moneym.data.budgets.createBudgetsDatabase
 import com.dv.moneym.data.categories.createCategoriesDatabase
+import com.dv.moneym.data.overview.createOverviewDatabase
 import com.dv.moneym.data.transactions.createTransactionsDatabase
 import com.dv.moneym.locale.AndroidLocaleController
 import com.dv.moneym.platform.AppInfo
@@ -35,6 +36,7 @@ fun androidPlatformModule(context: Context) = module {
     single { createAccountsDatabase(context) }
     single { createTransactionsDatabase(context) }
     single { createBudgetsDatabase(context) }
+    single { createOverviewDatabase(context) }
     single { createAiChatDatabase(context) }
     single { createBankSyncDatabase(context) }
     single { createWalletSyncDatabase(context) }

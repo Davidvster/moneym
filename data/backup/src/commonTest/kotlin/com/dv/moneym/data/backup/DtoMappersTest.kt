@@ -22,6 +22,10 @@ import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.UNSAVED_RECURRING_ID
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.core.model.YearMonth
+import com.dv.moneym.data.overview.OverviewAiWidget
+import com.dv.moneym.data.overview.OverviewBlockId
+import com.dv.moneym.data.overview.OverviewLayoutBlock
+import com.dv.moneym.data.overview.OverviewLayoutPrefs
 import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
 import kotlin.test.Test
@@ -398,5 +402,37 @@ class DtoMappersTest {
         assertNull(result.categoryId)
         assertNull(result.recurringMonths)
         assertEquals(original, result)
+    }
+
+    // --- Overview ---
+
+    @Test
+    fun overviewLayoutRoundTrip() {
+        val original = OverviewLayoutPrefs(
+            listOf(
+                OverviewLayoutBlock(OverviewBlockId("totals"), sortOrder = 0, visible = true),
+                OverviewLayoutBlock(OverviewBlockId("monthly_spend"), sortOrder = 1, visible = false),
+            )
+        )
+
+        assertEquals(original, original.toDto().toDomain())
+    }
+
+    @Test
+    fun overviewAiWidgetRoundTrip() {
+        val original = OverviewAiWidget(
+            id = 9,
+            title = "Forecast",
+            prompt = "Forecast spending",
+            a2uiJson = "{}",
+            enabled = false,
+            sortOrder = 2,
+            createdAt = epoch,
+            updatedAt = epoch2,
+            lastGeneratedAt = epoch2,
+            lastGenerationEngineId = "local",
+        )
+
+        assertEquals(original, original.toDto().toDomain())
     }
 }

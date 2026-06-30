@@ -8,6 +8,7 @@ import com.dv.moneym.core.model.UNSAVED_RECURRING_ID
 import com.dv.moneym.core.model.UNSAVED_TRANSACTION_ID
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.categories.CategoryRepository
+import com.dv.moneym.data.overview.OverviewRepository
 import com.dv.moneym.data.transactions.RecurringTransactionRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlinx.coroutines.flow.first
@@ -18,6 +19,7 @@ class BackupImporter(
     private val accountRepository: AccountRepository,
     private val transactionRepository: TransactionRepository,
     private val recurringTransactionRepository: RecurringTransactionRepository,
+    private val overviewRepository: OverviewRepository,
 ) {
     private val json = Json { ignoreUnknownKeys = true }
 
@@ -144,10 +146,26 @@ class BackupImporter(
                 ))
             }
         }
+
+        if (backup.overviewLayout.blocks.isNotEmpty()) {
+            overviewRepository.replaceLayout(backup.overviewLayout.toDomain().blocks)
+        }
+
+        val existingWidgetKeys = overviewRepository.observeAiWidgets().first()
+            .map { widgetMatchKey(it.title, it.prompt) }
+            .toMutableSet()
+        backup.overviewAiWidgets.forEach { dto ->
+            val key = widgetMatchKey(dto.title, dto.prompt)
+            if (key !in existingWidgetKeys) {
+                overviewRepository.upsertAiWidget(dto.toDomain(idOverride = 0))
+                existingWidgetKeys += key
+            }
+        }
     }
 
     private fun catMatchKey(name: String, iconKey: String, colorHex: String) = "$name|$iconKey|$colorHex"
     private fun accMatchKey(name: String, type: String, currency: String) = "$name|$type|$currency"
     private fun txnMatchKey(date: String, amount: Long, currency: String, cat: String, acc: String, note: String?) =
         "$date|$amount|$currency|$cat|$acc|${note ?: ""}"
+    private fun widgetMatchKey(title: String, prompt: String) = "$title|$prompt"
 }

@@ -16,6 +16,7 @@ import com.dv.moneym.data.banksync.createBankSyncDatabase
 import com.dv.moneym.data.walletsync.createWalletSyncDatabase
 import com.dv.moneym.data.budgets.createBudgetsDatabase
 import com.dv.moneym.data.categories.createCategoriesDatabase
+import com.dv.moneym.data.overview.createOverviewDatabase
 import com.dv.moneym.data.transactions.createTransactionsDatabase
 import com.dv.moneym.locale.IosLocaleController
 import com.dv.moneym.platform.AppInfo
@@ -33,6 +34,7 @@ fun iosPlatformModule() = module {
     single { createAccountsDatabase() }
     single { createTransactionsDatabase() }
     single { createBudgetsDatabase() }
+    single { createOverviewDatabase() }
     single { createAiChatDatabase() }
     single { createBankSyncDatabase() }
     single { createWalletSyncDatabase() }

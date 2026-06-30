@@ -16,9 +16,13 @@ import com.dv.moneym.core.testing.FakeAccountRepository
 import com.dv.moneym.core.testing.FakeAppSettings
 import com.dv.moneym.core.testing.FakeBudgetRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
+import com.dv.moneym.core.testing.FakeOverviewRepository
 import com.dv.moneym.core.testing.FakeRecurringTransactionRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.runTestWithDispatchers
+import com.dv.moneym.data.overview.OverviewAiWidget
+import com.dv.moneym.data.overview.OverviewBlockId
+import com.dv.moneym.data.overview.OverviewLayoutBlock
 import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
 import kotlin.test.Test
@@ -44,6 +48,18 @@ class BackupRoundTripTest {
         note = "test", categoryId = CategoryId(catId), accountId = AccountId(accId),
         createdAt = epoch, updatedAt = epoch,
     )
+    private fun makeWidget() = OverviewAiWidget(
+        id = 0,
+        title = "Cash flow",
+        prompt = "Summarize cash flow",
+        a2uiJson = """{"type":"metric"}""",
+        enabled = true,
+        sortOrder = 10,
+        createdAt = epoch,
+        updatedAt = epoch,
+        lastGeneratedAt = epoch,
+        lastGenerationEngineId = "local",
+    )
 
     @Test
     fun jsonRoundTripPreservesAllData() = runTestWithDispatchers {
@@ -59,17 +75,28 @@ class BackupRoundTripTest {
 
         val budgetRepo = FakeBudgetRepository()
         val recurringRepo = FakeRecurringTransactionRepository()
-        val exporter = BackupExporter(catRepo, accRepo, txnRepo, budgetRepo, recurringRepo, settings)
+        val overviewRepo = FakeOverviewRepository()
+        overviewRepo.replaceLayout(
+            listOf(
+                OverviewLayoutBlock(OverviewBlockId("totals"), sortOrder = 0, visible = true),
+                OverviewLayoutBlock(OverviewBlockId("monthly_spend"), sortOrder = 1, visible = false),
+            )
+        )
+        overviewRepo.upsertAiWidget(makeWidget())
+
+        val exporter = BackupExporter(catRepo, accRepo, txnRepo, budgetRepo, recurringRepo, overviewRepo, settings)
         val json = exporter.exportToJson()
         assertTrue(json.contains("\"version\":1"))
         assertTrue(json.contains("Cat1"))
+        assertTrue(json.contains("Cash flow"))
 
         // Fresh repos for import
         val catRepo2 = FakeCategoryRepository()
         val accRepo2 = FakeAccountRepository()
         val txnRepo2 = FakeTransactionRepository()
         val recurringRepo2 = FakeRecurringTransactionRepository()
-        val importer = BackupImporter(catRepo2, accRepo2, txnRepo2, recurringRepo2)
+        val overviewRepo2 = FakeOverviewRepository()
+        val importer = BackupImporter(catRepo2, accRepo2, txnRepo2, recurringRepo2, overviewRepo2)
 
         val preview = importer.previewFromJson(json)
         assertTrue(preview.isValid)
@@ -81,6 +108,9 @@ class BackupRoundTripTest {
         assertEquals(2, catRepo2.categories.size)
         assertEquals(1, accRepo2.accounts.size)
         assertEquals(2, txnRepo2.transactions.size)
+        assertEquals(listOf("totals", "monthly_spend"), overviewRepo2.layout.blocks.map { it.blockId.value })
+        assertEquals(1, overviewRepo2.widgets.size)
+        assertEquals("Cash flow", overviewRepo2.widgets.first().title)
     }
 
     @Test
@@ -96,11 +126,12 @@ class BackupRoundTripTest {
 
         val budgetRepo = FakeBudgetRepository()
         val recurringRepo = FakeRecurringTransactionRepository()
-        val exporter = BackupExporter(catRepo, accRepo, txnRepo, budgetRepo, recurringRepo, settings)
+        val overviewRepo = FakeOverviewRepository()
+        val exporter = BackupExporter(catRepo, accRepo, txnRepo, budgetRepo, recurringRepo, overviewRepo, settings)
         val json = exporter.exportToJson()
 
         // Import into repos that already have the same data
-        val importer = BackupImporter(catRepo, accRepo, txnRepo, recurringRepo)
+        val importer = BackupImporter(catRepo, accRepo, txnRepo, recurringRepo, overviewRepo)
         val preview = importer.previewFromJson(json)
 
         assertEquals(0, preview.categories.new)

@@ -54,6 +54,7 @@ val appModules: List<Module> = listOf(
     dataAccountsModule,
     dataTransactionsModule,
     dataBudgetsModule,
+    dataOverviewModule,
     dataAichatModule,
     dataBackupModule,
     dataLlmModelsModule,

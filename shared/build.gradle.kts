@@ -83,6 +83,7 @@ kotlin {
             implementation(projects.data.transactions)
             implementation(projects.data.backup)
             implementation(projects.data.budgets)
+            implementation(projects.data.overview)
             implementation(projects.data.remotebackup)
             implementation(projects.data.sync)
             implementation(projects.data.banksync)

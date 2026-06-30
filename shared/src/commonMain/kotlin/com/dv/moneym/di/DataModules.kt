@@ -19,6 +19,9 @@ import com.dv.moneym.data.llmmodels.LlmModelDownloader
 import com.dv.moneym.data.llmmodels.LlmModelRepository
 import com.dv.moneym.data.llmmodels.createModelFileStore
 import com.dv.moneym.data.llmmodels.llmHttpClient
+import com.dv.moneym.data.overview.OverviewRepository
+import com.dv.moneym.data.overview.createOverviewRepository
+import com.dv.moneym.data.overview.db.OverviewRoomDatabase
 import com.dv.moneym.data.transactions.MaterializeRecurringTransactionsUseCase
 import com.dv.moneym.data.transactions.PaymentModeRepository
 import com.dv.moneym.data.transactions.RecurringTransactionRepository
@@ -88,6 +91,10 @@ val dataTransactionsModule = module {
 
 val dataBudgetsModule = module {
     single<BudgetRepository> { createBudgetRepository(get<BudgetsRoomDatabase>()) }
+}
+
+val dataOverviewModule = module {
+    single<OverviewRepository> { createOverviewRepository(get<OverviewRoomDatabase>()) }
 }
 
 val dataAichatModule = module {
