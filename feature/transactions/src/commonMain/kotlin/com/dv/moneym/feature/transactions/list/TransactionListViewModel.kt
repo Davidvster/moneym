@@ -14,6 +14,7 @@ import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.model.TxDisplayPrefs
 import com.dv.moneym.core.model.clearCategories
 import com.dv.moneym.core.model.selectedCategoryIds
+import com.dv.moneym.core.model.selectedType
 import com.dv.moneym.core.model.toggleCategory
 import com.dv.moneym.data.accounts.AccountRepository
 import com.dv.moneym.data.banksync.BankSyncStatusProvider
@@ -76,6 +77,7 @@ class TransactionListViewModel(
     private val _uiBooleans = MutableStateFlow(UiBooleans())
 
     private val _showSyncSheet = MutableStateFlow(false)
+    private val _typeFilterScrollRequest = MutableStateFlow(0)
 
     private val _earliestMonth: StateFlow<YearMonth?> = transactionRepository
         .getTransactionDates()
@@ -180,6 +182,9 @@ class TransactionListViewModel(
         .combine(walletSyncStatus?.isEnabled ?: flowOf(false)) { s, e -> s.copy(isWalletSyncEnabled = e) }
         .combine(walletSyncStatus?.pendingCount ?: flowOf(0)) { s, c -> s.copy(walletPendingCount = c) }
         .combine(_showSyncSheet) { state, show -> state.copy(showSyncSheet = show) }
+        .combine(_typeFilterScrollRequest) { state, request ->
+            state.copy(typeFilterScrollRequest = request)
+        }
         .map { state ->
             state.copy(
                 syncAttentionCount = state.pendingDeletionCount + state.walletPendingCount +
@@ -219,7 +224,12 @@ class TransactionListViewModel(
             TransactionListIntent.NextMonth -> _currentMonth.update { it.next() }
 
             is TransactionListIntent.FilterChanged -> {
+                val oldType = _filter.value.selectedType()
+                val newType = intent.filter.selectedType()
                 persistFilter(intent.filter)
+                if (oldType != newType) {
+                    _typeFilterScrollRequest.update { it + 1 }
+                }
             }
 
             is TransactionListIntent.SearchQueryChanged -> ephemeralState.searchQuery.value = intent.query

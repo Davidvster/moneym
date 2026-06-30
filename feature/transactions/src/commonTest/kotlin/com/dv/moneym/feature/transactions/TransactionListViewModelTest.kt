@@ -189,6 +189,47 @@ class TransactionListViewModelTest {
     }
 
     @Test
+    fun typeFilterChangesRequestScrollToTop() = runTestWithDispatchers {
+        val vm = makeVm()
+        vm.state.test {
+            var s = awaitItem()
+            while (s.currentMonth == null) s = awaitItem()
+            assertEquals(0, s.typeFilterScrollRequest)
+
+            vm.onIntent(TransactionListIntent.FilterChanged(TransactionFilter.ByType(TransactionType.EXPENSE)))
+            var afterExpense = awaitItem()
+            while (
+                afterExpense.typeFilterScrollRequest != 1 ||
+                afterExpense.activeFilter != TransactionFilter.ByType(TransactionType.EXPENSE)
+            ) {
+                afterExpense = awaitItem()
+            }
+            assertEquals(TransactionFilter.ByType(TransactionType.EXPENSE), afterExpense.activeFilter)
+
+            vm.onIntent(TransactionListIntent.FilterChanged(TransactionFilter.ByType(TransactionType.INCOME)))
+            var afterIncome = awaitItem()
+            while (
+                afterIncome.typeFilterScrollRequest != 2 ||
+                afterIncome.activeFilter != TransactionFilter.ByType(TransactionType.INCOME)
+            ) {
+                afterIncome = awaitItem()
+            }
+            assertEquals(TransactionFilter.ByType(TransactionType.INCOME), afterIncome.activeFilter)
+
+            vm.onIntent(TransactionListIntent.FilterChanged(TransactionFilter.None))
+            var afterAll = awaitItem()
+            while (
+                afterAll.typeFilterScrollRequest != 3 ||
+                afterAll.activeFilter != TransactionFilter.None
+            ) {
+                afterAll = awaitItem()
+            }
+            assertEquals(TransactionFilter.None, afterAll.activeFilter)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
     fun categoryFilterPersistsAndSurvivesViewModelRecreation() = runTestWithDispatchers {
         val settings = FakeAppSettingsRepository()
         val firstVm = makeVm(settings = settings)

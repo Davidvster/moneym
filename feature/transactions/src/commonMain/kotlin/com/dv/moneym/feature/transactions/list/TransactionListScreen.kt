@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -351,11 +352,12 @@ private fun TransactionListContent(
             .background(MM.colors.bg),
     ) {
         AnimatedContent(
-            targetState = visibleSelection,
+            targetState = visibleSelection != null,
             transitionSpec = { fadeIn(tween(180)).togetherWith(fadeOut(tween(120))) },
             label = "transactionHeaderMode",
-        ) { selection ->
-            if (selection != null) {
+        ) { selectionMode ->
+            val selection = visibleSelection
+            if (selectionMode && selection != null) {
                 TransactionSelectionHeader(selection = selection)
             } else {
                 TransactionListHeader(
@@ -386,6 +388,7 @@ private fun TransactionListContent(
         HorizontalPager(
             state = pagerState,
             beyondViewportPageCount = 1,
+            userScrollEnabled = visibleSelection == null,
             modifier = Modifier.weight(1f),
         ) { page ->
             val yearMonth = pageToYearMonth(page, anchor)
@@ -398,6 +401,7 @@ private fun TransactionListContent(
                 onSelectionChanged = { selection ->
                     if (yearMonth == currentMonth) visibleSelection = selection
                 },
+                scrollToTopRequest = state.typeFilterScrollRequest,
             )
         }
 
@@ -1127,10 +1131,18 @@ internal fun TransactionListBody(
     onAddFirst: (() -> Unit)? = null,
     selectionMode: Boolean = false,
     selectedIds: Set<TransactionId> = emptySet(),
+    scrollToTopRequest: Int = 0,
     onToggleSelection: (TransactionId) -> Unit = {},
     onStartSelection: (TransactionId) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
+    val listState = rememberLazyListState()
+    LaunchedEffect(scrollToTopRequest) {
+        if (scrollToTopRequest > 0) {
+            listState.scrollToItem(0)
+        }
+    }
+
     when {
         isLoading -> {
             TransactionListSkeleton(modifier = modifier)
@@ -1147,7 +1159,10 @@ internal fun TransactionListBody(
         }
 
         else -> {
-            LazyColumn(modifier = modifier) {
+            LazyColumn(
+                state = listState,
+                modifier = modifier,
+            ) {
                 dayGroups.forEach { group ->
                     stickyHeader(key = "header_${group.date}") {
                         DayGroupHeader(group = group, showAmount = txDisplayPrefs.showDailySums)

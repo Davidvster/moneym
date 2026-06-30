@@ -67,6 +67,7 @@ internal data class TransactionListUiState(
     val isWalletSyncEnabled: Boolean = false,
     val walletPendingCount: Int = 0,
     val syncAttentionCount: Int = 0,
+    val typeFilterScrollRequest: Int = 0,
 )
 
 @Serializable

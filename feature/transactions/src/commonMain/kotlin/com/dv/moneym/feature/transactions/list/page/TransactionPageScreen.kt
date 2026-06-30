@@ -88,6 +88,7 @@ internal fun TransactionPageScreen(
     onAddFirst: (() -> Unit)? = null,
     isVisible: Boolean = true,
     onSelectionChanged: (VisibleTransactionSelection?) -> Unit = {},
+    scrollToTopRequest: Int = 0,
 ) {
     val vm = koinViewModel<TransactionPageViewModel>(
         key = yearMonth.toString(),
@@ -130,6 +131,7 @@ internal fun TransactionPageScreen(
         onAddFirst = onAddFirst,
         selectionMode = state.selection.selectionMode,
         selectedIds = state.selection.selectedIds,
+        scrollToTopRequest = scrollToTopRequest,
         onToggleSelection = { vm.onIntent(TransactionPageIntent.TransactionPressed(it)) },
         onStartSelection = {
             if (!state.selection.selectionMode) {

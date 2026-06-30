@@ -68,6 +68,7 @@ class TransactionPageViewModel(
     private val bulkSheet = MutableStateFlow<BulkSheetState>(BulkSheetState.None)
     private val bulkRateText = MutableStateFlow("")
     private val bulkRateError = MutableStateFlow(false)
+    private var consumeNextPickerDismiss = false
 
     @OptIn(ExperimentalCoroutinesApi::class)
     internal val state = combine(
@@ -238,6 +239,10 @@ class TransactionPageViewModel(
     }
 
     private fun dismissBulkSheet() {
+        if (consumeNextPickerDismiss) {
+            consumeNextPickerDismiss = false
+            return
+        }
         bulkSheet.value = BulkSheetState.None
         bulkRateText.value = ""
         bulkRateError.value = false
@@ -260,6 +265,7 @@ class TransactionPageViewModel(
 
     private fun pickCategory(id: CategoryId) {
         val category = state.value.availableCategories.firstOrNull { it.id == id } ?: return
+        consumeNextPickerDismiss = true
         bulkSheet.value = BulkSheetState.CategoryConfirm(category)
     }
 
@@ -278,8 +284,9 @@ class TransactionPageViewModel(
         if (ids.isEmpty()) return
         val selectedCurrencies = currentSelectedCurrencies(ids)
         val requiresRate = selectedCurrencies.any { it != account.currency.value }
-        bulkRateText.value = ""
+        bulkRateText.value = if (requiresRate) "1" else ""
         bulkRateError.value = false
+        consumeNextPickerDismiss = true
         bulkSheet.value = BulkSheetState.WalletConfirm(account, requiresRate)
     }
 

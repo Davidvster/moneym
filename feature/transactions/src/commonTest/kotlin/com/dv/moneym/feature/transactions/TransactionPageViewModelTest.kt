@@ -257,7 +257,7 @@ class TransactionPageViewModelTest {
     }
 
     @Test
-    fun bulkWalletMoveRequiresRateForCurrencyMismatch() = runTestWithDispatchers(testDispatcher) {
+    fun bulkWalletMoveDefaultsCurrencyMismatchRateToOneAndAppliesIt() = runTestWithDispatchers(testDispatcher) {
         val (vm, transactions) = fixture()
         val id = transactions.upsert(txn(amount = 100, currency = eur, accountId = AccountId(1)))
         val target = account(2, "Bank", usd)
@@ -271,20 +271,52 @@ class TransactionPageViewModelTest {
             while (state.bulkSheet !is BulkSheetState.WalletConfirm) state = awaitItem()
             val sheet = assertIs<BulkSheetState.WalletConfirm>(state.bulkSheet)
             assertEquals(true, sheet.requiresRate)
-
-            vm.onIntent(TransactionPageIntent.ConfirmWallet)
-            state = awaitItem()
-            while (!state.bulkRateError) state = awaitItem()
-
-            vm.onIntent(TransactionPageIntent.WalletRateChanged("1.5"))
+            assertEquals("1", state.bulkRateText)
             vm.onIntent(TransactionPageIntent.ConfirmWallet)
             state = awaitItem()
             while (state.selection.selectedIds.isNotEmpty()) state = awaitItem()
             cancelAndIgnoreRemainingEvents()
         }
 
-        assertEquals(Money(150, usd), transactions.getById(id)!!.amount)
+        assertEquals(Money(100, usd), transactions.getById(id)!!.amount)
         assertEquals(AccountId(2), transactions.getById(id)!!.accountId)
+    }
+
+    @Test
+    fun pickerDismissAfterCategorySelectionDoesNotClearConfirmSheet() = runTestWithDispatchers(testDispatcher) {
+        val (vm, transactions) = fixture()
+        val id = transactions.upsert(txn(type = TransactionType.EXPENSE, categoryId = CategoryId(1)))
+
+        vm.state.test {
+            var state = awaitItem()
+            while (state.dayGroups.isEmpty()) state = awaitItem()
+            vm.onIntent(TransactionPageIntent.TransactionLongPressed(id))
+            vm.onIntent(TransactionPageIntent.CategoryPicked(CategoryId(2)))
+            vm.onIntent(TransactionPageIntent.DismissBulkSheet)
+            state = awaitItem()
+            while (state.bulkSheet !is BulkSheetState.CategoryConfirm) state = awaitItem()
+            assertIs<BulkSheetState.CategoryConfirm>(state.bulkSheet)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun pickerDismissAfterWalletSelectionDoesNotClearConfirmSheet() = runTestWithDispatchers(testDispatcher) {
+        val (vm, transactions) = fixture()
+        val id = transactions.upsert(txn(amount = 100, currency = eur, accountId = AccountId(1)))
+        val target = account(2, "Bank", usd)
+
+        vm.state.test {
+            var state = awaitItem()
+            while (state.dayGroups.isEmpty()) state = awaitItem()
+            vm.onIntent(TransactionPageIntent.TransactionLongPressed(id))
+            vm.onIntent(TransactionPageIntent.WalletPicked(target))
+            vm.onIntent(TransactionPageIntent.DismissBulkSheet)
+            state = awaitItem()
+            while (state.bulkSheet !is BulkSheetState.WalletConfirm) state = awaitItem()
+            assertIs<BulkSheetState.WalletConfirm>(state.bulkSheet)
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
     @Test
