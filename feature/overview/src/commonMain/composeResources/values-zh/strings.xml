@@ -47,6 +47,7 @@
     <string name="overview_prev_year_cd">上一年</string>
     <string name="overview_next_year_cd">下一年</string>
     <string name="overview_analyze_cd">使用 AI 分析</string>
+    <string name="overview_customize_cd">自定义概览</string>
     <string name="overview_now">现在</string>
     <string name="overview_ok">确定</string>
     <string name="overview_cancel">取消</string>

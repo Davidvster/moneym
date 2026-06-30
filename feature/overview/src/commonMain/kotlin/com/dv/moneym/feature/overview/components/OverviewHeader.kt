@@ -47,6 +47,7 @@ import com.dv.moneym.feature.overview.OverviewPeriod
 import moneym.feature.overview.generated.resources.Res
 import moneym.feature.overview.generated.resources.overview_all
 import moneym.feature.overview.generated.resources.overview_analyze_cd
+import moneym.feature.overview.generated.resources.overview_customize_cd
 import moneym.feature.overview.generated.resources.overview_expenses
 import moneym.feature.overview.generated.resources.overview_income
 import moneym.feature.overview.generated.resources.overview_period_custom
@@ -76,6 +77,7 @@ internal fun OverviewHeader(
     onAccountSelected: (AccountId) -> Unit = {},
     aiAvailable: Boolean = false,
     onAnalyzeClick: () -> Unit = {},
+    onCustomizeOverview: () -> Unit = {},
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -131,6 +133,12 @@ internal fun OverviewHeader(
                     }
                 }
             }
+            MmIconButton(
+                icon = Icon.Edit.imageVector,
+                size = MM.dimen.padding_4x,
+                onClick = onCustomizeOverview,
+                contentDescription = stringResource(Res.string.overview_customize_cd),
+            )
             if (aiAvailable) {
                 MmButton(
                     text = stringResource(Res.string.overview_analyze_cd),

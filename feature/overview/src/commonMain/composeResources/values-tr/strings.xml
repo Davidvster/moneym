@@ -47,6 +47,7 @@
     <string name="overview_prev_year_cd">Önceki yıl</string>
     <string name="overview_next_year_cd">Sonraki yıl</string>
     <string name="overview_analyze_cd">Yapay Zeka ile analiz et</string>
+    <string name="overview_customize_cd">Genel bakışı özelleştir</string>
     <string name="overview_now">Şimdi</string>
     <string name="overview_ok">Tamam</string>
     <string name="overview_cancel">İptal</string>

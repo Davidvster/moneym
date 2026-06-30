@@ -16,6 +16,7 @@ import com.dv.moneym.core.testing.FakeAccountRepository
 import com.dv.moneym.core.testing.FakeAppSettingsRepository
 import com.dv.moneym.core.testing.FakeBudgetRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
+import com.dv.moneym.core.testing.FakeOverviewRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.FixedClock
 import com.dv.moneym.core.testing.runTestWithDispatchers
@@ -26,6 +27,7 @@ import com.dv.moneym.feature.overview.usecase.BuildCategoryBreakdownUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCategoryTrendsUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCumulativeSeriesUseCase
 import com.dv.moneym.feature.overview.usecase.BuildOverviewPageStateUseCase
+import com.dv.moneym.feature.overview.usecase.ResolveOverviewBlocksUseCase
 import com.dv.moneym.feature.overview.usecase.ResolvePeriodRangeUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -41,6 +43,7 @@ import kotlin.test.assertIs
 import kotlin.test.assertTrue
 import kotlin.time.Instant
 
+@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 class OverviewViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
@@ -77,7 +80,9 @@ class OverviewViewModelTest {
         accountRepository = accountRepo,
         appSettingsRepository = settingsRepo,
         budgetRepository = budgetRepo,
+        overviewRepository = FakeOverviewRepository(),
         buildOverviewPageState = buildOverviewPageState,
+        resolveOverviewBlocks = ResolveOverviewBlocksUseCase(),
         clock = clock,
     )
 

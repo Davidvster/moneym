@@ -47,6 +47,7 @@
     <string name="overview_prev_year_cd">Forrige år</string>
     <string name="overview_next_year_cd">Neste år</string>
     <string name="overview_analyze_cd">Analyser med AI</string>
+    <string name="overview_customize_cd">Tilpass oversikt</string>
     <string name="overview_now">Nå</string>
     <string name="overview_ok">OK</string>
     <string name="overview_cancel">Avbryt</string>

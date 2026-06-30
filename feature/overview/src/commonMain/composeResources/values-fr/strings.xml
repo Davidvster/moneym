@@ -47,6 +47,7 @@
     <string name="overview_prev_year_cd">Année précédente</string>
     <string name="overview_next_year_cd">Année suivante</string>
     <string name="overview_analyze_cd">Analyser avec l'IA</string>
+    <string name="overview_customize_cd">Personnaliser l'aperçu</string>
     <string name="overview_now">Maintenant</string>
     <string name="overview_ok">OK</string>
     <string name="overview_cancel">Annuler</string>

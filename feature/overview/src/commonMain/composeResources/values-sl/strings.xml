@@ -47,6 +47,7 @@
     <string name="overview_prev_year_cd">Prejšnje leto</string>
     <string name="overview_next_year_cd">Naslednje leto</string>
     <string name="overview_analyze_cd">Analiziraj z UI</string>
+    <string name="overview_customize_cd">Prilagodi pregled</string>
     <string name="overview_now">Zdaj</string>
     <string name="overview_ok">V redu</string>
     <string name="overview_cancel">Prekliči</string>

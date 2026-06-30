@@ -9,6 +9,7 @@ import com.dv.moneym.feature.overview.CategorySpend
 import com.dv.moneym.feature.overview.CategoryTrend
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.usecase.BudgetProgress
+import com.dv.moneym.feature.overview.usecase.OverviewResolvedBlock
 
 internal data class OverviewPageUiState(
     val isLoading: Boolean = true,
@@ -41,6 +42,7 @@ internal data class OverviewPageUiState(
     val categoryAvgSpend: List<CategoryAvgSpend> = emptyList(),
     val selectedSliceIndex: Int? = null,
     val budgetProgress: List<BudgetProgress> = emptyList(),
+    val blocks: List<OverviewResolvedBlock> = emptyList(),
 )
 
 // ─── Intents ────────────────────────────────────────────────────

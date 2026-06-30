@@ -47,6 +47,7 @@
     <string name="overview_prev_year_cd">Ankstesni metai</string>
     <string name="overview_next_year_cd">Kiti metai</string>
     <string name="overview_analyze_cd">Analizuoti su DI</string>
+    <string name="overview_customize_cd">Tinkinti apžvalgą</string>
     <string name="overview_now">Dabar</string>
     <string name="overview_ok">Gerai</string>
     <string name="overview_cancel">Atšaukti</string>

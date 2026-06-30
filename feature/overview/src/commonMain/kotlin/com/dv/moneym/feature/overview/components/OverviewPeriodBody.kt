@@ -62,6 +62,8 @@ import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.page.OverviewPageIntent
 import com.dv.moneym.feature.overview.page.OverviewPageUiState
 import com.dv.moneym.feature.overview.usecase.BudgetProgress
+import com.dv.moneym.feature.overview.usecase.OverviewResolvedBlock
+import com.dv.moneym.data.overview.OverviewBuiltInBlockIds
 import moneym.feature.overview.generated.resources.Res
 import moneym.feature.overview.generated.resources.overview_cat_avg_day
 import moneym.feature.overview.generated.resources.overview_cat_avg_month
@@ -87,13 +89,39 @@ internal fun OverviewPeriodBody(
     onIntent: (OverviewPageIntent) -> Unit = {},
 ) {
     val space = MM.dimen
+    Column(modifier = Modifier.fillMaxWidth()) {
+        state.blocks.forEach { block ->
+            when (block) {
+                is OverviewResolvedBlock.BuiltIn -> OverviewBuiltInBlock(
+                    block = block,
+                    state = state,
+                    spendingFilter = spendingFilter,
+                    currencyCode = currencyCode,
+                    onIntent = onIntent,
+                )
+
+                is OverviewResolvedBlock.AiWidget -> Unit
+            }
+        }
+        Spacer(Modifier.height(space.padding_2x))
+    }
+}
+
+@Composable
+private fun OverviewBuiltInBlock(
+    block: OverviewResolvedBlock.BuiltIn,
+    state: OverviewPageUiState,
+    spendingFilter: SpendingFilter,
+    currencyCode: String,
+    onIntent: (OverviewPageIntent) -> Unit,
+) {
+    val space = MM.dimen
     val period = state.period
     val inMonthMode = period is OverviewPeriod.Month
     val inYearMode = period is OverviewPeriod.Year
-    val dailyTrends = selectTrends(spendingFilter, state.categoryDailyTrend, state.categoryIncomeDailyTrend)
-    val monthlyTrends = selectTrends(spendingFilter, state.categoryMonthlyTrend, state.categoryIncomeMonthlyTrend)
-    Column(modifier = Modifier.fillMaxWidth()) {
-        IncomeExpensesCard(
+
+    when (block.blockId) {
+        OverviewBuiltInBlockIds.Totals -> IncomeExpensesCard(
             income = state.income,
             expenses = state.expenses,
             currencyCode = currencyCode,
@@ -103,16 +131,16 @@ internal fun OverviewPeriodBody(
                 .fillMaxWidth()
                 .padding(horizontal = space.padding_2x),
         )
-        if (state.budgetProgress.isNotEmpty()) {
-            BudgetBreakdownCard(
-                progress = state.budgetProgress,
-                modifier = Modifier
-                    .mmStaggeredAppear(1)
-                    .fillMaxWidth()
-                    .padding(horizontal = space.padding_2x, vertical = space.padding_1_5x),
-            )
-        }
-        AvgStatsCard(
+
+        OverviewBuiltInBlockIds.BudgetProgress -> BudgetBreakdownCard(
+            progress = state.budgetProgress,
+            modifier = Modifier
+                .mmStaggeredAppear(1)
+                .fillMaxWidth()
+                .padding(horizontal = space.padding_2x, vertical = space.padding_1_5x),
+        )
+
+        OverviewBuiltInBlockIds.Averages -> AvgStatsCard(
             inMonthMode = inMonthMode,
             spendingFilter = spendingFilter,
             avgDailyExpense = state.avgDailyExpense,
@@ -127,7 +155,8 @@ internal fun OverviewPeriodBody(
             currencyCode = currencyCode,
             modifier = Modifier.mmStaggeredAppear(2),
         )
-        SpendingByCategoryCard(
+
+        OverviewBuiltInBlockIds.CategoryBreakdown -> SpendingByCategoryCard(
             expenseCategories = state.categoryBreakdown,
             incomeCategories = state.categoryIncomeBreakdown,
             totalExpenses = state.expenses,
@@ -145,90 +174,105 @@ internal fun OverviewPeriodBody(
                     vertical = space.padding_1_5x
                 ),
         )
-        if (inMonthMode) {
-            CumulativeSpendCard(
-                cumulativeTotals = state.cumulativeTotals,
-                todayIndex = state.todayIndex,
-                currencyCode = currencyCode,
-                modifier = Modifier.mmStaggeredAppear(4),
-            )
-            CategoryTrendsCard(
-                trends = dailyTrends,
-                highlightIndex = state.todayIndex,
-                xLabels = stringArrayResource(Res.array.overview_month_x_labels),
-                title = stringResource(Res.string.overview_daily_trend),
-                showBars = false,
-                currencyCode = currencyCode,
-                modifier = Modifier
-                    .mmStaggeredAppear(5)
-                    .padding(
-                        horizontal = space.padding_2x,
-                        vertical = space.padding_0_5x
-                    ),
-            )
-        } else if (inYearMode) {
-            if (spendingFilter != SpendingFilter.Income) {
-                MonthlySpendingBarChart(
-                    monthlyTotals = state.monthlyTotals,
-                    currentMonthIndex = state.currentMonthIndex,
-                    currencyCode = currencyCode,
-                    title = stringResource(Res.string.overview_monthly_spending),
-                    modifier = Modifier.mmStaggeredAppear(4),
-                )
-            }
-            if (spendingFilter != SpendingFilter.Expenses) {
-                MonthlySpendingBarChart(
-                    monthlyTotals = state.monthlyIncomeTotals,
-                    currentMonthIndex = state.currentMonthIndex,
-                    currencyCode = currencyCode,
-                    title = stringResource(Res.string.overview_monthly_income),
-                    modifier = Modifier.mmStaggeredAppear(4),
-                )
-            }
-            if (spendingFilter == SpendingFilter.All) {
-                MonthlySpendingBarChart(
-                    monthlyTotals = state.monthlyNetTotals,
-                    currentMonthIndex = state.currentMonthIndex,
-                    currencyCode = currencyCode,
-                    title = stringResource(Res.string.overview_monthly_net),
-                    modifier = Modifier.mmStaggeredAppear(4),
-                )
-            }
-            CategoryTrendsCard(
-                trends = monthlyTrends,
-                highlightIndex = state.currentMonthIndex,
-                xLabels = stringArrayResource(Res.array.overview_year_x_labels),
-                title = stringResource(Res.string.overview_monthly_trend),
-                showBars = true,
-                currencyCode = currencyCode,
-                modifier = Modifier
-                    .mmStaggeredAppear(5)
-                    .padding(
-                        horizontal = space.padding_2x,
-                        vertical = space.padding_0_5x
-                    ),
-            )
-        } else {
-            // DateRange mode — show category breakdown only, no time-series charts
-            if (dailyTrends.isNotEmpty()) {
-                CategoryTrendsCard(
-                    trends = dailyTrends,
-                    highlightIndex = -1,
-                    xLabels = emptyList(),
-                    title = stringResource(Res.string.overview_daily_trend),
-                    showBars = true,
-                    currencyCode = currencyCode,
-                    modifier = Modifier.padding(
-                        horizontal = space.padding_2x,
-                        vertical = space.padding_0_5x
-                    ),
-                )
-            }
-        }
-        Spacer(Modifier.height(space.padding_2x))
+
+        OverviewBuiltInBlockIds.CumulativeSpend -> CumulativeSpendCard(
+            cumulativeTotals = state.cumulativeTotals,
+            todayIndex = state.todayIndex,
+            currencyCode = currencyCode,
+            modifier = Modifier.mmStaggeredAppear(4),
+        )
+
+        OverviewBuiltInBlockIds.MonthlySpend -> MonthlySpendingBarChart(
+            monthlyTotals = state.monthlyTotals,
+            currentMonthIndex = state.currentMonthIndex,
+            currencyCode = currencyCode,
+            title = stringResource(Res.string.overview_monthly_spending),
+            modifier = Modifier.mmStaggeredAppear(4),
+        )
+
+        OverviewBuiltInBlockIds.MonthlyIncome -> MonthlySpendingBarChart(
+            monthlyTotals = state.monthlyIncomeTotals,
+            currentMonthIndex = state.currentMonthIndex,
+            currencyCode = currencyCode,
+            title = stringResource(Res.string.overview_monthly_income),
+            modifier = Modifier.mmStaggeredAppear(4),
+        )
+
+        OverviewBuiltInBlockIds.MonthlyNet -> MonthlySpendingBarChart(
+            monthlyTotals = state.monthlyNetTotals,
+            currentMonthIndex = state.currentMonthIndex,
+            currencyCode = currencyCode,
+            title = stringResource(Res.string.overview_monthly_net),
+            modifier = Modifier.mmStaggeredAppear(4),
+        )
+
+        OverviewBuiltInBlockIds.CategoryTrends -> CategoryTrendsBlock(
+            state = state,
+            spendingFilter = spendingFilter,
+            currencyCode = currencyCode,
+        )
+
+        else -> Unit
     }
 }
 
+@Composable
+private fun CategoryTrendsBlock(
+    state: OverviewPageUiState,
+    spendingFilter: SpendingFilter,
+    currencyCode: String,
+) {
+    val space = MM.dimen
+    val dailyTrends = selectTrends(spendingFilter, state.categoryDailyTrend, state.categoryIncomeDailyTrend)
+    val monthlyTrends = selectTrends(spendingFilter, state.categoryMonthlyTrend, state.categoryIncomeMonthlyTrend)
+
+    when (state.period) {
+        is OverviewPeriod.Month -> CategoryTrendsCard(
+            trends = dailyTrends,
+            highlightIndex = state.todayIndex,
+            xLabels = stringArrayResource(Res.array.overview_month_x_labels),
+            title = stringResource(Res.string.overview_daily_trend),
+            showBars = false,
+            currencyCode = currencyCode,
+            modifier = Modifier
+                .mmStaggeredAppear(5)
+                .padding(
+                    horizontal = space.padding_2x,
+                    vertical = space.padding_0_5x
+                ),
+        )
+
+        is OverviewPeriod.Year -> CategoryTrendsCard(
+            trends = monthlyTrends,
+            highlightIndex = state.currentMonthIndex,
+            xLabels = stringArrayResource(Res.array.overview_year_x_labels),
+            title = stringResource(Res.string.overview_monthly_trend),
+            showBars = true,
+            currencyCode = currencyCode,
+            modifier = Modifier
+                .mmStaggeredAppear(5)
+                .padding(
+                    horizontal = space.padding_2x,
+                    vertical = space.padding_0_5x
+                ),
+        )
+
+        is OverviewPeriod.DateRange -> CategoryTrendsCard(
+            trends = dailyTrends,
+            highlightIndex = -1,
+            xLabels = emptyList(),
+            title = stringResource(Res.string.overview_daily_trend),
+            showBars = true,
+            currencyCode = currencyCode,
+            modifier = Modifier.padding(
+                horizontal = space.padding_2x,
+                vertical = space.padding_0_5x
+            ),
+        )
+
+        null -> Unit
+    }
+}
 
 @Composable
 private fun SpendingByCategoryCard(
@@ -921,6 +965,14 @@ private fun OverviewPeriodBodyPreview() {
                         categoryName = "Groceries",
                         categoryColor = 0xFF4CAF50,
                     ),
+                ),
+                blocks = listOf(
+                    OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.Totals),
+                    OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.BudgetProgress),
+                    OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.Averages),
+                    OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.CategoryBreakdown),
+                    OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.CumulativeSpend),
+                    OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.CategoryTrends),
                 ),
             ),
             spendingFilter = SpendingFilter.All,

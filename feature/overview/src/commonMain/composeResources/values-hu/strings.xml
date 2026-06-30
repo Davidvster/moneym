@@ -47,6 +47,7 @@
     <string name="overview_prev_year_cd">Előző év</string>
     <string name="overview_next_year_cd">Következő év</string>
     <string name="overview_analyze_cd">Elemzés AI-val</string>
+    <string name="overview_customize_cd">Áttekintés testreszabása</string>
     <string name="overview_now">Most</string>
     <string name="overview_ok">OK</string>
     <string name="overview_cancel">Mégsem</string>

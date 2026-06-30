@@ -58,6 +58,7 @@ import com.dv.moneym.feature.overview.usecase.BuildCategoryBreakdownUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCategoryTrendsUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCumulativeSeriesUseCase
 import com.dv.moneym.feature.overview.usecase.BuildOverviewPageStateUseCase
+import com.dv.moneym.feature.overview.usecase.ResolveOverviewBlocksUseCase
 import com.dv.moneym.feature.overview.usecase.ResolvePeriodRangeUseCase
 import com.dv.moneym.feature.security.setup.PinSetupViewModel
 import com.dv.moneym.feature.security.unlock.PinUnlockViewModel
@@ -473,6 +474,7 @@ val featureOverviewModule = module {
     single { BuildCategoryTrendsUseCase() }
     single { BuildCumulativeSeriesUseCase() }
     single { BuildOverviewPageStateUseCase(get(), get(), get(), get(), get()) }
+    single { ResolveOverviewBlocksUseCase() }
     viewModelOf(::OverviewViewModel)
     viewModel { params ->
         OverviewPageViewModel(
@@ -482,7 +484,9 @@ val featureOverviewModule = module {
             accountRepository = get(),
             appSettingsRepository = get(),
             budgetRepository = get(),
+            overviewRepository = get(),
             buildOverviewPageState = get(),
+            resolveOverviewBlocks = get(),
             clock = get(),
         )
     }

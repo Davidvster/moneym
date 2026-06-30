@@ -47,6 +47,7 @@
     <string name="overview_prev_year_cd">Předchozí rok</string>
     <string name="overview_next_year_cd">Následující rok</string>
     <string name="overview_analyze_cd">Analyzovat s AI</string>
+    <string name="overview_customize_cd">Přizpůsobit přehled</string>
     <string name="overview_now">Nyní</string>
     <string name="overview_ok">OK</string>
     <string name="overview_cancel">Zrušit</string>

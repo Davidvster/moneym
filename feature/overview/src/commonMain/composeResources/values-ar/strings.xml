@@ -47,6 +47,7 @@
     <string name="overview_prev_year_cd">السنة السابقة</string>
     <string name="overview_next_year_cd">السنة التالية</string>
     <string name="overview_analyze_cd">التحليل بالذكاء الاصطناعي</string>
+    <string name="overview_customize_cd">تخصيص النظرة العامة</string>
     <string name="overview_now">الآن</string>
     <string name="overview_ok">موافق</string>
     <string name="overview_cancel">إلغاء</string>

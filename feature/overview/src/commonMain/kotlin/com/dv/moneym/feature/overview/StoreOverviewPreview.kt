@@ -20,10 +20,12 @@ import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.ui.MmTabBar
 import com.dv.moneym.core.ui.TabRoute
+import com.dv.moneym.data.overview.OverviewBuiltInBlockIds
 import com.dv.moneym.feature.overview.components.OverviewHeader
 import com.dv.moneym.feature.overview.components.OverviewPeriodBody
 import com.dv.moneym.feature.overview.page.OverviewPageUiState
 import com.dv.moneym.feature.overview.usecase.BudgetProgress
+import com.dv.moneym.feature.overview.usecase.OverviewResolvedBlock
 
 // Store screenshot — full overview dashboard, light theme, EUR, May 2026.
 // Reassembles header + page body + tab bar with mock data so it renders without the
@@ -81,6 +83,14 @@ internal fun StoreOverviewPreview() {
                 categoryName = "Groceries",
                 categoryColor = 0xFF4CAF50,
             ),
+        ),
+        blocks = listOf(
+            OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.Totals),
+            OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.BudgetProgress),
+            OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.Averages),
+            OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.CategoryBreakdown),
+            OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.CumulativeSpend),
+            OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.CategoryTrends),
         ),
     )
 

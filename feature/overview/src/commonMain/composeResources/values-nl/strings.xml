@@ -47,6 +47,7 @@
     <string name="overview_prev_year_cd">Vorig jaar</string>
     <string name="overview_next_year_cd">Volgend jaar</string>
     <string name="overview_analyze_cd">Analyseren met AI</string>
+    <string name="overview_customize_cd">Overzicht aanpassen</string>
     <string name="overview_now">Nu</string>
     <string name="overview_ok">OK</string>
     <string name="overview_cancel">Annuleren</string>

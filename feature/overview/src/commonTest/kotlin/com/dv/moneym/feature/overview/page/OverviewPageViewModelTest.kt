@@ -15,15 +15,20 @@ import com.dv.moneym.core.testing.FakeAccountRepository
 import com.dv.moneym.core.testing.FakeAppSettingsRepository
 import com.dv.moneym.core.testing.FakeBudgetRepository
 import com.dv.moneym.core.testing.FakeCategoryRepository
+import com.dv.moneym.core.testing.FakeOverviewRepository
 import com.dv.moneym.core.testing.FakeTransactionRepository
 import com.dv.moneym.core.testing.FixedClock
 import com.dv.moneym.core.testing.runTestWithDispatchers
+import com.dv.moneym.data.overview.OverviewBuiltInBlockIds
+import com.dv.moneym.data.overview.OverviewLayoutBlock
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.usecase.BuildBudgetProgressUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCategoryBreakdownUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCategoryTrendsUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCumulativeSeriesUseCase
 import com.dv.moneym.feature.overview.usecase.BuildOverviewPageStateUseCase
+import com.dv.moneym.feature.overview.usecase.OverviewResolvedBlock
+import com.dv.moneym.feature.overview.usecase.ResolveOverviewBlocksUseCase
 import com.dv.moneym.feature.overview.usecase.ResolvePeriodRangeUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -54,6 +59,7 @@ class OverviewPageViewModelTest {
     private val accountRepo = FakeAccountRepository()
     private val settingsRepo = FakeAppSettingsRepository()
     private val budgetRepo = FakeBudgetRepository()
+    private val overviewRepo = FakeOverviewRepository()
     private val buildOverviewPageState = BuildOverviewPageStateUseCase(
         resolvePeriodRange = ResolvePeriodRangeUseCase(),
         buildCategoryBreakdown = BuildCategoryBreakdownUseCase(),
@@ -69,6 +75,7 @@ class OverviewPageViewModelTest {
         accounts: FakeAccountRepository = accountRepo,
         settings: FakeAppSettingsRepository = settingsRepo,
         budgets: FakeBudgetRepository = budgetRepo,
+        overview: FakeOverviewRepository = overviewRepo,
     ) = OverviewPageViewModel(
         period = period,
         transactionRepository = transactions,
@@ -76,7 +83,9 @@ class OverviewPageViewModelTest {
         accountRepository = accounts,
         appSettingsRepository = settings,
         budgetRepository = budgets,
+        overviewRepository = overview,
         buildOverviewPageState = buildOverviewPageState,
+        resolveOverviewBlocks = ResolveOverviewBlocksUseCase(),
         clock = clock,
     )
 
@@ -263,6 +272,33 @@ class OverviewPageViewModelTest {
             while (s.isLoading) s = awaitItem()
             assertFalse(s.isEmpty)
             assertEquals(25.0, s.expenses)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun hiddenOverviewBlocksFlowThroughState() = runTestWithDispatchers(testDispatcher) {
+        val overview = FakeOverviewRepository()
+        overview.replaceLayout(
+            listOf(
+                OverviewLayoutBlock(
+                    blockId = OverviewBuiltInBlockIds.CategoryBreakdown,
+                    sortOrder = 3,
+                    visible = false,
+                ),
+            )
+        )
+        val vm = makeVm(
+            period = OverviewPeriod.Month(YearMonth(2026, 5)),
+            overview = overview,
+        )
+
+        vm.state.test {
+            var s = awaitItem()
+            while (s.isLoading || s.blocks.isEmpty()) s = awaitItem()
+            val ids = s.blocks.mapNotNull { (it as? OverviewResolvedBlock.BuiltIn)?.blockId }
+            assertFalse(OverviewBuiltInBlockIds.CategoryBreakdown in ids)
+            assertTrue(OverviewBuiltInBlockIds.Totals in ids)
             cancelAndIgnoreRemainingEvents()
         }
     }

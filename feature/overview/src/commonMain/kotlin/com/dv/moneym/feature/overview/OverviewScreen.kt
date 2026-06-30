@@ -56,9 +56,14 @@ data object OverviewKey : NavKey
 fun EntryProviderScope<NavKey>.overviewEntry(
     onTabSelected: (TabRoute) -> Unit = {},
     onAnalyze: (year: Int, month: Int) -> Unit = { _, _ -> },
+    onCustomizeOverview: () -> Unit = {},
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<OverviewKey>(metadata = metadata) {
-    OverviewScreen(onTabSelected = onTabSelected, onAnalyze = onAnalyze)
+    OverviewScreen(
+        onTabSelected = onTabSelected,
+        onAnalyze = onAnalyze,
+        onCustomizeOverview = onCustomizeOverview,
+    )
 }
 
 @Composable
@@ -66,6 +71,7 @@ private fun OverviewScreen(
     viewModel: OverviewViewModel = koinViewModel(),
     onTabSelected: (TabRoute) -> Unit = {},
     onAnalyze: (year: Int, month: Int) -> Unit = { _, _ -> },
+    onCustomizeOverview: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     OverviewContent(
@@ -73,6 +79,7 @@ private fun OverviewScreen(
         onIntent = viewModel::onIntent,
         onTabSelected = onTabSelected,
         onAnalyze = onAnalyze,
+        onCustomizeOverview = onCustomizeOverview,
     )
 }
 
@@ -82,6 +89,7 @@ private fun OverviewContent(
     onIntent: (OverviewIntent) -> Unit,
     onTabSelected: (TabRoute) -> Unit,
     onAnalyze: (year: Int, month: Int) -> Unit = { _, _ -> },
+    onCustomizeOverview: () -> Unit = {},
 ) {
     val colors = MM.colors
     val monthNames = localizedMonthNames()
@@ -181,6 +189,7 @@ private fun OverviewContent(
             onAccountSelected = { onIntent(OverviewIntent.AccountSelected(it)) },
             aiAvailable = state.aiAvailable,
             onAnalyzeClick = { onAnalyze(analyzeYearMonth.first, analyzeYearMonth.second) },
+            onCustomizeOverview = onCustomizeOverview,
         )
 
         when {

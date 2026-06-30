@@ -12,9 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.model.SpendingFilter
+import com.dv.moneym.data.overview.OverviewBuiltInBlockIds
 import com.dv.moneym.feature.overview.OverviewPeriod
 import com.dv.moneym.feature.overview.components.OverviewPeriodBody
 import com.dv.moneym.feature.overview.components.OverviewSkeleton
+import com.dv.moneym.feature.overview.usecase.OverviewResolvedBlock
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -86,6 +88,13 @@ private fun OverviewPageContentPreview() {
                 cumulativeTotals = listOf(20.0, 65.0, 145.0, 175.0, 235.0, 345.0, 415.0),
                 todayIndex = 6,
                 avgDailyExpense = 59.3,
+                blocks = listOf(
+                    OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.Totals),
+                    OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.Averages),
+                    OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.CategoryBreakdown),
+                    OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.CumulativeSpend),
+                    OverviewResolvedBlock.BuiltIn(OverviewBuiltInBlockIds.CategoryTrends),
+                ),
             ),
             spendingFilter = SpendingFilter.All,
             currencyCode = "€",
