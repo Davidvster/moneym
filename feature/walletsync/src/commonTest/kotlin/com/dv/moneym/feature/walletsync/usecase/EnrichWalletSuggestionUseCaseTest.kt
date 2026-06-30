@@ -97,7 +97,7 @@ class EnrichWalletSuggestionUseCaseTest {
             ))
         }
         val txnRepo = FakeTransactionRepository()
-        val useCase = EnrichWalletSuggestionUseCase(accountRepo, txnRepo)
+        val useCase = EnrichWalletSuggestionUseCase()
         val suggestion = createSuggestion(currency = "EUR")
 
         val result = useCase(suggestion, accountRepo.accounts, txnRepo.transactions)
@@ -115,7 +115,7 @@ class EnrichWalletSuggestionUseCaseTest {
             ))
         }
         val txnRepo = FakeTransactionRepository()
-        val useCase = EnrichWalletSuggestionUseCase(accountRepo, txnRepo)
+        val useCase = EnrichWalletSuggestionUseCase()
         val suggestion = createSuggestion(currency = "EUR")
 
         val result = useCase(suggestion, accountRepo.accounts, txnRepo.transactions)
@@ -132,7 +132,7 @@ class EnrichWalletSuggestionUseCaseTest {
             ))
         }
         val txnRepo = FakeTransactionRepository()
-        val useCase = EnrichWalletSuggestionUseCase(accountRepo, txnRepo)
+        val useCase = EnrichWalletSuggestionUseCase()
         val suggestion = createSuggestion(currency = "EUR")
 
         val result = useCase(suggestion, accountRepo.accounts, txnRepo.transactions)
@@ -148,7 +148,7 @@ class EnrichWalletSuggestionUseCaseTest {
             ))
         }
         val txnRepo = FakeTransactionRepository()
-        val useCase = EnrichWalletSuggestionUseCase(accountRepo, txnRepo)
+        val useCase = EnrichWalletSuggestionUseCase()
         val suggestion = createSuggestion(currency = "EUR")
 
         val result = useCase(suggestion, accountRepo.accounts, txnRepo.transactions)
@@ -168,7 +168,7 @@ class EnrichWalletSuggestionUseCaseTest {
                 createTransaction(3, 20, "Groceries at Walmart"),
             ))
         }
-        val useCase = EnrichWalletSuggestionUseCase(accountRepo, txnRepo)
+        val useCase = EnrichWalletSuggestionUseCase()
         val suggestion = createSuggestion(counterparty = "Starbucks")
 
         val result = useCase(suggestion, accountRepo.accounts, txnRepo.transactions)
@@ -186,7 +186,7 @@ class EnrichWalletSuggestionUseCaseTest {
                 createTransaction(1, 10, "Payment to Amazon"),
             ))
         }
-        val useCase = EnrichWalletSuggestionUseCase(accountRepo, txnRepo)
+        val useCase = EnrichWalletSuggestionUseCase()
         val suggestion = createSuggestion(description = "Amazon")
 
         val result = useCase(suggestion, accountRepo.accounts, txnRepo.transactions)
@@ -205,7 +205,7 @@ class EnrichWalletSuggestionUseCaseTest {
                 createTransaction(2, 20, "Starbucks", TransactionType.INCOME),
             ))
         }
-        val useCase = EnrichWalletSuggestionUseCase(accountRepo, txnRepo)
+        val useCase = EnrichWalletSuggestionUseCase()
         val suggestion = createSuggestion(direction = SyncDirection.DEBIT, counterparty = "Starbucks")
 
         val result = useCase(suggestion, accountRepo.accounts, txnRepo.transactions)
@@ -224,7 +224,7 @@ class EnrichWalletSuggestionUseCaseTest {
                 createTransaction(2, 20, "Salary", TransactionType.INCOME),
             ))
         }
-        val useCase = EnrichWalletSuggestionUseCase(accountRepo, txnRepo)
+        val useCase = EnrichWalletSuggestionUseCase()
         val suggestion = createSuggestion(direction = SyncDirection.CREDIT, counterparty = "Salary")
 
         val result = useCase(suggestion, accountRepo.accounts, txnRepo.transactions)
@@ -244,7 +244,7 @@ class EnrichWalletSuggestionUseCaseTest {
                 createTransaction(3, 20, "Starbucks muffin"),
             ))
         }
-        val useCase = EnrichWalletSuggestionUseCase(accountRepo, txnRepo)
+        val useCase = EnrichWalletSuggestionUseCase()
         val suggestion = createSuggestion(counterparty = "Starbucks")
 
         val result = useCase(suggestion, accountRepo.accounts, txnRepo.transactions)
@@ -262,7 +262,7 @@ class EnrichWalletSuggestionUseCaseTest {
                 createTransaction(1, 10, "Coffee at Starbucks"),
             ))
         }
-        val useCase = EnrichWalletSuggestionUseCase(accountRepo, txnRepo)
+        val useCase = EnrichWalletSuggestionUseCase()
         val suggestion = createSuggestion(counterparty = "Walmart")
 
         val result = useCase(suggestion, accountRepo.accounts, txnRepo.transactions)
@@ -280,7 +280,7 @@ class EnrichWalletSuggestionUseCaseTest {
                 createTransaction(1, 10, "Some note"),
             ))
         }
-        val useCase = EnrichWalletSuggestionUseCase(accountRepo, txnRepo)
+        val useCase = EnrichWalletSuggestionUseCase()
         val suggestion = createSuggestion(counterparty = null, description = null)
 
         val result = useCase(suggestion, accountRepo.accounts, txnRepo.transactions)
@@ -294,7 +294,7 @@ class EnrichWalletSuggestionUseCaseTest {
             addAll(listOf(createAccount(1, "Default", "EUR", isDefault = true)))
         }
         val txnRepo = FakeTransactionRepository()
-        val useCase = EnrichWalletSuggestionUseCase(accountRepo, txnRepo)
+        val useCase = EnrichWalletSuggestionUseCase()
         val suggestion = createSuggestion(counterparty = "Starbucks")
 
         val result = useCase(suggestion, accountRepo.accounts, txnRepo.transactions)
@@ -312,7 +312,7 @@ class EnrichWalletSuggestionUseCaseTest {
                 createTransaction(1, 10, "COFFEE AT STARBUCKS"),
             ))
         }
-        val useCase = EnrichWalletSuggestionUseCase(accountRepo, txnRepo)
+        val useCase = EnrichWalletSuggestionUseCase()
         val suggestion = createSuggestion(counterparty = "starbucks")
 
         val result = useCase(suggestion, accountRepo.accounts, txnRepo.transactions)
@@ -331,7 +331,7 @@ class EnrichWalletSuggestionUseCaseTest {
                 createTransaction(2, 20, "Starbucks", TransactionType.EXPENSE, LocalDate(2025, 11, 15)),
             ))
         }
-        val useCase = EnrichWalletSuggestionUseCase(accountRepo, txnRepo)
+        val useCase = EnrichWalletSuggestionUseCase()
         val suggestion = createSuggestion(counterparty = "Starbucks")
 
         val result = useCase(suggestion, accountRepo.accounts, txnRepo.transactions)
