@@ -55,6 +55,7 @@ import com.dv.moneym.feature.banksync.bankpicker.bankPickerEntry
 import com.dv.moneym.feature.sync.SyncSettingsKey
 import com.dv.moneym.feature.sync.syncSettingsEntry
 import com.dv.moneym.feature.settings.overview.LanguagePickerKey
+import com.dv.moneym.feature.settings.overview.OverviewSettingsKey
 import com.dv.moneym.feature.settings.overview.PaymentModeListKey
 import com.dv.moneym.feature.settings.overview.SecuritySettingsIntent
 import com.dv.moneym.feature.settings.overview.SecuritySettingsViewModel
@@ -74,6 +75,7 @@ import com.dv.moneym.feature.settings.overview.importdata.CsvImportHolder
 import com.dv.moneym.feature.settings.overview.importdata.ImportDataKey
 import com.dv.moneym.feature.settings.overview.importdata.importDataEntry
 import com.dv.moneym.feature.settings.overview.locale.languagePickerEntry
+import com.dv.moneym.feature.settings.overview.overviewSettingsEntry
 import com.dv.moneym.feature.settings.overview.settingsEntry
 import com.dv.moneym.feature.settings.overview.transactiondisplay.txListDisplayEntry
 import com.dv.moneym.feature.settings.paymentmodes.paymentModeListEntry
@@ -187,11 +189,13 @@ internal fun MainNav(lockController: AppLockController) {
                     }
                 },
                 onAnalyze = { year, month -> tabBackStack.push(AnalyzeKey(year, month)) },
+                onCustomizeOverview = { tabBackStack.push(OverviewSettingsKey) },
             )
             settingsEntry(
                 securityViewModel = securitySettingsViewModel,
                 // From settings, we push PinSetupKey(isChangePinFlow = true) for change PIN
                 onNavigateToPinSetup = { tabBackStack.push(PinSetupKey(isChangePinFlow = true)) },
+                onNavigateToOverview = { tabBackStack.push(OverviewSettingsKey) },
                 onNavigateToCategories = { tabBackStack.push(CategoriesKey) },
                 onNavigateToBudgets = { tabBackStack.push(BudgetListKey) },
                 onNavigateToRecurring = { tabBackStack.push(RecurringListKey) },
@@ -215,6 +219,11 @@ internal fun MainNav(lockController: AppLockController) {
                         TabRoute.Settings -> tabBackStack.switchTab(SettingsKey)
                     }
                 },
+            )
+            overviewSettingsEntry(
+                onBack = { tabBackStack.removeLast() },
+                onOpenAiWidgetBuilder = {},
+                metadata = modalTransitionMeta,
             )
             // Setup flow (isChangePinFlow = false by default)
             pinSetupEntry(onDone = {

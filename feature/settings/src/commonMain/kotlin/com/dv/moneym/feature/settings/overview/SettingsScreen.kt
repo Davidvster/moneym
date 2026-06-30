@@ -68,6 +68,7 @@ enum class SettingsItem {
 
 fun EntryProviderScope<NavKey>.settingsEntry(
     onNavigateToPinSetup: () -> Unit,
+    onNavigateToOverview: () -> Unit,
     onNavigateToCategories: () -> Unit,
     onNavigateToBudgets: () -> Unit,
     onNavigateToRecurring: () -> Unit,
@@ -86,6 +87,7 @@ fun EntryProviderScope<NavKey>.settingsEntry(
 ) = entry<SettingsKey>(metadata = metadata) {
     SettingsScreen(
         onNavigateToPinSetup = onNavigateToPinSetup,
+        onNavigateToOverview = onNavigateToOverview,
         onNavigateToCategories = onNavigateToCategories,
         onNavigateToBudgets = onNavigateToBudgets,
         onNavigateToRecurring = onNavigateToRecurring,
@@ -106,6 +108,7 @@ fun EntryProviderScope<NavKey>.settingsEntry(
 @Composable
 fun SettingsScreen(
     onNavigateToPinSetup: () -> Unit,
+    onNavigateToOverview: () -> Unit = {},
     onNavigateToCategories: () -> Unit = {},
     onNavigateToBudgets: () -> Unit = {},
     onNavigateToRecurring: () -> Unit = {},
@@ -180,6 +183,7 @@ fun SettingsScreen(
         onShowLockPicker = { overviewViewModel.onIntent(SettingsOverviewIntent.ShowLockPicker(it)) },
         onShowThemeSheet = { overviewViewModel.onIntent(SettingsOverviewIntent.ShowThemeSheet(it)) },
         onSecurityIntent = securityViewModel::onIntent,
+        onNavigateToOverview = onNavigateToOverview,
         onNavigateToCategories = onNavigateToCategories,
         onNavigateToBudgets = onNavigateToBudgets,
         onNavigateToRecurring = onNavigateToRecurring,
@@ -207,6 +211,7 @@ private fun SettingsContent(
     onShowLockPicker: (Boolean) -> Unit,
     onShowThemeSheet: (Boolean) -> Unit,
     onSecurityIntent: (SecuritySettingsIntent) -> Unit,
+    onNavigateToOverview: () -> Unit,
     onNavigateToCategories: () -> Unit,
     onNavigateToBudgets: () -> Unit,
     onNavigateToRecurring: () -> Unit,
@@ -280,6 +285,7 @@ private fun SettingsContent(
             onPaymentModeEnabledChanged = onPaymentModeEnabledChanged,
             onUseCurrencySymbolChanged = onUseCurrencySymbolChanged,
             onSecurityIntent = onSecurityIntent,
+            onNavigateToOverview = onNavigateToOverview,
             onNavigateToTxDisplay = onNavigateToTxDisplay,
             onNavigateToCategories = onNavigateToCategories,
             onNavigateToBudgets = onNavigateToBudgets,
@@ -323,6 +329,7 @@ internal fun StoreSettingsPreview() {
                 onShowLockPicker = {},
                 onShowThemeSheet = {},
                 onSecurityIntent = {},
+                onNavigateToOverview = {},
                 onNavigateToCategories = {},
                 onNavigateToBudgets = {},
                 onNavigateToRecurring = {},
@@ -359,6 +366,7 @@ private fun SettingsScreenPreview() {
             onShowLockPicker = {},
             onShowThemeSheet = {},
             onSecurityIntent = {},
+            onNavigateToOverview = {},
             onNavigateToCategories = {},
             onNavigateToBudgets = {},
             onNavigateToRecurring = {},

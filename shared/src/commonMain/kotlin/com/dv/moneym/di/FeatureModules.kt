@@ -63,6 +63,7 @@ import com.dv.moneym.feature.overview.usecase.ResolvePeriodRangeUseCase
 import com.dv.moneym.feature.security.setup.PinSetupViewModel
 import com.dv.moneym.feature.security.unlock.PinUnlockViewModel
 import com.dv.moneym.feature.settings.overview.SecuritySettingsViewModel
+import com.dv.moneym.feature.settings.overview.OverviewSettingsViewModel
 import com.dv.moneym.feature.settings.overview.SettingsOverviewViewModel
 import com.dv.moneym.feature.settings.overview.backuprestore.BackupRestoreViewModel
 import com.dv.moneym.feature.settings.overview.export.ExportViewModel
@@ -223,6 +224,11 @@ val dataBackupModule = module {
 }
 
 val featureSettingsModule = module {
+    viewModel {
+        OverviewSettingsViewModel(
+            overviewRepository = get(),
+        )
+    }
     viewModel {
         SettingsOverviewViewModel(
             appSettingsRepository = get(),

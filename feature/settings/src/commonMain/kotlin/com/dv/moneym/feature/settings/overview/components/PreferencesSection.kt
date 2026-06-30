@@ -18,6 +18,7 @@ import moneym.feature.settings.generated.resources.Res
 import moneym.feature.settings.generated.resources.settings_budgets
 import moneym.feature.settings.generated.resources.settings_categories
 import moneym.feature.settings.generated.resources.settings_language
+import moneym.feature.settings.generated.resources.settings_overview
 import moneym.feature.settings.generated.resources.settings_payment_mode_enabled
 import moneym.feature.settings.generated.resources.settings_payment_modes
 import moneym.feature.settings.generated.resources.settings_recurring_nav
@@ -32,6 +33,7 @@ internal fun PreferencesSection(
     paymentModeEnabled: Boolean,
     useCurrencySymbol: Boolean,
     walletCurrency: String,
+    onNavigateToOverview: () -> Unit,
     onNavigateToLanguage: () -> Unit,
     onNavigateToCategories: () -> Unit,
     onNavigateToBudgets: () -> Unit,
@@ -46,6 +48,11 @@ internal fun PreferencesSection(
     val space = MM.dimen
     val currencySymbol = CommonCurrencies.firstOrNull { it.code == walletCurrency }?.symbol ?: walletCurrency
     MmCard(Modifier.padding(horizontal = space.padding_2x)) {
+        MmSettingsRow(
+            title = stringResource(Res.string.settings_overview),
+            leadingIcon = Icon.Sliders.imageVector,
+            onClick = onNavigateToOverview,
+        )
         MmSettingsRow(
             title = stringResource(Res.string.settings_language),
             subtitle = languageSubtitle,
