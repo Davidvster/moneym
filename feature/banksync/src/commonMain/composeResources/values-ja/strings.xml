@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">銀行同期</string>
     <string name="bank_sync_setup_header">Enable Banking アプリケーションを接続</string>
-    <string name="bank_sync_setup_hint">無料の Enable Banking アカウントを作成し、本番用アプリケーションを登録して、その ID と秘密鍵をここに貼り付けてください。手順ガイドを表示するには、右上の i ボタンをタップします。</string>
+    <string name="bank_sync_setup_hint">Create a free Enable Banking account, register a production application and paste its ID and private key here. Coverage depends on the European banks and countries supported by Enable Banking. Tap the i button in the top right for a step-by-step guide.</string>
     <string name="bank_sync_app_id_label">アプリケーション ID</string>
     <string name="bank_sync_private_key_label">秘密鍵 (PEM)</string>
     <string name="bank_sync_save_credentials">保存して検証</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">認証情報を編集</string>
     <string name="bank_sync_choose_country">国を選択</string>
     <string name="bank_sync_search_country">国またはコードを検索</string>
-    <string name="bank_sync_supported_countries_hint">銀行同期はこれらの国でPSD2オープンバンキングAPIに対応しています。</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking provides PSD2 open-banking coverage for the supported European banks and countries listed here.</string>
     <string name="bank_sync_change_country">国を変更</string>
     <string name="bank_sync_disconnect_confirm_title">銀行の接続を解除しますか？</string>
     <string name="bank_sync_disconnect_confirm_body">銀行接続とすべてのリンクされた口座が削除されます。インポート済みの取引は残ります。</string>

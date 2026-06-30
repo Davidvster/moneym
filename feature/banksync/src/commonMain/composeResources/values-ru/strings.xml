@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">Банковская синхронизация</string>
     <string name="bank_sync_setup_header">Подключите приложение Enable Banking</string>
-    <string name="bank_sync_setup_hint">Создайте бесплатную учётную запись Enable Banking, зарегистрируйте рабочее приложение и вставьте сюда его идентификатор и закрытый ключ. Нажмите кнопку i в правом верхнем углу, чтобы открыть пошаговое руководство.</string>
+    <string name="bank_sync_setup_hint">Create a free Enable Banking account, register a production application and paste its ID and private key here. Coverage depends on the European banks and countries supported by Enable Banking. Tap the i button in the top right for a step-by-step guide.</string>
     <string name="bank_sync_app_id_label">ID приложения</string>
     <string name="bank_sync_private_key_label">Закрытый ключ (PEM)</string>
     <string name="bank_sync_save_credentials">Сохранить и проверить</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">Изменить учётные данные</string>
     <string name="bank_sync_choose_country">Выберите свою страну</string>
     <string name="bank_sync_search_country">Поиск страны или кода</string>
-    <string name="bank_sync_supported_countries_hint">Синхронизация с банком работает через API открытого банкинга PSD2 в этих странах.</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking provides PSD2 open-banking coverage for the supported European banks and countries listed here.</string>
     <string name="bank_sync_change_country">Сменить страну</string>
     <string name="bank_sync_disconnect_confirm_title">Отключить банк?</string>
     <string name="bank_sync_disconnect_confirm_body">Это удалит подключение к банку и все привязанные счета. Импортированные операции останутся.</string>

@@ -47,7 +47,8 @@
     <string name="settings_txdisplay_note">备注 / 说明</string>
     <string name="settings_txdisplay_daily_sums">每日合计</string>
     <string name="settings_txdisplay_pending_recurring">显示即将到来的重复交易</string>
-    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
+    <string name="settings_txdisplay_sync_suggestions">显示同步建议</string>
+    <string name="settings_txdisplay_save_as_new">另存为新项目</string>
     <string name="settings_recurring_title">重复交易</string>
     <string name="settings_recurring_empty">暂无重复交易。\n要添加，请创建一笔交易并启用重复选项，或点击 + 直接创建重复模板。</string>
     <string name="settings_recurring_nav">重复交易</string>

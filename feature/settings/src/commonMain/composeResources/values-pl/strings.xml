@@ -47,7 +47,8 @@
     <string name="settings_txdisplay_note">Notatka / opis</string>
     <string name="settings_txdisplay_daily_sums">Sumy dzienne</string>
     <string name="settings_txdisplay_pending_recurring">Pokaż nadchodzące cykliczne</string>
-    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
+    <string name="settings_txdisplay_sync_suggestions">Pokaż sugestie synchronizacji</string>
+    <string name="settings_txdisplay_save_as_new">Zapisz jako nowe</string>
     <string name="settings_recurring_title">Transakcje cykliczne</string>
     <string name="settings_recurring_empty">Brak transakcji cyklicznych.\nAby dodać, utwórz transakcję i włącz opcję cykliczną lub dotknij +, aby utworzyć szablon cykliczny bezpośrednio.</string>
     <string name="settings_recurring_nav">Transakcje cykliczne</string>

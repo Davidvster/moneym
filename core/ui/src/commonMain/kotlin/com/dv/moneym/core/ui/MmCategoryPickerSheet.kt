@@ -29,6 +29,8 @@ import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.IndicatorStyle
+import com.dv.moneym.core.model.TransactionType
+import com.dv.moneym.core.ui.SectionLabel
 import moneym.core.ui.generated.resources.Res
 import moneym.core.ui.generated.resources.category_picker_clear
 import moneym.core.ui.generated.resources.category_picker_select_title
@@ -45,6 +47,8 @@ fun MmCategoryPickerSheet(
     onToggle: (CategoryId) -> Unit,
     onClearAll: (() -> Unit)?,
     onDismiss: () -> Unit,
+    groupedByType: Boolean = false,
+    groupLabelForType: ((TransactionType) -> StringResource)? = null,
 ) {
     CategoryPickerSheetImpl(
         categories = categories,
@@ -54,6 +58,8 @@ fun MmCategoryPickerSheet(
         onDismiss = onDismiss,
         titleRes = Res.string.category_picker_title,
         showConfirmButton = true,
+        groupedByType = groupedByType,
+        groupLabelForType = groupLabelForType,
     )
 }
 
@@ -63,6 +69,8 @@ fun MmCategoryPickerSheet(
     selectedId: CategoryId?,
     onPick: (CategoryId) -> Unit,
     onDismiss: () -> Unit,
+    groupedByType: Boolean = false,
+    groupLabelForType: ((TransactionType) -> StringResource)? = null,
 ) {
     CategoryPickerSheetImpl(
         categories = categories,
@@ -75,6 +83,8 @@ fun MmCategoryPickerSheet(
         onDismiss = onDismiss,
         titleRes = Res.string.category_picker_select_title,
         showConfirmButton = false,
+        groupedByType = groupedByType,
+        groupLabelForType = groupLabelForType,
     )
 }
 
@@ -88,6 +98,8 @@ private fun CategoryPickerSheetImpl(
     onDismiss: () -> Unit,
     titleRes: StringResource,
     showConfirmButton: Boolean,
+    groupedByType: Boolean,
+    groupLabelForType: ((TransactionType) -> StringResource)?,
 ) {
     val colors = MM.colors
     val type = MM.type
@@ -148,32 +160,42 @@ private fun CategoryPickerSheetImpl(
                 )
             }
 
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
-                verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
-            ) {
-                categories.forEach { cat ->
-                    val isSelected = cat.id in selectedIds
-                    val catColor = categoryColor(cat.colorHex)
-                    val catIcon = Icon.fromKeyOrDefault(cat.iconKey).imageVector
-                    MmChip(
-                        selected = isSelected,
-                        onClick = { onCategoryClick(cat.id) },
-                        leadingContent = {
-                            CategoryIconTile(
-                                categoryName = cat.name,
-                                categoryColor = catColor,
-                                categoryIcon = catIcon,
-                                size = MM.dimen.padding_2_5x,
-                                variant = IndicatorStyle.IconTile,
-                            )
-                        },
-                    ) {
-                        Text(
-                            text = cat.name,
-                            style = type.caption,
-                            color = if (isSelected) colors.bg else colors.text,
-                            maxLines = 1,
+            if (groupedByType && groupLabelForType != null) {
+                Column(verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_2x)) {
+                    TransactionType.entries.forEach { categoryType ->
+                        val typedCategories = categories.filter { it.type == categoryType }
+                        if (typedCategories.isNotEmpty()) {
+                            Column(verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x)) {
+                                SectionLabel(
+                                    text = stringResource(groupLabelForType(categoryType)),
+                                    modifier = Modifier.padding(top = MM.dimen.padding_0_5x),
+                                )
+                                FlowRow(
+                                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+                                    verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+                                ) {
+                                    typedCategories.forEach { cat ->
+                                        CategoryChip(
+                                            cat = cat,
+                                            selected = cat.id in selectedIds,
+                                            onCategoryClick = onCategoryClick,
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+                    verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+                ) {
+                    categories.forEach { cat ->
+                        CategoryChip(
+                            cat = cat,
+                            selected = cat.id in selectedIds,
+                            onCategoryClick = onCategoryClick,
                         )
                     }
                 }
@@ -191,5 +213,37 @@ private fun CategoryPickerSheetImpl(
 
             Spacer(Modifier.height(MM.dimen.padding_1x))
         }
+    }
+}
+
+@Composable
+private fun CategoryChip(
+    cat: Category,
+    selected: Boolean,
+    onCategoryClick: (CategoryId) -> Unit,
+) {
+    val catColor = categoryColor(cat.colorHex)
+    val catIcon = Icon.fromKeyOrDefault(cat.iconKey).imageVector
+    val type = MM.type
+    val colors = MM.colors
+    MmChip(
+        selected = selected,
+        onClick = { onCategoryClick(cat.id) },
+        leadingContent = {
+            CategoryIconTile(
+                categoryName = cat.name,
+                categoryColor = catColor,
+                categoryIcon = catIcon,
+                size = MM.dimen.padding_2_5x,
+                variant = IndicatorStyle.IconTile,
+            )
+        },
+    ) {
+        Text(
+            text = cat.name,
+            style = type.caption,
+            color = if (selected) colors.bg else colors.text,
+            maxLines = 1,
+        )
     }
 }

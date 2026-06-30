@@ -2,10 +2,6 @@ package com.dv.moneym.feature.transactions.list
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -55,14 +51,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
@@ -268,6 +262,13 @@ private fun TransactionListContent(
             onToggle = { onIntent(TransactionListIntent.CategoryFilterToggled(it)) },
             onClearAll = { onIntent(TransactionListIntent.CategoryFilterCleared) },
             onDismiss = { onIntent(TransactionListIntent.ShowCategoryFilter(false)) },
+            groupedByType = true,
+            groupLabelForType = { type ->
+                when (type) {
+                    TransactionType.EXPENSE -> Res.string.transactions_filter_expenses
+                    TransactionType.INCOME -> Res.string.transactions_filter_income
+                }
+            },
         )
     }
 
@@ -456,46 +457,26 @@ private fun SyncActionButton(
                     modifier = Modifier.size(MM.dimen.icon_1x),
                 )
 
-                SyncVisual.Conflict -> {
-                    val pulse = rememberInfiniteTransition(label = "conflictPulse")
-                    val scale by pulse.animateFloat(
-                        initialValue = 1f,
-                        targetValue = 1.18f,
-                        animationSpec = infiniteRepeatable(
-                            animation = tween(720),
-                            repeatMode = RepeatMode.Reverse,
-                        ),
-                        label = "conflictScale",
+                SyncVisual.Conflict -> Box(contentAlignment = Alignment.Center) {
+                    Icon(
+                        imageVector = Icon.Warning.imageVector,
+                        contentDescription = stringResource(Res.string.transactions_sync_paused),
+                        tint = colors.warning,
+                        modifier = Modifier.size(MM.dimen.icon_1x),
                     )
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            imageVector = Icon.Warning.imageVector,
-                            contentDescription = stringResource(Res.string.transactions_sync_paused),
-                            tint = colors.warning,
-                            modifier = Modifier
-                                .size(MM.dimen.icon_1x)
-                                .graphicsLayer { scaleX = scale; scaleY = scale },
-                        )
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .clip(CircleShape)
+                            .background(colors.danger)
+                            .padding(horizontal = 3.dp, vertical = 1.dp),
+                        contentAlignment = Alignment.Center,
+                    ) {
                         Text(
-                            text = "!",
-                            style = MM.type.micro.copy(fontSize = 8.sp),
+                            text = attentionCount.coerceAtMost(99).toString(),
+                            style = MM.type.micro,
                             color = colors.bg,
-                            modifier = Modifier.padding(top = 1.dp),
                         )
-                        Box(
-                            modifier = Modifier
-                                .align(Alignment.TopEnd)
-                                .clip(CircleShape)
-                                .background(colors.danger)
-                                .padding(horizontal = 3.dp, vertical = 1.dp),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Text(
-                                text = attentionCount.coerceAtMost(99).toString(),
-                                style = MM.type.micro.copy(fontSize = 8.sp),
-                                color = colors.bg,
-                            )
-                        }
                     }
                 }
 
@@ -507,7 +488,7 @@ private fun SyncActionButton(
                 )
 
                 SyncVisual.Idle -> Icon(
-                    imageVector = Icon.Sync.imageVector,
+                    imageVector = Icon.CloudSync.imageVector,
                     contentDescription = stringResource(Res.string.transactions_sync_now),
                     tint = colors.text2,
                     modifier = Modifier.size(MM.dimen.icon_1x),

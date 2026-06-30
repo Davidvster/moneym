@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">Bankasamstilling</string>
     <string name="bank_sync_setup_header">Tengdu Enable Banking forritið þitt</string>
-    <string name="bank_sync_setup_hint">Stofnaðu ókeypis Enable Banking-reikning, skráðu framleiðsluforrit og límdu auðkenni þess og einkalykil hér. Ýttu á i-hnappinn efst til hægri til að fá skref-fyrir-skref leiðbeiningar.</string>
+    <string name="bank_sync_setup_hint">Create a free Enable Banking account, register a production application and paste its ID and private key here. Coverage depends on the European banks and countries supported by Enable Banking. Tap the i button in the top right for a step-by-step guide.</string>
     <string name="bank_sync_app_id_label">Auðkenni forrits</string>
     <string name="bank_sync_private_key_label">Einkalykill (PEM)</string>
     <string name="bank_sync_save_credentials">Vista og staðfesta</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">Breyta auðkennum</string>
     <string name="bank_sync_choose_country">Veldu landið þitt</string>
     <string name="bank_sync_search_country">Leita að landi eða kóða</string>
-    <string name="bank_sync_supported_countries_hint">Bankasamstilling virkar með PSD2 opnum bankaviðmótum í þessum löndum.</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking provides PSD2 open-banking coverage for the supported European banks and countries listed here.</string>
     <string name="bank_sync_change_country">Skipta um land</string>
     <string name="bank_sync_disconnect_confirm_title">Aftengja banka?</string>
     <string name="bank_sync_disconnect_confirm_body">Þetta fjarlægir bankatenginguna og alla tengda reikninga. Innfluttar færslur haldast.</string>

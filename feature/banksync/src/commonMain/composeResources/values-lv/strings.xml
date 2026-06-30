@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">Bankas sinhronizācija</string>
     <string name="bank_sync_setup_header">Savienojiet savu Enable Banking lietojumprogrammu</string>
-    <string name="bank_sync_setup_hint">Izveidojiet bezmaksas Enable Banking kontu, reģistrējiet ražošanas lietotni un ielīmējiet šeit tās ID un privāto atslēgu. Pieskarieties pogai i augšējā labajā stūrī, lai atvērtu soli pa solim ceļvedi.</string>
+    <string name="bank_sync_setup_hint">Create a free Enable Banking account, register a production application and paste its ID and private key here. Coverage depends on the European banks and countries supported by Enable Banking. Tap the i button in the top right for a step-by-step guide.</string>
     <string name="bank_sync_app_id_label">Lietojumprogrammas ID</string>
     <string name="bank_sync_private_key_label">Privātā atslēga (PEM)</string>
     <string name="bank_sync_save_credentials">Saglabāt un pārbaudīt</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">Rediģēt akreditācijas datus</string>
     <string name="bank_sync_choose_country">Izvēlieties savu valsti</string>
     <string name="bank_sync_search_country">Meklēt valsti vai kodu</string>
-    <string name="bank_sync_supported_countries_hint">Bankas sinhronizācija darbojas ar PSD2 atvērtās bankas API šajās valstīs.</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking provides PSD2 open-banking coverage for the supported European banks and countries listed here.</string>
     <string name="bank_sync_change_country">Mainīt valsti</string>
     <string name="bank_sync_disconnect_confirm_title">Atvienot banku?</string>
     <string name="bank_sync_disconnect_confirm_body">Tādējādi tiks noņemts bankas savienojums un visi saistītie konti. Importētie darījumi paliek.</string>

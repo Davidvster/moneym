@@ -47,7 +47,8 @@
     <string name="settings_txdisplay_note">Pastaba / aprašymas</string>
     <string name="settings_txdisplay_daily_sums">Dienos sumos</string>
     <string name="settings_txdisplay_pending_recurring">Rodyti artėjančias pasikartojančias</string>
-    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
+    <string name="settings_txdisplay_sync_suggestions">Rodyti sinchronizavimo pasiūlymus</string>
+    <string name="settings_txdisplay_save_as_new">Išsaugoti kaip naują</string>
     <string name="settings_recurring_title">Pasikartojančios operacijos</string>
     <string name="settings_recurring_empty">Dar nėra pasikartojančių operacijų.\nNorėdami pridėti, sukurkite operaciją ir įjunkite pasikartojimo parinktį arba bakstelėkite +, kad tiesiogiai sukurtumėte pasikartojantį šabloną.</string>
     <string name="settings_recurring_nav">Pasikartojančios operacijos</string>

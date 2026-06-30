@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">Banksynchronisatie</string>
     <string name="bank_sync_setup_header">Verbind je Enable Banking-applicatie</string>
-    <string name="bank_sync_setup_hint">Maak een gratis Enable Banking-account aan, registreer een productietoepassing en plak hier de ID en privésleutel. Tik rechtsboven op de i-knop voor een stapsgewijze handleiding.</string>
+    <string name="bank_sync_setup_hint">Maak een gratis Enable Banking-account aan, registreer een productieapplicatie en plak hier de ID en privésleutel. De dekking hangt af van de Europese banken en landen die Enable Banking ondersteunt. Tik rechtsboven op de i-knop voor een stapsgewijze handleiding.</string>
     <string name="bank_sync_app_id_label">Applicatie-ID</string>
     <string name="bank_sync_private_key_label">Privésleutel (PEM)</string>
     <string name="bank_sync_save_credentials">Opslaan en valideren</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">Inloggegevens bewerken</string>
     <string name="bank_sync_choose_country">Kies je land</string>
     <string name="bank_sync_search_country">Land of code zoeken</string>
-    <string name="bank_sync_supported_countries_hint">Banksynchronisatie werkt met PSD2 open-banking-API's in deze landen.</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking biedt PSD2-open-bankingdekking voor de ondersteunde Europese banken en landen die hier staan.</string>
     <string name="bank_sync_change_country">Land wijzigen</string>
     <string name="bank_sync_disconnect_confirm_title">Bank loskoppelen?</string>
     <string name="bank_sync_disconnect_confirm_body">Hiermee verwijder je de bankverbinding en alle gekoppelde rekeningen. Geïmporteerde transacties blijven.</string>

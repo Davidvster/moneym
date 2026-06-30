@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">Banksynkronisering</string>
     <string name="bank_sync_setup_header">Anslut din Enable Banking-applikation</string>
-    <string name="bank_sync_setup_hint">Skapa ett kostnadsfritt Enable Banking-konto, registrera en produktionsapp och klistra in dess ID och privata nyckel här. Tryck på i-knappen längst upp till höger för en steg-för-steg-guide.</string>
+    <string name="bank_sync_setup_hint">Create a free Enable Banking account, register a production application and paste its ID and private key here. Coverage depends on the European banks and countries supported by Enable Banking. Tap the i button in the top right for a step-by-step guide.</string>
     <string name="bank_sync_app_id_label">Applikations-ID</string>
     <string name="bank_sync_private_key_label">Privat nyckel (PEM)</string>
     <string name="bank_sync_save_credentials">Spara och validera</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">Redigera autentiseringsuppgifter</string>
     <string name="bank_sync_choose_country">Välj ditt land</string>
     <string name="bank_sync_search_country">Sök land eller kod</string>
-    <string name="bank_sync_supported_countries_hint">Banksynkronisering fungerar med PSD2 open banking-API:er i dessa länder.</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking provides PSD2 open-banking coverage for the supported European banks and countries listed here.</string>
     <string name="bank_sync_change_country">Byt land</string>
     <string name="bank_sync_disconnect_confirm_title">Koppla från banken?</string>
     <string name="bank_sync_disconnect_confirm_body">Detta tar bort bankanslutningen och alla länkade konton. Importerade transaktioner behålls.</string>

@@ -47,7 +47,8 @@
     <string name="settings_txdisplay_note">Notiz / Beschreibung</string>
     <string name="settings_txdisplay_daily_sums">Tagessummen</string>
     <string name="settings_txdisplay_pending_recurring">Anstehende Wiederholungen anzeigen</string>
-    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
+    <string name="settings_txdisplay_sync_suggestions">Sync-Vorschläge anzeigen</string>
+    <string name="settings_txdisplay_save_as_new">Als neu speichern</string>
     <string name="settings_recurring_title">Wiederkehrende Transaktionen</string>
     <string name="settings_recurring_empty">Noch keine wiederkehrenden Transaktionen.\nErstelle eine Transaktion und aktiviere die Wiederholungsoption, oder tippe auf +, um direkt eine Vorlage zu erstellen.</string>
     <string name="settings_recurring_nav">Wiederkehrende Transaktionen</string>

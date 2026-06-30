@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">बैंक सिंक</string>
     <string name="bank_sync_setup_header">अपना Enable Banking ऐप्लिकेशन कनेक्ट करें</string>
-    <string name="bank_sync_setup_hint">एक मुफ़्त Enable Banking खाता बनाएं, एक प्रोडक्शन एप्लिकेशन रजिस्टर करें और उसका ID तथा निजी कुंजी यहाँ पेस्ट करें। चरण-दर-चरण मार्गदर्शिका के लिए ऊपर दाईं ओर i बटन पर टैप करें।</string>
+    <string name="bank_sync_setup_hint">Create a free Enable Banking account, register a production application and paste its ID and private key here. Coverage depends on the European banks and countries supported by Enable Banking. Tap the i button in the top right for a step-by-step guide.</string>
     <string name="bank_sync_app_id_label">ऐप्लिकेशन ID</string>
     <string name="bank_sync_private_key_label">निजी कुंजी (PEM)</string>
     <string name="bank_sync_save_credentials">सहेजें और जाँचें</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">क्रेडेंशियल संपादित करें</string>
     <string name="bank_sync_choose_country">अपना देश चुनें</string>
     <string name="bank_sync_search_country">देश या कोड खोजें</string>
-    <string name="bank_sync_supported_countries_hint">बैंक सिंक इन देशों में PSD2 ओपन-बैंकिंग API के साथ काम करता है।</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking provides PSD2 open-banking coverage for the supported European banks and countries listed here.</string>
     <string name="bank_sync_change_country">देश बदलें</string>
     <string name="bank_sync_disconnect_confirm_title">बैंक डिस्कनेक्ट करें?</string>
     <string name="bank_sync_disconnect_confirm_body">यह बैंक कनेक्शन और सभी लिंक किए गए खाते हटा देता है। आयात किए गए लेनदेन बने रहते हैं।</string>

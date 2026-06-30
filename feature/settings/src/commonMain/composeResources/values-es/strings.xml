@@ -47,7 +47,8 @@
     <string name="settings_txdisplay_note">Nota / descripción</string>
     <string name="settings_txdisplay_daily_sums">Totales diarios</string>
     <string name="settings_txdisplay_pending_recurring">Mostrar próximas recurrencias</string>
-    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
+    <string name="settings_txdisplay_sync_suggestions">Mostrar sugerencias de sincronización</string>
+    <string name="settings_txdisplay_save_as_new">Guardar como nuevo</string>
     <string name="settings_recurring_title">Transacciones recurrentes</string>
     <string name="settings_recurring_empty">Aún no hay transacciones recurrentes.\nCrea una transacción y activa la opción de recurrencia, o toca + para crear una plantilla directamente.</string>
     <string name="settings_recurring_nav">Transacciones recurrentes</string>

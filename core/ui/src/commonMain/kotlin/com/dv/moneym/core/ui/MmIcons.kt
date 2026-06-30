@@ -1304,6 +1304,44 @@ internal object MmIcons {
         }.build()
     }
 
+    private val cloudSync: ImageVector by lazy {
+        ImageVector.Builder(
+            name = "cloudSync",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+        ).apply {
+            addPath(
+                pathData = addPathNodes("M7 18 A4 4 0 0 1 7 10 A5 5 0 0 1 16.2 11.4 A3.5 3.5 0 0 1 17 18 Z"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+            addPath(
+                pathData = addPathNodes("M10 12 L8.5 10.5 L7 12"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+            addPath(
+                pathData = addPathNodes("M14 16 L15.5 17.5 L17 16"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+        }.build()
+    }
+
     private val warning: ImageVector by lazy {
         ImageVector.Builder(
             name = "warning",
@@ -1351,7 +1389,7 @@ internal object MmIcons {
             viewportHeight = 24f,
         ).apply {
             addPath(
-                pathData = addPathNodes("M18 17 A6 6 0 1 0 6 17"),
+                pathData = addPathNodes("M6 17 A6 6 0 0 1 18 17"),
                 stroke = SolidColor(Color.Black),
                 strokeLineWidth = 1.8f,
                 strokeLineCap = StrokeCap.Round,
@@ -1360,7 +1398,7 @@ internal object MmIcons {
                 fillAlpha = 0f,
             )
             addPath(
-                pathData = addPathNodes("M18 15 A8 8 0 0 0 6 15"),
+                pathData = addPathNodes("M8.5 8.5 A3.5 3.5 0 0 1 15.5 8.5"),
                 stroke = SolidColor(Color.Black),
                 strokeLineWidth = 1.8f,
                 strokeLineCap = StrokeCap.Round,
@@ -1369,7 +1407,7 @@ internal object MmIcons {
                 fillAlpha = 0f,
             )
             addPath(
-                pathData = addPathNodes("M12 9 A3 3 0 1 0 12 15 A3 3 0 1 0 12 9 Z"),
+                pathData = addPathNodes("M10.2 19 A1.8 1.8 0 0 0 13.8 19"),
                 stroke = SolidColor(Color.Black),
                 strokeLineWidth = 1.8f,
                 strokeLineCap = StrokeCap.Round,
@@ -1378,7 +1416,7 @@ internal object MmIcons {
                 fillAlpha = 0f,
             )
             addPath(
-                pathData = addPathNodes("M10 19 L14 19"),
+                pathData = addPathNodes("M9 17 L9 13 A3 3 0 0 1 15 13 L15 17"),
                 stroke = SolidColor(Color.Black),
                 strokeLineWidth = 1.8f,
                 strokeLineCap = StrokeCap.Round,
@@ -1441,6 +1479,7 @@ internal object MmIcons {
         Icon.EyeOff -> eyeOff
         Icon.Sparkles -> sparkles
         Icon.Sync -> sync
+        Icon.CloudSync -> cloudSync
         Icon.Warning -> warning
         Icon.Bell -> bell
         Icon.Coffee -> coffee

@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">Банкарска синхронизација</string>
     <string name="bank_sync_setup_header">Поврзете ја вашата Enable Banking апликација</string>
-    <string name="bank_sync_setup_hint">Создајте бесплатна Enable Banking сметка, регистрирајте продукциска апликација и залепете ги нејзиниот ID и приватниот клуч овде. Допрете го копчето i горе десно за чекор-по-чекор водич.</string>
+    <string name="bank_sync_setup_hint">Create a free Enable Banking account, register a production application and paste its ID and private key here. Coverage depends on the European banks and countries supported by Enable Banking. Tap the i button in the top right for a step-by-step guide.</string>
     <string name="bank_sync_app_id_label">ID на апликацијата</string>
     <string name="bank_sync_private_key_label">Приватен клуч (PEM)</string>
     <string name="bank_sync_save_credentials">Зачувај и провери</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">Уреди акредитиви</string>
     <string name="bank_sync_choose_country">Изберете ја вашата земја</string>
     <string name="bank_sync_search_country">Пребарај земја или код</string>
-    <string name="bank_sync_supported_countries_hint">Синхронизацијата со банка работи со PSD2 API за отворено банкарство во овие земји.</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking provides PSD2 open-banking coverage for the supported European banks and countries listed here.</string>
     <string name="bank_sync_change_country">Промени земја</string>
     <string name="bank_sync_disconnect_confirm_title">Да се исклучи банката?</string>
     <string name="bank_sync_disconnect_confirm_body">Ова ја отстранува врската со банката и сите поврзани сметки. Увезените трансакции остануваат.</string>

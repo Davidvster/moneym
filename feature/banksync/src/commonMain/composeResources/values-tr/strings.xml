@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">Banka senkronizasyonu</string>
     <string name="bank_sync_setup_header">Enable Banking uygulamanızı bağlayın</string>
-    <string name="bank_sync_setup_hint">Ücretsiz bir Enable Banking hesabı oluşturun, bir üretim uygulaması kaydedin ve kimliğini ve özel anahtarını buraya yapıştırın. Adım adım kılavuz için sağ üstteki i düğmesine dokunun.</string>
+    <string name="bank_sync_setup_hint">Create a free Enable Banking account, register a production application and paste its ID and private key here. Coverage depends on the European banks and countries supported by Enable Banking. Tap the i button in the top right for a step-by-step guide.</string>
     <string name="bank_sync_app_id_label">Uygulama kimliği</string>
     <string name="bank_sync_private_key_label">Özel anahtar (PEM)</string>
     <string name="bank_sync_save_credentials">Kaydet ve doğrula</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">Kimlik bilgilerini düzenle</string>
     <string name="bank_sync_choose_country">Ülkeni seç</string>
     <string name="bank_sync_search_country">Ülke veya kod ara</string>
-    <string name="bank_sync_supported_countries_hint">Banka senkronizasyonu bu ülkelerde PSD2 açık bankacılık API'leriyle çalışır.</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking provides PSD2 open-banking coverage for the supported European banks and countries listed here.</string>
     <string name="bank_sync_change_country">Ülkeyi değiştir</string>
     <string name="bank_sync_disconnect_confirm_title">Banka bağlantısı kesilsin mi?</string>
     <string name="bank_sync_disconnect_confirm_body">Bu, banka bağlantısını ve bağlı tüm hesapları kaldırır. İçe aktarılan işlemler kalır.</string>

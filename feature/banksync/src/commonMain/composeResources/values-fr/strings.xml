@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">Synchronisation bancaire</string>
     <string name="bank_sync_setup_header">Connectez votre application Enable Banking</string>
-    <string name="bank_sync_setup_hint">Créez un compte Enable Banking gratuit, enregistrez une application de production, puis collez son identifiant et sa clé privée ici. Appuyez sur le bouton i en haut à droite pour afficher un guide pas à pas.</string>
+    <string name="bank_sync_setup_hint">Créez un compte Enable Banking gratuit, enregistrez une application de production, puis collez ici son identifiant et sa clé privée. La couverture dépend des banques et pays européens pris en charge par Enable Banking. Appuyez sur le bouton i en haut à droite pour le guide pas à pas.</string>
     <string name="bank_sync_app_id_label">ID de l'application</string>
     <string name="bank_sync_private_key_label">Clé privée (PEM)</string>
     <string name="bank_sync_save_credentials">Enregistrer et valider</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">Modifier les identifiants</string>
     <string name="bank_sync_choose_country">Choisissez votre pays</string>
     <string name="bank_sync_search_country">Rechercher un pays ou un code</string>
-    <string name="bank_sync_supported_countries_hint">La synchronisation bancaire fonctionne avec les API d'open banking PSD2 dans ces pays.</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking fournit une couverture PSD2/open banking pour les banques et pays européens pris en charge listés ici.</string>
     <string name="bank_sync_change_country">Changer de pays</string>
     <string name="bank_sync_disconnect_confirm_title">Déconnecter la banque ?</string>
     <string name="bank_sync_disconnect_confirm_body">Cela supprime la connexion bancaire et tous les comptes liés. Les transactions importées sont conservées.</string>

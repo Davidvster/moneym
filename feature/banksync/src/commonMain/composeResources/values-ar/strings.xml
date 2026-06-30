@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">مزامنة البنك</string>
     <string name="bank_sync_setup_header">اربط تطبيق Enable Banking الخاص بك</string>
-    <string name="bank_sync_setup_hint">أنشئ حساب Enable Banking مجانيًا، وسجّل تطبيق إنتاج والصق معرّفه ومفتاحه الخاص هنا. اضغط على زر المعلومات (i) في أعلى اليمين للحصول على دليل خطوة بخطوة.</string>
+    <string name="bank_sync_setup_hint">Create a free Enable Banking account, register a production application and paste its ID and private key here. Coverage depends on the European banks and countries supported by Enable Banking. Tap the i button in the top right for a step-by-step guide.</string>
     <string name="bank_sync_app_id_label">معرّف التطبيق</string>
     <string name="bank_sync_private_key_label">المفتاح الخاص (PEM)</string>
     <string name="bank_sync_save_credentials">حفظ وتحقق</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">تعديل بيانات الاعتماد</string>
     <string name="bank_sync_choose_country">اختر بلدك</string>
     <string name="bank_sync_search_country">ابحث عن بلد أو رمز</string>
-    <string name="bank_sync_supported_countries_hint">تعمل مزامنة البنك مع واجهات برمجة تطبيقات الخدمات المصرفية المفتوحة PSD2 في هذه البلدان.</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking provides PSD2 open-banking coverage for the supported European banks and countries listed here.</string>
     <string name="bank_sync_change_country">تغيير البلد</string>
     <string name="bank_sync_disconnect_confirm_title">قطع الاتصال بالبنك؟</string>
     <string name="bank_sync_disconnect_confirm_body">سيؤدي هذا إلى إزالة اتصال البنك وجميع الحسابات المرتبطة. تبقى المعاملات المستوردة.</string>

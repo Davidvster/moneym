@@ -47,7 +47,8 @@
     <string name="settings_txdisplay_note">Bilješka / opis</string>
     <string name="settings_txdisplay_daily_sums">Dnevni ukupni iznosi</string>
     <string name="settings_txdisplay_pending_recurring">Prikaži nadolazeće ponavljajuće</string>
-    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
+    <string name="settings_txdisplay_sync_suggestions">Prikaži prijedloge sinkronizacije</string>
+    <string name="settings_txdisplay_save_as_new">Spremi kao novo</string>
     <string name="settings_recurring_title">Ponavljajuće transakcije</string>
     <string name="settings_recurring_empty">Još nema ponavljajućih transakcija.\nDa biste dodali jednu, stvorite transakciju i omogućite opciju ponavljanja, ili dodirnite + za izravan unos predloška.</string>
     <string name="settings_recurring_nav">Ponavljajuće transakcije</string>

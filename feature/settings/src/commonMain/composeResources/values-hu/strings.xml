@@ -47,7 +47,8 @@
     <string name="settings_txdisplay_note">Megjegyzés / leírás</string>
     <string name="settings_txdisplay_daily_sums">Napi összesítők</string>
     <string name="settings_txdisplay_pending_recurring">Közelgő ismétlődők megjelenítése</string>
-    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
+    <string name="settings_txdisplay_sync_suggestions">Szinkronizálási javaslatok megjelenítése</string>
+    <string name="settings_txdisplay_save_as_new">Mentés újként</string>
     <string name="settings_recurring_title">Ismétlődő tranzakciók</string>
     <string name="settings_recurring_empty">Még nincs ismétlődő tranzakció.\nEgy hozzáadásához hozzon létre tranzakciót és engedélyezze az ismétlődési opciót, vagy koppintson a + gombra egy sablon közvetlen létrehozásához.</string>
     <string name="settings_recurring_nav">Ismétlődő tranzakciók</string>

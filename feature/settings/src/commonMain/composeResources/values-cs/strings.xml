@@ -47,7 +47,8 @@
     <string name="settings_txdisplay_note">Poznámka / popis</string>
     <string name="settings_txdisplay_daily_sums">Denní součty</string>
     <string name="settings_txdisplay_pending_recurring">Zobrazit nadcházející opakující se</string>
-    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
+    <string name="settings_txdisplay_sync_suggestions">Zobrazit návrhy synchronizace</string>
+    <string name="settings_txdisplay_save_as_new">Uložit jako nové</string>
     <string name="settings_recurring_title">Opakující se transakce</string>
     <string name="settings_recurring_empty">Zatím žádné opakující se transakce.\nChcete-li přidat jednu, vytvořte transakci a povolte možnost opakování, nebo klepněte na + pro přímé vytvoření šablony.</string>
     <string name="settings_recurring_nav">Opakující se transakce</string>

@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">银行同步</string>
     <string name="bank_sync_setup_header">连接你的 Enable Banking 应用</string>
-    <string name="bank_sync_setup_hint">创建一个免费的 Enable Banking 账户，注册一个生产应用，并将其 ID 和私钥粘贴到此处。点按右上角的 i 按钮可查看分步指南。</string>
+    <string name="bank_sync_setup_hint">Create a free Enable Banking account, register a production application and paste its ID and private key here. Coverage depends on the European banks and countries supported by Enable Banking. Tap the i button in the top right for a step-by-step guide.</string>
     <string name="bank_sync_app_id_label">应用 ID</string>
     <string name="bank_sync_private_key_label">私钥 (PEM)</string>
     <string name="bank_sync_save_credentials">保存并验证</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">编辑凭据</string>
     <string name="bank_sync_choose_country">选择您的国家/地区</string>
     <string name="bank_sync_search_country">搜索国家/地区或代码</string>
-    <string name="bank_sync_supported_countries_hint">银行同步在这些国家/地区通过 PSD2 开放银行 API 工作。</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking provides PSD2 open-banking coverage for the supported European banks and countries listed here.</string>
     <string name="bank_sync_change_country">更改国家/地区</string>
     <string name="bank_sync_disconnect_confirm_title">断开银行连接？</string>
     <string name="bank_sync_disconnect_confirm_body">这将移除银行连接和所有关联账户。已导入的交易将保留。</string>

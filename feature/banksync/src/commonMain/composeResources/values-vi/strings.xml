@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">Đồng bộ ngân hàng</string>
     <string name="bank_sync_setup_header">Kết nối ứng dụng Enable Banking của bạn</string>
-    <string name="bank_sync_setup_hint">Tạo tài khoản Enable Banking miễn phí, đăng ký ứng dụng sản xuất và dán ID cùng khóa riêng tư của nó vào đây. Nhấn nút i ở góc trên bên phải để xem hướng dẫn từng bước.</string>
+    <string name="bank_sync_setup_hint">Create a free Enable Banking account, register a production application and paste its ID and private key here. Coverage depends on the European banks and countries supported by Enable Banking. Tap the i button in the top right for a step-by-step guide.</string>
     <string name="bank_sync_app_id_label">ID ứng dụng</string>
     <string name="bank_sync_private_key_label">Khóa riêng tư (PEM)</string>
     <string name="bank_sync_save_credentials">Lưu và xác minh</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">Chỉnh sửa thông tin đăng nhập</string>
     <string name="bank_sync_choose_country">Chọn quốc gia của bạn</string>
     <string name="bank_sync_search_country">Tìm quốc gia hoặc mã</string>
-    <string name="bank_sync_supported_countries_hint">Đồng bộ ngân hàng hoạt động với các API ngân hàng mở PSD2 ở những quốc gia này.</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking provides PSD2 open-banking coverage for the supported European banks and countries listed here.</string>
     <string name="bank_sync_change_country">Đổi quốc gia</string>
     <string name="bank_sync_disconnect_confirm_title">Ngắt kết nối ngân hàng?</string>
     <string name="bank_sync_disconnect_confirm_body">Thao tác này xóa kết nối ngân hàng và tất cả tài khoản đã liên kết. Giao dịch đã nhập vẫn được giữ lại.</string>

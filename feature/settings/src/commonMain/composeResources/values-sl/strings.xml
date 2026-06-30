@@ -47,7 +47,8 @@
     <string name="settings_txdisplay_note">Opomba / opis</string>
     <string name="settings_txdisplay_daily_sums">Dnevni seštevki</string>
     <string name="settings_txdisplay_pending_recurring">Prikaži prihajajoče ponavljajoče</string>
-    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
+    <string name="settings_txdisplay_sync_suggestions">Prikaži predloge sinhronizacije</string>
+    <string name="settings_txdisplay_save_as_new">Shrani kot novo</string>
     <string name="settings_recurring_title">Ponavljajoče transakcije</string>
     <string name="settings_recurring_empty">Še ni ponavljajočih transakcij.\nDa dodate, ustvarite transakcijo in omogočite možnost ponavljanja ali tapnite + za neposredno ustvarjanje ponavljajoče predloge.</string>
     <string name="settings_recurring_nav">Ponavljajoče transakcije</string>

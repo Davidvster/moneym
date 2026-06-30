@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">Banková synchronizácia</string>
     <string name="bank_sync_setup_header">Pripojte svoju aplikáciu Enable Banking</string>
-    <string name="bank_sync_setup_hint">Vytvorte si bezplatný účet Enable Banking, zaregistrujte produkčnú aplikáciu a sem vložte jej ID a súkromný kľúč. Ťuknutím na tlačidlo i vpravo hore zobrazíte podrobného sprievodcu.</string>
+    <string name="bank_sync_setup_hint">Create a free Enable Banking account, register a production application and paste its ID and private key here. Coverage depends on the European banks and countries supported by Enable Banking. Tap the i button in the top right for a step-by-step guide.</string>
     <string name="bank_sync_app_id_label">ID aplikácie</string>
     <string name="bank_sync_private_key_label">Súkromný kľúč (PEM)</string>
     <string name="bank_sync_save_credentials">Uložiť a overiť</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">Upraviť prihlasovacie údaje</string>
     <string name="bank_sync_choose_country">Vyberte svoju krajinu</string>
     <string name="bank_sync_search_country">Hľadať krajinu alebo kód</string>
-    <string name="bank_sync_supported_countries_hint">Synchronizácia s bankou funguje cez API otvoreného bankovníctva PSD2 v týchto krajinách.</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking provides PSD2 open-banking coverage for the supported European banks and countries listed here.</string>
     <string name="bank_sync_change_country">Zmeniť krajinu</string>
     <string name="bank_sync_disconnect_confirm_title">Odpojiť banku?</string>
     <string name="bank_sync_disconnect_confirm_body">Tým sa odstráni pripojenie k banke a všetky prepojené účty. Importované transakcie zostanú.</string>

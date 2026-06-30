@@ -47,7 +47,8 @@
     <string name="settings_txdisplay_note">नोट / विवरण</string>
     <string name="settings_txdisplay_daily_sums">दैनिक योग</string>
     <string name="settings_txdisplay_pending_recurring">आगामी आवर्ती दिखाएँ</string>
-    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
+    <string name="settings_txdisplay_sync_suggestions">सिंक सुझाव दिखाएँ</string>
+    <string name="settings_txdisplay_save_as_new">नया के रूप में सहेजें</string>
     <string name="settings_recurring_title">आवर्ती लेन-देन</string>
     <string name="settings_recurring_empty">अभी कोई आवर्ती लेन-देन नहीं।\nजोड़ने के लिए, कोई लेन-देन बनाएँ और आवर्ती विकल्प सक्षम करें, या सीधे आवर्ती टेम्पलेट बनाने के लिए + दबाएँ।</string>
     <string name="settings_recurring_nav">आवर्ती लेन-देन</string>

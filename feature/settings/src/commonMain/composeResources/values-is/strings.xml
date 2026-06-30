@@ -47,7 +47,8 @@
     <string name="settings_txdisplay_note">Athugasemd / lýsing</string>
     <string name="settings_txdisplay_daily_sums">Daglegar samtölur</string>
     <string name="settings_txdisplay_pending_recurring">Sýna væntanlegar endurteknar</string>
-    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
+    <string name="settings_txdisplay_sync_suggestions">Sýna samstillingartillögur</string>
+    <string name="settings_txdisplay_save_as_new">Vista sem nýtt</string>
     <string name="settings_recurring_title">Endurteknar færslur</string>
     <string name="settings_recurring_empty">Engar endurteknar færslur ennþá.\nTil að bæta við einni skaltu búa til færslu og virkja endurtekningu, eða ýta á + til að búa til endurtekna sniðmát beint.</string>
     <string name="settings_recurring_nav">Endurteknar færslur</string>

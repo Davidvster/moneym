@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">Bank-Synchronisierung</string>
     <string name="bank_sync_setup_header">Enable-Banking-Anwendung verbinden</string>
-    <string name="bank_sync_setup_hint">Erstellen Sie ein kostenloses Enable-Banking-Konto, registrieren Sie eine Produktionsanwendung und fügen Sie deren ID und den privaten Schlüssel hier ein. Tippen Sie oben rechts auf das i-Symbol für eine Schritt-für-Schritt-Anleitung.</string>
+    <string name="bank_sync_setup_hint">Erstelle ein kostenloses Enable-Banking-Konto, registriere eine Produktionsanwendung und füge hier deren ID und privaten Schlüssel ein. Die Abdeckung hängt von den europäischen Banken und Ländern ab, die Enable Banking unterstützt. Tippe oben rechts auf die i-Taste für eine Schritt-für-Schritt-Anleitung.</string>
     <string name="bank_sync_app_id_label">Anwendungs-ID</string>
     <string name="bank_sync_private_key_label">Privater Schlüssel (PEM)</string>
     <string name="bank_sync_save_credentials">Speichern &amp; prüfen</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">Zugangsdaten bearbeiten</string>
     <string name="bank_sync_choose_country">Wähle dein Land</string>
     <string name="bank_sync_search_country">Land oder Code suchen</string>
-    <string name="bank_sync_supported_countries_hint">Bank-Sync funktioniert über PSD2-Open-Banking-APIs in diesen Ländern.</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking bietet PSD2-Open-Banking-Abdeckung für die hier aufgeführten unterstützten europäischen Banken und Länder.</string>
     <string name="bank_sync_change_country">Land ändern</string>
     <string name="bank_sync_disconnect_confirm_title">Bank trennen?</string>
     <string name="bank_sync_disconnect_confirm_body">Dies entfernt die Bankverbindung und alle verknüpften Konten. Importierte Transaktionen bleiben erhalten.</string>

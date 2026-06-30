@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">Panga sünkroonimine</string>
     <string name="bank_sync_setup_header">Ühendage oma Enable Bankingu rakendus</string>
-    <string name="bank_sync_setup_hint">Loo tasuta Enable Bankingu konto, registreeri tooterakendus ning kleebi siia selle ID ja privaatvõti. Sammhaaval juhendi avamiseks puuduta paremas ülanurgas i-nuppu.</string>
+    <string name="bank_sync_setup_hint">Create a free Enable Banking account, register a production application and paste its ID and private key here. Coverage depends on the European banks and countries supported by Enable Banking. Tap the i button in the top right for a step-by-step guide.</string>
     <string name="bank_sync_app_id_label">Rakenduse ID</string>
     <string name="bank_sync_private_key_label">Privaatvõti (PEM)</string>
     <string name="bank_sync_save_credentials">Salvesta ja kontrolli</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">Muuda mandaate</string>
     <string name="bank_sync_choose_country">Vali oma riik</string>
     <string name="bank_sync_search_country">Otsi riiki või koodi</string>
-    <string name="bank_sync_supported_countries_hint">Pangasünkroonimine töötab nendes riikides PSD2 avatud panganduse API-dega.</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking provides PSD2 open-banking coverage for the supported European banks and countries listed here.</string>
     <string name="bank_sync_change_country">Muuda riiki</string>
     <string name="bank_sync_disconnect_confirm_title">Kas katkestada panga ühendus?</string>
     <string name="bank_sync_disconnect_confirm_body">See eemaldab pangaühenduse ja kõik seotud kontod. Imporditud tehingud jäävad alles.</string>

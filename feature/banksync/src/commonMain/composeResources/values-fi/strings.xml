@@ -2,7 +2,7 @@
 <resources>
     <string name="bank_sync_title">Pankkisynkronointi</string>
     <string name="bank_sync_setup_header">Yhdistä Enable Banking -sovelluksesi</string>
-    <string name="bank_sync_setup_hint">Luo maksuton Enable Banking -tili, rekisteröi tuotantosovellus ja liitä sen tunnus ja yksityinen avain tähän. Avaa vaiheittainen ohje napauttamalla i-painiketta oikeassa yläkulmassa.</string>
+    <string name="bank_sync_setup_hint">Create a free Enable Banking account, register a production application and paste its ID and private key here. Coverage depends on the European banks and countries supported by Enable Banking. Tap the i button in the top right for a step-by-step guide.</string>
     <string name="bank_sync_app_id_label">Sovelluksen tunnus</string>
     <string name="bank_sync_private_key_label">Yksityinen avain (PEM)</string>
     <string name="bank_sync_save_credentials">Tallenna ja vahvista</string>
@@ -51,7 +51,7 @@
     <string name="bank_sync_edit_credentials">Muokkaa tunnistetietoja</string>
     <string name="bank_sync_choose_country">Valitse maasi</string>
     <string name="bank_sync_search_country">Hae maata tai koodia</string>
-    <string name="bank_sync_supported_countries_hint">Pankkisynkronointi toimii PSD2-avoimen pankkitoiminnan rajapinnoilla näissä maissa.</string>
+    <string name="bank_sync_supported_countries_hint">Enable Banking provides PSD2 open-banking coverage for the supported European banks and countries listed here.</string>
     <string name="bank_sync_change_country">Vaihda maata</string>
     <string name="bank_sync_disconnect_confirm_title">Katkaistaanko pankkiyhteys?</string>
     <string name="bank_sync_disconnect_confirm_body">Tämä poistaa pankkiyhteyden ja kaikki liitetyt tilit. Tuodut tapahtumat säilyvät.</string>

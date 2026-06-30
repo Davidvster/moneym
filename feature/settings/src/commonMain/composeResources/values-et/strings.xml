@@ -47,7 +47,8 @@
     <string name="settings_txdisplay_note">Märkus / kirjeldus</string>
     <string name="settings_txdisplay_daily_sums">Päeva kogusummad</string>
     <string name="settings_txdisplay_pending_recurring">Näita tulevasi korduvaid</string>
-    <string name="settings_txdisplay_sync_suggestions">Sync suggestion row</string>
+    <string name="settings_txdisplay_sync_suggestions">Kuva sünkroonimissoovitused</string>
+    <string name="settings_txdisplay_save_as_new">Salvesta uuena</string>
     <string name="settings_recurring_title">Korduvad tehingud</string>
     <string name="settings_recurring_empty">Korduvaid tehinguid pole veel.\nLisamiseks loo tehing ja luba kordumise valik või vajuta +, et luua korduv mall otse.</string>
     <string name="settings_recurring_nav">Korduvad tehingud</string>
