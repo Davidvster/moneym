@@ -182,10 +182,43 @@ class NotificationParserTest {
             title = "Your Metal free trial",
             text = "Enjoy benefits worth €2,400, on us for 2 months if you join by 23/06/2026. T&Cs apply"
         )
+        assertEquals(s, null)
+    }
+
+    @Test
+    fun ignoresChallengePointsNotification() {
+        val s = parse(
+            pkg = "com.revolut.revolut",
+            title = "New challenge: 200 points",
+            text = "Tap to enrol by 30 June. T&Cs apply"
+        )
+        assertNull(s)
+    }
+
+    @Test
+    fun ignoresStockMarketAlertNotification() {
+        val s = parse(
+            pkg = "com.revolut.revolut",
+            title = "GOOGL is down 1.52% 22/06/2026",
+            text = "Google down on AI scientist John Jumper's departure to Anthropic"
+        )
+        assertNull(s)
+    }
+
+    @Test
+    fun parsesBunqDirectDebitMerchant() {
+        val s = parse(
+            pkg = "com.bunq.android",
+            appLabel = "bunq",
+            title = "💵 Direct Debit Paid 14:11",
+            text = "€7.61 to FBTO from Main. Paid automatically with Auto Accept."
+        )
         assertTrue(s != null)
-        assertEquals(240000, s.amountMinor)
+        assertEquals(761L, s.amountMinor)
         assertEquals("EUR", s.currency)
         assertEquals(SyncDirection.DEBIT, s.direction)
+        assertEquals("FBTO", s.description)
+        assertEquals("FBTO", s.counterparty)
         assertEquals(today, s.date)
     }
 }

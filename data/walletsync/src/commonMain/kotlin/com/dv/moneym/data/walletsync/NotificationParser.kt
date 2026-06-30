@@ -24,6 +24,7 @@ class NotificationParser {
         val normTitle = normalize(rawTitle)
         val normText = normalize(rawText)
         val combined = listOf(normTitle, normText).filter { it.isNotBlank() }.joinToString(" ")
+        if (isLikelyNonTransactionNotification(combined)) return null
 
         val amountCandidate = pickBestAmountCandidate(
             title = normTitle,
@@ -155,6 +156,7 @@ class NotificationParser {
         s = AMOUNT_REGEX.replace(s, " ")
         s = MASKED_CARD_REGEX.replace(s, " ")
         s = trimLeadingTokens(s, LEADING_CONNECTORS)
+        s = trimAfterFirstMarker(s, MERCHANT_STOP_MARKERS)
         s = trimTrailingTokens(s, TRAILING_MERCHANT_NOISE)
         s = trimCardTail(s)
         s = normalize(s)
@@ -165,6 +167,24 @@ class NotificationParser {
         while (s.endsWith("..")) s = s.dropLast(1)
 
         return s.takeIf { it.isNotBlank() }
+    }
+
+    private fun isLikelyNonTransactionNotification(input: String): Boolean {
+        val lower = normalize(input).lowercase()
+        if (lower.isBlank()) return false
+
+        if (containsAny(lower, MARKET_HINTS) && PERCENT_REGEX.containsMatchIn(lower)) return true
+        if (containsAny(lower, MARKET_HINTS) && containsAny(lower, NEWS_HINTS)) return true
+        if (containsAny(lower, CHALLENGE_REWARD_HINTS) && containsAny(lower, DEADLINE_TERMS_HINTS)) return true
+        if (containsAny(lower, PROMOTIONAL_HINTS) && containsAny(lower, WORTH_BENEFITS_POINTS_HINTS)) return true
+        if (containsAny(lower, WORTH_BENEFITS_POINTS_HINTS) &&
+            containsAny(lower, DEADLINE_TERMS_HINTS) &&
+            !containsAny(lower, PAYMENT_CONFIRMATION_HINTS)
+        ) {
+            return true
+        }
+
+        return false
     }
 
     private fun cleanupTitleCandidate(rawTitle: String): String? {
@@ -408,6 +428,17 @@ class NotificationParser {
         return s
     }
 
+    private fun trimAfterFirstMarker(input: String, markers: List<String>): String {
+        val lower = input.lowercase()
+        val cut = markers
+            .mapNotNull { marker ->
+                lower.indexOf(marker).takeIf { it >= 0 }
+            }
+            .minOrNull()
+
+        return if (cut == null) input else input.substring(0, cut).trimEnd()
+    }
+
     private fun surroundingContext(
         input: String,
         start: Int,
@@ -514,6 +545,7 @@ class NotificationParser {
 
         private val MERCHANT_PATTERNS        get() = NotificationParserHints.MERCHANT_PATTERNS
         private val LEADING_CONNECTORS       get() = NotificationParserHints.LEADING_CONNECTORS
+        private val MERCHANT_STOP_MARKERS    get() = NotificationParserHints.MERCHANT_STOP_MARKERS
         private val TRAILING_MERCHANT_NOISE get() = NotificationParserHints.TRAILING_MERCHANT_NOISE
         private val CARD_TAIL_MARKERS       get() = NotificationParserHints.CARD_TAIL_MARKERS
         private val CARD_HINTS              get() = NotificationParserHints.CARD_HINTS
@@ -521,5 +553,14 @@ class NotificationParser {
         private val DATE_HINTS              get() = NotificationParserHints.DATE_HINTS
         private val CREDIT_HINTS            get() = NotificationParserHints.CREDIT_HINTS
         private val DEBIT_HINTS             get() = NotificationParserHints.DEBIT_HINTS
+        private val MARKET_HINTS            get() = NotificationParserHints.MARKET_HINTS
+        private val NEWS_HINTS              get() = NotificationParserHints.NEWS_HINTS
+        private val CHALLENGE_REWARD_HINTS  get() = NotificationParserHints.CHALLENGE_REWARD_HINTS
+        private val DEADLINE_TERMS_HINTS    get() = NotificationParserHints.DEADLINE_TERMS_HINTS
+        private val PROMOTIONAL_HINTS       get() = NotificationParserHints.PROMOTIONAL_HINTS
+        private val WORTH_BENEFITS_POINTS_HINTS get() = NotificationParserHints.WORTH_BENEFITS_POINTS_HINTS
+        private val PAYMENT_CONFIRMATION_HINTS  get() = NotificationParserHints.PAYMENT_CONFIRMATION_HINTS
+
+        private val PERCENT_REGEX = Regex("""\d+(?:[.,]\d+)?\s*%""")
     }
 }

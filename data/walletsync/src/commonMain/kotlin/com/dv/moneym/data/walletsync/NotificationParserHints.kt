@@ -439,6 +439,67 @@ internal object NotificationParserHints {
     )
 
     // ─────────────────────────────────────────────────────────────────
+    // MERCHANT STOP MARKERS
+    // Phrases that usually start account/source metadata after the merchant.
+    // ─────────────────────────────────────────────────────────────────
+    val MERCHANT_STOP_MARKERS: List<String> = listOf(
+        " from ",
+        " paid automatically",
+        " with auto accept",
+        " automatically",
+        " via ",
+        " using ",
+        " met ",
+        " van ",
+        " automatisch",
+    )
+
+    // ─────────────────────────────────────────────────────────────────
+    // NON-TRANSACTION FILTER HINTS
+    // Used in combinations so real payment confirmations are not filtered out.
+    // ─────────────────────────────────────────────────────────────────
+    val MARKET_HINTS: List<String> = listOf(
+        "stock", "stocks", "share", "shares", "market", "markets", "ticker",
+        "nasdaq", "nyse", "dow", "s&p", "ftse", "dax", "cac", "ibex",
+        "is down", "is up", "down", "up", "fell", "rose", "gain", "loss",
+        "price alert", "departure", "anthropic", "analyst", "earnings",
+        "crypto", "bitcoin", "ethereum",
+    )
+
+    val NEWS_HINTS: List<String> = listOf(
+        "news", "scientist", "departure", "leaves", "joins", "announces",
+        "report", "reports", "because", "after", "amid",
+    )
+
+    val CHALLENGE_REWARD_HINTS: List<String> = listOf(
+        "challenge", "new challenge", "reward", "rewards", "points", "point",
+        "cash prize", "bonus", "badge", "streak", "mission", "quest",
+    )
+
+    val DEADLINE_TERMS_HINTS: List<String> = listOf(
+        "t&c", "t&cs", "terms", "conditions", "apply", "by ", "before ",
+        "until ", "deadline", "expires", "expire", "enrol", "enroll",
+        "join by", "tap to", "offer ends",
+    )
+
+    val PROMOTIONAL_HINTS: List<String> = listOf(
+        "trial", "free trial", "offer", "benefit", "benefits", "deal", "deals",
+        "discount", "cashback offer", "promotion", "promo", "upgrade",
+        "metal", "premium", "switch to", "licensed platform", "on us",
+    )
+
+    val WORTH_BENEFITS_POINTS_HINTS: List<String> = listOf(
+        "worth", "benefit", "benefits", "points", "point", "reward", "rewards",
+        "value", "save up to",
+    )
+
+    val PAYMENT_CONFIRMATION_HINTS: List<String> = listOf(
+        "paid", "payment", "purchase", "spent", "charged", "debited",
+        "received", "credited", "refund", "transfer", "direct debit",
+        "compra", "pagamento", "recebeu", "transferência",
+    )
+
+    // ─────────────────────────────────────────────────────────────────
     // DATE HINTS
     // ─────────────────────────────────────────────────────────────────
     val DATE_HINTS: List<String> = listOf(
