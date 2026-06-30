@@ -1313,45 +1313,45 @@ internal object MmIcons {
             viewportHeight = 24f,
         ).apply {
             addPath(
-                pathData = addPathNodes("M6.8 18.5 L17.4 18.5 A4 4 0 0 0 18 10.6 A6 6 0 0 0 6.6 9.6 A4.5 4.5 0 0 0 6.8 18.5 Z"),
+                pathData = addPathNodes("M4.5 18 L18.8 18 A4.2 4.2 0 0 0 19.5 10.7 A7.2 7.2 0 0 0 5.1 10.1 A4.5 4.5 0 0 0 4.5 18 Z"),
                 stroke = SolidColor(Color.Black),
-                strokeLineWidth = 1.8f,
+                strokeLineWidth = 1.6f,
                 strokeLineCap = StrokeCap.Round,
                 strokeLineJoin = StrokeJoin.Round,
                 fill = null,
                 fillAlpha = 0f,
             )
             addPath(
-                pathData = addPathNodes("M9 17 L9 11"),
+                pathData = addPathNodes("M9 16.7 L9 11.3"),
                 stroke = SolidColor(Color.Black),
-                strokeLineWidth = 1.8f,
+                strokeLineWidth = 1.3f,
                 strokeLineCap = StrokeCap.Round,
                 strokeLineJoin = StrokeJoin.Round,
                 fill = null,
                 fillAlpha = 0f,
             )
             addPath(
-                pathData = addPathNodes("M6.8 13.2 L9 11 L11.2 13.2"),
+                pathData = addPathNodes("M6.9 13.1 L9 11.3 L11.1 13.1"),
                 stroke = SolidColor(Color.Black),
-                strokeLineWidth = 1.8f,
+                strokeLineWidth = 1.3f,
                 strokeLineCap = StrokeCap.Round,
                 strokeLineJoin = StrokeJoin.Round,
                 fill = null,
                 fillAlpha = 0f,
             )
             addPath(
-                pathData = addPathNodes("M15 11 L15 17"),
+                pathData = addPathNodes("M15 11.2 L15 16.7"),
                 stroke = SolidColor(Color.Black),
-                strokeLineWidth = 1.8f,
+                strokeLineWidth = 1.3f,
                 strokeLineCap = StrokeCap.Round,
                 strokeLineJoin = StrokeJoin.Round,
                 fill = null,
                 fillAlpha = 0f,
             )
             addPath(
-                pathData = addPathNodes("M12.8 14.8 L15 17 L17.2 14.8"),
+                pathData = addPathNodes("M12.9 14.9 L15 16.7 L17.1 14.9"),
                 stroke = SolidColor(Color.Black),
-                strokeLineWidth = 1.8f,
+                strokeLineWidth = 1.3f,
                 strokeLineCap = StrokeCap.Round,
                 strokeLineJoin = StrokeJoin.Round,
                 fill = null,
