@@ -18,6 +18,7 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
+import com.dv.moneym.core.model.TransactionType
 import com.dv.moneym.core.model.YearMonth
 import com.dv.moneym.core.ui.MmDateRangePickerDialog
 import com.dv.moneym.core.ui.MmCategoryPickerSheet
@@ -36,6 +37,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
+import kotlin.time.Instant
 import moneym.feature.overview.generated.resources.Res
 import moneym.feature.overview.generated.resources.overview_cancel
 import moneym.feature.overview.generated.resources.overview_date_range_from
@@ -49,6 +51,8 @@ import moneym.feature.overview.generated.resources.overview_prev_year_cd
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.time.Clock
+import moneym.feature.overview.generated.resources.overview_expenses
+import moneym.feature.overview.generated.resources.overview_income
 
 @Serializable
 data object OverviewKey : NavKey
@@ -278,6 +282,13 @@ private fun OverviewContent(
                 onToggle = { onIntent(OverviewIntent.CategoryFilterToggled(it)) },
                 onClearAll = { onIntent(OverviewIntent.CategoryFilterCleared) },
                 onDismiss = { onIntent(OverviewIntent.ShowCategoryFilter(false)) },
+                groupedByType = true,
+                groupLabelForType = { type ->
+                    when (type) {
+                        TransactionType.EXPENSE -> Res.string.overview_expenses
+                        TransactionType.INCOME -> Res.string.overview_income
+                    }
+                },
             )
         }
 
@@ -332,6 +343,74 @@ private fun OverviewScreenPreview() {
                 currentPeriod = OverviewPeriod.Month(YearMonth(2026, 6)),
                 monthAnchor = YearMonth(2026, 6),
                 yearAnchor = 2026,
+                availableCategories = listOf(
+                    com.dv.moneym.core.model.Category(
+                        id = com.dv.moneym.core.model.CategoryId(1),
+                        name = "Groceries",
+                        iconKey = com.dv.moneym.core.model.Icon.Basket.key,
+                        colorHex = "#4CAF50",
+                        isUserCreated = false,
+                        archived = false,
+                        createdAt = Instant.fromEpochMilliseconds(0),
+                        updatedAt = Instant.fromEpochMilliseconds(0),
+                        type = TransactionType.EXPENSE,
+                    ),
+                    com.dv.moneym.core.model.Category(
+                        id = com.dv.moneym.core.model.CategoryId(2),
+                        name = "Salary",
+                        iconKey = com.dv.moneym.core.model.Icon.Banknote.key,
+                        colorHex = "#66BB6A",
+                        isUserCreated = false,
+                        archived = false,
+                        createdAt = Instant.fromEpochMilliseconds(0),
+                        updatedAt = Instant.fromEpochMilliseconds(0),
+                        type = TransactionType.INCOME,
+                    ),
+                ),
+                selectedCategoryIds = setOf(com.dv.moneym.core.model.CategoryId(1)),
+                aiAvailable = true,
+            ),
+            onIntent = {},
+            onTabSelected = {},
+        )
+    }
+}
+
+@Preview(group = "no-screenshot")
+@Composable
+private fun OverviewScreenPreview_Dark() {
+    MoneyMTheme(darkTheme = true) {
+        OverviewContent(
+            state = OverviewUiState(
+                currentPeriod = OverviewPeriod.Month(YearMonth(2026, 6)),
+                monthAnchor = YearMonth(2026, 6),
+                yearAnchor = 2026,
+                availableCategories = listOf(
+                    com.dv.moneym.core.model.Category(
+                        id = com.dv.moneym.core.model.CategoryId(1),
+                        name = "Groceries",
+                        iconKey = com.dv.moneym.core.model.Icon.Basket.key,
+                        colorHex = "#4CAF50",
+                        isUserCreated = false,
+                        archived = false,
+                        createdAt = Instant.fromEpochMilliseconds(0),
+                        updatedAt = Instant.fromEpochMilliseconds(0),
+                        type = TransactionType.EXPENSE,
+                    ),
+                    com.dv.moneym.core.model.Category(
+                        id = com.dv.moneym.core.model.CategoryId(2),
+                        name = "Salary",
+                        iconKey = com.dv.moneym.core.model.Icon.Banknote.key,
+                        colorHex = "#66BB6A",
+                        isUserCreated = false,
+                        archived = false,
+                        createdAt = Instant.fromEpochMilliseconds(0),
+                        updatedAt = Instant.fromEpochMilliseconds(0),
+                        type = TransactionType.INCOME,
+                    ),
+                ),
+                selectedCategoryIds = setOf(com.dv.moneym.core.model.CategoryId(1)),
+                aiAvailable = true,
             ),
             onIntent = {},
             onTabSelected = {},

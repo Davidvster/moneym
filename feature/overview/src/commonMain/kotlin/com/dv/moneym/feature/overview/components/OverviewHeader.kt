@@ -3,8 +3,11 @@ package com.dv.moneym.feature.overview.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -56,7 +59,9 @@ import moneym.feature.overview.generated.resources.overview_period_year
 import moneym.feature.overview.generated.resources.overview_spending_by_category
 import moneym.feature.overview.generated.resources.overview_title
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Instant
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun OverviewHeader(
     period: OverviewPeriod,
@@ -139,16 +144,6 @@ internal fun OverviewHeader(
                 onClick = onCustomizeOverview,
                 contentDescription = stringResource(Res.string.overview_customize_cd),
             )
-            if (aiAvailable) {
-                MmButton(
-                    text = stringResource(Res.string.overview_analyze_cd),
-                    onClick = onAnalyzeClick,
-                    modifier = Modifier.padding(start = MM.dimen.padding_1x),
-                    variant = MmButtonVariant.Accent,
-                    size = MmButtonSize.Sm,
-                    leadingIcon = Icon.Sparkles.imageVector,
-                )
-            }
         }
 
         // Month / Year / Custom period selector — own row below title
@@ -199,47 +194,61 @@ internal fun OverviewHeader(
             modifier = Modifier.fillMaxWidth().padding(top = MM.dimen.padding_1x, bottom = MM.dimen.padding_0_5x),
         )
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(top = MM.dimen.padding_1x),
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+            verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = MM.dimen.padding_1x),
         ) {
-            if (!isRangeMode && canGoBack) {
-                MmIconButton(
-                    icon = Icon.ChevronLeft.imageVector,
-                    size = MM.dimen.padding_4x,
-                    onClick = onPreviousPeriod,
-                )
-            } else {
-                Spacer(Modifier.width(MM.dimen.padding_4x))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (!isRangeMode && canGoBack) {
+                    MmIconButton(
+                        icon = Icon.ChevronLeft.imageVector,
+                        size = MM.dimen.padding_4x,
+                        onClick = onPreviousPeriod,
+                    )
+                } else {
+                    Spacer(Modifier.width(MM.dimen.padding_4x))
+                }
+                Box(
+                    modifier = Modifier
+                        .widthIn(min = 96.dp)
+                        .clip(MM.dimen.radius_1x)
+                        .clickable(
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() },
+                        ) {
+                            if (isRangeMode) onShowDateRangePicker() else onShowPeriodPicker()
+                        }
+                        .padding(horizontal = MM.dimen.padding_0_5x, vertical = MM.dimen.padding_0_25x),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = periodLabel,
+                        style = type.body,
+                        color = colors.text,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+                if (!isRangeMode) {
+                    MmIconButton(
+                        icon = Icon.ChevronRight.imageVector,
+                        size = MM.dimen.padding_4x,
+                        onClick = onNextPeriod,
+                    )
+                } else {
+                    Spacer(Modifier.width(MM.dimen.padding_4x))
+                }
             }
-            Box(
-                modifier = Modifier
-                    .widthIn(min = 96.dp)
-                    .clip(MM.dimen.radius_1x)
-                    .clickable(
-                        indication = null,
-                        interactionSource = remember { MutableInteractionSource() },
-                    ) {
-                        if (isRangeMode) onShowDateRangePicker() else onShowPeriodPicker()
-                    }
-                    .padding(horizontal = MM.dimen.padding_0_5x, vertical = MM.dimen.padding_0_25x),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    text = periodLabel,
-                    style = type.body,
-                    color = colors.text,
-                    textAlign = TextAlign.Center,
+            if (aiAvailable) {
+                MmButton(
+                    text = stringResource(Res.string.overview_analyze_cd),
+                    onClick = onAnalyzeClick,
+                    variant = MmButtonVariant.Accent,
+                    size = MmButtonSize.Sm,
+                    leadingIcon = Icon.Sparkles.imageVector,
                 )
-            }
-            if (!isRangeMode) {
-                MmIconButton(
-                    icon = Icon.ChevronRight.imageVector,
-                    size = MM.dimen.padding_4x,
-                    onClick = onNextPeriod,
-                )
-            } else {
-                Spacer(Modifier.width(MM.dimen.padding_4x))
             }
         }
     }
@@ -260,6 +269,79 @@ private fun OverviewHeaderPreview() {
             onShowDateRangePicker = {},
             onShowCategoryFilter = {},
             onTransactionFilterChanged = {},
+            availableCategories = listOf(
+                Category(
+                    id = CategoryId(1),
+                    name = "Groceries",
+                    iconKey = Icon.Basket.key,
+                    colorHex = "#4CAF50",
+                    isUserCreated = false,
+                    archived = false,
+                    createdAt = Instant.fromEpochMilliseconds(0),
+                    updatedAt = Instant.fromEpochMilliseconds(0),
+                    type = TransactionType.EXPENSE,
+                ),
+                Category(
+                    id = CategoryId(2),
+                    name = "Salary",
+                    iconKey = Icon.Banknote.key,
+                    colorHex = "#66BB6A",
+                    isUserCreated = false,
+                    archived = false,
+                    createdAt = Instant.fromEpochMilliseconds(0),
+                    updatedAt = Instant.fromEpochMilliseconds(0),
+                    type = TransactionType.INCOME,
+                ),
+            ),
+            selectedCategoryIds = setOf(CategoryId(1)),
+            aiAvailable = true,
+            onAnalyzeClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun OverviewHeaderPreview_Dark() {
+    MoneyMTheme(darkTheme = true) {
+        OverviewHeader(
+            period = OverviewPeriod.Month(YearMonth(2024, 3)),
+            periodLabel = "March 2024",
+            transactionFilter = TransactionFilter.ByType(TransactionType.EXPENSE),
+            onTogglePeriod = {},
+            onPreviousPeriod = {},
+            onNextPeriod = {},
+            onShowPeriodPicker = {},
+            onShowDateRangePicker = {},
+            onShowCategoryFilter = {},
+            onTransactionFilterChanged = {},
+            availableCategories = listOf(
+                Category(
+                    id = CategoryId(1),
+                    name = "Groceries",
+                    iconKey = Icon.Basket.key,
+                    colorHex = "#4CAF50",
+                    isUserCreated = false,
+                    archived = false,
+                    createdAt = Instant.fromEpochMilliseconds(0),
+                    updatedAt = Instant.fromEpochMilliseconds(0),
+                    type = TransactionType.EXPENSE,
+                ),
+                Category(
+                    id = CategoryId(2),
+                    name = "Salary",
+                    iconKey = Icon.Banknote.key,
+                    colorHex = "#66BB6A",
+                    isUserCreated = false,
+                    archived = false,
+                    createdAt = Instant.fromEpochMilliseconds(0),
+                    updatedAt = Instant.fromEpochMilliseconds(0),
+                    type = TransactionType.INCOME,
+                ),
+            ),
+            selectedCategoryIds = setOf(CategoryId(1)),
+            aiAvailable = true,
+            onAnalyzeClick = {},
         )
     }
 }

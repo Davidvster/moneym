@@ -14,6 +14,8 @@ import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Icon
 import com.dv.moneym.core.model.Money
+import com.dv.moneym.core.model.Category
+import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.SpendingFilter
 import com.dv.moneym.core.model.TransactionFilter
 import com.dv.moneym.core.model.TransactionType
@@ -26,6 +28,7 @@ import com.dv.moneym.feature.overview.components.OverviewPeriodBody
 import com.dv.moneym.feature.overview.page.OverviewPageUiState
 import com.dv.moneym.feature.overview.usecase.BudgetProgress
 import com.dv.moneym.feature.overview.usecase.OverviewResolvedBlock
+import kotlin.time.Instant
 
 // Store screenshot — full overview dashboard, light theme, EUR, May 2026.
 // Reassembles header + page body + tab bar with mock data so it renders without the
@@ -112,6 +115,33 @@ internal fun StoreOverviewPreview() {
                     onShowDateRangePicker = {},
                     onShowCategoryFilter = {},
                     onTransactionFilterChanged = {},
+                    availableCategories = listOf(
+                        Category(
+                            id = CategoryId(1),
+                            name = "Groceries",
+                            iconKey = Icon.Basket.key,
+                            colorHex = "#4CAF50",
+                            isUserCreated = false,
+                            archived = false,
+                            createdAt = Instant.fromEpochMilliseconds(0),
+                            updatedAt = Instant.fromEpochMilliseconds(0),
+                            type = TransactionType.EXPENSE,
+                        ),
+                        Category(
+                            id = CategoryId(2),
+                            name = "Salary",
+                            iconKey = Icon.Banknote.key,
+                            colorHex = "#66BB6A",
+                            isUserCreated = false,
+                            archived = false,
+                            createdAt = Instant.fromEpochMilliseconds(0),
+                            updatedAt = Instant.fromEpochMilliseconds(0),
+                            type = TransactionType.INCOME,
+                        ),
+                    ),
+                    selectedCategoryIds = setOf(CategoryId(1)),
+                    aiAvailable = true,
+                    onAnalyzeClick = {},
                 )
                 Column(
                     modifier = Modifier
