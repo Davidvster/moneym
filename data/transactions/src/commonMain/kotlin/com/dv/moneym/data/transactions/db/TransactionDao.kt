@@ -59,7 +59,10 @@ interface TransactionDao {
     @Query("""
         UPDATE TransactionEntry
         SET account_id = :accountId,
-            amount_minor = CAST(ROUND(CAST(amount_minor AS REAL) * :rate) AS INTEGER),
+            amount_minor = CASE
+                WHEN currency = :currency THEN amount_minor
+                ELSE CAST(ROUND(CAST(amount_minor AS REAL) * :rate) AS INTEGER)
+            END,
             currency = :currency,
             updated_at = :now
         WHERE id IN (:ids) AND deleted = 0

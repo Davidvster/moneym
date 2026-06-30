@@ -1,5 +1,6 @@
 package com.dv.moneym.core.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -70,12 +71,16 @@ fun TxRow(
     val primaryText = if (showNoteAsPrimary) note else categoryName
     val secondaryText = if (showNoteAsPrimary && prefs.showCategoryName) categoryName else null
 
-    val dividerColor = colors.divider
+    val dividerColor = if (selected) colors.accent.copy(alpha = 0.45f) else colors.divider
 
-    val baseAlpha = if (isPending) 0.5f else 1f
+    val baseAlpha = when {
+        isPending -> 0.5f
+        selectionMode && !selected -> 0.58f
+        else -> 1f
+    }
     val rowBackground = when {
-        selected -> colors.accent.copy(alpha = 0.12f)
-        selectionMode -> colors.surface2.copy(alpha = 0.6f)
+        selected -> colors.accent.copy(alpha = 0.18f)
+        selectionMode -> colors.surface2.copy(alpha = 0.35f)
         else -> colors.bg
     }
 
@@ -96,6 +101,16 @@ fun TxRow(
                     Modifier
                 },
             )
+            .drawBehind {
+                if (selected) {
+                    drawLine(
+                        color = colors.accent,
+                        start = Offset(2.dp.toPx(), 0f),
+                        end = Offset(2.dp.toPx(), size.height),
+                        strokeWidth = 4.dp.toPx(),
+                    )
+                }
+            }
             .then(
                 if (divider) {
                     Modifier.drawBehind {
@@ -117,6 +132,13 @@ fun TxRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1_5x),
         ) {
+            AnimatedVisibility(visible = selectionMode) {
+                MmCheckbox(
+                    checked = selected,
+                    onCheckedChange = onClick?.let { click -> { _ -> click() } },
+                )
+            }
+
             // Leading: category indicator
             CategoryIconTile(
                 categoryName = categoryName,

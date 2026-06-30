@@ -208,6 +208,32 @@ class TransactionPageViewModelTest {
     }
 
     @Test
+    fun bulkDeleteRemovesSelectedTransactions() = runTestWithDispatchers(testDispatcher) {
+        val (vm, transactions) = fixture()
+        val first = transactions.upsert(txn(amount = 100))
+        val second = transactions.upsert(txn(amount = 200))
+        val untouched = transactions.upsert(txn(amount = 300))
+
+        vm.state.test {
+            var state = awaitItem()
+            while (state.dayGroups.isEmpty()) state = awaitItem()
+
+            vm.onIntent(TransactionPageIntent.TransactionLongPressed(first))
+            vm.onIntent(TransactionPageIntent.TransactionPressed(second))
+            vm.onIntent(TransactionPageIntent.DeleteRequested)
+            state = awaitItem()
+            while (state.bulkSheet !is BulkSheetState.DeleteConfirm) state = awaitItem()
+
+            vm.onIntent(TransactionPageIntent.ConfirmDelete)
+            state = awaitItem()
+            while (state.selection.selectedIds.isNotEmpty()) state = awaitItem()
+            cancelAndIgnoreRemainingEvents()
+        }
+
+        assertEquals(listOf(untouched), transactions.transactions.map { it.id })
+    }
+
+    @Test
     fun bulkCategoryChangesSelectedTransactionTypeToCategoryType() = runTestWithDispatchers(testDispatcher) {
         val (vm, transactions) = fixture()
         val id = transactions.upsert(txn(type = TransactionType.EXPENSE, categoryId = CategoryId(1)))
@@ -259,6 +285,34 @@ class TransactionPageViewModelTest {
 
         assertEquals(Money(150, usd), transactions.getById(id)!!.amount)
         assertEquals(AccountId(2), transactions.getById(id)!!.accountId)
+    }
+
+    @Test
+    fun invalidWalletMoveRateShowsErrorWithoutApplyingChanges() = runTestWithDispatchers(testDispatcher) {
+        val (vm, transactions) = fixture()
+        val id = transactions.upsert(txn(amount = 100, currency = eur, accountId = AccountId(1)))
+        val target = account(2, "Bank", usd)
+
+        vm.state.test {
+            var state = awaitItem()
+            while (state.dayGroups.isEmpty()) state = awaitItem()
+            vm.onIntent(TransactionPageIntent.TransactionLongPressed(id))
+            vm.onIntent(TransactionPageIntent.WalletPicked(target))
+            state = awaitItem()
+            while (state.bulkSheet !is BulkSheetState.WalletConfirm) state = awaitItem()
+
+            vm.onIntent(TransactionPageIntent.WalletRateChanged("0"))
+            vm.onIntent(TransactionPageIntent.ConfirmWallet)
+            state = awaitItem()
+            while (!state.bulkRateError) state = awaitItem()
+
+            assertEquals(setOf(id), state.selection.selectedIds)
+            assertIs<BulkSheetState.WalletConfirm>(state.bulkSheet)
+            cancelAndIgnoreRemainingEvents()
+        }
+
+        assertEquals(Money(100, eur), transactions.getById(id)!!.amount)
+        assertEquals(AccountId(1), transactions.getById(id)!!.accountId)
     }
 
     @Test

@@ -103,7 +103,7 @@ class FakeTransactionRepository : TransactionRepository {
                     tx.copy(
                         accountId = accountId,
                         amount = tx.amount.copy(
-                            minorUnits = if (rate == null) tx.amount.minorUnits
+                            minorUnits = if (rate == null || tx.amount.currency == currency) tx.amount.minorUnits
                             else (tx.amount.minorUnits.toDouble() * rate).roundToLong(),
                             currency = currency,
                         ),

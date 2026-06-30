@@ -28,12 +28,13 @@ class TransactionRepositoryTest {
 
     private fun txn(
         amount: Long = 100,
+        currency: CurrencyCode = eur,
         date: LocalDate = LocalDate(2026, 5, 1),
         paymentModeId: PaymentModeId? = null,
     ) = Transaction(
         id = UNSAVED_TRANSACTION_ID,
         type = TransactionType.EXPENSE,
-        amount = Money(amount, eur),
+        amount = Money(amount, currency),
         occurredOn = date,
         note = null,
         categoryId = catId,
@@ -105,6 +106,17 @@ class TransactionRepositoryTest {
         assertEquals(listOf(Money(150, CurrencyCode("USD")), Money(375, CurrencyCode("USD"))), changed.map { it.amount })
         assertEquals(setOf(AccountId(7)), changed.map { it.accountId }.toSet())
         assertEquals(Money(500, eur), repo.getById(untouched)!!.amount)
+    }
+
+    @Test
+    fun bulkAccountUpdateWithRateDoesNotConvertAlreadyTargetCurrencyRows() = runTestWithDispatchers {
+        val eurTransaction = repo.upsert(txn(amount = 100, currency = eur))
+        val usdTransaction = repo.upsert(txn(amount = 250, currency = CurrencyCode("USD")))
+
+        repo.updateAccount(setOf(eurTransaction, usdTransaction), AccountId(7), CurrencyCode("USD"), rate = 1.5)
+
+        assertEquals(Money(150, CurrencyCode("USD")), repo.getById(eurTransaction)!!.amount)
+        assertEquals(Money(250, CurrencyCode("USD")), repo.getById(usdTransaction)!!.amount)
     }
 
     @Test

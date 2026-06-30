@@ -105,6 +105,7 @@ compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.re
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "composeMultiplatform" }
 compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
+compose-uiBackhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.ref = "composeMultiplatform" }
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeMultiplatform" }
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
 

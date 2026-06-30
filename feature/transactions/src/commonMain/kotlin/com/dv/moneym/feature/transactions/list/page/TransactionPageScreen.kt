@@ -16,7 +16,11 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dv.moneym.core.designsystem.MM
@@ -74,6 +78,8 @@ internal data class VisibleTransactionSelection(
     val actions: TransactionSelectionActions,
 )
 
+@OptIn(ExperimentalComposeUiApi::class)
+@Suppress("DEPRECATION")
 @Composable
 internal fun TransactionPageScreen(
     yearMonth: YearMonth,
@@ -88,6 +94,11 @@ internal fun TransactionPageScreen(
         parameters = { parametersOf(yearMonth) },
     )
     val state by vm.state.collectAsStateWithLifecycle()
+    val haptic = LocalHapticFeedback.current
+
+    BackHandler(enabled = isVisible && state.selection.selectionMode) {
+        vm.onIntent(TransactionPageIntent.ClearSelection)
+    }
 
     LaunchedEffect(isVisible, state.selection) {
         onSelectionChanged(
@@ -120,7 +131,12 @@ internal fun TransactionPageScreen(
         selectionMode = state.selection.selectionMode,
         selectedIds = state.selection.selectedIds,
         onToggleSelection = { vm.onIntent(TransactionPageIntent.TransactionPressed(it)) },
-        onStartSelection = { vm.onIntent(TransactionPageIntent.TransactionLongPressed(it)) },
+        onStartSelection = {
+            if (!state.selection.selectionMode) {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            }
+            vm.onIntent(TransactionPageIntent.TransactionLongPressed(it))
+        },
         modifier = Modifier.fillMaxSize(),
     )
 }

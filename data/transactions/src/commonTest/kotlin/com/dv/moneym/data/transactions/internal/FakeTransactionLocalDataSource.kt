@@ -110,7 +110,11 @@ internal class FakeTransactionLocalDataSource : TransactionLocalDataSource {
                 if (it.id in ids && !it.deleted) {
                     it.copy(
                         accountId = accountId,
-                        amountMinor = if (rate == null) it.amountMinor else (it.amountMinor.toDouble() * rate).roundToLong(),
+                        amountMinor = if (rate == null || it.currency == currency) {
+                            it.amountMinor
+                        } else {
+                            (it.amountMinor.toDouble() * rate).roundToLong()
+                        },
                         currency = currency,
                         updatedAt = now,
                     )

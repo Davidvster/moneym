@@ -340,21 +340,27 @@ private fun TransactionListContent(
             .fillMaxSize()
             .background(MM.colors.bg),
     ) {
-        if (visibleSelection != null) {
-            TransactionSelectionHeader(selection = visibleSelection!!)
-        } else {
-            TransactionListHeader(
-                state = state,
-                isSearchActive = state.isSearchActive,
-                onSearchActiveChange = { onIntent(TransactionListIntent.ToggleSearch(it)) },
-                onShowMonthPicker = { onIntent(TransactionListIntent.ShowMonthPicker(true)) },
-                onShowWalletSwitcher = { onIntent(TransactionListIntent.ShowWalletSwitcher(true)) },
-                onShowCategoryFilter = { onIntent(TransactionListIntent.ShowCategoryFilter(true)) },
-                onOpenSyncSheet = { onIntent(TransactionListIntent.ShowSyncSheet(true)) },
-                onIntent = onIntent,
-                onPreviousMonth = { onIntent(TransactionListIntent.PreviousMonth) },
-                onNextMonth = { onIntent(TransactionListIntent.NextMonth) },
-            )
+        AnimatedContent(
+            targetState = visibleSelection,
+            transitionSpec = { fadeIn(tween(180)).togetherWith(fadeOut(tween(120))) },
+            label = "transactionHeaderMode",
+        ) { selection ->
+            if (selection != null) {
+                TransactionSelectionHeader(selection = selection)
+            } else {
+                TransactionListHeader(
+                    state = state,
+                    isSearchActive = state.isSearchActive,
+                    onSearchActiveChange = { onIntent(TransactionListIntent.ToggleSearch(it)) },
+                    onShowMonthPicker = { onIntent(TransactionListIntent.ShowMonthPicker(true)) },
+                    onShowWalletSwitcher = { onIntent(TransactionListIntent.ShowWalletSwitcher(true)) },
+                    onShowCategoryFilter = { onIntent(TransactionListIntent.ShowCategoryFilter(true)) },
+                    onOpenSyncSheet = { onIntent(TransactionListIntent.ShowSyncSheet(true)) },
+                    onIntent = onIntent,
+                    onPreviousMonth = { onIntent(TransactionListIntent.PreviousMonth) },
+                    onNextMonth = { onIntent(TransactionListIntent.NextMonth) },
+                )
+            }
         }
 
         SyncBanner(
@@ -388,6 +394,7 @@ private fun TransactionListContent(
         TransactionListFooter(
             onAddTransaction = onAddTransaction,
             onTabSelected = onTabSelected,
+            showAddAction = visibleSelection == null,
             dividerColor = MM.colors.border,
         )
     }
@@ -1214,32 +1221,35 @@ private fun TransactionListSkeleton(modifier: Modifier = Modifier) {
 private fun TransactionListFooter(
     onAddTransaction: () -> Unit,
     onTabSelected: (TabRoute) -> Unit,
+    showAddAction: Boolean = true,
     dividerColor: Color,
 ) {
     Column {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .drawBehind {
-                    val strokeWidth = 1.dp.toPx()
-                    drawLine(
-                        color = dividerColor,
-                        start = Offset(0f, strokeWidth / 2),
-                        end = Offset(size.width, strokeWidth / 2),
-                        strokeWidth = strokeWidth,
-                    )
-                }
-                .background(MM.colors.bg)
-                .padding(start = 16.dp, end = 16.dp, top = MM.dimen.padding_1_5x, bottom = 16.dp),
-        ) {
-            MmButton(
-                text = stringResource(Res.string.transactions_add),
-                onClick = onAddTransaction,
-                variant = MmButtonVariant.Primary,
-                size = MmButtonSize.Lg,
-                leadingIcon = Icon.Plus.imageVector,
-                fullWidth = true,
-            )
+        AnimatedVisibility(visible = showAddAction) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .drawBehind {
+                        val strokeWidth = 1.dp.toPx()
+                        drawLine(
+                            color = dividerColor,
+                            start = Offset(0f, strokeWidth / 2),
+                            end = Offset(size.width, strokeWidth / 2),
+                            strokeWidth = strokeWidth,
+                        )
+                    }
+                    .background(MM.colors.bg)
+                    .padding(start = 16.dp, end = 16.dp, top = MM.dimen.padding_1_5x, bottom = 16.dp),
+            ) {
+                MmButton(
+                    text = stringResource(Res.string.transactions_add),
+                    onClick = onAddTransaction,
+                    variant = MmButtonVariant.Primary,
+                    size = MmButtonSize.Lg,
+                    leadingIcon = Icon.Plus.imageVector,
+                    fullWidth = true,
+                )
+            }
         }
         MmTabBar(
             activeTab = TabRoute.Transactions,
