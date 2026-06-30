@@ -24,9 +24,9 @@ object AiToolCallParser {
     const val START_TAG = "<moneym_tool_call>"
     const val END_TAG = "</moneym_tool_call>"
 
-    fun parse(text: String): AiToolCallParseResult {
+    fun parse(text: String, availableToolNames: Set<String> = emptySet()): AiToolCallParseResult {
         val start = text.indexOf(START_TAG)
-        if (start < 0) return AiToolCallParseResult.NoCall
+        if (start < 0) return parseFunctionTag(text, availableToolNames)
         val contentStart = start + START_TAG.length
         val end = text.indexOf(END_TAG, contentStart)
         if (end < 0) return AiToolCallParseResult.Invalid("missing closing tool-call tag")
@@ -40,21 +40,62 @@ object AiToolCallParser {
         val paramsElement = root["params"] ?: return AiToolCallParseResult.Call(AiToolCall(name, emptyMap()))
         val paramsObject = paramsElement as? JsonObject
             ?: return AiToolCallParseResult.Invalid("tool params must be a JSON object")
-        val params = mutableMapOf<String, String>()
-        for ((key, value) in paramsObject) {
-            val primitive = value as? JsonPrimitive
-                ?: return AiToolCallParseResult.Invalid("tool params must be primitive values")
-            if (primitive.isString) {
-                params[key] = primitive.content
-            } else {
-                params[key] = primitive.contentOrNull
-                    ?: return AiToolCallParseResult.Invalid("tool params must be primitive values")
-            }
-        }
+        val params = paramsObject.toParams()
+            .getOrElse { return AiToolCallParseResult.Invalid(it.message ?: "tool params must be primitive values") }
         return AiToolCallParseResult.Call(AiToolCall(name, params))
     }
 
+    private fun parseFunctionTag(text: String, availableToolNames: Set<String>): AiToolCallParseResult {
+        val trimmed = text.trim()
+        val match = functionTagRegex.matchEntire(trimmed) ?: return AiToolCallParseResult.NoCall
+        if (availableToolNames.isEmpty()) return AiToolCallParseResult.NoCall
+        val name = match.groupValues[1]
+        val jsonText = match.groupValues[2].trim()
+        if (name !in availableToolNames) {
+            return if (looksLikeJsonObject(jsonText)) {
+                AiToolCallParseResult.Invalid("tool '$name' is not available")
+            } else {
+                AiToolCallParseResult.NoCall
+            }
+        }
+
+        val paramsObject = runCatching { json.parseToJsonElement(jsonText).jsonObject }
+            .getOrElse { return AiToolCallParseResult.Invalid("tool params must be valid JSON") }
+        val params = paramsObject.toParams()
+            .getOrElse { return AiToolCallParseResult.Invalid(it.message ?: "tool params must be primitive values") }
+        return AiToolCallParseResult.Call(AiToolCall(name, params))
+    }
+
+    private fun JsonObject.toParams(): Result<Map<String, String>> {
+        val params = mutableMapOf<String, String>()
+        for ((key, value) in this) {
+            val primitive = value as? JsonPrimitive
+                ?: return Result.failure(IllegalArgumentException("tool params must be primitive values"))
+            if (primitive.isString) {
+                params[key] = normalizeParam(key, primitive.content)
+            } else {
+                params[key] = primitive.contentOrNull?.let { normalizeParam(key, it) }
+                    ?: return Result.failure(IllegalArgumentException("tool params must be primitive values"))
+            }
+        }
+        return Result.success(params)
+    }
+
+    private fun normalizeParam(key: String, value: String): String {
+        val trimmed = value.trim()
+        return when (key) {
+            "type" -> trimmed.filterNot { it.isWhitespace() }.lowercase()
+            else -> trimmed
+        }
+    }
+
+    private fun looksLikeJsonObject(text: String): Boolean {
+        val trimmed = text.trim()
+        return trimmed.startsWith("{") && trimmed.endsWith("}")
+    }
+
     private val json = Json { ignoreUnknownKeys = true }
+    private val functionTagRegex = Regex("""<([A-Za-z][A-Za-z0-9_]*)>([\s\S]*)</\1>""")
 }
 
 class AppManagedToolLoop(
@@ -68,6 +109,7 @@ class AppManagedToolLoop(
     ): Flow<String> = flow {
         val toolsByName = tools.associateBy { it.name }
         var conversation = messages
+        var latestToolResult: Pair<AiToolCall, String>? = null
 
         repeat(maxIterations.coerceAtLeast(1)) {
             val assistantText = engine.streamReply(
@@ -76,7 +118,7 @@ class AppManagedToolLoop(
                 responseLanguage = responseLanguage,
             ).collectToString()
 
-            when (val parsed = AiToolCallParser.parse(assistantText)) {
+            when (val parsed = AiToolCallParser.parse(assistantText, toolsByName.keys)) {
                 is AiToolCallParseResult.NoCall -> {
                     emit(assistantText)
                     return@flow
@@ -100,13 +142,14 @@ class AppManagedToolLoop(
                         )
                         return@flow
                     }
+                    latestToolResult = parsed.call to result
                     conversation = conversation + ChatMessage(ChatRole.ASSISTANT, assistantText) +
                         ChatMessage(ChatRole.USER, toolResultMessage(parsed.call, result))
                 }
             }
         }
 
-        emit("I couldn't finish the finance tool request because the tool loop reached its iteration limit.")
+        emit(iterationLimitMessage(latestToolResult))
     }
 
     private suspend fun Flow<String>.collectToString(): String {
@@ -125,7 +168,17 @@ class AppManagedToolLoop(
             "request exactly one more tool call."
     }
 
+    private fun iterationLimitMessage(latestToolResult: Pair<AiToolCall, String>?): String {
+        if (latestToolResult == null) {
+            return "I couldn't finish the finance tool request because the tool loop reached its iteration limit."
+        }
+        val (call, result) = latestToolResult
+        return "I ran '${call.name}', but couldn't finish the finance tool request before the iteration limit. " +
+            "Latest result: ${result.take(MAX_FALLBACK_RESULT_CHARS)}"
+    }
+
     private companion object {
         const val DEFAULT_MAX_ITERATIONS = 3
+        const val MAX_FALLBACK_RESULT_CHARS = 500
     }
 }

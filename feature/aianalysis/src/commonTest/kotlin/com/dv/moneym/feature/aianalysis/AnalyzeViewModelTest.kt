@@ -445,6 +445,42 @@ class AnalyzeViewModelTest {
     }
 
     @Test
+    fun toolsModeExecutesLocalModelFunctionTagWithNormalizedType() = runTest(testDispatcher) {
+        appSettings.putString(PrefKeys.AI_GROUNDING_MODE, AiGroundingMode.TOOLS.name)
+        accountRepository.addAll(listOf(account()))
+        categoryRepository.addAll(listOf(category(1, "Food")))
+        transactionRepository.upsert(
+            Transaction(
+                id = TransactionId(0),
+                type = TransactionType.EXPENSE,
+                amount = Money(2345, CurrencyCode("EUR")),
+                occurredOn = LocalDate(2026, 5, 3),
+                note = "team lunch",
+                categoryId = CategoryId(1),
+                accountId = AccountId(1),
+                createdAt = Instant.fromEpochMilliseconds(0),
+                updatedAt = Instant.fromEpochMilliseconds(0),
+            ),
+        )
+        val engine = queuedEngine(
+            listOf("""<searchTransactions>{"q":"team","type":"ex pense"}</searchTransactions>"""),
+            listOf("Team lunch was 23.45 EUR."),
+            supportsTools = false,
+        )
+        val vm = makeVm(registryOf(engine))
+        val job = launch { vm.state.collect {} }
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        vm.onIntent(AnalyzeIntent.SendMessage("find team lunch"))
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        assertTrue(engine.allMessages[1].last().content.contains("team lunch"))
+        assertEquals("Team lunch was 23.45 EUR.", vm.state.value.messages.last().content)
+        assertFalse(vm.state.value.messages.last().content.contains("<searchTransactions>"))
+        job.cancel()
+    }
+
+    @Test
     fun toolsModeUsesToolsWhenEngineSupportsThem() = runTest(testDispatcher) {
         appSettings.putString(PrefKeys.AI_GROUNDING_MODE, AiGroundingMode.TOOLS.name)
         val engine = availableEngine(supportsTools = true)

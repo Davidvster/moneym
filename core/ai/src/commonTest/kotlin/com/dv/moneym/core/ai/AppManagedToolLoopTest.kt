@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
@@ -101,6 +102,53 @@ class AppManagedToolLoopTest {
     }
 
     @Test
+    fun functionTagToolCallIsExecutedAndFollowUpAnswerIsEmitted() = runTest {
+        val engine = QueueAiEngine(
+            ArrayDeque(
+                listOf(
+                    """<searchTransactions>{"q":" groceries ","type":"expense"}</searchTransactions>""",
+                    "Groceries were 12 EUR.",
+                ),
+            ),
+        )
+        var receivedParams = emptyMap<String, String>()
+
+        val output = AppManagedToolLoop().streamReply(
+            engine = engine,
+            messages = listOf(ChatMessage(ChatRole.USER, "Find groceries")),
+            tools = listOf(
+                AiTool(
+                    name = "searchTransactions",
+                    description = "Search transactions",
+                    paramsSchema = "{}",
+                    invoke = { params ->
+                        receivedParams = params
+                        "2026-05-01 Groceries -12.00 EUR"
+                    },
+                ),
+            ),
+        ).toList().joinToString("")
+
+        assertEquals("Groceries were 12 EUR.", output)
+        assertEquals(mapOf("q" to "groceries", "type" to "expense"), receivedParams)
+        assertTrue(engine.requests[1].last().content.contains("2026-05-01 Groceries -12.00 EUR"))
+    }
+
+    @Test
+    fun unknownFunctionTagIsNotReturnedAsSuccessfulAnswer() = runTest {
+        val engine = QueueAiEngine(ArrayDeque(listOf("""<missingTool>{"q":"groceries"}</missingTool>""")))
+
+        val output = AppManagedToolLoop().streamReply(
+            engine = engine,
+            messages = listOf(ChatMessage(ChatRole.USER, "Find groceries")),
+            tools = listOf(tool("searchTransactions", "should not run")),
+        ).toList().joinToString("")
+
+        assertTrue(output.contains("not available"), output)
+        assertFalse(output.contains("<missingTool>"), output)
+    }
+
+    @Test
     fun maxIterationsProduceGracefulNote() = runTest {
         val engine = QueueAiEngine(
             ArrayDeque(
@@ -118,6 +166,8 @@ class AppManagedToolLoopTest {
         ).toList().joinToString("")
 
         assertTrue(output.contains("iteration limit"), output)
+        assertTrue(output.contains("Expense 42.00 EUR"), output)
+        assertFalse(output.contains(AiToolCallParser.START_TAG), output)
     }
 
     private fun tool(name: String, result: String) = AiTool(

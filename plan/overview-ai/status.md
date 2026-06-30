@@ -7,7 +7,7 @@
 | 1. Persistence, Models, Backup | Complete | `2e919050` | Added `:data:overview` Room persistence, fake repository, DI/database wiring, and backup export/import/restore coverage. |
 | 2. Modular Overview Blocks | Complete | `5967950d` | Added persisted layout-driven block resolution, callback-only customize action, localized content description, and Phase 2 tests. |
 | 3. Overview Settings Screen | Complete | `31dbdaeb` | Added the overview settings route, settings row, overview header navigation, block toggles, drag-to-reorder built-in blocks, AI widget enable/edit entries, reset action, Koin wiring, strings, previews, and ViewModel tests. User item 9 is covered here. |
-| 4. AI Tool Result Loop Fix | Planned | Pending | Fixes user item 1. Plan: `plan/overview-ai/phase-4-plan.md`. |
+| 4. AI Tool Result Loop Fix | Complete | This commit | Added local-model function-tag tool execution, narrow param normalization, iteration-limit fallback with latest tool result, and focused loop/ViewModel regressions. |
 | 5. Transaction Bulk Edit + List Interaction Fixes | Pending | Pending | Covers user items 2 and 8. |
 | 6. Settings/Bottom Sheet/System UI/Icon Polish | Pending | Pending | Covers user items 3, 6, and 7. |
 | 7. Overview Filter + Header Polish | Pending | Pending | Covers user items 4 and 5. |
@@ -16,7 +16,12 @@
 
 ## Current Handoff
 
-Phase 3 is implemented, verified, and committed. Phase 4 is planned and ready for a sequential builder handoff.
+Phase 4 is implemented and verified. Next phase is Phase 5: transaction bulk edit and list interaction fixes.
+
+## Phase 4 Verification
+
+- `./gradlew --no-configuration-cache :core:ai:testDebugUnitTest :feature:aianalysis:testDebugUnitTest` — passed.
+- `git diff --check` — passed.
 
 ## Phase 3 Verification
 
