@@ -53,12 +53,20 @@ class PromptBuilderTest {
 
     @Test
     fun toolsGroundingOmitsDataBlock() {
+        val tool = AiTool(
+            name = "totals",
+            description = "Income and expense totals.",
+            paramsSchema = "{}",
+            invoke = { "" },
+        )
         val prompt = PromptBuilder.build(
             messages = listOf(ChatMessage(ChatRole.USER, "Hi")),
-            grounding = Grounding.Tools(emptyList()),
+            grounding = Grounding.Tools(listOf(tool)),
             systemInstruction = system,
         )
         assertFalse(prompt.contains("Financial data:"))
         assertContains(prompt, "Tools are available")
+        assertContains(prompt, "totals")
+        assertContains(prompt, AiToolCallParser.START_TAG)
     }
 }

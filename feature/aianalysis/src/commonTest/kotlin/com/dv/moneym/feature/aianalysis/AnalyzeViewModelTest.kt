@@ -6,11 +6,15 @@ import com.dv.moneym.core.ai.AiEngine
 import com.dv.moneym.core.ai.AiEngineId
 import com.dv.moneym.core.ai.AiEngineRegistry
 import com.dv.moneym.core.ai.AiGroundingMode
+import com.dv.moneym.core.ai.AiToolCallParser
 import com.dv.moneym.core.ai.ChatMessage
 import com.dv.moneym.core.ai.ChatRole
 import com.dv.moneym.core.ai.Grounding
 import com.dv.moneym.core.datastore.PrefKeys
+import com.dv.moneym.core.model.Account
 import com.dv.moneym.core.model.AccountId
+import com.dv.moneym.core.model.AccountType
+import com.dv.moneym.core.model.Category
 import com.dv.moneym.core.model.CategoryId
 import com.dv.moneym.core.model.CurrencyCode
 import com.dv.moneym.core.model.Money
@@ -52,9 +56,12 @@ private class FakeAiEngine(
     override val supportsTools: Boolean = false,
     private val availability: AiAvailability = AiAvailability.AVAILABLE,
     private val deltas: List<String> = listOf("Hello", " ", "world"),
+    replies: List<List<String>> = listOf(deltas),
 ) : AiEngine {
     var lastGrounding: Grounding? = null
     var lastResponseLanguage: String? = null
+    val allMessages = mutableListOf<List<ChatMessage>>()
+    private val queuedReplies = ArrayDeque<List<String>>().apply { addAll(replies) }
 
     override suspend fun availability(): AiAvailability = availability
 
@@ -65,7 +72,9 @@ private class FakeAiEngine(
     ): Flow<String> {
         lastGrounding = grounding
         lastResponseLanguage = responseLanguage
-        return deltas.asFlow()
+        allMessages += messages
+        val reply = if (queuedReplies.isNotEmpty()) queuedReplies.removeFirst() else deltas
+        return reply.asFlow()
     }
 }
 
@@ -87,6 +96,9 @@ class AnalyzeViewModelTest {
         aiChatRepository = FakeAiChatRepository()
         activeChatHolder = ActiveChatHolder()
         transactionRepository = FakeTransactionRepository()
+        accountRepository = FakeAccountRepository()
+        categoryRepository = FakeCategoryRepository()
+        budgetRepository = FakeBudgetRepository()
         localeController = FakeLocaleController()
     }
 
@@ -100,21 +112,24 @@ class AnalyzeViewModelTest {
     private var aiChatRepository = FakeAiChatRepository()
     private var activeChatHolder = ActiveChatHolder()
     private var transactionRepository = FakeTransactionRepository()
+    private var accountRepository = FakeAccountRepository()
+    private var categoryRepository = FakeCategoryRepository()
+    private var budgetRepository = FakeBudgetRepository()
     private var localeController = FakeLocaleController()
 
     private fun snapshotUseCase() = BuildFinanceSnapshotUseCase(
-        transactionRepository = FakeTransactionRepository(),
-        accountRepository = FakeAccountRepository(),
-        categoryRepository = FakeCategoryRepository(),
-        budgetRepository = FakeBudgetRepository(),
+        transactionRepository = transactionRepository,
+        accountRepository = accountRepository,
+        categoryRepository = categoryRepository,
+        budgetRepository = budgetRepository,
         clock = clock,
     )
 
     private fun toolsetUseCase() = BuildFinanceToolsetUseCase(
-        transactionRepository = FakeTransactionRepository(),
-        accountRepository = FakeAccountRepository(),
-        categoryRepository = FakeCategoryRepository(),
-        budgetRepository = FakeBudgetRepository(),
+        transactionRepository = transactionRepository,
+        accountRepository = accountRepository,
+        categoryRepository = categoryRepository,
+        budgetRepository = budgetRepository,
         clock = clock,
     )
 
@@ -142,6 +157,12 @@ class AnalyzeViewModelTest {
         supportsTools: Boolean = false,
         deltas: List<String> = listOf("Hello", " ", "world"),
     ) = FakeAiEngine(id = id, supportsTools = supportsTools, deltas = deltas)
+
+    private fun queuedEngine(
+        vararg replies: List<String>,
+        id: AiEngineId = AiEngineId.GEMINI_NANO,
+        supportsTools: Boolean = false,
+    ) = FakeAiEngine(id = id, supportsTools = supportsTools, replies = replies.toList())
 
     private fun downloadableLocalEngine() = FakeAiEngine(
         id = AiEngineId.LOCAL_LLM,
@@ -300,6 +321,29 @@ class AnalyzeViewModelTest {
         updatedAt = Instant.fromEpochMilliseconds(0),
     )
 
+    private fun account() = Account(
+        id = AccountId(1),
+        name = "Main",
+        type = AccountType.CASH,
+        currency = CurrencyCode("EUR"),
+        isDefault = true,
+        archived = false,
+        createdAt = Instant.fromEpochMilliseconds(0),
+        updatedAt = Instant.fromEpochMilliseconds(0),
+    )
+
+    private fun category(id: Long, name: String) = Category(
+        id = CategoryId(id),
+        name = name,
+        iconKey = "icon",
+        colorHex = "#000000",
+        isUserCreated = false,
+        archived = false,
+        createdAt = Instant.fromEpochMilliseconds(0),
+        updatedAt = Instant.fromEpochMilliseconds(0),
+        type = TransactionType.EXPENSE,
+    )
+
     @Test
     fun selectingDownloadableLocalEngineThenSendShowsNeedsDownload() = runTest(testDispatcher) {
         val vm = makeVm(registryOf(availableEngine(), downloadableLocalEngine()))
@@ -365,17 +409,38 @@ class AnalyzeViewModelTest {
     }
 
     @Test
-    fun toolsModeFallsBackToSnapshotWhenEngineHasNoToolSupport() = runTest(testDispatcher) {
+    fun toolsModeUsesAppManagedLoopWithDbBackedToolsWhenEngineHasNoToolSupport() = runTest(testDispatcher) {
         appSettings.putString(PrefKeys.AI_GROUNDING_MODE, AiGroundingMode.TOOLS.name)
-        val engine = availableEngine(supportsTools = false)
+        accountRepository.addAll(listOf(account()))
+        categoryRepository.addAll(listOf(category(1, "Food")))
+        transactionRepository.upsert(
+            Transaction(
+                id = TransactionId(0),
+                type = TransactionType.EXPENSE,
+                amount = Money(12345, CurrencyCode("EUR")),
+                occurredOn = LocalDate(2026, 5, 3),
+                note = "team lunch",
+                categoryId = CategoryId(1),
+                accountId = AccountId(1),
+                createdAt = Instant.fromEpochMilliseconds(0),
+                updatedAt = Instant.fromEpochMilliseconds(0),
+            ),
+        )
+        val engine = queuedEngine(
+            listOf("""${AiToolCallParser.START_TAG}{"name":"totals","params":{}}${AiToolCallParser.END_TAG}"""),
+            listOf("You spent 123.45 EUR."),
+            supportsTools = false,
+        )
         val vm = makeVm(registryOf(engine))
         val job = launch { vm.state.collect {} }
         testDispatcher.scheduler.advanceUntilIdle()
         vm.onIntent(AnalyzeIntent.SendMessage("analyze"))
         testDispatcher.scheduler.advanceUntilIdle()
 
-        assertTrue(vm.state.value.showToolsFallbackNotice)
-        assertTrue(engine.lastGrounding is Grounding.Snapshot)
+        assertFalse(vm.state.value.showToolsFallbackNotice)
+        assertTrue(engine.lastGrounding is Grounding.Tools)
+        assertTrue(engine.allMessages[1].last().content.contains("Expense 123.45 EUR"))
+        assertEquals("You spent 123.45 EUR.", vm.state.value.messages.last().content)
         job.cancel()
     }
 

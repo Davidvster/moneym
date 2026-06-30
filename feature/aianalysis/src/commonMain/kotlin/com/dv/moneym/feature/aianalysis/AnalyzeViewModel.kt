@@ -8,6 +8,7 @@ import com.dv.moneym.core.ai.AiAvailability
 import com.dv.moneym.core.ai.AiEngineId
 import com.dv.moneym.core.ai.AiEngineRegistry
 import com.dv.moneym.core.ai.AiGroundingMode
+import com.dv.moneym.core.ai.AppManagedToolLoop
 import com.dv.moneym.core.ai.ChatMessage
 import com.dv.moneym.core.ai.ChatRole
 import com.dv.moneym.core.ai.Grounding
@@ -49,6 +50,8 @@ class AnalyzeViewModel(
     private val activeChatHolder: ActiveChatHolder,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+
+    private val appManagedToolLoop = AppManagedToolLoop()
 
     private val _state by savedStateHandle.saved { MutableStateFlow(AnalyzeUiState(groundingMode = loadGroundingMode())) }
     internal val state = _state
@@ -222,6 +225,7 @@ class AnalyzeViewModel(
                 input = "",
                 isGenerating = true,
                 error = null,
+                showToolsFallbackNotice = false,
             )
         }
 
@@ -242,23 +246,26 @@ class AnalyzeViewModel(
 
             ensureConversation(trimmed, selectedId)
 
-            val useTools = _state.value.groundingMode == AiGroundingMode.TOOLS && engine.supportsTools
-            val grounding = if (useTools) {
-                Grounding.Tools(buildToolset(year, month))
-            } else {
-                if (_state.value.groundingMode == AiGroundingMode.TOOLS) {
-                    _state.update { it.copy(showToolsFallbackNotice = true) }
+            val responseLanguage =
+                SupportedLanguage.responseLanguageNameForTag(localeController.getCurrentLanguageTag())
+            val initialMessages = _state.value.messages
+            val replyFlow = if (_state.value.groundingMode == AiGroundingMode.TOOLS) {
+                val tools = buildToolset(year, month)
+                if (engine.supportsTools) {
+                    engine.streamReply(initialMessages, Grounding.Tools(tools), responseLanguage)
+                } else {
+                    appManagedToolLoop.streamReply(engine, initialMessages, tools, responseLanguage)
                 }
+            } else {
                 val snapshotYear = _state.value.selectedYear ?: year
-                Grounding.Snapshot(withContext(dispatchers.io) { buildSnapshot(snapshotYear, month) })
+                val grounding = Grounding.Snapshot(withContext(dispatchers.io) { buildSnapshot(snapshotYear, month) })
+                engine.streamReply(initialMessages, grounding, responseLanguage)
             }
 
             val assistantIndex = _state.value.messages.size
             _state.update { it.copy(messages = it.messages + ChatMessage(ChatRole.ASSISTANT, "")) }
 
-            val responseLanguage =
-                SupportedLanguage.responseLanguageNameForTag(localeController.getCurrentLanguageTag())
-            engine.streamReply(_state.value.messages.dropLast(1), grounding, responseLanguage)
+            replyFlow
                 .catch { _state.update { it.copy(error = AnalyzeError.GenerationFailed, isGenerating = false) } }
                 .onCompletion {
                     _state.update { it.copy(isGenerating = false) }
