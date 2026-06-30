@@ -10,13 +10,13 @@
 | 4. AI Tool Result Loop Fix | Complete | `0b05364b` | Added local-model function-tag tool execution, narrow param normalization, iteration-limit fallback with latest tool result, and focused loop/ViewModel regressions. |
 | 5. Transaction Bulk Edit + List Interaction Fixes | Complete | `79c8b4a7` | Fixed bulk picker-to-confirm transitions, wallet conversion default rate, stable selection header mode, multiselect pager locking, and type-filter scroll-to-top. Covers user items 2 and 8. |
 | 6. Settings/Bottom Sheet/System UI/Icon Polish | Complete | `dffe54c1` | Covered user items 3, 6, and 7. Verification: `./gradlew --no-configuration-cache :feature:settings:testDebugUnitTest :feature:transactions:testDebugUnitTest :shared:compileDebugKotlinAndroid` passed; `git diff --check` passed. The icon and system-bar polish was verified structurally in code because the requested slice is compile/test oriented rather than pixel-tested. |
-| 7. Overview Filter + Header Polish | Complete | Pending | Overview category filter now uses grouped Expense/Income sections, and Analyze with AI moved into the period controls row with responsive wrap. Verification: `./gradlew --no-configuration-cache :feature:overview:testDebugUnitTest` passed; `git diff --check` passed. Commit hash recorded after commit in the final handoff. |
-| 8. AI Widget Builder + A2UI Renderer | Pending | Pending | Original AI widget builder phase, after bugfix polish phases. |
+| 7. Overview Filter + Header Polish | Complete | `61706cd6` | Overview category filter now uses grouped Expense/Income sections, and Analyze with AI moved into the period controls row with responsive wrap. Verification: `./gradlew --no-configuration-cache :feature:overview:testDebugUnitTest` passed; `git diff --check` passed. |
+| 8. AI Widget Builder + A2UI Renderer | Planned | Pending | Original AI widget builder phase. Plan: `plan/overview-ai/phase-8-plan.md`. |
 | 9. Final Integration, QA, iOS/Android Build | Pending | Pending | Final cross-platform verification. |
 
 ## Current Handoff
 
-Phase 7 is planned and ready for a sequential builder handoff.
+Phase 8 is planned and ready for a sequential builder handoff.
 
 ## Phase 5 Verification
 
