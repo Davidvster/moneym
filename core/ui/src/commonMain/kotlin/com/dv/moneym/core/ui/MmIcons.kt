@@ -1313,7 +1313,7 @@ internal object MmIcons {
             viewportHeight = 24f,
         ).apply {
             addPath(
-                pathData = addPathNodes("M7 18 A4 4 0 0 1 7 10 A5 5 0 0 1 16.2 11.4 A3.5 3.5 0 0 1 17 18 Z"),
+                pathData = addPathNodes("M6.8 18.5 L17.4 18.5 A4 4 0 0 0 18 10.6 A6 6 0 0 0 6.6 9.6 A4.5 4.5 0 0 0 6.8 18.5 Z"),
                 stroke = SolidColor(Color.Black),
                 strokeLineWidth = 1.8f,
                 strokeLineCap = StrokeCap.Round,
@@ -1322,7 +1322,7 @@ internal object MmIcons {
                 fillAlpha = 0f,
             )
             addPath(
-                pathData = addPathNodes("M10 12 L8.5 10.5 L7 12"),
+                pathData = addPathNodes("M9 17 L9 11"),
                 stroke = SolidColor(Color.Black),
                 strokeLineWidth = 1.8f,
                 strokeLineCap = StrokeCap.Round,
@@ -1331,7 +1331,25 @@ internal object MmIcons {
                 fillAlpha = 0f,
             )
             addPath(
-                pathData = addPathNodes("M14 16 L15.5 17.5 L17 16"),
+                pathData = addPathNodes("M6.8 13.2 L9 11 L11.2 13.2"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+            addPath(
+                pathData = addPathNodes("M15 11 L15 17"),
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = 1.8f,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+                fill = null,
+                fillAlpha = 0f,
+            )
+            addPath(
+                pathData = addPathNodes("M12.8 14.8 L15 17 L17.2 14.8"),
                 stroke = SolidColor(Color.Black),
                 strokeLineWidth = 1.8f,
                 strokeLineCap = StrokeCap.Round,
@@ -1389,7 +1407,7 @@ internal object MmIcons {
             viewportHeight = 24f,
         ).apply {
             addPath(
-                pathData = addPathNodes("M6 17 A6 6 0 0 1 18 17"),
+                pathData = addPathNodes("M6 10 A6 6 0 0 1 18 10 L18 15.8 L19.5 18 L4.5 18 L6 15.8 Z"),
                 stroke = SolidColor(Color.Black),
                 strokeLineWidth = 1.8f,
                 strokeLineCap = StrokeCap.Round,
@@ -1398,7 +1416,7 @@ internal object MmIcons {
                 fillAlpha = 0f,
             )
             addPath(
-                pathData = addPathNodes("M8.5 8.5 A3.5 3.5 0 0 1 15.5 8.5"),
+                pathData = addPathNodes("M9.3 19 A2.7 2.7 0 0 0 14.7 19"),
                 stroke = SolidColor(Color.Black),
                 strokeLineWidth = 1.8f,
                 strokeLineCap = StrokeCap.Round,
@@ -1407,7 +1425,7 @@ internal object MmIcons {
                 fillAlpha = 0f,
             )
             addPath(
-                pathData = addPathNodes("M10.2 19 A1.8 1.8 0 0 0 13.8 19"),
+                pathData = addPathNodes("M9 5.8 A3.2 3.2 0 0 1 15 5.8"),
                 stroke = SolidColor(Color.Black),
                 strokeLineWidth = 1.8f,
                 strokeLineCap = StrokeCap.Round,
@@ -1416,7 +1434,7 @@ internal object MmIcons {
                 fillAlpha = 0f,
             )
             addPath(
-                pathData = addPathNodes("M9 17 L9 13 A3 3 0 0 1 15 13 L15 17"),
+                pathData = addPathNodes("M12 3 L12 4"),
                 stroke = SolidColor(Color.Black),
                 strokeLineWidth = 1.8f,
                 strokeLineCap = StrokeCap.Round,

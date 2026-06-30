@@ -2,12 +2,17 @@ package com.dv.moneym.feature.transactions.list
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -16,6 +21,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,7 +37,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -51,6 +56,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -95,6 +104,7 @@ import com.dv.moneym.core.ui.imageVector
 import com.dv.moneym.core.ui.monthLabel
 import com.dv.moneym.data.banksync.BankSyncFailureReason
 import com.dv.moneym.data.sync.SyncFailureReason
+import com.dv.moneym.feature.transactions.list.components.CloudSyncIcon
 import com.dv.moneym.feature.transactions.list.components.DayGroupHeader
 import com.dv.moneym.feature.transactions.list.page.TransactionPageScreen
 import com.dv.moneym.feature.transactions.list.page.VisibleTransactionSelection
@@ -451,9 +461,10 @@ private fun SyncActionButton(
             label = "syncVisual",
         ) { visual ->
             when (visual) {
-                SyncVisual.Syncing -> CircularProgressIndicator(
-                    strokeWidth = 2.dp,
-                    color = colors.accent,
+                SyncVisual.Syncing -> CloudSyncIcon(
+                    contentDescription = stringResource(Res.string.transactions_syncing),
+                    tint = colors.accent,
+                    isSyncing = true,
                     modifier = Modifier.size(MM.dimen.icon_1x),
                 )
 
@@ -464,7 +475,10 @@ private fun SyncActionButton(
                     modifier = Modifier.size(MM.dimen.icon_1x),
                 )
 
-                SyncVisual.Conflict -> Box(contentAlignment = Alignment.Center) {
+                SyncVisual.Conflict -> Box(
+                    modifier = Modifier.size(28.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
                     Icon(
                         imageVector = Icon.Warning.imageVector,
                         contentDescription = stringResource(Res.string.transactions_sync_paused),
@@ -474,9 +488,10 @@ private fun SyncActionButton(
                     Box(
                         modifier = Modifier
                             .align(Alignment.TopEnd)
+                            .defaultMinSize(minWidth = 14.dp, minHeight = 14.dp)
                             .clip(CircleShape)
                             .background(colors.danger)
-                            .padding(horizontal = 3.dp, vertical = 1.dp),
+                            .padding(horizontal = MM.dimen.padding_0_5x, vertical = 1.dp),
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(

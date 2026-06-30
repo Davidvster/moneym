@@ -26,6 +26,14 @@ plugins {
     alias(libs.plugins.detekt) apply false
 }
 
+subprojects {
+    plugins.withId("org.jetbrains.compose") {
+        plugins.withId("com.android.library") {
+            dependencies.add("debugImplementation", libs.compose.uiTooling)
+        }
+    }
+}
+
 // detekt static analysis across every Kotlin module. Lint-only (no type
 // resolution) so it stays stable across KMP source sets and configuration-cache.
 subprojects {

@@ -149,7 +149,3 @@ android {
 compose.resources {
     packageOfResClass = "moneym.composeapp.generated.resources"
 }
-
-dependencies {
-    debugImplementation(libs.compose.uiTooling)
-}
