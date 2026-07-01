@@ -469,14 +469,14 @@ private fun SyncActionButton(
                     contentDescription = stringResource(Res.string.transactions_syncing),
                     tint = colors.accent,
                     isSyncing = true,
-                    modifier = Modifier.size(MM.dimen.icon_1x),
+                    modifier = Modifier.size(MM.dimen.icon_1_5x),
                 )
 
                 SyncVisual.Synced -> Icon(
                     imageVector = Icon.Check.imageVector,
                     contentDescription = stringResource(Res.string.transactions_synced),
                     tint = colors.accent,
-                    modifier = Modifier.size(MM.dimen.icon_1x),
+                    modifier = Modifier.size(MM.dimen.icon_1_5x),
                 )
 
                 SyncVisual.Conflict -> Box(
@@ -510,14 +510,14 @@ private fun SyncActionButton(
                     imageVector = Icon.Warning.imageVector,
                     contentDescription = stringResource(Res.string.transactions_sync_failed),
                     tint = colors.warning,
-                    modifier = Modifier.size(MM.dimen.icon_1x),
+                    modifier = Modifier.size(MM.dimen.icon_1_5x),
                 )
 
                 SyncVisual.Idle -> CloudSyncIcon(
                     contentDescription = stringResource(Res.string.transactions_sync_now),
                     tint = colors.text2,
                     isSyncing = false,
-                    modifier = Modifier.size(MM.dimen.icon_1x),
+                    modifier = Modifier.size(MM.dimen.icon_1_5x),
                 )
             }
         }

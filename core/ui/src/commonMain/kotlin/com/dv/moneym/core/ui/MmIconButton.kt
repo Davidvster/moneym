@@ -60,7 +60,7 @@ fun MmIconButton(
             imageVector = icon,
             contentDescription = contentDescription,
             tint = iconColor,
-            modifier = Modifier.size(22.dp),
+            modifier = Modifier.size(MM.dimen.icon_1_5x),
         )
     }
 }

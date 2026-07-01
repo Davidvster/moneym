@@ -35,6 +35,7 @@ data class MoneyMDimensions(
     val pill: RoundedCornerShape = RoundedCornerShape(50),
 
     val icon_1x: Dp = 18.dp,
+    val icon_1_5x: Dp = 22.dp,
 
     val donutWidth: Dp = 18.dp,
 
