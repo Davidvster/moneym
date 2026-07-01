@@ -16,6 +16,7 @@ data class AnalyzeUiState(
     val engines: List<AiEngineOption> = emptyList(),
     val selectedEngine: AiEngineId? = null,
     val needsModelDownload: Boolean = false,
+    val showRemotePrivacyNotice: Boolean = false,
     val error: AnalyzeError? = null,
     val currentConversationId: Long? = null,
     val selectedYear: Int? = null,
@@ -45,6 +46,7 @@ sealed interface AnalyzeIntent {
     data class EngineChanged(val id: AiEngineId) : AnalyzeIntent
     data object RefreshEngines : AnalyzeIntent
     data object DismissFallbackNotice : AnalyzeIntent
+    data object AcknowledgeRemotePrivacy : AnalyzeIntent
     data object ClearError : AnalyzeIntent
     data object NewChat : AnalyzeIntent
     data class ResumeConversation(val id: Long) : AnalyzeIntent

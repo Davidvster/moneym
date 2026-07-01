@@ -17,4 +17,20 @@
     <string name="ai_models_eta_hours">~осталось %1$d ч %2$d мин</string>
     <string name="ai_models_error_download">Не удалось загрузить. Повторите попытку.</string>
     <string name="ai_models_error_delete">Не удалось удалить модель.</string>
+    <string name="ai_models_local_section">On-device models</string>
+    <string name="ai_models_provider_section">Remote providers</string>
+    <string name="ai_models_provider_configured">API key saved</string>
+    <string name="ai_models_provider_missing">API key required</string>
+    <string name="ai_models_provider_key_label">API key</string>
+    <string name="ai_models_provider_key_placeholder">Paste provider API key</string>
+    <string name="ai_models_provider_save_key">Save key</string>
+    <string name="ai_models_provider_delete_key">Delete key</string>
+    <string name="ai_models_provider_test">Test</string>
+    <string name="ai_models_provider_refresh">Refresh models</string>
+    <string name="ai_models_provider_model_label">Default model</string>
+    <string name="ai_models_error_provider_save">Could not save the API key.</string>
+    <string name="ai_models_error_provider_delete">Could not delete the API key.</string>
+    <string name="ai_models_error_provider_refresh">Could not refresh models.</string>
+    <string name="ai_models_error_provider_test">Connection test failed.</string>
+    <string name="ai_models_error_provider_select">Could not select that model.</string>
 </resources>

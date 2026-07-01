@@ -24,7 +24,12 @@
     <string name="analyze_engine_gemini_nano">Gemini Nano</string>
     <string name="analyze_engine_label">AI इंजन</string>
     <string name="analyze_engine_local_llm">डिवाइस पर मॉडल</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
     <string name="analyze_engine_needs_download_notice">यह इंजन उपलब्ध नहीं है. जारी रखने के लिए एक मॉडल डाउनलोड करें.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
     <string name="analyze_engine_status_download">डाउनलोड करने के लिए टैप करें</string>
     <string name="analyze_engine_status_ready">तैयार</string>
     <string name="analyze_engine_status_unavailable">अनुपलब्ध</string>

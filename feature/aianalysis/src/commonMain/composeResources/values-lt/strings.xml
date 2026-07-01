@@ -24,7 +24,12 @@
     <string name="analyze_engine_gemini_nano">Gemini Nano</string>
     <string name="analyze_engine_label">DI variklis</string>
     <string name="analyze_engine_local_llm">Modelis įrenginyje</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
     <string name="analyze_engine_needs_download_notice">Šis variklis nepasiekiamas. Norėdami tęsti, atsisiųskite modelį.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
     <string name="analyze_engine_status_download">Palieskite, kad atsisiųstumėte</string>
     <string name="analyze_engine_status_ready">Paruošta</string>
     <string name="analyze_engine_status_unavailable">Nepasiekiama</string>

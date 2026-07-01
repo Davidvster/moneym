@@ -24,7 +24,12 @@
     <string name="analyze_engine_gemini_nano">Gemini Nano</string>
     <string name="analyze_engine_label">AIエンジン</string>
     <string name="analyze_engine_local_llm">端末内モデル</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
     <string name="analyze_engine_needs_download_notice">このエンジンは利用できません。続けるにはモデルをダウンロードしてください。</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
     <string name="analyze_engine_status_download">タップしてダウンロード</string>
     <string name="analyze_engine_status_ready">準備完了</string>
     <string name="analyze_engine_status_unavailable">利用不可</string>

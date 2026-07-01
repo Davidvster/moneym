@@ -538,5 +538,5 @@ val featureAianalysisModule = module {
 }
 
 val featureAiModelsModule = module {
-    viewModel { AiModelsViewModel(get()) }
+    viewModel { AiModelsViewModel(get(), get()) }
 }

@@ -24,7 +24,12 @@
     <string name="analyze_engine_gemini_nano">Gemini Nano</string>
     <string name="analyze_engine_label">Yapay zekâ motoru</string>
     <string name="analyze_engine_local_llm">Cihazdaki model</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
     <string name="analyze_engine_needs_download_notice">Bu motor kullanılamıyor. Devam etmek için bir model indirin.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
     <string name="analyze_engine_status_download">İndirmek için dokunun</string>
     <string name="analyze_engine_status_ready">Hazır</string>
     <string name="analyze_engine_status_unavailable">Kullanılamıyor</string>

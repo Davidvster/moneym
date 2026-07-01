@@ -24,7 +24,12 @@
     <string name="analyze_engine_gemini_nano">Gemini Nano</string>
     <string name="analyze_engine_label">AI-motor</string>
     <string name="analyze_engine_local_llm">Model på enheden</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
     <string name="analyze_engine_needs_download_notice">Denne motor er ikke tilgængelig. Download en model for at fortsætte.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
     <string name="analyze_engine_status_download">Tryk for at downloade</string>
     <string name="analyze_engine_status_ready">Klar</string>
     <string name="analyze_engine_status_unavailable">Ikke tilgængelig</string>

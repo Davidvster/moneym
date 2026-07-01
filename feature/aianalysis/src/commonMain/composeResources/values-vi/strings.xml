@@ -24,7 +24,12 @@
     <string name="analyze_engine_gemini_nano">Gemini Nano</string>
     <string name="analyze_engine_label">Công cụ AI</string>
     <string name="analyze_engine_local_llm">Mô hình trên thiết bị</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
     <string name="analyze_engine_needs_download_notice">Công cụ này không khả dụng. Tải xuống một mô hình để tiếp tục.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
     <string name="analyze_engine_status_download">Chạm để tải xuống</string>
     <string name="analyze_engine_status_ready">Sẵn sàng</string>
     <string name="analyze_engine_status_unavailable">Không khả dụng</string>

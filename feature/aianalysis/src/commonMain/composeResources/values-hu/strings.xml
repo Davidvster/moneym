@@ -24,7 +24,12 @@
     <string name="analyze_engine_gemini_nano">Gemini Nano</string>
     <string name="analyze_engine_label">MI-motor</string>
     <string name="analyze_engine_local_llm">Eszközön futó modell</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
     <string name="analyze_engine_needs_download_notice">Ez a motor nem érhető el. A folytatáshoz tölts le egy modellt.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
     <string name="analyze_engine_status_download">Koppints a letöltéshez</string>
     <string name="analyze_engine_status_ready">Kész</string>
     <string name="analyze_engine_status_unavailable">Nem érhető el</string>

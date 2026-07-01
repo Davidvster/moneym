@@ -7,6 +7,10 @@ import com.dv.moneym.data.accounts.db.AccountsRoomDatabase
 import com.dv.moneym.data.aichat.AiChatRepository
 import com.dv.moneym.data.aichat.createAiChatRepository
 import com.dv.moneym.data.aichat.db.AiChatRoomDatabase
+import com.dv.moneym.data.aiproviders.AiProviderRepository
+import com.dv.moneym.data.aiproviders.aiProvidersHttpClient
+import com.dv.moneym.data.aiproviders.internal.DefaultAiProviderRepository
+import com.dv.moneym.data.aiproviders.internal.RemoteAiClient
 import com.dv.moneym.data.budgets.BudgetRepository
 import com.dv.moneym.data.budgets.createBudgetRepository
 import com.dv.moneym.data.budgets.db.BudgetsRoomDatabase
@@ -99,6 +103,17 @@ val dataOverviewModule = module {
 
 val dataAichatModule = module {
     single<AiChatRepository> { createAiChatRepository(get<AiChatRoomDatabase>()) }
+}
+
+val dataAiProvidersModule = module {
+    single { RemoteAiClient(aiProvidersHttpClient()) }
+    single<AiProviderRepository> {
+        DefaultAiProviderRepository(
+            appSettings = get(),
+            secureStore = get(),
+            client = get(),
+        )
+    }
 }
 
 val dataLlmModelsModule = module {

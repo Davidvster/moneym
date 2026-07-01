@@ -15,7 +15,12 @@
     <string name="analyze_engine_gemini_nano">Gemini Nano</string>
     <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
     <string name="analyze_engine_local_llm">Modello sul dispositivo</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
     <string name="analyze_engine_needs_download_notice">Questo motore non è disponibile. Scarica un modello per continuare.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
     <string name="analyze_download_model">Scarica un modello</string>
     <string name="analyze_error">Qualcosa è andato storto. Riprova.</string>
     <string name="analyze_model_picker_cd">Seleziona modello</string>

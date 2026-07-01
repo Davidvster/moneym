@@ -24,7 +24,12 @@
     <string name="analyze_engine_gemini_nano">Gemini Nano</string>
     <string name="analyze_engine_label">Движок ИИ</string>
     <string name="analyze_engine_local_llm">Модель на устройстве</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
     <string name="analyze_engine_needs_download_notice">Этот движок недоступен. Загрузите модель, чтобы продолжить.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
     <string name="analyze_engine_status_download">Нажмите, чтобы загрузить</string>
     <string name="analyze_engine_status_ready">Готово</string>
     <string name="analyze_engine_status_unavailable">Недоступно</string>

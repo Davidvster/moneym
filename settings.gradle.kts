@@ -59,6 +59,7 @@ include(":data:banksync")
 include(":data:walletsync")
 include(":feature:walletsync")
 include(":data:llmmodels")
+include(":data:aiproviders")
 include(":data:aichat")
 include(":core:oauth")
 

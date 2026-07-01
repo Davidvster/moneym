@@ -89,6 +89,7 @@ kotlin {
             implementation(projects.data.banksync)
             implementation(projects.data.walletsync)
             implementation(projects.data.llmmodels)
+            implementation(projects.data.aiproviders)
             implementation(projects.feature.banksync)
             implementation(projects.feature.walletsync)
             implementation(projects.data.aichat)

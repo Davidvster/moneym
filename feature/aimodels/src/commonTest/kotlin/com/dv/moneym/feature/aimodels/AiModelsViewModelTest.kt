@@ -1,6 +1,7 @@
 package com.dv.moneym.feature.aimodels
 
 import app.cash.turbine.test
+import com.dv.moneym.core.testing.FakeAiProviderRepository
 import com.dv.moneym.core.testing.FakeLlmModelRepository
 import com.dv.moneym.data.llmmodels.LlmModel
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +37,7 @@ class AiModelsViewModelTest {
     private val catalog = listOf(model("a"), model("b"))
 
     private fun vm(repo: FakeLlmModelRepository = FakeLlmModelRepository(catalog)) =
-        AiModelsViewModel(repo)
+        AiModelsViewModel(repo, FakeAiProviderRepository())
 
     @Test
     fun modelsMapToRows() = runTest(testDispatcher) {
@@ -89,7 +90,7 @@ class AiModelsViewModelTest {
     @Test
     fun errorSurfacesAndClears() = runTest(testDispatcher) {
         val repo = ThrowingDeleteRepository(catalog)
-        val vm = AiModelsViewModel(repo)
+        val vm = AiModelsViewModel(repo, FakeAiProviderRepository())
         vm.state.test {
             var s = awaitItem()
             while (s.models.size != 2) s = awaitItem()

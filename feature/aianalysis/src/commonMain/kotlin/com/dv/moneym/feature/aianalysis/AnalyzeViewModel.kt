@@ -138,6 +138,8 @@ class AnalyzeViewModel(
                 selectedEngine = selected?.id,
                 available = selected?.available ?: false,
                 needsModelDownload = selected?.needsDownload ?: false,
+                showRemotePrivacyNotice = selected?.id?.let(::isRemoteEngine) == true &&
+                    !appSettings.getBoolean(PrefKeys.AI_REMOTE_PRIVACY_ACK),
             )
         }
     }
@@ -159,6 +161,7 @@ class AnalyzeViewModel(
             is AnalyzeIntent.EngineChanged -> changeEngine(intent.id)
             AnalyzeIntent.RefreshEngines -> startEngineProbe()
             AnalyzeIntent.DismissFallbackNotice -> _state.update { it.copy(showToolsFallbackNotice = false) }
+            AnalyzeIntent.AcknowledgeRemotePrivacy -> acknowledgeRemotePrivacy()
             AnalyzeIntent.ClearError -> _state.update { it.copy(error = null) }
             AnalyzeIntent.NewChat -> newChat()
             is AnalyzeIntent.ResumeConversation -> resumeConversation(intent.id)
@@ -203,8 +206,15 @@ class AnalyzeViewModel(
                 selectedEngine = id,
                 available = option?.available ?: false,
                 needsModelDownload = option?.needsDownload ?: false,
+                showRemotePrivacyNotice = isRemoteEngine(id) &&
+                    !appSettings.getBoolean(PrefKeys.AI_REMOTE_PRIVACY_ACK),
             )
         }
+    }
+
+    private fun acknowledgeRemotePrivacy() {
+        appSettings.putBoolean(PrefKeys.AI_REMOTE_PRIVACY_ACK, true)
+        _state.update { it.copy(showRemotePrivacyNotice = false) }
     }
 
     private fun sendMessage(text: String) {
@@ -230,6 +240,13 @@ class AnalyzeViewModel(
         }
 
         viewModelScope.launch {
+            if (selectedId != null && isRemoteEngine(selectedId) &&
+                !appSettings.getBoolean(PrefKeys.AI_REMOTE_PRIVACY_ACK)
+            ) {
+                appSettings.putBoolean(PrefKeys.AI_REMOTE_PRIVACY_ACK, true)
+                _state.update { it.copy(showRemotePrivacyNotice = false) }
+            }
+
             if (engine.id == AiEngineId.LOCAL_LLM) {
                 val availability = withContext(dispatchers.io) { engine.availability() }
                 if (availability != AiAvailability.AVAILABLE) {
@@ -315,6 +332,8 @@ class AnalyzeViewModel(
         val raw = appSettings.getString(PrefKeys.AI_GROUNDING_MODE)
         return AiGroundingMode.entries.firstOrNull { it.name == raw } ?: AiGroundingMode.SNAPSHOT
     }
+
+    private fun isRemoteEngine(id: AiEngineId): Boolean = id.name.startsWith("remote:")
 
     private companion object {
         const val BUILTIN_PROBE_TIMEOUT_MS = 3000L

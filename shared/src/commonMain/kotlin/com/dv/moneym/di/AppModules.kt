@@ -8,6 +8,8 @@ import com.dv.moneym.core.common.DefaultAppClock
 import com.dv.moneym.core.common.DefaultDispatcherProvider
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.common.TransactionSavedSignal
+import com.dv.moneym.data.aiproviders.AiProviderId
+import com.dv.moneym.data.aiproviders.RemoteProviderAiEngine
 import com.dv.moneym.data.llmmodels.LlmModelRepository
 import com.dv.moneym.core.datastore.AppSettings
 import com.dv.moneym.core.datastore.AppSettingsRepository
@@ -30,6 +32,15 @@ val coreAiModule: Module = module {
             runner = get(),
             activeModelPath = { get<LlmModelRepository>().activeModelPath() },
         )
+    }
+    AiProviderId.entries.forEach { provider ->
+        single<AiEngine>(named("remote${provider.name}")) {
+            RemoteProviderAiEngine(
+                provider = provider,
+                repository = get(),
+                client = get(),
+            )
+        }
     }
     single { AiEngineRegistry(getAll()) }
 }
@@ -56,6 +67,7 @@ val appModules: List<Module> = listOf(
     dataBudgetsModule,
     dataOverviewModule,
     dataAichatModule,
+    dataAiProvidersModule,
     dataBackupModule,
     dataLlmModelsModule,
     featureTransactionsModule,

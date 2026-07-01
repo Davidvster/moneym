@@ -73,6 +73,10 @@ import moneym.feature.aianalysis.generated.resources.analyze_engine_apple_intell
 import moneym.feature.aianalysis.generated.resources.analyze_engine_gemini_nano
 import moneym.feature.aianalysis.generated.resources.analyze_engine_label
 import moneym.feature.aianalysis.generated.resources.analyze_engine_local_llm
+import moneym.feature.aianalysis.generated.resources.analyze_engine_openai
+import moneym.feature.aianalysis.generated.resources.analyze_engine_anthropic
+import moneym.feature.aianalysis.generated.resources.analyze_engine_gemini
+import moneym.feature.aianalysis.generated.resources.analyze_engine_openrouter
 import moneym.feature.aianalysis.generated.resources.analyze_engine_needs_download_notice
 import moneym.feature.aianalysis.generated.resources.analyze_engine_status_download
 import moneym.feature.aianalysis.generated.resources.analyze_engine_status_ready
@@ -90,6 +94,7 @@ import moneym.feature.aianalysis.generated.resources.analyze_year_next_cd
 import moneym.feature.aianalysis.generated.resources.analyze_year_prev_cd
 import moneym.feature.aianalysis.generated.resources.analyze_title
 import moneym.feature.aianalysis.generated.resources.analyze_tools_fallback_notice
+import moneym.feature.aianalysis.generated.resources.analyze_remote_privacy_notice
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -288,6 +293,12 @@ private fun AnalyzeContent(
                 color = colors.warning,
             )
         }
+        if (state.showRemotePrivacyNotice) {
+            NoticeRow(
+                text = stringResource(Res.string.analyze_remote_privacy_notice),
+                color = colors.warning,
+            )
+        }
         if (state.error != null) {
             NoticeRow(text = stringResource(Res.string.analyze_error))
         }
@@ -361,6 +372,11 @@ private fun engineLabelRes(id: AiEngineId) = when (id) {
     AiEngineId.GEMINI_NANO -> Res.string.analyze_engine_gemini_nano
     AiEngineId.APPLE_INTELLIGENCE -> Res.string.analyze_engine_apple_intelligence
     AiEngineId.LOCAL_LLM -> Res.string.analyze_engine_local_llm
+    AiEngineId("remote:openai") -> Res.string.analyze_engine_openai
+    AiEngineId("remote:anthropic") -> Res.string.analyze_engine_anthropic
+    AiEngineId("remote:gemini") -> Res.string.analyze_engine_gemini
+    AiEngineId("remote:openrouter") -> Res.string.analyze_engine_openrouter
+    else -> Res.string.analyze_engine_label
 }
 
 @Composable

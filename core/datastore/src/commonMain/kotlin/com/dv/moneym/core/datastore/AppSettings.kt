@@ -94,4 +94,13 @@ object PrefKeys {
 
     // AI analysis selected engine id
     const val AI_ENGINE_ID = "pref.ai_engine_id"
+
+    // Remote AI provider default model ids
+    const val AI_PROVIDER_OPENAI_MODEL_ID = "pref.ai_provider.openai.model_id"
+    const val AI_PROVIDER_ANTHROPIC_MODEL_ID = "pref.ai_provider.anthropic.model_id"
+    const val AI_PROVIDER_GEMINI_MODEL_ID = "pref.ai_provider.gemini.model_id"
+    const val AI_PROVIDER_OPENROUTER_MODEL_ID = "pref.ai_provider.openrouter.model_id"
+
+    // Remote AI privacy notice acknowledgement
+    const val AI_REMOTE_PRIVACY_ACK = "pref.ai_remote_privacy_ack"
 }

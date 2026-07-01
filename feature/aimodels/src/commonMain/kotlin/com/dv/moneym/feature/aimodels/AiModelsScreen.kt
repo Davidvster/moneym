@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -33,6 +34,7 @@ import com.dv.moneym.core.navigation.ModalKey
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonSize
 import com.dv.moneym.core.ui.MmButtonVariant
+import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.MmIconButton
 import com.dv.moneym.core.ui.MmIconButtonVariant
 import com.dv.moneym.core.ui.imageVector
@@ -53,10 +55,26 @@ import moneym.feature.aimodels.generated.resources.ai_models_delete_title
 import moneym.feature.aimodels.generated.resources.ai_models_download
 import moneym.feature.aimodels.generated.resources.ai_models_error_delete
 import moneym.feature.aimodels.generated.resources.ai_models_error_download
+import moneym.feature.aimodels.generated.resources.ai_models_error_provider_delete
+import moneym.feature.aimodels.generated.resources.ai_models_error_provider_refresh
+import moneym.feature.aimodels.generated.resources.ai_models_error_provider_save
+import moneym.feature.aimodels.generated.resources.ai_models_error_provider_select
+import moneym.feature.aimodels.generated.resources.ai_models_error_provider_test
 import moneym.feature.aimodels.generated.resources.ai_models_eta_hours
 import moneym.feature.aimodels.generated.resources.ai_models_eta_minutes
 import moneym.feature.aimodels.generated.resources.ai_models_eta_seconds
 import moneym.feature.aimodels.generated.resources.ai_models_keep_awake
+import moneym.feature.aimodels.generated.resources.ai_models_local_section
+import moneym.feature.aimodels.generated.resources.ai_models_provider_configured
+import moneym.feature.aimodels.generated.resources.ai_models_provider_delete_key
+import moneym.feature.aimodels.generated.resources.ai_models_provider_key_label
+import moneym.feature.aimodels.generated.resources.ai_models_provider_key_placeholder
+import moneym.feature.aimodels.generated.resources.ai_models_provider_missing
+import moneym.feature.aimodels.generated.resources.ai_models_provider_model_label
+import moneym.feature.aimodels.generated.resources.ai_models_provider_refresh
+import moneym.feature.aimodels.generated.resources.ai_models_provider_save_key
+import moneym.feature.aimodels.generated.resources.ai_models_provider_section
+import moneym.feature.aimodels.generated.resources.ai_models_provider_test
 import moneym.feature.aimodels.generated.resources.ai_models_title
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
@@ -136,11 +154,30 @@ private fun AiModelsContent(
             contentPadding = PaddingValues(space.padding_2x),
             verticalArrangement = Arrangement.spacedBy(space.padding_1_5x),
         ) {
+            item {
+                SectionLabel(text = stringResource(Res.string.ai_models_local_section))
+            }
             items(state.models, key = { it.id }) { row ->
                 ModelRow(row = row, onIntent = onIntent)
             }
+            item {
+                SectionLabel(text = stringResource(Res.string.ai_models_provider_section))
+            }
+            items(state.providers, key = { it.id.name }) { row ->
+                ProviderRow(row = row, onIntent = onIntent)
+            }
         }
     }
+}
+
+@Composable
+private fun SectionLabel(text: String) {
+    Text(
+        text = text,
+        style = MM.type.caption,
+        color = MM.colors.text2,
+        modifier = Modifier.padding(top = MM.dimen.padding_1x),
+    )
 }
 
 @Composable
@@ -258,6 +295,102 @@ private fun ModelRow(row: ModelRowUi, onIntent: (AiModelsIntent) -> Unit) {
 }
 
 @Composable
+private fun ProviderRow(row: ProviderRowUi, onIntent: (AiModelsIntent) -> Unit) {
+    val colors = MM.colors
+    val type = MM.type
+    val space = MM.dimen
+
+    MmCard(padded = true, modifier = Modifier.fillMaxWidth()) {
+        Column(verticalArrangement = Arrangement.spacedBy(space.padding_1x)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(text = row.displayName, style = type.body, color = colors.text)
+                    Text(
+                        text = stringResource(
+                            if (row.configured) {
+                                Res.string.ai_models_provider_configured
+                            } else {
+                                Res.string.ai_models_provider_missing
+                            },
+                        ),
+                        style = type.caption,
+                        color = if (row.configured) colors.accent else colors.text2,
+                    )
+                }
+                MmButton(
+                    text = stringResource(Res.string.ai_models_provider_test),
+                    onClick = { onIntent(AiModelsIntent.TestConnection(row.id)) },
+                    enabled = row.configured && !row.isTesting,
+                    variant = MmButtonVariant.Secondary,
+                    size = MmButtonSize.Sm,
+                )
+            }
+
+            MmField(
+                value = row.apiKeyInput,
+                onValueChange = { onIntent(AiModelsIntent.ApiKeyChanged(row.id, it)) },
+                label = stringResource(Res.string.ai_models_provider_key_label),
+                placeholder = stringResource(Res.string.ai_models_provider_key_placeholder),
+                visualTransformation = PasswordVisualTransformation(),
+                singleLine = true,
+            )
+
+            Row(horizontalArrangement = Arrangement.spacedBy(space.padding_1x)) {
+                MmButton(
+                    text = stringResource(Res.string.ai_models_provider_save_key),
+                    onClick = { onIntent(AiModelsIntent.SaveApiKey(row.id)) },
+                    enabled = row.apiKeyInput.isNotBlank(),
+                    variant = MmButtonVariant.Secondary,
+                    size = MmButtonSize.Sm,
+                )
+                MmButton(
+                    text = stringResource(Res.string.ai_models_provider_delete_key),
+                    onClick = { onIntent(AiModelsIntent.DeleteApiKey(row.id)) },
+                    enabled = row.configured,
+                    variant = MmButtonVariant.Ghost,
+                    size = MmButtonSize.Sm,
+                )
+                MmButton(
+                    text = stringResource(Res.string.ai_models_provider_refresh),
+                    onClick = { onIntent(AiModelsIntent.RefreshModels(row.id)) },
+                    enabled = row.configured && !row.isRefreshing,
+                    variant = MmButtonVariant.Ghost,
+                    size = MmButtonSize.Sm,
+                )
+            }
+
+            Text(
+                text = stringResource(Res.string.ai_models_provider_model_label),
+                style = type.caption,
+                color = colors.text2,
+            )
+            row.models.forEach { model ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onIntent(AiModelsIntent.SelectRemoteModel(row.id, model.id)) }
+                        .padding(vertical = space.padding_0_5x),
+                    horizontalArrangement = Arrangement.spacedBy(space.padding_1x),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    MmRadio(
+                        selected = model.id == row.selectedModelId,
+                        onClick = { onIntent(AiModelsIntent.SelectRemoteModel(row.id, model.id)) },
+                    )
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(text = model.displayName, style = type.body, color = colors.text)
+                        Text(text = model.id, style = type.caption, color = colors.text2)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
 private fun etaLabel(seconds: Long): String = when {
     seconds >= 3600 -> stringResource(
         Res.string.ai_models_eta_hours,
@@ -278,6 +411,11 @@ private fun String.modelNameRes(): StringResource = when (this) {
 private fun AiModelsError.messageRes(): StringResource = when (this) {
     AiModelsError.Download -> Res.string.ai_models_error_download
     AiModelsError.Delete -> Res.string.ai_models_error_delete
+    AiModelsError.SaveKey -> Res.string.ai_models_error_provider_save
+    AiModelsError.DeleteKey -> Res.string.ai_models_error_provider_delete
+    AiModelsError.RefreshModels -> Res.string.ai_models_error_provider_refresh
+    AiModelsError.TestConnection -> Res.string.ai_models_error_provider_test
+    AiModelsError.SelectModel -> Res.string.ai_models_error_provider_select
 }
 
 @Preview

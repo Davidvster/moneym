@@ -2,6 +2,9 @@ package com.dv.moneym.feature.aimodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dv.moneym.data.aiproviders.AiProviderId
+import com.dv.moneym.data.aiproviders.AiProviderRepository
+import com.dv.moneym.data.aiproviders.AiProviderState
 import com.dv.moneym.data.llmmodels.DownloadProgress
 import com.dv.moneym.data.llmmodels.LlmModelRepository
 import com.dv.moneym.data.llmmodels.LlmModelState
@@ -16,18 +19,23 @@ import kotlin.math.roundToInt
 
 class AiModelsViewModel(
     private val repository: LlmModelRepository,
+    private val providerRepository: AiProviderRepository,
 ) : ViewModel() {
 
     private val error = MutableStateFlow<AiModelsError?>(null)
     private val pendingDeleteId = MutableStateFlow<String?>(null)
+    private val apiKeyInputs = MutableStateFlow<Map<AiProviderId, String>>(emptyMap())
 
     internal val state: StateFlow<AiModelsUiState> = combine(
         repository.observeModels(),
+        providerRepository.observeProviders(),
+        apiKeyInputs,
         pendingDeleteId,
         error,
-    ) { models, pendingDelete, err ->
+    ) { models, providers, inputs, pendingDelete, err ->
         AiModelsUiState(
             models = models.map { it.toRow() },
+            providers = providers.map { it.toRow(inputs[it.provider].orEmpty()) },
             pendingDeleteId = pendingDelete,
             error = err,
         )
@@ -59,6 +67,37 @@ class AiModelsViewModel(
                 repository.setActive(intent.id)
             }
 
+            is AiModelsIntent.ApiKeyChanged -> apiKeyInputs.value =
+                apiKeyInputs.value + (intent.provider to intent.value)
+
+            is AiModelsIntent.SaveApiKey -> viewModelScope.launch {
+                val value = apiKeyInputs.value[intent.provider].orEmpty()
+                runCatching {
+                    providerRepository.saveApiKey(intent.provider, value)
+                    apiKeyInputs.value = apiKeyInputs.value - intent.provider
+                }.onFailure { error.value = AiModelsError.SaveKey }
+            }
+
+            is AiModelsIntent.DeleteApiKey -> viewModelScope.launch {
+                runCatching { providerRepository.deleteApiKey(intent.provider) }
+                    .onFailure { error.value = AiModelsError.DeleteKey }
+            }
+
+            is AiModelsIntent.RefreshModels -> viewModelScope.launch {
+                providerRepository.refreshModels(intent.provider)
+                    .onFailure { error.value = AiModelsError.RefreshModels }
+            }
+
+            is AiModelsIntent.TestConnection -> viewModelScope.launch {
+                providerRepository.testConnection(intent.provider)
+                    .onFailure { error.value = AiModelsError.TestConnection }
+            }
+
+            is AiModelsIntent.SelectRemoteModel -> viewModelScope.launch {
+                runCatching { providerRepository.setSelectedModel(intent.provider, intent.modelId) }
+                    .onFailure { error.value = AiModelsError.SelectModel }
+            }
+
             AiModelsIntent.ClearError -> error.value = null
         }
     }
@@ -84,6 +123,18 @@ class AiModelsViewModel(
             },
         )
     }
+
+    private fun AiProviderState.toRow(apiKeyInput: String): ProviderRowUi =
+        ProviderRowUi(
+            id = provider,
+            displayName = provider.displayName,
+            configured = configured,
+            apiKeyInput = apiKeyInput,
+            selectedModelId = selectedModelId,
+            models = models.map { ProviderModelUi(it.id, it.displayName) },
+            isRefreshing = isRefreshing,
+            isTesting = isTesting,
+        )
 
     private fun etaSeconds(p: DownloadProgress): Long? {
         val speed = p.bytesPerSecond ?: return null

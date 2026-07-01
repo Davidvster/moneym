@@ -24,7 +24,12 @@
     <string name="analyze_engine_gemini_nano">Gemini Nano</string>
     <string name="analyze_engine_label">Gervigreindarvél</string>
     <string name="analyze_engine_local_llm">Líkan í tækinu</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
     <string name="analyze_engine_needs_download_notice">Þessi vél er ekki tiltæk. Sæktu líkan til að halda áfram.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
     <string name="analyze_engine_status_download">Ýttu til að sækja</string>
     <string name="analyze_engine_status_ready">Tilbúið</string>
     <string name="analyze_engine_status_unavailable">Ekki tiltækt</string>

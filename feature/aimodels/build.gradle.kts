@@ -34,6 +34,7 @@ kotlin {
             implementation(projects.core.common)
             implementation(projects.core.navigation)
             implementation(projects.data.llmmodels)
+            implementation(projects.data.aiproviders)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

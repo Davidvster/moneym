@@ -6,6 +6,10 @@ object SecurityKeys {
     const val BANK_SYNC_APP_ID = "banksync.app_id"
     const val BANK_SYNC_PRIVATE_KEY_PEM = "banksync.private_key_pem"
     const val BANK_SYNC_SESSION_ID = "banksync.session_id"
+    const val AI_PROVIDER_OPENAI_API_KEY = "ai.provider.openai.api_key"
+    const val AI_PROVIDER_ANTHROPIC_API_KEY = "ai.provider.anthropic.api_key"
+    const val AI_PROVIDER_GEMINI_API_KEY = "ai.provider.gemini.api_key"
+    const val AI_PROVIDER_OPENROUTER_API_KEY = "ai.provider.openrouter.api_key"
 }
 
 object SecurityPrefs {
