@@ -12,11 +12,20 @@
 | 6. Settings/Bottom Sheet/System UI/Icon Polish | Complete | `dffe54c1` | Covered user items 3, 6, and 7. Verification: `./gradlew --no-configuration-cache :feature:settings:testDebugUnitTest :feature:transactions:testDebugUnitTest :shared:compileDebugKotlinAndroid` passed; `git diff --check` passed. The icon and system-bar polish was verified structurally in code because the requested slice is compile/test oriented rather than pixel-tested. |
 | 7. Overview Filter + Header Polish | Complete | `61706cd6` | Overview category filter now uses grouped Expense/Income sections, and Analyze with AI moved into the period controls row with responsive wrap. Verification: `./gradlew --no-configuration-cache :feature:overview:testDebugUnitTest` passed; `git diff --check` passed. |
 | 8. AI Widget Builder + A2UI Renderer | Complete | `6cd66ebd` | Added builder route/screen/ViewModel, constrained A2UI catalog/parser/validator/renderer, overview widget context binding, saved-widget rendering, strings, and focused tests. |
-| 9. Final Integration, QA, iOS/Android Build | Planned | Pending | Final cross-platform verification. |
+| 9. Final Integration, QA, iOS/Android Build | Complete | this commit | Final cross-platform verification passed. |
 
 ## Current Handoff
 
-Phase 9 plan is ready in `/plan/overview-ai/phase-9-plan.md`. Next step is final Android/iOS build verification, targeted tests, string parity checks, status update, and Phase 9 commit.
+Phase 9 verification is complete. The final Phase 9 commit is this commit.
+
+## Phase 9 Verification
+
+- String parity check for `feature/overview/src/commonMain/composeResources`, `feature/settings/src/commonMain/composeResources`, and `feature/aianalysis/src/commonMain/composeResources` across `values/` plus `values-ar`, `values-cs`, `values-da`, `values-de`, `values-es`, `values-et`, `values-fi`, `values-fr`, `values-hi`, `values-hr`, `values-hu`, `values-is`, `values-it`, `values-ja`, `values-lt`, `values-lv`, `values-mk`, `values-nb`, `values-nl`, `values-pl`, `values-pt`, `values-ru`, `values-sk`, `values-sl`, `values-sv`, `values-tr`, `values-vi`, and `values-zh` — passed; no missing or mismatched keys found.
+- `./gradlew --no-configuration-cache :androidApp:assembleDebug` — passed.
+- `./gradlew --no-configuration-cache :shared:linkDebugFrameworkIosArm64 :shared:linkDebugFrameworkIosSimulatorArm64` — passed.
+- `./gradlew --no-configuration-cache :data:overview:testDebugUnitTest :data:backup:testDebugUnitTest :feature:overview:testDebugUnitTest :feature:settings:testDebugUnitTest :feature:transactions:testDebugUnitTest :core:ai:testDebugUnitTest :feature:aianalysis:testDebugUnitTest` — passed.
+- `git diff --check` — passed.
+- `./gradlew --no-configuration-cache allTests` — skipped; the targeted verification slice passed and the full suite was not needed for this phase.
 
 ## Phase 8 Verification
 
