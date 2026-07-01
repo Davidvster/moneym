@@ -16,6 +16,7 @@ import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.overview.OverviewRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import com.dv.moneym.feature.overview.OverviewPeriod
+import com.dv.moneym.feature.overview.a2ui.BuildOverviewWidgetContextUseCase
 import com.dv.moneym.feature.overview.usecase.BuildOverviewPageStateUseCase
 import com.dv.moneym.feature.overview.usecase.ResolveOverviewBlocksUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,6 +40,7 @@ class OverviewPageViewModel(
 ) : ViewModel() {
 
     private val today = clock.today()
+    private val buildWidgetContext = BuildOverviewWidgetContextUseCase()
 
     private val transactionFilter = appSettingsRepository.observeLastTransactionFilter()
         .stateIn(viewModelScope, SharingStarted.Eagerly, TransactionFilter.None)
@@ -54,7 +56,7 @@ class OverviewPageViewModel(
         ) { id, accs -> id to accs },
         transactionFilter,
         budgetRepository.observeAll(),
-    ) { allTransactions, categories, (selectedAccId, _), transactionFilter, budgets ->
+    ) { allTransactions, categories, (selectedAccId, accounts), transactionFilter, budgets ->
         val pageState = buildOverviewPageState(
             period = period,
             today = today,
@@ -64,7 +66,9 @@ class OverviewPageViewModel(
             transactionFilter = transactionFilter,
             budgets = budgets,
         )
-        pageState to transactionFilter.toSpendingFilter()
+        val selectedAccount = if (selectedAccId > 0L) accounts.find { it.id.value == selectedAccId }
+        else accounts.firstOrNull { it.isDefault } ?: accounts.firstOrNull()
+        Triple(pageState, transactionFilter.toSpendingFilter(), selectedAccount?.currency?.value ?: "USD")
     }
 
     internal val state = combine(
@@ -72,7 +76,7 @@ class OverviewPageViewModel(
         overviewRepository.observeLayoutPrefs(),
         overviewRepository.observeAiWidgets(),
         _selectedSliceIndex,
-    ) { (pageState, spendingFilter), layoutPrefs, aiWidgets, slice ->
+    ) { (pageState, spendingFilter, currencyCode), layoutPrefs, aiWidgets, slice ->
         val selectedPageState = pageState.copy(selectedSliceIndex = slice)
         selectedPageState.copy(
             blocks = resolveOverviewBlocks(
@@ -81,7 +85,8 @@ class OverviewPageViewModel(
                 layoutPrefs = layoutPrefs,
                 pageState = selectedPageState,
                 aiWidgets = aiWidgets,
-            )
+            ),
+            widgetContext = buildWidgetContext(selectedPageState, currencyCode),
         )
     }
         .stateIn(

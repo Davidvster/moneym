@@ -33,6 +33,8 @@ import com.dv.moneym.feature.budgets.list.budgetListEntry
 import com.dv.moneym.feature.categories.list.CategoriesKey
 import com.dv.moneym.feature.categories.list.categoriesEntry
 import com.dv.moneym.feature.overview.OverviewKey
+import com.dv.moneym.feature.overview.OverviewAiWidgetBuilderKey
+import com.dv.moneym.feature.overview.overviewAiWidgetBuilderEntry
 import com.dv.moneym.feature.overview.overviewEntry
 import com.dv.moneym.feature.security.setup.PinSetupKey
 import com.dv.moneym.feature.security.setup.pinSetupEntry
@@ -222,7 +224,11 @@ internal fun MainNav(lockController: AppLockController) {
             )
             overviewSettingsEntry(
                 onBack = { tabBackStack.removeLast() },
-                onOpenAiWidgetBuilder = {},
+                onOpenAiWidgetBuilder = { id -> tabBackStack.push(OverviewAiWidgetBuilderKey(id)) },
+                metadata = modalTransitionMeta,
+            )
+            overviewAiWidgetBuilderEntry(
+                onBack = { tabBackStack.removeLast() },
                 metadata = modalTransitionMeta,
             )
             // Setup flow (isChangePinFlow = false by default)

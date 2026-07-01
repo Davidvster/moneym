@@ -62,6 +62,24 @@
     <string name="overview_budgets_all_categories">Visos kategorijos</string>
     <string name="overview_budgets_remaining_suffix">liko %1$s</string>
     <string name="overview_budgets_overrun_suffix">%1$s viršyta</string>
+    <string name="overview_ai_widget_invalid_title">Widget unavailable</string>
+    <string name="overview_ai_widget_invalid_body">This saved widget is invalid and needs to be regenerated.</string>
+    <string name="overview_ai_widget_builder_title">AI widget</string>
+    <string name="overview_ai_widget_builder_title_field">Title</string>
+    <string name="overview_ai_widget_builder_title_placeholder">Monthly cash flow</string>
+    <string name="overview_ai_widget_builder_prompt">Prompt</string>
+    <string name="overview_ai_widget_builder_prompt_placeholder">Describe the overview widget you want to see.</string>
+    <string name="overview_ai_widget_builder_generate">Generate preview</string>
+    <string name="overview_ai_widget_builder_json">A2UI JSON</string>
+    <string name="overview_ai_widget_builder_json_placeholder">Generated constrained A2UI JSON appears here.</string>
+    <string name="overview_ai_widget_builder_preview">Preview</string>
+    <string name="overview_ai_widget_builder_save">Save widget</string>
+    <string name="overview_ai_widget_builder_error_no_engine">No AI engine is selected.</string>
+    <string name="overview_ai_widget_builder_error_unavailable">The selected AI engine is unavailable.</string>
+    <string name="overview_ai_widget_builder_error_generation">The widget could not be generated.</string>
+    <string name="overview_ai_widget_builder_error_invalid_json">The generated A2UI JSON is invalid.</string>
+    <string name="overview_ai_widget_builder_error_empty_prompt">Enter a prompt before generating.</string>
+    <string name="overview_ai_widget_builder_error_empty_title">Enter a title before saving.</string>
     <string-array name="overview_year_x_labels">
         <item>saus</item>
         <item>bal</item>

@@ -56,6 +56,7 @@ import com.dv.moneym.core.ui.MmMoney
 import com.dv.moneym.core.ui.MmSegmented
 import com.dv.moneym.core.ui.MmSegmentedSize
 import com.dv.moneym.core.ui.imageVector
+import com.dv.moneym.feature.overview.a2ui.OverviewA2UiWidgetCard
 import com.dv.moneym.feature.overview.CategorySpend
 import com.dv.moneym.feature.overview.CategoryTrend
 import com.dv.moneym.feature.overview.OverviewPeriod
@@ -100,7 +101,16 @@ internal fun OverviewPeriodBody(
                     onIntent = onIntent,
                 )
 
-                is OverviewResolvedBlock.AiWidget -> Unit
+                is OverviewResolvedBlock.AiWidget -> state.widgetContext?.let { context ->
+                    OverviewA2UiWidgetCard(
+                        json = block.widget.a2uiJson,
+                        context = context,
+                        modifier = Modifier
+                            .mmStaggeredAppear(6)
+                            .fillMaxWidth()
+                            .padding(horizontal = space.padding_2x, vertical = space.padding_1_5x),
+                    )
+                }
             }
         }
         Spacer(Modifier.height(space.padding_2x))

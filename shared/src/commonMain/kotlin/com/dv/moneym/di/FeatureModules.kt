@@ -51,7 +51,9 @@ import com.dv.moneym.feature.banksync.usecase.ParseRedirectCodeUseCase
 import com.dv.moneym.feature.sync.PendingDeletionsViewModel
 import com.dv.moneym.feature.sync.SyncSettingsViewModel
 import com.dv.moneym.feature.overview.OverviewPeriod
+import com.dv.moneym.feature.overview.OverviewAiWidgetBuilderViewModel
 import com.dv.moneym.feature.overview.OverviewViewModel
+import com.dv.moneym.feature.overview.a2ui.BuildOverviewWidgetPromptUseCase
 import com.dv.moneym.feature.overview.page.OverviewPageViewModel
 import com.dv.moneym.feature.overview.usecase.BuildBudgetProgressUseCase
 import com.dv.moneym.feature.overview.usecase.BuildCategoryBreakdownUseCase
@@ -481,7 +483,19 @@ val featureOverviewModule = module {
     single { BuildCumulativeSeriesUseCase() }
     single { BuildOverviewPageStateUseCase(get(), get(), get(), get(), get()) }
     single { ResolveOverviewBlocksUseCase() }
+    single { BuildOverviewWidgetPromptUseCase() }
     viewModelOf(::OverviewViewModel)
+    viewModel { params ->
+        OverviewAiWidgetBuilderViewModel(
+            widgetId = params.getOrNull<Long>(),
+            overviewRepository = get(),
+            registry = get(),
+            appSettings = get(),
+            dispatchers = get(),
+            clock = get(),
+            buildPrompt = get(),
+        )
+    }
     viewModel { params ->
         OverviewPageViewModel(
             period = params.get<OverviewPeriod>(),
