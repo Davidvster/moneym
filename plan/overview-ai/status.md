@@ -11,12 +11,12 @@
 | 5. Transaction Bulk Edit + List Interaction Fixes | Complete | `79c8b4a7` | Fixed bulk picker-to-confirm transitions, wallet conversion default rate, stable selection header mode, multiselect pager locking, and type-filter scroll-to-top. Covers user items 2 and 8. |
 | 6. Settings/Bottom Sheet/System UI/Icon Polish | Complete | `dffe54c1` | Covered user items 3, 6, and 7. Verification: `./gradlew --no-configuration-cache :feature:settings:testDebugUnitTest :feature:transactions:testDebugUnitTest :shared:compileDebugKotlinAndroid` passed; `git diff --check` passed. The icon and system-bar polish was verified structurally in code because the requested slice is compile/test oriented rather than pixel-tested. |
 | 7. Overview Filter + Header Polish | Complete | `61706cd6` | Overview category filter now uses grouped Expense/Income sections, and Analyze with AI moved into the period controls row with responsive wrap. Verification: `./gradlew --no-configuration-cache :feature:overview:testDebugUnitTest` passed; `git diff --check` passed. |
-| 8. AI Widget Builder + A2UI Renderer | Complete | Pending | Added builder route/screen/ViewModel, constrained A2UI catalog/parser/validator/renderer, overview widget context binding, saved-widget rendering, strings, and focused tests. |
-| 9. Final Integration, QA, iOS/Android Build | Pending | Pending | Final cross-platform verification. |
+| 8. AI Widget Builder + A2UI Renderer | Complete | `6cd66ebd` | Added builder route/screen/ViewModel, constrained A2UI catalog/parser/validator/renderer, overview widget context binding, saved-widget rendering, strings, and focused tests. |
+| 9. Final Integration, QA, iOS/Android Build | Planned | Pending | Final cross-platform verification. |
 
 ## Current Handoff
 
-Phase 8 implementation is verified and ready to commit. After that, create Phase 9 for final Android/iOS build verification and final status cleanup.
+Phase 9 plan is ready in `/plan/overview-ai/phase-9-plan.md`. Next step is final Android/iOS build verification, targeted tests, string parity checks, status update, and Phase 9 commit.
 
 ## Phase 8 Verification
 
