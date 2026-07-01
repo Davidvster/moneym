@@ -79,7 +79,6 @@ internal data class VisibleTransactionSelection(
 )
 
 @OptIn(ExperimentalComposeUiApi::class)
-@Suppress("DEPRECATION")
 @Composable
 internal fun TransactionPageScreen(
     yearMonth: YearMonth,

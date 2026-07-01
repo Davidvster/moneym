@@ -232,8 +232,8 @@ private fun TransactionListContent(
     val anchor = state.earliestMonth ?: YearMonth(today.year, today.month.number)
 
     if (state.showMonthPicker) {
-        val minYear = state.earliestMonth?.year ?: state.today?.year
-        val minMonth = state.earliestMonth?.monthNumber ?: state.today?.monthNumber
+        val minYear = state.earliestMonth?.year ?: state.today.year
+        val minMonth = state.earliestMonth?.monthNumber ?: state.today.month.number
         MmMonthPickerDialog(
             currentYear = currentMonth.year,
             currentMonth = currentMonth.monthNumber,
@@ -1424,6 +1424,7 @@ private fun TransactionListScreenPreview() {
             state = TransactionListUiState(
                 currentMonth = YearMonth(2026, 1),
                 today = LocalDate(2026, 1, 1),
+                isSyncEnabled = true,
             ),
             onIntent = {},
             onAddTransaction = {},

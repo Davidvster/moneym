@@ -17,6 +17,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.datetime.number
 import org.koin.core.context.GlobalContext
 import java.time.LocalDate as JavaLocalDate
 
@@ -68,13 +69,13 @@ class MoneyMNotificationListenerService : NotificationListenerService() {
             val accounts = accountRepository.observeAll().first()
             val allTxns = transactionRepository.observeAll().first()
             val today = clock.today()
-            val sixMonthsAgo = JavaLocalDate.of(today.year, today.monthNumber, today.dayOfMonth)
+            val sixMonthsAgo = JavaLocalDate.of(today.year, today.month.number, today.month.number)
                 .minusMonths(6)
             val recentTxns = allTxns.filter { txn ->
                 JavaLocalDate.of(
                     txn.occurredOn.year,
-                    txn.occurredOn.monthNumber,
-                    txn.occurredOn.dayOfMonth
+                    txn.occurredOn.month.number,
+                    txn.occurredOn.day
                 ) >= sixMonthsAgo
             }
             val enriched = enrichUseCase(suggestion, accounts, recentTxns)

@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,13 +48,18 @@ internal fun CloudSyncIcon(
     } else {
         modifier.semantics { this.contentDescription = contentDescription }
     }
+
     Canvas(modifier = semanticsModifier) {
         val scale = size.minDimension / 24f
-        val cloudStrokeWidth = 1.9.dp.toPx()
-        val arrowStrokeWidth = 1.55.dp.toPx()
+        val cloudStrokeWidth = 2.1.dp.toPx()
+        val arrowStrokeWidth = 1.7.dp.toPx()
+        val arrowScale = 0.76f
+
         fun sx(value: Float) = value * scale
         fun sy(value: Float) = value * scale
         fun point(x: Float, y: Float) = Offset(sx(x), sy(y))
+
+        val center = point(12f, 12f)
 
         val cloud = Path().apply {
             moveTo(sx(5.5f), sy(18.4f))
@@ -65,59 +71,77 @@ internal fun CloudSyncIcon(
             cubicTo(sx(2.8f), sy(10.7f), sx(1.5f), sy(12.4f), sx(1.5f), sy(14.5f))
             cubicTo(sx(1.5f), sy(16.8f), sx(3.2f), sy(18.4f), sx(5.5f), sy(18.4f))
         }
-        val cloudStroke = Stroke(width = cloudStrokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round)
-        drawPath(path = cloud, color = tint, style = cloudStroke)
 
-        rotate(degrees = arrowRotation, pivot = point(12f, 12f)) {
-            val topArrow = Path().apply {
-                moveTo(sx(8.6f), sy(8.7f))
-                cubicTo(sx(9.6f), sy(7.7f), sx(11f), sy(7.1f), sx(12.6f), sy(7.2f))
-                cubicTo(sx(14.3f), sy(7.3f), sx(15.6f), sy(8.2f), sx(16.4f), sy(9.5f))
-            }
-            drawPath(
-                path = topArrow,
-                color = tint,
-                style = Stroke(width = arrowStrokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
-            )
-            drawLine(
-                color = tint,
-                start = point(16.4f, 9.5f),
-                end = point(16.2f, 7.3f),
-                strokeWidth = arrowStrokeWidth,
+        drawPath(
+            path = cloud,
+            color = tint,
+            style = Stroke(
+                width = cloudStrokeWidth,
                 cap = StrokeCap.Round,
-            )
-            drawLine(
-                color = tint,
-                start = point(16.4f, 9.5f),
-                end = point(14.2f, 9.4f),
-                strokeWidth = arrowStrokeWidth,
-                cap = StrokeCap.Round,
-            )
+                join = StrokeJoin.Round,
+            ),
+        )
 
-            val bottomArrow = Path().apply {
-                moveTo(sx(15.4f), sy(15.3f))
-                cubicTo(sx(14.4f), sy(16.3f), sx(13f), sy(16.9f), sx(11.4f), sy(16.8f))
-                cubicTo(sx(9.7f), sy(16.7f), sx(8.4f), sy(15.8f), sx(7.6f), sy(14.5f))
+        rotate(degrees = arrowRotation, pivot = center) {
+            scale(scaleX = arrowScale, scaleY = arrowScale, pivot = center) {
+                val topArrow = Path().apply {
+                    moveTo(sx(9.1f), sy(9.0f))
+                    cubicTo(sx(9.9f), sy(8.2f), sx(11.0f), sy(7.8f), sx(12.3f), sy(7.9f))
+                    cubicTo(sx(13.7f), sy(8.0f), sx(14.8f), sy(8.7f), sx(15.5f), sy(9.8f))
+                }
+                drawPath(
+                    path = topArrow,
+                    color = tint,
+                    style = Stroke(
+                        width = arrowStrokeWidth,
+                        cap = StrokeCap.Round,
+                        join = StrokeJoin.Round,
+                    ),
+                )
+                drawLine(
+                    color = tint,
+                    start = point(15.5f, 9.8f),
+                    end = point(15.35f, 8.0f),
+                    strokeWidth = arrowStrokeWidth,
+                    cap = StrokeCap.Round,
+                )
+                drawLine(
+                    color = tint,
+                    start = point(15.5f, 9.8f),
+                    end = point(13.7f, 9.7f),
+                    strokeWidth = arrowStrokeWidth,
+                    cap = StrokeCap.Round,
+                )
+
+                val bottomArrow = Path().apply {
+                    moveTo(sx(14.9f), sy(15.0f))
+                    cubicTo(sx(14.1f), sy(15.8f), sx(13.0f), sy(16.2f), sx(11.7f), sy(16.1f))
+                    cubicTo(sx(10.3f), sy(16.0f), sx(9.2f), sy(15.3f), sx(8.5f), sy(14.2f))
+                }
+                drawPath(
+                    path = bottomArrow,
+                    color = tint,
+                    style = Stroke(
+                        width = arrowStrokeWidth,
+                        cap = StrokeCap.Round,
+                        join = StrokeJoin.Round,
+                    ),
+                )
+                drawLine(
+                    color = tint,
+                    start = point(8.5f, 14.2f),
+                    end = point(8.65f, 16.0f),
+                    strokeWidth = arrowStrokeWidth,
+                    cap = StrokeCap.Round,
+                )
+                drawLine(
+                    color = tint,
+                    start = point(8.5f, 14.2f),
+                    end = point(10.3f, 14.3f),
+                    strokeWidth = arrowStrokeWidth,
+                    cap = StrokeCap.Round,
+                )
             }
-            drawPath(
-                path = bottomArrow,
-                color = tint,
-                style = Stroke(width = arrowStrokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round),
-            )
-            drawLine(
-                color = tint,
-                start = point(7.6f, 14.5f),
-                end = point(7.8f, 16.7f),
-                strokeWidth = arrowStrokeWidth,
-                cap = StrokeCap.Round,
-            )
-            drawLine(
-                color = tint,
-                start = point(7.6f, 14.5f),
-                end = point(9.8f, 14.6f),
-                strokeWidth = arrowStrokeWidth,
-                cap = StrokeCap.Round,
-            )
         }
     }
 }

@@ -10,6 +10,7 @@ import com.dv.moneym.data.budgets.BudgetRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.number
 
 data class CategoryBudgetRemaining(
     val budgetName: String,
@@ -31,8 +32,7 @@ class ComputeCategoryBudgetRemainingUseCase(
         accountId: AccountId? = null,
         additionalExpenseMinor: Long = 0,
     ): CategoryBudgetRemaining? {
-        @Suppress("DEPRECATION")
-        val ym = YearMonth(date.year, date.monthNumber)
+        val ym = YearMonth(date.year, date.month.number)
         val budgets =
             (if (accountId != null) budgetRepository.observeByAccount(accountId) else budgetRepository.observeAll())
                 .first()
@@ -41,7 +41,6 @@ class ComputeCategoryBudgetRemainingUseCase(
             ?: budgets.firstOrNull { it.categoryId == null }
             ?: return null
 
-        @Suppress("DEPRECATION")
         val monthTxns = transactionRepository
             .observeByMonth(ym.year, ym.monthNumber)
             .first()

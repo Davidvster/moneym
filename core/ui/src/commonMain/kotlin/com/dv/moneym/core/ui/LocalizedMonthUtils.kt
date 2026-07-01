@@ -36,7 +36,6 @@ fun localizedMonthNames(): List<String> = listOf(
 @Composable
 fun localizedMonthAbbreviations(): List<String> = localizedMonthNames().map { it.take(3) }
 
-@Suppress("DEPRECATION")
 @Composable
 fun monthLabel(ym: YearMonth): String = "${localizedMonthNames()[ym.monthNumber - 1]} ${ym.year}"
 

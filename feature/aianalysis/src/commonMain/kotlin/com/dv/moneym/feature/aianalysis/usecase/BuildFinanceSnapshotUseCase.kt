@@ -11,6 +11,7 @@ import com.dv.moneym.data.budgets.BudgetRepository
 import com.dv.moneym.data.categories.CategoryRepository
 import com.dv.moneym.data.transactions.TransactionRepository
 import kotlinx.coroutines.flow.first
+import kotlinx.datetime.number
 
 class BuildFinanceSnapshotUseCase(
     private val transactionRepository: TransactionRepository,
@@ -72,7 +73,7 @@ class BuildFinanceSnapshotUseCase(
     }
 
     private fun monthlyBreakdown(yearTxns: List<Transaction>, currency: String): List<String> =
-        yearTxns.groupBy { it.occurredOn.monthNumber }
+        yearTxns.groupBy { it.occurredOn.month.number }
             .entries
             .sortedBy { it.key }
             .map { (monthNumber, list) ->
