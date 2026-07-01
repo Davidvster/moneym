@@ -111,7 +111,7 @@ private fun LanguagePickerContent(
                         imageVector = Icon.Globe.imageVector,
                         contentDescription = null,
                         tint = colors.text,
-                        modifier = Modifier.size(MM.dimen.icon_1x),
+                        modifier = Modifier.size(MM.dimen.iconMd),
                     )
                     Text(
                         stringResource(Res.string.settings_language_use_device),

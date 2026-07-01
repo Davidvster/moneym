@@ -2,17 +2,12 @@ package com.dv.moneym.feature.transactions.list
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -57,10 +52,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -469,14 +460,14 @@ private fun SyncActionButton(
                     contentDescription = stringResource(Res.string.transactions_syncing),
                     tint = colors.accent,
                     isSyncing = true,
-                    modifier = Modifier.size(MM.dimen.icon_1_5x),
+                    modifier = Modifier.size(MM.dimen.iconLg),
                 )
 
                 SyncVisual.Synced -> Icon(
                     imageVector = Icon.Check.imageVector,
                     contentDescription = stringResource(Res.string.transactions_synced),
                     tint = colors.accent,
-                    modifier = Modifier.size(MM.dimen.icon_1_5x),
+                    modifier = Modifier.size(MM.dimen.iconLg),
                 )
 
                 SyncVisual.Conflict -> Box(
@@ -487,7 +478,7 @@ private fun SyncActionButton(
                         imageVector = Icon.Warning.imageVector,
                         contentDescription = stringResource(Res.string.transactions_sync_paused),
                         tint = colors.warning,
-                        modifier = Modifier.size(MM.dimen.icon_1x),
+                        modifier = Modifier.size(MM.dimen.iconMd),
                     )
                     Box(
                         modifier = Modifier
@@ -510,14 +501,14 @@ private fun SyncActionButton(
                     imageVector = Icon.Warning.imageVector,
                     contentDescription = stringResource(Res.string.transactions_sync_failed),
                     tint = colors.warning,
-                    modifier = Modifier.size(MM.dimen.icon_1_5x),
+                    modifier = Modifier.size(MM.dimen.iconLg),
                 )
 
                 SyncVisual.Idle -> CloudSyncIcon(
                     contentDescription = stringResource(Res.string.transactions_sync_now),
                     tint = colors.text2,
                     isSyncing = false,
-                    modifier = Modifier.size(MM.dimen.icon_1_5x),
+                    modifier = Modifier.size(MM.dimen.iconLg),
                 )
             }
         }
@@ -553,7 +544,7 @@ private fun SyncBanner(
                 imageVector = Icon.Warning.imageVector,
                 contentDescription = null,
                 tint = colors.warning,
-                modifier = Modifier.size(MM.dimen.icon_1x),
+                modifier = Modifier.size(MM.dimen.iconMd),
             )
             Spacer(Modifier.width(MM.dimen.padding_1_5x))
             Column(modifier = Modifier.weight(1f)) {
@@ -572,7 +563,7 @@ private fun SyncBanner(
                 imageVector = Icon.ChevronRight.imageVector,
                 contentDescription = null,
                 tint = colors.text3,
-                modifier = Modifier.size(MM.dimen.icon_1x),
+                modifier = Modifier.size(MM.dimen.iconMd),
             )
         }
     }
@@ -590,7 +581,7 @@ private fun SyncBanner(
                 imageVector = Icon.Bell.imageVector,
                 contentDescription = null,
                 tint = colors.accent,
-                modifier = Modifier.size(MM.dimen.icon_1x),
+                modifier = Modifier.size(MM.dimen.iconMd),
             )
             Spacer(Modifier.width(MM.dimen.padding_1x))
             Column(modifier = Modifier.weight(1f)) {
@@ -609,7 +600,7 @@ private fun SyncBanner(
                 imageVector = Icon.ChevronRight.imageVector,
                 contentDescription = null,
                 tint = colors.text3,
-                modifier = Modifier.size(MM.dimen.icon_1x),
+                modifier = Modifier.size(MM.dimen.iconMd),
             )
         }
     }
@@ -627,7 +618,7 @@ private fun SyncBanner(
                 imageVector = Icon.Info.imageVector,
                 contentDescription = null,
                 tint = colors.accent,
-                modifier = Modifier.size(MM.dimen.icon_1x),
+                modifier = Modifier.size(MM.dimen.iconMd),
             )
             Spacer(Modifier.width(MM.dimen.padding_1x))
             Text(
@@ -733,7 +724,7 @@ private fun SyncStatusSheet(
                             imageVector = Icon.Info.imageVector,
                             contentDescription = null,
                             tint = colors.accent,
-                            modifier = Modifier.size(MM.dimen.icon_1x),
+                            modifier = Modifier.size(MM.dimen.iconMd),
                         )
                         Spacer(Modifier.width(space.padding_1x))
                         Text(
@@ -932,7 +923,7 @@ private fun TransactionListHeader(
                             imageVector = Icon.Search.imageVector,
                             contentDescription = null,
                             tint = colors.text3,
-                            modifier = Modifier.size(MM.dimen.icon_1x),
+                            modifier = Modifier.size(MM.dimen.iconMd),
                         )
                     },
                     modifier = Modifier.weight(1f),

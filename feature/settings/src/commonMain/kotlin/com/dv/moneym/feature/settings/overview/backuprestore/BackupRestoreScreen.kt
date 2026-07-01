@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -344,7 +343,7 @@ private fun BackupRestoreContent(
             item(key = "card") {
                 MmCard(Modifier.padding(horizontal = space.padding_2x)) {
                     MmRow(onClick = if (state.isLocalLoading) null else onBackupTapped) {
-                        Icon(imageVector = Folder.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.icon_1x))
+                        Icon(imageVector = Folder.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.iconMd))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(stringResource(Res.string.settings_backup_to_file), style = type.body, color = colors.text)
                             if (state.showBackupSuccess) {
@@ -353,7 +352,7 @@ private fun BackupRestoreContent(
                         }
                         if (state.isLocalLoading) {
                             CircularProgressIndicator(
-                                modifier = Modifier.size(space.icon_1x),
+                                modifier = Modifier.size(space.iconMd),
                                 strokeWidth = space.padding_0_25x,
                                 color = colors.accent,
                             )
@@ -362,7 +361,7 @@ private fun BackupRestoreContent(
                         }
                     }
                     MmRow(onClick = onRestoreTapped) {
-                        Icon(imageVector = Download.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.icon_1x))
+                        Icon(imageVector = Download.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.iconMd))
                         Text(stringResource(Res.string.settings_restore_from_file), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
                         Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
                     }
@@ -462,7 +461,7 @@ private fun RemoteBackupSection(
                 }
                 if (state.cloudBusy) {
                     CircularProgressIndicator(
-                        modifier = Modifier.size(space.icon_1x),
+                        modifier = Modifier.size(space.iconMd),
                         strokeWidth = space.padding_0_25x,
                         color = colors.accent,
                     )
@@ -472,7 +471,7 @@ private fun RemoteBackupSection(
             }
             if (state.cloudSyncEnabled) {
                 MmRow(onClick = onNavigateToSync) {
-                    Icon(imageVector = Icon.Bolt.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.icon_1x))
+                    Icon(imageVector = Icon.Bolt.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.iconMd))
                     Text(stringResource(Res.string.settings_cloud_devices), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
                     Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
                 }
@@ -481,7 +480,7 @@ private fun RemoteBackupSection(
                 Text(stringResource(Res.string.settings_remote_backup_now), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
                 if (busy) {
                     CircularProgressIndicator(
-                        modifier = Modifier.size(space.icon_1x),
+                        modifier = Modifier.size(space.iconMd),
                         strokeWidth = space.padding_0_25x,
                         color = colors.accent,
                     )
@@ -490,12 +489,12 @@ private fun RemoteBackupSection(
                 }
             }
             MmRow(onClick = onRestore) {
-                Icon(imageVector = Download.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.icon_1x))
+                Icon(imageVector = Download.imageVector, contentDescription = null, tint = colors.text, modifier = Modifier.size(space.iconMd))
                 Text(stringResource(Res.string.settings_remote_restore), style = type.body, color = colors.text, modifier = Modifier.weight(1f))
                 Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
             }
             MmRow(onClick = onDeleteRemoteData, divider = false) {
-                Icon(imageVector = Icon.Trash.imageVector, contentDescription = null, tint = colors.danger, modifier = Modifier.size(space.icon_1x))
+                Icon(imageVector = Icon.Trash.imageVector, contentDescription = null, tint = colors.danger, modifier = Modifier.size(space.iconMd))
                 Text(stringResource(Res.string.settings_remote_delete_data), style = type.body, color = colors.danger, modifier = Modifier.weight(1f))
                 Icon(imageVector = ChevronRight.imageVector, contentDescription = null, tint = colors.text3, modifier = Modifier.size(space.padding_2x))
             }
@@ -606,7 +605,7 @@ private fun RestoreWarningDialog(
         }
         if (inProgress) {
             CircularProgressIndicator(
-                modifier = Modifier.padding(top = space.padding_1x).size(space.icon_1x),
+                modifier = Modifier.padding(top = space.padding_1x).size(space.iconMd),
                 strokeWidth = space.padding_0_25x,
                 color = colors.accent,
             )
@@ -790,7 +789,7 @@ private fun RemoteRestoreDialog(
                 modifier = Modifier.padding(top = space.padding_1x),
             ) {
                 CircularProgressIndicator(
-                    modifier = Modifier.size(space.icon_1x),
+                    modifier = Modifier.size(space.iconMd),
                     strokeWidth = space.padding_0_25x,
                     color = colors.accent,
                 )

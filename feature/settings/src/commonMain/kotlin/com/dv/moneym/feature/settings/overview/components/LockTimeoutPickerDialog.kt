@@ -103,7 +103,7 @@ internal fun LockTimeoutPickerDialog(
                                     tint = colors.accent,
                                     modifier = Modifier
                                         .align(Alignment.CenterEnd)
-                                        .size(space.icon_1x),
+                                        .size(space.iconMd),
                                 )
                             }
                         }

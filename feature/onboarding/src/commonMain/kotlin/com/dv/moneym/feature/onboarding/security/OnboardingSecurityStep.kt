@@ -132,7 +132,7 @@ internal fun SecurityStep(
                     imageVector = Icon.Lock.imageVector,
                     contentDescription = null,
                     tint = colors.text,
-                    modifier = Modifier.size(MM.dimen.icon_1x),
+                    modifier = Modifier.size(MM.dimen.iconMd),
                 )
                 Column(Modifier.weight(1f)) {
                     Text(
@@ -163,7 +163,7 @@ internal fun SecurityStep(
                         imageVector = Icon.Fingerprint.imageVector,
                         contentDescription = null,
                         tint = colors.text,
-                        modifier = Modifier.size(MM.dimen.icon_1x),
+                        modifier = Modifier.size(MM.dimen.iconMd),
                     )
                     Column(Modifier.weight(1f)) {
                         Text(

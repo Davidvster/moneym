@@ -317,7 +317,7 @@ private fun ExportOptionsSheet(
                         imageVector = Icon.Calendar.imageVector,
                         contentDescription = null,
                         tint = colors.text2,
-                        modifier = Modifier.size(space.icon_1x),
+                        modifier = Modifier.size(space.iconMd),
                     )
                 }
                 if (state.exportStartDate != null || state.exportEndDate != null) {

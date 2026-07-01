@@ -27,19 +27,19 @@ private fun IconPreview() {
                 imageVector = Icon.Wallet.imageVector,
                 contentDescription = null,
                 tint = MM.colors.text,
-                modifier = Modifier.size(MM.dimen.icon_1x),
+                modifier = Modifier.size(MM.dimen.iconMd),
             )
             Material3Icon(
                 imageVector = Icon.Settings.imageVector,
                 contentDescription = null,
                 tint = MM.colors.text,
-                modifier = Modifier.size(MM.dimen.icon_1x),
+                modifier = Modifier.size(MM.dimen.iconMd),
             )
             Material3Icon(
                 imageVector = Icon.Check.imageVector,
                 contentDescription = null,
                 tint = MM.colors.accent,
-                modifier = Modifier.size(MM.dimen.icon_1x),
+                modifier = Modifier.size(MM.dimen.iconMd),
             )
         }
     }

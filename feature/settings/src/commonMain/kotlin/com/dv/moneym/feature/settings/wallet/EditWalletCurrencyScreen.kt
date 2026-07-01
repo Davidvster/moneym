@@ -127,7 +127,7 @@ private fun EditWalletCurrencyContent(
                         imageVector = Icon.Search.imageVector,
                         contentDescription = null,
                         tint = colors.text3,
-                        modifier = Modifier.size(MM.dimen.icon_1x),
+                        modifier = Modifier.size(MM.dimen.iconMd),
                     )
                 },
                 modifier = Modifier

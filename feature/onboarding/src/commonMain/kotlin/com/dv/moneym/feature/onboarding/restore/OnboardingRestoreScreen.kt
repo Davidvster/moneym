@@ -242,7 +242,7 @@ private fun LocalRestoreDialog(
         }
         if (inProgress) {
             CircularProgressIndicator(
-                modifier = Modifier.padding(top = space.padding_1x).size(space.icon_1x),
+                modifier = Modifier.padding(top = space.padding_1x).size(space.iconMd),
                 strokeWidth = space.padding_0_25x,
                 color = colors.accent,
             )
@@ -290,7 +290,7 @@ private fun RemoteRestoreDialog(
                 modifier = Modifier.padding(top = space.padding_1x),
             ) {
                 CircularProgressIndicator(
-                    modifier = Modifier.size(space.icon_1x),
+                    modifier = Modifier.size(space.iconMd),
                     strokeWidth = space.padding_0_25x,
                     color = colors.accent,
                 )

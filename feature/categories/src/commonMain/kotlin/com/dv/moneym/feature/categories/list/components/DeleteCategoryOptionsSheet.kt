@@ -96,7 +96,7 @@ private fun OptionRow(
             imageVector = icon.imageVector,
             contentDescription = null,
             tint = tint,
-            modifier = Modifier.size(MM.dimen.icon_1x),
+            modifier = Modifier.size(MM.dimen.iconMd),
         )
         Text(
             text = label,

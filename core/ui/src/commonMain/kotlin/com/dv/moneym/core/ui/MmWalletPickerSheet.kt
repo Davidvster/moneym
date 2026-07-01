@@ -107,7 +107,7 @@ fun MmWalletPickerSheet(
                                 imageVector = Icon.Check.imageVector,
                                 contentDescription = null,
                                 tint = colors.accent,
-                                modifier = Modifier.size(space.icon_1x),
+                                modifier = Modifier.size(space.iconMd),
                             )
                         }
                     }

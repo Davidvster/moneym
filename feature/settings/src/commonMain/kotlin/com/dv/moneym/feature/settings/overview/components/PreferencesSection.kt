@@ -87,7 +87,7 @@ internal fun PreferencesSection(
                 imageVector = Icon.Banknote.imageVector,
                 contentDescription = null,
                 tint = colors.text,
-                modifier = Modifier.size(MM.dimen.icon_1x),
+                modifier = Modifier.size(MM.dimen.iconMd),
             )
             Text(
                 stringResource(Res.string.settings_payment_mode_enabled),
@@ -116,7 +116,7 @@ internal fun PreferencesSection(
                 imageVector = Icon.Wallet.imageVector,
                 contentDescription = null,
                 tint = colors.text,
-                modifier = Modifier.size(MM.dimen.icon_1x),
+                modifier = Modifier.size(MM.dimen.iconMd),
             )
             Column(modifier = Modifier.weight(1f)) {
                 Text(

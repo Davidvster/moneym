@@ -211,7 +211,7 @@ private fun CapabilityRow(capability: Capability) {
                 imageVector = capability.icon,
                 contentDescription = null,
                 tint = capability.tint,
-                modifier = Modifier.size(MM.dimen.icon_1x),
+                modifier = Modifier.size(MM.dimen.iconMd),
             )
         }
         Column(Modifier.weight(1f)) {

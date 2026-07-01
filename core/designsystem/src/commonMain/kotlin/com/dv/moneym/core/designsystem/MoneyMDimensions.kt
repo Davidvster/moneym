@@ -34,9 +34,6 @@ data class MoneyMDimensions(
     val radius_3x: RoundedCornerShape = RoundedCornerShape(24.dp),
     val pill: RoundedCornerShape = RoundedCornerShape(50),
 
-    val icon_1x: Dp = 18.dp,
-    val icon_1_5x: Dp = 22.dp,
-
     val donutWidth: Dp = 18.dp,
 
     val strokeHairline: Dp = 1.dp,
@@ -51,6 +48,6 @@ data class MoneyMDimensions(
     val rowMinHeightMd: Dp = 44.dp,
     val rowMinHeightLg: Dp = 52.dp,
 
-)
+    )
 
 val LocalMoneyMDimensions = staticCompositionLocalOf { MoneyMDimensions() }

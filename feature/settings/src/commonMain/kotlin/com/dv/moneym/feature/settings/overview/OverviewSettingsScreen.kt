@@ -282,7 +282,7 @@ private fun OverviewBuiltInBlockRow(
             tint = colors.text3,
             modifier = Modifier
                 .padding(top = space.padding_0_25x)
-                .size(MM.dimen.icon_1x)
+                .size(MM.dimen.iconMd)
                 .then(dragHandleModifier),
         )
         Text(
@@ -313,7 +313,7 @@ private fun OverviewAiWidgetRow(
             imageVector = Icon.Sparkles.imageVector,
             contentDescription = null,
             tint = colors.text,
-            modifier = Modifier.padding(top = space.padding_0_25x).size(MM.dimen.icon_1x),
+            modifier = Modifier.padding(top = space.padding_0_25x).size(MM.dimen.iconMd),
         )
         Column(modifier = Modifier.weight(1f)) {
             Text(

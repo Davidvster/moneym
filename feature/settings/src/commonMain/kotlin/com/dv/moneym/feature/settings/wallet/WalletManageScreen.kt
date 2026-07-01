@@ -195,7 +195,7 @@ private fun WalletManageContent(
                                                 imageVector = Icon.Check.imageVector,
                                                 contentDescription = null,
                                                 tint = colors.accent,
-                                                modifier = Modifier.size(MM.dimen.icon_1x),
+                                                modifier = Modifier.size(MM.dimen.iconMd),
                                             )
                                         }
                                         MmIconButton(

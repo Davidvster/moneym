@@ -80,7 +80,7 @@ internal fun DraggableCategoryList(
                         contentDescription = "Drag to reorder",
                         tint = colors.text3,
                         modifier = Modifier
-                            .size(MM.dimen.icon_1x)
+                            .size(MM.dimen.iconMd)
                             .draggableHandle(
                                 onDragStarted = {
                                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)

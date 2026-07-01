@@ -7,7 +7,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.foundation.layout.Column
 import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,7 +34,7 @@ fun MmSettingsRow(
             imageVector = leadingIcon,
             contentDescription = null,
             tint = colors.text,
-            modifier = Modifier.size(MM.dimen.icon_1x),
+            modifier = Modifier.size(MM.dimen.iconMd),
         )
         Column(Modifier.weight(1f)) {
             Text(
