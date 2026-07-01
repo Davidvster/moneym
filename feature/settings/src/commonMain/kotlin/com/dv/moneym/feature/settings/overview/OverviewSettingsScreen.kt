@@ -108,9 +108,11 @@ private fun OverviewSettingsContent(
     val listState = rememberLazyListState()
     var localBuiltInBlocks by remember(state.builtInBlocks) { mutableStateOf(state.builtInBlocks) }
     val reorderableState = rememberReorderableLazyListState(listState) { from, to ->
-        localBuiltInBlocks = localBuiltInBlocks.toMutableList().apply {
-            add(to.index, removeAt(from.index))
-        }
+        localBuiltInBlocks = reorderOverviewBuiltInBlocks(
+            blocks = localBuiltInBlocks,
+            fromLazyListIndex = from.index,
+            toLazyListIndex = to.index,
+        )
         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
     }
 
@@ -131,10 +133,12 @@ private fun OverviewSettingsContent(
                 horizontal = space.padding_2x,
                 vertical = space.padding_2x,
             ),
-            verticalArrangement = Arrangement.spacedBy(space.padding_3x),
         ) {
             item {
-                Column(verticalArrangement = Arrangement.spacedBy(space.padding_1x)) {
+                Column(
+                    modifier = Modifier.padding(bottom = space.padding_1x),
+                    verticalArrangement = Arrangement.spacedBy(space.padding_1x),
+                ) {
                     SectionLabel(text = stringResource(Res.string.settings_overview_section_built_in))
                 }
             }
@@ -173,7 +177,10 @@ private fun OverviewSettingsContent(
                 }
             }
             item {
-                Column(verticalArrangement = Arrangement.spacedBy(space.padding_1x)) {
+                Column(
+                    modifier = Modifier.padding(top = space.padding_1x),
+                    verticalArrangement = Arrangement.spacedBy(space.padding_1x),
+                ) {
                     MmButton(
                         text = stringResource(Res.string.settings_overview_reset_defaults),
                         onClick = { onIntent(OverviewSettingsIntent.ResetBuiltInBlocks) },
@@ -184,16 +191,17 @@ private fun OverviewSettingsContent(
             }
 
             item {
-                Column(verticalArrangement = Arrangement.spacedBy(space.padding_1x)) {
+                Column(
+                    modifier = Modifier.padding(top = space.padding_3x),
+                    verticalArrangement = Arrangement.spacedBy(space.padding_1x),
+                ) {
                     SectionLabel(text = stringResource(Res.string.settings_overview_ai_section))
                     if (state.aiWidgets.isEmpty()) {
-                        MmCard(padded = true, shape = MM.dimen.radius_1_5x) {
-                            Text(
-                                text = stringResource(Res.string.settings_overview_block_empty),
-                                style = MM.type.body,
-                                color = colors.text2,
-                            )
-                        }
+                        Text(
+                            text = stringResource(Res.string.settings_overview_block_empty),
+                            style = MM.type.body,
+                            color = colors.text2,
+                        )
                     } else {
                         MmCard(padded = false, shape = MM.dimen.radius_1_5x) {
                             Column {
@@ -233,6 +241,22 @@ private fun OverviewSettingsContent(
         }
     }
 }
+
+internal fun <T> reorderOverviewBuiltInBlocks(
+    blocks: List<T>,
+    fromLazyListIndex: Int,
+    toLazyListIndex: Int,
+): List<T> {
+    val fromIndex = fromLazyListIndex - OverviewBuiltInBlocksFirstLazyListIndex
+    val toIndex = toLazyListIndex - OverviewBuiltInBlocksFirstLazyListIndex
+    if (fromIndex !in blocks.indices || toIndex !in blocks.indices) return blocks
+
+    return blocks.toMutableList().apply {
+        add(toIndex, removeAt(fromIndex))
+    }
+}
+
+private const val OverviewBuiltInBlocksFirstLazyListIndex = 1
 
 @Composable
 private fun OverviewBuiltInBlockRow(

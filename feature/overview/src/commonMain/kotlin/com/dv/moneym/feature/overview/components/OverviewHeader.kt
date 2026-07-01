@@ -6,8 +6,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -61,7 +59,6 @@ import moneym.feature.overview.generated.resources.overview_title
 import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Instant
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun OverviewHeader(
     period: OverviewPeriod,
@@ -194,53 +191,53 @@ internal fun OverviewHeader(
             modifier = Modifier.fillMaxWidth().padding(top = MM.dimen.padding_1x, bottom = MM.dimen.padding_0_5x),
         )
 
-        FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
-            verticalArrangement = Arrangement.spacedBy(MM.dimen.padding_1x),
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = MM.dimen.padding_1x),
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                if (!isRangeMode && canGoBack) {
-                    MmIconButton(
-                        icon = Icon.ChevronLeft.imageVector,
-                        size = MM.dimen.padding_4x,
-                        onClick = onPreviousPeriod,
-                    )
-                } else {
-                    Spacer(Modifier.width(MM.dimen.padding_4x))
-                }
-                Box(
-                    modifier = Modifier
-                        .widthIn(min = 96.dp)
-                        .clip(MM.dimen.radius_1x)
-                        .clickable(
-                            indication = null,
-                            interactionSource = remember { MutableInteractionSource() },
-                        ) {
-                            if (isRangeMode) onShowDateRangePicker() else onShowPeriodPicker()
-                        }
-                        .padding(horizontal = MM.dimen.padding_0_5x, vertical = MM.dimen.padding_0_25x),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(
-                        text = periodLabel,
-                        style = type.body,
-                        color = colors.text,
-                        textAlign = TextAlign.Center,
-                    )
-                }
-                if (!isRangeMode) {
-                    MmIconButton(
-                        icon = Icon.ChevronRight.imageVector,
-                        size = MM.dimen.padding_4x,
-                        onClick = onNextPeriod,
-                    )
-                } else {
-                    Spacer(Modifier.width(MM.dimen.padding_4x))
-                }
+            if (!isRangeMode && canGoBack) {
+                MmIconButton(
+                    icon = Icon.ChevronLeft.imageVector,
+                    size = MM.dimen.padding_4x,
+                    onClick = onPreviousPeriod,
+                )
+            } else {
+                Spacer(Modifier.width(MM.dimen.padding_4x))
             }
+            Box(
+                modifier = Modifier
+                    .widthIn(min = 96.dp)
+                    .clip(MM.dimen.radius_1x)
+                    .clickable(
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() },
+                    ) {
+                        if (isRangeMode) onShowDateRangePicker() else onShowPeriodPicker()
+                    }
+                    .padding(horizontal = MM.dimen.padding_0_5x, vertical = MM.dimen.padding_0_25x),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = periodLabel,
+                    style = type.body,
+                    color = colors.text,
+                    textAlign = TextAlign.Center,
+                )
+            }
+            if (!isRangeMode) {
+                MmIconButton(
+                    icon = Icon.ChevronRight.imageVector,
+                    size = MM.dimen.padding_4x,
+                    onClick = onNextPeriod,
+                )
+            } else {
+                Spacer(Modifier.width(MM.dimen.padding_4x))
+            }
+
+            Spacer(Modifier.weight(1f))
+
             if (aiAvailable) {
                 MmButton(
                     text = stringResource(Res.string.overview_analyze_cd),

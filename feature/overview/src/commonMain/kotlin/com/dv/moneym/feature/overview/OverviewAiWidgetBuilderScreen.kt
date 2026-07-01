@@ -26,7 +26,6 @@ import com.dv.moneym.core.designsystem.MM
 import com.dv.moneym.core.designsystem.MoneyMTheme
 import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
-import com.dv.moneym.core.ui.MmCard
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.ScreenHeader
 import com.dv.moneym.feature.overview.a2ui.BuildOverviewWidgetContextUseCase
@@ -153,13 +152,11 @@ private fun OverviewAiWidgetBuilderContent(
                 singleLine = false,
             )
             state.error?.let {
-                MmCard(padded = true, shape = space.radius_1_5x) {
-                    Text(
-                        text = stringResource(it.messageRes()),
-                        style = MM.type.body,
-                        color = colors.danger,
-                    )
-                }
+                Text(
+                    text = stringResource(it.messageRes()),
+                    style = MM.type.body,
+                    color = colors.danger,
+                )
             }
             Text(
                 text = stringResource(Res.string.overview_ai_widget_builder_preview),

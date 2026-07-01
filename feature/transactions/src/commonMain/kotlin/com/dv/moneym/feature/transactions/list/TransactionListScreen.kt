@@ -513,10 +513,10 @@ private fun SyncActionButton(
                     modifier = Modifier.size(MM.dimen.icon_1x),
                 )
 
-                SyncVisual.Idle -> Icon(
-                    imageVector = Icon.CloudSync.imageVector,
+                SyncVisual.Idle -> CloudSyncIcon(
                     contentDescription = stringResource(Res.string.transactions_sync_now),
                     tint = colors.text2,
+                    isSyncing = false,
                     modifier = Modifier.size(MM.dimen.icon_1x),
                 )
             }

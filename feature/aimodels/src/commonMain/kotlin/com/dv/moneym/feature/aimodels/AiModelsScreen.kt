@@ -17,10 +17,15 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -299,6 +304,7 @@ private fun ProviderRow(row: ProviderRowUi, onIntent: (AiModelsIntent) -> Unit) 
     val colors = MM.colors
     val type = MM.type
     val space = MM.dimen
+    var apiKeyVisible by remember(row.id) { mutableStateOf(false) }
 
     MmCard(padded = true, modifier = Modifier.fillMaxWidth()) {
         Column(verticalArrangement = Arrangement.spacedBy(space.padding_1x)) {
@@ -334,8 +340,16 @@ private fun ProviderRow(row: ProviderRowUi, onIntent: (AiModelsIntent) -> Unit) 
                 onValueChange = { onIntent(AiModelsIntent.ApiKeyChanged(row.id, it)) },
                 label = stringResource(Res.string.ai_models_provider_key_label),
                 placeholder = stringResource(Res.string.ai_models_provider_key_placeholder),
-                visualTransformation = PasswordVisualTransformation(),
+                visualTransformation = if (apiKeyVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardType = KeyboardType.Password,
                 singleLine = true,
+                suffix = {
+                    MmIconButton(
+                        icon = if (apiKeyVisible) Icon.EyeOff.imageVector else Icon.Eye.imageVector,
+                        onClick = { apiKeyVisible = !apiKeyVisible },
+                        contentDescription = null,
+                    )
+                },
             )
 
             Row(horizontalArrangement = Arrangement.spacedBy(space.padding_1x)) {
