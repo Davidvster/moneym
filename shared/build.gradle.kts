@@ -107,6 +107,7 @@ kotlin {
             implementation(projects.feature.onboarding)
             implementation(projects.feature.overview)
             implementation(projects.feature.aianalysis)
+            implementation(projects.feature.aienginepicker)
             implementation(projects.feature.aimodels)
             implementation(projects.feature.infopage)
             implementation(projects.feature.about)

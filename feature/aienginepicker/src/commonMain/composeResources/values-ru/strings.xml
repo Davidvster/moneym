@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Анализ</string>
+    <string name="analyze_intro">Задайте любой вопрос о ваших финансах за этот период.</string>
+    <string name="analyze_input_hint">Задать вопрос…</string>
+    <string name="analyze_send_cd">Отправить</string>
+    <string name="analyze_grounding_label">Источник данных</string>
+    <string name="analyze_grounding_snapshot">Снимок</string>
+    <string name="analyze_grounding_tools">Инструменты</string>
+    <string name="analyze_year_label">Год снимка</string>
+    <string name="analyze_year_prev_cd">Предыдущий год</string>
+    <string name="analyze_year_next_cd">Следующий год</string>
+    <string name="analyze_tools_fallback_notice">Инструменты не поддерживаются этой моделью. Используется снимок.</string>
+    <string name="analyze_error">Что-то пошло не так. Попробуйте ещё раз.</string>
+    <string name="analyze_generating">Думаю…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Сколько я потратил в этом месяце?</item>
+        <item>Каковы мои главные категории расходов?</item>
+        <item>Как этот месяц сравнивается с прошлым?</item>
+        <item>Есть ли необычные или крупные расходы?</item>
+    </string-array>
+    <string name="analyze_download_model">Загрузить модель</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">Движок ИИ</string>
+    <string name="analyze_engine_local_llm">Модель на устройстве</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
+    <string name="analyze_engine_needs_download_notice">Этот движок недоступен. Загрузите модель, чтобы продолжить.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
+    <string name="analyze_engine_status_download">Нажмите, чтобы загрузить</string>
+    <string name="analyze_engine_status_ready">Готово</string>
+    <string name="analyze_engine_status_unavailable">Недоступно</string>
+    <string name="analyze_history_cd">История чатов</string>
+    <string name="analyze_history_delete_body">Это навсегда удалит этот разговор и его сообщения.</string>
+    <string name="analyze_history_delete_cancel">Отмена</string>
+    <string name="analyze_history_delete_cd">Удалить разговор</string>
+    <string name="analyze_history_delete_confirm">Удалить</string>
+    <string name="analyze_history_delete_title">Удалить разговор?</string>
+    <string name="analyze_history_empty">Пока нет разговоров. Ваши чаты появятся здесь.</string>
+    <string name="analyze_history_new_chat">Новый анализ</string>
+    <string name="analyze_history_new_chat_cd">Новый чат</string>
+    <string name="analyze_history_title">История чатов</string>
+    <string name="analyze_manage_models">Управление моделями…</string>
+    <string name="analyze_model_picker_cd">Выбрать модель</string>
+    <string name="analyze_new_chat_cd">Новый чат</string>
+    <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
+    <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
+    <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="analyze_info_cd">Об ИИ-анализе</string>
+</resources>

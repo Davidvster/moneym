@@ -10,6 +10,7 @@ import com.dv.moneym.core.ai.Grounding
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.core.testing.FakeAppSettings
+import com.dv.moneym.core.testing.FakeLlmModelRepository
 import com.dv.moneym.core.testing.FakeOverviewRepository
 import com.dv.moneym.core.testing.FixedClock
 import com.dv.moneym.core.testing.TestDispatcherProvider
@@ -133,6 +134,7 @@ class OverviewAiWidgetBuilderViewModelTest {
         registry = AiEngineRegistry(listOf(engine)),
         appSettings = appSettings,
         dispatchers = dispatchers,
+        llmModelRepository = FakeLlmModelRepository(),
         clock = FixedClock(now),
         buildPrompt = BuildOverviewWidgetPromptUseCase(),
     )

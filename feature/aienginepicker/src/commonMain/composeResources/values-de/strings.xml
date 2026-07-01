@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analysieren</string>
+    <string name="analyze_intro">Frag alles über deine Finanzen für diesen Zeitraum.</string>
+    <string name="analyze_input_hint">Stelle eine Frage…</string>
+    <string name="analyze_send_cd">Senden</string>
+    <string name="analyze_grounding_label">Datenquelle</string>
+    <string name="analyze_grounding_snapshot">Snapshot</string>
+    <string name="analyze_grounding_tools">Tools</string>
+    <string name="analyze_year_label">Snapshot-Jahr</string>
+    <string name="analyze_year_prev_cd">Vorheriges Jahr</string>
+    <string name="analyze_year_next_cd">Nächstes Jahr</string>
+    <string name="analyze_tools_fallback_notice">Tools werden von diesem Modell nicht unterstützt. Stattdessen wird ein Snapshot verwendet.</string>
+    <string name="analyze_engine_label">KI-Engine</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_local_llm">Modell auf dem Gerät</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
+    <string name="analyze_engine_needs_download_notice">Diese Engine ist nicht verfügbar. Lade ein Modell herunter, um fortzufahren.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
+    <string name="analyze_download_model">Modell herunterladen</string>
+    <string name="analyze_error">Etwas ist schiefgelaufen. Bitte versuche es erneut.</string>
+    <string name="analyze_model_picker_cd">Modell auswählen</string>
+    <string name="analyze_manage_models">Modelle verwalten…</string>
+    <string name="analyze_engine_status_ready">Bereit</string>
+    <string name="analyze_engine_status_download">Zum Herunterladen tippen</string>
+    <string name="analyze_engine_status_unavailable">Nicht verfügbar</string>
+    <string name="analyze_generating">Denkt nach…</string>
+    <string name="analyze_history_cd">Chatverlauf</string>
+    <string name="analyze_new_chat_cd">Neuer Chat</string>
+    <string name="analyze_history_title">Chatverlauf</string>
+    <string name="analyze_history_empty">Noch keine Unterhaltungen. Deine Chats erscheinen hier.</string>
+    <string name="analyze_history_new_chat">Neue Analyse</string>
+    <string name="analyze_history_new_chat_cd">Neuer Chat</string>
+    <string name="analyze_history_delete_cd">Unterhaltung löschen</string>
+    <string name="analyze_history_delete_title">Unterhaltung löschen?</string>
+    <string name="analyze_history_delete_body">Dadurch werden diese Unterhaltung und ihre Nachrichten dauerhaft entfernt.</string>
+    <string name="analyze_history_delete_cancel">Abbrechen</string>
+    <string name="analyze_history_delete_confirm">Löschen</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Wie viel habe ich diesen Monat ausgegeben?</item>
+        <item>Was sind meine größten Ausgabenkategorien?</item>
+        <item>Wie ist dieser Monat im Vergleich zum letzten?</item>
+        <item>Gibt es ungewöhnliche oder große Ausgaben?</item>
+    </string-array>
+    <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
+    <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
+    <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="analyze_info_cd">Über die KI-Analyse</string>
+</resources>

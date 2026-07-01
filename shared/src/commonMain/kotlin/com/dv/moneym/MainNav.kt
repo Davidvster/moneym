@@ -229,6 +229,7 @@ internal fun MainNav(lockController: AppLockController) {
             )
             overviewAiWidgetBuilderEntry(
                 onBack = { tabBackStack.removeLast() },
+                onManageModels = { tabBackStack.push(AiModelsKey) },
                 metadata = modalTransitionMeta,
             )
             // Setup flow (isChangePinFlow = false by default)

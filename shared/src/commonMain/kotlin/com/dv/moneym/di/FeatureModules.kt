@@ -492,6 +492,7 @@ val featureOverviewModule = module {
             registry = get(),
             appSettings = get(),
             dispatchers = get(),
+            llmModelRepository = get(),
             clock = get(),
             buildPrompt = get(),
         )

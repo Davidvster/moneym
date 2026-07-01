@@ -3,7 +3,6 @@ package com.dv.moneym.feature.overview
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dv.moneym.core.ai.AiAvailability
-import com.dv.moneym.core.ai.AiEngineId
 import com.dv.moneym.core.ai.AiEngineRegistry
 import com.dv.moneym.core.ai.ChatMessage
 import com.dv.moneym.core.ai.ChatRole
@@ -11,9 +10,10 @@ import com.dv.moneym.core.ai.Grounding
 import com.dv.moneym.core.common.AppClock
 import com.dv.moneym.core.common.DispatcherProvider
 import com.dv.moneym.core.datastore.AppSettings
-import com.dv.moneym.core.datastore.PrefKeys
+import com.dv.moneym.data.llmmodels.LlmModelRepository
 import com.dv.moneym.data.overview.OverviewAiWidget
 import com.dv.moneym.data.overview.OverviewRepository
+import com.dv.moneym.feature.aienginepicker.AiEnginePickerController
 import com.dv.moneym.feature.overview.a2ui.BuildOverviewWidgetPromptUseCase
 import com.dv.moneym.feature.overview.a2ui.OverviewA2UiValidationResult
 import com.dv.moneym.feature.overview.a2ui.OverviewA2UiValidator
@@ -35,11 +35,18 @@ class OverviewAiWidgetBuilderViewModel(
     private val registry: AiEngineRegistry,
     private val appSettings: AppSettings,
     private val dispatchers: DispatcherProvider,
+    private val llmModelRepository: LlmModelRepository,
     private val clock: AppClock,
     private val buildPrompt: BuildOverviewWidgetPromptUseCase,
 ) : ViewModel() {
 
     private val validator = OverviewA2UiValidator()
+    private val enginePickerController = AiEnginePickerController(
+        registry = registry,
+        appSettings = appSettings,
+        dispatchers = dispatchers,
+        llmModelRepository = llmModelRepository,
+    )
     private var existingWidget: OverviewAiWidget? = null
     private var lastGeneratedAt: Instant? = null
     private var lastGenerationEngineId: String? = null
@@ -52,19 +59,32 @@ class OverviewAiWidgetBuilderViewModel(
     internal val effects = _effects.receiveAsFlow()
 
     init {
+        enginePickerController.start(viewModelScope)
+        viewModelScope.launch {
+            enginePickerController.state.collect { picker ->
+                _state.update {
+                    it.copy(
+                        enginePicker = picker,
+                        needsModelDownload = picker.selectedNeedsDownload,
+                    )
+                }
+            }
+        }
         viewModelScope.launch {
             val widget = widgetId?.let { id -> overviewRepository.observeAiWidgets().first().firstOrNull { it.id == id } }
             existingWidget = widget
             lastGeneratedAt = widget?.lastGeneratedAt
             lastGenerationEngineId = widget?.lastGenerationEngineId
-            _state.value = OverviewAiWidgetBuilderUiState(
-                isLoading = false,
-                title = widget?.title.orEmpty(),
-                prompt = widget?.prompt.orEmpty(),
-                a2uiJson = widget?.a2uiJson.orEmpty(),
-                previewJson = widget?.a2uiJson.orEmpty(),
-                canSave = widget?.a2uiJson?.let { isValid(it) } == true,
-            )
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    title = widget?.title.orEmpty(),
+                    prompt = widget?.prompt.orEmpty(),
+                    a2uiJson = widget?.a2uiJson.orEmpty(),
+                    previewJson = widget?.a2uiJson.orEmpty(),
+                    canSave = widget?.a2uiJson?.let { isValid(it) } == true,
+                )
+            }
         }
     }
 
@@ -73,7 +93,9 @@ class OverviewAiWidgetBuilderViewModel(
             is OverviewAiWidgetBuilderIntent.TitleChanged -> updateTitle(intent.title)
             is OverviewAiWidgetBuilderIntent.PromptChanged -> updatePrompt(intent.prompt)
             is OverviewAiWidgetBuilderIntent.JsonChanged -> updateJson(intent.json)
+            is OverviewAiWidgetBuilderIntent.EngineChanged -> enginePickerController.select(intent.id)
             OverviewAiWidgetBuilderIntent.Generate -> generate()
+            OverviewAiWidgetBuilderIntent.RefreshEngines -> enginePickerController.refresh(viewModelScope)
             OverviewAiWidgetBuilderIntent.Save -> save()
             OverviewAiWidgetBuilderIntent.ClearError -> _state.update { it.copy(error = null) }
         }
@@ -112,8 +134,7 @@ class OverviewAiWidgetBuilderViewModel(
             return
         }
 
-        val selectedId = appSettings.getString(PrefKeys.AI_ENGINE_ID)?.let { runCatching { AiEngineId.valueOf(it) }.getOrNull() }
-            ?: registry.all().firstOrNull()?.id
+        val selectedId = snapshot.enginePicker.selectedEngine
         val engine = selectedId?.let { registry.byId(it) }
         if (engine == null) {
             _state.update { it.copy(error = OverviewAiWidgetBuilderError.MissingEngine) }
@@ -124,7 +145,13 @@ class OverviewAiWidgetBuilderViewModel(
             _state.update { it.copy(isGenerating = true, error = null) }
             val availability = withContext(dispatchers.io) { runCatching { engine.availability() }.getOrNull() }
             if (availability != AiAvailability.AVAILABLE) {
-                _state.update { it.copy(isGenerating = false, error = OverviewAiWidgetBuilderError.EngineUnavailable) }
+                _state.update {
+                    it.copy(
+                        isGenerating = false,
+                        error = OverviewAiWidgetBuilderError.EngineUnavailable,
+                        needsModelDownload = availability == AiAvailability.DOWNLOADABLE,
+                    )
+                }
                 return@launch
             }
 

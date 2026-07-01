@@ -37,6 +37,7 @@ kotlin {
             implementation(projects.core.designsystem)
             implementation(projects.core.ui)
             implementation(projects.core.navigation)
+            implementation(projects.feature.aienginepicker)
             implementation(projects.data.transactions)
             implementation(projects.data.accounts)
             implementation(projects.data.categories)

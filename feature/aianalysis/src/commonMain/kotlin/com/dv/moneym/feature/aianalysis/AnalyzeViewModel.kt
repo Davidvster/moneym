@@ -21,6 +21,7 @@ import com.dv.moneym.core.datastore.PrefKeys
 import com.dv.moneym.data.aichat.AiChatRepository
 import com.dv.moneym.data.llmmodels.LlmModelRepository
 import com.dv.moneym.data.transactions.TransactionRepository
+import com.dv.moneym.feature.aienginepicker.AiEnginePickerController
 import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceSnapshotUseCase
 import com.dv.moneym.feature.aianalysis.usecase.BuildFinanceToolsetUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +33,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeoutOrNull
 
 class AnalyzeViewModel(
     private val year: Int,
@@ -52,38 +52,33 @@ class AnalyzeViewModel(
 ) : ViewModel() {
 
     private val appManagedToolLoop = AppManagedToolLoop()
+    private val enginePickerController = AiEnginePickerController(
+        registry = registry,
+        appSettings = appSettings,
+        dispatchers = dispatchers,
+        llmModelRepository = llmModelRepository,
+    )
 
     private val _state by savedStateHandle.saved { MutableStateFlow(AnalyzeUiState(groundingMode = loadGroundingMode())) }
     internal val state = _state
         .onStart {
-            startEngineProbe()
             loadYearBounds()
-            observeActiveLocalModel()
         }
         .stateIn(viewModelScope, SharingStarted.Lazily, _state.value)
 
-    // The on-device (custom) engine never blocks, so it is emitted immediately and the picker
-    // shows right away. Built-in engines (Gemini Nano on Android, Apple Intelligence on iOS) are
-    // probed afterwards in the background — their availability check can block on a device without
-    // platform support, and must never stall the UI. They are added only when actually available.
-    private fun startEngineProbe() {
+    init {
+        enginePickerController.start(viewModelScope)
         viewModelScope.launch {
-            val local = localOption()
-            emitEngines(listOfNotNull(local))
-
-            val builtIns = registry.all()
-                .filter { it.id != AiEngineId.LOCAL_LLM }
-                .mapNotNull { engine ->
-                    val availability = withTimeoutOrNull(BUILTIN_PROBE_TIMEOUT_MS) {
-                        withContext(dispatchers.io) { runCatching { engine.availability() }.getOrNull() }
-                    }
-                    if (availability == AiAvailability.AVAILABLE) {
-                        AiEngineOption(id = engine.id, available = true, needsDownload = false)
-                    } else {
-                        null
-                    }
+            enginePickerController.state.collect { picker ->
+                _state.update {
+                    it.copy(
+                        enginePicker = picker,
+                        needsModelDownload = picker.selectedNeedsDownload,
+                        showRemotePrivacyNotice = picker.selectedEngine?.let(::isRemoteEngine) == true &&
+                            !appSettings.getBoolean(PrefKeys.AI_REMOTE_PRIVACY_ACK),
+                    )
                 }
-            if (builtIns.isNotEmpty()) emitEngines(builtIns + listOfNotNull(local))
+            }
         }
     }
 
@@ -107,51 +102,6 @@ class AnalyzeViewModel(
         }
     }
 
-    // The on-device engine label only says "On-device model"; surface which downloaded model is
-    // actually active so the picker tells the user what custom model will answer.
-    private fun observeActiveLocalModel() {
-        viewModelScope.launch {
-            llmModelRepository.observeModels().collect { models ->
-                val active = models.firstOrNull { it.active && it.downloaded }
-                _state.update { it.copy(localModelNameKey = active?.model?.displayNameKey) }
-            }
-        }
-    }
-
-    private suspend fun localOption(): AiEngineOption? {
-        val engine = registry.byId(AiEngineId.LOCAL_LLM) ?: return null
-        val availability = withContext(dispatchers.io) { runCatching { engine.availability() }.getOrNull() }
-        return AiEngineOption(
-            id = engine.id,
-            available = availability == AiAvailability.AVAILABLE,
-            needsDownload = availability == AiAvailability.DOWNLOADABLE,
-        )
-    }
-
-    private fun emitEngines(engines: List<AiEngineOption>) {
-        _state.update { st ->
-            // resolveSelection already honours the user's persisted choice, then prefers an
-            // available engine over a merely downloadable one.
-            val selected = resolveSelection(engines)
-            st.copy(
-                engines = engines,
-                selectedEngine = selected?.id,
-                available = selected?.available ?: false,
-                needsModelDownload = selected?.needsDownload ?: false,
-                showRemotePrivacyNotice = selected?.id?.let(::isRemoteEngine) == true &&
-                    !appSettings.getBoolean(PrefKeys.AI_REMOTE_PRIVACY_ACK),
-            )
-        }
-    }
-
-    private fun resolveSelection(options: List<AiEngineOption>): AiEngineOption? {
-        val persisted = appSettings.getString(PrefKeys.AI_ENGINE_ID)
-        options.firstOrNull { it.id.name == persisted }?.let { return it }
-        return options.firstOrNull { it.available }
-            ?: options.firstOrNull { it.needsDownload }
-            ?: options.firstOrNull()
-    }
-
     fun onIntent(intent: AnalyzeIntent) {
         when (intent) {
             is AnalyzeIntent.InputChanged -> _state.update { it.copy(input = intent.text) }
@@ -159,7 +109,7 @@ class AnalyzeViewModel(
             is AnalyzeIntent.GroundingModeChanged -> changeGroundingMode(intent.mode)
             is AnalyzeIntent.YearChanged -> changeYear(intent.year)
             is AnalyzeIntent.EngineChanged -> changeEngine(intent.id)
-            AnalyzeIntent.RefreshEngines -> startEngineProbe()
+            AnalyzeIntent.RefreshEngines -> enginePickerController.refresh(viewModelScope)
             AnalyzeIntent.DismissFallbackNotice -> _state.update { it.copy(showToolsFallbackNotice = false) }
             AnalyzeIntent.AcknowledgeRemotePrivacy -> acknowledgeRemotePrivacy()
             AnalyzeIntent.ClearError -> _state.update { it.copy(error = null) }
@@ -199,17 +149,7 @@ class AnalyzeViewModel(
     }
 
     private fun changeEngine(id: AiEngineId) {
-        appSettings.putString(PrefKeys.AI_ENGINE_ID, id.name)
-        _state.update { current ->
-            val option = current.engines.firstOrNull { it.id == id }
-            current.copy(
-                selectedEngine = id,
-                available = option?.available ?: false,
-                needsModelDownload = option?.needsDownload ?: false,
-                showRemotePrivacyNotice = isRemoteEngine(id) &&
-                    !appSettings.getBoolean(PrefKeys.AI_REMOTE_PRIVACY_ACK),
-            )
-        }
+        enginePickerController.select(id)
     }
 
     private fun acknowledgeRemotePrivacy() {
@@ -221,7 +161,7 @@ class AnalyzeViewModel(
         val trimmed = text.trim()
         if (trimmed.isEmpty() || _state.value.isGenerating) return
 
-        val selectedId = _state.value.selectedEngine
+        val selectedId = _state.value.enginePicker.selectedEngine
         val engine = selectedId?.let { registry.byId(it) }
         if (engine == null) {
             _state.update { it.copy(needsModelDownload = true) }
@@ -247,14 +187,14 @@ class AnalyzeViewModel(
                 _state.update { it.copy(showRemotePrivacyNotice = false) }
             }
 
-            if (engine.id == AiEngineId.LOCAL_LLM) {
-                val availability = withContext(dispatchers.io) { engine.availability() }
+            if (engine.id == AiEngineId.LOCAL_LLM || !_state.value.enginePicker.selectedAvailable) {
+                val availability = withContext(dispatchers.io) { runCatching { engine.availability() }.getOrNull() }
                 if (availability != AiAvailability.AVAILABLE) {
                     _state.update {
                         it.copy(
                             messages = it.messages.dropLast(1),
                             isGenerating = false,
-                            needsModelDownload = true,
+                            needsModelDownload = availability == AiAvailability.DOWNLOADABLE,
                         )
                     }
                     return@launch
@@ -336,7 +276,6 @@ class AnalyzeViewModel(
     private fun isRemoteEngine(id: AiEngineId): Boolean = id.name.startsWith("remote:")
 
     private companion object {
-        const val BUILTIN_PROBE_TIMEOUT_MS = 3000L
         const val CONVERSATION_TITLE_MAX = 40
     }
 }

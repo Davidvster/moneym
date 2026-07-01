@@ -176,13 +176,13 @@ class AnalyzeViewModelTest {
         testDispatcher.scheduler.advanceUntilIdle()
 
         val state = vm.state.value
-        assertEquals(2, state.engines.size)
-        val nano = state.engines.first { it.id == AiEngineId.GEMINI_NANO }
-        val local = state.engines.first { it.id == AiEngineId.LOCAL_LLM }
+        assertEquals(2, state.enginePicker.engines.size)
+        val nano = state.enginePicker.engines.first { it.id == AiEngineId.GEMINI_NANO }
+        val local = state.enginePicker.engines.first { it.id == AiEngineId.LOCAL_LLM }
         assertTrue(nano.available)
         assertFalse(local.available)
         assertTrue(local.needsDownload)
-        assertEquals(AiEngineId.GEMINI_NANO, state.selectedEngine)
+        assertEquals(AiEngineId.GEMINI_NANO, state.enginePicker.selectedEngine)
         job.cancel()
     }
 
@@ -197,9 +197,9 @@ class AnalyzeViewModelTest {
         testDispatcher.scheduler.advanceUntilIdle()
 
         val state = vm.state.value
-        assertEquals(1, state.engines.size)
-        assertEquals(AiEngineId.LOCAL_LLM, state.engines.single().id)
-        assertEquals(AiEngineId.LOCAL_LLM, state.selectedEngine)
+        assertEquals(1, state.enginePicker.engines.size)
+        assertEquals(AiEngineId.LOCAL_LLM, state.enginePicker.engines.single().id)
+        assertEquals(AiEngineId.LOCAL_LLM, state.enginePicker.selectedEngine)
         assertTrue(state.needsModelDownload)
         job.cancel()
     }
@@ -215,7 +215,7 @@ class AnalyzeViewModelTest {
         val job = launch { vm.state.collect {} }
         testDispatcher.scheduler.advanceUntilIdle()
 
-        assertEquals(AiEngineId.LOCAL_LLM, vm.state.value.selectedEngine)
+        assertEquals(AiEngineId.LOCAL_LLM, vm.state.value.enginePicker.selectedEngine)
         job.cancel()
     }
 
@@ -228,7 +228,7 @@ class AnalyzeViewModelTest {
         vm.onIntent(AnalyzeIntent.EngineChanged(AiEngineId.LOCAL_LLM))
         testDispatcher.scheduler.advanceUntilIdle()
 
-        assertEquals(AiEngineId.LOCAL_LLM, vm.state.value.selectedEngine)
+        assertEquals(AiEngineId.LOCAL_LLM, vm.state.value.enginePicker.selectedEngine)
         assertEquals(AiEngineId.LOCAL_LLM.name, appSettings.getString(PrefKeys.AI_ENGINE_ID))
         assertTrue(vm.state.value.needsModelDownload)
         job.cancel()

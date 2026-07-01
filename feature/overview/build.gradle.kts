@@ -39,6 +39,8 @@ kotlin {
             implementation(projects.core.ai)
             implementation(libs.androidx.navigation3.runtime)
             implementation(projects.core.navigation)
+            implementation(projects.feature.aienginepicker)
+            implementation(projects.data.llmmodels)
             implementation(projects.data.transactions)
             implementation(projects.data.categories)
             implementation(projects.data.accounts)

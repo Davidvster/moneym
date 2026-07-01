@@ -28,6 +28,8 @@ import com.dv.moneym.core.ui.MmButton
 import com.dv.moneym.core.ui.MmButtonVariant
 import com.dv.moneym.core.ui.MmField
 import com.dv.moneym.core.ui.ScreenHeader
+import com.dv.moneym.feature.aienginepicker.AiEngineDownloadNotice
+import com.dv.moneym.feature.aienginepicker.AiEnginePickerButton
 import com.dv.moneym.feature.overview.a2ui.BuildOverviewWidgetContextUseCase
 import com.dv.moneym.feature.overview.a2ui.OverviewA2UiWidgetCard
 import com.dv.moneym.feature.overview.a2ui.sampleA2UiJson
@@ -58,11 +60,13 @@ data class OverviewAiWidgetBuilderKey(val widgetId: Long? = null) : NavKey
 
 fun EntryProviderScope<NavKey>.overviewAiWidgetBuilderEntry(
     onBack: () -> Unit,
+    onManageModels: () -> Unit,
     metadata: Map<String, Any> = emptyMap(),
 ) = entry<OverviewAiWidgetBuilderKey>(metadata = metadata) { key ->
     OverviewAiWidgetBuilderScreen(
         widgetId = key.widgetId,
         onBack = onBack,
+        onManageModels = onManageModels,
     )
 }
 
@@ -70,6 +74,7 @@ fun EntryProviderScope<NavKey>.overviewAiWidgetBuilderEntry(
 private fun OverviewAiWidgetBuilderScreen(
     widgetId: Long?,
     onBack: () -> Unit,
+    onManageModels: () -> Unit,
     viewModel: OverviewAiWidgetBuilderViewModel = koinViewModel(parameters = { parametersOf(widgetId) }),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -86,6 +91,7 @@ private fun OverviewAiWidgetBuilderScreen(
         state = state,
         onIntent = viewModel::onIntent,
         onBack = onBack,
+        onManageModels = onManageModels,
     )
 }
 
@@ -94,6 +100,7 @@ private fun OverviewAiWidgetBuilderContent(
     state: OverviewAiWidgetBuilderUiState,
     onIntent: (OverviewAiWidgetBuilderIntent) -> Unit,
     onBack: () -> Unit,
+    onManageModels: () -> Unit,
 ) {
     val colors = MM.colors
     val space = MM.dimen
@@ -105,7 +112,16 @@ private fun OverviewAiWidgetBuilderContent(
         ScreenHeader(
             title = stringResource(Res.string.overview_ai_widget_builder_title),
             onBack = onBack,
+            trailingContent = {
+                AiEnginePickerButton(
+                    state = state.enginePicker,
+                    onSelect = { onIntent(OverviewAiWidgetBuilderIntent.EngineChanged(it)) },
+                    onManageModels = onManageModels,
+                    onRefresh = { onIntent(OverviewAiWidgetBuilderIntent.RefreshEngines) },
+                )
+            },
         )
+        AiEngineDownloadNotice(show = state.needsModelDownload, onManageModels = onManageModels)
         if (state.isLoading) {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -204,6 +220,7 @@ private fun OverviewAiWidgetBuilderContentPreview_Light() {
             ),
             onIntent = {},
             onBack = {},
+            onManageModels = {},
         )
     }
 }
@@ -223,6 +240,7 @@ private fun OverviewAiWidgetBuilderContentPreview_Dark() {
             ),
             onIntent = {},
             onBack = {},
+            onManageModels = {},
         )
     }
 }

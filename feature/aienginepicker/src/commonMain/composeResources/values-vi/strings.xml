@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Phân tích</string>
+    <string name="analyze_intro">Hỏi bất cứ điều gì về tài chính của bạn trong kỳ này.</string>
+    <string name="analyze_input_hint">Đặt câu hỏi…</string>
+    <string name="analyze_send_cd">Gửi</string>
+    <string name="analyze_grounding_label">Nguồn dữ liệu</string>
+    <string name="analyze_grounding_snapshot">Ảnh chụp</string>
+    <string name="analyze_grounding_tools">Công cụ</string>
+    <string name="analyze_year_label">Năm ảnh chụp</string>
+    <string name="analyze_year_prev_cd">Năm trước</string>
+    <string name="analyze_year_next_cd">Năm sau</string>
+    <string name="analyze_tools_fallback_notice">Mô hình này không hỗ trợ công cụ. Sử dụng ảnh chụp thay thế.</string>
+    <string name="analyze_error">Đã xảy ra lỗi. Vui lòng thử lại.</string>
+    <string name="analyze_generating">Đang xử lý…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Tháng này tôi đã chi bao nhiêu?</item>
+        <item>Các danh mục chi tiêu hàng đầu của tôi là gì?</item>
+        <item>Tháng này so với tháng trước thế nào?</item>
+        <item>Có khoản chi bất thường hoặc lớn nào không?</item>
+    </string-array>
+    <string name="analyze_download_model">Tải xuống một mô hình</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">Công cụ AI</string>
+    <string name="analyze_engine_local_llm">Mô hình trên thiết bị</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
+    <string name="analyze_engine_needs_download_notice">Công cụ này không khả dụng. Tải xuống một mô hình để tiếp tục.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
+    <string name="analyze_engine_status_download">Chạm để tải xuống</string>
+    <string name="analyze_engine_status_ready">Sẵn sàng</string>
+    <string name="analyze_engine_status_unavailable">Không khả dụng</string>
+    <string name="analyze_history_cd">Lịch sử trò chuyện</string>
+    <string name="analyze_history_delete_body">Thao tác này sẽ xóa vĩnh viễn cuộc trò chuyện này và các tin nhắn của nó.</string>
+    <string name="analyze_history_delete_cancel">Hủy</string>
+    <string name="analyze_history_delete_cd">Xóa cuộc trò chuyện</string>
+    <string name="analyze_history_delete_confirm">Xóa</string>
+    <string name="analyze_history_delete_title">Xóa cuộc trò chuyện?</string>
+    <string name="analyze_history_empty">Chưa có cuộc trò chuyện nào. Các cuộc trò chuyện của bạn sẽ hiển thị ở đây.</string>
+    <string name="analyze_history_new_chat">Phân tích mới</string>
+    <string name="analyze_history_new_chat_cd">Trò chuyện mới</string>
+    <string name="analyze_history_title">Lịch sử trò chuyện</string>
+    <string name="analyze_manage_models">Quản lý mô hình…</string>
+    <string name="analyze_model_picker_cd">Chọn mô hình</string>
+    <string name="analyze_new_chat_cd">Trò chuyện mới</string>
+    <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
+    <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
+    <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="analyze_info_cd">Giới thiệu về phân tích AI</string>
+</resources>

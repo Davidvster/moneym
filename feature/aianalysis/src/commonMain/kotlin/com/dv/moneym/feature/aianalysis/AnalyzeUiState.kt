@@ -3,6 +3,7 @@ package com.dv.moneym.feature.aianalysis
 import com.dv.moneym.core.ai.AiEngineId
 import com.dv.moneym.core.ai.AiGroundingMode
 import com.dv.moneym.core.ai.ChatMessage
+import com.dv.moneym.feature.aienginepicker.AiEnginePickerState
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -13,8 +14,7 @@ data class AnalyzeUiState(
     val isGenerating: Boolean = false,
     val groundingMode: AiGroundingMode = AiGroundingMode.SNAPSHOT,
     val showToolsFallbackNotice: Boolean = false,
-    val engines: List<AiEngineOption> = emptyList(),
-    val selectedEngine: AiEngineId? = null,
+    val enginePicker: AiEnginePickerState = AiEnginePickerState(),
     val needsModelDownload: Boolean = false,
     val showRemotePrivacyNotice: Boolean = false,
     val error: AnalyzeError? = null,
@@ -22,14 +22,6 @@ data class AnalyzeUiState(
     val selectedYear: Int? = null,
     val minYear: Int? = null,
     val maxYear: Int? = null,
-    val localModelNameKey: String? = null,
-)
-
-@Serializable
-data class AiEngineOption(
-    val id: AiEngineId,
-    val available: Boolean,
-    val needsDownload: Boolean,
 )
 
 @Serializable

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analyser</string>
+    <string name="analyze_intro">Spør hva som helst om økonomien din for denne perioden.</string>
+    <string name="analyze_input_hint">Still et spørsmål…</string>
+    <string name="analyze_send_cd">Send</string>
+    <string name="analyze_grounding_label">Datakilde</string>
+    <string name="analyze_grounding_snapshot">Øyeblikksbilde</string>
+    <string name="analyze_grounding_tools">Verktøy</string>
+    <string name="analyze_year_label">Øyeblikksbilde-år</string>
+    <string name="analyze_year_prev_cd">Forrige år</string>
+    <string name="analyze_year_next_cd">Neste år</string>
+    <string name="analyze_tools_fallback_notice">Verktøy støttes ikke av denne modellen. Bruker et øyeblikksbilde i stedet.</string>
+    <string name="analyze_error">Noe gikk galt. Prøv igjen.</string>
+    <string name="analyze_generating">Tenker…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Hvor mye brukte jeg denne måneden?</item>
+        <item>Hva er mine største utgiftskategorier?</item>
+        <item>Hvordan sammenligner denne måneden med forrige måned?</item>
+        <item>Noen uvanlige eller store utgifter?</item>
+    </string-array>
+    <string name="analyze_download_model">Last ned en modell</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">AI-motor</string>
+    <string name="analyze_engine_local_llm">Modell på enheten</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
+    <string name="analyze_engine_needs_download_notice">Denne motoren er ikke tilgjengelig. Last ned en modell for å fortsette.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
+    <string name="analyze_engine_status_download">Trykk for å laste ned</string>
+    <string name="analyze_engine_status_ready">Klar</string>
+    <string name="analyze_engine_status_unavailable">Ikke tilgjengelig</string>
+    <string name="analyze_history_cd">Chathistorikk</string>
+    <string name="analyze_history_delete_body">Dette fjerner denne samtalen og meldingene dens permanent.</string>
+    <string name="analyze_history_delete_cancel">Avbryt</string>
+    <string name="analyze_history_delete_cd">Slett samtale</string>
+    <string name="analyze_history_delete_confirm">Slett</string>
+    <string name="analyze_history_delete_title">Slette samtalen?</string>
+    <string name="analyze_history_empty">Ingen samtaler ennå. Chattene dine vises her.</string>
+    <string name="analyze_history_new_chat">Ny analyse</string>
+    <string name="analyze_history_new_chat_cd">Ny chat</string>
+    <string name="analyze_history_title">Chathistorikk</string>
+    <string name="analyze_manage_models">Administrer modeller…</string>
+    <string name="analyze_model_picker_cd">Velg modell</string>
+    <string name="analyze_new_chat_cd">Ny chat</string>
+    <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
+    <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
+    <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="analyze_info_cd">Om AI-analyse</string>
+</resources>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analyze</string>
+    <string name="analyze_intro">Ask anything about your finances for this period.</string>
+    <string name="analyze_input_hint">Ask a question…</string>
+    <string name="analyze_send_cd">Send</string>
+    <string name="analyze_grounding_label">Data source</string>
+    <string name="analyze_grounding_snapshot">Snapshot</string>
+    <string name="analyze_grounding_tools">Tools</string>
+    <string name="analyze_year_label">Snapshot year</string>
+    <string name="analyze_year_prev_cd">Previous year</string>
+    <string name="analyze_year_next_cd">Next year</string>
+    <string name="analyze_tools_fallback_notice">Tools are not supported by this model. Using a snapshot instead.</string>
+    <string name="analyze_engine_label">AI engine</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_local_llm">On-device model</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
+    <string name="analyze_engine_needs_download_notice">This engine is unavailable. Download a model to continue.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
+    <string name="analyze_download_model">Download a model</string>
+    <string name="analyze_error">Something went wrong. Please try again.</string>
+    <string name="analyze_model_picker_cd">Select model</string>
+    <string name="analyze_manage_models">Manage models…</string>
+    <string name="analyze_engine_status_ready">Ready</string>
+    <string name="analyze_engine_status_download">Tap to download</string>
+    <string name="analyze_engine_status_unavailable">Unavailable</string>
+    <string name="analyze_generating">Thinking…</string>
+    <string name="analyze_history_cd">Chat history</string>
+    <string name="analyze_new_chat_cd">New chat</string>
+    <string name="analyze_history_title">Chat history</string>
+    <string name="analyze_history_empty">No conversations yet. Your chats will appear here.</string>
+    <string name="analyze_history_new_chat">New analysis</string>
+    <string name="analyze_history_new_chat_cd">New chat</string>
+    <string name="analyze_history_delete_cd">Delete conversation</string>
+    <string name="analyze_history_delete_title">Delete conversation?</string>
+    <string name="analyze_history_delete_body">This permanently removes this conversation and its messages.</string>
+    <string name="analyze_history_delete_cancel">Cancel</string>
+    <string name="analyze_history_delete_confirm">Delete</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>How much did I spend this month?</item>
+        <item>What are my top spending categories?</item>
+        <item>How does this month compare to last month?</item>
+        <item>Any unusual or large expenses?</item>
+    </string-array>
+    <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
+    <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
+    <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="analyze_info_cd">About AI analysis</string>
+</resources>

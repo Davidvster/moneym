@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analyser</string>
+    <string name="analyze_intro">Posez n'importe quelle question sur vos finances pour cette période.</string>
+    <string name="analyze_input_hint">Posez une question…</string>
+    <string name="analyze_send_cd">Envoyer</string>
+    <string name="analyze_grounding_label">Source de données</string>
+    <string name="analyze_grounding_snapshot">Instantané</string>
+    <string name="analyze_grounding_tools">Outils</string>
+    <string name="analyze_year_label">Année de l'instantané</string>
+    <string name="analyze_year_prev_cd">Année précédente</string>
+    <string name="analyze_year_next_cd">Année suivante</string>
+    <string name="analyze_tools_fallback_notice">Les outils ne sont pas pris en charge par ce modèle. Utilisation d'un instantané à la place.</string>
+    <string name="analyze_error">Une erreur s'est produite. Veuillez réessayer.</string>
+    <string name="analyze_generating">Réflexion en cours…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Combien ai-je dépensé ce mois-ci ?</item>
+        <item>Quelles sont mes principales catégories de dépenses ?</item>
+        <item>Comment ce mois-ci se compare-t-il au mois dernier ?</item>
+        <item>Y a-t-il des dépenses inhabituelles ou importantes ?</item>
+    </string-array>
+    <string name="analyze_download_model">Télécharger un modèle</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">Moteur d'IA</string>
+    <string name="analyze_engine_local_llm">Modèle sur l'appareil</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
+    <string name="analyze_engine_needs_download_notice">Ce moteur n'est pas disponible. Téléchargez un modèle pour continuer.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
+    <string name="analyze_engine_status_download">Touchez pour télécharger</string>
+    <string name="analyze_engine_status_ready">Prêt</string>
+    <string name="analyze_engine_status_unavailable">Indisponible</string>
+    <string name="analyze_history_cd">Historique des discussions</string>
+    <string name="analyze_history_delete_body">Cela supprime définitivement cette conversation et ses messages.</string>
+    <string name="analyze_history_delete_cancel">Annuler</string>
+    <string name="analyze_history_delete_cd">Supprimer la conversation</string>
+    <string name="analyze_history_delete_confirm">Supprimer</string>
+    <string name="analyze_history_delete_title">Supprimer la conversation ?</string>
+    <string name="analyze_history_empty">Aucune conversation pour l'instant. Vos discussions apparaîtront ici.</string>
+    <string name="analyze_history_new_chat">Nouvelle analyse</string>
+    <string name="analyze_history_new_chat_cd">Nouvelle discussion</string>
+    <string name="analyze_history_title">Historique des discussions</string>
+    <string name="analyze_manage_models">Gérer les modèles…</string>
+    <string name="analyze_model_picker_cd">Sélectionner un modèle</string>
+    <string name="analyze_new_chat_cd">Nouvelle discussion</string>
+    <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
+    <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
+    <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="analyze_info_cd">À propos de l'analyse IA</string>
+</resources>

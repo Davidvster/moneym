@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analysoi</string>
+    <string name="analyze_intro">Kysy mitä tahansa taloudestasi tältä ajanjaksolta.</string>
+    <string name="analyze_input_hint">Esitä kysymys…</string>
+    <string name="analyze_send_cd">Lähetä</string>
+    <string name="analyze_grounding_label">Tietolähde</string>
+    <string name="analyze_grounding_snapshot">Tilannekuva</string>
+    <string name="analyze_grounding_tools">Työkalut</string>
+    <string name="analyze_year_label">Tilannekuvan vuosi</string>
+    <string name="analyze_year_prev_cd">Edellinen vuosi</string>
+    <string name="analyze_year_next_cd">Seuraava vuosi</string>
+    <string name="analyze_tools_fallback_notice">Tämä malli ei tue työkaluja. Käytetään tilannekuvaa.</string>
+    <string name="analyze_error">Jokin meni pieleen. Yritä uudelleen.</string>
+    <string name="analyze_generating">Mietitään…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Kuinka paljon käytin tässä kuussa?</item>
+        <item>Mitkä ovat suurimmat menokatgoriani?</item>
+        <item>Miten tämä kuukausi vertautuu edelliseen?</item>
+        <item>Onko epätavallisia tai suuria menoja?</item>
+    </string-array>
+    <string name="analyze_download_model">Lataa malli</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">Tekoälymoottori</string>
+    <string name="analyze_engine_local_llm">Laitteella oleva malli</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
+    <string name="analyze_engine_needs_download_notice">Tämä moottori ei ole käytettävissä. Jatka lataamalla malli.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
+    <string name="analyze_engine_status_download">Lataa napauttamalla</string>
+    <string name="analyze_engine_status_ready">Valmis</string>
+    <string name="analyze_engine_status_unavailable">Ei käytettävissä</string>
+    <string name="analyze_history_cd">Keskusteluhistoria</string>
+    <string name="analyze_history_delete_body">Tämä poistaa pysyvästi tämän keskustelun ja sen viestit.</string>
+    <string name="analyze_history_delete_cancel">Peruuta</string>
+    <string name="analyze_history_delete_cd">Poista keskustelu</string>
+    <string name="analyze_history_delete_confirm">Poista</string>
+    <string name="analyze_history_delete_title">Poistetaanko keskustelu?</string>
+    <string name="analyze_history_empty">Ei vielä keskusteluja. Keskustelusi näkyvät tässä.</string>
+    <string name="analyze_history_new_chat">Uusi analyysi</string>
+    <string name="analyze_history_new_chat_cd">Uusi keskustelu</string>
+    <string name="analyze_history_title">Keskusteluhistoria</string>
+    <string name="analyze_manage_models">Hallitse malleja…</string>
+    <string name="analyze_model_picker_cd">Valitse malli</string>
+    <string name="analyze_new_chat_cd">Uusi keskustelu</string>
+    <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
+    <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
+    <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="analyze_info_cd">Tietoja tekoälyanalyysistä</string>
+</resources>

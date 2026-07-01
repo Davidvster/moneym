@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analyze_title">Analiza</string>
+    <string name="analyze_intro">Pitajte bilo što o vašim financijama za ovo razdoblje.</string>
+    <string name="analyze_input_hint">Postavite pitanje…</string>
+    <string name="analyze_send_cd">Pošalji</string>
+    <string name="analyze_grounding_label">Izvor podataka</string>
+    <string name="analyze_grounding_snapshot">Snimak</string>
+    <string name="analyze_grounding_tools">Alati</string>
+    <string name="analyze_year_label">Godina snimke</string>
+    <string name="analyze_year_prev_cd">Prethodna godina</string>
+    <string name="analyze_year_next_cd">Sljedeća godina</string>
+    <string name="analyze_tools_fallback_notice">Ovaj model ne podržava alate. Koristi se snimak umjesto toga.</string>
+    <string name="analyze_error">Nešto je pošlo po krivu. Pokušajte ponovo.</string>
+    <string name="analyze_generating">Razmišljam…</string>
+    <string-array name="analyze_suggested_prompts">
+        <item>Koliko sam potrošio/la ovaj mjesec?</item>
+        <item>Koje su moje najveće kategorije potrošnje?</item>
+        <item>Kako se ovaj mjesec uspoređuje s prošlim?</item>
+        <item>Ima li neuobičajenih ili velikih troškova?</item>
+    </string-array>
+    <string name="analyze_download_model">Preuzmi model</string>
+    <string name="analyze_engine_apple_intelligence">Apple Intelligence</string>
+    <string name="analyze_engine_gemini_nano">Gemini Nano</string>
+    <string name="analyze_engine_label">AI mehanizam</string>
+    <string name="analyze_engine_local_llm">Model na uređaju</string>
+    <string name="analyze_engine_openai">OpenAI</string>
+    <string name="analyze_engine_anthropic">Anthropic</string>
+    <string name="analyze_engine_gemini">Gemini</string>
+    <string name="analyze_engine_openrouter">OpenRouter</string>
+    <string name="analyze_engine_needs_download_notice">Ovaj mehanizam nije dostupan. Preuzmite model za nastavak.</string>
+    <string name="analyze_remote_privacy_notice">Remote AI sends your finance context and tool results to the selected provider.</string>
+    <string name="analyze_engine_status_download">Dodirnite za preuzimanje</string>
+    <string name="analyze_engine_status_ready">Spremno</string>
+    <string name="analyze_engine_status_unavailable">Nedostupno</string>
+    <string name="analyze_history_cd">Povijest razgovora</string>
+    <string name="analyze_history_delete_body">Ovo trajno uklanja ovaj razgovor i njegove poruke.</string>
+    <string name="analyze_history_delete_cancel">Odustani</string>
+    <string name="analyze_history_delete_cd">Izbriši razgovor</string>
+    <string name="analyze_history_delete_confirm">Izbriši</string>
+    <string name="analyze_history_delete_title">Izbrisati razgovor?</string>
+    <string name="analyze_history_empty">Još nema razgovora. Vaši razgovori prikazat će se ovdje.</string>
+    <string name="analyze_history_new_chat">Nova analiza</string>
+    <string name="analyze_history_new_chat_cd">Novi razgovor</string>
+    <string name="analyze_history_title">povijest razgovora</string>
+    <string name="analyze_manage_models">Upravljanje modelima…</string>
+    <string name="analyze_model_picker_cd">Odaberi model</string>
+    <string name="analyze_new_chat_cd">Novi razgovor</string>
+    <string name="ai_model_smollm2_135m">SmolLM2 135M</string>
+    <string name="ai_model_qwen25_1_5b">Qwen2.5 1.5B</string>
+    <string name="ai_model_gemma4_e2b_it">Gemma 4 E2B</string>
+    <string name="analyze_info_cd">O AI analizi</string>
+</resources>
